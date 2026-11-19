@@ -28,50 +28,57 @@
   line-height: 1.6;
   color: var(--muted);
 }
+/* Each class reads like an equipment slot: framed portrait and name. */
 .cp-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
   gap: 8px;
 }
 .cp-class {
-  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   min-width: 0;
-  padding: 10px 6px 9px;
+  padding: 7px 10px 7px 7px;
   border: 1px solid var(--line);
-  border-top: 2px solid color-mix(in srgb, var(--cp-element) 55%, var(--line));
-  border-radius: 6px;
+  border-radius: 4px;
   background: var(--surface);
   color: var(--text);
   font: inherit;
+  text-align: left;
   cursor: pointer;
   transition: border-color 120ms, background 120ms;
 }
 .cp-class:hover {
-  border-color: var(--cp-element);
+  border-color: var(--muted);
   background: var(--hover);
 }
 .cp-class[aria-checked="true"] {
   border-color: var(--accent);
-  background: var(--stage);
+  box-shadow: inset 2px 0 var(--accent);
 }
-.cp-class img {
-  width: 56px;
-  height: 56px;
-  object-fit: cover;
-  border-radius: 6px;
-  background: var(--stage);
+.cp-portrait {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--canvas);
+  overflow: hidden;
 }
-.cp-class span {
-  max-width: 100%;
+.cp-portrait img {
+  display: block;
+  width: 48px;
+  height: 48px;
+}
+.cp-name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
 }
 .cp-options {
   display: flex;
@@ -97,6 +104,9 @@
   overflow: hidden;
 }
 .cp-segment button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   min-height: 40px;
   padding: 0 16px;
   border: 0;
@@ -153,4 +163,7 @@
 .cp-stepper small {
   font-size: 13px;
   color: var(--muted);
+}
+.cp-modal {
+  padding: 4px 16px 16px;
 }

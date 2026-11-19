@@ -155,10 +155,16 @@ html [role=dialog] button[aria-label]{min-width:32px;min-height:32px}
 .workshop-arch{position:absolute;inset:0 3% 30px;border:1px solid var(--line);border-radius:999px 999px 10px 10px;background:radial-gradient(ellipse at 50% 90%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 68%);pointer-events:none}
 .workshop-portrait{width:62%;margin:auto auto 44px;object-fit:contain}
 .workshop-character-prompt{margin:auto;padding:0 14px;font-size:13px;line-height:1.4;color:var(--muted);text-align:center}
-.workshop-character-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 8px;margin-top:8px}
-.workshop-character-controls select{min-height:36px;max-width:150px;padding:4px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface-void);color:var(--ink);font-size:14px;font-weight:600}
-.workshop-character-controls label:first-child select{font:600 16px/1.2 Alegreya,Georgia,serif}
-.workshop-character-level{font:500 12px 'IBM Plex Mono',ui-monospace,monospace;color:var(--muted)}
+.workshop-character-controls{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:100%;margin-top:8px}
+.workshop-class-button{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;min-height:40px;padding:0 10px 0 12px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--text);cursor:pointer;transition:border-color 120ms,background 120ms}
+.workshop-class-button:hover{border-color:var(--muted);background:var(--hover)}
+.workshop-class-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 16px/1.2 Alegreya,Georgia,serif}
+.workshop-class-change{display:inline-flex;align-items:center;gap:4px;flex-shrink:0;font-size:12px;color:var(--muted)}
+.workshop-character-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px}
+.workshop-character-row .cp-segment button{width:34px;min-height:34px;padding:0;justify-content:center}
+.workshop-character-row .cp-stepper{gap:4px}
+.workshop-character-row .cp-stepper button{min-width:34px;min-height:34px}
+.workshop-character-row .cp-stepper input{width:48px;min-height:34px;padding:0 4px;font-size:14px}
 .workshop-dofus{margin:18px 0 8px}
 .workshop-dofus>header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
 .workshop-dofus h3{margin:0;font:600 16px/1.2 Alegreya,Georgia,serif;color:var(--ink)}

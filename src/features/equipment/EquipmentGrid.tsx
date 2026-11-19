@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect, useSyncExternalStore, lazy, Suspense } from 'react'
-import { Eye, Pin } from 'lucide-react'
+import { ArrowLeftRight, Eye, Pin } from 'lucide-react'
 import { useForgePicks } from '@/features/optimizer/forgePicks.ts'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
@@ -19,16 +19,15 @@ const RuneModal      = lazy(() => import('./RuneModal.tsx').then(m => ({ default
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 const CharacterStage = lazy(() => import('@/components/CharacterStage.tsx').then(m => ({ default: m.CharacterStage })))
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
-import { resolveClassName, useClassName } from '@/features/class-picker/useClassName.ts'
-import type { DofusClass } from '@/engine/types.ts'
-import type { Gender } from '@/store/buildStore.ts'
+import { useClassName } from '@/features/class-picker/useClassName.ts'
+import { ClassGrid, GenderToggle, LevelStepper } from '@/features/class-picker/ClassPicker.tsx'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { WEAPON_ATTACK_STAT, IS_STEAL } from '@/features/spells/spellCalc.ts'
-import { SlotIcon } from '@/ui'
-import { playUnequip, playEquip, playSelect } from '@/lib/sound.ts'
+import { Modal, SlotIcon } from '@/ui'
+import { playUnequip, playEquip } from '@/lib/sound.ts'
 import { useCharacterStage } from '@/components/useCharacterStage.ts'
 import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
 
@@ -616,18 +615,14 @@ function useIsDesktop() {
 
 // One stage for both layouts, so a single WebGL context runs.
 function CharacterCenter({ compact }: { compact: boolean }) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const stage = useCharacterStage()
   const companion = useBuildStore(s => s.equipped.companion)
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender = useBuildStore(s => s.gender)
-  const level = useBuildStore(s => s.level)
-  const setClass = useBuildStore(s => s.setClass)
-  const setGender = useBuildStore(s => s.setGender)
-  const classNames = useDataStore(s => s.classNames)
+  const [picking, setPicking] = useState(false)
   const info = CLASS_DATA.find(c => c.id === selectedClass)
   const name = useClassName(selectedClass)
-  const lang = i18n.language.slice(0, 2)
   const width = compact ? 150 : 220
   const height = compact ? 230 : 320
   return (
@@ -647,21 +642,20 @@ function CharacterCenter({ compact }: { compact: boolean }) {
       </div>
       {info && (
         <div className="workshop-character-controls">
-          <label>
-            <span className="sr-only">{t('class')}</span>
-            <select value={info.id} onChange={e => { setClass(e.target.value as DofusClass); playSelect() }}>
-              {CLASS_DATA.map(c => <option key={c.id} value={c.id}>{resolveClassName(c.id, lang, classNames)}</option>)}
-            </select>
-          </label>
-          <label>
-            <span className="sr-only">{t('gender')}</span>
-            <select value={gender} onChange={e => setGender(e.target.value as Gender)}>
-              <option value="male">{t('gender_male')}</option>
-              <option value="female">{t('gender_female')}</option>
-            </select>
-          </label>
-          <span className="workshop-character-level" title={t('level')}>{t('level_range')}.{level}</span>
+          <button type="button" className="workshop-class-button" onClick={() => setPicking(true)}>
+            <span className="workshop-class-name">{name}</span>
+            <span className="workshop-class-change"><ArrowLeftRight size={13} aria-hidden="true" />{t('change')}</span>
+          </button>
+          <div className="workshop-character-row">
+            <GenderToggle iconOnly />
+            <LevelStepper />
+          </div>
         </div>
+      )}
+      {picking && (
+        <Modal open onClose={() => setPicking(false)} title={t('class_pick_title')} size="3xl">
+          <div className="cp-modal"><ClassGrid onPicked={() => setPicking(false)} /></div>
+        </Modal>
       )}
     </div>
   )
