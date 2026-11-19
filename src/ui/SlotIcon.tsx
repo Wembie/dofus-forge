@@ -1,4 +1,3 @@
-import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { SLOT_ICON_SHAPES, slotIconKey } from './slotIcons.ts'
 
 export type SlotIconProps = {
@@ -8,7 +7,6 @@ export type SlotIconProps = {
 
 export function SlotIcon({ slot, className = 'w-6 h-6' }: SlotIconProps) {
   const key = slotIconKey(slot)
-  if (key === 'dofus') return <img src={statIconUrl('dofus')} alt="" className={`${className} object-contain`} draggable={false} />
   const s = SLOT_ICON_SHAPES[key]
   if (!s) return null
   const rule = s.evenodd ? 'evenodd' : undefined
