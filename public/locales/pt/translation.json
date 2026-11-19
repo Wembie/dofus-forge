@@ -3058,5 +3058,17 @@
   "lib_empty_hint": "Volte à oficina para preparar um conjunto ou explore os conjuntos da comunidade.",
   "lib_collection_unavailable": "Ela pode ser privada ou ter sido excluída. Volte às suas coleções para continuar.",
   "lib_saved_order": "Ordem da cole??o",
-  "lib_add_hint": "Abra um conjunto e use Salvar em coleção para adicioná-lo aqui."
+  "lib_add_hint": "Abra um conjunto e use Salvar em coleção para adicioná-lo aqui.",
+  "account_unknown": "Perfil não encontrado",
+  "account_public_identity": "IDENTIDADE PÚBLICA",
+  "account_no_bio": "Este jogador ainda não adicionou uma biografia.",
+  "account_edit": "Editar meu perfil",
+  "account_copy_link": "Copiar link do perfil",
+  "account_counts": "Atividade pública",
+  "account_all_collections": "Coleções públicas",
+  "account_public_note": "Apenas builds e coleções públicas são exibidos.",
+  "account_empty_collections": "Ainda não há coleções públicas.",
+  "account_search_people": "Buscar jogador",
+  "people_followers_title": "Seguidores",
+  "people_following_title": "Seguindo"
 }

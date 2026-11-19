@@ -3058,5 +3058,17 @@
   "lib_empty_hint": "Return to the workshop to prepare a build or explore community builds.",
   "lib_collection_unavailable": "It may be private or deleted. Return to your collections to continue.",
   "lib_saved_order": "Collection order",
-  "lib_add_hint": "Open a build and use Save to collection to add it here."
+  "lib_add_hint": "Open a build and use Save to collection to add it here.",
+  "account_unknown": "Profile not found",
+  "account_public_identity": "PUBLIC IDENTITY",
+  "account_no_bio": "This player has not added a biography yet.",
+  "account_edit": "Edit my profile",
+  "account_copy_link": "Copy profile link",
+  "account_counts": "Public activity",
+  "account_all_collections": "Public collections",
+  "account_public_note": "Only public builds and collections are shown.",
+  "account_empty_collections": "There are no public collections yet.",
+  "account_search_people": "Search players",
+  "people_followers_title": "Followers",
+  "people_following_title": "Following"
 }
