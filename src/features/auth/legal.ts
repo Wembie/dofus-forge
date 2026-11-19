@@ -4,7 +4,7 @@ import type { User } from '@supabase/supabase-js'
  * substance: every signed-in user is asked to accept that document again. */
 export const LEGAL_VERSIONS = {
   terms:   '2026-11-09',
-  privacy: '2026-11-09',
+  privacy: '2026-11-19',
 } as const
 
 export type LegalDoc = keyof typeof LEGAL_VERSIONS

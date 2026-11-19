@@ -10,7 +10,7 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 - **Nombres de producción.** Las estadísticas y lo que ya tiene nombre en el producto conservan su nombre y traducción (p. ej. «Placaje», no «Tacle»); las claves nuevas solo para lo que no existía.
 - **Textos.** Las claves `*_v4_*` que use un componente migrado pasan a su nombre definitivo, se funden con claves de producción equivalentes o se borran. Siempre en los cuatro idiomas. En español se dice «set», nunca «panoplia».
 - **SEO.** Cada ruta conserva título, descripción, canonical, hreflang, JSON-LD, imagen OG y prerender (145 páginas). Se compara el HTML prerenderizado antes y después.
-- **Medición.** Se conserva lo que hay hoy: Cloudflare Web Analytics (sin cookies) y el cargador de AdSense en `root.tsx`. Google Analytics está pendiente de decisión (ver abajo).
+- **Medición.** Se conserva lo que hay hoy: Cloudflare Web Analytics (sin cookies) y el cargador de AdSense en `root.tsx`. Google Analytics se añadió el 19-11-2026 vía Google Tag Manager (ver abajo).
 - **Comprobación por sección:** `pnpm build` sin errores ni avisos, tests en verde, 1440×900, 1366×900, 768, 390 y 360 px, zoom 200 %, ambos temas, teclado y toque (áreas de 44 px), contraste AA. Capturas en `captures/migracion/<sección>/`.
 - **Versión.** Todo sale como 0.4.0. Las secciones no suben versión; `VERSION`, `package.json` y los dos changelogs se actualizan una sola vez en R0.
 - **Marca y logo:** los hace Codex al final, junto con el logo de los correos. Mientras dure la migración, Codex no toca componentes de `src/` para no pisarnos.
@@ -95,7 +95,7 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 
 ## Decisiones pendientes
 
-- **Google Analytics — decidido (18-11-2026): GA4 con modo de consentimiento v2**, usando el mensaje de consentimiento de Google que ya muestra AdSense. Cloudflare Web Analytics se mantiene. Eventos clave: equipar, ejecutar la Forjadora, publicar, compartir, exportar (cada sección añade los suyos). La política de privacidad se actualiza en los cuatro idiomas y la CSP permite los dominios de GA. Falta el ID de medición (`G-…`).
+- **Google Analytics — decidido (18-11-2026): GA4 con modo de consentimiento v2**, usando el mensaje de consentimiento de Google que ya muestra AdSense. Cloudflare Web Analytics se mantiene. Eventos clave: equipar, ejecutar la Forjadora, publicar, compartir, exportar (cada sección añade los suyos). La política de privacidad se actualiza en los cuatro idiomas y la CSP permite los dominios de GA. **Hecho 19-11-2026:** contenedor GTM `GTM-M8TP3WDV` (solo en dofusforge.com), consentimiento denegado por defecto en EEE/RU/Suiza, eventos `equip_item`, `forge_run`, `publish_build`, `share_link`, `export_sheet` en el `dataLayer`, política de privacidad versión 2026-11-19. Pendiente en la consola de GTM: etiqueta de Google con el `G-…` y etiqueta de evento GA4 para esos cinco eventos.
 - **Administración (S27):** diseñar en el estudio antes de migrar.
 
 ## Huecos encontrados

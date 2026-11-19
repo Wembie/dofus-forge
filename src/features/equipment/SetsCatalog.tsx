@@ -17,6 +17,7 @@ import { ImpactDeltas, ItemPeek, SetBonusEffects, useHoverIntent } from './ItemF
 import { useInfiniteList } from './useInfiniteList.ts'
 import './catalog.css'
 import './sets.css'
+import { track } from '@/lib/analytics.ts'
 
 interface Entry {
   set: AppSet
@@ -108,6 +109,7 @@ export function SetsCatalog({ onClose, open, onEquipped = onClose, single = fals
     const target = slots.find(slot => equipped[slot] == null) ?? slots[0]
     if (!target) return
     equipItem(target, item.ankama_id)
+    track('equip_item', { slot: target })
     playEquip()
     addToast(t('toast_equipped', { slot: t(`slot_${target}`), item: item.name }), slotToastIcon(target))
   }

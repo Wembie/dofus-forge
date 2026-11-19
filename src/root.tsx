@@ -79,6 +79,27 @@ document.addEventListener('load', function(e) {
 }, true);
 `
 
+// Google Analytics, through the Tag Manager container. Consent mode v2
+// defaults go first: denied in the EEA, the UK and Switzerland until the
+// Google consent message (loaded with AdSense) grants them, granted
+// elsewhere. The container only loads on the production host, so local
+// runs, previews and tests send nothing.
+const GTM_ID = 'GTM-M8TP3WDV'
+const CONSENT_REGIONS = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH']
+const ANALYTICS_SCRIPT = `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied', region: ${JSON.stringify(CONSENT_REGIONS)}, wait_for_update: 500 });
+gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' });
+gtag('js', new Date());
+if (location.hostname === 'dofusforge.com') {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtm.js?id=${GTM_ID}';
+  document.head.appendChild(s);
+}
+`
+
 const WEB_APPLICATION_LD = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
@@ -167,6 +188,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: ANALYTICS_SCRIPT }} />
 
         {/* Google AdSense site verification/loader — must stay high in <head> per Google's requirement */}
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7408183630551993" crossOrigin="anonymous" />

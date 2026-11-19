@@ -10,6 +10,7 @@ import { isActive, loadSavedConfig, persistConfig, toWireConfig, loadForgeResult
 import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
 import { forgePassiveState, forgePassiveEffects, passiveStateFor } from './forgePassives.ts'
+import { track } from '@/lib/analytics.ts'
 
 // The Forge's search and order, shared by every presentation: phases, the
 // order config and its persistence, the Workers and their reports, heat,
@@ -369,6 +370,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     if (placements.some(p => p.status === 'no_slot' || p.status === 'prysmaradite')) { setError(t('optimizer_items_conflicts')); return }
     setError(null)
     terminateWorkers()
+    track('forge_run', { intensity: config.intensity })
 
     const preset = INTENSITY[config.intensity]
     presetRef.current = preset

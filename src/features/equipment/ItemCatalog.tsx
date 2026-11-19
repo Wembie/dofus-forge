@@ -15,6 +15,7 @@ import { ImpactDeltas, ItemFactsList, useHoverIntent } from './ItemFacts.tsx'
 import { useInfiniteList } from './useInfiniteList.ts'
 import { SetDetailModal } from './SetDetailModal.tsx'
 import './catalog.css'
+import { track } from '@/lib/analytics.ts'
 
 type Props = {
   slot:           SlotConfig
@@ -115,6 +116,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     // Equipping recomputes the whole build and re-renders every panel; as a
     // transition the catalog closes first instead of the click blocking on it.
     startTransition(() => { equipItem(slotId, item.ankama_id) })
+    track('equip_item', { slot: slotId })
   }
   function inspect(item: AppItem, button: HTMLButtonElement) {
     lastItem.current = button

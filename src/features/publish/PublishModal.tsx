@@ -16,6 +16,7 @@ import { PrivacyChoices } from '@/features/builds/PrivacyChoices.tsx'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import './publish.css'
+import { track } from '@/lib/analytics.ts'
 
 const NAME_MAX = 60
 const CATEGORIES = ['playstyle', 'element', 'general'] as const
@@ -150,6 +151,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
       return
     }
 
+    track('publish_build', { visibility })
     store.setBuildName(payload.name)
     setLinkedBuildId(data.id)
     setForkOf(null)

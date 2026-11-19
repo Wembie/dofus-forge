@@ -7,6 +7,7 @@ import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { encodeBuild } from './codec.ts'
 import { ExportCard, downloadSheet, exportFileName } from './ExportCard.tsx'
 import './share.css'
+import { track } from '@/lib/analytics.ts'
 
 /** The build link in the page's language (English has no prefix). */
 function shareUrl(lang: string) {
@@ -38,6 +39,7 @@ export function SharePanel() {
     try {
       await navigator.clipboard.writeText(url)
       setMessage({ ok: true, text: t('copied') })
+      track('share_link')
     } catch {
       setMessage({ ok: false, text: t('share_copy_error') })
     }
@@ -50,6 +52,7 @@ export function SharePanel() {
     try {
       await downloadSheet(sheet.current, exportFileName(classLabel || b.selectedClass!, b.level))
       setMessage({ ok: true, text: t('share_downloaded') })
+      track('export_sheet')
     } catch {
       setMessage({ ok: false, text: t('share_download_error') })
     } finally {
