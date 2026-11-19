@@ -184,9 +184,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
+  min-width: 0;
 }
 .combat-roll span {
   font-size: 11px;
@@ -224,6 +222,20 @@
   }
   .combat-target {
     position: static;
+  }
+  /* Phones: the stage pins to the top of the window while the attacks scroll. */
+  .combat-stage {
+    position: sticky;
+    top: -12px;
+    z-index: 2;
+    margin: -12px -14px 0;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .combat-stage canvas {
+    width: 96px !important;
+    height: 104px !important;
   }
   .combat-resist input,
   .combat-target header button {
@@ -276,10 +288,49 @@
   color: var(--text);
 }
 
-/* The Poutch Ingball, the training target, drawn from the game's bones. */
-.combat-poutch {
+
+/* The stage: the Poutch Ingball and the last hit, first in the target column
+   (which stays in view on wider screens) so every roll is seen. */
+.combat-stage {
   display: flex;
-  justify-content: center;
-  margin: 4px 0 10px;
-  padding: 6px 0 0;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.combat-stage.is-flat {
+  display: block;
+}
+.combat-poutch {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+.combat-pop {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  font: 700 22px 'IBM Plex Mono', ui-monospace, monospace;
+  color: var(--text);
+  text-shadow: 0 1px 0 var(--canvas), 0 0 6px var(--canvas);
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: combat-pop 900ms var(--ease-out) forwards;
+}
+.combat-pop.is-crit {
+  color: var(--accent);
+  font-size: 26px;
+}
+@keyframes combat-pop {
+  0%   { opacity: 0; transform: translate(-50%, 10px) scale(0.9); }
+  15%  { opacity: 1; transform: translate(-50%, 0) scale(1.08); }
+  70%  { opacity: 1; transform: translate(-50%, -18px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -28px) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .combat-pop {
+    animation: none;
+  }
 }

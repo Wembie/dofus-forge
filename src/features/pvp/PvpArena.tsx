@@ -117,6 +117,7 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
     name: string;
     value: number;
     crit: boolean;
+    id: number;
   } | null>(null);
   /** One hit, as in production: decide whether it crits, then pick a value in that range. */
   function roll(row: Row) {
@@ -125,12 +126,13 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
       lo = crit ? row.hit.critMin : row.hit.min,
       hi = crit ? row.hit.critMax : row.hit.max;
     poutch.current?.hit();
-    setLast({
+    setLast((prev) => ({
       key: row.key,
       name: row.name,
       value: hi > lo ? lo + Math.floor(Math.random() * (hi - lo + 1)) : lo,
       crit,
-    });
+      id: (prev?.id ?? 0) + 1,
+    }));
   }
   const untouched = ELEMENTS.every(
     ([el]) => !resist[el].fixed && !resist[el].percent,
@@ -140,17 +142,37 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
       {heading && <h2 className="combat-title">{t("tool_pvp")}</h2>}
       <div className="combat-layout">
         <section className="combat-target" aria-label={t("sim_target")}>
+          <div className={"combat-stage" + (stage.show ? "" : " is-flat")}>
+            {stage.show && (
+              <div className="combat-poutch">
+                <CreatureStage ref={poutch} bone={POUTCH_BONE} width={150} height={160} onError={stage.fail} />
+                {last && (
+                  <span key={last.id} className={"combat-pop" + (last.crit ? " is-crit" : "")} aria-hidden="true">
+                    −{last.value}
+                  </span>
+                )}
+              </div>
+            )}
+            <div className="combat-roll" aria-live="polite">
+              <span>{t("sim_last_hit")}</span>
+              {last ? (
+                <>
+                  <strong className={last.crit ? "is-crit" : ""}>{last.value}</strong>
+                  <small>
+                    {last.name} · {last.crit ? t("sim_crit_hit") : t("sim_normal_hit")}
+                  </small>
+                </>
+              ) : (
+                <small>{t("sim_roll_hint")}</small>
+              )}
+            </div>
+          </div>
           <header>
             <h3>{t("sim_target")}</h3>
             <button disabled={untouched} onClick={reset}>
               {t("pvp_dummy_reset")}
             </button>
           </header>
-          {stage.show && (
-            <div className="combat-poutch">
-              <CreatureStage ref={poutch} bone={POUTCH_BONE} width={160} height={170} onError={stage.fail} />
-            </div>
-          )}
           <div className="combat-resist" role="group" aria-label={t("section_resistances")}>
             <span>{t("sim_resistance")}</span>
             <span>{t("sim_fixed")}</span>
@@ -204,24 +226,6 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
               : t("sim_applied")}{" "}
             {t("sim_passives")}
           </p>
-          <div className="combat-roll" aria-live="polite">
-            <span>{t("sim_last_hit")}</span>
-            {last ? (
-              <>
-                <strong className={last.crit ? "is-crit" : ""}>
-                  {last.value}
-                </strong>
-                <small>
-                  {last.name} ·{" "}
-                  {last.crit
-                    ? t("sim_crit_hit")
-                    : t("sim_normal_hit")}
-                </small>
-              </>
-            ) : (
-              <small>{t("sim_roll_hint")}</small>
-            )}
-          </div>
         </section>
         <section className="combat-damage" aria-label={t("sim_damage")}>
           {!groups.length ? (
