@@ -831,4 +831,3 @@ Generado desde el AST de TypeScript. Cada fila conserva el control, evento y man
 |---|---|---|
 | 82 | button ·  | onClick → {() => onChange(id)} |
 | 129 | button ·  | onClick → {() => onChange(id)} |
-

@@ -173,4 +173,3 @@ export function characterStill(breed: number, gender: Gender, companion: number)
   }
   return still;
 }
-

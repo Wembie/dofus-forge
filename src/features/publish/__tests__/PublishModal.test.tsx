@@ -91,4 +91,3 @@ describe('PublishModal (new build)', () => {
     expect(screen.getByRole('button', { name: /publish_go_library/ })).toBeTruthy()
   })
 })
-

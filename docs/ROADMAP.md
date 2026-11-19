@@ -226,6 +226,7 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M39 — Exportar/importar build JSON** — alternativa al URL base64, archivo .json descargable/cargable
 
 ### UI / Polish
+- [ ] **Recortar el CSS heredado** — con 0.4.0 el CSS global pesa ~12 kB brotli (Tailwind + `index.css` viejo + sistema 0.4.0) y el presupuesto de `scripts/check-budget.mjs` subió de 10 a 16–19 kB. Quitar de `index.css` los tokens, glows, rareza y keyframes que ya no usa nada, y las utilidades Tailwind del marcado viejo, para volver a acercarse a 10 kB.
 - [ ] **Revisión completa de los temas claro y oscuro** — pedido del usuario (2026-11-19): el oscuro queda por defecto y el claro todavía tiene cosas por mejorar. Recorrer las 19 rutas, los modales y los estados (vacío, con objetos, runas, sets, Forjadora) en ambos temas: contraste, superficies que quedan blancas o planas en el claro, bordes y colores de acento, capturas de antes y después.
 - [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
 - [ ] **M25 — Búsqueda global** — barra de búsqueda en header que busca ítems, sets, hechizos a la vez
