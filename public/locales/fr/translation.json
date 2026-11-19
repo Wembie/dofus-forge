@@ -3004,5 +3004,16 @@
   "build_report_comment_of": "Signaler le commentaire de {{name}}",
   "build_history": "Versions précédentes",
   "report_cancel": "Annuler",
-  "report_intro": "Choisissez un motif pour que l’équipe de modération l’examine."
+  "report_intro": "Choisissez un motif pour que l’équipe de modération l’examine.",
+  "publish_signin_hint": "Votre équipement reste dans l’atelier ; rien n’est perdu en vous connectant.",
+  "publish_history_hint": "La version publiée actuellement passe dans ses versions précédentes.",
+  "publish_prefill": "Chargement du nom, de la visibilité et des étiquettes publiés…",
+  "publish_tags_error": "Impossible de charger les étiquettes. Vous pouvez publier sans elles ou réessayer.",
+  "publish_tags_full": "Vous en avez choisi {{max}} : retirez-en une pour en choisir une autre.",
+  "publish_tags_hint": "Choisissez-en jusqu’à {{max}}. Elles aident à le trouver dans Explorer.",
+  "publish_go_library": "Aller à Mes équipements",
+  "publish_updating": "Mise à jour…",
+  "publish_publishing": "Publication…",
+  "lib_public_collection_hint": "Apparaît sur votre profil. Chaque équipement conserve sa propre visibilité.",
+  "lib_private_collection_hint": "Vous seul pouvez ouvrir cette collection."
 }

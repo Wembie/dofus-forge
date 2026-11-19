@@ -1,0 +1,55 @@
+/* Visibility choice for a build or a collection (publish, library). */
+.library-privacy-choices {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.library-privacy-choices legend {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.library-privacy-choices > label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 4px;
+  cursor: pointer;
+  min-height: 70px;
+}
+.library-privacy-choices > label.is-selected {
+  border-color: var(--accent);
+  background: var(--stage);
+}
+.library-privacy-choices input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--accent);
+  margin: 2px 0 0;
+  flex-shrink: 0;
+}
+.library-privacy-choices label > svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--muted);
+}
+.library-privacy-choices label > span {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.library-privacy-choices b {
+  font-size: 13px;
+  font-weight: 600;
+}
+.library-privacy-choices small {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}

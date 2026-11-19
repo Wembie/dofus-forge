@@ -1,34 +1,73 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useId } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
-import { Globe, Link2, Lock, Swords, GitFork } from 'lucide-react'
-import { Modal, Button } from '@/ui'
+import { AlertCircle, ArrowRight, GitFork, History, LogIn, Send } from 'lucide-react'
+import { Modal } from '@/ui'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useAuthStore } from '@/store/authStore.ts'
+import { CLASS_DATA } from '@/features/class-picker/classData.ts'
+import { useClassName } from '@/features/class-picker/useClassName.ts'
+import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { buildSnapshotFromState } from '@/features/share/codec.ts'
+import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { publishBuild, updateBuild, fetchBuildById, fetchBuildSummary, setBuildTags, buildTags, MAX_BUILD_TAGS, type BuildVisibility, type BuildSummary } from '@/features/builds/api.ts'
-import { TagPicker } from '@/features/builds/TagChips.tsx'
+import { useTags } from '@/features/builds/TagChips.tsx'
+import { PrivacyChoices } from '@/features/builds/PrivacyChoices.tsx'
+import { langPathPrefix } from '@/i18n/langPath.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
+import './publish.css'
 
-const VISIBILITY_OPTIONS: { id: BuildVisibility; Icon: typeof Globe }[] = [
-  { id: 'private',  Icon: Lock },
-  { id: 'unlisted', Icon: Link2 },
-  { id: 'public',   Icon: Globe },
-]
+const NAME_MAX = 60
+const CATEGORIES = ['playstyle', 'element', 'general'] as const
+const SLOTS_SHOWN = 16
+
+/** The build being published, read back before it goes out. */
+function Subject({ name }: { name: string }) {
+  const { t } = useTranslation()
+  const selectedClass = useBuildStore(s => s.selectedClass)
+  const gender = useBuildStore(s => s.gender)
+  const level = useBuildStore(s => s.level)
+  const equipped = useBuildStore(s => s.equipped)
+  const stats = useBuildStore(s => s.stats)
+  const classLabel = useClassName(selectedClass)
+  const info = CLASS_DATA.find(c => c.id === selectedClass)
+  if (!info) return null
+  const worn = Object.entries(equipped).filter(([slot, id]) => id != null && slot !== 'sidekick').length
+  return (
+    <div className="publish-subject">
+      <img src={gender === 'female' ? info.imageFUrl : info.imageUrl} alt="" />
+      <span>
+        <b>{name.trim() || t('untitled_build')}</b>
+        <small>{classLabel} · {t('level_short', { level })} · {t('build_worn', { count: Math.min(worn, SLOTS_SHOWN), total: SLOTS_SHOWN })}</small>
+      </span>
+      {stats && (
+        <ul aria-label={t('lib_vitals')}>
+          {([['ap', 'badge_ap'], ['mp', 'badge_mp'], ['range', 'badge_range']] as const).map(([key, label]) => (
+            <li key={key}>
+              <img src={statIconUrl(key)} alt="" />
+              <strong>{stats[key]}</strong>
+              {t(label)}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
 
 export function PublishModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t, i18n } = useTranslation()
   const navigate     = useNavigate()
+  const id           = useId()
   const session       = useAuthStore(s => s.session)
-  // Not subscribed with a selector: the build itself (selectedClass,
-  // equipment, level, stats…) is only read inside submit() via
-  // useBuildStore.getState(), so editing the build elsewhere doesn't
-  // re-render this modal on every change.
+  // The build itself is only read inside submit() via useBuildStore.getState(),
+  // so editing the build elsewhere doesn't re-render this dialog on every change.
   const linkedBuildId = useBuildStore(s => s.linkedBuildId)
   const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
   const forkOf        = useBuildStore(s => s.forkOf)
   const setForkOf     = useBuildStore(s => s.setForkOf)
   const [forkParent, setForkParent] = useState<BuildSummary | null>(null)
+  const tags = useTags()
 
   const [name, setName]             = useState(() => useBuildStore.getState().buildName || '')
   const [visibility, setVisibility] = useState<BuildVisibility>('public')
@@ -37,13 +76,14 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   // (or if it failed), so an early or offline Update never wipes them.
   const [savedTagIds, setSavedTagIds] = useState<number[] | null>(null)
   const [busy, setBusy]             = useState(false)
-  const [error, setError]           = useState<string | null>(null)
+  const [error, setError]           = useState<'error' | 'limit' | null>(null)
 
   // Editing an already-published build (loaded from My Builds, or your own
-  // build's detail page) — prefill its real name/visibility instead of
-  // defaulting to "private", since we're about to update that same row.
+  // build's detail page) — prefill its real name/visibility/tags, since we're
+  // about to update that same row.
   useEffect(() => {
     if (!open || !linkedBuildId) return
+    setSavedTagIds(null)
     fetchBuildById(linkedBuildId).then(({ data }) => {
       if (!data) return
       // A link carrying someone else's &edit=<id> (shared by its owner) must
@@ -68,10 +108,15 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
     onClose()
   }
 
+  const isUpdate = linkedBuildId != null
+  const waiting  = isUpdate && savedTagIds == null
+  const full     = tagIds.length >= MAX_BUILD_TAGS
+  const langPath = langPathPrefix(i18n.language)
+
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     const store = useBuildStore.getState()
-    if (!store.selectedClass) return
+    if (!store.selectedClass || busy || waiting) return
     setBusy(true)
     setError(null)
 
@@ -85,15 +130,12 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
       snapshot:    buildSnapshotFromState(store),
     }
 
-    const lang     = i18n.language.slice(0, 2)
-    const langPath = lang === 'en' ? '' : `${lang}/`
-
     if (linkedBuildId) {
       const { error: err } = await updateBuild(linkedBuildId, payload)
-      const tagsChanged = savedTagIds != null && (savedTagIds.length !== tagIds.length || tagIds.some(id => !savedTagIds.includes(id)))
+      const tagsChanged = savedTagIds != null && (savedTagIds.length !== tagIds.length || tagIds.some(tagId => !savedTagIds.includes(tagId)))
       if (!err && tagsChanged) await setBuildTags(linkedBuildId, tagIds)
       setBusy(false)
-      if (err) { setError(t('publish_error')); return }
+      if (err) { setError('error'); return }
       store.setBuildName(payload.name)
       close()
       navigate(`/${langPath}build/${linkedBuildId}`)
@@ -104,7 +146,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
     if (data) await setBuildTags(data.id, tagIds)
     setBusy(false)
     if (err || !data) {
-      setError(err?.includes('BUILD_LIMIT_REACHED') ? t('publish_limit_reached') : t('publish_error'))
+      setError(err?.includes('BUILD_LIMIT_REACHED') ? 'limit' : 'error')
       return
     }
 
@@ -117,107 +159,98 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
 
   if (!session) {
     return (
-      <Modal open={open} onClose={close} title={t('publish_title')} size="sm">
-        <div className="p-5 text-center space-y-3">
-          <p className="text-sm" style={{ color: 'var(--ink-muted)' }}>{t('publish_signin_required')}</p>
-          <Button variant="secondary" size="sm" onClick={close}>{t('modal_close')}</Button>
+      <Modal open={open} onClose={close} title={t('publish_title')} size="sm" className="publish-dialog">
+        <div className="publish-signin">
+          <LogIn size={26} aria-hidden="true" />
+          <p>{t('publish_signin_required')}</p>
+          <p className="publish-muted">{t('publish_signin_hint')}</p>
+          <div className="publish-actions">
+            <button type="button" onClick={close}>{t('modal_close')}</button>
+            <button type="button" className="site-primary" onClick={() => { close(); requestSignIn() }}>{t('auth_signin_btn')}</button>
+          </div>
         </div>
       </Modal>
     )
   }
 
   return (
-    <Modal open={open} onClose={close} title={t(linkedBuildId ? 'publish_title_update' : 'publish_title')} size="sm">
-      <form onSubmit={submit} className="p-5 space-y-4">
-        {linkedBuildId && (
-          <p
-            className="text-[11px] rounded-md px-2.5 py-1.5"
-            style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 25%, transparent)' }}
-          >
-            {t('publish_already_published_hint')}
+    <Modal open={open} onClose={close} title={t(isUpdate ? 'publish_title_update' : 'publish_title')} size="lg" className="publish-dialog">
+      <form onSubmit={submit}>
+        <Subject name={name} />
+        {isUpdate ? (
+          <p className="publish-note">
+            <History size={16} aria-hidden="true" />
+            <span>{t('publish_already_published_hint')} {t('publish_history_hint')}</span>
+          </p>
+        ) : forkParent && (
+          <p className="publish-note">
+            <GitFork size={16} aria-hidden="true" />
+            <span>{t('publish_remix_hint', { name: forkParent.name, author: forkParent.profiles?.username || '?' })}</span>
           </p>
         )}
-        {!linkedBuildId && forkParent && (
-          <p
-            className="flex items-center gap-1.5 text-[11px] rounded-md px-2.5 py-1.5"
-            style={{ color: 'var(--ink-muted)', background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
-          >
-            <GitFork size={12} style={{ color: 'var(--gold)', flexShrink: 0 }} />
-            {t('publish_remix_hint', { name: forkParent.name, author: forkParent.profiles?.display_name || forkParent.profiles?.username || '?' })}
-          </p>
-        )}
-
-        <div>
-          <label htmlFor="publish-build-name" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-            {t('build_name_label')}
-          </label>
-          <div className="relative">
-            <Swords size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
-            <input
-              id="publish-build-name"
-              type="text"
-              maxLength={60}
-              autoFocus
-              value={name}
-              onChange={e => setName(e.target.value)}
-              placeholder={t('untitled_build')}
-              className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
-              style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-              onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
-              onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-            />
+        {waiting && <p className="publish-muted" role="status">{t('publish_prefill')}</p>}
+        <div className="publish-field">
+          <div>
+            <label htmlFor={`${id}-name`}>{t('build_name_label')}</label>
+            <small id={`${id}-count`}>{name.length} / {NAME_MAX}</small>
           </div>
+          <input id={`${id}-name`} type="text" maxLength={NAME_MAX} value={name} disabled={waiting} autoFocus
+            placeholder={t('untitled_build')} aria-describedby={`${id}-count`} onChange={e => setName(e.target.value)} />
         </div>
-
-        <div>
-          <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-            {t('publish_visibility_label')}
-          </label>
-          <div className="grid grid-cols-3 gap-2">
-            {VISIBILITY_OPTIONS.map(({ id, Icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setVisibility(id)}
-                className="flex flex-col items-center gap-1 py-2.5 rounded-lg border text-[10px] font-semibold transition-colors"
-                style={visibility === id ? {
-                  background:  'color-mix(in srgb, var(--gold) 12%, transparent)',
-                  borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)',
-                  color:       'var(--gold)',
-                } : {
-                  background:  'var(--surface-panel)',
-                  borderColor: 'var(--metal-edge)',
-                  color:       'var(--ink-faint)',
-                }}
-              >
-                <Icon size={16} />
-                {t(`publish_visibility_${id}`)}
-              </button>
-            ))}
-          </div>
-          <p className="text-[10px] mt-1.5" style={{ color: 'var(--ink-faint)' }}>{t(`publish_visibility_${visibility}_hint`)}</p>
-        </div>
-
-        <div>
-          <label className="flex items-baseline justify-between text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+        <PrivacyChoices value={visibility} onChange={setVisibility} disabled={waiting} />
+        <fieldset className="publish-tags" disabled={waiting}>
+          <legend>
             {t('publish_tags_label')}
-            <span className="normal-case tracking-normal font-mono">{tagIds.length}/{MAX_BUILD_TAGS}</span>
-          </label>
-          <TagPicker selected={tagIds} onChange={setTagIds} />
+            <small aria-live="polite">{tagIds.length} / {MAX_BUILD_TAGS}</small>
+          </legend>
+          {tags == null ? (
+            <p className="publish-muted" role="status">{t('explore_tags_loading')}</p>
+          ) : tags.length === 0 ? (
+            <div className="publish-inline-error"><p>{t('publish_tags_error')}</p></div>
+          ) : (
+            <>
+              <p className="publish-muted">{t(full ? 'publish_tags_full' : 'publish_tags_hint', { max: MAX_BUILD_TAGS })}</p>
+              {CATEGORIES.map(cat => (
+                <div key={cat} className="publish-tag-group">
+                  <p className="publish-tag-category">{t(`tag_category_${cat}`)}</p>
+                  <div>
+                    {tags.filter(tag => tag.category === cat).map(tag => {
+                      const on = tagIds.includes(tag.id)
+                      return (
+                        <button type="button" key={tag.id} aria-pressed={on} disabled={!on && full}
+                          onClick={() => setTagIds(on ? tagIds.filter(x => x !== tag.id) : [...tagIds, tag.id])}>
+                          {t(`tag_${tag.name}`)}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </fieldset>
+        {/* In the sticky footer, so the reason a submit failed shows where you pressed it. */}
+        <div className="publish-actions has-status">
+          {error && (
+            <div className="publish-error" role="alert">
+              <AlertCircle size={17} aria-hidden="true" />
+              <p>{t(error === 'limit' ? 'publish_limit_reached' : 'publish_error')}</p>
+              {error === 'limit' && (
+                <button type="button" onClick={() => { close(); navigate(`/${langPath}my-builds`) }}>
+                  {t('publish_go_library')}
+                  <ArrowRight size={15} aria-hidden="true" />
+                </button>
+              )}
+            </div>
+          )}
+          <div>
+            <button type="button" onClick={close}>{t('report_cancel')}</button>
+            <button type="submit" className="site-primary" disabled={busy || waiting}>
+              <Send size={16} aria-hidden="true" />
+              {busy ? t(isUpdate ? 'publish_updating' : 'publish_publishing') : t(isUpdate ? 'publish_submit_update' : 'publish_submit')}
+            </button>
+          </div>
         </div>
-
-        {error && (
-          <p
-            className="text-[11px] rounded-md px-2.5 py-1.5"
-            style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
-          >
-            {error}
-          </p>
-        )}
-
-        <Button type="submit" variant="primary" size="md" disabled={busy || (linkedBuildId != null && savedTagIds == null)} className="w-full justify-center">
-          {busy ? t('auth_loading') : t(linkedBuildId ? 'publish_submit_update' : 'publish_submit')}
-        </Button>
       </form>
     </Modal>
   )

@@ -3004,5 +3004,16 @@
   "build_report_comment_of": "Reportar el comentario de {{name}}",
   "build_history": "Versiones anteriores",
   "report_cancel": "Cancelar",
-  "report_intro": "Elige el motivo para que el equipo de moderación lo revise."
+  "report_intro": "Elige el motivo para que el equipo de moderación lo revise.",
+  "publish_signin_hint": "Tu build sigue en el taller; no se pierde nada al iniciar sesión.",
+  "publish_history_hint": "La versión publicada ahora pasa a sus versiones anteriores.",
+  "publish_prefill": "Cargando el nombre, la visibilidad y las etiquetas publicadas…",
+  "publish_tags_error": "No pudimos cargar las etiquetas. Puedes publicar sin ellas o reintentar.",
+  "publish_tags_full": "Ya elegiste {{max}}: quita una para elegir otra.",
+  "publish_tags_hint": "Elige hasta {{max}}. Ayudan a encontrarla en Explorar.",
+  "publish_go_library": "Ir a Mis builds",
+  "publish_updating": "Actualizando…",
+  "publish_publishing": "Publicando…",
+  "lib_public_collection_hint": "Aparece en tu perfil. Cada build conserva su propia visibilidad.",
+  "lib_private_collection_hint": "Solo tú puedes abrir esta colección."
 }

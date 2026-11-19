@@ -64,3 +64,31 @@ describe('PublishModal', () => {
     expect(api.setBuildTags).not.toHaveBeenCalled()
   })
 })
+
+describe('PublishModal (new build)', () => {
+  const TAGS = Array.from({ length: 7 }, (_, i) => ({ id: i + 1, name: 'tag' + i, category: 'playstyle' as const }))
+  beforeEach(() => {
+    useBuildStore.getState().setLinkedBuildId(null)
+    api.fetchTags.mockResolvedValue(TAGS as never)
+  })
+
+  it('takes up to five tags, then the rest wait until one is removed', async () => {
+    renderModal()
+    const buttons = await screen.findAllByRole('button', { name: /^tag_tag/ })
+    buttons.slice(0, 5).forEach(b => fireEvent.click(b))
+    expect(buttons.slice(0, 5).every(b => b.getAttribute('aria-pressed') === 'true')).toBe(true)
+    expect((buttons[5] as HTMLButtonElement).disabled).toBe(true)
+    fireEvent.click(buttons[0])
+    expect((buttons[5] as HTMLButtonElement).disabled).toBe(false)
+  })
+
+  it('explains the build limit and points to the library', async () => {
+    api.publishBuild.mockResolvedValue({ data: null, error: 'BUILD_LIMIT_REACHED' } as never)
+    renderModal()
+    fireEvent.click(screen.getByRole('button', { name: 'publish_submit' }))
+    expect(await screen.findByRole('alert')).toBeTruthy()
+    expect(screen.getByText('publish_limit_reached')).toBeTruthy()
+    expect(screen.getByRole('button', { name: /publish_go_library/ })).toBeTruthy()
+  })
+})
+

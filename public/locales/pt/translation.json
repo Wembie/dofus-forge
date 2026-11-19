@@ -3004,5 +3004,16 @@
   "build_report_comment_of": "Denunciar o comentário de {{name}}",
   "build_history": "Versões anteriores",
   "report_cancel": "Cancelar",
-  "report_intro": "Escolha o motivo para a equipe de moderação revisar."
+  "report_intro": "Escolha o motivo para a equipe de moderação revisar.",
+  "publish_signin_hint": "Seu conjunto continua na oficina; nada se perde ao entrar.",
+  "publish_history_hint": "A versão publicada agora vai para as versões anteriores.",
+  "publish_prefill": "Carregando o nome, a visibilidade e as etiquetas publicados…",
+  "publish_tags_error": "Não foi possível carregar as etiquetas. Você pode publicar sem elas ou tentar de novo.",
+  "publish_tags_full": "Você escolheu {{max}}: tire uma para escolher outra.",
+  "publish_tags_hint": "Escolha até {{max}}. Elas ajudam a encontrá-lo em Explorar.",
+  "publish_go_library": "Ir para Meus conjuntos",
+  "publish_updating": "Atualizando…",
+  "publish_publishing": "Publicando…",
+  "lib_public_collection_hint": "Aparece no seu perfil. Cada conjunto mantém a própria visibilidade.",
+  "lib_private_collection_hint": "Só você pode abrir esta coleção."
 }

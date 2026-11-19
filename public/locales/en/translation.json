@@ -3004,5 +3004,16 @@
   "build_report_comment_of": "Report {{name}}’s comment",
   "build_history": "Previous versions",
   "report_cancel": "Cancel",
-  "report_intro": "Pick a reason so the moderation team can review it."
+  "report_intro": "Pick a reason so the moderation team can review it.",
+  "publish_signin_hint": "Your build stays in the workshop; nothing is lost when you sign in.",
+  "publish_history_hint": "The version published now moves to its previous versions.",
+  "publish_prefill": "Loading the published name, visibility and tags…",
+  "publish_tags_error": "We couldn’t load the tags. You can publish without them or try again.",
+  "publish_tags_full": "You picked {{max}}: remove one to choose another.",
+  "publish_tags_hint": "Pick up to {{max}}. They help people find it in Explore.",
+  "publish_go_library": "Go to My builds",
+  "publish_updating": "Updating…",
+  "publish_publishing": "Publishing…",
+  "lib_public_collection_hint": "Appears on your profile. Each build keeps its own visibility.",
+  "lib_private_collection_hint": "Only you can open this collection."
 }

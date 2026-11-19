@@ -1323,7 +1323,7 @@ span.detail-tile[tabindex]:focus-visible {
 }
 
 /* Production base for buttons and links styled as buttons on this page (the study's global button). */
-:where(.detail-hero, .detail-bar, .detail-sets, .detail-community, .detail-missing, .detail-dialog) button,
+:where(.detail-hero, .detail-bar, .detail-sets, .detail-community, .detail-missing, .detail-restore) button,
 :where(.detail-hero, .detail-missing) a.site-primary {
   display: inline-flex;
   align-items: center;
@@ -1340,11 +1340,11 @@ span.detail-tile[tabindex]:focus-visible {
   text-decoration: none;
   transition: background 120ms, border-color 120ms;
 }
-:where(.detail-hero, .detail-bar, .detail-sets, .detail-community, .detail-missing, .detail-dialog) button:where(:hover:not(:disabled)) {
+:where(.detail-hero, .detail-bar, .detail-sets, .detail-community, .detail-missing, .detail-restore) button:where(:hover:not(:disabled)) {
   background: var(--hover);
   border-color: var(--muted);
 }
-:where(.detail-hero, .detail-bar, .detail-sets, .detail-community, .detail-missing, .detail-dialog) button:disabled {
+:where(.detail-hero, .detail-bar, .detail-sets, .detail-community, .detail-missing, .detail-restore) button:disabled {
   opacity: 0.35;
   cursor: default;
 }
