@@ -3122,5 +3122,7 @@
   "changelog_versions_one": "{{count}} version publiée",
   "changelog_versions_other": "{{count}} versions publiées",
   "changelog_current": "Actuelle",
-  "changelog_older": "Voir les versions précédentes"
+  "changelog_older": "Voir les versions précédentes",
+  "class_pick_title": "Choisissez votre classe",
+  "class_pick_intro": "La classe détermine vos sorts et l’élément de départ de votre build. Vous pouvez la changer à tout moment."
 }

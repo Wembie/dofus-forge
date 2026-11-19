@@ -7,6 +7,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import type { DofusClass } from '@/engine/types.ts'
 import type { Gender } from '@/store/buildStore.ts'
 import { playSelect } from '@/lib/sound.ts'
+import './class-picker.css'
 
 export function ClassPicker() {
   const { t, i18n } = useTranslation()
@@ -204,139 +205,58 @@ export function ClassPicker() {
 
   // ── Class grid (no selection OR picking=true) ──────────────────────────────
   return (
-    <div className="space-y-3">
-      {picking && (
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
-            {t('class')}
-          </h2>
-          <button
-            onClick={() => setPicking(false)}
-            className="text-[10px] uppercase tracking-widest font-display px-2 py-0.5 rounded transition-colors"
-            style={{ color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)' }}
-          >
-            {t('cancel', 'Cancel')}
-          </button>
+    <div className="cp">
+      <div className="cp-head">
+        <div>
+          <p className="cp-eyebrow">{t('class')}</p>
+          <h2>{t('class_pick_title')}</h2>
+          {!selected && <p>{t('class_pick_intro')}</p>}
         </div>
-      )}
+        {picking && (
+          <button type="button" className="cp-cancel" onClick={() => setPicking(false)}>{t('cancel', 'Cancel')}</button>
+        )}
+      </div>
 
-      {!picking && (
-        <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
-          {t('class')}
-        </h2>
-      )}
-
-      <div className="grid grid-cols-3 gap-1.5" role="radiogroup" aria-label={t('class')}>
+      <div className="cp-grid" role="radiogroup" aria-label={t('class')}>
         {CLASS_DATA.map(cls => {
           const isSelected = selected === cls.id
-          const color      = ELEMENT_HEX[cls.element]
-          const img        = gender === 'female' ? cls.imageFUrl : cls.imageUrl
-          const displayName = resolveClassName(cls.id, lang, classNames)
+          const img = gender === 'female' ? cls.imageFUrl : cls.imageUrl
           return (
             <button
               key={cls.id}
+              type="button"
               onClick={() => { setClass(cls.id as DofusClass); setPicking(false); playSelect() }}
               role="radio"
               aria-checked={isSelected}
-              className="relative flex flex-col items-center gap-1 py-2 px-1 rounded-lg border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forge-gold overflow-hidden"
-              style={isSelected ? {
-                borderColor: color,
-                background:  `linear-gradient(160deg, ${color}22 0%, ${color}08 100%)`,
-                boxShadow:   `0 0 12px ${color}30`,
-                transform:   'scale(1.04)',
-              } : {
-                borderColor: 'var(--metal-edge)',
-                background:  'color-mix(in srgb, var(--surface-parchment) 50%, transparent)',
-              }}
-              onMouseEnter={e => {
-                if (!isSelected) {
-                  const el = e.currentTarget as HTMLButtonElement
-                  el.style.borderColor = `${color}99`
-                  el.style.boxShadow   = `0 0 14px ${color}28, inset 0 0 12px ${color}0a`
-                }
-              }}
-              onMouseLeave={e => {
-                if (!isSelected) {
-                  const el = e.currentTarget as HTMLButtonElement
-                  el.style.borderColor = 'var(--metal-edge)'
-                  el.style.boxShadow   = ''
-                }
-              }}
+              className="cp-class"
+              style={{ '--cp-element': ELEMENT_HEX[cls.element] } as React.CSSProperties}
             >
-              {isSelected && (
-                <div
-                  className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full"
-                  style={{ background: color, boxShadow: `0 0 4px ${color}` }}
-                />
-              )}
-
-              <div
-                className="rounded-lg overflow-hidden flex-shrink-0"
-                style={{
-                  width:      44,
-                  height:     44,
-                  background: `radial-gradient(ellipse at 50% 30%, ${color}22, transparent 70%)`,
-                  border:     isSelected ? `1px solid ${color}55` : '1px solid var(--metal-edge)',
-                }}
-              >
-                <img src={img} alt="" className="w-full h-full object-cover" draggable={false} loading="lazy" />
-              </div>
-
-              <span
-                className="text-[10px] font-medium leading-tight text-center w-full truncate"
-                style={{ color: isSelected ? color : 'var(--ink-muted)' }}
-              >
-                {displayName}
-              </span>
+              <img src={img} alt="" draggable={false} loading="lazy" />
+              <span>{resolveClassName(cls.id, lang, classNames)}</span>
             </button>
           )
         })}
       </div>
 
       {!selected && (
-        <div className="space-y-3">
-          {/* Gender toggle (shown in no-class state) */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-display uppercase tracking-widest" style={{ color: 'var(--ink-faint)' }}>
-              {t('gender', 'Genre')}
-            </span>
-            <div className="flex rounded overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
+        <div className="cp-options">
+          <div className="cp-option">
+            <span>{t('gender')}</span>
+            <div className="cp-segment" role="group" aria-label={t('gender')}>
               {(['male', 'female'] as Gender[]).map(g => (
-                <button
-                  key={g}
-                  onClick={() => setGender(g)}
-                  className="flex items-center gap-1 px-3 py-1 text-xs font-medium transition-colors"
-                  style={gender === g ? {
-                    background: 'color-mix(in srgb, var(--gold) 13%, transparent)',
-                    color:      'var(--gold)',
-                    borderRight: g === 'male' ? '1px solid var(--metal-edge)' : undefined,
-                  } : {
-                    background: 'transparent',
-                    color:      'var(--ink-faint)',
-                    borderRight: g === 'male' ? '1px solid var(--metal-edge)' : undefined,
-                  }}
-                  aria-pressed={gender === g}
-                >
-                  <span>{g === 'male' ? '♂' : '♀'}</span>
-                  <span className="capitalize">{g === 'male' ? t('gender_male', 'Male') : t('gender_female', 'Female')}</span>
+                <button key={g} type="button" onClick={() => setGender(g)} aria-pressed={gender === g}>
+                  {g === 'male' ? t('gender_male', 'Male') : t('gender_female', 'Female')}
                 </button>
               ))}
             </div>
           </div>
-
-          {/* Level */}
-          <div className="space-y-1.5">
-            <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>{t('level')}</h2>
-            <div className="flex items-center gap-2">
-              <button onClick={() => setLevel(level - 1)} disabled={level <= 1} style={btnStyle} className="disabled:opacity-30" aria-label={t('level_decrease')}>−</button>
-              <input
-                {...levelInputProps}
-                className="flex-1 text-center rounded text-sm py-1 focus:outline-none transition-colors"
-                style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                aria-label={t('level')}
-              />
-              <button onClick={() => setLevel(level + 1)} disabled={level >= 200} style={btnStyle} className="disabled:opacity-30" aria-label={t('level_increase')}>+</button>
-              <span className="text-xs" style={{ color: 'var(--ink-faint)' }}>{t('level_max')}</span>
+          <div className="cp-option">
+            <span>{t('level')}</span>
+            <div className="cp-stepper">
+              <button type="button" onClick={() => setLevel(level - 1)} disabled={level <= 1} aria-label={t('level_decrease')}>−</button>
+              <input {...levelInputProps} aria-label={t('level')} />
+              <button type="button" onClick={() => setLevel(level + 1)} disabled={level >= 200} aria-label={t('level_increase')}>+</button>
+              <small>{t('level_max')}</small>
             </div>
           </div>
         </div>

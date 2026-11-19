@@ -3122,5 +3122,7 @@
   "changelog_versions_one": "{{count}} version released",
   "changelog_versions_other": "{{count}} versions released",
   "changelog_current": "Current",
-  "changelog_older": "See earlier versions"
+  "changelog_older": "See earlier versions",
+  "class_pick_title": "Choose your class",
+  "class_pick_intro": "The class sets your spells and the element your build starts with. You can change it anytime."
 }

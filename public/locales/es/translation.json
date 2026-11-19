@@ -3122,5 +3122,7 @@
   "changelog_versions_one": "{{count}} versión publicada",
   "changelog_versions_other": "{{count}} versiones publicadas",
   "changelog_current": "Actual",
-  "changelog_older": "Ver versiones anteriores"
+  "changelog_older": "Ver versiones anteriores",
+  "class_pick_title": "Elige tu clase",
+  "class_pick_intro": "La clase define tus hechizos y el elemento con el que empieza tu build. Puedes cambiarla cuando quieras."
 }

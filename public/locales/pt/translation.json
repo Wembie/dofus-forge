@@ -3122,5 +3122,7 @@
   "changelog_versions_one": "{{count}} versão publicada",
   "changelog_versions_other": "{{count}} versões publicadas",
   "changelog_current": "Atual",
-  "changelog_older": "Ver versões anteriores"
+  "changelog_older": "Ver versões anteriores",
+  "class_pick_title": "Escolha sua classe",
+  "class_pick_intro": "A classe define seus feitiços e o elemento com que sua build começa. Você pode trocá-la quando quiser."
 }
