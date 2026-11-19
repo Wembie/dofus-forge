@@ -3,8 +3,6 @@ import { Links, Outlet, Scripts, isRouteErrorResponse, useLocation, useRouteErro
 import { useTranslation } from 'react-i18next'
 import stylesheet from './index.css?url'
 import { Toaster } from './components/Toaster.tsx'
-import { MagicCursor } from './components/MagicCursor.tsx'
-import { ParticleField } from './components/ParticleField.tsx'
 import { UpdateBanner } from './components/UpdateBanner.tsx'
 import { ConsentGate } from './features/auth/ConsentGate.tsx'
 import { useAuthStore } from './store/authStore.ts'
@@ -32,6 +30,7 @@ export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
 //    hash is kept: Supabase's auth confirmation links carry the session in
 //    it. In-app navigation is handled by LangRoute.
 // 4. Theme class before first paint, so there is no flash of the wrong theme.
+//    Dark unless the visitor picked light in Settings.
 // 5. The font stylesheet loads as media="print" (never render-blocking) and
 //    switches to its data-swap-media once loaded. Load events don't bubble,
 //    but a capturing listener on the document still sees them.
@@ -69,9 +68,7 @@ const BOOT_SCRIPT = `
 (function() {
   var t = null
   try { t = localStorage.getItem('dofus-forge-theme') } catch (_) {}
-  var prefer = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
-  var theme = (t === 'light' || t === 'dark') ? t : prefer
-  document.documentElement.classList.add(theme === 'light' ? 'light' : 'dark')
+  document.documentElement.classList.add(t === 'light' ? 'light' : 'dark')
 })();
 document.addEventListener('load', function(e) {
   var el = e.target
@@ -249,8 +246,6 @@ export default function App() {
     <>
       <Outlet />
       <Toaster />
-      <ParticleField />
-      <MagicCursor />
       <UpdateBanner />
       <ConsentGate />
     </>

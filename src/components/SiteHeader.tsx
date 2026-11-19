@@ -1,8 +1,8 @@
-import { Suspense, lazy, useEffect, useState, type ReactNode } from 'react'
+import { Suspense, lazy, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router'
-import { BookOpen, Compass, FolderOpen, Hammer, Home, Info, Keyboard, Library, Menu, Moon, Search, Settings, ShieldCheck, SunMedium, SunMoon, Volume2 } from 'lucide-react'
-import { getCurrentTheme, toggleTheme, THEME_EVENT_NAME } from '@/ui/ThemeToggle.tsx'
+import { BookOpen, Compass, FolderOpen, Hammer, Home, Info, Keyboard, Library, Menu, Search, Settings, ShieldCheck, SunMoon, Volume2 } from 'lucide-react'
+import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { BrandMark } from '@/ui'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { CommandPalette, openCommandPalette, type Command } from '@/components/CommandPalette.tsx'
@@ -14,25 +14,8 @@ import { useAuthStore } from '@/store/authStore.ts'
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 const NotificationBell = lazy(() => import('@/features/notifications/NotificationBell.tsx').then(m => ({ default: m.NotificationBell })))
 
-/** Theme switch for the header; follows changes made from preferences or the palette. */
-export function ThemeButton() {
-  const { t } = useTranslation()
-  const [theme, setTheme] = useState<string | null>(null)
-  useEffect(() => {
-    const sync = () => setTheme(getCurrentTheme())
-    sync()
-    window.addEventListener(THEME_EVENT_NAME, sync)
-    return () => window.removeEventListener(THEME_EVENT_NAME, sync)
-  }, [])
-  return (
-    <button type="button" className="site-icon" onClick={toggleTheme} aria-label={t('theme_switch')} title={t('theme_switch')}>
-      {theme === 'light' ? <Moon size={18} /> : <SunMedium size={18} />}
-    </button>
-  )
-}
-
 /** The site header shared by every page: brand, main destinations as real
- * links (crawlable), all-actions palette, theme, preferences, notifications,
+ * links (crawlable), all-actions palette, preferences, notifications,
  * account and, on narrow screens, the full menu. The workshop passes its own
  * brand link (reset on click, full build in the href) and its command list. */
 export function SiteHeader({ brand, commands, workshop = false }: {
@@ -85,7 +68,6 @@ export function SiteHeader({ brand, commands, workshop = false }: {
           aria-label={`${t('palette_open')} (Ctrl K)`} title={`${t('palette_open')} · Ctrl K`}>
           <Search size={18} />
         </button>
-        <ThemeButton />
         <button type="button" className="site-icon site-wide" onClick={() => setShowSettings(true)} aria-label={t('settings_title')} title={t('settings_title')}>
           <Settings size={18} />
         </button>

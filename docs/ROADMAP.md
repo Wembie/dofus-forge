@@ -230,6 +230,7 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M39 — Exportar/importar build JSON** — alternativa al URL base64, archivo .json descargable/cargable
 
 ### UI / Polish
+- [ ] **Revisión completa de los temas claro y oscuro** — pedido del usuario (2026-11-19): el oscuro queda por defecto y el claro todavía tiene cosas por mejorar. Recorrer las 19 rutas, los modales y los estados (vacío, con objetos, runas, sets, Forjadora) en ambos temas: contraste, superficies que quedan blancas o planas en el claro, bordes y colores de acento, capturas de antes y después.
 - [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
 - [ ] **M25 — Búsqueda global** — barra de búsqueda en header que busca ítems, sets, hechizos a la vez
 - [ ] **M41 — Fashionista (transmogrificación cosmética)** — por cada slot, elegir ítem diferente solo para apariencia visual (imagen + nombre), sin afectar stats; exportable
