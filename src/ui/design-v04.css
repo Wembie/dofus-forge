@@ -165,7 +165,12 @@ html [role=dialog] button[aria-label]{min-width:32px;min-height:32px}
 .slot-action:hover{color:var(--text);border-color:var(--muted)}
 .slot-action.is-remove:hover{color:var(--danger,#d9534f);border-color:currentColor}
 .slot-action.is-pin.is-on{background:var(--accent);border-color:var(--accent);color:var(--canvas)}
-.slot-action.is-rune.is-on{border-color:color-mix(in srgb,var(--accent) 60%,var(--line))}
+.slot-action.is-rune.has-runes{border-color:var(--accent);color:var(--accent)}
+.workshop-slot.is-wide .slot-copy span.has-runes{-webkit-line-clamp:1}
+.slot-runes{display:flex;align-items:center;gap:2px;margin-top:1px}
+.slot-runes img{display:block;width:14px;height:14px;padding:1px;border:1px solid var(--line);border-radius:2px;background:var(--canvas);object-fit:contain}
+.slot-runes img.is-exotic{border-color:var(--accent)}
+.slot-runes em{font:600 10px 'IBM Plex Mono',ui-monospace,monospace;font-style:normal;color:var(--muted)}
 .slot-action.is-set{color:var(--water)}
 @media (hover:none){.slot-action.is-remove{opacity:1}}
 .workshop-slot.is-wide{justify-content:flex-start;gap:10px;padding:0 10px 0 6px;text-align:left}

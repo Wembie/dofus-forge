@@ -23,7 +23,7 @@ import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { ClassGrid, GenderToggle, LevelStepper } from '@/features/class-picker/ClassPicker.tsx'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback, signatureRuneUrl } from './statDisplay.ts'
+import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { WEAPON_ATTACK_STAT, IS_STEAL } from '@/features/spells/spellCalc.ts'
 import { Modal, SlotIcon } from '@/ui'
@@ -93,6 +93,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
   const leave = () => { clearTimeout(leaveRef.current); setHovered(false) }
   const px      = sizeProp ?? (small ? 62 : 80)
+  const activeRunes = Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a)))
   const slotLabel = t(slotTKey(slotId))
   const isDofus   = slotId.startsWith('dofus')
 
@@ -144,7 +145,16 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             </span>
             <span className="slot-copy">
               <small>{slotLabel}</small>
-              <span>{item ? item.name : t('empty_slot')}</span>
+              <span className={activeRunes.length > 0 ? 'has-runes' : undefined}>{item ? item.name : t('empty_slot')}</span>
+              {item && activeRunes.length > 0 && (
+                <span className="slot-runes" aria-hidden="true">
+                  {activeRunes.slice(0, 5).map(([stat]) => {
+                    const url = runeKeyIconUrl(stat)
+                    return url ? <img key={stat} src={url} onError={runeIconFallback(stat)} alt="" width={14} height={14} className={isExoticKey(stat) ? 'is-exotic' : undefined} /> : null
+                  })}
+                  {activeRunes.length > 5 && <em>+{activeRunes.length - 5}</em>}
+                </span>
+              )}
             </span>
           </>
         ) : item?.image_url ? (
@@ -173,12 +183,10 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             <X size={12} aria-hidden="true" />
           </button>
           {onRune && (
-            <button type="button" className={'slot-action is-rune' + ((runeCount ?? 0) > 0 ? ' is-on' : '')}
+            <button type="button" className={'slot-action is-rune' + ((runeCount ?? 0) > 0 ? ' has-runes' : '')}
               onClick={e => { e.stopPropagation(); onRune() }}
               aria-label={`${t('magesmithy')}: ${item.name}`} title={t('magesmithy_title')}>
-              {(runeCount ?? 0) > 0
-                ? <img src={signatureRuneUrl()} alt="" width={12} height={12} />
-                : <Sparkles size={11} aria-hidden="true" />}
+              <Sparkles size={11} aria-hidden="true" />
             </button>
           )}
           {onViewSet && (
