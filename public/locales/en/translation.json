@@ -3152,5 +3152,16 @@
   "shortcuts_slot_pin_title": "Pin for The Forger",
   "shortcuts_slot_pin_body": "Pins the item as required for The Forger, or unpins it. Same as right click.",
   "shortcuts_slot_remove_title": "Remove the item",
-  "shortcuts_slot_remove_body": "Delete or Backspace unequips the item from the slot."
+  "shortcuts_slot_remove_body": "Delete or Backspace unequips the item from the slot.",
+  "shortcuts_group_workshop_title": "In the workshop",
+  "shortcuts_open_forge_title": "Open The Forger",
+  "shortcuts_open_forge_body": "Opens The Forger with your current build.",
+  "shortcuts_open_spells_title": "Spells and weapon",
+  "shortcuts_open_spells_body": "Opens your spells and weapon, with damage worked out from your gear.",
+  "shortcuts_open_pvp_title": "Simulate a fight",
+  "shortcuts_open_pvp_body": "Opens the simulation against the Poutch.",
+  "shortcuts_open_dofus_title": "Dofus slot 1 to 6",
+  "shortcuts_open_dofus_body": "Opens that Dofus slot: its sheet when it holds an item, the catalog when empty. Slot 1 is the Prysmaradite’s.",
+  "shortcuts_catalog_search_title": "Search the catalog",
+  "shortcuts_catalog_search_body": "With the catalog open, jumps back to the search box from anywhere."
 }

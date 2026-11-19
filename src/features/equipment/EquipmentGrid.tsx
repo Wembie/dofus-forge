@@ -9,6 +9,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import { SetBonusesPanel } from './SetBonusesPanel.tsx'
 import { ItemSheet } from './ItemSheet.tsx'
+import { OPEN_SLOT_EVENT } from './openSlot.ts'
 import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { isExoticKey, runeStat } from '@/engine/runes.ts'
 
@@ -575,6 +576,13 @@ export function EquipmentGrid() {
   const [openSlot, setOpenSlot] = useState<{ config: SlotConfig; id: SlotId } | null>(null)
   const [runeSlot, setRuneSlot] = useState<SlotId | null>(null)
   const [sheetSlot, setSheetSlot] = useState<SlotId | null>(null)
+  // A slot opened from outside (number keys): its sheet, or the catalog when empty.
+  const openRef = useRef<(id: SlotId) => void>(() => {})
+  useEffect(() => {
+    const onOpen = (e: Event) => openRef.current((e as CustomEvent<SlotId>).detail)
+    window.addEventListener(OPEN_SLOT_EVENT, onOpen)
+    return () => window.removeEventListener(OPEN_SLOT_EVENT, onOpen)
+  }, [])
   const [openSetId, setOpenSetId] = useState<number | null>(null)
   const [dragSlot, setDragSlot]         = useState<SlotId | null>(null)
   const [dragOverSlot, setDragOverSlot] = useState<SlotId | null>(null)
@@ -621,6 +629,7 @@ export function EquipmentGrid() {
   const openCatalog = useCallback((id: SlotId) => {
     setOpenSlot({ config: SLOT_MAP[id], id })
   }, [])
+  openRef.current = id => (getItem(id) ? setSheetSlot(id) : openCatalog(id))
 
   if (loading) {
     return (

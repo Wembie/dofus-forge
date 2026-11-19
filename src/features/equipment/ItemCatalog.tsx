@@ -60,6 +60,19 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const detailRef = useRef<HTMLHeadingElement>(null)
   const lastItem  = useRef<HTMLButtonElement | null>(null)
   const scroller  = useRef<HTMLDivElement>(null)
+  const searchRef = useRef<HTMLInputElement>(null)
+  // "/" jumps back to the search box from anywhere in the catalog.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return
+      if ((e.target as HTMLElement | null)?.closest?.('input, textarea, select')) return
+      e.preventDefault()
+      searchRef.current?.focus()
+      searchRef.current?.select()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   const byId       = useMemo(() => new Map((equipment ?? []).map(it => [it.ankama_id, it])), [equipment])
   const setById    = useMemo(() => new Map((sets ?? []).map(s => [s.ankama_id, s])), [sets])
@@ -146,7 +159,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
             <label className="catalog-search">
               <Search size={18} aria-hidden="true" />
               <span className="sr-only">{t('catalog_search_label')}</span>
-              <input type="search" autoFocus placeholder={t('search_items')} value={query} onChange={e => setQuery(e.target.value)} />
+              <input ref={searchRef} type="search" autoFocus placeholder={t('search_items')} value={query} onChange={e => setQuery(e.target.value)} aria-keyshortcuts="/" />
             </label>
             <button type="button" className="catalog-filter-toggle" aria-expanded={showFilters} onClick={() => setShowFilters(!showFilters)}>
               <SlidersHorizontal size={16} aria-hidden="true" />

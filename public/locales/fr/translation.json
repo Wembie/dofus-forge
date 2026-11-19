@@ -3152,5 +3152,16 @@
   "shortcuts_slot_pin_title": "Épingler pour la Forgeuse",
   "shortcuts_slot_pin_body": "Épingle l’objet comme obligatoire pour la Forgeuse, ou le retire. Comme le clic droit.",
   "shortcuts_slot_remove_title": "Retirer l’objet",
-  "shortcuts_slot_remove_body": "Suppr ou Retour arrière déséquipe l’objet."
+  "shortcuts_slot_remove_body": "Suppr ou Retour arrière déséquipe l’objet.",
+  "shortcuts_group_workshop_title": "Dans l’atelier",
+  "shortcuts_open_forge_title": "Ouvrir la Forgeuse",
+  "shortcuts_open_forge_body": "Ouvre la Forgeuse avec ton build actuel.",
+  "shortcuts_open_spells_title": "Sorts et arme",
+  "shortcuts_open_spells_body": "Ouvre tes sorts et ton arme, avec les dommages calculés selon ton équipement.",
+  "shortcuts_open_pvp_title": "Simuler un combat",
+  "shortcuts_open_pvp_body": "Ouvre la simulation contre le Poutch.",
+  "shortcuts_open_dofus_title": "Emplacement Dofus 1 à 6",
+  "shortcuts_open_dofus_body": "Ouvre cet emplacement Dofus : sa fiche s’il contient un objet, le catalogue s’il est vide. Le 1 est celui de la Prysmaradite.",
+  "shortcuts_catalog_search_title": "Chercher dans le catalogue",
+  "shortcuts_catalog_search_body": "Catalogue ouvert, revient au champ de recherche depuis n’importe où."
 }

@@ -31,6 +31,8 @@ import { getSidebarSide, LAYOUT_SETTINGS_EVENT, type SidebarSide } from '@/lib/l
 import { scrollBehavior } from '@/lib/motionSettings.ts'
 import { langPathRootSegment } from '@/i18n/langPath.ts'
 import { OPEN_CHARACTERISTICS_EVENT, openCharacteristics } from '@/features/characteristics/openCharacteristics.ts'
+import { keysBusy, openSlot } from '@/features/equipment/openSlot.ts'
+import type { SlotId } from '@/store/buildStore.ts'
 import type { Characteristic } from '@/engine/types.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
@@ -125,6 +127,23 @@ function BuilderContent() {
     return () => window.removeEventListener(OPEN_CHARACTERISTICS_EVENT, open)
   }, [])
   const [showShare, setShowShare] = useState(false)
+  // Workshop keys: F The Forger, H spells, S combat simulation, 1–6 a Dofus slot.
+  const hasClassRef = useRef(false)
+  hasClassRef.current = hasClass
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (keysBusy(e)) return
+      const key = e.key.toLowerCase()
+      if (key === 'f') setShowOptimizer(true)
+      else if (key === 'h' && hasClassRef.current) setShowSpells(true)
+      else if (key === 's' && hasClassRef.current) setShowPvp(true)
+      else if (/^[1-6]$/.test(key)) openSlot(`dofus${key}` as SlotId)
+      else return
+      e.preventDefault()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
   const [showIdentity, setShowIdentity] = useState(false)
   // The saved side is applied after mount; the prerendered page uses the default.
   const [sidebarSide, setSidebarSideState] = useState<SidebarSide>('right')

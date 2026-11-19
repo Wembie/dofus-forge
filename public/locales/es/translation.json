@@ -3152,5 +3152,16 @@
   "shortcuts_slot_pin_title": "Fijar para La Forjadora",
   "shortcuts_slot_pin_body": "Fija el item como obligatorio para La Forjadora, o lo saca. Igual que el click derecho.",
   "shortcuts_slot_remove_title": "Quitar el item",
-  "shortcuts_slot_remove_body": "Supr o Retroceso desequipa el item del slot."
+  "shortcuts_slot_remove_body": "Supr o Retroceso desequipa el item del slot.",
+  "shortcuts_group_workshop_title": "En el taller",
+  "shortcuts_open_forge_title": "Abrir La Forjadora",
+  "shortcuts_open_forge_body": "Abre La Forjadora con tu build actual.",
+  "shortcuts_open_spells_title": "Hechizos y arma",
+  "shortcuts_open_spells_body": "Abre los hechizos y el arma con el daño calculado con tu equipo.",
+  "shortcuts_open_pvp_title": "Simular un combate",
+  "shortcuts_open_pvp_body": "Abre la simulación contra el Poutch.",
+  "shortcuts_open_dofus_title": "Slot de Dofus 1 a 6",
+  "shortcuts_open_dofus_body": "Abre el slot de Dofus de ese número: su ficha si tiene item, el catálogo si está vacío. El 1 es el de la Prismaradita.",
+  "shortcuts_catalog_search_title": "Buscar en el catálogo",
+  "shortcuts_catalog_search_body": "Con el catálogo abierto, vuelve al buscador desde cualquier parte."
 }

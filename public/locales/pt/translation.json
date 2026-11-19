@@ -3152,5 +3152,16 @@
   "shortcuts_slot_pin_title": "Fixar para a Forja",
   "shortcuts_slot_pin_body": "Fixa o item como obrigatório para a Forja, ou o remove. Igual ao clique direito.",
   "shortcuts_slot_remove_title": "Remover o item",
-  "shortcuts_slot_remove_body": "Delete ou Backspace desequipa o item do slot."
+  "shortcuts_slot_remove_body": "Delete ou Backspace desequipa o item do slot.",
+  "shortcuts_group_workshop_title": "Na oficina",
+  "shortcuts_open_forge_title": "Abrir a Forja",
+  "shortcuts_open_forge_body": "Abre a Forja com a sua build atual.",
+  "shortcuts_open_spells_title": "Feitiços e arma",
+  "shortcuts_open_spells_body": "Abre seus feitiços e sua arma, com o dano calculado a partir do equipamento.",
+  "shortcuts_open_pvp_title": "Simular um combate",
+  "shortcuts_open_pvp_body": "Abre a simulação contra o Poutch.",
+  "shortcuts_open_dofus_title": "Slot de Dofus 1 a 6",
+  "shortcuts_open_dofus_body": "Abre esse slot de Dofus: a ficha se tiver item, o catálogo se estiver vazio. O 1 é o da Prismaradita.",
+  "shortcuts_catalog_search_title": "Buscar no catálogo",
+  "shortcuts_catalog_search_body": "Com o catálogo aberto, volta para a busca de qualquer lugar."
 }

@@ -40,7 +40,7 @@ describe('ShortcutsPage', () => {
   it('has one h1, a heading per group and both CTA links', () => {
     renderPage()
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
-    expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(4)
+    expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(5)
     expect(screen.getByRole('link', { name: 'shortcuts_cta_start' })).toBeTruthy()
     expect(screen.getByRole('link', { name: 'shortcuts_cta_howto' })).toBeTruthy()
   })
