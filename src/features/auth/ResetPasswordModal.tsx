@@ -44,7 +44,6 @@ export function ResetPasswordModal() {
   return (
     <Modal open={open} onClose={close} size="4xl" labelledBy={titleId} className="auth-dialog">
       <AccessLayout onClose={close}>
-        <p className="access-eyebrow">DOFUS FORGE / 04</p>
         <h2 id={titleId}>{t(done ? 'auth_password_updated' : 'auth_reset_password_title')}</h2>
         {done ? (
           <div className="access-result">

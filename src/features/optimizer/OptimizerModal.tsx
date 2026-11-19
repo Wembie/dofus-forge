@@ -240,7 +240,6 @@ function Goals({ forge }: { forge: ForgeState }) {
   return (
     <section className="fg-goals" aria-labelledby="fg-goals-title">
       <header className="fg-step">
-        <span>01</span>
         <h3 id="fg-goals-title">{t("fg_goals_title")}</h3>
         <button
           className="fg-link is-danger"
@@ -608,7 +607,6 @@ function Rules({ forge }: { forge: ForgeState }) {
   return (
     <section className="fg-rules" aria-labelledby="fg-rules-title">
       <header className="fg-step">
-        <span>02</span>
         <h3 id="fg-rules-title">{t("fg_rules_title")}</h3>
       </header>
       <section className="fg-rule" aria-label={t("optimizer_intensity")}>

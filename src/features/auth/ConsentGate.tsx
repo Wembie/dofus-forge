@@ -43,7 +43,6 @@ export function ConsentGate() {
   return (
     <Modal open={open} onClose={noop} size="4xl" labelledBy={titleId} className="auth-dialog">
       <AccessLayout>
-        <p className="access-eyebrow">DOFUS FORGE / 03</p>
         <h2 id={titleId}>{t('consent_gate_title')}</h2>
         <form className="access-form" onSubmit={accept} aria-busy={busy}>
           <p className="access-intro">{t('consent_gate_body')}</p>

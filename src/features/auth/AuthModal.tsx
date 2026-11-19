@@ -43,7 +43,6 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
           </div>
         ) : (
           <>
-            <p className="access-eyebrow">DOFUS FORGE / {mode === 'signup' ? '02' : '01'}</p>
             <h2 id={titleId}>{t(mode === 'signin' ? 'auth_signin_title' : mode === 'signup' ? 'auth_signup_title' : 'auth_forgot_title')}</h2>
             <p className="access-intro">{t(mode === 'signin' ? 'auth_signin_subtitle' : mode === 'signup' ? 'auth_signup_note' : 'auth_forgot_subtitle')}</p>
             {mode !== 'forgot' && (
