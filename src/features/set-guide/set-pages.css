@@ -110,7 +110,7 @@
 .sp-element-filter button[aria-pressed="true"] {
   border-color: var(--sp-accent);
   color: var(--sp-accent);
-  background: color-mix(in srgb, var(--sp-accent) 12%, transparent);
+  background: var(--hover);
 }
 .sp-toolbar select {
   min-height: 44px;
@@ -290,18 +290,12 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 1px 6px 1px 3px;
-  border-radius: 10px;
   font: 500 11px "Source Sans 3";
   color: var(--sp-accent);
-  background: color-mix(in srgb, var(--sp-accent) 12%, transparent);
 }
 .sp-element img {
   width: 13px;
   height: 13px;
-}
-.sp-card .sp-element {
-  padding: 2px;
 }
 .sp-stat {
   display: flex;
@@ -348,9 +342,7 @@
   border: 1px solid var(--line);
   border-top: 3px solid var(--sp-accent, var(--accent));
   border-radius: 8px;
-  background:
-    radial-gradient(ellipse 60% 70% at 0% 0%, color-mix(in srgb, var(--sp-accent, var(--accent)) 12%, transparent), transparent),
-    var(--surface);
+  background: var(--surface);
 }
 .sp-hero-pieces {
   display: flex;

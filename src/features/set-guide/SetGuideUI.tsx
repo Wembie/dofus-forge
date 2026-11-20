@@ -6,7 +6,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import type { GuideElement, SetLink, GuideBuild } from '@/data/setGuide.ts'
-import { ELEMENT_ICON, setPath } from './setGuideLinks.ts'
+import { ELEMENT_ICON, ELEMENT_STAT_KEY, setPath } from './setGuideLinks.ts'
 import './set-pages.css'
 
 /** Element chips; `iconOnly` keeps the name as the icon's alt text. */
@@ -17,8 +17,8 @@ export function ElementChips({ elements, iconOnly = false }: { elements: readonl
     <span className="sp-elements">
       {elements.map(el => (
         <span key={el} className="sp-element" data-element={el}>
-          <img src={statIconUrl(ELEMENT_ICON[el])} alt={iconOnly ? t(`elem_${el}`) : ''} />
-          {!iconOnly && t(`elem_${el}`)}
+          <img src={statIconUrl(ELEMENT_ICON[el])} alt={iconOnly ? t(ELEMENT_STAT_KEY[el]) : ''} />
+          {!iconOnly && t(ELEMENT_STAT_KEY[el])}
         </span>
       ))}
     </span>
