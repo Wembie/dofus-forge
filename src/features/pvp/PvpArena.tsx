@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { CreatureStage, type CreatureStageHandle } from "@/components/CreatureStage.tsx";
 import { useCharacterStage } from "@/components/useCharacterStage.ts";
@@ -54,6 +54,8 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
     b = useBuildStore(),
     stats = useCombatStats(),
     spells = useDataStore((s) => s.spells),
+    lang = useDataStore((s) => s.lang),
+    loadSpells = useDataStore((s) => s.loadSpells),
     items = useBuildStore((s) => s._equipment),
     resist = usePvpStore((s) => s.resist),
     setResist = usePvpStore((s) => s.setResist),
@@ -61,6 +63,11 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
   const weapon = items.find((it) => it.ankama_id === b.equipped.weapon),
     transform = b.weaponTransforms.weapon ?? null,
     grade = spellGrade(b.level);
+  // Spells load on demand (SpellsPanel's own effect); the arena needs them
+  // too, so it can't rely on that panel having been opened first.
+  useEffect(() => {
+    if (b.selectedClass) loadSpells(lang, b.selectedClass);
+  }, [loadSpells, lang, b.selectedClass]);
   const groups = useMemo(() => {
     if (!stats || !b.selectedClass) return [];
     const rows = (list: AppSpell[]) =>

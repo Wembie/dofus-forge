@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.4',
+    date: '2026-11-20',
+    notes: [
+      "Fix: the PvP arena (Simulate combat) showed no spells at all until you'd already opened the Spells tool — it never asked for the class's spell data itself, only Spells did. The arena now requests it on its own, same as Spells",
+    ],
+  },
+  {
     version: '0.4.3',
     date: '2026-11-20',
     notes: [
