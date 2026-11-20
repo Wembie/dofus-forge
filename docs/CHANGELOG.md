@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.4] — 2026-11-20
+- Fix: the PvP arena (Simulate combat) showed no spells at all until you'd already opened the Spells tool — it never asked for the class's spell data itself, only Spells did. The arena now requests it on its own, same as Spells
+
 ## [0.4.3] — 2026-11-20
 - Removed the last piece of 0.4.2's tinted decoration: the colored top-border stripe that single-element sets got on their card and hero header (multi-element sets never had it, which is why it looked inconsistent) — every set card now has the same plain border regardless of element, matching class guide pages too
 
