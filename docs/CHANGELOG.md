@@ -9,6 +9,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - Set cards and set pages now label a set by its dominant characteristic (Strength, Intelligence, Chance, Agility) instead of the element name (Earth, Fire, Water, Air) it was standing in for — same icon, clearer word
 - Removed the tinted pill behind that label and the radial glow behind a set page's header: just the plain icon and text, no background fill. Same fix on the active element filter button and on the matching badges in class guides (same tinted pill, same bug)
 - The class guide's own element/build badges (class guide page) now say the characteristic too, not the element name
+- The workshop header's class tag and both set/class share-card images (what shows up when a link is pasted elsewhere) say the characteristic too
 - Hat, cape and shield now show on the character preview in Explore and My Builds, not only on the animated character in the workshop
 
 ## [0.4.1] — 2026-11-20

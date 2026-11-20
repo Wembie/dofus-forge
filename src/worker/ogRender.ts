@@ -4,6 +4,7 @@ import { CARD_STATS, ELEMENT_COLOR, renderClassSvg, renderSetSvg, setFacts, setI
 import { getClassNames, getEquipment, getSets, getTranslation, statIconDataUri, toDataUri, type Lang } from './data.ts'
 import { buildOgImageData } from './buildImageData.ts'
 import type { BuildMeta } from './supabase.ts'
+import { ELEMENT_STAT_KEY } from '../features/set-guide/setGuideLinks.ts'
 
 /**
  * Share-card rendering, shared by the Worker (renders on a miss) and
@@ -159,7 +160,7 @@ export async function setCardInput(src: OgSources, lang: Lang, slug: string): Pr
     chips: [
       { label: t('sets_card_level', { level: facts.level }), color: '#eccb78' },
       { label: t('sets_card_pieces_other', { count: facts.items.length }), color: '#9aa0b0' },
-      ...facts.elements.map(e => ({ label: t(`elem_${e}_label`), color: ELEMENT_COLOR[e] })),
+      ...facts.elements.map(e => ({ label: t(ELEMENT_STAT_KEY[e]), color: ELEMENT_COLOR[e] })),
     ],
     itemImages: facts.items.slice(0, 9).map(it => it.image_url),
     totalsTitle: t('set_page_totals_title'),
@@ -186,7 +187,7 @@ export async function classCardInput(src: OgSources, lang: Lang, slug: string): 
     slug,
     title: t('class_guide_elements_title', { class: className }),
     className,
-    chips: (['earth', 'fire', 'water', 'air'] as const).map(e => ({ label: t(`elem_${e}_label`), color: ELEMENT_COLOR[e] })),
+    chips: (['earth', 'fire', 'water', 'air'] as const).map(e => ({ label: t(ELEMENT_STAT_KEY[e]), color: ELEMENT_COLOR[e] })),
     sections: [t('class_guide_nav_class_sets'), t('class_guide_nav_builds'), t('class_guide_nav_spells')],
     url: `dofusforge.com${prefix}/classes/${slug}`,
   }

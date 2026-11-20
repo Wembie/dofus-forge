@@ -7,6 +7,7 @@ import { BUILD_NAME_MAX } from '@/features/builds/defaultName.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
+import { ELEMENT_STAT_KEY } from '@/features/set-guide/setGuideLinks.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { Modal } from '@/ui'
@@ -35,6 +36,9 @@ export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publ
   const linked        = useBuildStore(s => s.linkedBuildId !== null)
   const className     = useClassName(selectedClass)
   const element       = CLASS_DATA.find(c => c.id === selectedClass)?.element
+  // earth/fire/water/air here classify the class by its dominant characteristic,
+  // not by a real element (neutral/multi classes have no such proxy and keep their own label).
+  const elementKey    = element && element in ELEMENT_STAT_KEY ? ELEMENT_STAT_KEY[element as keyof typeof ELEMENT_STAT_KEY] : `elem_${element}`
   const canUndo = useHistoryStore(s => s.canUndo)
   const canRedo = useHistoryStore(s => s.canRedo)
   const undo    = useHistoryStore(s => s.undo)
@@ -54,7 +58,7 @@ export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publ
           {selectedClass ? (
             <h1>
               {buildName || className}
-              {element && <><span aria-hidden="true"> · </span><span className="workshop-element">{t(`elem_${element}`)}</span></>}
+              {element && <><span aria-hidden="true"> · </span><span className="workshop-element">{t(elementKey)}</span></>}
             </h1>
           ) : (
             <h1>{t('workshop_heading_empty')}</h1>
