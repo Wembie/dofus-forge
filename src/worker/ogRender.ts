@@ -4,7 +4,13 @@ import { CARD_STATS, ELEMENT_COLOR, renderClassSvg, renderSetSvg, setFacts, setI
 import { getClassNames, getEquipment, getSets, getTranslation, statIconDataUri, toDataUri, type Lang } from './data.ts'
 import { buildOgImageData } from './buildImageData.ts'
 import type { BuildMeta } from './supabase.ts'
-import { ELEMENT_STAT_KEY } from '../features/set-guide/setGuideLinks.ts'
+
+// Mirrors src/features/set-guide/setGuideLinks.ts's ELEMENT_STAT_KEY: a set/class
+// is classified by its dominant characteristic, not a real element. Duplicated
+// (not imported) because worker-bundled code stays relative-import-only — that
+// file pulls in the app's `@/` alias, which wrangler's bundler can't resolve.
+const ELEMENT_STAT_KEY: Record<'earth' | 'fire' | 'water' | 'air', string> =
+  { earth: 'stat_strength', fire: 'stat_intelligence', water: 'stat_chance', air: 'stat_agility' }
 
 /**
  * Share-card rendering, shared by the Worker (renders on a miss) and
