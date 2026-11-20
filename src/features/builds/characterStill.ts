@@ -1,5 +1,6 @@
-import { CharacterRenderer, type Entity } from '@/lib/character/renderer'
-import { loadAnimation, loadBone, loadLooks, loadMounts, loadPets, loadSkin, type BoneDef } from '@/lib/character/assets'
+import { CharacterRenderer, type Entity, type Layer } from '@/lib/character/renderer'
+import { loadAnimation, loadBone, loadGear, loadLooks, loadMounts, loadPets, loadSkin, type BoneDef } from '@/lib/character/assets'
+import { hiddenParts, type SlotRule } from '@/lib/character/slots'
 import type { Animation } from '@/lib/character/anim'
 
 type Box = [number, number, number, number];
@@ -80,6 +81,7 @@ async function draw(
   breed: number,
   gender: Gender,
   companion: number,
+  gear: number[],
 ): Promise<Still> {
   const [looks, player] = await Promise.all([
     loadLooks(),
@@ -103,7 +105,30 @@ async function draw(
     mirror: false,
     ...rest,
   });
-  const dressed = { skins: [head, body], colors: look.colors };
+  const gearIds = gear.filter(Boolean).map(String);
+  const gearData = gearIds.length ? await loadGear() : { items: {}, rules: {} };
+  const gearSkinIds = gearIds
+    .map((id) => gearData.items[id])
+    .filter((s): s is number => s != null);
+  // Gear without a known look is simply not drawn; the character stays.
+  const worn = (
+    await Promise.all(
+      gearSkinIds.map((s) =>
+        loadSkin(s).then(
+          (layer) => ({ layer: layer as Layer, rules: gearData.rules[s] }),
+          () => null,
+        ),
+      ),
+    )
+  ).filter((w): w is { layer: Layer; rules: SlotRule[] } => w !== null);
+  const wearer = { breed, female: gender === "female", head: look.head };
+  const hidden = hiddenParts(worn.map((w) => w.rules), wearer, FACING);
+  const dressed = {
+    skins: [...worn.map((w) => w.layer), head, body],
+    worn: worn.map((w) => w.layer),
+    hidden,
+    colors: look.colors,
+  };
   let scene = entity(player, dressed);
   let mounted = false;
   let accompanied = false;
@@ -153,13 +178,14 @@ async function draw(
   renderer.render([scene], box);
   return { url: canvas.toDataURL("image/png"), ground: -box[1] / box[3] };
 }
-export function characterStill(breed: number, gender: Gender, companion: number) {
-  const key = `${breed}:${gender}:${companion}`;
+export function characterStill(breed: number, gender: Gender, companion: number, gear: number[] = []) {
+  const gearKey = gear.filter(Boolean).join(",");
+  const key = `${breed}:${gender}:${companion}:${gearKey}`;
   let still = stills.get(key);
   if (!still) {
     waiting++;
     still = chain
-      .then(() => draw(breed, gender, companion))
+      .then(() => draw(breed, gender, companion, gear))
       .then((made) => {
         drawn.set(key, made);
         return made;

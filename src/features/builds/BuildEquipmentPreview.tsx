@@ -25,6 +25,7 @@ function itemIndex(equipment: AppItem[] | null): Map<number, AppItem> {
 const LEFT: SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'companion']
 const RIGHT: SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
 const DOFUS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
+const GEAR_SLOTS: SlotId[] = ['hat', 'cape', 'shield']
 
 export function BuildEquipmentPreview({ snapshot, equipment, classSlug, gender }: {
   snapshot: BuildSnapshot
@@ -37,9 +38,10 @@ export function BuildEquipmentPreview({ snapshot, equipment, classSlug, gender }
   const info = CLASS_DATA.find(c => c.id === (classSlug || snapshot.c))
   const sex = gender ?? (snapshot.g === 'f' ? 'female' : 'male')
   const companion = snapshot.e[ALL_SLOTS.indexOf('companion')] ?? 0
+  const gear = GEAR_SLOTS.map(slot => snapshot.e[ALL_SLOTS.indexOf(slot)]).filter((id): id is number => id != null)
   const root = useRef<HTMLSpanElement>(null)
   const [still, setStill] = useState<{ key: string; url: string; ground: number } | null>(null)
-  const key = `${info?.breed}:${sex}:${companion}`
+  const key = `${info?.breed}:${sex}:${companion}:${gear.join(',')}`
 
   useEffect(() => {
     if (!info || !root.current) return
@@ -47,13 +49,13 @@ export function BuildEquipmentPreview({ snapshot, equipment, classSlug, gender }
     const observer = new IntersectionObserver(entries => {
       if (!entries.some(e => e.isIntersecting)) return
       observer.disconnect()
-      import('./characterStill.ts').then(m => m.characterStill(info.breed, sex, companion))
+      import('./characterStill.ts').then(m => m.characterStill(info.breed, sex, companion, gear))
         .then(image => { if (live) setStill({ ...image, key }) })
         .catch(() => undefined)
     }, { rootMargin: '160px' })
     observer.observe(root.current)
     return () => { live = false; observer.disconnect() }
-  }, [info, sex, companion, key])
+  }, [info, sex, companion, key]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const figure = still?.key === key ? still : null
   const tile = (slot: SlotId, extra = '') => {

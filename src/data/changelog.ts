@@ -10,6 +10,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.2',
+    date: '2026-11-20',
+    notes: [
+      'Set cards and set pages now label a set by its dominant characteristic (Strength, Intelligence, Chance, Agility) instead of the element name (Earth, Fire, Water, Air) it was standing in for — same icon, clearer word',
+      "Removed the tinted pill behind that label and the radial glow behind a set page's header: just the plain icon and text, no background fill",
+      'Hat, cape and shield now show on the character preview in Explore and My Builds, not only on the animated character in the workshop',
+    ],
+  },
+  {
     version: '0.4.1',
     date: '2026-11-20',
     notes: [

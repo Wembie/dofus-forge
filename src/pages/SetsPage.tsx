@@ -10,7 +10,7 @@ import { Breadcrumbs } from '@/seo/JsonLd.tsx'
 import { normalizeSearch } from '@/ui'
 import { GUIDE_ELEMENTS, LEVEL_BRACKETS, type GuideElement } from '@/data/setGuide.ts'
 import { ElementChips, SetCard } from '@/features/set-guide/SetGuideUI.tsx'
-import { ELEMENT_ICON } from '@/features/set-guide/setGuideLinks.ts'
+import { ELEMENT_ICON, ELEMENT_STAT_KEY } from '@/features/set-guide/setGuideLinks.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { loadSetsIndex } from '@/data/setPages.server.ts'
 
@@ -113,7 +113,7 @@ export function SetsPage() {
               {GUIDE_ELEMENTS.map(el => (
                 <button key={el} type="button" data-element={el} aria-pressed={element === el} onClick={() => patch({ element: element === el ? '' : el })}>
                   <img src={statIconUrl(ELEMENT_ICON[el])} alt="" />
-                  {t(`elem_${el}`)}
+                  {t(ELEMENT_STAT_KEY[el])}
                 </button>
               ))}
             </div>

@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.2] — 2026-11-20
+- Set cards and set pages now label a set by its dominant characteristic (Strength, Intelligence, Chance, Agility) instead of the element name (Earth, Fire, Water, Air) it was standing in for — same icon, clearer word
+- Removed the tinted pill behind that label and the radial glow behind a set page's header: just the plain icon and text, no background fill
+- Hat, cape and shield now show on the character preview in Explore and My Builds, not only on the animated character in the workshop
+
 ## [0.4.1] — 2026-11-20
 - Your animated character now wears its hat, cape and shield: 761 pieces drawn exactly as in the game, also when riding a mount
 - Hair, ears and braids hide under a hat the way the game does it, class by class (Iop hair, Ecaflip ears, Sram and Sacrier hoods…)
