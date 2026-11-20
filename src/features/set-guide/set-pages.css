@@ -110,7 +110,7 @@
 .sp-element-filter button[aria-pressed="true"] {
   border-color: var(--sp-accent);
   color: var(--sp-accent);
-  background: color-mix(in srgb, var(--sp-accent) 12%, transparent);
+  background: var(--hover);
 }
 .sp-toolbar select {
   min-height: 44px;

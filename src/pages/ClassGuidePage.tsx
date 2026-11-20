@@ -16,7 +16,7 @@ import { loadClassGuide } from '@/data/classGuide.server.ts'
 import { loadClassBuildGuide } from '@/data/setPages.server.ts'
 import { GUIDE_ELEMENTS, type GuideElement } from '@/data/setGuide.ts'
 import { SetCard } from '@/features/set-guide/SetGuideUI.tsx'
-import { ELEMENT_ICON, setPath } from '@/features/set-guide/setGuideLinks.ts'
+import { ELEMENT_ICON, ELEMENT_STAT_KEY, setPath } from '@/features/set-guide/setGuideLinks.ts'
 
 // Runs at build time for every prerendered guide; client navigations read
 // the resulting .data file, so the spells, sets and builds are in the HTML
@@ -27,8 +27,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const spells = await loadClassGuide(lang, classId)
   return spells && { ...spells, ...await loadClassBuildGuide(lang, classId) }
 }
-
-const ELEMENT_STAT: Record<GuideElement, string> = { earth: 'stat_strength', fire: 'stat_intelligence', water: 'stat_chance', air: 'stat_agility' }
 
 /**
  * Read-only per-class guide: the sets that build each element by level,
@@ -90,7 +88,7 @@ export function ClassGuidePage() {
         <span className="rd-class-title" data-element={own ?? undefined}>
           <img src={classInfo.imageUrl} alt="" />
           {className}
-          <span className="rd-element">{t(`elem_${own ?? 'neutral'}`)}</span>
+          <span className="rd-element">{t(own ? ELEMENT_STAT_KEY[own] : 'elem_neutral')}</span>
         </span>
       }
       intro={
@@ -117,7 +115,7 @@ export function ClassGuidePage() {
             <article key={el} data-element={el} className="rd-element-panel">
               <div className="rd-element-head">
                 <img src={statIconUrl(ELEMENT_ICON[el])} alt="" />
-                <h3>{t('class_guide_element_build', { class: className, stat: t(ELEMENT_STAT[el]), element: t(`elem_${el}`) })}</h3>
+                <h3>{t('class_guide_element_build', { class: className, stat: t(ELEMENT_STAT_KEY[el]), element: t(`elem_${el}`) })}</h3>
                 {el === own && <span className="rd-main">{t('class_guide_element_main')}</span>}
               </div>
               <dl>
@@ -138,7 +136,7 @@ export function ClassGuidePage() {
               </dl>
               <Link className="rd-element-cta" to={plannerPath}>
                 <Hammer size={15} aria-hidden="true" />
-                {t('class_guide_element_cta', { class: className, element: t(`elem_${el}`) })}
+                {t('class_guide_element_cta', { class: className, element: t(ELEMENT_STAT_KEY[el]) })}
               </Link>
             </article>
           ))}
@@ -170,7 +168,7 @@ export function ClassGuidePage() {
                       {b.author && <span><User size={12} aria-hidden="true" />{b.author}</span>}
                       {b.rating > 0 && <span className="is-rating"><Star size={12} aria-hidden="true" />{b.rating.toFixed(1)}</span>}
                       {b.likes > 0 && <span><Heart size={12} aria-hidden="true" />{b.likes}</span>}
-                      {b.elements.map(el => <span key={el} className="rd-element" data-element={el}>{t(`elem_${el}`)}</span>)}
+                      {b.elements.map(el => <span key={el} className="rd-element" data-element={el}>{t(ELEMENT_STAT_KEY[el])}</span>)}
                     </small>
                   </span>
                 </Link>

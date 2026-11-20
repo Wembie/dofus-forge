@@ -523,12 +523,9 @@ kbd {
 .rd-element {
   display: inline-flex;
   align-items: center;
-  padding: 2px 9px;
-  border-radius: 12px;
   font: 500 12px "Source Sans 3";
   letter-spacing: 0;
   color: var(--rd-accent, var(--muted));
-  background: color-mix(in srgb, var(--rd-accent, var(--muted)) 12%, transparent);
 }
 .rd-class-title .rd-element {
   font-size: 14px;
