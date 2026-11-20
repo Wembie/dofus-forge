@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.3] — 2026-11-20
+- Removed the last piece of 0.4.2's tinted decoration: the colored top-border stripe that single-element sets got on their card and hero header (multi-element sets never had it, which is why it looked inconsistent) — every set card now has the same plain border regardless of element, matching class guide pages too
+
 ## [0.4.2] — 2026-11-20
 - Set cards and set pages now label a set by its dominant characteristic (Strength, Intelligence, Chance, Agility) instead of the element name (Earth, Fire, Water, Air) it was standing in for — same icon, clearer word
 - Removed the tinted pill behind that label and the radial glow behind a set page's header: just the plain icon and text, no background fill. Same fix on the active element filter button and on the matching badges in class guides (same tinted pill, same bug)
