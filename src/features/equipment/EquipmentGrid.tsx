@@ -264,6 +264,10 @@ function CharacterCenter({ compact }: { compact: boolean }) {
   const { t } = useTranslation()
   const stage = useCharacterStage()
   const companion = useBuildStore(s => s.equipped.companion)
+  const hat = useBuildStore(s => s.equipped.hat)
+  const cape = useBuildStore(s => s.equipped.cape)
+  const shield = useBuildStore(s => s.equipped.shield)
+  const gear = useMemo(() => [hat, cape, shield].filter((id): id is number => id != null), [hat, cape, shield])
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender = useBuildStore(s => s.gender)
   const [picking, setPicking] = useState(false)
@@ -277,7 +281,7 @@ function CharacterCenter({ compact }: { compact: boolean }) {
         <div className="workshop-arch" aria-hidden="true" />
         {stage.show && info ? (
           <Suspense fallback={<div style={{ width, height: height + 28 }} />}>
-            <CharacterStage breed={info.breed} gender={gender} companion={companion}
+            <CharacterStage breed={info.breed} gender={gender} companion={companion} gear={gear}
               width={width} height={height} onError={stage.fail} />
           </Suspense>
         ) : info ? (

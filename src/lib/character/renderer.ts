@@ -22,6 +22,8 @@ export interface Entity {
   own?: { layer: Layer; names: string[] }
   /** Palette slot N (1-based) tints every ColorGray_N part. */
   colors?: number[]
+  /** Part names not drawn (hair, ears… under a worn hat), without their ColorGray_N_ prefix. */
+  hidden?: Set<string>
   /**
    * Entities carried at a hook node of this one (`carried_<slot>_0`: 1 = pet,
    * 2 = rider). They are drawn where the hook sits in the draw order, offset
@@ -120,6 +122,8 @@ export class CharacterRenderer {
   private skins: Layer[] = []
   private palette: Rgb[] = []
   private animated = new Set<string>()
+  private hidden: Set<string> | undefined
+  private worn: Layer[] | undefined
 
   constructor(private canvas: HTMLCanvasElement) {
     const gl = canvas.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: true })
@@ -155,6 +159,14 @@ export class CharacterRenderer {
 
   private find(name: string): [Layer, Part] | null {
     for (const layer of this.skins) {
+      const part = layer.skin.parts[name]
+      if (part) return [layer, part]
+    }
+    return null
+  }
+
+  private wornPart(name: string): [Layer, Part] | null {
+    for (const layer of this.worn ?? []) {
       const part = layer.skin.parts[name]
       if (part) return [layer, part]
     }
@@ -241,7 +253,20 @@ export class CharacterRenderer {
         continue
       }
       const match = TINT_RE.exec(symbol)
+      if (this.hidden?.has(match ? symbol.slice(match[0].length) : symbol)) {
+        for (let k = i + 1; k <= i + descendants && k < d.length; k++) if (d[k][0] === null) chunk++
+        i += 1 + descendants
+        continue
+      }
       const t = match ? Number(match[1]) : top.tint
+      // A head that carries its own hood or hat inline gives way to a worn one.
+      const worn = descendants > 0 ? this.wornPart(symbol) : null
+      if (worn) {
+        this.drawPart(worn[0], worn[1], local, t, inst, depth + 1)
+        for (let k = i + 1; k <= i + descendants && k < d.length; k++) if (d[k][0] === null) chunk++
+        i += 1 + descendants
+        continue
+      }
       if (descendants > 0) {
         stack.push({ end: i + 1 + descendants, m: local, tint: t })
       } else {
@@ -257,6 +282,8 @@ export class CharacterRenderer {
     // drawn as a single "AnimStatique_0" composite), after any skin layer.
     this.skins = e.own ? [...e.skins, e.own.layer] : e.skins
     this.palette = (e.colors ?? []).map(rgb)
+    this.hidden = e.hidden
+    this.worn = e.worn
     const standalone = (name: string) => !HAT_SLOT.test(name) || !!e.worn?.some(l => l.skin.parts[name])
     this.animated.clear()
     for (const inst of e.frame) {
@@ -268,10 +295,12 @@ export class CharacterRenderer {
       const m = inst.m
       const carried = inst.node !== 0xffff ? e.hooks?.[e.nodes[inst.node]] : undefined
       if (carried) {
-        const state = [this.skins, this.palette, new Set(this.animated)] as const
+        const state = [this.skins, this.palette, new Set(this.animated), this.hidden, this.worn] as const
         this.build(carried, sx * m[2] + e.x + ox, e.scale * m[5] + e.y + oy)
         ;[this.skins, this.palette] = state
         this.animated = state[2]
+        this.hidden = state[3]
+        this.worn = state[4]
         continue
       }
       let found: [Layer, Part] | null = null
@@ -280,7 +309,7 @@ export class CharacterRenderer {
         if (part) found = [e.own.layer, part]
       } else if (inst.node !== 0xffff) {
         const name = e.nodes[inst.node]
-        if (name && standalone(name)) found = this.find(name)
+        if (name && standalone(name) && !e.hidden?.has(name)) found = this.find(name)
       }
       if (!found) continue
       const root: Mat = [sx * m[0], e.scale * m[3], sx * m[1], e.scale * m[4], sx * m[2] + e.x + ox, e.scale * m[5] + e.y + oy]

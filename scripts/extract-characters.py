@@ -12,6 +12,7 @@ consumed by src/lib/character:
   <out>/pets.json               pet item id -> creature bone, scale (+ palette when needed)
   <out>/mounts.json             mount / petsmount item id -> mount bone, palette, scale
   <out>/creatures.json          standalone creatures (the Poutch target) -> bone, scale
+  <out>/gear.json               hat / cape / shield item id -> skin worn over the character
   <out>/bones/<id>.json         node names, own graphics, animation list (bounds, frame count)
   <out>/bones/<id>/<anim>.bin   raw animation timelines (format: src/lib/character/anim.ts)
   <out>/skins/<id>.bin          skin geometry (format: src/lib/character/skin.ts)
@@ -329,6 +330,51 @@ def export_bone(client, out, bone, keep=None):
     return True
 
 
+# Hats, capes and shields carry no look in the client data (appearanceId 0):
+# each item was paired with its skin by rendering the skin next to the item
+# icon. Kept as data next to this script.
+GEAR_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'character-gear.json')
+
+
+def slot_rules(client, skins, heads):
+    """Which head slots (hair, ears, braids…) each item skin empties, per
+    wearer: [kind, info, [[slot id, facing mask], …]] with kind 0 default,
+    1 breed, 2 breed·2+sex, 3 one head skin (src/lib/character/slots.ts)."""
+    env = load(os.path.join(content_dir(client), 'Data', 'data_assets_skinslotsrulesdataroot.asset.bundle'))
+    for obj in env.objects:
+        if obj.type.name != 'MonoBehaviour':
+            continue
+        tree = obj.read_typetree()
+        if 'objectsById' not in tree:
+            continue
+        refs = {r['rid']: r['data'] for r in tree['references']['RefIds']}
+        by_id = tree['objectsById']
+        rules = {}
+        for skin, ref in zip(by_id['m_keys'], by_id['m_values']):
+            if skin in skins:
+                rules[str(skin)] = [
+                    [r['slotRuleType'], r['slotRuleInfo'], [[x['id'], x['mask']] for x in r['slotsRules']]]
+                    for r in refs[ref['rid']]['slotRulesList']
+                    # head rules only matter for the heads that are drawn
+                    if r['slotRuleType'] != 3 or r['slotRuleInfo'] in heads
+                ]
+        return rules
+    raise RuntimeError('slot rules not found')
+
+
+def export_gear(client, out):
+    with open(GEAR_FILE) as f:
+        pairs = {k: int(v) for k, v in json.load(f).items()}
+    exported = {s: export_skin(client, out, s) for s in sorted(set(pairs.values()))}
+    items = {k: v for k, v in pairs.items() if exported[v]}
+    with open(os.path.join(out, 'looks.json')) as f:
+        heads = {look['head'] for entry in json.load(f).values() for look in entry.values()}
+    rules = slot_rules(client, set(items.values()), heads)
+    print(f'  {len(items)} hats, capes and shields')
+    with open(os.path.join(out, 'gear.json'), 'w') as f:
+        json.dump({'items': items, 'rules': rules}, f, separators=(',', ':'))
+
+
 def pick_default(rows, breed, gender):
     candidates = [r for r in rows if r['breed'] == breed and r['gender'] == gender and r.get('availableAtCreation')]
     candidates.sort(key=lambda r: r['order'])
@@ -339,12 +385,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--client', default=DEFAULT_CLIENT)
     ap.add_argument('--out', default=os.path.join(os.getcwd(), 'char-assets'))
-    ap.add_argument('--only', choices=['all', 'creatures'], default='all',
-                    help='creatures: only the standalone creatures (fast)')
+    ap.add_argument('--only', choices=['all', 'creatures', 'gear'], default='all',
+                    help='creatures / gear: only that part (fast)')
     args = ap.parse_args()
 
     os.makedirs(os.path.join(args.out, 'skins'), exist_ok=True)
     os.makedirs(os.path.join(args.out, 'bones'), exist_ok=True)
+
+    if args.only == 'gear':
+        print('gear')
+        export_gear(args.client, args.out)
+        return
 
     print('creatures')
     creatures = {k: v for k, v in CREATURES.items()
@@ -405,6 +456,9 @@ def main():
     print(f'  {len(mounts)} mounts and petsmounts')
     with open(os.path.join(args.out, 'mounts.json'), 'w') as f:
         json.dump(mounts, f, separators=(',', ':'))
+
+    print('gear')
+    export_gear(args.client, args.out)
 
 
 if __name__ == '__main__':

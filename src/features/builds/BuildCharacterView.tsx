@@ -10,6 +10,7 @@ import { useCharacterStage } from '@/components/useCharacterStage.ts'
 const CharacterStage = lazy(() => import('@/components/CharacterStage.tsx').then(m => ({ default: m.CharacterStage })))
 
 const LEFT: SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'companion']
+const GEAR_SLOTS: SlotId[] = ['hat', 'cape', 'shield']
 const RIGHT: SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
 const DOFUS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
@@ -96,6 +97,7 @@ export function BuildCharacterView({ snapshot, equipment, portrait, classLabel, 
                 breed={stage.breed}
                 gender={stage.gender}
                 companion={companionId}
+                gear={GEAR_SLOTS.map(slot => snapshot.e[ALL_SLOTS.indexOf(slot)]).filter((id): id is number => id != null)}
                 width={narrow ? 150 : 240}
                 height={narrow ? 236 : 330}
                 onError={characterStage.fail}

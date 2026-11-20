@@ -1,5 +1,6 @@
 import { decodeAnimation, type Animation } from './anim'
 import { decodeSkin, type Skin } from './skin'
+import type { SlotRule } from './slots'
 
 const ASSETS_URL = import.meta.env.VITE_ASSETS_URL?.trim().replace(/\/?$/, '/').replace(/^\/$/, '') || undefined
 const ROOT: string = ASSETS_URL ? `${ASSETS_URL}chars/` : `${import.meta.env.BASE_URL}char/`
@@ -27,6 +28,13 @@ export type Pets = Record<string, { bone: string; scale: number; colors?: number
 
 /** mount / petsmount item id → mount bone, palette, look scale (percent) */
 export type Mounts = Record<string, { bone: string; colors?: number[]; scale?: number }>
+
+export interface Gear {
+  /** hat / cape / shield item id → the skin worn over the character */
+  items: Record<string, number>
+  /** item skin → the head slots it empties */
+  rules: Record<string, SlotRule[]>
+}
 
 export interface LoadedSkin {
   skin: Skin
@@ -56,6 +64,8 @@ export const loadLooks = () => once('looks', async () => (await get('looks.json'
 export const loadPets = () => once('pets', async () => (await get('pets.json')).json() as Promise<Pets>)
 
 export const loadMounts = () => once('mounts', async () => (await get('mounts.json')).json() as Promise<Mounts>)
+
+export const loadGear = () => once('gear', async () => (await get('gear.json')).json() as Promise<Gear>)
 
 export const loadBone = (bone: string) =>
   once(`bone:${bone}`, async () => (await get(`bones/${bone}.json`)).json() as Promise<BoneDef>)
