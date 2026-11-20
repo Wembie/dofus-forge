@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.1] — 2026-11-20
+- Your animated character now wears its hat, cape and shield: 761 pieces drawn exactly as in the game, also when riding a mount
+- Hair, ears and braids hide under a hat the way the game does it, class by class (Iop hair, Ecaflip ears, Sram and Sacrier hoods…)
+
 ## [0.4.0] — 2026-11-19 · REFORGED · The 0.4.0 mega design update
 - A brand-new Dofus Forge. Every screen redesigned from scratch: flat, calm and built on the game's own art. Same features, same names you know, a lot more to love
 - Dark theme by default, with light still one click away in Settings. No glows, no gradients, no noise: just your build

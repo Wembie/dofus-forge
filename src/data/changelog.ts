@@ -10,6 +10,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.1',
+    date: '2026-11-20',
+    notes: [
+      'Your animated character now wears its hat, cape and shield: 761 pieces drawn exactly as in the game, also when riding a mount',
+      'Hair, ears and braids hide under a hat the way the game does it, class by class (Iop hair, Ecaflip ears, Sram and Sacrier hoods…)',
+    ],
+  },
+  {
     version: '0.4.0',
     date: '2026-11-19',
     title: "REFORGED · The 0.4.0 mega design update",

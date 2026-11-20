@@ -121,8 +121,13 @@ jobs:
       # Lighthouse 13 (the version PageSpeed Insights runs), mobile with
       # simulated throttling, twice per page: LCP, CLS, accessibility, SEO
       # and the audits fixed in M150 (scripts/check-lighthouse.mjs).
+      # Runs on the Chromium Playwright installed above: the runner image's own
+      # Chrome can fail to start under chrome-launcher ("waiting for dynamic
+      # debugging port"), which failed this step before any audit ran.
       - name: Lighthouse budgets
         run: |
+          export CHROME_PATH="$(node -e "console.log(require('@playwright/test').chromium.executablePath())")"
+          echo "Chrome: $CHROME_PATH"
           mkdir -p lighthouse-reports
           for path in / /explore /about /classes/iop /sets/gobball-set; do
             for run in 1 2; do

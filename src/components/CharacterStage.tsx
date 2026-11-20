@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { RotateCcw, RotateCw, Footprints } from 'lucide-react'
 import { CharacterRenderer, type Entity, type Layer } from '@/lib/character/renderer.ts'
 import {
-  loadAnimation, loadBone, loadLooks, loadMounts, loadPets, loadSkin, type BoneDef,
+  loadAnimation, loadBone, loadGear, loadLooks, loadMounts, loadPets, loadSkin, type BoneDef,
 } from '@/lib/character/assets.ts'
 import type { Animation } from '@/lib/character/anim.ts'
+import { hiddenParts, type SlotRule } from '@/lib/character/slots.ts'
 
 type Motion = 'idle' | 'walk' | 'run'
 type Box = [number, number, number, number]
@@ -56,6 +57,8 @@ interface Props {
   gender: 'male' | 'female'
   /** item equipped in the companion slot: a pet walks beside, a petsmount is ridden */
   companion?: number
+  /** equipped hat, cape and shield item ids, drawn on the character */
+  gear?: number[]
   width: number
   height: number
   onError?: () => void
@@ -100,15 +103,16 @@ function fitBox(measured: Box | null, mounted: boolean): Box {
   return [-width / 2, bottom, width, top - bottom]
 }
 
-export function CharacterStage({ breed, gender, companion, width, height, onError }: Props) {
+export function CharacterStage({ breed, gender, companion, gear, width, height, onError }: Props) {
   const { t } = useTranslation()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [facing, setFacing] = useState(1)
   const [motion, setMotion] = useState<Motion>('idle')
   const [ready, setReady] = useState(false)
-  const lookRef = useRef<{ skins: Layer[]; colors: number[]; scale: number } | null>(null)
+  const lookRef = useRef<{ skins: Layer[]; colors: number[]; scale: number; breed: number; female: boolean; head: number } | null>(null)
   const playerRef = useRef<Figure | null>(null)
   const companionRef = useRef<Companion | null>(null)
+  const wornRef = useRef<{ layer: Layer; rules?: SlotRule[] }[]>([])
   const versionRef = useRef(0)
   const onErrorRef = useRef(onError)
   onErrorRef.current = onError
@@ -152,12 +156,15 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
             frame: f.anim.frames[frame] ?? [], nodes: f.def.nodes, skins: [], own: f.own,
             x: 0, y: 0, scale: 1, mirror, ...rest,
           })
+          const worn = wornRef.current.map(w => w.layer)
+          const hidden = hiddenParts(wornRef.current.map(w => w.rules), look, FACINGS[facingRef.current].file)
+          const dressed = { skins: [...worn, ...look.skins], worn, hidden, colors: look.colors }
           const scene = (lf: number, ef: number): Entity => {
             if (extra?.kind === 'mount') {
-              const rider = figureEntity(extra.rider, ef, { skins: look.skins, colors: look.colors })
+              const rider = figureEntity(extra.rider, ef, dressed)
               return figureEntity(extra.figure, lf, { colors: extra.colors, scale: extra.scale / look.scale, hooks: { [RIDER_HOOK]: rider } })
             }
-            const root = figureEntity(player, lf, { skins: look.skins, colors: look.colors })
+            const root = figureEntity(player, lf, dressed)
             if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, { scale: extra.scale / look.scale, colors: extra.colors }) }
             return root
           }
@@ -187,7 +194,10 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
       if (!look) throw new Error(`no look for breed ${breed}`)
       const [body, head] = await Promise.all([loadSkin(look.body), loadSkin(look.head)])
       if (cancelled) return
-      lookRef.current = { skins: [head, body], colors: look.colors, scale: look.scale ?? 100 }
+      lookRef.current = {
+        skins: [head, body], colors: look.colors, scale: look.scale ?? 100,
+        breed, female: gender === 'female', head: look.head,
+      }
       versionRef.current++
       setReady(true)
     })().catch(err => { if (!cancelled) fail(err) })
@@ -205,6 +215,25 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
     })().catch(err => { if (!cancelled) fail(err) })
     return () => { cancelled = true }
   }, [motion, facing])
+
+  const gearKey = (gear ?? []).filter(Boolean).join(',')
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      const ids = gearKey ? gearKey.split(',') : []
+      const gear = ids.length ? await loadGear() : { items: {}, rules: {} }
+      const skins = ids.map(id => gear.items[id]).filter((s): s is number => s != null)
+      // Gear without a known look is simply not drawn; the character stays.
+      const worn = await Promise.all(skins.map(s => loadSkin(s).then(
+        layer => ({ layer: layer as Layer, rules: gear.rules[s] }),
+        () => null,
+      )))
+      if (cancelled) return
+      wornRef.current = worn.filter(w => w !== null)
+      versionRef.current++
+    })().catch(err => console.warn('gear unavailable', err))
+    return () => { cancelled = true }
+  }, [gearKey])
 
   useEffect(() => {
     let cancelled = false
