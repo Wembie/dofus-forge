@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.3',
+    date: '2026-11-20',
+    notes: [
+      "Removed the last piece of 0.4.2's tinted decoration: the colored top-border stripe that single-element sets got on their card and hero header (multi-element sets never had it, which is why it looked inconsistent) — every set card now has the same plain border regardless of element, matching class guide pages too",
+    ],
+  },
+  {
     version: '0.4.2',
     date: '2026-11-20',
     notes: [
