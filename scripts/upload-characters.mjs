@@ -25,6 +25,11 @@ function walk(dir) {
   })
 }
 
+// Index JSONs (looks, pets, mounts, gear) change with data fixes: short cache.
+// Skins, bones and animations are keyed by game id and rarely change.
+const cacheControl = key => key.endsWith('.json') && !key.includes('/')
+  ? 'public,max-age=300'
+  : 'public,max-age=86400,stale-while-revalidate=604800'
 const onlyArg = process.argv.indexOf('--only')
 const only = onlyArg > 0 ? new Set(process.argv[onlyArg + 1].split(',')) : null
 const sinceArg = process.argv.indexOf('--since-minutes')
@@ -40,7 +45,7 @@ function upload({ path, key }) {
   const type = TYPES[key.split('.').pop()] ?? 'application/octet-stream'
   const file = relative(process.cwd(), path).split(sep).join('/')
   return new Promise(done => {
-    const child = spawn('npx', ['--yes', 'wrangler@4.153.0', 'r2', 'object', 'put', `${BUCKET}/chars/${key}`, '--file', file, '--content-type', type, '--cache-control', 'public,max-age=86400,stale-while-revalidate=604800', '--remote'],
+    const child = spawn('npx', ['--yes', 'wrangler@4.153.0', 'r2', 'object', 'put', `${BUCKET}/chars/${key}`, '--file', file, '--content-type', type, '--cache-control', cacheControl(key), '--remote'],
       { stdio: ['ignore', 'ignore', 'inherit'], shell: process.platform === 'win32' })
     child.on('close', code => done(code === 0))
   })
