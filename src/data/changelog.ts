@@ -18,6 +18,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       `The Forger: new "Use legendary items" box under Items: untick it if you don't own them and no result uses one. On by default; a pinned or kept legendary still counts`,
       'The Forger is faster with exactly the same results: about a third more builds checked per second without runes and 13% more with runes, and polishing is 25% faster (7.5% with runes), so in the same time it explores more. The 12,000-build test suite proves no result changed',
       'Spanish: Prysmaradites were spelled "Prismadita" as an item type',
+      'The Forger: elemental damage and steal goals now read Neutral, Earth, Fire, Water, Air, the same order as resistances, in the picker and in the results',
       'Still to come for The Forger: cheaper runes (only if results stay identical); then, measured separately: smarter rune placement, exact characteristic points on the final builds and moves aimed at unmet goals. Remembering builds whatever the order of the Dofus was tried and dropped: it saved only 2 to 3%',
     ],
   },

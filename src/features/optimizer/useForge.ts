@@ -41,6 +41,9 @@ export const SLOT_LABEL_KEY: Record<SlotId, string> = {
 }
 
 export const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
+// Goals read in the order the picker lists them; the engine keeps OPTIMIZER_STATS order.
+const GOAL_ORDER = new Map(STAT_GROUPS.flatMap(g => g.statKeys).map((k, i) => [k, i]))
+const goalOrder = (k: OptimizerStatKey) => GOAL_ORDER.get(k) ?? GOAL_ORDER.size
 
 // Measured on real multi-basin orders: every Worker keeps at least 24
 // islands (fewer per Worker let one basin take them all over), and a run
@@ -447,7 +450,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
 
   const activeSlots = ALL_SLOTS.length - config.lockedSlots.size
   const pinnedSlots = new Map(placements.filter(p => p.status === 'placed' && p.slot).map(p => [p.slot!, p.item?.name ?? '']))
-  const activeReqs = config.stats.filter(isActive)
+  const activeReqs = config.stats.filter(isActive).sort((a, b) => goalOrder(a.stat) - goalOrder(b.stat))
 
 
   return {
