@@ -6,7 +6,7 @@ const page = await (await chromium.launch()).newPage({ viewport: { width: 1280, 
 await page.goto(url, { waitUntil: 'networkidle' })
 await page.waitForTimeout(2500)
 if (click) {
-  await page.getByRole('button', { name: new RegExp(click, 'i') }).or(page.getByRole('link', { name: new RegExp(click, 'i') })).first().click()
+  await page.getByRole('button', { name: click }).or(page.getByRole('link', { name: click })).first().click()
   await page.waitForLoadState('networkidle')
   await page.waitForTimeout(4000)
 }
