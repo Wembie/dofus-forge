@@ -316,6 +316,19 @@
 .catalog-favorite[aria-pressed="true"] svg {
   fill: currentColor;
 }
+.catalog-card-pin {
+  border: 0;
+  padding: 6px !important;
+  min-width: 34px;
+  min-height: 34px;
+  flex-shrink: 0;
+  color: var(--muted);
+  background: transparent;
+}
+.catalog-card-pin:hover {
+  color: var(--accent);
+  background: var(--hover);
+}
 .catalog-card-facts {
   padding: 0 14px 4px;
   flex: 1;
@@ -688,7 +701,8 @@
     border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
   }
   .catalog-card-inspect,
-  .catalog-favorite {
+  .catalog-favorite,
+  .catalog-card-pin {
     min-width: 44px;
     min-height: 44px;
   }

@@ -450,6 +450,37 @@ pub struct ForgeReport {
     pub results: Vec<BuildResult>,
 }
 
+// What the items of a build add up to before set bonuses, exos, points and
+// runes: lets the polish reuse the sum of every slot but the one it changes.
+#[derive(Clone, Copy)]
+struct Worn {
+    pre: Vec60,
+    sets: [(usize, usize); NSLOT], // (set, pieces worn)
+    set_len: usize,
+}
+
+impl Worn {
+    fn add(&mut self, it: &Item) {
+        add_into(&mut self.pre, &it.vec);
+        if let Some(st) = it.set {
+            match self.sets[..self.set_len].iter_mut().find(|(s, _)| *s == st) {
+                Some((_, n)) => *n += 1,
+                None => {
+                    self.sets[self.set_len] = (st, 1);
+                    self.set_len += 1;
+                }
+            }
+        }
+    }
+}
+
+// Buffers evaluate() reuses on every call, so scoring a build reserves no
+// memory once they have grown to the largest build seen.
+struct Scratch {
+    extra: Vec<Target>,
+    memo: Vec<((usize, i64), f64)>,
+}
+
 pub struct Forge {
     items: Vec<Item>,
     catalog: Vec<CatalogItem>,
@@ -462,6 +493,7 @@ pub struct Forge {
     short_pools: Vec<Vec<i32>>,
     stat_pools: Vec<Vec<Vec<i32>>>, // [target][slot] -> items strongest in that stat
     free_slots: Vec<usize>,
+    mutable_slots: Vec<usize>, // free slots with a non-empty pool
     fixed: [i32; NSLOT],
     // Slots kept as the planner has them, runes included. A required item
     // is fixed too, but not locked: the Forge still picks its runes.
@@ -481,12 +513,15 @@ pub struct Forge {
     exo_only_ring: bool,
     exo_max: usize,
     islands: Vec<Island>,
+    next_pop: Vec<Individual>, // reused buffer for an island's next generation
+    member_order: Vec<usize>,  // reused buffer for shuffling a set's members
     hall: Vec<Individual>,
     generation: u64,
     rng: Rng,
     inject_turn: usize,
     evaluations: std::cell::Cell<u64>,
     cache: std::cell::RefCell<HashMap<u64, f64, IdentityBuild>>,
+    scratch: std::cell::RefCell<Scratch>,
     settle_tempered: bool,
     stagnation_reset: u32,
     set_rank_bias: f64,
@@ -662,6 +697,7 @@ impl Forge {
             short_pools: vec![Vec::new(); NSLOT],
             stat_pools: Vec::new(),
             free_slots,
+            mutable_slots: Vec::new(),
             fixed,
             locked,
             base_pre,
@@ -677,12 +713,15 @@ impl Forge {
             exo_only_ring: config.exo.only_on_ring,
             exo_max: config.exo.max_count.clamp(0, 3) as usize,
             islands: Vec::new(),
+            next_pop: Vec::with_capacity(ISLAND_SIZE),
+            member_order: Vec::new(),
             hall: Vec::new(),
             generation: 0,
             rng: Rng(seed ^ 0xD1B5_4A32_D192_ED03),
             inject_turn: 0,
             evaluations: std::cell::Cell::new(0),
             cache: std::cell::RefCell::new(HashMap::with_capacity_and_hasher(1 << 16, IdentityBuild)),
+            scratch: std::cell::RefCell::new(Scratch { extra: Vec::with_capacity(32), memo: Vec::with_capacity(64) }),
             settle_tempered: false,
             stagnation_reset: STAGNATION_RESET,
             set_rank_bias: 0.7,
@@ -723,6 +762,7 @@ impl Forge {
         if config.prune {
             forge.prune_dominated();
         }
+        forge.mutable_slots = forge.free_slots.iter().copied().filter(|&s| !forge.pools[s].is_empty()).collect();
         for &s in &forge.free_slots {
             for &i in &forge.pools[s] {
                 if forge.fixed.contains(&i) {
@@ -1114,6 +1154,12 @@ impl Forge {
     }
 
     fn make(&self, genes: [i32; NSLOT]) -> Individual {
+        self.make_from(genes, None)
+    }
+
+    // `rest`: the build without slot `s` already summed, when only that
+    // slot changed (the polish), so a miss adds one item instead of all.
+    fn make_from(&self, genes: [i32; NSLOT], rest: Option<(&Worn, usize)>) -> Individual {
         self.evaluations.set(self.evaluations.get() + 1);
         // Same genes always score the same: the search keeps revisiting
         // builds (mutations, polish neighbourhoods), so remember them.
@@ -1122,7 +1168,17 @@ impl Forge {
         let score = match cached {
             Some(score) => score,
             None => {
-                let score = self.evaluate(&genes).score;
+                let worn = match rest {
+                    Some((rest, s)) => {
+                        let mut w = *rest;
+                        if genes[s] >= 0 {
+                            w.add(&self.items[genes[s] as usize]);
+                        }
+                        w
+                    }
+                    None => self.worn(&genes, NSLOT),
+                };
+                let score = self.evaluate_worn(&genes, worn).score;
                 let mut cache = self.cache.borrow_mut();
                 if cache.len() >= CACHE_SIZE {
                     cache.clear();
@@ -1282,24 +1338,26 @@ impl Forge {
         after - before
     }
 
-    fn evaluate(&self, g: &[i32; NSLOT]) -> Eval {
-        let mut pre = self.base_pre;
-        let mut set_counts: Vec<(usize, usize)> = Vec::new();
-        for &item in g.iter() {
-            if item < 0 {
-                continue;
-            }
-            let it = &self.items[item as usize];
-            add_into(&mut pre, &it.vec);
-            if let Some(st) = it.set {
-                match set_counts.iter_mut().find(|(s, _)| *s == st) {
-                    Some((_, n)) => *n += 1,
-                    None => set_counts.push((st, 1)),
-                }
+    // Base stats plus the raw stats and set piece counts of the items in
+    // `g`, leaving out slot `skip` (NSLOT leaves out nothing).
+    fn worn(&self, g: &[i32; NSLOT], skip: usize) -> Worn {
+        let mut w = Worn { pre: self.base_pre, sets: [(0, 0); NSLOT], set_len: 0 };
+        for (s, &item) in g.iter().enumerate() {
+            if item >= 0 && s != skip {
+                w.add(&self.items[item as usize]);
             }
         }
+        w
+    }
+
+    fn evaluate(&self, g: &[i32; NSLOT]) -> Eval {
+        self.evaluate_worn(g, self.worn(g, NSLOT))
+    }
+
+    fn evaluate_worn(&self, g: &[i32; NSLOT], worn: Worn) -> Eval {
+        let Worn { mut pre, sets: set_counts, set_len } = worn;
         let mut max_pieces = 0usize;
-        for &(st, n) in &set_counts {
+        for &(st, n) in &set_counts[..set_len] {
             add_into(&mut pre, &self.set_bonus[st][n]);
             max_pieces = max_pieces.max(n);
         }
@@ -1312,30 +1370,38 @@ impl Forge {
         // exo never takes the only item a valuable rune fits on.
         let mut exo = [0u8; NSLOT];
         let mut used = [false; NSLOT];
-        let mut hosts: Vec<usize> = Vec::new();
-        let mut exo_kinds: Vec<u8> = Vec::new();
+        let mut host_slots = [0usize; FORGEABLE.len()];
+        let mut host_len = 0;
+        let mut kind_slots = [0u8; 3];
+        let mut kind_len = 0;
         if self.exo_max > 0 {
-            hosts = FORGEABLE
-                .iter()
-                .copied()
-                .filter(|&s| g[s] >= 0 && !self.locked[s] && (!self.exo_only_ring || s == RING1 || s == RING2))
-                .collect();
-            let room = self.exo_max.min(hosts.len());
+            for &s in &FORGEABLE {
+                if g[s] >= 0 && !self.locked[s] && (!self.exo_only_ring || s == RING1 || s == RING2) {
+                    host_slots[host_len] = s;
+                    host_len += 1;
+                }
+            }
+            let room = self.exo_max.min(host_len);
             for (kind, stat, allowed) in [(1u8, AP, self.exo_ap), (2, MP, self.exo_mp), (3, RANGE, self.exo_range)] {
-                if !allowed || exo_kinds.len() >= room {
+                if !allowed || kind_len >= room {
                     continue;
                 }
                 let goal = self.targets.iter().filter(|t| t.idx == stat).map(|t| t.goal).max().unwrap_or(0);
                 if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal {
                     pre[stat] += 1;
-                    exo_kinds.push(kind);
+                    kind_slots[kind_len] = kind;
+                    kind_len += 1;
                 }
             }
         }
+        let hosts = &host_slots[..host_len];
+        let exo_kinds = &kind_slots[..kind_len];
         let mut free_hosts = hosts.len();
 
         // Characteristic thresholds the equipped items themselves demand.
-        let mut extra: Vec<Target> = Vec::new();
+        let mut scratch = self.scratch.borrow_mut();
+        let Scratch { extra, memo } = &mut *scratch;
+        extra.clear();
         for &item in g.iter() {
             if item < 0 {
                 continue;
@@ -1353,12 +1419,11 @@ impl Forge {
         // Transcendence runes: one per free forgeable item, each placed
         // where it gains the most, re-deciding points around them.
         let mut rune = [None; NSLOT];
-        let mut alloc = self.allocate(&pre, &extra);
+        let mut alloc = self.allocate(&pre, extra);
         if FORGEABLE.iter().any(|&s| g[s] >= 0 && !self.locked[s] && !self.items[g[s] as usize].runes.is_empty()) {
             let mut ch = Self::chars_of(&pre, &alloc);
             // A rune's gain depends only on (stat, value), not on which item
             // carries it: compute each distinct one once per round.
-            let mut memo: Vec<((usize, i64), f64)> = Vec::with_capacity(32);
             loop {
                 let mut best: Option<(usize, usize, i64)> = None;
                 let mut best_gain = 0.0f64;
@@ -1397,10 +1462,10 @@ impl Forge {
                 }
             }
             if rune.iter().any(|r| r.is_some()) {
-                alloc = self.allocate(&pre, &extra);
+                alloc = self.allocate(&pre, extra);
             }
         }
-        for (&s, &kind) in hosts.iter().filter(|&&s| !used[s]).zip(&exo_kinds) {
+        for (&s, &kind) in hosts.iter().filter(|&&s| !used[s]).zip(exo_kinds) {
             exo[s] = kind;
         }
         let ch = Self::chars_of(&pre, &alloc);
@@ -1488,8 +1553,7 @@ impl Forge {
     // Drops 2–4 pieces of one set into free slots in a single move: a lone
     // per-slot change almost never assembles a set bonus by chance.
     fn inject_set(&mut self, g: &mut [i32; NSLOT]) -> bool {
-        let candidates: Vec<usize> = self.free_slots.iter().copied().filter(|&s| !self.pools[s].is_empty()).collect();
-        if candidates.is_empty() {
+        if self.mutable_slots.is_empty() {
             return false;
         }
         let mut chosen_set = None;
@@ -1498,7 +1562,7 @@ impl Forge {
             let skew = self.rng.f64() * self.rng.f64();
             chosen_set = Some(self.set_rank[((skew * self.set_rank.len() as f64) as usize).min(self.set_rank.len() - 1)]);
         } else {
-            let slot = candidates[self.rng.below(candidates.len())];
+            let slot = self.mutable_slots[self.rng.below(self.mutable_slots.len())];
             let pool_len = self.pools[slot].len();
             for _ in 0..5 {
                 let item = self.pools[slot][self.rng.below(pool_len)];
@@ -1509,40 +1573,52 @@ impl Forge {
             }
         }
         let Some(st) = chosen_set else { return false };
-        let mut members = self.set_members[st].clone();
-        if members.len() < 2 {
+        let count = self.set_members[st].len();
+        if count < 2 {
             return false;
         }
-        for i in (1..members.len()).rev() {
+        // Shuffle member indices, not a copy of the members.
+        let mut order = std::mem::take(&mut self.member_order);
+        order.clear();
+        order.extend(0..count);
+        for i in (1..count).rev() {
             let j = self.rng.below(i + 1);
-            members.swap(i, j);
+            order.swap(i, j);
         }
         let want = 2 + self.rng.below(3);
         let mut placed = 0;
-        let mut used: Vec<usize> = Vec::new();
-        for (item, slots) in members {
+        let mut used = [false; NSLOT];
+        for &m in &order {
             if placed >= want {
                 break;
             }
-            let open: Vec<usize> = slots.into_iter().filter(|s| !used.contains(s)).collect();
-            if open.is_empty() {
+            let (item, ref slots) = self.set_members[st][m];
+            let mut open = [0usize; NSLOT];
+            let mut open_len = 0;
+            for &s in slots {
+                if !used[s] {
+                    open[open_len] = s;
+                    open_len += 1;
+                }
+            }
+            if open_len == 0 {
                 continue;
             }
-            let s = open[self.rng.below(open.len())];
+            let s = open[self.rng.below(open_len)];
             if self.try_place(g, s, item) {
-                used.push(s);
+                used[s] = true;
                 placed += 1;
             }
         }
+        self.member_order = order;
         placed >= 2
     }
 
     fn point_mutation(&mut self, g: &mut [i32; NSLOT]) {
-        let candidates: Vec<usize> = self.free_slots.iter().copied().filter(|&s| !self.pools[s].is_empty()).collect();
-        if candidates.is_empty() {
+        if self.mutable_slots.is_empty() {
             return;
         }
-        let s = candidates[self.rng.below(candidates.len())];
+        let s = self.mutable_slots[self.rng.below(self.mutable_slots.len())];
         let n = self.pools[s].len();
         for _ in 0..3 {
             let pick = self.pools[s][self.rng.below(n)];
@@ -1557,7 +1633,9 @@ impl Forge {
         let n = self.islands[i].pop.len();
         let elite = ((n as f64) * ELITE_FRACTION).ceil() as usize;
         let immigrants = ((n as f64) * IMMIGRANT_FRACTION).ceil() as usize;
-        let mut next: Vec<Individual> = self.islands[i].pop[..elite].to_vec();
+        let mut next = std::mem::take(&mut self.next_pop);
+        next.clear();
+        next.extend_from_slice(&self.islands[i].pop[..elite]);
         for _ in 0..immigrants {
             next.push(self.random_individual());
         }
@@ -1590,7 +1668,7 @@ impl Forge {
         next.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
 
         let island = &mut self.islands[i];
-        island.pop = next;
+        self.next_pop = std::mem::replace(&mut island.pop, next);
         if island.pop[0].score > island.best + 1e-9 {
             island.best = island.pop[0].score;
             island.stagnant = 0;
@@ -1803,6 +1881,7 @@ impl Forge {
                     return current;
                 }
                 let pool = if full { &self.pools[s] } else { &self.short_pools[s] };
+                let rest = self.worn(&current.genes, s);
                 let mut best = current;
                 for &item in std::iter::once(&-1).chain(pool.iter()) {
                     if item == current.genes[s] {
@@ -1813,7 +1892,7 @@ impl Forge {
                     if !self.valid(&g) {
                         continue;
                     }
-                    let cand = self.make(g);
+                    let cand = self.make_from(g, Some((&rest, s)));
                     if cand.score > best.score + 1e-9 {
                         best = cand;
                     }

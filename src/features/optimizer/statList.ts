@@ -162,9 +162,9 @@ export const STAT_GROUPS: StatGroupDef[] = [
     { statKeys: ['vitality', 'wisdom', 'strength', 'intelligence', 'chance', 'agility', 'power'] },
   ]),
   group('damage', 'optimizer_group_damage', false, [
-    { tKey: 'optimizer_sub_fixed',   statKeys: ['damage', 'fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage', 'critDamage', 'pushbackDamage', 'trapDamage', 'trapPower', 'reflectedDamage'] },
+    { tKey: 'optimizer_sub_fixed',   statKeys: ['damage', 'neutralDamage', 'earthDamage', 'fireDamage', 'waterDamage', 'airDamage', 'bestElemDamage', 'critDamage', 'pushbackDamage', 'trapDamage', 'trapPower', 'reflectedDamage'] },
     { tKey: 'optimizer_sub_percent', statKeys: ['spellDamagePercent', 'weaponDamagePercent', 'meleeDamagePercent', 'rangedDamagePercent'] },
-    { tKey: 'optimizer_sub_steal',   statKeys: ['fireSteal', 'earthSteal', 'waterSteal', 'airSteal', 'neutralSteal', 'bestElemSteal'] },
+    { tKey: 'optimizer_sub_steal',   statKeys: ['neutralSteal', 'earthSteal', 'fireSteal', 'waterSteal', 'airSteal', 'bestElemSteal'] },
   ]),
   group('res', 'optimizer_group_res', false, [
     { tKey: 'optimizer_sub_fixed',   statKeys: ['neutralResFixed', 'earthResFixed', 'fireResFixed', 'waterResFixed', 'airResFixed', 'critResistance', 'pushbackResist'] },

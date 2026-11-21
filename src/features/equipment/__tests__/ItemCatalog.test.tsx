@@ -1,11 +1,12 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, fireEvent, act, cleanup } from '@testing-library/react'
+import { render, screen, fireEvent, act, cleanup, within } from '@testing-library/react'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { SLOT_CONFIGS } from '../slotConfig.ts'
 import { ItemCatalog } from '../ItemCatalog.tsx'
+import { STORAGE_KEY } from '@/features/optimizer/forgeConfig.ts'
 
 let observerCallback: IntersectionObserverCallback | null = null
 class FakeObserver {
@@ -27,6 +28,7 @@ beforeEach(() => {
   vi.stubGlobal('IntersectionObserver', FakeObserver)
   useDataStore.setState({ equipment: items, sets: [SET] })
   useBuildStore.setState({ equipped: {} })
+  localStorage.removeItem(STORAGE_KEY)
 })
 afterEach(() => {
   cleanup()
@@ -62,6 +64,46 @@ describe('ItemCatalog', () => {
     fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'item' } })
     act(() => { vi.advanceTimersByTime(200) })
     expect(cardCount()).toBe(20)
+  })
+
+  it('keeps the active type filter applied while searching by name', () => {
+    const mixed: AppItem[] = [
+      { ankama_id: 1, name: 'Dragopavo ebano', slot: 'hat', type: 'Dragopavo', level: 60, effects: [] },
+      { ankama_id: 2, name: 'Mulagua ebano', slot: 'hat', type: 'Mulagua', level: 60, effects: [] },
+    ] as unknown as AppItem[]
+    useDataStore.setState({ equipment: mixed, sets: [] })
+    render(<ItemCatalog slot={HAT} slotId="hat" onClose={() => {}} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Mulagua' }))
+    fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'ebano' } })
+
+    expect(screen.queryByText('Dragopavo ebano')).toBeNull()
+    expect(screen.getByText('Mulagua ebano')).not.toBeNull()
+  })
+
+  it('right-clicking a card equips it and pins its slot for the Forge', () => {
+    const onAfterEquip = vi.fn()
+    render(<ItemCatalog slot={HAT} slotId="hat" onClose={() => {}} onAfterEquip={onAfterEquip} />)
+
+    const card = screen.getByText('Item 1').closest('article')!
+    fireEvent.contextMenu(card)
+
+    expect(onAfterEquip).toHaveBeenCalledWith('hat')
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
+    expect(saved.lockedSlots).toContain('hat')
+  })
+
+  it('the pin button equips and pins without needing a right click', () => {
+    const onAfterEquip = vi.fn()
+    render(<ItemCatalog slot={HAT} slotId="hat" onClose={() => {}} onAfterEquip={onAfterEquip} />)
+
+    const card = screen.getByText('Item 1').closest('article')!
+    const { getByLabelText } = within(card)
+    fireEvent.click(getByLabelText('catalog_card_pin'))
+
+    expect(onAfterEquip).toHaveBeenCalledWith('hat')
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
+    expect(saved.lockedSlots).toContain('hat')
   })
 
   it('marks a set ring already worn in the other ring slot', () => {

@@ -1,12 +1,13 @@
 import { startTransition, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ArrowRight, ChartNoAxesColumn, Check, Crown, Search, SlidersHorizontal, Star } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChartNoAxesColumn, Check, Crown, Pin, Search, SlidersHorizontal, Star } from 'lucide-react'
 import { PRYSMA_SLOT, recompute, useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { Modal, StatFilter, normalizeSearch, slotToastIcon } from '@/ui'
 import { playEquip, playDenied } from '@/lib/sound.ts'
+import { pinSlotForForge } from '@/features/optimizer/forgeConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { SlotConfig } from './slotConfig.ts'
 import { matchesSlot, matchesStatFilter, levelCap, changeLevelRange, catalogBlock, isAttackEffect } from './catalogFilters.ts'
@@ -97,8 +98,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
       (!onlyFav || isFav(it.ankama_id)) &&
       (!legendary || it.legendary === true) &&
       (!query || normalizeSearch(it.name).includes(normalizeSearch(query))) &&
-      // A name search looks across every type of the slot.
-      (query || !type || it.type === type))
+      (!type || it.type === type))
     .sort((a, b) => sort === 'name-az' ? a.name.localeCompare(b.name) : sort === 'level-asc' ? a.level - b.level : b.level - a.level),
   [candidates, query, range, sort, setId, type, stats, onlyFav, legendary, isFav, hidePrysma])
   const { visible, sentinel, more } = useInfiniteList(list, scroller, PAGE_SIZE)
@@ -125,11 +125,15 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     return b ? t(`slot_${b.slot}`) : null
   }
 
-  function equip(item: AppItem) {
-    if (equipped[slotId] === item.ankama_id) return
+  function equip(item: AppItem, pin = false) {
     if (catalogBlock(item, slotId, equipped, byId)) { playDenied(); return }
+    if (pin) pinSlotForForge(slotId)
+    if (equipped[slotId] === item.ankama_id) {
+      if (pin) addToast(t('toast_pinned_only', { slot: slotName, forge: t('optimizer_title') }), item.image_url ?? slotToastIcon(slotId))
+      return
+    }
     playEquip()
-    addToast(t('toast_equipped', { slot: slotName, item: item.name }), item.image_url ?? slotToastIcon(slotId))
+    addToast(t(pin ? 'toast_equipped_pinned' : 'toast_equipped', { slot: slotName, item: item.name, forge: t('optimizer_title') }), item.image_url ?? slotToastIcon(slotId))
     if (onAfterEquip && (continueDofus || !slotId.startsWith('dofus'))) onAfterEquip(slotId)
     else onClose()
     // Equipping recomputes the whole build and re-renders every panel; as a
@@ -217,7 +221,6 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
               {options.types.map(v => (
                 <button type="button" key={v} aria-pressed={type === v} onClick={() => setType(type === v ? '' : v)}>{typeLabel(v)}</button>
               ))}
-              {query && type && <span>{t('catalog_name_all_types')}</span>}
             </div>
           )}
         </div>
@@ -240,6 +243,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                   className={'catalog-card' + (active ? ' is-selected' : '') + (isWorn ? ' is-equipped' : '') + (blocked ? ' is-blocked' : '')}
                   onMouseEnter={() => hover.enter(it)}
                   onMouseLeave={hover.leave}
+                  onContextMenu={e => { if (!blocked) { e.preventDefault(); equip(it, true) } }}
                 >
                   <header className="catalog-card-head">
                     <span className="catalog-card-art">
@@ -279,6 +283,12 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                         title={t('catalog_see_change_title')} onClick={e => inspect(it, e.currentTarget)}>
                         <ChartNoAxesColumn size={16} />
                       </button>
+                      {!blocked && (
+                        <button type="button" className="catalog-card-pin" aria-label={t('catalog_card_pin', { name: it.name, forge: t('optimizer_title') })}
+                          title={t('catalog_pin_title', { forge: t('optimizer_title') })} onClick={() => equip(it, true)}>
+                          <Pin size={16} />
+                        </button>
+                      )}
                     </span>
                   </header>
                   <div className="catalog-card-facts"><ItemFactsList item={it} /></div>

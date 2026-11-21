@@ -104,6 +104,49 @@ fn run_forge(config: OptimizerConfig, base: OptimizerBuildBase, seed: u64) {
 }
 
 #[test]
+fn banned_dofus_kinds_never_fill_a_dofus_slot() {
+    let open = ["hat", "dofus1", "dofus2", "dofus3", "dofus4", "dofus5", "dofus6"];
+    let mut cfg = config(&open, vec![]);
+    cfg.banned_types = vec!["Prysmaradite".to_string()];
+    let mut forge = Forge::new(cfg, catalog(), Vec::<CatalogSet>::new(), base(HashMap::new()), 13);
+    for _ in 0..5 {
+        forge.run_generation();
+    }
+    let results = forge.results();
+    assert!(!results.is_empty());
+    for result in results {
+        forge.verify(&result).unwrap();
+        let dofus: HashSet<i64> = DOFUS_SLOTS
+            .iter()
+            .filter_map(|slot| result.equipped.get(*slot).copied())
+            .collect();
+        assert!(!dofus.contains(&10), "a banned Prysmaradite was worn: {dofus:?}");
+        assert!(!dofus.is_empty());
+    }
+}
+
+#[test]
+fn a_required_item_is_worn_even_when_its_kind_is_banned() {
+    let open = ["hat", "dofus1", "dofus2", "dofus3", "dofus4", "dofus5", "dofus6"];
+    let mut cfg = config(&open, vec![10]);
+    cfg.banned_types = vec!["Prysmaradite".to_string(), "Dofus".to_string()];
+    let mut forge = Forge::new(cfg, catalog(), Vec::<CatalogSet>::new(), base(HashMap::new()), 14);
+    for _ in 0..5 {
+        forge.run_generation();
+    }
+    let results = forge.results();
+    assert!(!results.is_empty());
+    for result in results {
+        forge.verify(&result).unwrap();
+        let dofus: HashSet<i64> = DOFUS_SLOTS
+            .iter()
+            .filter_map(|slot| result.equipped.get(*slot).copied())
+            .collect();
+        assert_eq!(dofus, HashSet::from([10]));
+    }
+}
+
+#[test]
 fn six_required_dofus_leave_other_slots_searchable() {
     let open = ["hat", "dofus1", "dofus2", "dofus3", "dofus4", "dofus5", "dofus6"];
     run_forge(config(&open, (10..16).collect()), base(HashMap::new()), 11);

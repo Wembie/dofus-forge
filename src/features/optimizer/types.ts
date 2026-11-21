@@ -27,6 +27,9 @@ export type ExoConfig = {
 
 export type ForgeIntensity = 'quick' | 'standard' | 'master' | 'eternal'
 
+/** What a Dofus slot can hold, by item type. */
+export type DofusKind = 'Dofus' | 'Trophy' | 'Prysmaradite'
+
 export type OptimizerConfig = {
   stats:               ForgeRequirement[]
   exo:                 ExoConfig
@@ -39,6 +42,10 @@ export type OptimizerConfig = {
   /** Passive items the player left out of the count. */
   passiveExcluded:     number[]
   intensity:           ForgeIntensity
+  /** Whether the Forge may use legendary items (pinned and kept ones always count). */
+  legendary:           boolean
+  /** Dofus slot kinds the Forge may not use (pinned and kept items still count). */
+  excludedKinds:       DofusKind[]
 }
 
 export type OptimizerBuildBase = {
