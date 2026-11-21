@@ -1619,7 +1619,6 @@
   "catalog_set": "Set",
   "catalog_favorites": "Favorites",
   "catalog_item_type": "Item type",
-  "catalog_name_all_types": "Name search covers every type",
   "catalog_results": "Catalog results",
   "catalog_items_hint": "Click to equip · hover to see the change",
   "catalog_card_equipped": "{{name}}: equipped",

@@ -97,8 +97,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
       (!onlyFav || isFav(it.ankama_id)) &&
       (!legendary || it.legendary === true) &&
       (!query || normalizeSearch(it.name).includes(normalizeSearch(query))) &&
-      // A name search looks across every type of the slot.
-      (query || !type || it.type === type))
+      (!type || it.type === type))
     .sort((a, b) => sort === 'name-az' ? a.name.localeCompare(b.name) : sort === 'level-asc' ? a.level - b.level : b.level - a.level),
   [candidates, query, range, sort, setId, type, stats, onlyFav, legendary, isFav, hidePrysma])
   const { visible, sentinel, more } = useInfiniteList(list, scroller, PAGE_SIZE)
@@ -217,7 +216,6 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
               {options.types.map(v => (
                 <button type="button" key={v} aria-pressed={type === v} onClick={() => setType(type === v ? '' : v)}>{typeLabel(v)}</button>
               ))}
-              {query && type && <span>{t('catalog_name_all_types')}</span>}
             </div>
           )}
         </div>

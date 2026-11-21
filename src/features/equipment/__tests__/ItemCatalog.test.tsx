@@ -64,6 +64,21 @@ describe('ItemCatalog', () => {
     expect(cardCount()).toBe(20)
   })
 
+  it('keeps the active type filter applied while searching by name', () => {
+    const mixed: AppItem[] = [
+      { ankama_id: 1, name: 'Dragopavo ebano', slot: 'hat', type: 'Dragopavo', level: 60, effects: [] },
+      { ankama_id: 2, name: 'Mulagua ebano', slot: 'hat', type: 'Mulagua', level: 60, effects: [] },
+    ] as unknown as AppItem[]
+    useDataStore.setState({ equipment: mixed, sets: [] })
+    render(<ItemCatalog slot={HAT} slotId="hat" onClose={() => {}} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Mulagua' }))
+    fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'ebano' } })
+
+    expect(screen.queryByText('Dragopavo ebano')).toBeNull()
+    expect(screen.getByText('Mulagua ebano')).not.toBeNull()
+  })
+
   it('marks a set ring already worn in the other ring slot', () => {
     const ring = { ankama_id: 77, name: 'Set Ring', slot: 'ring', type: 'Ring', level: 100, effects: [], set_id: 900 } as unknown as AppItem
     useDataStore.setState({ equipment: [ring], sets: [{ ...SET, items: [77] }] })

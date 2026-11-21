@@ -1619,7 +1619,6 @@
   "catalog_set": "Panoplie",
   "catalog_favorites": "Favoris",
   "catalog_item_type": "Type d’objet",
-  "catalog_name_all_types": "La recherche par nom inclut tous les types",
   "catalog_results": "Résultats du catalogue",
   "catalog_items_hint": "Cliquez pour équiper · survolez pour voir le changement",
   "catalog_card_equipped": "{{name}} : équipé",

@@ -1619,7 +1619,6 @@
   "catalog_set": "Set",
   "catalog_favorites": "Favoritos",
   "catalog_item_type": "Tipo de objeto",
-  "catalog_name_all_types": "La búsqueda por nombre incluye todos los tipos",
   "catalog_results": "Resultados del catálogo",
   "catalog_items_hint": "Clic para equipar · pasa por encima para ver el cambio",
   "catalog_card_equipped": "{{name}}: equipado",
