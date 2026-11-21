@@ -450,6 +450,30 @@ pub struct ForgeReport {
     pub results: Vec<BuildResult>,
 }
 
+// What the items of a build add up to before set bonuses, exos, points and
+// runes: lets the polish reuse the sum of every slot but the one it changes.
+#[derive(Clone, Copy)]
+struct Worn {
+    pre: Vec60,
+    sets: [(usize, usize); NSLOT], // (set, pieces worn)
+    set_len: usize,
+}
+
+impl Worn {
+    fn add(&mut self, it: &Item) {
+        add_into(&mut self.pre, &it.vec);
+        if let Some(st) = it.set {
+            match self.sets[..self.set_len].iter_mut().find(|(s, _)| *s == st) {
+                Some((_, n)) => *n += 1,
+                None => {
+                    self.sets[self.set_len] = (st, 1);
+                    self.set_len += 1;
+                }
+            }
+        }
+    }
+}
+
 // Buffers evaluate() reuses on every call, so scoring a build reserves no
 // memory once they have grown to the largest build seen.
 struct Scratch {
@@ -1130,6 +1154,12 @@ impl Forge {
     }
 
     fn make(&self, genes: [i32; NSLOT]) -> Individual {
+        self.make_from(genes, None)
+    }
+
+    // `rest`: the build without slot `s` already summed, when only that
+    // slot changed (the polish), so a miss adds one item instead of all.
+    fn make_from(&self, genes: [i32; NSLOT], rest: Option<(&Worn, usize)>) -> Individual {
         self.evaluations.set(self.evaluations.get() + 1);
         // Same genes always score the same: the search keeps revisiting
         // builds (mutations, polish neighbourhoods), so remember them.
@@ -1138,7 +1168,17 @@ impl Forge {
         let score = match cached {
             Some(score) => score,
             None => {
-                let score = self.evaluate(&genes).score;
+                let worn = match rest {
+                    Some((rest, s)) => {
+                        let mut w = *rest;
+                        if genes[s] >= 0 {
+                            w.add(&self.items[genes[s] as usize]);
+                        }
+                        w
+                    }
+                    None => self.worn(&genes, NSLOT),
+                };
+                let score = self.evaluate_worn(&genes, worn).score;
                 let mut cache = self.cache.borrow_mut();
                 if cache.len() >= CACHE_SIZE {
                     cache.clear();
@@ -1298,26 +1338,24 @@ impl Forge {
         after - before
     }
 
-    fn evaluate(&self, g: &[i32; NSLOT]) -> Eval {
-        let mut pre = self.base_pre;
-        let mut set_counts = [(0usize, 0usize); NSLOT];
-        let mut set_len = 0;
-        for &item in g.iter() {
-            if item < 0 {
-                continue;
-            }
-            let it = &self.items[item as usize];
-            add_into(&mut pre, &it.vec);
-            if let Some(st) = it.set {
-                match set_counts[..set_len].iter_mut().find(|(s, _)| *s == st) {
-                    Some((_, n)) => *n += 1,
-                    None => {
-                        set_counts[set_len] = (st, 1);
-                        set_len += 1;
-                    }
-                }
+    // Base stats plus the raw stats and set piece counts of the items in
+    // `g`, leaving out slot `skip` (NSLOT leaves out nothing).
+    fn worn(&self, g: &[i32; NSLOT], skip: usize) -> Worn {
+        let mut w = Worn { pre: self.base_pre, sets: [(0, 0); NSLOT], set_len: 0 };
+        for (s, &item) in g.iter().enumerate() {
+            if item >= 0 && s != skip {
+                w.add(&self.items[item as usize]);
             }
         }
+        w
+    }
+
+    fn evaluate(&self, g: &[i32; NSLOT]) -> Eval {
+        self.evaluate_worn(g, self.worn(g, NSLOT))
+    }
+
+    fn evaluate_worn(&self, g: &[i32; NSLOT], worn: Worn) -> Eval {
+        let Worn { mut pre, sets: set_counts, set_len } = worn;
         let mut max_pieces = 0usize;
         for &(st, n) in &set_counts[..set_len] {
             add_into(&mut pre, &self.set_bonus[st][n]);
@@ -1843,6 +1881,7 @@ impl Forge {
                     return current;
                 }
                 let pool = if full { &self.pools[s] } else { &self.short_pools[s] };
+                let rest = self.worn(&current.genes, s);
                 let mut best = current;
                 for &item in std::iter::once(&-1).chain(pool.iter()) {
                     if item == current.genes[s] {
@@ -1853,7 +1892,7 @@ impl Forge {
                     if !self.valid(&g) {
                         continue;
                     }
-                    let cand = self.make(g);
+                    let cand = self.make_from(g, Some((&rest, s)));
                     if cand.score > best.score + 1e-9 {
                         best = cand;
                     }
