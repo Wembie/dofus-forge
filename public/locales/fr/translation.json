@@ -2195,5 +2195,9 @@
   "catalog_card_pin": "{{name}} : équiper et épingler pour {{forge}}",
   "catalog_pin_title": "Équipe cette pièce et épingle son emplacement pour {{forge}} (ou clic droit sur la carte)",
   "toast_equipped_pinned": "{{slot}} : {{item}} · épinglé pour {{forge}}",
-  "toast_pinned_only": "{{slot}} épinglé pour {{forge}}"
+  "toast_pinned_only": "{{slot}} épinglé pour {{forge}}",
+  "fg_dofus_kinds_title": "Artefacts et Dofus",
+  "fg_dofus_kinds_hint": "Décochez ce que vous ne voulez pas dans les emplacements Dofus, sans exclure les objets un par un. Les objets fixés ou conservés restent.",
+  "fg_use_legendary": "Utiliser les objets légendaires",
+  "fg_use_legendary_hint": "Décochez-la si vous n'avez pas d'objets légendaires : la forge ne les utilise pas. Ceux fixés ou conservés restent."
 }

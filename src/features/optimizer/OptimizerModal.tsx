@@ -38,7 +38,7 @@ import {
   suggestedCap,
   type OptimizerStatMeta,
 } from "@/features/optimizer/statList.ts";
-import { clampLevel, emptyReq, isActive, normalizeCap } from "@/features/optimizer/forgeConfig.ts";
+import { DOFUS_KINDS, clampLevel, emptyReq, isActive, normalizeCap } from "@/features/optimizer/forgeConfig.ts";
 import { searchItems, slotNameKey, slotsFor, useForgePicks, type RequiredPlacement } from "@/features/optimizer/forgePicks.ts";
 import {
   PASSIVE_MODES,
@@ -329,6 +329,14 @@ function Picks({ forge }: { forge: ForgeState }) {
     <section className="fg-rule" aria-label={t("optimizer_items_title")}>
       <h4>{t("fg_picks_title")}</h4>
       <p>{t("fg_picks_hint")}</p>
+      <label className="fg-check" title={t("fg_use_legendary_hint")}>
+        <input
+          type="checkbox"
+          checked={forge.config.legendary}
+          onChange={(e) => forge.setConfig((c) => ({ ...c, legendary: e.target.checked }))}
+        />
+        {t("fg_use_legendary")}
+      </label>
       <label className="fg-search">
         <Search size={15} aria-hidden="true" />
         <input
@@ -683,6 +691,37 @@ function Rules({ forge }: { forge: ForgeState }) {
             </div>
           </>
         )}
+      </section>
+      <section className="fg-rule" aria-label={t("fg_dofus_kinds_title")}>
+        <h4>{t("fg_dofus_kinds_title")}</h4>
+        <p>{t("fg_dofus_kinds_hint")}</p>
+        <div className="fg-inline">
+          <button className="fg-link" onClick={() => setConfig((c) => ({ ...c, excludedKinds: [] }))}>
+            {t("optimizer_slot_mark_all")}
+          </button>
+          <button className="fg-link" onClick={() => setConfig((c) => ({ ...c, excludedKinds: [...DOFUS_KINDS] }))}>
+            {t("optimizer_slot_clear_all")}
+          </button>
+        </div>
+        <div className="fg-inline">
+          {DOFUS_KINDS.map((kind) => (
+            <label key={kind} className="fg-check">
+              <input
+                type="checkbox"
+                checked={!config.excludedKinds.includes(kind)}
+                onChange={(e) =>
+                  setConfig((c) => ({
+                    ...c,
+                    excludedKinds: e.target.checked
+                      ? c.excludedKinds.filter((k) => k !== kind)
+                      : DOFUS_KINDS.filter((k) => k === kind || c.excludedKinds.includes(k)),
+                  }))
+                }
+              />
+              {t(`item_type_${kind}`)}
+            </label>
+          ))}
+        </div>
       </section>
       <section className="fg-rule" aria-label={t("optimizer_forgemagie")}>
         <h4>{t("magesmithy")}</h4>

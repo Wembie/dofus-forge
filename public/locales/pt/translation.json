@@ -2195,5 +2195,9 @@
   "catalog_card_pin": "{{name}}: equipar e fixar para {{forge}}",
   "catalog_pin_title": "Equipa esta peça e fixa o seu slot para {{forge}} (ou clique com o botão direito no cartão)",
   "toast_equipped_pinned": "{{slot}}: {{item}} · fixado para {{forge}}",
-  "toast_pinned_only": "{{slot}} fixado para {{forge}}"
+  "toast_pinned_only": "{{slot}} fixado para {{forge}}",
+  "fg_dofus_kinds_title": "Artefatos e Dofus",
+  "fg_dofus_kinds_hint": "Desmarque o que não quer nos slots de Dofus, sem excluir item por item. Itens fixados ou mantidos continuam.",
+  "fg_use_legendary": "Usar itens lendários",
+  "fg_use_legendary_hint": "Desmarque se não tem itens lendários: a forja não os usa. Os fixados ou mantidos continuam."
 }

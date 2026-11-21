@@ -2195,5 +2195,9 @@
   "catalog_card_pin": "{{name}}: equip and pin for {{forge}}",
   "catalog_pin_title": "Equip this piece and pin its slot for {{forge}} (or right-click the card)",
   "toast_equipped_pinned": "{{slot}}: {{item}} · pinned for {{forge}}",
-  "toast_pinned_only": "{{slot}} pinned for {{forge}}"
+  "toast_pinned_only": "{{slot}} pinned for {{forge}}",
+  "fg_dofus_kinds_title": "Artifacts and Dofus",
+  "fg_dofus_kinds_hint": "Uncheck what you don't want in the Dofus slots, without banning items one by one. Pinned and kept items still count.",
+  "fg_use_legendary": "Use legendary items",
+  "fg_use_legendary_hint": "Uncheck it if you don't own legendary items: the forge won't use them. Pinned and kept ones still count."
 }

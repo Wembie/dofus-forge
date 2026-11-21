@@ -14,7 +14,11 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-11-21',
     notes: [
       'Fixed the equipment catalogue (mounts, pets, companions and every other slot with a type filter): once you picked a category like Mulagua, searching by name used to show every category again instead of just that one',
-      'The equipment catalogue: right-click a piece (or its new pin icon) equips it and locks its slot for The Forger at once, instead of equipping it and then locking the slot separately inside the Forge',
+      'The Forger: new "Artifacts and Dofus" filter: untick Trophies, Prysmaradites or Dofus and it leaves them out of the Dofus slots, no need to ban them one by one. All ticked by default; pinned and kept items still count',
+      `The Forger: new "Use legendary items" box under Items: untick it if you don't own them and no result uses one. On by default; a pinned or kept legendary still counts`,
+      'The Forger is faster with exactly the same results: about a third more builds checked per second without runes and 13% more with runes, and polishing is 25% faster (7.5% with runes), so in the same time it explores more. The 12,000-build test suite proves no result changed',
+      'Spanish: Prysmaradites were spelled "Prismadita" as an item type',
+      'Still to come for The Forger: cheaper runes (only if results stay identical); then, measured separately: smarter rune placement, exact characteristic points on the final builds and moves aimed at unmet goals. Remembering builds whatever the order of the Dofus was tried and dropped: it saved only 2 to 3%',
     ],
   },
   {

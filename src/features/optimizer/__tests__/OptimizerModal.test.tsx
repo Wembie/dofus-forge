@@ -185,3 +185,27 @@ describe('OptimizerModal passives', () => {
     expect(within(rule).queryAllByRole('button', { name: 'optimizer_passive_section_configure' })).toHaveLength(0)
   })
 })
+
+describe('OptimizerModal Dofus slot kinds', () => {
+  it('unchecks one kind, then none and all, and keeps the choice', () => {
+    useBuildStore.setState({ selectedClass: 'iop', equipped: {} })
+    useDataStore.setState({ equipment: DOFUS, sets: [] })
+    const { unmount } = render(<MemoryRouter><OptimizerModal open onClose={() => {}} /></MemoryRouter>)
+    const kinds = within(screen.getByRole('region', { name: 'fg_dofus_kinds_title' }))
+    const box = (name: string) => kinds.getByRole('checkbox', { name }) as HTMLInputElement
+    const checked = () => ['item_type_Trophy', 'item_type_Prysmaradite', 'item_type_Dofus'].map(name => box(name).checked)
+    expect(checked()).toEqual([true, true, true])
+
+    fireEvent.click(box('item_type_Trophy'))
+    expect(checked()).toEqual([false, true, true])
+    fireEvent.click(kinds.getByRole('button', { name: 'optimizer_slot_clear_all' }))
+    expect(checked()).toEqual([false, false, false])
+    fireEvent.click(box('item_type_Dofus'))
+    expect(checked()).toEqual([false, false, true])
+    fireEvent.click(kinds.getByRole('button', { name: 'optimizer_slot_mark_all' }))
+    expect(checked()).toEqual([true, true, true])
+    fireEvent.click(box('item_type_Prysmaradite'))
+    unmount()
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).excludedKinds).toEqual(['Prysmaradite'])
+  })
+})

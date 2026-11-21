@@ -176,7 +176,7 @@
   "item_type_Rhineetle": "Vueloceronte",
   "item_type_Dofus": "Dofus",
   "item_type_Trophy": "Trofeo",
-  "item_type_Prysmaradite": "Prismadita",
+  "item_type_Prysmaradite": "Prismaradita",
   "item_type_Sword": "Espada",
   "item_type_Axe": "Hacha",
   "item_type_Bow": "Arco",
@@ -2195,5 +2195,9 @@
   "catalog_card_pin": "{{name}}: equipar y fijar para {{forge}}",
   "catalog_pin_title": "Equipa esta pieza y fija su ranura para {{forge}} (o clic derecho sobre la tarjeta)",
   "toast_equipped_pinned": "{{slot}}: {{item}} · fijado para {{forge}}",
-  "toast_pinned_only": "{{slot}} fijado para {{forge}}"
+  "toast_pinned_only": "{{slot}} fijado para {{forge}}",
+  "fg_dofus_kinds_title": "Artefactos y Dofus",
+  "fg_dofus_kinds_hint": "Desmarcá lo que no querés en los slots de Dofus, sin excluir objeto por objeto. Lo fijado o conservado se respeta.",
+  "fg_use_legendary": "Usar objetos legendarios",
+  "fg_use_legendary_hint": "Desmarcalo si no tenés legendarios: la fragua no los usa. Los que fijes o conserves se respetan."
 }

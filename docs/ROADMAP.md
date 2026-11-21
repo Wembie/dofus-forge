@@ -229,6 +229,9 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M146 — Forjadora: pasivas de mascotas y mascoturas** — sección propia junto a Dofus / Prismaraditas / legendarios cuando el juego les dé pasiva de combate (hoy ninguna mascota ni mascotura trae hechizo pasivo en los datos; `fetch-passives` ya las recogería solas)
 - [ ] **Simular un combate por turnos** — pedido del usuario (2026-11-19), aparcado: pasar de "un golpe" a un combate contra el Poutch con turnos (botón pasar turno, PA/PM del turno, límite de lanzamientos por turno), venenos que pegan al inicio de cada turno durante su duración, buffs propios (potencia, daño, % daño…) que se suman a las stats durante sus turnos, daño acumulado por turno y del combate con historial, y reiniciar combate. Depende de revisar hechizo por hechizo qué stat sube cada buff en los datos.
 - [ ] **M115 — Forjadora: prohibir tipos de ítem y legendarios** — p. ej. "sin palas / forzar arco", toggle de legendarios
+  - [x] Legendarios (0.4.6): casilla "Usar objetos legendarios" en Objetos, activa por defecto. Apagada, `withLegendaryBans` manda todos los legendarios como prohibidos menos los fijados; el motor no cambia
+  - [x] Artefactos y Dofus (0.4.6): Trofeo / Prismaradita / Dofus en Reglas, todos activos por defecto, con Marcar/Desmarcar todos. Se envían como `bannedTypes`, que el motor ya filtraba; lo fijado o conservado se respeta (test `six_dofus.rs`)
+  - [ ] Tipos de arma ("sin palas / forzar arco")
 ### Forjamagia
 - [ ] **M36 — Sugerir elemento óptimo para transform de arma** — en WeaponCard, calcular daño 85% neutro para cada elemento con maestría actual y resaltar cuál conviene más
 - [ ] **M37 — Catálogo: filtrar armas transformables** — toggle "solo armas con daño neutro" en filtros del catálogo

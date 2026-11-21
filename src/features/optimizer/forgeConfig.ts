@@ -1,12 +1,18 @@
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
-import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, OptimizerStatKey } from './types.ts'
+import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, OptimizerStatKey, DofusKind } from './types.ts'
 import { OPTIMIZER_STATS, leyPreset, unitValue } from './statList.ts'
 import { PASSIVE_MODES, sanitizeExcluded, type PassiveEffects } from './forgePassives.ts'
 import type { PassiveState } from '@/engine/passives.ts'
+import type { AppItem } from '@/data/loaders.ts'
 
 export const STORAGE_KEY = 'dofus-forge:optimizer-config'
 export const MAX_LEVEL = 200
 const INTENSITIES: ForgeIntensity[] = ['quick', 'standard', 'master', 'eternal']
+export const DOFUS_KINDS: DofusKind[] = ['Trophy', 'Prysmaradite', 'Dofus']
+
+export function sanitizeKinds(raw: unknown): DofusKind[] {
+  return Array.isArray(raw) ? DOFUS_KINDS.filter(k => raw.includes(k)) : []
+}
 
 export const emptyReq = (stat: OptimizerStatKey): ForgeRequirement => ({ stat, minimum: 0, weight: 0, cap: null, strictCap: false })
 // A strict cap alone is an order too: "never more than X".
@@ -34,6 +40,8 @@ export function makeDefaultConfig(): OptimizerConfig {
     passives:            'off',
     passiveExcluded:     [],
     intensity:           'standard',
+    legendary:           true,
+    excludedKinds:       [],
   }
 }
 
@@ -80,6 +88,8 @@ export function loadSavedConfig(): OptimizerConfig {
       intensity:           INTENSITIES.includes(parsed.intensity) ? parsed.intensity : defaults.intensity,
       passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
       passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
+      legendary:           parsed.legendary !== false,
+      excludedKinds:       sanitizeKinds(parsed.excludedKinds),
       // Vitality is no longer offered as a goal (HP covers it); an old order drops it.
       stats:               OPTIMIZER_STATS.map(s => s.key === 'vitality' ? emptyReq(s.key) : migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
     }
@@ -104,6 +114,15 @@ export function pinSlotForForge(slot: SlotId) {
   persistConfig({ ...config, lockedSlots: new Set([...config.lockedSlots, slot]) })
 }
 
+// With legendary items off, every one of them is banned except the pinned ones.
+export function withLegendaryBans(
+  config: OptimizerConfig, picks: { required: number[]; banned: number[] }, items: readonly AppItem[],
+) {
+  if (config.legendary) return picks
+  const extra = items.filter(it => it.legendary && !picks.required.includes(it.ankama_id) && !picks.banned.includes(it.ankama_id))
+  return { ...picks, banned: [...picks.banned, ...extra.map(it => it.ankama_id)] }
+}
+
 // `picks.required` holds only the items planRequired() could place.
 export function toWireConfig(
   config: OptimizerConfig, islands: number, characterLevel: number,
@@ -126,7 +145,7 @@ export function toWireConfig(
     lockedSlots:         [...config.lockedSlots],
     assumeFullyScrolled: config.assumeFullyScrolled,
     bannedItems:         picks.banned,
-    bannedTypes:         [],
+    bannedTypes:         config.excludedKinds,
     requiredItems:       picks.required,
     passiveEffects:      config.passives === 'off' ? [] : passiveEffects,
     transcendence:       config.transcendence,

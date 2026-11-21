@@ -1,7 +1,9 @@
+// @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore, trackBuildChange } from '@/store/historyStore.ts'
-import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq } from '../forgeConfig.ts'
+import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq, loadSavedConfig, persistConfig, STORAGE_KEY, withLegendaryBans } from '../forgeConfig.ts'
+import type { AppItem } from '@/data/loaders.ts'
 import { leyPreset } from '../statList.ts'
 import type { BuildResult, ForgeRequirement, OptimizerConfig } from '../types.ts'
 
@@ -31,6 +33,56 @@ describe('toWireConfig', () => {
     expect(wireStat(withReq(req), 'ap')).toEqual({ stat: 'ap', goal: 0, weight: 0, max: 11, absolute: true })
     expect(isActive({ ...req, strictCap: false })).toBe(false)
     expect(isActive(emptyReq('ap'))).toBe(false)
+  })
+})
+
+describe('Dofus slot kinds', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('lets the Forge use every kind by default', () => {
+    expect(toWireConfig(makeDefaultConfig(), 96, 200).bannedTypes).toEqual([])
+  })
+
+  it('sends the unchecked kinds to the engine as banned item types', () => {
+    const config = { ...makeDefaultConfig(), excludedKinds: ['Trophy' as const, 'Prysmaradite' as const] }
+    expect(toWireConfig(config, 96, 200).bannedTypes).toEqual(['Trophy', 'Prysmaradite'])
+  })
+
+  it('remembers the unchecked kinds and drops anything unknown', () => {
+    persistConfig({ ...makeDefaultConfig(), excludedKinds: ['Dofus'] })
+    expect(loadSavedConfig().excludedKinds).toEqual(['Dofus'])
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ excludedKinds: ['Hat', 'Trophy', 7] }))
+    expect(loadSavedConfig().excludedKinds).toEqual(['Trophy'])
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ excludedKinds: 'Trophy' }))
+    expect(loadSavedConfig().excludedKinds).toEqual([])
+  })
+})
+
+describe('legendary items', () => {
+  const items = [
+    { ankama_id: 1, legendary: true },
+    { ankama_id: 2, legendary: true },
+    { ankama_id: 3, legendary: true },
+    { ankama_id: 4 },
+  ] as AppItem[]
+  beforeEach(() => localStorage.clear())
+
+  it('are allowed by default and change nothing', () => {
+    const picks = { required: [], banned: [9] }
+    expect(makeDefaultConfig().legendary).toBe(true)
+    expect(withLegendaryBans(makeDefaultConfig(), picks, items)).toBe(picks)
+  })
+
+  it('switched off, bans every legendary but the pinned ones, once each', () => {
+    const config = { ...makeDefaultConfig(), legendary: false }
+    expect(withLegendaryBans(config, { required: [2], banned: [3, 9] }, items)).toEqual({ required: [2], banned: [3, 9, 1] })
+  })
+
+  it('remember the choice, and an old save keeps them on', () => {
+    persistConfig({ ...makeDefaultConfig(), legendary: false })
+    expect(loadSavedConfig().legendary).toBe(false)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ maxLevel: 150 }))
+    expect(loadSavedConfig().legendary).toBe(true)
   })
 })
 
