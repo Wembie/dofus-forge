@@ -2,11 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RotateCcw, RotateCw, Footprints } from 'lucide-react'
 import { CharacterRenderer, type Entity, type Layer } from '@/lib/character/renderer.ts'
-import {
-  loadAnimation, loadBone, loadGear, loadLooks, loadMounts, loadPets, loadSkin, type BoneDef,
-} from '@/lib/character/assets.ts'
+import { loadAnimation, loadBone, loadLooks, loadSkin, type BoneDef } from '@/lib/character/assets.ts'
+import { companionProps, loadCompanionLook, loadWorn, type CompanionLook, type Worn } from '@/lib/character/dress.ts'
 import type { Animation } from '@/lib/character/anim.ts'
-import { hiddenParts, type SlotRule } from '@/lib/character/slots.ts'
+import { hiddenParts } from '@/lib/character/slots.ts'
 
 type Motion = 'idle' | 'walk' | 'run'
 type Box = [number, number, number, number]
@@ -49,8 +48,8 @@ interface Figure {
 }
 
 type Companion =
-  | { kind: 'pet'; figure: Figure; scale: number; colors?: number[] }
-  | { kind: 'mount'; figure: Figure; rider: Figure; colors?: number[]; scale: number; skins: Layer[] }
+  | { kind: 'pet'; figure: Figure; look: CompanionLook }
+  | { kind: 'mount'; figure: Figure; rider: Figure; look: CompanionLook }
 
 interface Props {
   breed: number
@@ -112,7 +111,7 @@ export function CharacterStage({ breed, gender, companion, gear, width, height, 
   const lookRef = useRef<{ skins: Layer[]; colors: number[]; scale: number; breed: number; female: boolean; head: number } | null>(null)
   const playerRef = useRef<Figure | null>(null)
   const companionRef = useRef<Companion | null>(null)
-  const wornRef = useRef<{ layer: Layer; rules?: SlotRule[] }[]>([])
+  const wornRef = useRef<Worn[]>([])
   const versionRef = useRef(0)
   const onErrorRef = useRef(onError)
   onErrorRef.current = onError
@@ -162,10 +161,10 @@ export function CharacterStage({ breed, gender, companion, gear, width, height, 
           const scene = (lf: number, ef: number): Entity => {
             if (extra?.kind === 'mount') {
               const rider = figureEntity(extra.rider, ef, dressed)
-              return figureEntity(extra.figure, lf, { skins: extra.skins, worn: extra.skins, armoured: extra.skins.length > 0, colors: extra.colors, scale: extra.scale / look.scale, hooks: { [RIDER_HOOK]: rider } })
+              return figureEntity(extra.figure, lf, { ...companionProps(extra.look, look.scale), hooks: { [RIDER_HOOK]: rider } })
             }
             const root = figureEntity(player, lf, dressed)
-            if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, { scale: extra.scale / look.scale, colors: extra.colors }) }
+            if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, companionProps(extra.look, look.scale)) }
             return root
           }
           if (!extra) fitted = null
@@ -220,16 +219,9 @@ export function CharacterStage({ breed, gender, companion, gear, width, height, 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
-      const ids = gearKey ? gearKey.split(',') : []
-      const gear = ids.length ? await loadGear() : { items: {}, rules: {} }
-      const skins = ids.map(id => gear.items[id]).filter((s): s is number => s != null)
-      // Gear without a known look is simply not drawn; the character stays.
-      const worn = await Promise.all(skins.map(s => loadSkin(s).then(
-        layer => ({ layer: layer as Layer, rules: gear.rules[s] }),
-        () => null,
-      )))
+      const worn = await loadWorn(gearKey ? gearKey.split(',') : [])
       if (cancelled) return
-      wornRef.current = worn.filter(w => w !== null)
+      wornRef.current = worn
       versionRef.current++
     })().catch(err => console.warn('gear unavailable', err))
     return () => { cancelled = true }
@@ -248,19 +240,16 @@ export function CharacterStage({ breed, gender, companion, gear, width, height, 
     const file = FACINGS[facing].file
     const anim = `${MOTIONS[motion].creature}_${file}`
     ;(async () => {
-      const [pets, mounts] = await Promise.all([loadPets(), loadMounts()])
-      const mount = mounts[companion]
-      const pet = pets[companion]
+      const look = await loadCompanionLook(companion)
       let next: Companion | null = null
-      if (mount) {
-        const [figure, rider, skins] = await Promise.all([
-          loadFigure(mount.bone, anim),
+      if (look?.kind === 'mount') {
+        const [figure, rider] = await Promise.all([
+          loadFigure(look.bone, anim),
           loadFigure(RIDER_BONE, `${RIDER_ANIM}_${file}`),
-          Promise.all((mount.skins ?? []).map(s => loadSkin(s))),
         ])
-        next = { kind: 'mount', figure, rider, colors: mount.colors, scale: mount.scale ?? 100, skins }
-      } else if (pet) {
-        next = { kind: 'pet', figure: await loadFigure(pet.bone, anim), scale: pet.scale, colors: pet.colors }
+        next = { kind: 'mount', figure, rider, look }
+      } else if (look) {
+        next = { kind: 'pet', figure: await loadFigure(look.bone, anim), look }
       }
       if (cancelled) return
       companionRef.current = next
