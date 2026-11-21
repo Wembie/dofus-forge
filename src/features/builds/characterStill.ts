@@ -1,6 +1,7 @@
-import { CharacterRenderer, type Entity, type Layer } from '@/lib/character/renderer'
-import { loadAnimation, loadBone, loadGear, loadLooks, loadMounts, loadPets, loadSkin, type BoneDef } from '@/lib/character/assets'
-import { hiddenParts, type SlotRule } from '@/lib/character/slots'
+import { CharacterRenderer, type Entity } from '@/lib/character/renderer'
+import { loadAnimation, loadBone, loadLooks, loadSkin, type BoneDef } from '@/lib/character/assets'
+import { companionProps, loadCompanionLook, loadWorn } from '@/lib/character/dress'
+import { hiddenParts } from '@/lib/character/slots'
 import type { Animation } from '@/lib/character/anim'
 
 type Box = [number, number, number, number];
@@ -105,22 +106,7 @@ async function draw(
     mirror: false,
     ...rest,
   });
-  const gearIds = gear.filter(Boolean).map(String);
-  const gearData = gearIds.length ? await loadGear() : { items: {}, rules: {} };
-  const gearSkinIds = gearIds
-    .map((id) => gearData.items[id])
-    .filter((s): s is number => s != null);
-  // Gear without a known look is simply not drawn; the character stays.
-  const worn = (
-    await Promise.all(
-      gearSkinIds.map((s) =>
-        loadSkin(s).then(
-          (layer) => ({ layer: layer as Layer, rules: gearData.rules[s] }),
-          () => null,
-        ),
-      ),
-    )
-  ).filter((w): w is { layer: Layer; rules: SlotRule[] } => w !== null);
+  const worn = await loadWorn(gear);
   const wearer = { breed, female: gender === "female", head: look.head };
   const hidden = hiddenParts(worn.map((w) => w.rules), wearer, FACING);
   const dressed = {
@@ -134,27 +120,21 @@ async function draw(
   let accompanied = false;
   if (companion)
     try {
-      const [pets, mounts] = await Promise.all([loadPets(), loadMounts()]);
-      const mount = mounts[companion];
-      const pet = pets[companion];
-      if (mount) {
+      const look = await loadCompanionLook(companion);
+      if (look?.kind === "mount") {
         const [figure, rider] = await Promise.all([
-          loadFigure(mount.bone, `AnimStatique_${FACING}`),
+          loadFigure(look.bone, `AnimStatique_${FACING}`),
           loadFigure("2", `AnimStatique_${FACING}`),
         ]);
         scene = entity(figure, {
-          colors: mount.colors,
-          scale: (mount.scale ?? 100) / lookScale,
+          ...companionProps(look, lookScale),
           hooks: { carried_2_0: entity(rider, dressed) },
         });
         mounted = accompanied = true;
-      } else if (pet) {
-        const figure = await loadFigure(pet.bone, `AnimStatique_${FACING}`);
+      } else if (look) {
+        const figure = await loadFigure(look.bone, `AnimStatique_${FACING}`);
         scene.hooks = {
-          carried_1_0: entity(figure, {
-            scale: pet.scale / lookScale,
-            colors: pet.colors,
-          }),
+          carried_1_0: entity(figure, companionProps(look, lookScale)),
         };
         accompanied = true;
       }
