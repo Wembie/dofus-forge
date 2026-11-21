@@ -10,6 +10,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.5',
+    date: '2026-11-21',
+    notes: [
+      'Hats, capes and shields: 42 more pieces drawn (803 in total), among them the colourable sets like the Gar, Tic-tac and Labrita capes and the Piezo, Diapa and Locado hats',
+      'Fixed the Count Kontatrás hat and the Mori Arty cape, which showed the wrong look',
+      "Colourable pieces take your character's own colours, exactly like in the game; invisible ones stay invisible",
+    ],
+  },
+  {
     version: '0.4.4',
     date: '2026-11-20',
     notes: [
