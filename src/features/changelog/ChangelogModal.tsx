@@ -28,10 +28,12 @@ export function ChangelogModal({ onClose }: { onClose: () => void }) {
                 <time dateTime={entry.date}>{day.format(new Date(`${entry.date}T00:00:00Z`))}</time>
                 {i === 0 && <em>{t('changelog_current')}</em>}
               </div>
-              {entry.title && <h3 className="notes-headline">{entry.title}</h3>}
-              <ul>
-                {entry.notes.map((note, n) => <li key={n}>{note}</li>)}
-              </ul>
+              <section>
+                {entry.title && <h3 className="notes-headline">{entry.title}</h3>}
+                <ul>
+                  {entry.notes.map((note, n) => <li key={n}>{note}</li>)}
+                </ul>
+              </section>
             </li>
           ))}
         </ol>

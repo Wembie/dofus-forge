@@ -26,8 +26,8 @@ export type Looks = Record<string, { male?: Look; female?: Look }>
 /** pet item id → creature bone and look scale (percent) */
 export type Pets = Record<string, { bone: string; scale: number; colors?: number[] }>
 
-/** mount / petsmount item id → mount bone, palette, look scale (percent) */
-export type Mounts = Record<string, { bone: string; colors?: number[]; scale?: number }>
+/** mount / petsmount item id → mount bone, palette, look scale (percent), extra skins (armour…) */
+export type Mounts = Record<string, { bone: string; colors?: number[]; scale?: number; skins?: number[] }>
 
 export interface Gear {
   /** hat / cape / shield item id → the skin worn over the character */

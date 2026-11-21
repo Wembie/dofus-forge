@@ -40,7 +40,7 @@ DEFAULT_CLIENT = os.path.join(os.environ.get('LOCALAPPDATA', ''), 'Ankama', 'Dof
 BONES = ['1-static', '1-movement']
 CREATURE_ANIMS = re.compile(r'^Anim(Statique|Marche|Course)_\d$')
 CREATURE_LOOK = re.compile(r'^\{(\d+)\|\|\|(\d+)\}$')
-MOUNT_LOOK = re.compile(r'^\{(\d+)\|\|([\d=,]*)\|(\d+)\}$')
+MOUNT_LOOK = re.compile(r'^\{(\d+)\|([\d,]*)\|([\w#=,]*)\|(\d+)\}$')
 NEUTRAL_TINT = 0x808080  # tint at 50% gray leaves a part as authored
 RIDER_BONE = '2'
 # Creatures the site draws on their own, not tied to an item: the Poutch
@@ -253,19 +253,40 @@ def match_pets(client, item_type):
     return pets
 
 
+def parse_mount_look(look):
+    """{bone|extra skins|slot=colour,…|scale}; a colour is decimal or #RRGGBB."""
+    match = MOUNT_LOOK.match(look or '')
+    if not match:
+        return None
+    bone, skins, colors, scale = match.groups()
+    slots = {}
+    for entry in filter(None, colors.split(',')):
+        slot, value = entry.split('=')
+        slots[int(slot)] = int(value[1:], 16) if value.startswith('#') else int(value)
+    mount = {
+        'bone': bone,
+        'colors': [slots.get(i, NEUTRAL_TINT) for i in range(1, max(slots, default=0) + 1)],
+        'scale': int(scale),
+    }
+    if skins:
+        mount['skins'] = [int(x) for x in skins.split(',')]
+    return mount
+
+
 def ride_mounts(client):
     """Mount items (dragoturkeys, seemyools, rhineetles…): the ride links the
-    item to the mount row, whose look string carries bone, palette and scale."""
+    item to the mount row, whose look string carries bone, palette and scale.
+    Rides without a mount row (the newest seemyool generations) take their
+    look from MOUNTS_FILE."""
     looks = {r['id']: r['look'] for r in table_rows(client, 'mounts') if 'look' in r}
+    with open(MOUNTS_FILE) as f:
+        extra = {int(k): v for k, v in json.load(f).items()}
     mounts = {}
     for ride in table_rows(client, 'rides'):
-        match = MOUNT_LOOK.match(looks.get(ride.get('id'), '')) if 'linkedItemGid' in ride else None
-        if not match:
-            continue
-        bone, colors, scale = match.groups()
-        slots = dict(map(int, c.split('=')) for c in colors.split(',') if c)
-        palette = [slots.get(i, NEUTRAL_TINT) for i in range(1, max(slots, default=0) + 1)]
-        mounts[ride['linkedItemGid']] = {'bone': bone, 'colors': palette, 'scale': int(scale)}
+        item = ride.get('linkedItemGid')
+        mount = parse_mount_look(looks.get(ride.get('id')) or extra.get(item)) if item else None
+        if mount:
+            mounts[item] = mount
     return mounts
 
 
@@ -334,6 +355,10 @@ def export_bone(client, out, bone, keep=None):
 # each item was paired with its skin by rendering the skin next to the item
 # icon. Kept as data next to this script.
 GEAR_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'character-gear.json')
+# Seemyool generations 9-10 (amber, coral, azure, aquamarine and their pairs)
+# have a ride but no mount row: looks rebuilt from the seemyool pattern (slots
+# 1 and 3 body, 2 stripes) with the colours read from the item icons.
+MOUNTS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'character-mounts.json')
 
 
 def slot_rules(client, skins, heads):
@@ -375,6 +400,22 @@ def export_gear(client, out):
         json.dump({'items': items, 'rules': rules}, f, separators=(',', ':'))
 
 
+def export_mounts(client, out, reuse=False):
+    """reuse: keep bones already exported (fast refresh of mounts.json)."""
+    print('mounts')
+    export_bone(client, out, RIDER_BONE)
+    candidates = {**ride_mounts(client), **PETSMOUNTS}
+    exported = {}
+    for bone in sorted({m['bone'] for m in candidates.values()}, key=int):
+        done = reuse and os.path.exists(os.path.join(out, 'bones', f'{bone}.json'))
+        exported[bone] = done or export_bone(client, out, bone, keep=CREATURE_ANIMS.match)
+    mounts = {k: v for k, v in candidates.items() if exported[v['bone']]
+              and all(export_skin(client, out, s) for s in v.get('skins', []))}
+    print(f'  {len(mounts)} mounts and petsmounts')
+    with open(os.path.join(out, 'mounts.json'), 'w') as f:
+        json.dump(mounts, f, separators=(',', ':'))
+
+
 def pick_default(rows, breed, gender):
     candidates = [r for r in rows if r['breed'] == breed and r['gender'] == gender and r.get('availableAtCreation')]
     candidates.sort(key=lambda r: r['order'])
@@ -385,7 +426,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--client', default=DEFAULT_CLIENT)
     ap.add_argument('--out', default=os.path.join(os.getcwd(), 'char-assets'))
-    ap.add_argument('--only', choices=['all', 'creatures', 'gear'], default='all',
+    ap.add_argument('--only', choices=['all', 'creatures', 'gear', 'mounts'], default='all',
                     help='creatures / gear: only that part (fast)')
     args = ap.parse_args()
 
@@ -395,6 +436,9 @@ def main():
     if args.only == 'gear':
         print('gear')
         export_gear(args.client, args.out)
+        return
+    if args.only == 'mounts':
+        export_mounts(args.client, args.out, reuse=True)
         return
 
     print('creatures')
@@ -446,16 +490,7 @@ def main():
     with open(os.path.join(args.out, 'pets.json'), 'w') as f:
         json.dump(pets, f, separators=(',', ':'))
 
-    print('mounts')
-    export_bone(args.client, args.out, RIDER_BONE)
-    candidates = {**ride_mounts(args.client), **PETSMOUNTS}
-    exported = {}
-    for bone in sorted({m['bone'] for m in candidates.values()}, key=int):
-        exported[bone] = export_bone(args.client, args.out, bone, keep=CREATURE_ANIMS.match)
-    mounts = {k: v for k, v in candidates.items() if exported[v['bone']]}
-    print(f'  {len(mounts)} mounts and petsmounts')
-    with open(os.path.join(args.out, 'mounts.json'), 'w') as f:
-        json.dump(mounts, f, separators=(',', ':'))
+    export_mounts(args.client, args.out)
 
     print('gear')
     export_gear(args.client, args.out)

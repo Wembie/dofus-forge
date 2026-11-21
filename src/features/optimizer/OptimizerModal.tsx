@@ -64,6 +64,7 @@ import {
 import { bonusParts } from "@/features/passives/passiveLabels.ts";
 import { runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { useFocusTrap } from "@/ui/useFocusTrap.ts";
+import { langPathPrefix } from "@/i18n/langPath.ts";
 import "./forge.css";
 
 const group = (n: number, lang: string) => Math.round(n).toLocaleString(lang);
@@ -1082,7 +1083,7 @@ function Forged({ forge }: { forge: ForgeState }) {
 }
 
 function Order({ forge }: { forge: ForgeState }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <div className="fg-order">
       {forge.error && (
@@ -1100,7 +1101,7 @@ function Order({ forge }: { forge: ForgeState }) {
           })}
         </span>
         <span>{t("optimizer_points_auto")}</span>
-        <a href="/surfaces.html?view=forge-guide" target="_blank" rel="noopener">
+        <a href={`/${langPathPrefix(i18n.language)}forge-guide`} target="_blank" rel="noopener">
           <BookOpen size={14} /> {t("optimizer_guide_link")}
         </a>
       </div>

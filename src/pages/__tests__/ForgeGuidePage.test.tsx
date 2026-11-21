@@ -56,6 +56,7 @@ describe('ForgeGuidePage', () => {
     const read = (p: string) => readFileSync(join(ROOT, p), 'utf8')
     expect(read('src/components/SiteFooter.tsx')).toContain('forge-guide')
     expect(read('src/features/optimizer/OptimizerModal.tsx')).toContain('forge-guide')
+    expect(read('src/features/optimizer/OptimizerModal.tsx')).not.toContain('surfaces.html')
     expect(read('src/routes.ts')).toContain("['forge-guide', ")
     expect(read('react-router.config.ts').split('const NOINDEX_PAGES')[0]).toContain("'forge-guide'")
   })
