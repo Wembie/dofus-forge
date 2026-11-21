@@ -16,6 +16,8 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Hats, capes and shields: 42 more pieces drawn (803 in total), among them the colourable sets like the Gar, Tic-tac and Labrita capes and the Piezo, Diapa and Locado hats',
       'Fixed the Count Kontatrás hat and the Mori Arty cape, which showed the wrong look',
       "Colourable pieces take your character's own colours, exactly like in the game; invisible ones stay invisible",
+      'The Forger: a full test suite now pins down exactly what it finds today (12,000 builds across 8 different orders and 5 complete forges, checked against the stats engine), so every upcoming speed-up has to prove it changes no result',
+      'Coming next for The Forger: faster searching with identical results (no memory reserved per build, remembering builds whatever the order of the Dofus, incremental polishing, cheaper runes), each in its own update; after that, measured separately: smarter rune placement, exact characteristic points on the final builds and moves aimed at unmet goals',
     ],
   },
   {
