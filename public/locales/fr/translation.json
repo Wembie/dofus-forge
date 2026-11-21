@@ -1620,7 +1620,7 @@
   "catalog_favorites": "Favoris",
   "catalog_item_type": "Type d’objet",
   "catalog_results": "Résultats du catalogue",
-  "catalog_items_hint": "Cliquez pour équiper · survolez pour voir le changement",
+  "catalog_items_hint": "Cliquez pour équiper · clic droit pour épingler pour {{forge}} · survolez pour voir le changement",
   "catalog_card_equipped": "{{name}} : équipé",
   "catalog_card_in": "{{name}} : déjà dans {{slot}}",
   "catalog_card_equip": "{{name}} : équiper",
@@ -2191,5 +2191,9 @@
   "shortcuts_open_dofus_title": "Emplacement Dofus 1 à 6",
   "shortcuts_open_dofus_body": "Ouvre cet emplacement Dofus : sa fiche s’il contient un objet, le catalogue s’il est vide. Le 1 est celui de la Prysmaradite.",
   "shortcuts_catalog_search_title": "Chercher dans le catalogue",
-  "shortcuts_catalog_search_body": "Catalogue ouvert, revient au champ de recherche depuis n’importe où."
+  "shortcuts_catalog_search_body": "Catalogue ouvert, revient au champ de recherche depuis n’importe où.",
+  "catalog_card_pin": "{{name}} : équiper et épingler pour {{forge}}",
+  "catalog_pin_title": "Équipe cette pièce et épingle son emplacement pour {{forge}} (ou clic droit sur la carte)",
+  "toast_equipped_pinned": "{{slot}} : {{item}} · épinglé pour {{forge}}",
+  "toast_pinned_only": "{{slot}} épinglé pour {{forge}}"
 }

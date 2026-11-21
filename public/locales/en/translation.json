@@ -1620,7 +1620,7 @@
   "catalog_favorites": "Favorites",
   "catalog_item_type": "Item type",
   "catalog_results": "Catalog results",
-  "catalog_items_hint": "Click to equip · hover to see the change",
+  "catalog_items_hint": "Click to equip · right-click to pin for {{forge}} · hover to see the change",
   "catalog_card_equipped": "{{name}}: equipped",
   "catalog_card_in": "{{name}}: already in {{slot}}",
   "catalog_card_equip": "{{name}}: equip",
@@ -2191,5 +2191,9 @@
   "shortcuts_open_dofus_title": "Dofus slot 1 to 6",
   "shortcuts_open_dofus_body": "Opens that Dofus slot: its sheet when it holds an item, the catalog when empty. Slot 1 is the Prysmaradite’s.",
   "shortcuts_catalog_search_title": "Search the catalog",
-  "shortcuts_catalog_search_body": "With the catalog open, jumps back to the search box from anywhere."
+  "shortcuts_catalog_search_body": "With the catalog open, jumps back to the search box from anywhere.",
+  "catalog_card_pin": "{{name}}: equip and pin for {{forge}}",
+  "catalog_pin_title": "Equip this piece and pin its slot for {{forge}} (or right-click the card)",
+  "toast_equipped_pinned": "{{slot}}: {{item}} · pinned for {{forge}}",
+  "toast_pinned_only": "{{slot}} pinned for {{forge}}"
 }

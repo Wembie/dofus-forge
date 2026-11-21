@@ -7,6 +7,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ## [0.4.6] — 2026-11-21
 - Fixed the equipment catalogue (mounts, pets, companions and every other slot with a type filter): once you picked a category like Mulagua, searching by name used to show every category again instead of just that one
+- The equipment catalogue: right-click a piece (or its new pin icon) equips it and locks its slot for The Forger at once, instead of equipping it and then locking the slot separately inside the Forge
 
 ## [0.4.5] — 2026-11-21
 - Hats, capes and shields: 42 more pieces drawn (803 in total), among them the colourable sets like the Gar, Tic-tac and Labrita capes and the Piezo, Diapa and Locado hats

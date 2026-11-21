@@ -94,6 +94,16 @@ export function persistConfig(config: OptimizerConfig) {
   } catch { /* quota errors ignored */ }
 }
 
+// Equipping a piece from the catalogue can lock its slot for the next Forge
+// run, without the Forge modal ever mounting. Reads and writes the same
+// saved config the modal itself loads into state, so the lock is there
+// whenever it opens next.
+export function pinSlotForForge(slot: SlotId) {
+  const config = loadSavedConfig()
+  if (config.lockedSlots.has(slot)) return
+  persistConfig({ ...config, lockedSlots: new Set([...config.lockedSlots, slot]) })
+}
+
 // `picks.required` holds only the items planRequired() could place.
 export function toWireConfig(
   config: OptimizerConfig, islands: number, characterLevel: number,

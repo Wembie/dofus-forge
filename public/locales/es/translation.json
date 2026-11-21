@@ -1620,7 +1620,7 @@
   "catalog_favorites": "Favoritos",
   "catalog_item_type": "Tipo de objeto",
   "catalog_results": "Resultados del catálogo",
-  "catalog_items_hint": "Clic para equipar · pasa por encima para ver el cambio",
+  "catalog_items_hint": "Clic para equipar · clic derecho para fijar en {{forge}} · pasa por encima para ver el cambio",
   "catalog_card_equipped": "{{name}}: equipado",
   "catalog_card_in": "{{name}}: ya en {{slot}}",
   "catalog_card_equip": "{{name}}: equipar",
@@ -2191,5 +2191,9 @@
   "shortcuts_open_dofus_title": "Slot de Dofus 1 a 6",
   "shortcuts_open_dofus_body": "Abre el slot de Dofus de ese número: su ficha si tiene item, el catálogo si está vacío. El 1 es el de la Prismaradita.",
   "shortcuts_catalog_search_title": "Buscar en el catálogo",
-  "shortcuts_catalog_search_body": "Con el catálogo abierto, vuelve al buscador desde cualquier parte."
+  "shortcuts_catalog_search_body": "Con el catálogo abierto, vuelve al buscador desde cualquier parte.",
+  "catalog_card_pin": "{{name}}: equipar y fijar para {{forge}}",
+  "catalog_pin_title": "Equipa esta pieza y fija su ranura para {{forge}} (o clic derecho sobre la tarjeta)",
+  "toast_equipped_pinned": "{{slot}}: {{item}} · fijado para {{forge}}",
+  "toast_pinned_only": "{{slot}} fijado para {{forge}}"
 }
