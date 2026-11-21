@@ -450,6 +450,13 @@ pub struct ForgeReport {
     pub results: Vec<BuildResult>,
 }
 
+// Buffers evaluate() reuses on every call, so scoring a build reserves no
+// memory once they have grown to the largest build seen.
+struct Scratch {
+    extra: Vec<Target>,
+    memo: Vec<((usize, i64), f64)>,
+}
+
 pub struct Forge {
     items: Vec<Item>,
     catalog: Vec<CatalogItem>,
@@ -487,6 +494,7 @@ pub struct Forge {
     inject_turn: usize,
     evaluations: std::cell::Cell<u64>,
     cache: std::cell::RefCell<HashMap<u64, f64, IdentityBuild>>,
+    scratch: std::cell::RefCell<Scratch>,
     settle_tempered: bool,
     stagnation_reset: u32,
     set_rank_bias: f64,
@@ -683,6 +691,7 @@ impl Forge {
             inject_turn: 0,
             evaluations: std::cell::Cell::new(0),
             cache: std::cell::RefCell::new(HashMap::with_capacity_and_hasher(1 << 16, IdentityBuild)),
+            scratch: std::cell::RefCell::new(Scratch { extra: Vec::with_capacity(32), memo: Vec::with_capacity(64) }),
             settle_tempered: false,
             stagnation_reset: STAGNATION_RESET,
             set_rank_bias: 0.7,
@@ -1284,7 +1293,8 @@ impl Forge {
 
     fn evaluate(&self, g: &[i32; NSLOT]) -> Eval {
         let mut pre = self.base_pre;
-        let mut set_counts: Vec<(usize, usize)> = Vec::new();
+        let mut set_counts = [(0usize, 0usize); NSLOT];
+        let mut set_len = 0;
         for &item in g.iter() {
             if item < 0 {
                 continue;
@@ -1292,14 +1302,17 @@ impl Forge {
             let it = &self.items[item as usize];
             add_into(&mut pre, &it.vec);
             if let Some(st) = it.set {
-                match set_counts.iter_mut().find(|(s, _)| *s == st) {
+                match set_counts[..set_len].iter_mut().find(|(s, _)| *s == st) {
                     Some((_, n)) => *n += 1,
-                    None => set_counts.push((st, 1)),
+                    None => {
+                        set_counts[set_len] = (st, 1);
+                        set_len += 1;
+                    }
                 }
             }
         }
         let mut max_pieces = 0usize;
-        for &(st, n) in &set_counts {
+        for &(st, n) in &set_counts[..set_len] {
             add_into(&mut pre, &self.set_bonus[st][n]);
             max_pieces = max_pieces.max(n);
         }
@@ -1312,30 +1325,38 @@ impl Forge {
         // exo never takes the only item a valuable rune fits on.
         let mut exo = [0u8; NSLOT];
         let mut used = [false; NSLOT];
-        let mut hosts: Vec<usize> = Vec::new();
-        let mut exo_kinds: Vec<u8> = Vec::new();
+        let mut host_slots = [0usize; FORGEABLE.len()];
+        let mut host_len = 0;
+        let mut kind_slots = [0u8; 3];
+        let mut kind_len = 0;
         if self.exo_max > 0 {
-            hosts = FORGEABLE
-                .iter()
-                .copied()
-                .filter(|&s| g[s] >= 0 && !self.locked[s] && (!self.exo_only_ring || s == RING1 || s == RING2))
-                .collect();
-            let room = self.exo_max.min(hosts.len());
+            for &s in &FORGEABLE {
+                if g[s] >= 0 && !self.locked[s] && (!self.exo_only_ring || s == RING1 || s == RING2) {
+                    host_slots[host_len] = s;
+                    host_len += 1;
+                }
+            }
+            let room = self.exo_max.min(host_len);
             for (kind, stat, allowed) in [(1u8, AP, self.exo_ap), (2, MP, self.exo_mp), (3, RANGE, self.exo_range)] {
-                if !allowed || exo_kinds.len() >= room {
+                if !allowed || kind_len >= room {
                     continue;
                 }
                 let goal = self.targets.iter().filter(|t| t.idx == stat).map(|t| t.goal).max().unwrap_or(0);
                 if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal {
                     pre[stat] += 1;
-                    exo_kinds.push(kind);
+                    kind_slots[kind_len] = kind;
+                    kind_len += 1;
                 }
             }
         }
+        let hosts = &host_slots[..host_len];
+        let exo_kinds = &kind_slots[..kind_len];
         let mut free_hosts = hosts.len();
 
         // Characteristic thresholds the equipped items themselves demand.
-        let mut extra: Vec<Target> = Vec::new();
+        let mut scratch = self.scratch.borrow_mut();
+        let Scratch { extra, memo } = &mut *scratch;
+        extra.clear();
         for &item in g.iter() {
             if item < 0 {
                 continue;
@@ -1353,12 +1374,11 @@ impl Forge {
         // Transcendence runes: one per free forgeable item, each placed
         // where it gains the most, re-deciding points around them.
         let mut rune = [None; NSLOT];
-        let mut alloc = self.allocate(&pre, &extra);
+        let mut alloc = self.allocate(&pre, extra);
         if FORGEABLE.iter().any(|&s| g[s] >= 0 && !self.locked[s] && !self.items[g[s] as usize].runes.is_empty()) {
             let mut ch = Self::chars_of(&pre, &alloc);
             // A rune's gain depends only on (stat, value), not on which item
             // carries it: compute each distinct one once per round.
-            let mut memo: Vec<((usize, i64), f64)> = Vec::with_capacity(32);
             loop {
                 let mut best: Option<(usize, usize, i64)> = None;
                 let mut best_gain = 0.0f64;
@@ -1397,10 +1417,10 @@ impl Forge {
                 }
             }
             if rune.iter().any(|r| r.is_some()) {
-                alloc = self.allocate(&pre, &extra);
+                alloc = self.allocate(&pre, extra);
             }
         }
-        for (&s, &kind) in hosts.iter().filter(|&&s| !used[s]).zip(&exo_kinds) {
+        for (&s, &kind) in hosts.iter().filter(|&&s| !used[s]).zip(exo_kinds) {
             exo[s] = kind;
         }
         let ch = Self::chars_of(&pre, &alloc);
