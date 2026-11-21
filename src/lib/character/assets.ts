@@ -59,13 +59,18 @@ async function get(path: string): Promise<Response> {
   return res
 }
 
-export const loadLooks = () => once('looks', async () => (await get('looks.json')).json() as Promise<Looks>)
+// The index files change with every data fix (a hat paired with its real
+// skin…); the version in the URL makes each release fetch them anew instead
+// of reusing a copy a browser cached for days.
+const index = (name: string) => get(`${name}.json?v=${__APP_VERSION__}`)
 
-export const loadPets = () => once('pets', async () => (await get('pets.json')).json() as Promise<Pets>)
+export const loadLooks = () => once('looks', async () => (await index('looks')).json() as Promise<Looks>)
 
-export const loadMounts = () => once('mounts', async () => (await get('mounts.json')).json() as Promise<Mounts>)
+export const loadPets = () => once('pets', async () => (await index('pets')).json() as Promise<Pets>)
 
-export const loadGear = () => once('gear', async () => (await get('gear.json')).json() as Promise<Gear>)
+export const loadMounts = () => once('mounts', async () => (await index('mounts')).json() as Promise<Mounts>)
+
+export const loadGear = () => once('gear', async () => (await index('gear')).json() as Promise<Gear>)
 
 export const loadBone = (bone: string) =>
   once(`bone:${bone}`, async () => (await get(`bones/${bone}.json`)).json() as Promise<BoneDef>)
