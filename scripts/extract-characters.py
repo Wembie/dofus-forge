@@ -409,10 +409,8 @@ def export_mounts(client, out, reuse=False):
     for bone in sorted({m['bone'] for m in candidates.values()}, key=int):
         done = reuse and os.path.exists(os.path.join(out, 'bones', f'{bone}.json'))
         exported[bone] = done or export_bone(client, out, bone, keep=CREATURE_ANIMS.match)
-    # A look with extra skins (the armoured dragoturkey) swaps parts the
-    # renderer can't place yet (its helmeted head): left out rather than
-    # drawn wrong.
-    mounts = {k: v for k, v in candidates.items() if exported[v['bone']] and 'skins' not in v}
+    mounts = {k: v for k, v in candidates.items() if exported[v['bone']]
+              and all(export_skin(client, out, s) for s in v.get('skins', []))}
     print(f'  {len(mounts)} mounts and petsmounts')
     with open(os.path.join(out, 'mounts.json'), 'w') as f:
         json.dump(mounts, f, separators=(',', ':'))

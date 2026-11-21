@@ -18,6 +18,8 @@ export interface Entity {
   skins: Layer[]
   /** Equipment layers (also in `skins`): the only ones a hat slot is drawn from on its own. */
   worn?: Layer[]
+  /** The worn layers replace the bone's own sprites node by node (a mount's armour). */
+  armoured?: boolean
   /** The bone's own graphics, for records that reference one by index. */
   own?: { layer: Layer; names: string[] }
   /** Palette slot N (1-based) tints every ColorGray_N part. */
@@ -124,6 +126,7 @@ export class CharacterRenderer {
   private animated = new Set<string>()
   private hidden: Set<string> | undefined
   private worn: Layer[] | undefined
+  private lowerParts = new WeakMap<Skin, Map<string, string>>()
 
   constructor(private canvas: HTMLCanvasElement) {
     const gl = canvas.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: true })
@@ -165,10 +168,16 @@ export class CharacterRenderer {
     return null
   }
 
+  /** A worn layer's part for a node name; case-insensitive, as the client's node names drift in case. */
   private wornPart(name: string): [Layer, Part] | null {
     for (const layer of this.worn ?? []) {
-      const part = layer.skin.parts[name]
-      if (part) return [layer, part]
+      let lower = this.lowerParts.get(layer.skin)
+      if (!lower) {
+        lower = new Map(Object.keys(layer.skin.parts).map(k => [k.toLowerCase(), k]))
+        this.lowerParts.set(layer.skin, lower)
+      }
+      const key = layer.skin.parts[name] ? name : lower.get(name.toLowerCase())
+      if (key) return [layer, layer.skin.parts[key]]
     }
     return null
   }
@@ -286,11 +295,22 @@ export class CharacterRenderer {
     this.worn = e.worn
     const standalone = (name: string) => !HAT_SLOT.test(name) || !!e.worn?.some(l => l.skin.parts[name])
     this.animated.clear()
+    // Armour parts carry some nodes inside them (a helmeted head holds its
+    // face): those are drawn from the armour, not again on top of it.
+    const supplied = new Set<string>()
+    if (e.armoured) {
+      for (const inst of e.frame) {
+        const name = inst.node !== 0xffff ? e.nodes[inst.node] : undefined
+        const worn = name ? this.wornPart(name) : null
+        for (const entry of worn?.[1].d ?? []) if (entry[0]) supplied.add(entry[0].toLowerCase())
+      }
+    }
     for (const inst of e.frame) {
       const name = inst.node !== 0xffff ? e.nodes[inst.node] : undefined
-      if (name && standalone(name)) this.animated.add(name)
+      if (name && standalone(name) && !supplied.has(name.toLowerCase())) this.animated.add(name)
     }
     const sx = e.mirror ? -e.scale : e.scale
+    let replaced = false
     for (const inst of e.frame) {
       const m = inst.m
       const carried = inst.node !== 0xffff ? e.hooks?.[e.nodes[inst.node]] : undefined
@@ -304,7 +324,24 @@ export class CharacterRenderer {
         continue
       }
       let found: [Layer, Part] | null = null
-      if (inst.graphic >= 0 && e.own) {
+      // A creature timeline follows each named node with the bone's default
+      // sprite for it; a worn skin (a mount's armour) that supplies the node
+      // replaces that sprite.
+      const node = inst.node !== 0xffff ? e.nodes[inst.node] : undefined
+      if (replaced && inst.graphic >= 0 && !node) {
+        replaced = false
+        continue
+      }
+      replaced = false
+      if (node && supplied.has(node.toLowerCase())) {
+        replaced = true
+        continue
+      }
+      const worn = e.armoured && node ? this.wornPart(node) : null
+      if (worn) {
+        found = worn
+        replaced = true
+      } else if (inst.graphic >= 0 && e.own) {
         const part = e.own.layer.skin.parts[e.own.names[inst.graphic]]
         if (part) found = [e.own.layer, part]
       } else if (inst.node !== 0xffff) {
@@ -313,7 +350,9 @@ export class CharacterRenderer {
       }
       if (!found) continue
       const root: Mat = [sx * m[0], e.scale * m[3], sx * m[1], e.scale * m[4], sx * m[2] + e.x + ox, e.scale * m[5] + e.y + oy]
-      this.drawPart(found[0], found[1], root, 0, inst, 0)
+      // A node named ColorGray_N_… tints the part it places, like a nested symbol does.
+      const tint = node ? TINT_RE.exec(node) : null
+      this.drawPart(found[0], found[1], root, tint ? Number(tint[1]) : 0, inst, 0)
     }
   }
 

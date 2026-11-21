@@ -16,7 +16,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Hats, capes and shields: 42 more pieces drawn (803 in total), among them the colourable sets like the Gar, Tic-tac and Labrita capes and the Piezo, Diapa and Locado hats',
       'Fixed the Count Kontatrás hat and the Mori Arty cape, which showed the wrong look',
       "Colourable pieces take your character's own colours, exactly like in the game; invisible ones stay invisible",
-      'Mounts: the 54 newest Seemyools (amber, coral, azure, aquamarine and their pairs) now show up when ridden, with their own colours and stripes',
+      'Mounts: the 54 newest Seemyools (amber, coral, azure, aquamarine and their pairs) and the Armoured Dragoturkey, helmet included, now show up when ridden',
       'The Forger: a full test suite now pins down exactly what it finds today (12,000 builds across 8 different orders and 5 complete forges, checked against the stats engine), so every upcoming speed-up has to prove it changes no result',
       "The What's New window: a release headline no longer pushes its notes into the narrow date column",
       'The Forger: the "Full guide" link opened a page that no longer exists; it now opens the Forger guide in your language',

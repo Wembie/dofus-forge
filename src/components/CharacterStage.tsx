@@ -50,7 +50,7 @@ interface Figure {
 
 type Companion =
   | { kind: 'pet'; figure: Figure; scale: number; colors?: number[] }
-  | { kind: 'mount'; figure: Figure; rider: Figure; colors?: number[]; scale: number }
+  | { kind: 'mount'; figure: Figure; rider: Figure; colors?: number[]; scale: number; skins: Layer[] }
 
 interface Props {
   breed: number
@@ -162,7 +162,7 @@ export function CharacterStage({ breed, gender, companion, gear, width, height, 
           const scene = (lf: number, ef: number): Entity => {
             if (extra?.kind === 'mount') {
               const rider = figureEntity(extra.rider, ef, dressed)
-              return figureEntity(extra.figure, lf, { colors: extra.colors, scale: extra.scale / look.scale, hooks: { [RIDER_HOOK]: rider } })
+              return figureEntity(extra.figure, lf, { skins: extra.skins, worn: extra.skins, armoured: extra.skins.length > 0, colors: extra.colors, scale: extra.scale / look.scale, hooks: { [RIDER_HOOK]: rider } })
             }
             const root = figureEntity(player, lf, dressed)
             if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, { scale: extra.scale / look.scale, colors: extra.colors }) }
@@ -253,11 +253,12 @@ export function CharacterStage({ breed, gender, companion, gear, width, height, 
       const pet = pets[companion]
       let next: Companion | null = null
       if (mount) {
-        const [figure, rider] = await Promise.all([
+        const [figure, rider, skins] = await Promise.all([
           loadFigure(mount.bone, anim),
           loadFigure(RIDER_BONE, `${RIDER_ANIM}_${file}`),
+          Promise.all((mount.skins ?? []).map(s => loadSkin(s))),
         ])
-        next = { kind: 'mount', figure, rider, colors: mount.colors, scale: mount.scale ?? 100 }
+        next = { kind: 'mount', figure, rider, colors: mount.colors, scale: mount.scale ?? 100, skins }
       } else if (pet) {
         next = { kind: 'pet', figure: await loadFigure(pet.bone, anim), scale: pet.scale, colors: pet.colors }
       }
