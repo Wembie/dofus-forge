@@ -13,6 +13,24 @@ const withReq = (req: ForgeRequirement): OptimizerConfig => {
 }
 const wireStat = (config: OptimizerConfig, stat: string) => toWireConfig(config, 96, 200).stats.find(s => s.stat === stat)
 
+describe('a new order', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('starts at 12 AP and 6 MP, capped there, and nothing else', () => {
+    const active = toWireConfig(makeDefaultConfig(), 96, 200).stats
+    expect(active).toEqual([
+      { stat: 'ap', goal: 12, weight: leyPreset('ap', 2), max: 12, absolute: false },
+      { stat: 'mp', goal: 6, weight: leyPreset('mp', 2), max: 6, absolute: false },
+    ])
+    expect(loadSavedConfig().stats.filter(isActive).map(r => r.stat)).toEqual(['ap', 'mp'])
+  })
+
+  it('keeps a saved order as it was', () => {
+    persistConfig({ ...makeDefaultConfig(), stats: makeDefaultConfig().stats.map(r => emptyReq(r.stat)) })
+    expect(loadSavedConfig().stats.filter(isActive)).toEqual([])
+  })
+})
+
 describe('toWireConfig', () => {
   it('never asks for gear above the character level', () => {
     const config = { ...makeDefaultConfig(), maxLevel: 200 }

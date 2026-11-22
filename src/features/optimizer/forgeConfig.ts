@@ -57,9 +57,16 @@ export function clampLevel(v: number | null | undefined, fallback = MAX_LEVEL): 
 // previous defaults pick up the new ones once.
 const DEFAULTS_REV = 2
 
+// A new order starts from what nearly every build wants: 12 AP and 6 MP.
+const DEFAULT_GOALS: Partial<Record<OptimizerStatKey, number>> = { ap: 12, mp: 6 }
+const defaultReq = (stat: OptimizerStatKey): ForgeRequirement => {
+  const minimum = DEFAULT_GOALS[stat]
+  return minimum ? { stat, minimum, weight: leyPreset(stat, 2), cap: minimum, strictCap: false } : emptyReq(stat)
+}
+
 export function makeDefaultConfig(): OptimizerConfig {
   return {
-    stats:               OPTIMIZER_STATS.map(s => emptyReq(s.key)),
+    stats:               OPTIMIZER_STATS.map(s => defaultReq(s.key)),
     exo:                 { ap: true, mp: true, range: true, onlyOnRing: true, maxCount: 3 },
     transcendence:       true,
     maxLevel:            MAX_LEVEL,
