@@ -2209,5 +2209,11 @@
   "fg_pro_badge": "Pro exo +{{value}} {{stat}}",
   "fg_forge_runes": "Runes",
   "fg_forge_exos": "AP / MP / Range exos",
-  "fg_forge_exos_hint": "Only where they complete a minimum, and never on an item that already has that line: 2 range weigh 102, past the 101 limit."
+  "fg_forge_exos_hint": "Only where they complete a minimum, and never on an item that already has that line: 2 range weigh 102, past the 101 limit.",
+  "runes_room": "Up to +{{n}} fits. Item exos and overs: {{used}} / {{limit}} weight.",
+  "runes_block_line": "Impossible: the line would weigh {{weight}} and the limit is {{limit}}.",
+  "runes_block_item": "Impossible: the item already carries {{used}} weight of exos and overs, and the limit is {{limit}}.",
+  "runes_block_transcendence": "Impossible: an item with a transcendence rune takes no more magesmithy.",
+  "runes_transcendence_blocked": "Impossible: transcendence does not go on an item with exos or overs. Remove its regular runes first.",
+  "runes_impossible": "impossible in the game"
 }

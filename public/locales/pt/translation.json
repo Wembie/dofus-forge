@@ -2209,5 +2209,11 @@
   "fg_pro_badge": "Exo pro +{{value}} {{stat}}",
   "fg_forge_runes": "Runas",
   "fg_forge_exos": "Exos PA / PM / Alcance",
-  "fg_forge_exos_hint": "Só onde completam um mínimo, e nunca num item que já tem essa linha: 2 de alcance pesam 102, além do limite de 101."
+  "fg_forge_exos_hint": "Só onde completam um mínimo, e nunca num item que já tem essa linha: 2 de alcance pesam 102, além do limite de 101.",
+  "runes_room": "Cabe até +{{n}}. Exos e overs do item: {{used}} / {{limit}} de peso.",
+  "runes_block_line": "Impossível: a linha pesaria {{weight}} e o máximo é {{limit}}.",
+  "runes_block_item": "Impossível: o item já soma {{used}} de peso em exos e overs, e o máximo é {{limit}}.",
+  "runes_block_transcendence": "Impossível: um item com runa de transcendência não aceita mais forjamagia.",
+  "runes_transcendence_blocked": "Impossível: a transcendência não entra num item com exos ou overs. Retire antes as runas normais.",
+  "runes_impossible": "impossível no jogo"
 }

@@ -2209,5 +2209,11 @@
   "fg_pro_badge": "Exo pro +{{value}} {{stat}}",
   "fg_forge_runes": "Runes",
   "fg_forge_exos": "Exos PA / PM / Portée",
-  "fg_forge_exos_hint": "Seulement là où ils complètent un minimum, et jamais sur un objet qui a déjà cette ligne : 2 de portée pèsent 102, au-delà de la limite de 101."
+  "fg_forge_exos_hint": "Seulement là où ils complètent un minimum, et jamais sur un objet qui a déjà cette ligne : 2 de portée pèsent 102, au-delà de la limite de 101.",
+  "runes_room": "Jusqu'à +{{n}} possible. Exos et overs de l'objet : {{used}} / {{limit}} de poids.",
+  "runes_block_line": "Impossible : la ligne pèserait {{weight}} et la limite est {{limit}}.",
+  "runes_block_item": "Impossible : l'objet porte déjà {{used}} de poids en exos et overs, et la limite est {{limit}}.",
+  "runes_block_transcendence": "Impossible : un objet avec une rune de transcendance n'accepte plus de forgemagie.",
+  "runes_transcendence_blocked": "Impossible : la transcendance ne va pas sur un objet avec exos ou overs. Retirez d'abord ses runes normales.",
+  "runes_impossible": "impossible en jeu"
 }

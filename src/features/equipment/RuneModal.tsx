@@ -16,6 +16,7 @@ import {
   FORGEABLE_SLOTS,
   TRANSCENDENCE,
   bestRank,
+  lineValue,
   lineWeight,
   rankOptions,
 } from "@/features/equipment/transcendence.ts";
@@ -26,8 +27,14 @@ import {
   TRANSFORM_ELEMENTS,
   TRANSFORM_RATIOS,
   canTransformWeapon,
+  EXOTIC_LIMIT,
+  RUNE_WEIGHT,
   exoticFirst,
   quickValuesFor,
+  runeImpossible,
+  runeRoom,
+  runesWeight,
+  type RuneBlock,
 } from "@/features/equipment/runeRules.ts";
 import { normalizeSearch } from "@/ui/normalize.ts";
 import { Modal } from "@/ui";
@@ -106,12 +113,20 @@ export function RuneModal({
   const label = (stat: string) =>
     STAT_META[stat] ? t(STAT_META[stat].tKey) : stat;
   const n = amount === "" ? 0 : amount;
+  const fits = runeRoom(item, runes, selected),
+    lockedByRunes = normal.length > 0;
+  const blockText = (block: RuneBlock, weight: number, used: number) =>
+    block === "transcendence"
+      ? t("runes_block_transcendence")
+      : block === "line"
+        ? t("runes_block_line", { weight, limit: EXOTIC_LIMIT })
+        : t("runes_block_item", { used, limit: EXOTIC_LIMIT });
   function pick(stat: string) {
     setSelected(stat);
     setAmount(quickValuesFor(stat)[0]);
   }
   function add() {
-    if (n <= 0) return;
+    if (n <= 0 || n > fits.room) return;
     const value = (runes[selected] ?? 0) + n;
     startTransition(() => b.setRune(slot, selected, value));
     playRune();
@@ -119,7 +134,7 @@ export function RuneModal({
   function transcend(stat: string) {
     setFocus(stat);
     const best = bestRank(item, stat);
-    if (best) { startTransition(() => b.setExotic(slot, stat, best.value)); playRune(true); }
+    if (best && !lockedByRunes) { startTransition(() => b.setExotic(slot, stat, best.value)); playRune(true); }
   }
   const q = normalizeSearch(query.trim()),
     sections = RUNE_SECTIONS.map((section) => ({
@@ -194,7 +209,10 @@ export function RuneModal({
                       <button
                         key={stat}
                         aria-pressed={stat === selected}
-                        className={(runes[stat] ?? 0) > 0 ? "has-rune" : ""}
+                        className={
+                          ((runes[stat] ?? 0) > 0 ? "has-rune " : "") +
+                          (runeRoom(item, runes, stat).room > 0 ? "" : "is-blocked")
+                        }
                         onClick={() => pick(stat)}
                       >
                         <RuneArt stat={stat} />
@@ -209,6 +227,7 @@ export function RuneModal({
           ) : (
             <section className="runes-pick" aria-label={t("runes_pick_transcendence")}>
               <p className="runes-note">{t("runes_transcendence_note")}</p>
+              {lockedByRunes && <p className="runes-error">{t("runes_transcendence_blocked")}</p>}
               <div className="runes-grid">
                 {TRANSCENDENCE.map(({ stat }) => {
                   const best = bestRank(item, stat);
@@ -218,13 +237,13 @@ export function RuneModal({
                       aria-pressed={focus === stat}
                       className={
                         (exotic?.stat === stat ? "has-rune " : "") +
-                        (best ? "" : "is-blocked")
+                        (best && !lockedByRunes ? "" : "is-blocked")
                       }
                       onClick={() => transcend(stat)}
                     >
                       <RuneArt stat={stat} exotic />
                       <span>{label(stat)}</span>
-                      <b>{best ? `+${best.value}` : "—"}</b>
+                      <b>{best && !lockedByRunes ? `+${best.value}` : "—"}</b>
                     </button>
                   );
                 })}
@@ -246,6 +265,7 @@ export function RuneModal({
                     <button
                       key={v}
                       aria-pressed={amount === v}
+                      disabled={v > fits.room}
                       onClick={() => setAmount(v)}
                     >
                       +{v}
@@ -274,10 +294,17 @@ export function RuneModal({
                   >
                     <Plus size={15} />
                   </button>
-                  <button className="site-primary" disabled={n <= 0} onClick={add}>
+                  <button className="site-primary" disabled={n <= 0 || n > fits.room} onClick={add}>
                     {t("runes_add", { n })}
                   </button>
                 </div>
+                {fits.room > 0 ? (
+                  <p className="runes-note">
+                    {t("runes_room", { n: fits.room, used: fits.itemWeight, limit: EXOTIC_LIMIT })}
+                  </p>
+                ) : (
+                  <p className="runes-error">{blockText(fits.block, fits.lineWeight, fits.itemWeight)}</p>
+                )}
               </div>
             ) : (
               <div className="runes-add">
@@ -294,7 +321,7 @@ export function RuneModal({
                       {options.map((o) => (
                         <button
                           key={o.rank}
-                          disabled={!o.allowed}
+                          disabled={!o.allowed || lockedByRunes}
                           aria-pressed={exotic?.stat === focus && exotic.value === o.value}
                           title={
                             o.allowed
@@ -372,10 +399,22 @@ export function RuneModal({
                 <ul>
                   {normal.map(([key, value]) => {
                     const stat = runeStat(key);
+                    const impossible = runeImpossible(item, runes, key);
                     return (
-                      <li key={key}>
+                      <li
+                        key={key}
+                        className={impossible ? "is-impossible" : undefined}
+                        title={
+                          impossible
+                            ? blockText(impossible, Math.round((lineValue(item, stat) + value) * (RUNE_WEIGHT[stat] ?? 1) * 10) / 10, runesWeight(runes))
+                            : undefined
+                        }
+                      >
                         <RuneArt stat={stat} runeKey={key} />
-                        <span>{label(stat)}</span>
+                        <span>
+                          {label(stat)}
+                          {impossible && <small>{t("runes_impossible")}</small>}
+                        </span>
                         <b>+{value}</b>
                         <button
                           aria-label={t("runes_remove_rune", { stat: label(stat) })}
