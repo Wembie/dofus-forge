@@ -497,7 +497,34 @@ impl Worn {
 // memory once they have grown to the largest build seen.
 struct Scratch {
     extra: Vec<Target>,
-    memo: Vec<((usize, i64), f64)>,
+    memo: Box<RuneMemo>,
+}
+
+// stat_gain() per (stat, amount) during one build's rune placement, indexed
+// by stat. A stat keeps a few amounts (rune ranks, pro exo values); one more
+// is computed again rather than stored.
+const MEMO_PER_STAT: usize = 8;
+// stat_links and RuneMemo::forget hold one bit per dense stat.
+const _: () = assert!(NF <= 64);
+struct RuneMemo {
+    vals: [[(i64, f64); MEMO_PER_STAT]; NF],
+    len: [u8; NF],
+}
+
+impl RuneMemo {
+    fn new() -> Self {
+        RuneMemo { vals: [[(0, 0.0); MEMO_PER_STAT]; NF], len: [0; NF] }
+    }
+    fn clear(&mut self) {
+        self.len = [0; NF];
+    }
+    // Forgets the stats in `mask` (bit per dense stat).
+    fn forget(&mut self, mut mask: u64) {
+        while mask != 0 {
+            self.len[mask.trailing_zeros() as usize] = 0;
+            mask &= mask - 1;
+        }
+    }
 }
 
 pub struct Forge {
@@ -520,6 +547,7 @@ pub struct Forge {
     base_pre: Vec60,
     targets: Vec<Target>,
     stat_targets: Vec<Vec<usize>>, // [dense stat] -> targets it feeds
+    stat_links: Vec<u64>,          // [dense stat] -> stats sharing a target with it (bit per stat)
     level: i64,
     scrolled: ScrolledCharacteristics,
     locked_runes: Vec<ItemEffect>,
@@ -578,6 +606,9 @@ impl Forge {
             })
             .collect();
         let stat_targets: Vec<Vec<usize>> = (0..NF).map(|i| targets.iter().enumerate().filter(|(_, t)| feeds(i, t)).map(|(ti, _)| ti).collect()).collect();
+        let stat_links: Vec<u64> = (0..NF)
+            .map(|i| (0..NF).filter(|&k| stat_targets[k].iter().any(|t| stat_targets[i].contains(t))).fold(0u64, |m, k| m | 1 << k))
+            .collect();
 
         // Sets
         let set_index: HashMap<i64, usize> = sets.iter().enumerate().map(|(i, s)| (s.ankama_id, i)).collect();
@@ -748,6 +779,7 @@ impl Forge {
             base_pre,
             targets,
             stat_targets,
+            stat_links,
             level: base.level,
             scrolled,
             locked_runes,
@@ -768,7 +800,7 @@ impl Forge {
             inject_turn: 0,
             evaluations: std::cell::Cell::new(0),
             cache: std::cell::RefCell::new(HashMap::with_capacity_and_hasher(1 << 16, IdentityBuild)),
-            scratch: std::cell::RefCell::new(Scratch { extra: Vec::with_capacity(32), memo: Vec::with_capacity(64) }),
+            scratch: std::cell::RefCell::new(Scratch { extra: Vec::with_capacity(32), memo: Box::new(RuneMemo::new()) }),
             settle_tempered: false,
             stagnation_reset: STAGNATION_RESET,
             set_rank_bias: 0.7,
@@ -1376,8 +1408,6 @@ impl Forge {
         alloc
     }
 
-    // Gain of adding `amount` to raw stat `i`, at characteristic totals `ch`
-    // (applied in place and reverted: no copy of the stat vector).
     // Hosts for each exo kind, in order (first fit, backtracking): an item
     // takes one exo, only of a line it lacks, and never a slot in `taken`.
     fn exo_assign(&self, g: &[i32; NSLOT], hosts: &[usize], kinds: &[u8], taken: u32) -> Option<[usize; 3]> {
@@ -1397,16 +1427,22 @@ impl Forge {
         place(self, g, hosts, kinds, taken, &mut at, 0).then_some(at)
     }
 
-    // stat_gain() remembered for the current round of rune placement.
-    fn memo_gain(&self, memo: &mut Vec<((usize, i64), f64)>, pre: &mut Vec60, ch: &mut [i64; 6], i: usize, v: i64) -> f64 {
-        if let Some((_, gain)) = memo.iter().find(|(k, _)| *k == (i, v)) {
-            return *gain;
+    // stat_gain(), remembered until a placed rune touches a target it reads.
+    fn memo_gain(&self, memo: &mut RuneMemo, pre: &mut Vec60, ch: &mut [i64; 6], i: usize, v: i64) -> f64 {
+        let n = memo.len[i] as usize;
+        if let Some(&(_, gain)) = memo.vals[i][..n].iter().find(|(a, _)| *a == v) {
+            return gain;
         }
         let gain = self.stat_gain(pre, ch, i, v);
-        memo.push(((i, v), gain));
+        if n < MEMO_PER_STAT {
+            memo.vals[i][n] = (v, gain);
+            memo.len[i] += 1;
+        }
         gain
     }
 
+    // Gain of adding `amount` to raw stat `i`, at characteristic totals `ch`
+    // (applied in place and reverted: no copy of the stat vector).
     fn stat_gain(&self, pre: &mut Vec60, ch: &mut [i64; 6], i: usize, amount: i64) -> f64 {
         let targets = &self.stat_targets[i];
         let before: f64 = targets.iter().map(|&ti| Self::greedy_value(&self.targets[ti], self.effective(pre, ch, &self.targets[ti]))).sum();
@@ -1509,13 +1545,14 @@ impl Forge {
         if FORGEABLE.iter().any(|&s| g[s] >= 0 && !self.locked[s] && (pro_left > 0 || !self.items[g[s] as usize].runes.is_empty())) {
             let mut ch = Self::chars_of(&pre, &alloc);
             // A rune's gain depends only on (stat, value), not on which item
-            // carries it: compute each distinct one once per round.
+            // carries it, and only changes once a placed rune moves a target
+            // it reads: compute each one once, forget it when that happens.
+            memo.clear();
             loop {
                 let mut best: Option<(usize, usize, i64)> = None;
                 let mut best_gain = 0.0f64;
                 let mut open = [0usize; FORGEABLE.len()];
                 let mut open_len = 0;
-                memo.clear();
                 for &s in &FORGEABLE {
                     if g[s] < 0 || self.locked[s] || used[s] {
                         continue;
@@ -1584,6 +1621,7 @@ impl Forge {
                 rune[s] = Some((i, v));
                 used[s] = true;
                 taken |= 1 << s;
+                memo.forget(self.stat_links[i]);
             }
             if rune.iter().any(|r| r.is_some()) {
                 alloc = self.allocate(&pre, extra);

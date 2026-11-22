@@ -643,3 +643,20 @@ fn agility_results_verify() {
         println!("  {slot}: {}{rune}", names[id]);
     }
 }
+
+// Fixed work on agility_order (runes on): the same generations evaluate the
+// same builds on any engine that scores identically, so evaluations per
+// second compare engines without noise from the search itself.
+#[test]
+#[ignore]
+fn agility_eval_throughput() {
+    let gens: u64 = std::env::var("FORGE_GENS").ok().and_then(|v| v.parse().ok()).unwrap_or(30);
+    let mut f = agility_forge(1, 24);
+    let start = Instant::now();
+    for _ in 0..gens {
+        f.run_generation();
+    }
+    let secs = start.elapsed().as_secs_f64();
+    let evals = f.report().evaluations;
+    println!("agility throughput: {evals} evaluations in {secs:.2}s = {:.0}/s best {:.3}", evals as f64 / secs, f.best_score());
+}
