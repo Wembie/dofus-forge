@@ -209,3 +209,19 @@ describe('OptimizerModal Dofus slot kinds', () => {
     expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).excludedKinds).toEqual(['Prysmaradite'])
   })
 })
+
+describe('OptimizerModal pro magesmithy', () => {
+  it('shows the cap and limit only once switched on, with what the cap buys', () => {
+    useBuildStore.setState({ selectedClass: 'iop', equipped: {} })
+    useDataStore.setState({ equipment: DOFUS, sets: [] })
+    const { unmount } = render(<MemoryRouter><OptimizerModal open onClose={() => {}} /></MemoryRouter>)
+    expect(screen.queryByRole('combobox', { name: 'fg_pro_res' })).toBeNull()
+    fireEvent.click(screen.getByRole('checkbox', { name: 'fg_pro_exo' }))
+    expect(screen.getByText('fg_pro_budget')).toBeTruthy()
+    fireEvent.change(screen.getByRole('combobox', { name: 'fg_pro_res' }), { target: { value: '2' } })
+    expect(screen.getByText('fg_pro_budget_res_only')).toBeTruthy()
+    fireEvent.change(screen.getByRole('combobox', { name: 'fg_pro_max' }), { target: { value: '4' } })
+    unmount()
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!)).toMatchObject({ proExo: true, proExoRes: 2, proExoMax: 4 })
+  })
+})

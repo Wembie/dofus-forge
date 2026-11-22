@@ -149,6 +149,16 @@ const MORE_TRANSCENDENCE: [(&str, [i64; 3]); 5] = [
 ];
 const RANK_WEIGHT_LIMIT: [f64; 3] = [60.0, 40.0, 20.0];
 
+// Lines pro forgemagie adds as an exo: an item takes one, worth up to
+// 6 x the player's % resistance cap in weight, and never past the game's
+// 101 limit on exotic and over weight per item.
+const PRO_LINES: [&str; 11] = [
+    "neutralResPercent", "earthResPercent", "fireResPercent", "waterResPercent", "airResPercent",
+    "meleeResistPercent", "rangedResistPercent",
+    "meleeDamagePercent", "rangedDamagePercent", "spellDamagePercent", "weaponDamagePercent",
+];
+const EXOTIC_WEIGHT_LIMIT: f64 = 101.0;
+
 // Sheet rune names (RuneModal's stat keys) for each runeable dense stat.
 fn rune_stat_name(i: usize) -> &'static str {
     match FIELDS[i] {
@@ -433,7 +443,8 @@ struct Eval {
     score: f64,
     alloc: [i64; 6],
     exo: [u8; NSLOT],                   // 0 none, 1 ap, 2 mp, 3 range
-    rune: [Option<(usize, i64)>; NSLOT], // transcendence rune per slot
+    rune: [Option<(usize, i64)>; NSLOT], // transcendence rune (or pro exo) per slot
+    pro: u32,                            // bit per slot whose rune is a pro exo
     conditions_ok: bool,
     meets_required: bool,
     requirements_met: usize,
@@ -512,6 +523,9 @@ pub struct Forge {
     exo_range: bool,
     exo_only_ring: bool,
     exo_max: usize,
+    // Pro exo lines this order scores: (stat, biggest value the budget buys).
+    pro_table: Vec<(usize, i64)>,
+    pro_max: usize,
     islands: Vec<Island>,
     next_pop: Vec<Individual>, // reused buffer for an island's next generation
     member_order: Vec<usize>,  // reused buffer for shuffling a set's members
@@ -581,6 +595,18 @@ impl Forge {
             .filter_map(|(name, values)| FIELDS.iter().position(|f| f == name).map(|i| (i, *values)))
             .filter(|(i, _)| !stat_targets[*i].is_empty() && config.transcendence)
             .collect();
+        let pro_budget = (6.0 * config.pro_exo_res.clamp(1, 5) as f64).min(EXOTIC_WEIGHT_LIMIT);
+        let pro_table: Vec<(usize, i64)> = if config.pro_exo_max == 0 {
+            Vec::new()
+        } else {
+            PRO_LINES
+                .iter()
+                .filter_map(|name| FIELDS.iter().position(|f| f == name))
+                .filter(|&i| !stat_targets[i].is_empty())
+                .map(|i| (i, (pro_budget / fm_weight(i)).floor() as i64))
+                .filter(|&(_, v)| v > 0)
+                .collect()
+        };
 
         // Items
         let passive_by_id: HashMap<i64, &Vec<ItemEffect>> = config.passive_effects.iter().map(|p| (p.id, &p.effects)).collect();
@@ -712,6 +738,8 @@ impl Forge {
             exo_range: config.exo.range,
             exo_only_ring: config.exo.only_on_ring,
             exo_max: config.exo.max_count.clamp(0, 3) as usize,
+            pro_max: if pro_table.is_empty() { 0 } else { config.pro_exo_max.min(FORGEABLE.len()) },
+            pro_table,
             islands: Vec::new(),
             next_pop: Vec::with_capacity(ISLAND_SIZE),
             member_order: Vec::new(),
@@ -740,7 +768,7 @@ impl Forge {
         let exo_wanted = forge.exo_max > 0 && (forge.exo_ap || forge.exo_mp || forge.exo_range);
         for &s in &forge.free_slots.clone() {
             let exempt = s >= DOFUS_FIRST || ALL_SLOTS[s] == "companion" || ALL_SLOTS[s] == "sidekick";
-            let rune_host = FORGEABLE.contains(&s) && (exo_wanted && (!forge.exo_only_ring || s == RING1 || s == RING2));
+            let rune_host = FORGEABLE.contains(&s) && (forge.pro_max > 0 || (exo_wanted && (!forge.exo_only_ring || s == RING1 || s == RING2)));
             let pool: Vec<i32> = forge
                 .catalog
                 .iter()
@@ -1322,6 +1350,16 @@ impl Forge {
 
     // Gain of adding `amount` to raw stat `i`, at characteristic totals `ch`
     // (applied in place and reverted: no copy of the stat vector).
+    // stat_gain() remembered for the current round of rune placement.
+    fn memo_gain(&self, memo: &mut Vec<((usize, i64), f64)>, pre: &mut Vec60, ch: &mut [i64; 6], i: usize, v: i64) -> f64 {
+        if let Some((_, gain)) = memo.iter().find(|(k, _)| *k == (i, v)) {
+            return *gain;
+        }
+        let gain = self.stat_gain(pre, ch, i, v);
+        memo.push(((i, v), gain));
+        gain
+    }
+
     fn stat_gain(&self, pre: &mut Vec60, ch: &mut [i64; 6], i: usize, amount: i64) -> f64 {
         let targets = &self.stat_targets[i];
         let before: f64 = targets.iter().map(|&ti| Self::greedy_value(&self.targets[ti], self.effective(pre, ch, &self.targets[ti]))).sum();
@@ -1419,14 +1457,18 @@ impl Forge {
         // Transcendence runes: one per free forgeable item, each placed
         // where it gains the most, re-deciding points around them.
         let mut rune = [None; NSLOT];
+        let mut pro = 0u32;
+        let mut pro_left = self.pro_max;
         let mut alloc = self.allocate(&pre, extra);
-        if FORGEABLE.iter().any(|&s| g[s] >= 0 && !self.locked[s] && !self.items[g[s] as usize].runes.is_empty()) {
+        if FORGEABLE.iter().any(|&s| g[s] >= 0 && !self.locked[s] && (pro_left > 0 || !self.items[g[s] as usize].runes.is_empty())) {
             let mut ch = Self::chars_of(&pre, &alloc);
             // A rune's gain depends only on (stat, value), not on which item
             // carries it: compute each distinct one once per round.
             loop {
                 let mut best: Option<(usize, usize, i64)> = None;
                 let mut best_gain = 0.0f64;
+                let mut open = [0usize; FORGEABLE.len()];
+                let mut open_len = 0;
                 memo.clear();
                 for &s in &FORGEABLE {
                     if g[s] < 0 || self.locked[s] || used[s] {
@@ -1435,22 +1477,53 @@ impl Forge {
                     if free_hosts <= exo_kinds.len() && hosts.contains(&s) {
                         continue;
                     }
+                    open[open_len] = s;
+                    open_len += 1;
                     for &(i, v) in &self.items[g[s] as usize].runes {
-                        let gain = match memo.iter().find(|(k, _)| *k == (i, v)) {
-                            Some((_, gain)) => *gain,
-                            None => {
-                                let gain = self.stat_gain(&mut pre, &mut ch, i, v);
-                                memo.push(((i, v), gain));
-                                gain
-                            }
-                        };
+                        let gain = self.memo_gain(memo, &mut pre, &mut ch, i, v);
                         if gain > best_gain {
                             best_gain = gain;
                             best = Some((s, i, v));
                         }
                     }
                 }
+                let mut is_pro = false;
+                if pro_left > 0 && open_len > 0 {
+                    let mut pick: Option<(usize, i64, f64)> = None;
+                    for &(i, top) in &self.pro_table {
+                        let gain = self.memo_gain(memo, &mut pre, &mut ch, i, top);
+                        if gain > best_gain && pick.is_none_or(|(_, _, g)| gain > g) {
+                            pick = Some((i, top, gain));
+                        }
+                    }
+                    if let Some((i, top, gain)) = pick {
+                        // The smallest exo worth as much (no 5% where 3% reaches the cap).
+                        let v = (1..top).find(|&v| self.memo_gain(memo, &mut pre, &mut ch, i, v) >= gain - 1e-9).unwrap_or(top);
+                        // Worth the same on any item: it goes on the one whose
+                        // best rune on another stat is worth the least.
+                        let mut slot = open[0];
+                        let mut slot_loss = f64::INFINITY;
+                        for &s in &open[..open_len] {
+                            let loss = self.items[g[s] as usize]
+                                .runes
+                                .iter()
+                                .filter(|&&(ri, _)| ri != i)
+                                .map(|&(ri, rv)| self.memo_gain(memo, &mut pre, &mut ch, ri, rv))
+                                .fold(0.0f64, f64::max);
+                            if loss < slot_loss {
+                                slot_loss = loss;
+                                slot = s;
+                            }
+                        }
+                        best = Some((slot, i, v));
+                        is_pro = true;
+                    }
+                }
                 let Some((s, i, v)) = best else { break };
+                if is_pro {
+                    pro |= 1 << s;
+                    pro_left -= 1;
+                }
                 pre[i] += v;
                 if (VIT..=AGI).contains(&i) {
                     ch[i - VIT] += v;
@@ -1527,6 +1600,7 @@ impl Forge {
         Eval {
             score,
             alloc,
+            pro,
             exo,
             rune,
             conditions_ok: conditions_ok && legal,
@@ -2081,7 +2155,7 @@ impl Forge {
             if let Some((i, v)) = ev.rune[s] {
                 let stat = rune_stat_name(i).to_string();
                 rune_effects.push(ItemEffect { stat: stat.clone(), min: v, max: v, effect_id: None });
-                runes.insert(ALL_SLOTS[s].to_string(), RuneChoice { stat, value: v });
+                runes.insert(ALL_SLOTS[s].to_string(), RuneChoice { stat, value: v, exotic: ev.pro & (1 << s) != 0 });
             }
         }
         let allocated = AllocatedCharacteristics {
@@ -2143,6 +2217,9 @@ impl Forge {
         if forgeable_runes > 9 || r.exo.keys().any(|s| r.runes.contains_key(s)) {
             return Err("more than one rune on an item".into());
         }
+        if r.runes.values().filter(|x| x.exotic).count() > self.pro_max {
+            return Err("more pro exos than allowed".into());
+        }
         Ok(())
     }
 }
@@ -2172,6 +2249,8 @@ mod tests {
             banned_types: vec![],
             required_items: vec![],
             passive_effects: vec![],
+            pro_exo_max: 0,
+            pro_exo_res: 5,
             transcendence: false,
             islands: 4,
             prune: true,
@@ -2810,6 +2889,90 @@ mod tests {
         assert_eq!(r.exo.len(), 1);
         assert_eq!(r.runes.len(), 1);
         assert_eq!(get_stat(&r.stats, "ap"), BASE_AP + 1);
+        assert!(r.meets_required);
+    }
+
+    fn pro(cfg: &mut OptimizerConfig, max: usize, res: i64) {
+        cfg.pro_exo_max = max;
+        cfg.pro_exo_res = res;
+    }
+    fn exotic(r: &BuildResult) -> Vec<(String, String, i64)> {
+        let mut v: Vec<_> = r.runes.iter().filter(|(_, x)| x.exotic).map(|(s, x)| (s.clone(), x.stat.clone(), x.value)).collect();
+        v.sort();
+        v
+    }
+
+    #[test]
+    fn pro_exo_closes_a_resistance_goal_no_item_has() {
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let mut cfg = config(vec![cond("earthResPercent", 5, 30)], &["hat"]);
+        pro(&mut cfg, 1, 5);
+        let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 3);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(exotic(r), vec![("hat".to_string(), "% Earth Resistance".to_string(), 5)]);
+        assert_eq!(get_stat(&r.stats, "earthResPercent"), 5);
+        assert!(r.meets_required);
+    }
+
+    #[test]
+    fn pro_exo_is_off_unless_asked() {
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let mut f = Forge::new(config(vec![cond("earthResPercent", 5, 30)], &["hat"]), vec![hat], vec![], base(1), 3);
+        let r = &run(&mut f, 3)[0];
+        assert!(r.runes.is_empty());
+        assert!(!r.meets_required);
+    }
+
+    #[test]
+    fn pro_exos_stay_within_the_build_limit_and_the_cap() {
+        let items: Vec<CatalogItem> = ["hat", "cape", "amulet", "belt", "boots"].iter().enumerate().map(|(i, s)| item(i as i64 + 1, s, None, vec![effect("Strength", 1)])).collect();
+        let mut cfg = config(vec![cond("earthResPercent", 50, 30)], &["hat", "cape", "amulet", "belt", "boots"]);
+        pro(&mut cfg, 2, 3);
+        let mut f = Forge::new(cfg, items, vec![], base(1), 4);
+        let r = &run(&mut f, 3)[0];
+        let ex = exotic(r);
+        assert_eq!(ex.len(), 2);
+        assert!(ex.iter().all(|(_, stat, v)| stat == "% Earth Resistance" && *v == 3));
+        assert_eq!(get_stat(&r.stats, "earthResPercent"), 6);
+    }
+
+    #[test]
+    fn pro_exo_takes_the_smallest_value_that_reaches_the_cap() {
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let mut cfg = config(vec![StatConfig { stat: "earthResPercent".into(), goal: 3, weight: 30, max: Some(3), absolute: false }], &["hat"]);
+        pro(&mut cfg, 1, 5);
+        let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 5);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(exotic(r), vec![("hat".to_string(), "% Earth Resistance".to_string(), 3)]);
+    }
+
+    #[test]
+    fn pro_damage_exo_follows_the_weight_budget() {
+        // % spell damage weighs 15: a budget of 5% resistance (30) buys 2%,
+        // one of 2% resistance (12) buys none.
+        for (res, want) in [(5, Some(2)), (4, Some(1)), (2, None)] {
+            let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+            let mut cfg = config(vec![cond("spellDamagePercent", 0, 75)], &["hat"]);
+            pro(&mut cfg, 1, res);
+            let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 6);
+            let r = &run(&mut f, 3)[0];
+            assert_eq!(r.runes.get("hat").map(|x| x.value), want, "budget {res}");
+        }
+    }
+
+    #[test]
+    fn pro_exo_leaves_the_rune_host_to_its_rune() {
+        // The hat takes a Vitality rune; the cape's Vitality 400 is too heavy
+        // for any rank, so the pro exo goes on the cape.
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let cape = item(2, "cape", None, vec![effect("Vitality", 400)]);
+        let mut cfg = config(vec![cond("earthResPercent", 5, 30), cond("vitality", 0, 1)], &["hat", "cape"]);
+        cfg.transcendence = true;
+        pro(&mut cfg, 1, 5);
+        let mut f = Forge::new(cfg, vec![hat, cape], vec![], base(1), 7);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(exotic(r), vec![("cape".to_string(), "% Earth Resistance".to_string(), 5)]);
+        assert_eq!(r.runes.get("hat").map(|x| (x.stat.as_str(), x.exotic)), Some(("Vitality", false)));
         assert!(r.meets_required);
     }
 }

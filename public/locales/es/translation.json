@@ -2199,5 +2199,12 @@
   "fg_dofus_kinds_title": "Artefactos y Dofus",
   "fg_dofus_kinds_hint": "Desmarcá lo que no querés en los slots de Dofus, sin excluir objeto por objeto. Lo fijado o conservado se respeta.",
   "fg_use_legendary": "Usar objetos legendarios",
-  "fg_use_legendary_hint": "Desmarcalo si no tenés legendarios: la fragua no los usa. Los que fijes o conserves se respetan."
+  "fg_use_legendary_hint": "Desmarcalo si no tenés legendarios: la fragua no los usa. Los que fijes o conserves se respetan.",
+  "fg_pro_exo": "Forjamagia pro (exos de % res y % daño)",
+  "fg_pro_exo_hint": "Para los más pros: suma un exo de % resistencia o % daño a los objetos donde más rinde, como tras un crítico de forjamagia. Nunca en un objeto con runa de transcendencia ni exo PA/PM/alcance.",
+  "fg_pro_res": "Tope % res",
+  "fg_pro_max": "Máx. por build",
+  "fg_pro_budget": "Hasta {{res}} % de resistencia o {{dmg}} % de daño por objeto.",
+  "fg_pro_budget_res_only": "Hasta {{res}} % de resistencia por objeto (el % de daño pide un tope de 3 % o más).",
+  "fg_pro_badge": "Exo pro +{{value}} {{stat}}"
 }

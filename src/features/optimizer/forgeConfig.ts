@@ -10,6 +10,12 @@ export const MAX_LEVEL = 200
 const INTENSITIES: ForgeIntensity[] = ['quick', 'standard', 'master', 'eternal']
 export const DOFUS_KINDS: DofusKind[] = ['Trophy', 'Prysmaradite', 'Dofus']
 
+export const PRO_RES_MAX = 5
+// % damage lines weigh 15 against 6 for % resistance.
+export const proDamage = (res: number) => Math.floor((res * 6) / 15)
+const intIn = (v: unknown, min: number, max: number, fallback: number) =>
+  typeof v === 'number' && Number.isFinite(v) ? Math.max(min, Math.min(max, Math.round(v))) : fallback
+
 export function sanitizeKinds(raw: unknown): DofusKind[] {
   return Array.isArray(raw) ? DOFUS_KINDS.filter(k => raw.includes(k)) : []
 }
@@ -42,6 +48,9 @@ export function makeDefaultConfig(): OptimizerConfig {
     intensity:           'standard',
     legendary:           true,
     excludedKinds:       [],
+    proExo:              false,
+    proExoRes:           PRO_RES_MAX,
+    proExoMax:           2,
   }
 }
 
@@ -89,6 +98,9 @@ export function loadSavedConfig(): OptimizerConfig {
       passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
       passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
       legendary:           parsed.legendary !== false,
+      proExo:              parsed.proExo === true,
+      proExoRes:           intIn(parsed.proExoRes, 1, PRO_RES_MAX, defaults.proExoRes),
+      proExoMax:           intIn(parsed.proExoMax, 1, 9, defaults.proExoMax),
       excludedKinds:       sanitizeKinds(parsed.excludedKinds),
       // Vitality is no longer offered as a goal (HP covers it); an old order drops it.
       stats:               OPTIMIZER_STATS.map(s => s.key === 'vitality' ? emptyReq(s.key) : migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
@@ -149,6 +161,8 @@ export function toWireConfig(
     requiredItems:       picks.required,
     passiveEffects:      config.passives === 'off' ? [] : passiveEffects,
     transcendence:       config.transcendence,
+    proExoMax:           config.proExo ? config.proExoMax : 0,
+    proExoRes:           config.proExoRes,
     islands,
   }
 }

@@ -38,7 +38,7 @@ import {
   suggestedCap,
   type OptimizerStatMeta,
 } from "@/features/optimizer/statList.ts";
-import { DOFUS_KINDS, clampLevel, emptyReq, isActive, normalizeCap } from "@/features/optimizer/forgeConfig.ts";
+import { DOFUS_KINDS, PRO_RES_MAX, clampLevel, emptyReq, isActive, normalizeCap, proDamage } from "@/features/optimizer/forgeConfig.ts";
 import { searchItems, slotNameKey, slotsFor, useForgePicks, type RequiredPlacement } from "@/features/optimizer/forgePicks.ts";
 import {
   PASSIVE_MODES,
@@ -733,6 +733,51 @@ function Rules({ forge }: { forge: ForgeState }) {
           />
           {t("optimizer_transcendence")}
         </label>
+        <label className="fg-check" title={t("fg_pro_exo_hint")}>
+          <input
+            type="checkbox"
+            checked={config.proExo}
+            onChange={(e) => setConfig((c) => ({ ...c, proExo: e.target.checked }))}
+          />
+          {t("fg_pro_exo")}
+        </label>
+        {config.proExo && (
+          <>
+            <div className="fg-inline">
+              <label className="fg-num">
+                <span>{t("fg_pro_res")}</span>
+                <select
+                  value={config.proExoRes}
+                  onChange={(e) => setConfig((c) => ({ ...c, proExoRes: Number(e.target.value) }))}
+                >
+                  {Array.from({ length: PRO_RES_MAX }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>
+                      {n}%
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="fg-num">
+                <span>{t("fg_pro_max")}</span>
+                <select
+                  value={config.proExoMax}
+                  onChange={(e) => setConfig((c) => ({ ...c, proExoMax: Number(e.target.value) }))}
+                >
+                  {Array.from({ length: 9 }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <p>
+              {proDamage(config.proExoRes) > 0
+                ? t("fg_pro_budget", { res: config.proExoRes, dmg: proDamage(config.proExoRes) })
+                : t("fg_pro_budget_res_only", { res: config.proExoRes })}
+            </p>
+          </>
+        )}
         <div className="fg-inline">
           {(["ap", "mp", "range"] as const).map((k) => (
             <label key={k} className="fg-check">
@@ -904,7 +949,8 @@ function ResultCard({
                     {locked && ` · ${t("fg_tag_kept")}`}
                     {forged(slot) && ` · ${t("fg_tag_runes")}`}
                     {exo && ` · ${t(`optimizer_exo_${exo}`)}`}
-                    {rune && ` · ${t("optimizer_rune_badge", { value: rune.value, stat: runeLabel(rune.stat) })}`}
+                    {rune &&
+                      ` · ${t(rune.exotic ? "fg_pro_badge" : "optimizer_rune_badge", { value: rune.value, stat: runeLabel(rune.stat) })}`}
                     {passive && ` · ${t("optimizer_passive_badge")}`}
                   </small>
                 </span>

@@ -2199,5 +2199,12 @@
   "fg_dofus_kinds_title": "Artefacts et Dofus",
   "fg_dofus_kinds_hint": "Décochez ce que vous ne voulez pas dans les emplacements Dofus, sans exclure les objets un par un. Les objets fixés ou conservés restent.",
   "fg_use_legendary": "Utiliser les objets légendaires",
-  "fg_use_legendary_hint": "Décochez-la si vous n'avez pas d'objets légendaires : la forge ne les utilise pas. Ceux fixés ou conservés restent."
+  "fg_use_legendary_hint": "Décochez-la si vous n'avez pas d'objets légendaires : la forge ne les utilise pas. Ceux fixés ou conservés restent.",
+  "fg_pro_exo": "Forgesort pro (exos % rés. et % dommages)",
+  "fg_pro_exo_hint": "Pour les vrais pros : ajoute un exo de % résistance ou de % dommages sur les objets où il rapporte le plus, comme après un succès critique de forgemagie. Jamais sur un objet avec une rune de transcendance ou un exo PA/PM/portée.",
+  "fg_pro_res": "Plafond % rés.",
+  "fg_pro_max": "Max par build",
+  "fg_pro_budget": "Jusqu'à {{res}} % de résistance ou {{dmg}} % de dommages par objet.",
+  "fg_pro_budget_res_only": "Jusqu'à {{res}} % de résistance par objet (les % dommages demandent un plafond de 3 % ou plus).",
+  "fg_pro_badge": "Exo pro +{{value}} {{stat}}"
 }

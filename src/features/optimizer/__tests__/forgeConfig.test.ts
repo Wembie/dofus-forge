@@ -2,7 +2,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore, trackBuildChange } from '@/store/historyStore.ts'
-import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq, loadSavedConfig, persistConfig, STORAGE_KEY, withLegendaryBans } from '../forgeConfig.ts'
+import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq, loadSavedConfig, persistConfig, STORAGE_KEY, withLegendaryBans, proDamage } from '../forgeConfig.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { leyPreset } from '../statList.ts'
 import type { BuildResult, ForgeRequirement, OptimizerConfig } from '../types.ts'
@@ -83,6 +83,32 @@ describe('legendary items', () => {
     expect(loadSavedConfig().legendary).toBe(false)
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ maxLevel: 150 }))
     expect(loadSavedConfig().legendary).toBe(true)
+  })
+})
+
+describe('pro magesmithy exos', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('are off by default, so the engine gets no pro exo', () => {
+    const wire = toWireConfig(makeDefaultConfig(), 96, 200)
+    expect(makeDefaultConfig().proExo).toBe(false)
+    expect(wire.proExoMax).toBe(0)
+  })
+
+  it('send the chosen limit and cap once switched on', () => {
+    const wire = toWireConfig({ ...makeDefaultConfig(), proExo: true, proExoMax: 3, proExoRes: 4 }, 96, 200)
+    expect(wire).toMatchObject({ proExoMax: 3, proExoRes: 4 })
+  })
+
+  it('buy % damage at weight 15 against 6 for % resistance', () => {
+    expect([1, 2, 3, 4, 5].map(proDamage)).toEqual([0, 0, 1, 1, 2])
+  })
+
+  it('remember the settings and clamp anything out of range', () => {
+    persistConfig({ ...makeDefaultConfig(), proExo: true, proExoMax: 4, proExoRes: 3 })
+    expect(loadSavedConfig()).toMatchObject({ proExo: true, proExoMax: 4, proExoRes: 3 })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ proExo: 'yes', proExoMax: 40, proExoRes: 0 }))
+    expect(loadSavedConfig()).toMatchObject({ proExo: false, proExoMax: 9, proExoRes: 1 })
   })
 })
 

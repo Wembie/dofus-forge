@@ -42,6 +42,11 @@ export type OptimizerConfig = {
   /** Passive items the player left out of the count. */
   passiveExcluded:     number[]
   intensity:           ForgeIntensity
+  /** Pro forgemagie: exotic % res / % damage lines on up to `proExoMax` items. */
+  proExo:              boolean
+  /** A pro exo's budget as the % resistance it buys (1–5), weight 6 per point. */
+  proExoRes:           number
+  proExoMax:           number
   /** Whether the Forge may use legendary items (pinned and kept ones always count). */
   legendary:           boolean
   /** Dofus slot kinds the Forge may not use (pinned and kept items still count). */
@@ -58,7 +63,8 @@ export type OptimizerBuildBase = {
 }
 
 export type ExoKind = 'ap' | 'mp' | 'range'
-export type RuneChoice = { stat: string; value: number }
+/** `exotic`: a pro forgemagie exo line rather than a transcendence rune. */
+export type RuneChoice = { stat: string; value: number; exotic?: boolean }
 
 export type BuildResult = {
   equipped:          Partial<Record<SlotId, number>>
