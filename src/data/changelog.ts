@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.8',
+    date: '2026-11-22',
+    notes: [
+      "New: a page explaining exactly how damage is calculated in Dofus 3, step by step. The real formula with worked numeric examples (how much a characteristic point is actually worth, how % Spell Damage and resistance apply, critical hits, push damage), linked from the footer and the navigation menu",
+    ],
+  },
+  {
     version: '0.4.7',
     date: '2026-11-22',
     notes: [

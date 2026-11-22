@@ -365,6 +365,159 @@
   color: var(--muted);
 }
 
+/* Damage guide: the literal formula, laid out as a real stacked equation
+ * (fractions with a rule, floor brackets), all drawn with CSS, no font glyphs
+ * or math library — numbers and operators in monospace, nothing else. */
+.rd-formula {
+  margin: 16px 0 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: 6px;
+  background: var(--surface);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.rd-eq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  font: 400 14px "IBM Plex Mono", monospace;
+}
+.rd-eq:nth-of-type(4) {
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--subtle);
+}
+.rd-eq:last-of-type {
+  margin-bottom: 0;
+}
+.rd-eq b {
+  font-weight: 600;
+  color: var(--text);
+}
+.rd-eq sup {
+  font-size: 10px;
+}
+/* A stacked fraction: numerator, a rule, denominator, centered like a textbook. */
+.rd-frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 2px;
+  text-align: center;
+  line-height: 1.6;
+}
+.rd-frac-num {
+  padding: 0 4px 3px;
+  border-bottom: 1.5px solid var(--text);
+}
+.rd-frac-den {
+  padding: 3px 4px 0;
+}
+/* A floor bracket (⌊ ⌋) drawn from borders, not a font glyph (some monospace
+ * stacks render U+230A/U+230B as a blank box), stretched to the full height
+ * of the fraction it wraps so it reads as one continuous bracket. */
+.rd-floor {
+  display: inline-flex;
+  align-items: stretch;
+}
+.rd-floor-l,
+.rd-floor-r {
+  display: block;
+  width: 6px;
+  margin-top: 2px;
+  border-bottom: 1.5px solid var(--accent);
+}
+.rd-floor-l {
+  border-left: 1.5px solid var(--accent);
+  margin-right: 4px;
+}
+.rd-floor-r {
+  border-right: 1.5px solid var(--accent);
+  margin-left: 4px;
+}
+.rd-formula .rd-example {
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.rd-formula-note {
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--subtle);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+@media (max-width: 700px) {
+  .rd-eq {
+    font-size: 12px;
+  }
+}
+
+/* Damage guide: a plain, flat bar breakdown, solid fill, no gradient or glow. */
+.rd-bars {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rd-bars li {
+  display: grid;
+  grid-template-columns: minmax(120px, 190px) minmax(0, 1fr) 56px;
+  align-items: center;
+  gap: 10px;
+}
+.rd-bars li > span {
+  font-size: 13px;
+  color: var(--muted);
+}
+.rd-bars li > b {
+  text-align: right;
+  font: 500 13px "IBM Plex Mono";
+}
+.rd-bars em {
+  display: block;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--stage);
+  font-style: normal;
+  overflow: hidden;
+}
+.rd-bars em > i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.rd-bars li.is-final em > i {
+  background: var(--gold);
+}
+.rd-bars li.is-resist em > i {
+  background: var(--earth);
+}
+@media (max-width: 700px) {
+  .rd-bars li {
+    grid-template-columns: minmax(0, 1fr) 48px;
+    grid-template-areas: "label value" "bar bar";
+  }
+  .rd-bars li > span {
+    grid-area: label;
+  }
+  .rd-bars li > b {
+    grid-area: value;
+  }
+  .rd-bars em {
+    grid-area: bar;
+  }
+}
+
 /* Shortcuts: what to press, then what it does. */
 .rd-keys {
   margin: 8px 0 0;
