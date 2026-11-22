@@ -98,6 +98,26 @@ pub struct OptimizerConfig {
     /// Drop candidates another item of the same slot beats on every scored stat.
     #[serde(default = "default_true")]
     pub prune: bool,
+    /// Pro forgemagie: how many items per build may take one exotic % res
+    /// or % damage line (0 = off). Never on an item that already carries a
+    /// transcendence rune or an AP/MP/range exo.
+    #[serde(default)]
+    pub pro_exo_max: usize,
+    /// A pro exo's weight (6 to 101): 30 buys 5% resistance (weight 6 per
+    /// point) or 2% damage (weight 15).
+    #[serde(default = "default_pro_weight")]
+    pub pro_exo_weight: i64,
+    /// Stat keys a pro exo may add; empty allows every pro line.
+    #[serde(default)]
+    pub pro_exo_lines: Vec<String>,
+    /// Highest value a pro exo may reach on a stat key (e.g. 3% resistance
+    /// although the weight buys 5); a stat left out takes what the weight buys.
+    #[serde(default)]
+    pub pro_exo_caps: HashMap<String, i64>,
+}
+
+fn default_pro_weight() -> i64 {
+    30
 }
 
 fn default_true() -> bool {
@@ -115,11 +135,14 @@ pub struct PassiveEffects {
     pub effects: Vec<ItemEffect>,
 }
 
-/// A transcendence rune the Forge chose for one item.
+/// A transcendence rune, or a pro exo line, the Forge chose for one item.
 #[derive(Debug, Clone, Serialize)]
 pub struct RuneChoice {
     pub stat: String,
     pub value: i64,
+    /// A pro forgemagie exo line rather than a transcendence rune.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub exotic: bool,
 }
 
 #[derive(Debug, Clone, Deserialize)]

@@ -25,7 +25,17 @@ export type ExoConfig = {
   maxCount:   number
 }
 
-export type ForgeIntensity = 'quick' | 'standard' | 'master' | 'eternal'
+export type ForgeIntensity = 'quick' | 'standard' | 'master' | 'eternal' | 'custom'
+/** An intensity with fixed settings (every one but the player's own). */
+export type ForgePreset = Exclude<ForgeIntensity, 'custom'>
+
+/** The player's own intensity: Workers, hard limit (0: none) and the seconds without a gain that end it. */
+export type ForgeCustom = { threads: number; capSec: number; stallSec: number }
+
+/** A line a pro exo can add; `resElemental` stands for the five elemental % resistances. */
+export type ProLine =
+  | 'resElemental' | 'meleeResistPercent' | 'rangedResistPercent'
+  | 'spellDamagePercent' | 'weaponDamagePercent' | 'meleeDamagePercent' | 'rangedDamagePercent'
 
 /** What a Dofus slot can hold, by item type. */
 export type DofusKind = 'Dofus' | 'Trophy' | 'Prysmaradite'
@@ -42,6 +52,14 @@ export type OptimizerConfig = {
   /** Passive items the player left out of the count. */
   passiveExcluded:     number[]
   intensity:           ForgeIntensity
+  custom:              ForgeCustom
+  /** Pro forgemagie: exotic % res / % damage lines on up to `proExoMax` items. */
+  proExo:              boolean
+  /** Lines a pro exo may add (empty: none, the option does nothing). */
+  proExoLines:         ProLine[]
+  /** Most a pro exo may add on a line (e.g. 3% resistance); unset: what the weight buys. */
+  proExoCaps:          Partial<Record<ProLine, number>>
+  proExoMax:           number
   /** Whether the Forge may use legendary items (pinned and kept ones always count). */
   legendary:           boolean
   /** Dofus slot kinds the Forge may not use (pinned and kept items still count). */
@@ -58,7 +76,8 @@ export type OptimizerBuildBase = {
 }
 
 export type ExoKind = 'ap' | 'mp' | 'range'
-export type RuneChoice = { stat: string; value: number }
+/** `exotic`: a pro forgemagie exo line rather than a transcendence rune. */
+export type RuneChoice = { stat: string; value: number; exotic?: boolean }
 
 export type BuildResult = {
   equipped:          Partial<Record<SlotId, number>>

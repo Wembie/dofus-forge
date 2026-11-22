@@ -94,7 +94,7 @@ export interface BuildState {
     allocated: AllocatedCharacteristics
     scrolled:  ScrolledCharacteristics
     exo:       Partial<Record<SlotId, 'ap' | 'mp' | 'range'>>
-    runes:     Partial<Record<SlotId, { stat: string; value: number }>>
+    runes:     Partial<Record<SlotId, { stat: string; value: number; exotic?: boolean }>>
     /** Passive settings to merge in (the ones the Forge counted). */
     passives?: PassiveState
   }, lockedSlots: ReadonlySet<SlotId>) => void
@@ -324,7 +324,9 @@ export const useBuildStore = create<BuildState>((set) => {
         const exo = result.exo[slot]
         if (exo) slotRunes[exoStat[exo]] = 1
         const rune = result.runes[slot]
-        if (rune) slotRunes[exoticKey(rune.stat)] = rune.value
+        // A pro exo is made with regular runes: it joins the item's normal
+        // forgemagie, not the transcendence slot.
+        if (rune) slotRunes[rune.exotic ? rune.stat : exoticKey(rune.stat)] = rune.value
         runes[slot] = slotRunes
         if (result.equipped[slot] !== s.equipped[slot]) {
           forjamagoNames[slot]   = ''

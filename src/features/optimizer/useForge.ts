@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
-import type { OptimizerConfig, BuildResult, ForgeReport, ForgeRequirement, ForgeIntensity, OptimizerStatKey } from './types.ts'
+import type { OptimizerConfig, BuildResult, ForgeReport, ForgeRequirement, ForgePreset, OptimizerStatKey } from './types.ts'
 import { startForgeRun, finishForgeRun } from '@/features/builds/api.ts'
 import type { LogEntry } from './ForgeParts.tsx'
 import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, runeStatLabelKey } from './statList.ts'
@@ -51,27 +51,48 @@ const goalOrder = (k: OptimizerStatKey) => GOAL_ORDER.get(k) ?? GOAL_ORDER.size
 // 3/8 times with runes; 4 x 24 and 8 x 24 found it 8/8.
 const ISLANDS_PER_WORKER = 24
 const MIN_TOTAL_ISLANDS = 96
-const HW = Math.max(1, globalThis.navigator?.hardwareConcurrency || 4)
+export const HW = Math.max(1, globalThis.navigator?.hardwareConcurrency || 4)
 const BELLOWS_COOLDOWN_MS = 4000
 const LOG_SIZE = 7
 
-// How long and how wide the Forge searches. It tempers on its own only once
-// `minSec` has passed, every minimum is met and `stall` generations went by
-// without a significant gain (see PLATEAU_GAIN); `capSec` is the hard limit
-// (Infinity: only the player tempers).
-export const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; minSec: number; capSec: number; temperMs: number }> = {
-  quick:    { threads: Math.min(4, HW),                                  stall: 120,      minSec: 15,  capSec: 45,       temperMs: 1500 },
-  standard: { threads: Math.min(HW, 8, Math.max(4, Math.floor(HW / 2))), stall: 300,      minSec: 45,  capSec: 180,      temperMs: 3000 },
-  master:   { threads: Math.min(8, HW),                                  stall: 600,      minSec: 120, capSec: 480,      temperMs: 6000 },
-  eternal:  { threads: Math.min(8, HW),                                  stall: Infinity, minSec: 0,   capSec: Infinity, temperMs: 6000 },
+// How long and how wide the Forge searches. It tempers on its own once
+// `stallSec` seconds went by without a significant gain (see PLATEAU_GAIN),
+// MISSING_STALL_FACTOR times longer while a minimum is still missing;
+// `capSec` is the hard limit (Infinity: only the player tempers).
+// Calibrated with the plateau_profile bench (8 orders, 30 browser-like runs,
+// 8 Workers): the longest wait before a last gain was under 8 s on most
+// orders and up to 22 s on two; a 30 s window lost something in 1 run of 30
+// (0.4%), 15 s in 5, 10 s in 7.
+export type ForgeSettings = { threads: number; stallSec: number; capSec: number; temperMs: number }
+export const INTENSITY: Record<ForgePreset, ForgeSettings> = {
+  quick:    { threads: Math.min(4, HW),                                  stallSec: 15,       capSec: 45,       temperMs: 1500 },
+  standard: { threads: Math.min(HW, 8, Math.max(4, Math.floor(HW / 2))), stallSec: 30,       capSec: 120,      temperMs: 3000 },
+  master:   { threads: Math.min(8, HW),                                  stallSec: 60,       capSec: 300,      temperMs: 6000 },
+  eternal:  { threads: Math.min(8, HW),                                  stallSec: Infinity, capSec: Infinity, temperMs: 6000 },
+}
+const MISSING_STALL_FACTOR = 1.5
+
+/** What a forge runs with: a preset, or the player's own settings. */
+export function forgeSettings(config: Pick<OptimizerConfig, 'intensity' | 'custom'>): ForgeSettings {
+  if (config.intensity !== 'custom') return INTENSITY[config.intensity]
+  const { threads, capSec, stallSec } = config.custom
+  return { threads: Math.max(1, Math.min(HW, threads)), stallSec, capSec: capSec > 0 ? capSec : Infinity, temperMs: 3000 }
+}
+
+/** The preset a custom run is filed under in the usage stats (they only know the presets). */
+export function statsIntensity(config: Pick<OptimizerConfig, 'intensity' | 'custom'>): ForgePreset {
+  if (config.intensity !== 'custom') return config.intensity
+  const cap = config.custom.capSec
+  return cap <= 0 ? 'eternal' : cap <= 45 ? 'quick' : cap <= 180 ? 'standard' : 'master'
 }
 // Only a gain of at least this share of the quality (or 1 point) keeps the
 // forge hot. With transcendence runes the hammer keeps finding +1/+2 rune
 // swaps for a long time; those still show, but no longer stop the forge
 // from settling once the piece is essentially done.
 const PLATEAU_GAIN = 0.002
-// Visual heat scale for the eternal forge, which never cools on its own.
-const ETERNAL_HEAT_SCALE = 300
+// Visual heat scale for the eternal forge, which never cools on its own:
+// seconds without a significant gain until it shows as settled.
+const ETERNAL_HEAT_SCALE = 60
 
 // Rings and Dofus slots are interchangeable, so they compare as sets.
 export function fingerprint(r: BuildResult): string {
@@ -164,13 +185,13 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
   const reportsRef   = useRef<(ForgeReport | null)[]>([])
   const temperedRef  = useRef(0)
   const bestRef      = useRef({ score: -Infinity, generation: 0 })
-  const plateauRef   = useRef({ score: -Infinity, generation: 0 })
+  const plateauRef   = useRef({ score: -Infinity, at: 0 })
   const prevBestRef  = useRef<BuildResult | null>(null)
   const generationRef = useRef(0)
   const startRef     = useRef(0)
   const runRef       = useRef<Promise<number | null> | null>(null)
   const finishingRef = useRef(false)
-  const presetRef    = useRef(INTENSITY.standard)
+  const presetRef    = useRef<ForgeSettings>(INTENSITY.standard)
   const logIdRef     = useRef(0)
   // Items whose passive the current forge counts (marked on the result cards).
   const countedPassivesRef = useRef<ReadonlySet<number>>(new Set())
@@ -310,23 +331,27 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
       const significant = !Number.isFinite(last)
         || (last < 0 && top.result.score >= 0)
         || top.result.score - last >= Math.max(1, Math.abs(last) * PLATEAU_GAIN)
-      if (significant) plateauRef.current = { score: top.result.score, generation }
+      if (significant) plateauRef.current = { score: top.result.score, at: performance.now() }
     }
     // Ring migration: each Worker's emigrants go to the next one.
     if (emigrants?.length && workersRef.current.length > 1) {
       workersRef.current[(index + 1) % workersRef.current.length].postMessage({ type: 'inject', builds: emigrants })
     }
 
+    coolDown(top ? !top.result.meetsRequired : true)
+  }
+
+  // Seconds since the last significant gain decide when the forge settles.
+  // A minimum still missing gives it longer, but it does stop: those
+  // orders used to run to the hard limit long after their best piece.
+  function coolDown(missing: boolean) {
     const preset = presetRef.current
-    const stall = generation - plateauRef.current.generation
-    const eternal = !Number.isFinite(preset.stall)
-    setHeat(1 - stall / (eternal ? ETERNAL_HEAT_SCALE : preset.stall))
-    // The forge never cools off while minimums are still missing, nor
-    // before its minimum time.
-    const missing = top ? !top.result.meetsRequired : true
+    const stall = (performance.now() - plateauRef.current.at) / 1000
+    const eternal = !Number.isFinite(preset.stallSec)
+    const limit = eternal ? ETERNAL_HEAT_SCALE : preset.stallSec * (missing ? MISSING_STALL_FACTOR : 1)
+    setHeat(Math.max(0, 1 - stall / limit))
     setSettled(eternal && !missing && stall >= ETERNAL_HEAT_SCALE)
-    const seconds = (performance.now() - startRef.current) / 1000
-    if (!eternal && !missing && stall >= preset.stall && seconds >= preset.minSec) finishForging()
+    if (!eternal && stall >= limit) finishForging()
   }
 
   function finishForging() {
@@ -358,7 +383,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     if (!bellowsReady || finishingRef.current) return
     workersRef.current.forEach(w => w.postMessage({ type: 'stoke' }))
     bestRef.current = { ...bestRef.current, generation: generationRef.current }
-    plateauRef.current = { ...plateauRef.current, generation: generationRef.current }
+    plateauRef.current = { ...plateauRef.current, at: performance.now() }
     setSettled(false)
     setHeat(1)
     setBurst(b => b + 1)
@@ -377,7 +402,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     terminateWorkers()
     track('forge_run', { intensity: config.intensity })
 
-    const preset = INTENSITY[config.intensity]
+    const preset = forgeSettings(config)
     presetRef.current = preset
     const count = preset.threads
     const picks = withLegendaryBans(config, { required: placements.filter(p => p.status === 'placed').map(p => p.id), banned }, equipment)
@@ -388,7 +413,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     const base = { selectedClass, level, allocated, scrolled, equipped, runes: Object.fromEntries(Object.entries(runes).map(([slot, map]) => [slot, flattenRunes(map)])) }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
-    plateauRef.current = { score: -Infinity, generation: 0 }
+    plateauRef.current = { score: -Infinity, at: performance.now() }
     setSettled(false)
     prevBestRef.current = null
     generationRef.current = 0
@@ -396,7 +421,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     startRef.current = performance.now()
     // Usage stats only (shown on Explore); never blocks the forge.
     runRef.current = startForgeRun({
-      intensity:     config.intensity,
+      intensity:     statsIntensity(config),
       transcendence: config.transcendence,
       requirements:  config.stats.filter(r => r.minimum > 0).length,
     })

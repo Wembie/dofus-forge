@@ -35,7 +35,7 @@ fn forge_seeded(label: &str, stats: Vec<StatConfig>, seed: u64, transcendence: b
         locked_slots: vec![],
         assume_fully_scrolled: true,
         banned_items: vec![],
-        banned_types: vec![], required_items: vec![], passive_effects: vec![],
+        banned_types: vec![], required_items: vec![], passive_effects: vec![], pro_exo_max: 0, pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(),
         transcendence,
         islands,
         prune: std::env::var("FORGE_PRUNE").map(|v| v != "0").unwrap_or(true),
@@ -207,7 +207,7 @@ fn forge_variant(label: &str, transcendence: bool, scrolled: bool, seed: u64, se
         stats: screenshot_order(),
         exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 2 },
         max_level: 200, locked_slots: vec![], assume_fully_scrolled: scrolled,
-        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], transcendence, islands: 24, prune: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], pro_exo_max: 0, pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(), transcendence, islands: 24, prune: true,
     };
     let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
     let clock = Instant::now();
@@ -259,7 +259,7 @@ fn screenshot_forge(seed: u64, transcendence: bool, islands: usize) -> Forge {
         stats: screenshot_order(),
         exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 2 },
         max_level: 200, locked_slots: vec![], assume_fully_scrolled: true,
-        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], transcendence, islands, prune: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], pro_exo_max: 0, pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(), transcendence, islands, prune: true,
     };
     let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
     Forge::new(config, items, sets, base, seed)
@@ -483,7 +483,7 @@ fn case2_forge(extra: bool, seed: u64, islands: usize) -> Forge {
         stats: case2_order(extra),
         exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 2 },
         max_level: 200, locked_slots: vec![], assume_fully_scrolled: true,
-        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], transcendence: true, islands, prune: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], pro_exo_max: 0, pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(), transcendence: true, islands, prune: true,
     };
     let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
     Forge::new(config, items, sets, base, seed)
@@ -510,6 +510,271 @@ fn compare_case2_builds() {
             let (r, unreachable) = f.assess(build);
             let r = r.unwrap();
             println!("order extra={extra} {label}: score {:.0} met {}/{} alloc {:?} unreachable {:?}", r.score, r.requirements_met, r.requirements_total, r.allocated, unreachable);
+        }
+    }
+}
+
+// A user's agility order (2026-11-21): same goals, leys and caps as their
+// saved Forge config, level 200, fully scrolled, AP/MP/range exos on rings.
+fn agility_order() -> Vec<StatConfig> {
+    vec![
+        c("ap", 12, 500, Some(12)), c("mp", 6, 500, Some(6)), c("range", 4, 250, Some(6)), c("maxHp", 4300, 1, None),
+        c("agility", 1250, 5, None), c("airDamage", 180, 25, None), c("critResistance", 61, 10, None),
+        c("neutralResFixed", 40, 10, Some(40)), c("earthResFixed", 40, 10, Some(40)), c("fireResFixed", 40, 10, Some(40)),
+        c("waterResFixed", 40, 10, Some(40)), c("airResFixed", 40, 10, Some(40)),
+        c("neutralResPercent", 15, 30, Some(50)), c("earthResPercent", 50, 30, Some(50)), c("fireResPercent", 44, 30, Some(50)),
+        c("waterResPercent", 47, 30, Some(50)), c("airResPercent", 42, 30, Some(50)),
+        c("initiative", 963, 1, None), c("lock", 126, 20, None), c("dodge", 181, 20, None), c("summons", 4, 125, Some(6)),
+        c("apReduction", 70, 35, None), c("pushbackResist", 170, 10, None),
+    ]
+}
+
+fn agility_forge(seed: u64, islands: usize) -> Forge {
+    let items: Vec<CatalogItem> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/equipment.json").unwrap()).unwrap();
+    let sets: Vec<CatalogSet> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/sets.json").unwrap()).unwrap();
+    let config = OptimizerConfig {
+        stats: agility_order(),
+        exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 3 },
+        max_level: 200, locked_slots: vec![], assume_fully_scrolled: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![],
+        pro_exo_max: std::env::var("FORGE_PRO_MAX").ok().and_then(|v| v.parse().ok()).unwrap_or(0),
+        pro_exo_weight: std::env::var("FORGE_PRO_RES").ok().and_then(|v| v.parse::<i64>().ok()).map_or(30, |r| r * 6),
+        pro_exo_lines: vec![], pro_exo_caps: HashMap::new(),
+        transcendence: std::env::var("FORGE_RUNES").map(|v| v != "0").unwrap_or(true), islands, prune: true,
+    };
+    let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
+    Forge::new(config, items, sets, base, seed)
+}
+
+// Browser-like run of agility_order: FORGE_WORKERS Workers x 24 islands,
+// ring migration every 41 generations, a 250 ms hammer every 30. Prints
+// when each seed first reaches FORGE_TARGET and its best score over time.
+#[test]
+#[ignore]
+fn agility_time_to_target() {
+    use std::sync::{Arc, Barrier, Mutex};
+    type Mailbox = Arc<Mutex<Vec<Vec<HashMap<String, i64>>>>>;
+    let env = |k: &str, d: f64| std::env::var(k).ok().and_then(|v| v.parse().ok()).unwrap_or(d);
+    let workers = env("FORGE_WORKERS", 8.0) as usize;
+    let secs = env("FORGE_SECS", 60.0);
+    let target = env("FORGE_TARGET", -220.0);
+    let first = env("FORGE_FIRST_SEED", 1.0) as u64;
+    let runs = env("FORGE_SEEDS", 6.0) as u64;
+    let marks = [5.0, 10.0, 20.0, 30.0, 45.0, 60.0, 90.0, 120.0, 180.0];
+    for seed in first..first + runs {
+        let barrier = Arc::new(Barrier::new(workers));
+        let mailbox: Mailbox = Arc::new(Mutex::new(vec![Vec::new(); workers]));
+        // best, reached target at, best at each mark, generations
+        let found = Arc::new(Mutex::new((f64::NEG_INFINITY, None::<f64>, vec![f64::NEG_INFINITY; marks.len()], 0u64)));
+        let start = Instant::now();
+        std::thread::scope(|scope| {
+            for w in 0..workers {
+                let (barrier, mailbox, found) = (barrier.clone(), mailbox.clone(), found.clone());
+                scope.spawn(move || {
+                    let mut f = agility_forge(seed * 100 + w as u64, 24);
+                    let now = || start.elapsed().as_secs_f64() * 1000.0;
+                    let mut round = 0u64;
+                    loop {
+                        round += 1;
+                        while f.generation() < round * 41 {
+                            f.run_generation();
+                            if f.generation().is_multiple_of(30) {
+                                f.temper(250.0, &now);
+                            }
+                            let t = start.elapsed().as_secs_f64();
+                            let mut g = found.lock().unwrap();
+                            g.0 = g.0.max(f.best_score());
+                            if g.1.is_none() && f.best_score() >= target - 1e-6 {
+                                g.1 = Some(t);
+                            }
+                            for (i, m) in marks.iter().enumerate() {
+                                if t <= *m {
+                                    g.2[i] = g.2[i].max(f.best_score());
+                                }
+                            }
+                        }
+                        mailbox.lock().unwrap()[(w + 1) % workers] = f.emigrants();
+                        barrier.wait();
+                        let incoming = std::mem::take(&mut mailbox.lock().unwrap()[w]);
+                        f.inject(&incoming);
+                        let done = start.elapsed().as_secs_f64() >= secs;
+                        barrier.wait();
+                        if done {
+                            found.lock().unwrap().3 += f.generation();
+                            break;
+                        }
+                    }
+                });
+            }
+        });
+        let (best, at, by_mark, gens) = found.lock().unwrap().clone();
+        let curve: Vec<String> = marks.iter().zip(&by_mark).filter(|(m, _)| **m <= secs).map(|(m, b)| format!("{m}s:{b:.0}")).collect();
+        println!("seed {seed}: best {best:.0} target {target:.0} reached at {:?}s gens/worker {} | {}", at.map(|x| (x * 10.0).round() / 10.0), gens / workers as u64, curve.join(" "));
+    }
+}
+
+// agility_order with the env's pro exo settings: every result must agree
+// with the exact compute_stats path, and the best one is printed.
+#[test]
+#[ignore]
+fn agility_results_verify() {
+    let items: Vec<CatalogItem> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/equipment.json").unwrap()).unwrap();
+    let names: HashMap<i64, String> = items.iter().map(|i| (i.ankama_id, i.name.clone())).collect();
+    let mut f = agility_forge(1, 24);
+    let clock = Instant::now();
+    let now = || clock.elapsed().as_secs_f64() * 1000.0;
+    while clock.elapsed().as_secs_f64() < 40.0 {
+        f.run_generation();
+        if f.generation().is_multiple_of(30) {
+            f.temper(250.0, &now);
+        }
+    }
+    f.temper(3000.0, &now);
+    let results = f.results();
+    for r in &results {
+        f.verify(r).unwrap();
+    }
+    let r = &results[0];
+    println!("score {} met {}/{} exo {:?}", r.score, r.requirements_met, r.requirements_total, r.exo);
+    let mut slots: Vec<_> = r.equipped.iter().collect();
+    slots.sort();
+    for (slot, id) in slots {
+        let rune = r.runes.get(slot).map(|x| format!(" + {}{} {}", if x.exotic { "PRO " } else { "" }, x.value, x.stat)).unwrap_or_default();
+        println!("  {slot}: {}{rune}", names[id]);
+    }
+}
+
+// Fixed work on agility_order (runes on): the same generations evaluate the
+// same builds on any engine that scores identically, so evaluations per
+// second compare engines without noise from the search itself.
+#[test]
+#[ignore]
+fn agility_eval_throughput() {
+    let gens: u64 = std::env::var("FORGE_GENS").ok().and_then(|v| v.parse().ok()).unwrap_or(30);
+    let mut f = agility_forge(1, 24);
+    let start = Instant::now();
+    for _ in 0..gens {
+        f.run_generation();
+    }
+    let secs = start.elapsed().as_secs_f64();
+    let evals = f.report().evaluations;
+    println!("agility throughput: {evals} evaluations in {secs:.2}s = {:.0}/s best {:.3}", evals as f64 / secs, f.best_score());
+}
+
+fn order_forge(stats: Vec<StatConfig>, seed: u64, islands: usize) -> Forge {
+    let items: Vec<CatalogItem> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/equipment.json").unwrap()).unwrap();
+    let sets: Vec<CatalogSet> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/sets.json").unwrap()).unwrap();
+    let config = OptimizerConfig {
+        stats,
+        exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 3 },
+        max_level: 200, locked_slots: vec![], assume_fully_scrolled: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], pro_exo_max: 0, pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(),
+        transcendence: true, islands, prune: true,
+    };
+    let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
+    Forge::new(config, items, sets, base, seed)
+}
+
+// Browser-like run (Workers x 24 islands, ring migration every 41
+// generations, 250 ms hammer every 30): every time the overall best rises,
+// with the time it happened.
+fn browser_timeline(stats: &[StatConfig], seed: u64, workers: usize, secs: f64) -> Vec<(f64, f64)> {
+    use std::sync::{Arc, Barrier, Mutex};
+    type Mailbox = Arc<Mutex<Vec<Vec<HashMap<String, i64>>>>>;
+    let barrier = Arc::new(Barrier::new(workers));
+    let mailbox: Mailbox = Arc::new(Mutex::new(vec![Vec::new(); workers]));
+    let timeline = Arc::new(Mutex::new(Vec::<(f64, f64)>::new()));
+    let start = Instant::now();
+    std::thread::scope(|scope| {
+        for w in 0..workers {
+            let (barrier, mailbox, timeline) = (barrier.clone(), mailbox.clone(), timeline.clone());
+            let stats = stats.to_vec();
+            scope.spawn(move || {
+                let mut f = order_forge(stats, seed * 100 + w as u64, 24);
+                let now = || start.elapsed().as_secs_f64() * 1000.0;
+                let mut round = 0u64;
+                loop {
+                    round += 1;
+                    while f.generation() < round * 41 {
+                        f.run_generation();
+                        if f.generation().is_multiple_of(30) {
+                            f.temper(250.0, &now);
+                        }
+                        let mut tl = timeline.lock().unwrap();
+                        if tl.last().is_none_or(|&(_, s)| f.best_score() > s + 1e-9) {
+                            tl.push((start.elapsed().as_secs_f64(), f.best_score()));
+                        }
+                    }
+                    mailbox.lock().unwrap()[(w + 1) % workers] = f.emigrants();
+                    barrier.wait();
+                    let incoming = std::mem::take(&mut mailbox.lock().unwrap()[w]);
+                    f.inject(&incoming);
+                    let done = start.elapsed().as_secs_f64() >= secs;
+                    barrier.wait();
+                    if done {
+                        break;
+                    }
+                }
+            });
+        }
+    });
+    let tl = timeline.lock().unwrap().clone();
+    tl
+}
+
+// Calibrates the Forge's stop rule: for each order and seed, when the last
+// significant gain came (the page's rule: +0.2% of the quality, at least 1
+// point, or reaching every minimum) and, for each candidate window of
+// seconds without one, when the forge would have stopped and what it lost.
+// FORGE_ORDERS=agility,earth,... FORGE_SEEDS FORGE_SECS FORGE_WORKERS
+#[test]
+#[ignore]
+fn plateau_profile() {
+    let env = |k: &str, d: f64| std::env::var(k).ok().and_then(|v| v.parse().ok()).unwrap_or(d);
+    let workers = env("FORGE_WORKERS", 8.0) as usize;
+    let secs = env("FORGE_SECS", 90.0);
+    let seeds = env("FORGE_SEEDS", 4.0) as u64;
+    let mut orders: Vec<(String, Vec<StatConfig>)> = vec![("agility".into(), agility_order()), ("screenshot".into(), screenshot_order())];
+    orders.extend(cases().into_iter().map(|(n, s)| (n.to_string(), s)));
+    let wanted = std::env::var("FORGE_ORDERS").unwrap_or_default();
+    let windows = [10.0, 15.0, 20.0, 30.0, 40.0];
+    for (name, stats) in orders.iter().filter(|(n, _)| wanted.is_empty() || wanted.split(',').any(|w| w == n)) {
+        for seed in 1..=seeds {
+            let tl = browser_timeline(stats, seed, workers, secs);
+            let Some(&(t_best, best)) = tl.last() else { continue };
+            // Significant gains, as the page counts them.
+            let mut sig: Vec<(f64, f64)> = Vec::new();
+            for &(t, s) in &tl {
+                let keep = match sig.last() {
+                    None => true,
+                    Some(&(_, last)) => (last < 0.0 && s >= 0.0) || s - last >= (last.abs() * 0.002).max(1.0),
+                };
+                if keep {
+                    sig.push((t, s));
+                }
+            }
+            let max_gap = sig.windows(2).map(|w| w[1].0 - w[0].0).fold(0.0f64, f64::max);
+            let stops: Vec<String> = windows
+                .iter()
+                .map(|&win| {
+                    // First moment `win` seconds pass with no significant gain.
+                    let mut stop = secs;
+                    for (k, &(t, _)) in sig.iter().enumerate() {
+                        let next = sig.get(k + 1).map_or(f64::INFINITY, |n| n.0);
+                        if next - t >= win {
+                            stop = (t + win).min(secs);
+                            break;
+                        }
+                    }
+                    let at_stop = tl.iter().filter(|(t, _)| *t <= stop).map(|(_, s)| *s).fold(f64::NEG_INFINITY, f64::max);
+                    format!("{win}s->stop {stop:.0}s lose {:.0}", best - at_stop)
+                })
+                .collect();
+            println!(
+                "[{name}] seed {seed}: best {best:.0} at {t_best:.1}s, last significant at {:.1}s, longest gap {max_gap:.1}s | {}",
+                sig.last().map_or(0.0, |s| s.0),
+                stops.join(" | ")
+            );
         }
     }
 }

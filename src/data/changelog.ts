@@ -10,6 +10,21 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.7',
+    date: '2026-11-22',
+    notes: [
+      "The Forger: turning on AP or MP now fills in its usual minimum right away (12 AP, 6 MP, capped there); a new order still starts with every goal closed",
+      "The Forger: an AP, MP or Range exo no longer lands on an item that already has that line (a ring with +1 Range taking another +1 Range): two Range weigh 102, past the game's 101 limit, so that forge was impossible. The exo now goes on an item without the line, and a pro exo never pushes a line past 101 either",
+      "The Forger: new \"Exos with regular runes (pro)\" option for the real pros: it adds a % resistance or % damage exo (weight 30, the most regular runes reach in practice: up to 5% resistance or 2% damage; you choose which lines it may use and can cap each one lower, e.g. 3% resistance) to the items where it pays off most among those with an AP, MP, Range or Summons line (the heavy line forgemasters knock down for the well and raise again, so the item keeps it), on as many items per build as you allow (2 by default). Never on an item with a transcendence rune or an AP/MP/range exo, always within the game's 101 weight limit, and off by default",
+      "The Forger: the Magesmithy section now comes in two blocks, Runes (transcendence runes and pro exos) and AP / MP / Range exos, with every option explained in plain sight. A pro exo loads into the item's normal forgemagie in the planner, since it is made with regular runes, not as a transcendence rune",
+      "Magesmithy window: impossible forges are now greyed out, like an unavailable transcendence rank. A line never goes past 101 weight (a second +1 Range on a ring that already has it would weigh 102), an item carries at most 101 of exo and over weight, and a transcendence rune and regular exos or overs never share an item. The window says how much more fits and why a rune cannot go, and runes already on a piece that the game would not allow are marked in red",
+      "The Forger is faster again with the same results: with transcendence runes it checks 20 to 30% more builds per second on orders with many goals, since the value of each rune is now remembered while they are placed",
+      "The Forger stops sooner when it is done: it now tempers after some seconds without a real gain (15 s Quick, 30 s Standard, 60 s Master, half as long again while a minimum is missing) instead of a fixed minimum time, and an order that cannot meet every minimum no longer runs to the time limit. Measured on 8 orders: the same quality in 29 of 30 runs, in a fraction of the time",
+      "The Forger: new Advanced settings under the intensity: threads, time limit and how many seconds without a gain end the forge. Changing them switches to a Custom intensity",
+      'Still to come for The Forger, measured separately: smarter rune placement, exact characteristic points on the final builds and moves aimed at unmet goals. Remembering builds whatever the order of the Dofus was tried and dropped: it saved only 2 to 3%',
+    ],
+  },
+  {
     version: '0.4.6',
     date: '2026-11-21',
     notes: [

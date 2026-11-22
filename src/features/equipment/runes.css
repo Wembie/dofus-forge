@@ -171,6 +171,20 @@
   line-height: 1.6;
   color: var(--muted);
 }
+.runes-carried li.is-impossible {
+  color: var(--negative);
+}
+.runes-carried li.is-impossible b {
+  color: var(--negative);
+}
+.runes-carried li.is-impossible small {
+  display: block;
+  font-size: 11px;
+}
+.runes-amounts button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 .runes-error {
   margin: 10px 0 0;
   font-size: 12px;

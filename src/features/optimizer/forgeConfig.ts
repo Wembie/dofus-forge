@@ -1,14 +1,57 @@
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
-import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, OptimizerStatKey, DofusKind } from './types.ts'
-import { OPTIMIZER_STATS, leyPreset, unitValue } from './statList.ts'
+import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, ForgeCustom, OptimizerStatKey, DofusKind, ProLine } from './types.ts'
+import { OPTIMIZER_STATS, leyPreset, suggestedCap, unitValue } from './statList.ts'
 import { PASSIVE_MODES, sanitizeExcluded, type PassiveEffects } from './forgePassives.ts'
 import type { PassiveState } from '@/engine/passives.ts'
 import type { AppItem } from '@/data/loaders.ts'
 
 export const STORAGE_KEY = 'dofus-forge:optimizer-config'
 export const MAX_LEVEL = 200
-const INTENSITIES: ForgeIntensity[] = ['quick', 'standard', 'master', 'eternal']
+const INTENSITIES: ForgeIntensity[] = ['quick', 'standard', 'master', 'eternal', 'custom']
+// Choices the Advanced settings offer (a hard limit of 0 means none).
+export const CUSTOM_CAPS = [30, 60, 90, 120, 180, 300, 480, 0] as const
+export const CUSTOM_STALLS = [5, 10, 15, 20, 30, 45, 60, 90] as const
+const DEFAULT_CUSTOM: ForgeCustom = { threads: 4, capSec: 120, stallSec: 20 }
+function sanitizeCustom(raw: unknown): ForgeCustom {
+  const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
+  const pick = <T extends number>(v: unknown, list: readonly T[], fallback: T): T => (list as readonly unknown[]).includes(v) ? (v as T) : fallback
+  return {
+    threads:  intIn(r.threads, 1, 32, DEFAULT_CUSTOM.threads),
+    capSec:   pick(r.capSec, CUSTOM_CAPS, 120),
+    stallSec: pick(r.stallSec, CUSTOM_STALLS, 20),
+  }
+}
 export const DOFUS_KINDS: DofusKind[] = ['Trophy', 'Prysmaradite', 'Dofus']
+
+// The weight an exo made with regular runes reaches in practice: 5% resistance
+// (weight 6 a point) or 2% damage (weight 15).
+export const PRO_WEIGHT = 30
+export const PRO_LINES: { id: ProLine; stats: OptimizerStatKey[]; weight: number }[] = [
+  { id: 'resElemental',        stats: ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent'], weight: 6 },
+  { id: 'meleeResistPercent',  stats: ['meleeResistPercent'],  weight: 15 },
+  { id: 'rangedResistPercent', stats: ['rangedResistPercent'], weight: 15 },
+  { id: 'spellDamagePercent',  stats: ['spellDamagePercent'],  weight: 15 },
+  { id: 'weaponDamagePercent', stats: ['weaponDamagePercent'], weight: 15 },
+  { id: 'meleeDamagePercent',  stats: ['meleeDamagePercent'],  weight: 15 },
+  { id: 'rangedDamagePercent', stats: ['rangedDamagePercent'], weight: 15 },
+]
+const PRO_LINE_IDS = PRO_LINES.map(l => l.id)
+/** The most a pro exo adds on a line weighing `lineWeight` per point. */
+export const proValue = (lineWeight: number) => Math.floor(PRO_WEIGHT / lineWeight)
+function sanitizeProCaps(raw: unknown): Partial<Record<ProLine, number>> {
+  if (!raw || typeof raw !== 'object') return {}
+  const out: Partial<Record<ProLine, number>> = {}
+  for (const id of PRO_LINE_IDS) {
+    const v = (raw as Record<string, unknown>)[id]
+    if (typeof v === 'number' && Number.isFinite(v) && v >= 1) out[id] = Math.min(16, Math.floor(v))
+  }
+  return out
+}
+function sanitizeProLines(raw: unknown): ProLine[] {
+  return Array.isArray(raw) ? PRO_LINE_IDS.filter(id => raw.includes(id)) : [...PRO_LINE_IDS]
+}
+const intIn = (v: unknown, min: number, max: number, fallback: number) =>
+  typeof v === 'number' && Number.isFinite(v) ? Math.max(min, Math.min(max, Math.round(v))) : fallback
 
 export function sanitizeKinds(raw: unknown): DofusKind[] {
   return Array.isArray(raw) ? DOFUS_KINDS.filter(k => raw.includes(k)) : []
@@ -29,6 +72,20 @@ export function clampLevel(v: number | null | undefined, fallback = MAX_LEVEL): 
 // previous defaults pick up the new ones once.
 const DEFAULTS_REV = 2
 
+// The minimum (and cap) a goal starts with when the player turns it on,
+// e.g. 12 AP. Keys: OPTIMIZER_STATS in statList.ts. `cap` is optional:
+// left out, the goal takes the stat's suggested cap (suggestedCap).
+const DEFAULT_GOALS: Partial<Record<OptimizerStatKey, { minimum: number; cap?: number }>> = {
+  ap: { minimum: 12, cap: 12 },
+  mp: { minimum: 6, cap: 6 },
+}
+
+/** A goal as it starts when the player turns it on: default ley, minimum and cap. */
+export function activatedReq(stat: OptimizerStatKey): ForgeRequirement {
+  const goal = DEFAULT_GOALS[stat]
+  return { stat, minimum: goal?.minimum ?? 0, weight: leyPreset(stat, 2), cap: goal?.cap ?? suggestedCap(stat), strictCap: false }
+}
+
 export function makeDefaultConfig(): OptimizerConfig {
   return {
     stats:               OPTIMIZER_STATS.map(s => emptyReq(s.key)),
@@ -40,8 +97,13 @@ export function makeDefaultConfig(): OptimizerConfig {
     passives:            'off',
     passiveExcluded:     [],
     intensity:           'standard',
+    custom:              { ...DEFAULT_CUSTOM },
     legendary:           true,
     excludedKinds:       [],
+    proExo:              false,
+    proExoLines:         [...PRO_LINE_IDS],
+    proExoCaps:          {},
+    proExoMax:           2,
   }
 }
 
@@ -86,9 +148,14 @@ export function loadSavedConfig(): OptimizerConfig {
       exo:                 { ...defaults.exo, ...(current && typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
       lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
       intensity:           INTENSITIES.includes(parsed.intensity) ? parsed.intensity : defaults.intensity,
+      custom:              sanitizeCustom(parsed.custom),
       passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
       passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
       legendary:           parsed.legendary !== false,
+      proExo:              parsed.proExo === true,
+      proExoLines:         sanitizeProLines(parsed.proExoLines),
+      proExoCaps:          sanitizeProCaps(parsed.proExoCaps),
+      proExoMax:           intIn(parsed.proExoMax, 1, 9, defaults.proExoMax),
       excludedKinds:       sanitizeKinds(parsed.excludedKinds),
       // Vitality is no longer offered as a goal (HP covers it); an old order drops it.
       stats:               OPTIMIZER_STATS.map(s => s.key === 'vitality' ? emptyReq(s.key) : migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
@@ -149,6 +216,10 @@ export function toWireConfig(
     requiredItems:       picks.required,
     passiveEffects:      config.passives === 'off' ? [] : passiveEffects,
     transcendence:       config.transcendence,
+    proExoMax:           config.proExo && config.proExoLines.length ? config.proExoMax : 0,
+    proExoWeight:        PRO_WEIGHT,
+    proExoLines:         PRO_LINES.filter(l => config.proExoLines.includes(l.id)).flatMap(l => l.stats),
+    proExoCaps:          Object.fromEntries(PRO_LINES.filter(l => config.proExoCaps[l.id]).flatMap(l => l.stats.map(s => [s, config.proExoCaps[l.id]]))),
     islands,
   }
 }

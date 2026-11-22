@@ -2,8 +2,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore, trackBuildChange } from '@/store/historyStore.ts'
-import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq, loadSavedConfig, persistConfig, STORAGE_KEY, withLegendaryBans } from '../forgeConfig.ts'
+import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq, loadSavedConfig, persistConfig, STORAGE_KEY, withLegendaryBans, proValue, activatedReq } from '../forgeConfig.ts'
 import type { AppItem } from '@/data/loaders.ts'
+import { HW, INTENSITY, forgeSettings, statsIntensity } from '../useForge.ts'
 import { leyPreset } from '../statList.ts'
 import type { BuildResult, ForgeRequirement, OptimizerConfig } from '../types.ts'
 
@@ -12,6 +13,45 @@ const withReq = (req: ForgeRequirement): OptimizerConfig => {
   return { ...config, stats: config.stats.map(s => s.stat === req.stat ? req : s) }
 }
 const wireStat = (config: OptimizerConfig, stat: string) => toWireConfig(config, 96, 200).stats.find(s => s.stat === stat)
+
+describe('custom intensity', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('remembers the player settings and keeps only the offered choices', () => {
+    persistConfig({ ...makeDefaultConfig(), intensity: 'custom', custom: { threads: 6, capSec: 90, stallSec: 15 } })
+    expect(loadSavedConfig()).toMatchObject({ intensity: 'custom', custom: { threads: 6, capSec: 90, stallSec: 15 } })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ intensity: 'custom', custom: { threads: 99, capSec: 77, stallSec: 'x' } }))
+    expect(loadSavedConfig().custom).toEqual({ threads: 32, capSec: 120, stallSec: 20 })
+  })
+
+  it('runs a preset as defined, and custom settings within the machine', () => {
+    expect(forgeSettings({ intensity: 'standard', custom: makeDefaultConfig().custom })).toBe(INTENSITY.standard)
+    const custom = forgeSettings({ intensity: 'custom', custom: { threads: 999, capSec: 0, stallSec: 15 } })
+    expect(custom).toMatchObject({ threads: HW, capSec: Infinity, stallSec: 15 })
+  })
+
+  it('files a custom run in the usage stats under the nearest preset', () => {
+    const at = (capSec: number) => statsIntensity({ intensity: 'custom', custom: { threads: 4, capSec, stallSec: 20 } })
+    expect([30, 120, 300, 0].map(at)).toEqual(['quick', 'standard', 'master', 'eternal'])
+    expect(statsIntensity({ intensity: 'master', custom: makeDefaultConfig().custom })).toBe('master')
+  })
+})
+
+describe('a new order', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('starts empty, every goal closed', () => {
+    expect(toWireConfig(makeDefaultConfig(), 96, 200).stats).toEqual([])
+    expect(loadSavedConfig().stats.filter(isActive)).toEqual([])
+  })
+
+  it('fills in the usual minimum and cap when a goal is turned on', () => {
+    expect(activatedReq('ap')).toEqual({ stat: 'ap', minimum: 12, weight: leyPreset('ap', 2), cap: 12, strictCap: false })
+    expect(activatedReq('mp')).toMatchObject({ minimum: 6, cap: 6 })
+    expect(activatedReq('agility')).toEqual({ stat: 'agility', minimum: 0, weight: leyPreset('agility', 2), cap: null, strictCap: false })
+    expect(activatedReq('earthResPercent')).toMatchObject({ minimum: 0, cap: 50 })
+  })
+})
 
 describe('toWireConfig', () => {
   it('never asks for gear above the character level', () => {
@@ -86,6 +126,53 @@ describe('legendary items', () => {
   })
 })
 
+describe('pro magesmithy exos', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('are off by default, so the engine gets no pro exo', () => {
+    const wire = toWireConfig(makeDefaultConfig(), 96, 200)
+    expect(makeDefaultConfig().proExo).toBe(false)
+    expect(wire.proExoMax).toBe(0)
+  })
+
+  it('send weight 30, the limit and every stat of the allowed lines once switched on', () => {
+    const config = { ...makeDefaultConfig(), proExo: true, proExoMax: 3, proExoLines: ['resElemental' as const, 'spellDamagePercent' as const] }
+    expect(toWireConfig(config, 96, 200)).toMatchObject({
+      proExoMax: 3,
+      proExoWeight: 30,
+      proExoLines: ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent', 'spellDamagePercent'],
+    })
+  })
+
+  it('send a line cap for every stat of the line', () => {
+    const wire = toWireConfig({ ...makeDefaultConfig(), proExo: true, proExoCaps: { resElemental: 3, spellDamagePercent: 1 } }, 96, 200)
+    expect(wire.proExoCaps).toEqual({
+      neutralResPercent: 3, earthResPercent: 3, fireResPercent: 3, waterResPercent: 3, airResPercent: 3, spellDamagePercent: 1,
+    })
+    persistConfig({ ...makeDefaultConfig(), proExoCaps: { resElemental: 3 } })
+    expect(loadSavedConfig().proExoCaps).toEqual({ resElemental: 3 })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ proExoCaps: { resElemental: 0, nope: 2, spellDamagePercent: 2.7 } }))
+    expect(loadSavedConfig().proExoCaps).toEqual({ spellDamagePercent: 2 })
+  })
+
+  it('do nothing when every line is unchecked', () => {
+    expect(toWireConfig({ ...makeDefaultConfig(), proExo: true, proExoLines: [] }, 96, 200).proExoMax).toBe(0)
+  })
+
+  it('reach 5% resistance (weight 6) or 2% damage (weight 15) with weight 30', () => {
+    expect([6, 15].map(proValue)).toEqual([5, 2])
+  })
+
+  it('remember the settings and keep only what is valid', () => {
+    persistConfig({ ...makeDefaultConfig(), proExo: true, proExoMax: 4, proExoLines: ['meleeDamagePercent'] })
+    expect(loadSavedConfig()).toMatchObject({ proExo: true, proExoMax: 4, proExoLines: ['meleeDamagePercent'] })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ proExo: 'yes', proExoMax: 40, proExoLines: ['nope'] }))
+    expect(loadSavedConfig()).toMatchObject({ proExo: false, proExoMax: 9, proExoLines: [] })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({}))
+    expect(loadSavedConfig().proExoLines).toHaveLength(7)
+  })
+})
+
 describe('migrateReq', () => {
   it('gives an old minimum saved with importance 0 the default ley', () => {
     expect(migrateReq('ap', { minimum: 11, importance: 0 }).weight).toBe(leyPreset('ap', 2))
@@ -142,6 +229,22 @@ describe('loadForgeResult', () => {
     expect(s.forjamagoNames.weapon).toBe('')
     expect(s.runes.ring1).toEqual({ AP: 1 })
     expect(Object.values(s.runes.hat ?? {})).toEqual([100])
+  })
+
+  it('puts a pro exo in the normal forgemagie, a transcendence rune apart', () => {
+    const result = {
+      equipped:  { weapon: 2, hat: 10, cape: 11 },
+      allocated: build().allocated,
+      scrolled:  build().scrolled,
+      exo:       {},
+      runes:     {
+        hat:  { stat: '% Earth Resistance', value: 5, exotic: true },
+        cape: { stat: 'Vitality', value: 100 },
+      },
+    } as unknown as BuildResult
+    loadForgeResult(result, new Set())
+    expect(build().runes.hat).toEqual({ '% Earth Resistance': 5 })
+    expect(build().runes.cape).toEqual({ 'exo:Vitality': 100 })
   })
 
   it('leaves locked slots untouched', () => {

@@ -227,6 +227,77 @@ html.light .fg-dialog {
 .fg-group-head[aria-expanded="true"] svg {
   transform: rotate(180deg);
 }
+.fg-forge-group + .fg-forge-group {
+  margin-top: 12px;
+}
+.fg-forge-group h5 {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.fg-check-hint {
+  margin: 0 0 8px 22px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.fg-check-more {
+  margin-left: 22px;
+}
+.fg-pro-lines-title {
+  margin: 10px 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.fg-pro-lines {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+.fg-pro-lines li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 0;
+}
+.fg-pro-steps {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.fg-pro-steps button {
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  font: 500 12px "IBM Plex Mono";
+  color: var(--muted);
+}
+.fg-pro-steps button[aria-checked="true"] {
+  background: var(--hover);
+  color: var(--text);
+  font-weight: 600;
+}
+.fg-pro-steps button:disabled {
+  cursor: not-allowed;
+}
+.fg-pro-steps[aria-disabled="true"] {
+  opacity: 0.45;
+}
+.fg-pro-steps span {
+  padding: 0 4px 0 2px;
+  font: 500 12px "IBM Plex Mono";
+  color: var(--muted);
+}
+
 .fg-group h5 {
   margin: 6px 0 2px;
   font-size: 11px;

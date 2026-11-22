@@ -49,11 +49,10 @@ export const FORGEABLE_SLOTS = new Set(['hat', 'cape', 'amulet', 'ring1', 'ring2
 
 export type RankOption = { rank: 1 | 2 | 3; value: number; allowed: boolean; limit: number }
 
-/** Weight of the item's own line on `stat` (weapon attack lines don't count). */
-export function lineWeight(item: AppItem, stat: string): number {
-  const row = TRANSCENDENCE.find(r => r.stat === stat)
+/** The item's own line on `stat` at its best roll (weapon attack lines don't count). */
+export function lineValue(item: AppItem, stat: string): number {
   const key = STAT_MAP[stat]
-  if (!row || !key) return 0
+  if (!key) return 0
   const isWeapon = item.slot === 'weapon'
   let value = 0
   for (const e of item.effects) {
@@ -61,7 +60,14 @@ export function lineWeight(item: AppItem, stat: string): number {
     if (isWeapon && e.effect_id != null && WEAPON_ATTACK_IDS.has(e.effect_id)) continue
     value += e.max !== 0 && e.max > e.min ? e.max : e.min
   }
-  return Math.round(value * row.weight * 10) / 10
+  return value
+}
+
+/** Weight of the item's own line on `stat`. */
+export function lineWeight(item: AppItem, stat: string): number {
+  const row = TRANSCENDENCE.find(r => r.stat === stat)
+  if (!row) return 0
+  return Math.round(lineValue(item, stat) * row.weight * 10) / 10
 }
 
 export function rankOptions(item: AppItem, stat: string): RankOption[] {

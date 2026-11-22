@@ -68,6 +68,8 @@ fn config(open_slots: &[&str], required_items: Vec<i64>) -> OptimizerConfig {
         banned_types: vec![],
         required_items,
         passive_effects: vec![],
+        pro_exo_max: 0,
+        pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(),
         transcendence: false,
         islands: 4,
         prune: true,

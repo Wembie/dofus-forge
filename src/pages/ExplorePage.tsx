@@ -22,7 +22,7 @@ import './explore.css'
 // count are in it too, so nothing shifts when they load.
 export async function loader() {
   const [builds, stats, tags, catalog] = await Promise.all([
-    fetchPublicBuilds({ sort: 'rating', page: 0 }), fetchCommunityStats(), fetchTags(), catalogCounts(),
+    fetchPublicBuilds({ sort: 'recent', page: 0 }), fetchCommunityStats(), fetchTags(), catalogCounts(),
   ])
   return {
     builds: builds.error ? [] : builds.data,
@@ -223,8 +223,8 @@ export function ExplorePage() {
     search: params.get('q') ?? '',
     classId: params.get('class') ?? '',
     tag: params.get('tag') ?? '',
-    sort: SORTS.includes(params.get('sort') as ExploreSort) ? params.get('sort') as ExploreSort : 'rating',
-  } : { search: '', classId: '', tag: '', sort: 'rating' }
+    sort: SORTS.includes(params.get('sort') as ExploreSort) ? params.get('sort') as ExploreSort : 'recent',
+  } : { search: '', classId: '', tag: '', sort: 'recent' }
   const setFilters = useCallback((next: Partial<Filters>) => {
     setParams(prev => {
       const out = new URLSearchParams(prev)
@@ -232,7 +232,7 @@ export function ExplorePage() {
       for (const [key, param] of keys) {
         if (!(key in next)) continue
         const value = next[key]
-        if (value && !(key === 'sort' && value === 'rating')) out.set(param, value)
+        if (value && !(key === 'sort' && value === 'recent')) out.set(param, value)
         else out.delete(param)
       }
       return out
@@ -283,7 +283,7 @@ export function ExplorePage() {
   const seeded = useRef(seed != null)
   useEffect(() => {
     if (tagPending) return
-    const isDefault = !filters.search && !filters.classId && !filters.tag && filters.sort === 'rating'
+    const isDefault = !filters.search && !filters.classId && !filters.tag && filters.sort === 'recent'
     if (seeded.current && isDefault) { seeded.current = false; return }
     seeded.current = false
     load(0)
