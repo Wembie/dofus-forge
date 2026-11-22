@@ -26,7 +26,7 @@ import type { AppItem } from "@/data/loaders.ts";
 import { CHARACTERISTICS } from "@/engine/types.ts";
 import { ClassPicker } from "@/features/class-picker/ClassPicker.tsx";
 import { ForgeScene } from "@/features/optimizer/ForgeParts.tsx";
-import type { BuildResult, ForgeIntensity, ForgeRequirement } from "@/features/optimizer/types.ts";
+import type { BuildResult, ForgeCustom, ForgeIntensity, ForgeRequirement } from "@/features/optimizer/types.ts";
 import {
   LEY_PRESETS,
   OPTIMIZER_STATS,
@@ -39,6 +39,8 @@ import {
   type OptimizerStatMeta,
 } from "@/features/optimizer/statList.ts";
 import {
+  CUSTOM_CAPS,
+  CUSTOM_STALLS,
   DOFUS_KINDS,
   PRO_LINES,
   clampLevel,
@@ -59,8 +61,10 @@ import {
   type PassiveSection,
 } from "@/features/optimizer/forgePassives.ts";
 import {
+  HW,
   INTENSITY,
   META_MAP,
+  forgeSettings,
   SLOT_LABEL_KEY,
   fingerprint,
   formatCount,
@@ -623,6 +627,23 @@ function Rules({ forge }: { forge: ForgeState }) {
   const { config, setConfig } = forge;
   const runesId = useId(),
     exosId = useId();
+  const [advanced, setAdvanced] = useState(config.intensity === "custom");
+  // What the selects show: the player's own settings, or the preset's, so the
+  // first change starts from what is running now.
+  const shown: ForgeCustom = (() => {
+    if (config.intensity === "custom") return config.custom;
+    const s = forgeSettings(config);
+    const near = (list: readonly number[], v: number) => list.reduce((a, b) => (Math.abs(b - v) < Math.abs(a - v) ? b : a));
+    return {
+      threads: s.threads,
+      capSec: Number.isFinite(s.capSec) ? near(CUSTOM_CAPS.filter((c) => c > 0), s.capSec) : 0,
+      stallSec: Number.isFinite(s.stallSec) ? near(CUSTOM_STALLS, s.stallSec) : CUSTOM_STALLS[CUSTOM_STALLS.length - 1],
+    };
+  })();
+  const setCustom = (patch: Partial<ForgeCustom>) =>
+    setConfig((c) => ({ ...c, intensity: "custom", custom: { ...shown, ...patch } }));
+  const duration = (secs: number) =>
+    secs <= 0 ? t("fg_no_limit") : secs < 60 ? t("fg_secs", { n: secs }) : t("fg_mins", { n: Math.round((secs / 60) * 10) / 10 });
   return (
     <section className="fg-rules" aria-labelledby="fg-rules-title">
       <header className="fg-step">
@@ -631,7 +652,7 @@ function Rules({ forge }: { forge: ForgeState }) {
       <section className="fg-rule" aria-label={t("optimizer_intensity")}>
         <h4>{t("forgeguide_intensity_title")}</h4>
         <div className="fg-segment" role="radiogroup" aria-label={t("optimizer_intensity")}>
-          {(Object.keys(INTENSITY) as ForgeIntensity[]).map((k) => (
+          {([...Object.keys(INTENSITY), ...(config.intensity === "custom" ? ["custom"] : [])] as ForgeIntensity[]).map((k) => (
             <button
               key={k}
               role="radio"
@@ -644,7 +665,57 @@ function Rules({ forge }: { forge: ForgeState }) {
             </button>
           ))}
         </div>
-        <p>{t(`optimizer_intensity_${config.intensity}_hint`)}</p>
+        <p>
+          {config.intensity === "custom"
+            ? t("optimizer_intensity_custom_hint", {
+                threads: Math.min(HW, config.custom.threads),
+                cap: duration(config.custom.capSec),
+                stall: config.custom.stallSec,
+              })
+            : t(`optimizer_intensity_${config.intensity}_hint`)}
+        </p>
+        <button className="fg-link" aria-expanded={advanced} onClick={() => setAdvanced((a) => !a)}>
+          <Settings2 size={14} aria-hidden="true" />
+          {t("fg_advanced")}
+          <ChevronDown size={14} aria-hidden="true" />
+        </button>
+        {advanced && (
+          <>
+            <div className="fg-inline fg-advanced">
+              <label className="fg-num">
+                <span>{t("fg_adv_threads")}</span>
+                <select value={Math.min(HW, shown.threads)} onChange={(e) => setCustom({ threads: Number(e.target.value) })}>
+                  {Array.from({ length: HW }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="fg-num">
+                <span>{t("fg_adv_cap")}</span>
+                <select value={shown.capSec} onChange={(e) => setCustom({ capSec: Number(e.target.value) })}>
+                  {CUSTOM_CAPS.map((s) => (
+                    <option key={s} value={s}>
+                      {duration(s)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="fg-num">
+                <span>{t("fg_adv_stall")}</span>
+                <select value={shown.stallSec} onChange={(e) => setCustom({ stallSec: Number(e.target.value) })}>
+                  {CUSTOM_STALLS.map((s) => (
+                    <option key={s} value={s}>
+                      {duration(s)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <p>{t("fg_adv_hint")}</p>
+          </>
+        )}
       </section>
       <section className="fg-rule" aria-label={t("fg_level_chars")}>
         <h4>{t("fg_level_chars")}</h4>

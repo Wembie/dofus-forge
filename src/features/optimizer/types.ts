@@ -25,7 +25,12 @@ export type ExoConfig = {
   maxCount:   number
 }
 
-export type ForgeIntensity = 'quick' | 'standard' | 'master' | 'eternal'
+export type ForgeIntensity = 'quick' | 'standard' | 'master' | 'eternal' | 'custom'
+/** An intensity with fixed settings (every one but the player's own). */
+export type ForgePreset = Exclude<ForgeIntensity, 'custom'>
+
+/** The player's own intensity: Workers, hard limit (0: none) and the seconds without a gain that end it. */
+export type ForgeCustom = { threads: number; capSec: number; stallSec: number }
 
 /** A line a pro exo can add; `resElemental` stands for the five elemental % resistances. */
 export type ProLine =
@@ -47,6 +52,7 @@ export type OptimizerConfig = {
   /** Passive items the player left out of the count. */
   passiveExcluded:     number[]
   intensity:           ForgeIntensity
+  custom:              ForgeCustom
   /** Pro forgemagie: exotic % res / % damage lines on up to `proExoMax` items. */
   proExo:              boolean
   /** Lines a pro exo may add (empty: none, the option does nothing). */

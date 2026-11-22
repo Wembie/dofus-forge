@@ -4,6 +4,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore, trackBuildChange } from '@/store/historyStore.ts'
 import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq, loadSavedConfig, persistConfig, STORAGE_KEY, withLegendaryBans, proValue } from '../forgeConfig.ts'
 import type { AppItem } from '@/data/loaders.ts'
+import { HW, INTENSITY, forgeSettings, statsIntensity } from '../useForge.ts'
 import { leyPreset } from '../statList.ts'
 import type { BuildResult, ForgeRequirement, OptimizerConfig } from '../types.ts'
 
@@ -12,6 +13,29 @@ const withReq = (req: ForgeRequirement): OptimizerConfig => {
   return { ...config, stats: config.stats.map(s => s.stat === req.stat ? req : s) }
 }
 const wireStat = (config: OptimizerConfig, stat: string) => toWireConfig(config, 96, 200).stats.find(s => s.stat === stat)
+
+describe('custom intensity', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('remembers the player settings and keeps only the offered choices', () => {
+    persistConfig({ ...makeDefaultConfig(), intensity: 'custom', custom: { threads: 6, capSec: 90, stallSec: 15 } })
+    expect(loadSavedConfig()).toMatchObject({ intensity: 'custom', custom: { threads: 6, capSec: 90, stallSec: 15 } })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ intensity: 'custom', custom: { threads: 99, capSec: 77, stallSec: 'x' } }))
+    expect(loadSavedConfig().custom).toEqual({ threads: 32, capSec: 120, stallSec: 20 })
+  })
+
+  it('runs a preset as defined, and custom settings within the machine', () => {
+    expect(forgeSettings({ intensity: 'standard', custom: makeDefaultConfig().custom })).toBe(INTENSITY.standard)
+    const custom = forgeSettings({ intensity: 'custom', custom: { threads: 999, capSec: 0, stallSec: 15 } })
+    expect(custom).toMatchObject({ threads: HW, capSec: Infinity, stallSec: 15 })
+  })
+
+  it('files a custom run in the usage stats under the nearest preset', () => {
+    const at = (capSec: number) => statsIntensity({ intensity: 'custom', custom: { threads: 4, capSec, stallSec: 20 } })
+    expect([30, 120, 300, 0].map(at)).toEqual(['quick', 'standard', 'master', 'eternal'])
+    expect(statsIntensity({ intensity: 'master', custom: makeDefaultConfig().custom })).toBe('master')
+  })
+})
 
 describe('a new order', () => {
   beforeEach(() => localStorage.clear())

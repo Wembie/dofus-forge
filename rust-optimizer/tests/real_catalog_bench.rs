@@ -660,3 +660,121 @@ fn agility_eval_throughput() {
     let evals = f.report().evaluations;
     println!("agility throughput: {evals} evaluations in {secs:.2}s = {:.0}/s best {:.3}", evals as f64 / secs, f.best_score());
 }
+
+fn order_forge(stats: Vec<StatConfig>, seed: u64, islands: usize) -> Forge {
+    let items: Vec<CatalogItem> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/equipment.json").unwrap()).unwrap();
+    let sets: Vec<CatalogSet> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/sets.json").unwrap()).unwrap();
+    let config = OptimizerConfig {
+        stats,
+        exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 3 },
+        max_level: 200, locked_slots: vec![], assume_fully_scrolled: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], pro_exo_max: 0, pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(),
+        transcendence: true, islands, prune: true,
+    };
+    let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
+    Forge::new(config, items, sets, base, seed)
+}
+
+// Browser-like run (Workers x 24 islands, ring migration every 41
+// generations, 250 ms hammer every 30): every time the overall best rises,
+// with the time it happened.
+fn browser_timeline(stats: &[StatConfig], seed: u64, workers: usize, secs: f64) -> Vec<(f64, f64)> {
+    use std::sync::{Arc, Barrier, Mutex};
+    type Mailbox = Arc<Mutex<Vec<Vec<HashMap<String, i64>>>>>;
+    let barrier = Arc::new(Barrier::new(workers));
+    let mailbox: Mailbox = Arc::new(Mutex::new(vec![Vec::new(); workers]));
+    let timeline = Arc::new(Mutex::new(Vec::<(f64, f64)>::new()));
+    let start = Instant::now();
+    std::thread::scope(|scope| {
+        for w in 0..workers {
+            let (barrier, mailbox, timeline) = (barrier.clone(), mailbox.clone(), timeline.clone());
+            let stats = stats.to_vec();
+            scope.spawn(move || {
+                let mut f = order_forge(stats, seed * 100 + w as u64, 24);
+                let now = || start.elapsed().as_secs_f64() * 1000.0;
+                let mut round = 0u64;
+                loop {
+                    round += 1;
+                    while f.generation() < round * 41 {
+                        f.run_generation();
+                        if f.generation().is_multiple_of(30) {
+                            f.temper(250.0, &now);
+                        }
+                        let mut tl = timeline.lock().unwrap();
+                        if tl.last().is_none_or(|&(_, s)| f.best_score() > s + 1e-9) {
+                            tl.push((start.elapsed().as_secs_f64(), f.best_score()));
+                        }
+                    }
+                    mailbox.lock().unwrap()[(w + 1) % workers] = f.emigrants();
+                    barrier.wait();
+                    let incoming = std::mem::take(&mut mailbox.lock().unwrap()[w]);
+                    f.inject(&incoming);
+                    let done = start.elapsed().as_secs_f64() >= secs;
+                    barrier.wait();
+                    if done {
+                        break;
+                    }
+                }
+            });
+        }
+    });
+    let tl = timeline.lock().unwrap().clone();
+    tl
+}
+
+// Calibrates the Forge's stop rule: for each order and seed, when the last
+// significant gain came (the page's rule: +0.2% of the quality, at least 1
+// point, or reaching every minimum) and, for each candidate window of
+// seconds without one, when the forge would have stopped and what it lost.
+// FORGE_ORDERS=agility,earth,... FORGE_SEEDS FORGE_SECS FORGE_WORKERS
+#[test]
+#[ignore]
+fn plateau_profile() {
+    let env = |k: &str, d: f64| std::env::var(k).ok().and_then(|v| v.parse().ok()).unwrap_or(d);
+    let workers = env("FORGE_WORKERS", 8.0) as usize;
+    let secs = env("FORGE_SECS", 90.0);
+    let seeds = env("FORGE_SEEDS", 4.0) as u64;
+    let mut orders: Vec<(String, Vec<StatConfig>)> = vec![("agility".into(), agility_order()), ("screenshot".into(), screenshot_order())];
+    orders.extend(cases().into_iter().map(|(n, s)| (n.to_string(), s)));
+    let wanted = std::env::var("FORGE_ORDERS").unwrap_or_default();
+    let windows = [10.0, 15.0, 20.0, 30.0, 40.0];
+    for (name, stats) in orders.iter().filter(|(n, _)| wanted.is_empty() || wanted.split(',').any(|w| w == n)) {
+        for seed in 1..=seeds {
+            let tl = browser_timeline(stats, seed, workers, secs);
+            let Some(&(t_best, best)) = tl.last() else { continue };
+            // Significant gains, as the page counts them.
+            let mut sig: Vec<(f64, f64)> = Vec::new();
+            for &(t, s) in &tl {
+                let keep = match sig.last() {
+                    None => true,
+                    Some(&(_, last)) => (last < 0.0 && s >= 0.0) || s - last >= (last.abs() * 0.002).max(1.0),
+                };
+                if keep {
+                    sig.push((t, s));
+                }
+            }
+            let max_gap = sig.windows(2).map(|w| w[1].0 - w[0].0).fold(0.0f64, f64::max);
+            let stops: Vec<String> = windows
+                .iter()
+                .map(|&win| {
+                    // First moment `win` seconds pass with no significant gain.
+                    let mut stop = secs;
+                    for (k, &(t, _)) in sig.iter().enumerate() {
+                        let next = sig.get(k + 1).map_or(f64::INFINITY, |n| n.0);
+                        if next - t >= win {
+                            stop = (t + win).min(secs);
+                            break;
+                        }
+                    }
+                    let at_stop = tl.iter().filter(|(t, _)| *t <= stop).map(|(_, s)| *s).fold(f64::NEG_INFINITY, f64::max);
+                    format!("{win}s->stop {stop:.0}s lose {:.0}", best - at_stop)
+                })
+                .collect();
+            println!(
+                "[{name}] seed {seed}: best {best:.0} at {t_best:.1}s, last significant at {:.1}s, longest gap {max_gap:.1}s | {}",
+                sig.last().map_or(0.0, |s| s.0),
+                stops.join(" | ")
+            );
+        }
+    }
+}

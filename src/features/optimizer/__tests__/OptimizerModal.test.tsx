@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import '@/test/i18n.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -230,5 +230,56 @@ describe('OptimizerModal pro magesmithy', () => {
     expect(saved).toMatchObject({ proExo: true, proExoMax: 4, proExoCaps: { resElemental: 3 } })
     expect(saved.proExoWeight).toBeUndefined()
     expect(saved.proExoLines).not.toContain('spellDamagePercent')
+  })
+})
+
+describe('OptimizerModal advanced forge settings', () => {
+  it('switches to the custom intensity from the preset it was running', () => {
+    useBuildStore.setState({ selectedClass: 'iop', equipped: {} })
+    useDataStore.setState({ equipment: DOFUS, sets: [] })
+    const { unmount } = render(<MemoryRouter><OptimizerModal open onClose={() => {}} /></MemoryRouter>)
+    expect(screen.queryByRole('radio', { name: 'optimizer_intensity_custom' })).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: /fg_advanced/ }))
+    fireEvent.change(screen.getByRole('combobox', { name: 'fg_adv_stall' }), { target: { value: '45' } })
+    expect(screen.getByRole('radio', { name: 'optimizer_intensity_custom' }).getAttribute('aria-checked')).toBe('true')
+    expect(screen.getByText('optimizer_intensity_custom_hint')).toBeTruthy()
+    fireEvent.click(screen.getByRole('radio', { name: 'optimizer_intensity_quick' }))
+    expect(screen.queryByRole('radio', { name: 'optimizer_intensity_custom' })).toBeNull()
+    unmount()
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!)).toMatchObject({ intensity: 'quick', custom: { stallSec: 45, capSec: 120 } })
+  })
+})
+
+describe('OptimizerModal stop rule', () => {
+  afterEach(() => vi.useRealTimers())
+
+  it('tempers once the stall window passes, twice as long while a minimum is missing', () => {
+    vi.useFakeTimers({ toFake: ['performance', 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date'] })
+    const workers: { onmessage: ((e: MessageEvent) => void) | null; messages: { type: string }[] }[] = []
+    class FakeWorker {
+      onmessage: ((event: MessageEvent) => void) | null = null
+      messages: { type: string }[] = []
+      constructor() { workers.push(this) }
+      postMessage(message: { type: string }) { this.messages.push(message) }
+      terminate() {}
+    }
+    vi.stubGlobal('Worker', FakeWorker)
+    useBuildStore.setState({ selectedClass: 'iop', equipped: {} })
+    useDataStore.setState({ equipment: DOFUS, sets: [] })
+    persistConfig({ ...makeDefaultConfig(), intensity: 'custom', custom: { threads: 1, capSec: 0, stallSec: 5 } })
+    render(<MemoryRouter><OptimizerModal open onClose={() => {}} /></MemoryRouter>)
+    fireEvent.click(screen.getByRole('button', { name: /optimizer_light_forge/ }))
+    const report = (score: number, met: boolean) => act(() => {
+      const result = { equipped: {}, stats: {}, score, meetsRequired: met, conditionsOk: true, allocated: {}, scrolled: {}, exo: {}, runes: {}, requirementsMet: 0, requirementsTotal: 1 }
+      workers.forEach(w => w.onmessage?.({ data: { type: 'report', report: { generation: 1, evaluations: 1, bestScore: score, results: [result] } } } as MessageEvent))
+    })
+    const finished = () => workers.some(w => w.messages.some(m => m.type === 'finish'))
+    report(-100, false)
+    act(() => { vi.advanceTimersByTime(6_000) })
+    report(-100, false)
+    expect(finished()).toBe(false)
+    act(() => { vi.advanceTimersByTime(5_000) })
+    report(-100, false)
+    expect(finished()).toBe(true)
   })
 })

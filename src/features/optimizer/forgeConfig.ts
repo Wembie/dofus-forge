@@ -1,5 +1,5 @@
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
-import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, OptimizerStatKey, DofusKind, ProLine } from './types.ts'
+import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, ForgeCustom, OptimizerStatKey, DofusKind, ProLine } from './types.ts'
 import { OPTIMIZER_STATS, leyPreset, unitValue } from './statList.ts'
 import { PASSIVE_MODES, sanitizeExcluded, type PassiveEffects } from './forgePassives.ts'
 import type { PassiveState } from '@/engine/passives.ts'
@@ -7,7 +7,20 @@ import type { AppItem } from '@/data/loaders.ts'
 
 export const STORAGE_KEY = 'dofus-forge:optimizer-config'
 export const MAX_LEVEL = 200
-const INTENSITIES: ForgeIntensity[] = ['quick', 'standard', 'master', 'eternal']
+const INTENSITIES: ForgeIntensity[] = ['quick', 'standard', 'master', 'eternal', 'custom']
+// Choices the Advanced settings offer (a hard limit of 0 means none).
+export const CUSTOM_CAPS = [30, 60, 90, 120, 180, 300, 480, 0] as const
+export const CUSTOM_STALLS = [5, 10, 15, 20, 30, 45, 60, 90] as const
+const DEFAULT_CUSTOM: ForgeCustom = { threads: 4, capSec: 120, stallSec: 20 }
+function sanitizeCustom(raw: unknown): ForgeCustom {
+  const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
+  const pick = <T extends number>(v: unknown, list: readonly T[], fallback: T): T => (list as readonly unknown[]).includes(v) ? (v as T) : fallback
+  return {
+    threads:  intIn(r.threads, 1, 32, DEFAULT_CUSTOM.threads),
+    capSec:   pick(r.capSec, CUSTOM_CAPS, 120),
+    stallSec: pick(r.stallSec, CUSTOM_STALLS, 20),
+  }
+}
 export const DOFUS_KINDS: DofusKind[] = ['Trophy', 'Prysmaradite', 'Dofus']
 
 // The weight an exo made with regular runes reaches in practice: 5% resistance
@@ -60,10 +73,15 @@ export function clampLevel(v: number | null | undefined, fallback = MAX_LEVEL): 
 const DEFAULTS_REV = 2
 
 // A new order starts from what nearly every build wants: 12 AP and 6 MP.
-const DEFAULT_GOALS: Partial<Record<OptimizerStatKey, number>> = { ap: 12, mp: 6 }
+// Keys: OPTIMIZER_STATS in statList.ts. `cap` is optional (no cap when left
+// out); every default goal takes the stat's default ley.
+const DEFAULT_GOALS: Partial<Record<OptimizerStatKey, { minimum: number; cap?: number }>> = {
+  ap: { minimum: 12, cap: 12 },
+  mp: { minimum: 6, cap: 6 },
+}
 const defaultReq = (stat: OptimizerStatKey): ForgeRequirement => {
-  const minimum = DEFAULT_GOALS[stat]
-  return minimum ? { stat, minimum, weight: leyPreset(stat, 2), cap: minimum, strictCap: false } : emptyReq(stat)
+  const goal = DEFAULT_GOALS[stat]
+  return goal ? { stat, minimum: goal.minimum, weight: leyPreset(stat, 2), cap: goal.cap ?? null, strictCap: false } : emptyReq(stat)
 }
 
 export function makeDefaultConfig(): OptimizerConfig {
@@ -77,6 +95,7 @@ export function makeDefaultConfig(): OptimizerConfig {
     passives:            'off',
     passiveExcluded:     [],
     intensity:           'standard',
+    custom:              { ...DEFAULT_CUSTOM },
     legendary:           true,
     excludedKinds:       [],
     proExo:              false,
@@ -127,6 +146,7 @@ export function loadSavedConfig(): OptimizerConfig {
       exo:                 { ...defaults.exo, ...(current && typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
       lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
       intensity:           INTENSITIES.includes(parsed.intensity) ? parsed.intensity : defaults.intensity,
+      custom:              sanitizeCustom(parsed.custom),
       passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
       passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
       legendary:           parsed.legendary !== false,
