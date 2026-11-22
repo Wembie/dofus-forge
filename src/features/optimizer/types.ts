@@ -27,6 +27,11 @@ export type ExoConfig = {
 
 export type ForgeIntensity = 'quick' | 'standard' | 'master' | 'eternal'
 
+/** A line a pro exo can add; `resElemental` stands for the five elemental % resistances. */
+export type ProLine =
+  | 'resElemental' | 'meleeResistPercent' | 'rangedResistPercent'
+  | 'spellDamagePercent' | 'weaponDamagePercent' | 'meleeDamagePercent' | 'rangedDamagePercent'
+
 /** What a Dofus slot can hold, by item type. */
 export type DofusKind = 'Dofus' | 'Trophy' | 'Prysmaradite'
 
@@ -44,8 +49,10 @@ export type OptimizerConfig = {
   intensity:           ForgeIntensity
   /** Pro forgemagie: exotic % res / % damage lines on up to `proExoMax` items. */
   proExo:              boolean
-  /** A pro exo's budget as the % resistance it buys (1–5), weight 6 per point. */
-  proExoRes:           number
+  /** A pro exo's weight: 12, 30, 60 or 101 (30 buys 5% resistance or 2% damage). */
+  proExoWeight:        number
+  /** Lines a pro exo may add (empty: none, the option does nothing). */
+  proExoLines:         ProLine[]
   proExoMax:           number
   /** Whether the Forge may use legendary items (pinned and kept ones always count). */
   legendary:           boolean

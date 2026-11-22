@@ -38,7 +38,17 @@ import {
   suggestedCap,
   type OptimizerStatMeta,
 } from "@/features/optimizer/statList.ts";
-import { DOFUS_KINDS, PRO_RES_MAX, clampLevel, emptyReq, isActive, normalizeCap, proDamage } from "@/features/optimizer/forgeConfig.ts";
+import {
+  DOFUS_KINDS,
+  PRO_LINES,
+  PRO_PRESET_KEY,
+  PRO_WEIGHTS,
+  clampLevel,
+  emptyReq,
+  isActive,
+  normalizeCap,
+  proValue,
+} from "@/features/optimizer/forgeConfig.ts";
 import { searchItems, slotNameKey, slotsFor, useForgePicks, type RequiredPlacement } from "@/features/optimizer/forgePicks.ts";
 import {
   PASSIVE_MODES,
@@ -752,14 +762,14 @@ function Rules({ forge }: { forge: ForgeState }) {
           <div className="fg-check-more">
             <div className="fg-inline">
               <label className="fg-num">
-                <span>{t("fg_pro_res")}</span>
+                <span>{t("fg_pro_weight")}</span>
                 <select
-                  value={config.proExoRes}
-                  onChange={(e) => setConfig((c) => ({ ...c, proExoRes: Number(e.target.value) }))}
+                  value={config.proExoWeight}
+                  onChange={(e) => setConfig((c) => ({ ...c, proExoWeight: Number(e.target.value) }))}
                 >
-                  {Array.from({ length: PRO_RES_MAX }, (_, i) => i + 1).map((n) => (
-                    <option key={n} value={n}>
-                      {n}%
+                  {PRO_WEIGHTS.map((w) => (
+                    <option key={w} value={w}>
+                      {t(`fg_pro_preset_${PRO_PRESET_KEY[w]}`, { weight: w })}
                     </option>
                   ))}
                 </select>
@@ -778,11 +788,36 @@ function Rules({ forge }: { forge: ForgeState }) {
                 </select>
               </label>
             </div>
-            <p className="fg-check-hint">
-              {proDamage(config.proExoRes) > 0
-                ? t("fg_pro_budget", { res: config.proExoRes, dmg: proDamage(config.proExoRes) })
-                : t("fg_pro_budget_res_only", { res: config.proExoRes })}
-            </p>
+            <h5 className="fg-pro-lines-title">{t("fg_pro_lines")}</h5>
+            <ul className="fg-pro-lines">
+              {PRO_LINES.map((line) => {
+                const value = proValue(config.proExoWeight, line.weight);
+                const label =
+                  line.id === "resElemental" ? t("fg_pro_line_res") : t(OPTIMIZER_STATS.find((s) => s.key === line.id)!.tKey);
+                return (
+                  <li key={line.id} className={value > 0 ? undefined : "is-out"}>
+                    <label className="fg-check">
+                      <input
+                        type="checkbox"
+                        checked={config.proExoLines.includes(line.id)}
+                        disabled={value <= 0}
+                        onChange={(e) =>
+                          setConfig((c) => ({
+                            ...c,
+                            proExoLines: e.target.checked
+                              ? PRO_LINES.map((l) => l.id).filter((id) => id === line.id || c.proExoLines.includes(id))
+                              : c.proExoLines.filter((id) => id !== line.id),
+                          }))
+                        }
+                      />
+                      {label}
+                    </label>
+                    <span>{value > 0 ? `+${value} %` : t("fg_pro_needs", { weight: line.weight })}</span>
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="fg-check-hint">{t("fg_pro_rule")}</p>
           </div>
           )}
         </div>

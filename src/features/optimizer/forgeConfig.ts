@@ -1,5 +1,5 @@
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
-import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, OptimizerStatKey, DofusKind } from './types.ts'
+import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, OptimizerStatKey, DofusKind, ProLine } from './types.ts'
 import { OPTIMIZER_STATS, leyPreset, unitValue } from './statList.ts'
 import { PASSIVE_MODES, sanitizeExcluded, type PassiveEffects } from './forgePassives.ts'
 import type { PassiveState } from '@/engine/passives.ts'
@@ -10,9 +10,31 @@ export const MAX_LEVEL = 200
 const INTENSITIES: ForgeIntensity[] = ['quick', 'standard', 'master', 'eternal']
 export const DOFUS_KINDS: DofusKind[] = ['Trophy', 'Prysmaradite', 'Dofus']
 
-export const PRO_RES_MAX = 5
-// % damage lines weigh 15 against 6 for % resistance.
-export const proDamage = (res: number) => Math.floor((res * 6) / 15)
+// Pro exo weights offered: careful, pro, legend and the game's 101 limit.
+export const PRO_WEIGHTS = [12, 30, 60, 101] as const
+export const PRO_PRESET_KEY: Record<number, string> = { 12: 'careful', 30: 'pro', 60: 'legend', 101: 'max' }
+export const PRO_LINES: { id: ProLine; stats: OptimizerStatKey[]; weight: number }[] = [
+  { id: 'resElemental',        stats: ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent'], weight: 6 },
+  { id: 'meleeResistPercent',  stats: ['meleeResistPercent'],  weight: 15 },
+  { id: 'rangedResistPercent', stats: ['rangedResistPercent'], weight: 15 },
+  { id: 'spellDamagePercent',  stats: ['spellDamagePercent'],  weight: 15 },
+  { id: 'weaponDamagePercent', stats: ['weaponDamagePercent'], weight: 15 },
+  { id: 'meleeDamagePercent',  stats: ['meleeDamagePercent'],  weight: 15 },
+  { id: 'rangedDamagePercent', stats: ['rangedDamagePercent'], weight: 15 },
+]
+const PRO_LINE_IDS = PRO_LINES.map(l => l.id)
+/** What a pro exo of `weight` buys on a line weighing `lineWeight` per point. */
+export const proValue = (weight: number, lineWeight: number) => Math.floor(Math.min(weight, 101) / lineWeight)
+const nearestWeight = (w: number) => PRO_WEIGHTS.reduce((a, b) => (Math.abs(b - w) < Math.abs(a - w) ? b : a))
+function sanitizeProWeight(parsed: Record<string, unknown>): number {
+  if (typeof parsed.proExoWeight === 'number' && Number.isFinite(parsed.proExoWeight)) return nearestWeight(parsed.proExoWeight)
+  // Saved as the % resistance it bought (1–5) before the weight presets.
+  if (typeof parsed.proExoRes === 'number' && Number.isFinite(parsed.proExoRes)) return nearestWeight(parsed.proExoRes * 6)
+  return 30
+}
+function sanitizeProLines(raw: unknown): ProLine[] {
+  return Array.isArray(raw) ? PRO_LINE_IDS.filter(id => raw.includes(id)) : [...PRO_LINE_IDS]
+}
 const intIn = (v: unknown, min: number, max: number, fallback: number) =>
   typeof v === 'number' && Number.isFinite(v) ? Math.max(min, Math.min(max, Math.round(v))) : fallback
 
@@ -49,7 +71,8 @@ export function makeDefaultConfig(): OptimizerConfig {
     legendary:           true,
     excludedKinds:       [],
     proExo:              false,
-    proExoRes:           PRO_RES_MAX,
+    proExoWeight:        30,
+    proExoLines:         [...PRO_LINE_IDS],
     proExoMax:           2,
   }
 }
@@ -99,7 +122,8 @@ export function loadSavedConfig(): OptimizerConfig {
       passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
       legendary:           parsed.legendary !== false,
       proExo:              parsed.proExo === true,
-      proExoRes:           intIn(parsed.proExoRes, 1, PRO_RES_MAX, defaults.proExoRes),
+      proExoWeight:        sanitizeProWeight(parsed),
+      proExoLines:         sanitizeProLines(parsed.proExoLines),
       proExoMax:           intIn(parsed.proExoMax, 1, 9, defaults.proExoMax),
       excludedKinds:       sanitizeKinds(parsed.excludedKinds),
       // Vitality is no longer offered as a goal (HP covers it); an old order drops it.
@@ -161,8 +185,9 @@ export function toWireConfig(
     requiredItems:       picks.required,
     passiveEffects:      config.passives === 'off' ? [] : passiveEffects,
     transcendence:       config.transcendence,
-    proExoMax:           config.proExo ? config.proExoMax : 0,
-    proExoRes:           config.proExoRes,
+    proExoMax:           config.proExo && config.proExoLines.length ? config.proExoMax : 0,
+    proExoWeight:        config.proExoWeight,
+    proExoLines:         PRO_LINES.filter(l => config.proExoLines.includes(l.id)).flatMap(l => l.stats),
     islands,
   }
 }

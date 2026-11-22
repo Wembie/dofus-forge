@@ -2202,10 +2202,7 @@
   "fg_use_legendary_hint": "Décochez-la si vous n'avez pas d'objets légendaires : la forge ne les utilise pas. Ceux fixés ou conservés restent.",
   "fg_pro_exo": "Exos avec runes normales (pro)",
   "fg_pro_exo_hint": "Pour les vrais pros : avec des runes normales, pas de transcendance, ajoute un exo de % résistance ou de % dommages sur les objets où il rapporte le plus, comme après un succès critique de forgemagie. Un objet exo ne prend pas de rune de transcendance.",
-  "fg_pro_res": "Plafond % rés.",
   "fg_pro_max": "Max par build",
-  "fg_pro_budget": "Jusqu'à {{res}} % de résistance ou {{dmg}} % de dommages par objet.",
-  "fg_pro_budget_res_only": "Jusqu'à {{res}} % de résistance par objet (les % dommages demandent un plafond de 3 % ou plus).",
   "fg_pro_badge": "Exo pro +{{value}} {{stat}}",
   "fg_forge_runes": "Runes",
   "fg_forge_exos": "Exos PA / PM / Portée",
@@ -2215,5 +2212,14 @@
   "runes_block_item": "Impossible : l'objet porte déjà {{used}} de poids en exos et overs, et la limite est {{limit}}.",
   "runes_block_transcendence": "Impossible : un objet avec une rune de transcendance n'accepte plus de forgemagie.",
   "runes_transcendence_blocked": "Impossible : la transcendance ne va pas sur un objet avec exos ou overs. Retirez d'abord ses runes normales.",
-  "runes_impossible": "impossible en jeu"
+  "runes_impossible": "impossible en jeu",
+  "fg_pro_weight": "Poids par exo",
+  "fg_pro_preset_careful": "Prudent · {{weight}}",
+  "fg_pro_preset_pro": "Pro · {{weight}}",
+  "fg_pro_preset_legend": "Légende · {{weight}}",
+  "fg_pro_preset_max": "Maximum · {{weight}}",
+  "fg_pro_lines": "Lignes autorisées",
+  "fg_pro_line_res": "% Rés. élémentaire (les 5)",
+  "fg_pro_needs": "demande un poids de {{weight}}",
+  "fg_pro_rule": "Ne dépasse jamais 101 de poids sur une ligne et ne partage jamais un objet avec une rune de transcendance."
 }

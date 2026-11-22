@@ -245,6 +245,32 @@ html.light .fg-dialog {
 .fg-check-more {
   margin-left: 22px;
 }
+.fg-pro-lines-title {
+  margin: 10px 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.fg-pro-lines {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+.fg-pro-lines li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 0;
+}
+.fg-pro-lines li > span {
+  font: 500 12px "IBM Plex Mono";
+  color: var(--muted);
+  white-space: nowrap;
+}
+.fg-pro-lines li.is-out .fg-check {
+  color: var(--muted);
+}
 .fg-group h5 {
   margin: 6px 0 2px;
   font-size: 11px;

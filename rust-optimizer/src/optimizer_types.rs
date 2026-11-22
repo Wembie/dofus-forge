@@ -103,14 +103,17 @@ pub struct OptimizerConfig {
     /// transcendence rune or an AP/MP/range exo.
     #[serde(default)]
     pub pro_exo_max: usize,
-    /// A pro exo's weight budget, given as the % resistance it buys (1-5):
-    /// weight 6 per point, so 5 also buys 2% spell damage (weight 15 each).
-    #[serde(default = "default_pro_res")]
-    pub pro_exo_res: i64,
+    /// A pro exo's weight (6 to 101): 30 buys 5% resistance (weight 6 per
+    /// point) or 2% damage (weight 15).
+    #[serde(default = "default_pro_weight")]
+    pub pro_exo_weight: i64,
+    /// Stat keys a pro exo may add; empty allows every pro line.
+    #[serde(default)]
+    pub pro_exo_lines: Vec<String>,
 }
 
-fn default_pro_res() -> i64 {
-    5
+fn default_pro_weight() -> i64 {
+    30
 }
 
 fn default_true() -> bool {

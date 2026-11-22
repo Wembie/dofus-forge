@@ -600,12 +600,13 @@ impl Forge {
             .filter_map(|(name, values)| FIELDS.iter().position(|f| f == name).map(|i| (i, *values)))
             .filter(|(i, _)| !stat_targets[*i].is_empty() && config.transcendence)
             .collect();
-        let pro_budget = (6.0 * config.pro_exo_res.clamp(1, 5) as f64).min(EXOTIC_WEIGHT_LIMIT);
+        let pro_budget = (config.pro_exo_weight as f64).clamp(6.0, EXOTIC_WEIGHT_LIMIT);
         let pro_table: Vec<(usize, i64)> = if config.pro_exo_max == 0 {
             Vec::new()
         } else {
             PRO_LINES
                 .iter()
+                .filter(|name| config.pro_exo_lines.is_empty() || config.pro_exo_lines.iter().any(|l| l == *name))
                 .filter_map(|name| FIELDS.iter().position(|f| f == name))
                 .filter(|&i| !stat_targets[i].is_empty())
                 .map(|i| (i, (pro_budget / fm_weight(i)).floor() as i64))
@@ -2300,7 +2301,7 @@ mod tests {
             required_items: vec![],
             passive_effects: vec![],
             pro_exo_max: 0,
-            pro_exo_res: 5,
+            pro_exo_weight: 30, pro_exo_lines: vec![],
             transcendence: false,
             islands: 4,
             prune: true,
@@ -2972,7 +2973,7 @@ mod tests {
 
     fn pro(cfg: &mut OptimizerConfig, max: usize, res: i64) {
         cfg.pro_exo_max = max;
-        cfg.pro_exo_res = res;
+        cfg.pro_exo_weight = 6 * res;
     }
     fn exotic(r: &BuildResult) -> Vec<(String, String, i64)> {
         let mut v: Vec<_> = r.runes.iter().filter(|(_, x)| x.exotic).map(|(s, x)| (s.clone(), x.stat.clone(), x.value)).collect();
@@ -3036,6 +3037,28 @@ mod tests {
             let r = &run(&mut f, 3)[0];
             assert_eq!(r.runes.get("hat").map(|x| x.value), want, "budget {res}");
         }
+    }
+
+    #[test]
+    fn pro_exo_only_uses_the_lines_allowed() {
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let mut cfg = config(vec![cond("earthResPercent", 5, 30), cond("spellDamagePercent", 0, 75)], &["hat"]);
+        pro(&mut cfg, 1, 5);
+        cfg.pro_exo_lines = vec!["spellDamagePercent".into()];
+        let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 8);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(exotic(r), vec![("hat".to_string(), "% Spell Damage".to_string(), 2)]);
+    }
+
+    #[test]
+    fn pro_exo_weight_reaches_the_101_limit_but_never_past_it() {
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let mut cfg = config(vec![cond("earthResPercent", 0, 30)], &["hat"]);
+        pro(&mut cfg, 1, 5);
+        cfg.pro_exo_weight = 500;
+        let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 8);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(r.runes.get("hat").map(|x| x.value), Some(16));
     }
 
     #[test]
