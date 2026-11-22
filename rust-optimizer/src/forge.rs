@@ -397,6 +397,11 @@ struct Item {
     set: Option<usize>,
     conds: Vec<Cond>,
     prysmaradite: bool,
+    // Bit k-1 set: an AP (k=1) / MP (2) / Range (3) exo fits, since the item
+    // has no such line (2 Range already weigh 102, past the 101 limit).
+    exo_free: u8,
+    // Its own lines, without a passive: what the 101 limit is measured on.
+    lines: Vec60,
     // Best transcendence rune per scored stat this item may take.
     runes: Vec<(usize, i64)>,
 }
@@ -653,6 +658,8 @@ impl Forge {
                 } else {
                     Vec::new()
                 };
+                let lines = vec;
+                let exo_free = [AP, MP, RANGE].iter().enumerate().fold(0u8, |m, (k, &st)| if lines[st] == 0 { m | 1 << k } else { m });
                 // After the runes: a passive is not a line on the item, so it
                 // never changes which rune rank the item can take.
                 if let Some(passive) = passive_by_id.get(&it.ankama_id) {
@@ -665,6 +672,8 @@ impl Forge {
                     conds,
                     prysmaradite: it.item_type == "Prysmaradite",
                     runes,
+                    exo_free,
+                    lines,
                 }
             })
             .collect();
@@ -1023,8 +1032,13 @@ impl Forge {
             let it = &self.items[i];
             it.set.is_some() || !it.conds.is_empty() || it.prysmaradite
         };
+        let exo_kinds = if self.exo_max > 0 { u8::from(self.exo_ap) | u8::from(self.exo_mp) << 1 | u8::from(self.exo_range) << 2 } else { 0 };
         let dominates = |b: usize, a: usize| -> bool {
             if protected(b) {
+                return false;
+            }
+            // `a` can host an exo `b` cannot (`b` already has that line).
+            if self.items[a].exo_free & !self.items[b].exo_free & exo_kinds != 0 {
                 return false;
             }
             let (vb, va) = (&self.items[b].vec, &self.items[a].vec);
@@ -1350,6 +1364,25 @@ impl Forge {
 
     // Gain of adding `amount` to raw stat `i`, at characteristic totals `ch`
     // (applied in place and reverted: no copy of the stat vector).
+    // Hosts for each exo kind, in order (first fit, backtracking): an item
+    // takes one exo, only of a line it lacks, and never a slot in `taken`.
+    fn exo_assign(&self, g: &[i32; NSLOT], hosts: &[usize], kinds: &[u8], taken: u32) -> Option<[usize; 3]> {
+        fn place(f: &Forge, g: &[i32; NSLOT], hosts: &[usize], kinds: &[u8], taken: u32, at: &mut [usize; 3], depth: usize) -> bool {
+            let Some(&kind) = kinds.get(depth) else { return true };
+            for &s in hosts {
+                if taken & 1 << s == 0 && f.items[g[s] as usize].exo_free & 1 << (kind - 1) != 0 {
+                    at[depth] = s;
+                    if place(f, g, hosts, kinds, taken | 1 << s, at, depth + 1) {
+                        return true;
+                    }
+                }
+            }
+            false
+        }
+        let mut at = [0usize; 3];
+        place(self, g, hosts, kinds, taken, &mut at, 0).then_some(at)
+    }
+
     // stat_gain() remembered for the current round of rune placement.
     fn memo_gain(&self, memo: &mut Vec<((usize, i64), f64)>, pre: &mut Vec60, ch: &mut [i64; 6], i: usize, v: i64) -> f64 {
         if let Some((_, gain)) = memo.iter().find(|(k, _)| *k == (i, v)) {
@@ -1419,22 +1452,21 @@ impl Forge {
                     host_len += 1;
                 }
             }
-            let room = self.exo_max.min(host_len);
             for (kind, stat, allowed) in [(1u8, AP, self.exo_ap), (2, MP, self.exo_mp), (3, RANGE, self.exo_range)] {
-                if !allowed || kind_len >= room {
+                if !allowed || kind_len >= self.exo_max {
                     continue;
                 }
                 let goal = self.targets.iter().filter(|t| t.idx == stat).map(|t| t.goal).max().unwrap_or(0);
-                if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal {
+                kind_slots[kind_len] = kind;
+                if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal && self.exo_assign(g, &host_slots[..host_len], &kind_slots[..=kind_len], 0).is_some() {
                     pre[stat] += 1;
-                    kind_slots[kind_len] = kind;
                     kind_len += 1;
                 }
             }
         }
         let hosts = &host_slots[..host_len];
         let exo_kinds = &kind_slots[..kind_len];
-        let mut free_hosts = hosts.len();
+        let mut taken = 0u32; // slots a rune already took
 
         // Characteristic thresholds the equipped items themselves demand.
         let mut scratch = self.scratch.borrow_mut();
@@ -1474,7 +1506,8 @@ impl Forge {
                     if g[s] < 0 || self.locked[s] || used[s] {
                         continue;
                     }
-                    if free_hosts <= exo_kinds.len() && hosts.contains(&s) {
+                    // Never take an item the exos still need.
+                    if !exo_kinds.is_empty() && hosts.contains(&s) && self.exo_assign(g, hosts, exo_kinds, taken | 1 << s).is_none() {
                         continue;
                     }
                     open[open_len] = s;
@@ -1501,9 +1534,12 @@ impl Forge {
                         let v = (1..top).find(|&v| self.memo_gain(memo, &mut pre, &mut ch, i, v) >= gain - 1e-9).unwrap_or(top);
                         // Worth the same on any item: it goes on the one whose
                         // best rune on another stat is worth the least.
-                        let mut slot = open[0];
+                        let mut slot = NSLOT;
                         let mut slot_loss = f64::INFINITY;
                         for &s in &open[..open_len] {
+                            if (self.items[g[s] as usize].lines[i] + v) as f64 * fm_weight(i) > EXOTIC_WEIGHT_LIMIT {
+                                continue;
+                            }
                             let loss = self.items[g[s] as usize]
                                 .runes
                                 .iter()
@@ -1515,8 +1551,10 @@ impl Forge {
                                 slot = s;
                             }
                         }
-                        best = Some((slot, i, v));
-                        is_pro = true;
+                        if slot < NSLOT {
+                            best = Some((slot, i, v));
+                            is_pro = true;
+                        }
                     }
                 }
                 let Some((s, i, v)) = best else { break };
@@ -1530,16 +1568,16 @@ impl Forge {
                 }
                 rune[s] = Some((i, v));
                 used[s] = true;
-                if hosts.contains(&s) {
-                    free_hosts -= 1;
-                }
+                taken |= 1 << s;
             }
             if rune.iter().any(|r| r.is_some()) {
                 alloc = self.allocate(&pre, extra);
             }
         }
-        for (&s, &kind) in hosts.iter().filter(|&&s| !used[s]).zip(exo_kinds) {
-            exo[s] = kind;
+        if let Some(at) = self.exo_assign(g, hosts, exo_kinds, taken) {
+            for (&s, &kind) in at.iter().zip(exo_kinds) {
+                exo[s] = kind;
+            }
         }
         let ch = Self::chars_of(&pre, &alloc);
 
@@ -2220,6 +2258,18 @@ impl Forge {
         if r.runes.values().filter(|x| x.exotic).count() > self.pro_max {
             return Err("more pro exos than allowed".into());
         }
+        for (slot, kind) in &r.exo {
+            let bit = match kind.as_str() {
+                "ap" => 1,
+                "mp" => 2,
+                _ => 4,
+            };
+            let id = r.equipped.get(slot).ok_or("exo on an empty slot")?;
+            let i = self.catalog.iter().position(|c| c.ankama_id == *id).ok_or("unknown item")?;
+            if self.items[i].exo_free & bit == 0 {
+                return Err(format!("{kind} exo on {slot}, which already has that line"));
+            }
+        }
         Ok(())
     }
 }
@@ -2412,7 +2462,7 @@ mod tests {
 
     #[test]
     fn exo_closes_an_ap_deficit_on_a_ring_only() {
-        let mut items = vec![item(1, "ring", None, vec![effect("AP", 1)]), item(2, "hat", None, vec![effect("AP", 3)])];
+        let mut items = vec![item(1, "ring", None, vec![effect("Strength", 1)]), item(2, "hat", None, vec![effect("AP", 4)])];
         items.iter_mut().for_each(|it| it.level = 190);
         let mut cfg = config(vec![cond("ap", 12, 100)], &["ring1", "hat"]);
         cfg.exo = ExoConfig { ap: true, mp: false, range: false, only_on_ring: true, max_count: 1 };
@@ -2420,6 +2470,34 @@ mod tests {
         let r = &run(&mut f, 5)[0];
         assert_eq!(get_stat(&r.stats, "ap"), 12);
         assert_eq!(r.exo.get("ring1").map(|s| s.as_str()), Some("ap"));
+        assert!(r.meets_required);
+    }
+
+    #[test]
+    fn an_exo_never_doubles_a_line_the_item_already_has() {
+        // 2 Range on one item weigh 102, past the 101 limit; 2 AP weigh 200.
+        let ring = item(1, "ring", None, vec![effect("Range", 1), effect("AP", 1)]);
+        let mut cfg = config(vec![cond("ap", 12, 100), cond("range", 6, 100)], &["ring1"]);
+        cfg.exo = ExoConfig { ap: true, mp: false, range: true, only_on_ring: true, max_count: 2 };
+        let mut f = Forge::new(cfg, vec![ring], vec![], base(1), 9);
+        let r = &run(&mut f, 3)[0];
+        assert!(r.exo.is_empty(), "{:?}", r.exo);
+        assert!(!r.meets_required);
+    }
+
+    #[test]
+    fn the_exo_moves_to_the_item_without_that_line() {
+        // A set ring is worn once, so the Range ring cannot simply be doubled.
+        let with_range = item(1, "ring", Some(5), vec![effect("Range", 1)]);
+        let bare = item(2, "ring", None, vec![effect("Strength", 1)]);
+        let sets = vec![CatalogSet { ankama_id: 5, items: vec![1], bonuses: HashMap::new() }];
+        let mut cfg = config(vec![cond("range", 2, 100)], &["ring1", "ring2"]);
+        cfg.exo = ExoConfig { ap: false, mp: false, range: true, only_on_ring: true, max_count: 1 };
+        let mut f = Forge::new(cfg, vec![with_range, bare], sets, base(1), 9);
+        let r = &run(&mut f, 3)[0];
+        let host = r.exo.keys().next().expect("one exo");
+        assert_eq!(r.equipped.get(host), Some(&2));
+        assert_eq!(get_stat(&r.stats, "range"), 2);
         assert!(r.meets_required);
     }
 

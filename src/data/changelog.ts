@@ -10,7 +10,7 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.4.6',
+    version: '0.4.7',
     date: '2026-11-21',
     notes: [
       'Fixed the equipment catalogue (mounts, pets, companions and every other slot with a type filter): once you picked a category like Mulagua, searching by name used to show every category again instead of just that one',
@@ -19,7 +19,8 @@ export const CHANGELOG: ChangelogEntry[] = [
       'The Forger is faster with exactly the same results: about a third more builds checked per second without runes and 13% more with runes, and polishing is 25% faster (7.5% with runes), so in the same time it explores more. The 12,000-build test suite proves no result changed',
       'Spanish: Prysmaradites were spelled "Prismadita" as an item type',
       'The Forger: elemental damage and steal goals now read Neutral, Earth, Fire, Water, Air, the same order as resistances, in the picker and in the results',
-      "The Forger: new \"Pro magesmithy\" option for the real pros: it adds a % resistance or % damage exo (up to the cap you pick, 1 to 5% resistance, which also buys up to 2% damage) to the items where it pays off most, on as many items per build as you allow (2 by default). Never on an item with a transcendence rune or an AP/MP/range exo, always within the game's 101 weight limit, and off by default",
+      "The Forger: an AP, MP or Range exo no longer lands on an item that already has that line (a ring with +1 Range taking another +1 Range): two Range weigh 102, past the game's 101 limit, so that forge was impossible. The exo now goes on an item without the line, and a pro exo never pushes a line past 101 either",
+      "The Forger: new \"Exos with regular runes (pro)\" option for the real pros: it adds a % resistance or % damage exo (up to the cap you pick, 1 to 5% resistance, which also buys up to 2% damage) to the items where it pays off most, on as many items per build as you allow (2 by default). Never on an item with a transcendence rune or an AP/MP/range exo, always within the game's 101 weight limit, and off by default",
       'Still to come for The Forger: cheaper runes (only if results stay identical); then, measured separately: smarter rune placement, exact characteristic points on the final builds and moves aimed at unmet goals. Remembering builds whatever the order of the Dofus was tried and dropped: it saved only 2 to 3%',
     ],
   },
