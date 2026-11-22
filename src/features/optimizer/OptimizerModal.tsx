@@ -34,7 +34,7 @@ import {
   STAT_GROUPS,
   leyPreset,
   matchingPreset,
-  runeStatLabelKey,
+  runeStatLabelKey,
   type OptimizerStatMeta,
 } from "@/features/optimizer/statList.ts";
 import {
