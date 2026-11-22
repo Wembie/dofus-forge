@@ -14,6 +14,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - The Forger is faster again with the same results: with transcendence runes it checks 20 to 30% more builds per second on orders with many goals, since the value of each rune is now remembered while they are placed
 - The Forger stops sooner when it is done: it now tempers after some seconds without a real gain (15 s Quick, 30 s Standard, 60 s Master, half as long again while a minimum is missing) instead of a fixed minimum time, and an order that cannot meet every minimum no longer runs to the time limit. Measured on 8 orders: the same quality in 29 of 30 runs, in a fraction of the time
 - The Forger: new Advanced settings under the intensity: threads, time limit and how many seconds without a gain end the forge. Changing them switches to a Custom intensity
+- The Forger: the purity diamonds of each goal are easier to tap, with a 24 px target around each one and the same look
 - Still to come for The Forger, measured separately: smarter rune placement, exact characteristic points on the final builds and moves aimed at unmet goals. Remembering builds whatever the order of the Dofus was tried and dropped: it saved only 2 to 3%
 
 ## [0.4.6] — 2026-11-21
