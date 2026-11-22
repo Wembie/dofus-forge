@@ -67,6 +67,7 @@ export function SiteFooter() {
           <h2>{t('footer_group_learn')}</h2>
           {page('how-to-use', 'nav_how_to_use')}
           {page('forge-guide', 'nav_forge_guide')}
+          {page('damage-guide', 'nav_damage_guide')}
           {page('shortcuts', 'nav_shortcuts')}
           {page('about', 'nav_about')}
         </nav>

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.8] — 2026-11-22
+- New: a page explaining exactly how damage is calculated in Dofus 3, step by step. The real formula with worked numeric examples (how much a characteristic point is actually worth, how % Spell Damage and resistance apply, critical hits, push damage), linked from the footer and the navigation menu
+
 ## [0.4.7] — 2026-11-22
 - The Forger: turning on AP or MP now fills in its usual minimum right away (12 AP, 6 MP, capped there); a new order still starts with every goal closed
 - The Forger: an AP, MP or Range exo no longer lands on an item that already has that line (a ring with +1 Range taking another +1 Range): two Range weigh 102, past the game's 101 limit, so that forge was impossible. The exo now goes on an item without the line, and a pro exo never pushes a line past 101 either

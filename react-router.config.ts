@@ -20,7 +20,7 @@ const SET_SLUGS = [...setSlugs(
 // are noindex (their body is a sign-in prompt) but are still prerendered so a
 // direct load gets that noindex in the HTML itself.
 const STATIC_PAGES = [
-  '', 'explore', 'about', 'how-to-use', 'forge-guide', 'shortcuts', 'privacy', 'terms', 'sets',
+  '', 'explore', 'about', 'how-to-use', 'forge-guide', 'damage-guide', 'shortcuts', 'privacy', 'terms', 'sets',
   ...CLASS_IDS.map(id => `classes/${id}`),
   ...SET_SLUGS.map(slug => `sets/${slug}`),
 ]

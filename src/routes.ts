@@ -8,6 +8,7 @@ const PAGES: [path: string, file: string][] = [
   ['about', 'pages/AboutPage.tsx'],
   ['how-to-use', 'pages/HowToUsePage.tsx'],
   ['forge-guide', 'pages/ForgeGuidePage.tsx'],
+  ['damage-guide', 'pages/DamageGuidePage.tsx'],
   ['shortcuts', 'pages/ShortcutsPage.tsx'],
   ['privacy', 'pages/PrivacyPolicyPage.tsx'],
   ['terms', 'pages/TermsPage.tsx'],

@@ -1,7 +1,7 @@
 import type { ElementType } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
-import { BookOpen, ChevronRight, Compass, FolderOpen, Hammer, Info, Keyboard, Library, Settings, ShieldCheck, Wand2 } from 'lucide-react'
+import { BookOpen, ChevronRight, Compass, FolderOpen, Hammer, Info, Keyboard, Library, Settings, ShieldCheck, Wand2, Zap } from 'lucide-react'
 import { Modal } from '@/ui'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 
@@ -32,6 +32,7 @@ export function SiteNavSheet({ open, onClose, isAdmin, onSettings }: {
     ['nav_group_learn', [
       item('how-to-use', 'nav_how_to_use', BookOpen),
       item('forge-guide', 'nav_forge_guide', Wand2),
+      item('damage-guide', 'nav_damage_guide', Zap),
       item('shortcuts', 'nav_shortcuts', Keyboard),
       item('about', 'nav_about', Info),
     ]],
