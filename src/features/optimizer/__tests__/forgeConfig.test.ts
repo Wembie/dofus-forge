@@ -170,6 +170,22 @@ describe('loadForgeResult', () => {
     expect(Object.values(s.runes.hat ?? {})).toEqual([100])
   })
 
+  it('puts a pro exo in the normal forgemagie, a transcendence rune apart', () => {
+    const result = {
+      equipped:  { weapon: 2, hat: 10, cape: 11 },
+      allocated: build().allocated,
+      scrolled:  build().scrolled,
+      exo:       {},
+      runes:     {
+        hat:  { stat: '% Earth Resistance', value: 5, exotic: true },
+        cape: { stat: 'Vitality', value: 100 },
+      },
+    } as unknown as BuildResult
+    loadForgeResult(result, new Set())
+    expect(build().runes.hat).toEqual({ '% Earth Resistance': 5 })
+    expect(build().runes.cape).toEqual({ 'exo:Vitality': 100 })
+  })
+
   it('leaves locked slots untouched', () => {
     const hatRunes = build().runes.hat
     const result = {

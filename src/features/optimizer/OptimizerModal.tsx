@@ -613,6 +613,8 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
 function Rules({ forge }: { forge: ForgeState }) {
   const { t } = useTranslation();
   const { config, setConfig } = forge;
+  const runesId = useId(),
+    exosId = useId();
   return (
     <section className="fg-rules" aria-labelledby="fg-rules-title">
       <header className="fg-step">
@@ -725,24 +727,29 @@ function Rules({ forge }: { forge: ForgeState }) {
       </section>
       <section className="fg-rule" aria-label={t("optimizer_forgemagie")}>
         <h4>{t("magesmithy")}</h4>
-        <label className="fg-check" title={t("optimizer_transcendence_hint")}>
-          <input
-            type="checkbox"
-            checked={config.transcendence}
-            onChange={(e) => setConfig((c) => ({ ...c, transcendence: e.target.checked }))}
-          />
-          {t("optimizer_transcendence")}
-        </label>
-        <label className="fg-check" title={t("fg_pro_exo_hint")}>
-          <input
-            type="checkbox"
-            checked={config.proExo}
-            onChange={(e) => setConfig((c) => ({ ...c, proExo: e.target.checked }))}
-          />
-          {t("fg_pro_exo")}
-        </label>
-        {config.proExo && (
-          <>
+        <p>{t("optimizer_forgemagie_hint")}</p>
+        <div className="fg-forge-group" role="group" aria-labelledby={runesId}>
+          <h5 id={runesId}>{t("fg_forge_runes")}</h5>
+          <label className="fg-check">
+            <input
+              type="checkbox"
+              checked={config.transcendence}
+              onChange={(e) => setConfig((c) => ({ ...c, transcendence: e.target.checked }))}
+            />
+            {t("optimizer_transcendence")}
+          </label>
+          <p className="fg-check-hint">{t("optimizer_transcendence_hint")}</p>
+          <label className="fg-check">
+            <input
+              type="checkbox"
+              checked={config.proExo}
+              onChange={(e) => setConfig((c) => ({ ...c, proExo: e.target.checked }))}
+            />
+            {t("fg_pro_exo")}
+          </label>
+          <p className="fg-check-hint">{t("fg_pro_exo_hint")}</p>
+          {config.proExo && (
+          <div className="fg-check-more">
             <div className="fg-inline">
               <label className="fg-num">
                 <span>{t("fg_pro_res")}</span>
@@ -771,13 +778,16 @@ function Rules({ forge }: { forge: ForgeState }) {
                 </select>
               </label>
             </div>
-            <p>
+            <p className="fg-check-hint">
               {proDamage(config.proExoRes) > 0
                 ? t("fg_pro_budget", { res: config.proExoRes, dmg: proDamage(config.proExoRes) })
                 : t("fg_pro_budget_res_only", { res: config.proExoRes })}
             </p>
-          </>
-        )}
+          </div>
+          )}
+        </div>
+        <div className="fg-forge-group" role="group" aria-labelledby={exosId}>
+          <h5 id={exosId}>{t("fg_forge_exos")}</h5>
         <div className="fg-inline">
           {(["ap", "mp", "range"] as const).map((k) => (
             <label key={k} className="fg-check">
@@ -813,7 +823,8 @@ function Rules({ forge }: { forge: ForgeState }) {
             </select>
           </label>
         </div>
-        <p>{t("optimizer_forgemagie_hint")}</p>
+        <p className="fg-check-hint">{t("fg_forge_exos_hint")}</p>
+        </div>
       </section>
       <PassivesRule forge={forge} />
       <Picks forge={forge} />

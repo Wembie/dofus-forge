@@ -2200,11 +2200,14 @@
   "fg_dofus_kinds_hint": "Desmarcá lo que no querés en los slots de Dofus, sin excluir objeto por objeto. Lo fijado o conservado se respeta.",
   "fg_use_legendary": "Usar objetos legendarios",
   "fg_use_legendary_hint": "Desmarcalo si no tenés legendarios: la fragua no los usa. Los que fijes o conserves se respetan.",
-  "fg_pro_exo": "Forjamagia pro (exos de % res y % daño)",
-  "fg_pro_exo_hint": "Para los más pros: suma un exo de % resistencia o % daño a los objetos donde más rinde, como tras un crítico de forjamagia. Nunca en un objeto con runa de transcendencia ni exo PA/PM/alcance.",
+  "fg_pro_exo": "Exos con runas normales (pro)",
+  "fg_pro_exo_hint": "Para los más pros: con runas normales, no de transcendencia, suma un exo de % resistencia o % daño en los objetos donde más rinde, como tras un crítico de forjamagia. Un objeto con exo no lleva runa de transcendencia.",
   "fg_pro_res": "Tope % res",
   "fg_pro_max": "Máx. por build",
   "fg_pro_budget": "Hasta {{res}} % de resistencia o {{dmg}} % de daño por objeto.",
   "fg_pro_budget_res_only": "Hasta {{res}} % de resistencia por objeto (el % de daño pide un tope de 3 % o más).",
-  "fg_pro_badge": "Exo pro +{{value}} {{stat}}"
+  "fg_pro_badge": "Exo pro +{{value}} {{stat}}",
+  "fg_forge_runes": "Runas",
+  "fg_forge_exos": "Exos PA / PM / Alcance",
+  "fg_forge_exos_hint": "Solo donde completan un mínimo, y nunca en un objeto que ya trae esa línea: 2 de alcance pesan 102, pasado el límite de 101."
 }

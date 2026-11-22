@@ -2200,11 +2200,14 @@
   "fg_dofus_kinds_hint": "Uncheck what you don't want in the Dofus slots, without banning items one by one. Pinned and kept items still count.",
   "fg_use_legendary": "Use legendary items",
   "fg_use_legendary_hint": "Uncheck it if you don't own legendary items: the forge won't use them. Pinned and kept ones still count.",
-  "fg_pro_exo": "Pro magesmithy (% res and % damage exos)",
-  "fg_pro_exo_hint": "For the real pros: adds a % resistance or % damage exo to the items where it pays off most, as after a magesmithy critical. Never on an item with a transcendence rune or an AP/MP/range exo.",
+  "fg_pro_exo": "Exos with regular runes (pro)",
+  "fg_pro_exo_hint": "For the real pros: with regular runes, not transcendence ones, adds a % resistance or % damage exo to the items where it pays off most, as after a magesmithy critical. An item with an exo takes no transcendence rune.",
   "fg_pro_res": "% res cap",
   "fg_pro_max": "Max per build",
   "fg_pro_budget": "Up to {{res}}% resistance or {{dmg}}% damage per item.",
   "fg_pro_budget_res_only": "Up to {{res}}% resistance per item (% damage needs a cap of 3% or more).",
-  "fg_pro_badge": "Pro exo +{{value}} {{stat}}"
+  "fg_pro_badge": "Pro exo +{{value}} {{stat}}",
+  "fg_forge_runes": "Runes",
+  "fg_forge_exos": "AP / MP / Range exos",
+  "fg_forge_exos_hint": "Only where they complete a minimum, and never on an item that already has that line: 2 range weigh 102, past the 101 limit."
 }
