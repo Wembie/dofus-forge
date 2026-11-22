@@ -380,31 +380,21 @@ html.light .fg-dialog {
 }
 .fg-presets {
   display: flex;
+  gap: 4px;
   align-self: end;
-  padding-bottom: 3px;
+  padding-bottom: 10px;
 }
-/* A 24 px target (WCAG 2.5.8) around the 11 px purity diamond. */
 .fg-dialog .fg-presets button[aria-label] {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  min-width: 24px;
-  height: 24px;
-  min-height: 24px;
-  padding: 0;
-  border: 0;
-  background: none;
-}
-.fg-dialog .fg-presets button[aria-label]::before {
-  content: "";
   width: 11px;
+  min-width: 11px;
   height: 11px;
+  min-height: 11px;
   border: 1px solid var(--line);
   border-radius: 2px;
   background: var(--canvas);
   transform: rotate(45deg);
 }
-.fg-dialog .fg-presets button[aria-label][aria-pressed="true"]::before {
+.fg-dialog .fg-presets button[aria-label][aria-pressed="true"] {
   border-color: var(--accent);
   background: var(--accent);
 }
@@ -1232,18 +1222,14 @@ html.light .fg-dialog {
   }
   .fg-presets {
     grid-area: presets;
-    gap: 6px;
-    padding: 0 0 2px;
+    gap: 14px;
+    padding: 4px 0 6px;
   }
   .fg-dialog .fg-presets button[aria-label] {
-    width: 32px;
-    min-width: 32px;
-    height: 32px;
-    min-height: 32px;
-  }
-  .fg-dialog .fg-presets button[aria-label]::before {
     width: 14px;
+    min-width: 14px;
     height: 14px;
+    min-height: 14px;
   }
   .fg-remove {
     grid-area: remove;
@@ -1277,7 +1263,7 @@ html.light .fg-dialog {
     grid-template-columns: 1fr;
   }
   .fg-dialog .fg-presets button[aria-label] {
-    min-height: 32px;
+    min-height: 14px;
   }
   .fg-slots {
     grid-template-columns: 1fr 1fr;

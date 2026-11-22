@@ -1,6 +1,6 @@
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, ForgeCustom, OptimizerStatKey, DofusKind, ProLine } from './types.ts'
-import { OPTIMIZER_STATS, leyPreset, unitValue } from './statList.ts'
+import { OPTIMIZER_STATS, leyPreset, suggestedCap, unitValue } from './statList.ts'
 import { PASSIVE_MODES, sanitizeExcluded, type PassiveEffects } from './forgePassives.ts'
 import type { PassiveState } from '@/engine/passives.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -72,21 +72,23 @@ export function clampLevel(v: number | null | undefined, fallback = MAX_LEVEL): 
 // previous defaults pick up the new ones once.
 const DEFAULTS_REV = 2
 
-// A new order starts from what nearly every build wants: 12 AP and 6 MP.
-// Keys: OPTIMIZER_STATS in statList.ts. `cap` is optional (no cap when left
-// out); every default goal takes the stat's default ley.
+// The minimum (and cap) a goal starts with when the player turns it on,
+// e.g. 12 AP. Keys: OPTIMIZER_STATS in statList.ts. `cap` is optional:
+// left out, the goal takes the stat's suggested cap (suggestedCap).
 const DEFAULT_GOALS: Partial<Record<OptimizerStatKey, { minimum: number; cap?: number }>> = {
   ap: { minimum: 12, cap: 12 },
   mp: { minimum: 6, cap: 6 },
 }
-const defaultReq = (stat: OptimizerStatKey): ForgeRequirement => {
+
+/** A goal as it starts when the player turns it on: default ley, minimum and cap. */
+export function activatedReq(stat: OptimizerStatKey): ForgeRequirement {
   const goal = DEFAULT_GOALS[stat]
-  return goal ? { stat, minimum: goal.minimum, weight: leyPreset(stat, 2), cap: goal.cap ?? null, strictCap: false } : emptyReq(stat)
+  return { stat, minimum: goal?.minimum ?? 0, weight: leyPreset(stat, 2), cap: goal?.cap ?? suggestedCap(stat), strictCap: false }
 }
 
 export function makeDefaultConfig(): OptimizerConfig {
   return {
-    stats:               OPTIMIZER_STATS.map(s => defaultReq(s.key)),
+    stats:               OPTIMIZER_STATS.map(s => emptyReq(s.key)),
     exo:                 { ap: true, mp: true, range: true, onlyOnRing: true, maxCount: 3 },
     transcendence:       true,
     maxLevel:            MAX_LEVEL,

@@ -2,7 +2,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore, trackBuildChange } from '@/store/historyStore.ts'
-import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq, loadSavedConfig, persistConfig, STORAGE_KEY, withLegendaryBans, proValue } from '../forgeConfig.ts'
+import { makeDefaultConfig, toWireConfig, migrateReq, isActive, normalizeCap, clampLevel, loadForgeResult, emptyReq, loadSavedConfig, persistConfig, STORAGE_KEY, withLegendaryBans, proValue, activatedReq } from '../forgeConfig.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { HW, INTENSITY, forgeSettings, statsIntensity } from '../useForge.ts'
 import { leyPreset } from '../statList.ts'
@@ -40,18 +40,16 @@ describe('custom intensity', () => {
 describe('a new order', () => {
   beforeEach(() => localStorage.clear())
 
-  it('starts at 12 AP and 6 MP, capped there, and nothing else', () => {
-    const active = toWireConfig(makeDefaultConfig(), 96, 200).stats
-    expect(active).toEqual([
-      { stat: 'ap', goal: 12, weight: leyPreset('ap', 2), max: 12, absolute: false },
-      { stat: 'mp', goal: 6, weight: leyPreset('mp', 2), max: 6, absolute: false },
-    ])
-    expect(loadSavedConfig().stats.filter(isActive).map(r => r.stat)).toEqual(['ap', 'mp'])
+  it('starts empty, every goal closed', () => {
+    expect(toWireConfig(makeDefaultConfig(), 96, 200).stats).toEqual([])
+    expect(loadSavedConfig().stats.filter(isActive)).toEqual([])
   })
 
-  it('keeps a saved order as it was', () => {
-    persistConfig({ ...makeDefaultConfig(), stats: makeDefaultConfig().stats.map(r => emptyReq(r.stat)) })
-    expect(loadSavedConfig().stats.filter(isActive)).toEqual([])
+  it('fills in the usual minimum and cap when a goal is turned on', () => {
+    expect(activatedReq('ap')).toEqual({ stat: 'ap', minimum: 12, weight: leyPreset('ap', 2), cap: 12, strictCap: false })
+    expect(activatedReq('mp')).toMatchObject({ minimum: 6, cap: 6 })
+    expect(activatedReq('agility')).toEqual({ stat: 'agility', minimum: 0, weight: leyPreset('agility', 2), cap: null, strictCap: false })
+    expect(activatedReq('earthResPercent')).toMatchObject({ minimum: 0, cap: 50 })
   })
 })
 

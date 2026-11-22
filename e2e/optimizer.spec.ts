@@ -34,8 +34,7 @@ test('public routes render and the optimizer runs in the browser with WASM', asy
   await expect(dialog).toBeVisible()
   await dialog.getByRole('radio', { name: 'Iop' }).click()
   await dialog.getByRole('radio', { name: 'Quick' }).click()
-  // A new order already asks for 12 AP and 6 MP.
-  await expect(dialog.getByRole('group', { name: 'AP purity levels' })).toBeVisible()
+  await dialog.getByRole('button', { name: 'Add AP to the order' }).click()
   // Pin an item: every build must wear it. The search is a combobox (its
   // matches drop down as you type), named by its label.
   const itemSearch = dialog.getByRole('combobox', { name: 'Search an item or set…' })

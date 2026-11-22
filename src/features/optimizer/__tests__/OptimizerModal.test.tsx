@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router'
 import '@/test/i18n.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { OptimizerModal } from '../OptimizerModal.tsx'
-import { makeDefaultConfig, persistConfig, STORAGE_KEY } from '../forgeConfig.ts'
+import { activatedReq, makeDefaultConfig, persistConfig, STORAGE_KEY } from '../forgeConfig.ts'
 import { useForgePicks } from '../forgePicks.ts'
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -253,7 +253,7 @@ describe('OptimizerModal advanced forge settings', () => {
 describe('OptimizerModal stop rule', () => {
   afterEach(() => vi.useRealTimers())
 
-  it('tempers once the stall window passes, twice as long while a minimum is missing', () => {
+  it('tempers once the stall window passes, longer while a minimum is missing', () => {
     vi.useFakeTimers({ toFake: ['performance', 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date'] })
     const workers: { onmessage: ((e: MessageEvent) => void) | null; messages: { type: string }[] }[] = []
     class FakeWorker {
@@ -266,7 +266,8 @@ describe('OptimizerModal stop rule', () => {
     vi.stubGlobal('Worker', FakeWorker)
     useBuildStore.setState({ selectedClass: 'iop', equipped: {} })
     useDataStore.setState({ equipment: DOFUS, sets: [] })
-    persistConfig({ ...makeDefaultConfig(), intensity: 'custom', custom: { threads: 1, capSec: 0, stallSec: 5 } })
+    const order = makeDefaultConfig()
+    persistConfig({ ...order, stats: order.stats.map(r => r.stat === 'ap' ? activatedReq('ap') : r), intensity: 'custom', custom: { threads: 1, capSec: 0, stallSec: 5 } })
     render(<MemoryRouter><OptimizerModal open onClose={() => {}} /></MemoryRouter>)
     fireEvent.click(screen.getByRole('button', { name: /optimizer_light_forge/ }))
     const report = (score: number, met: boolean) => act(() => {

@@ -34,8 +34,7 @@ import {
   STAT_GROUPS,
   leyPreset,
   matchingPreset,
-  runeStatLabelKey,
-  suggestedCap,
+  runeStatLabelKey,
   type OptimizerStatMeta,
 } from "@/features/optimizer/statList.ts";
 import {
@@ -43,6 +42,7 @@ import {
   CUSTOM_STALLS,
   DOFUS_KINDS,
   PRO_LINES,
+  activatedReq,
   clampLevel,
   emptyReq,
   isActive,
@@ -136,7 +136,7 @@ function GoalRow({
         <button
           aria-label={t("fg_add", { name })}
           title={t("optimizer_activate_hint")}
-          onClick={() => onChange({ ...req, weight: leyPreset(meta.key, 2), cap: suggestedCap(meta.key) })}
+          onClick={() => onChange(activatedReq(meta.key))}
         >
           <Plus size={15} />
         </button>
