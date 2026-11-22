@@ -113,31 +113,40 @@ describe('pro magesmithy exos', () => {
     expect(wire.proExoMax).toBe(0)
   })
 
-  it('send the weight, the limit and every stat of the allowed lines once switched on', () => {
-    const config = { ...makeDefaultConfig(), proExo: true, proExoMax: 3, proExoWeight: 60, proExoLines: ['resElemental' as const, 'spellDamagePercent' as const] }
+  it('send weight 30, the limit and every stat of the allowed lines once switched on', () => {
+    const config = { ...makeDefaultConfig(), proExo: true, proExoMax: 3, proExoLines: ['resElemental' as const, 'spellDamagePercent' as const] }
     expect(toWireConfig(config, 96, 200)).toMatchObject({
       proExoMax: 3,
-      proExoWeight: 60,
+      proExoWeight: 30,
       proExoLines: ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent', 'spellDamagePercent'],
     })
+  })
+
+  it('send a line cap for every stat of the line', () => {
+    const wire = toWireConfig({ ...makeDefaultConfig(), proExo: true, proExoCaps: { resElemental: 3, spellDamagePercent: 1 } }, 96, 200)
+    expect(wire.proExoCaps).toEqual({
+      neutralResPercent: 3, earthResPercent: 3, fireResPercent: 3, waterResPercent: 3, airResPercent: 3, spellDamagePercent: 1,
+    })
+    persistConfig({ ...makeDefaultConfig(), proExoCaps: { resElemental: 3 } })
+    expect(loadSavedConfig().proExoCaps).toEqual({ resElemental: 3 })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ proExoCaps: { resElemental: 0, nope: 2, spellDamagePercent: 2.7 } }))
+    expect(loadSavedConfig().proExoCaps).toEqual({ spellDamagePercent: 2 })
   })
 
   it('do nothing when every line is unchecked', () => {
     expect(toWireConfig({ ...makeDefaultConfig(), proExo: true, proExoLines: [] }, 96, 200).proExoMax).toBe(0)
   })
 
-  it('buy % resistance at weight 6 and % damage at 15, never past 101', () => {
-    expect([12, 30, 60, 101].map(w => proValue(w, 6))).toEqual([2, 5, 10, 16])
-    expect([12, 30, 60, 101].map(w => proValue(w, 15))).toEqual([0, 2, 4, 6])
+  it('reach 5% resistance (weight 6) or 2% damage (weight 15) with weight 30', () => {
+    expect([6, 15].map(proValue)).toEqual([5, 2])
   })
 
-  it('remember the settings, snap any weight to a preset and read the old % cap', () => {
-    persistConfig({ ...makeDefaultConfig(), proExo: true, proExoMax: 4, proExoWeight: 60, proExoLines: ['meleeDamagePercent'] })
-    expect(loadSavedConfig()).toMatchObject({ proExo: true, proExoMax: 4, proExoWeight: 60, proExoLines: ['meleeDamagePercent'] })
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ proExo: 'yes', proExoMax: 40, proExoWeight: 50, proExoLines: ['nope'] }))
-    expect(loadSavedConfig()).toMatchObject({ proExo: false, proExoMax: 9, proExoWeight: 60, proExoLines: [] })
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ proExoRes: 2 }))
-    expect(loadSavedConfig()).toMatchObject({ proExoWeight: 12 })
+  it('remember the settings and keep only what is valid', () => {
+    persistConfig({ ...makeDefaultConfig(), proExo: true, proExoMax: 4, proExoLines: ['meleeDamagePercent'] })
+    expect(loadSavedConfig()).toMatchObject({ proExo: true, proExoMax: 4, proExoLines: ['meleeDamagePercent'] })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ proExo: 'yes', proExoMax: 40, proExoLines: ['nope'] }))
+    expect(loadSavedConfig()).toMatchObject({ proExo: false, proExoMax: 9, proExoLines: [] })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({}))
     expect(loadSavedConfig().proExoLines).toHaveLength(7)
   })
 })

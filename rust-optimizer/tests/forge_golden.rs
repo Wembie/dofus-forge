@@ -63,7 +63,7 @@ fn config(stats: Vec<StatConfig>, exo: ExoConfig, transcendence: bool, max_level
         required_items: vec![],
         passive_effects: vec![],
         pro_exo_max: 0,
-        pro_exo_weight: 30, pro_exo_lines: vec![],
+        pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(),
         transcendence,
         islands: 2,
         prune: true,

@@ -2201,7 +2201,7 @@
   "fg_use_legendary": "Usar itens lendários",
   "fg_use_legendary_hint": "Desmarque se não tem itens lendários: a forja não os usa. Os fixados ou mantidos continuam.",
   "fg_pro_exo": "Exos com runas normais (pro)",
-  "fg_pro_exo_hint": "Para os mais pros: com runas normais, não de transcendência, soma um exo de % resistência ou % dano nos itens onde mais rende, como após um crítico de forjamagia. Um item com exo não leva runa de transcendência.",
+  "fg_pro_exo_hint": "Exo de 30 de peso com runas normais (até 5% de resistência ou 2% de dano), onde mais rende. Nunca com runa de transcendência.",
   "fg_pro_max": "Máx. por build",
   "fg_pro_badge": "Exo pro +{{value}} {{stat}}",
   "fg_forge_runes": "Runas",
@@ -2213,13 +2213,9 @@
   "runes_block_transcendence": "Impossível: um item com runa de transcendência não aceita mais forjamagia.",
   "runes_transcendence_blocked": "Impossível: a transcendência não entra num item com exos ou overs. Retire antes as runas normais.",
   "runes_impossible": "impossível no jogo",
-  "fg_pro_weight": "Peso por exo",
-  "fg_pro_preset_careful": "Prudente · {{weight}}",
-  "fg_pro_preset_pro": "Pro · {{weight}}",
-  "fg_pro_preset_legend": "Lenda · {{weight}}",
-  "fg_pro_preset_max": "Máximo · {{weight}}",
   "fg_pro_lines": "Linhas permitidas",
-  "fg_pro_line_res": "% Res. elemental (as 5)",
-  "fg_pro_needs": "pede peso {{weight}}",
-  "fg_pro_rule": "Nunca passa de 101 de peso na linha nem divide item com uma runa de transcendência."
+  "fg_pro_line_res": "% Res Elemental (as 5)",
+  "fg_pro_rule": "Nunca passa de 101 de peso na linha.",
+  "fg_pro_line_cap": "Até quanto em {{line}}",
+  "fg_pro_up_to": "até +{{n}}%"
 }

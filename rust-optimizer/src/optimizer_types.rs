@@ -110,6 +110,10 @@ pub struct OptimizerConfig {
     /// Stat keys a pro exo may add; empty allows every pro line.
     #[serde(default)]
     pub pro_exo_lines: Vec<String>,
+    /// Highest value a pro exo may reach on a stat key (e.g. 3% resistance
+    /// although the weight buys 5); a stat left out takes what the weight buys.
+    #[serde(default)]
+    pub pro_exo_caps: HashMap<String, i64>,
 }
 
 fn default_pro_weight() -> i64 {

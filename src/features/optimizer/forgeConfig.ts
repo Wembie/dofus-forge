@@ -10,9 +10,9 @@ export const MAX_LEVEL = 200
 const INTENSITIES: ForgeIntensity[] = ['quick', 'standard', 'master', 'eternal']
 export const DOFUS_KINDS: DofusKind[] = ['Trophy', 'Prysmaradite', 'Dofus']
 
-// Pro exo weights offered: careful, pro, legend and the game's 101 limit.
-export const PRO_WEIGHTS = [12, 30, 60, 101] as const
-export const PRO_PRESET_KEY: Record<number, string> = { 12: 'careful', 30: 'pro', 60: 'legend', 101: 'max' }
+// The weight an exo made with regular runes reaches in practice: 5% resistance
+// (weight 6 a point) or 2% damage (weight 15).
+export const PRO_WEIGHT = 30
 export const PRO_LINES: { id: ProLine; stats: OptimizerStatKey[]; weight: number }[] = [
   { id: 'resElemental',        stats: ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent'], weight: 6 },
   { id: 'meleeResistPercent',  stats: ['meleeResistPercent'],  weight: 15 },
@@ -23,14 +23,16 @@ export const PRO_LINES: { id: ProLine; stats: OptimizerStatKey[]; weight: number
   { id: 'rangedDamagePercent', stats: ['rangedDamagePercent'], weight: 15 },
 ]
 const PRO_LINE_IDS = PRO_LINES.map(l => l.id)
-/** What a pro exo of `weight` buys on a line weighing `lineWeight` per point. */
-export const proValue = (weight: number, lineWeight: number) => Math.floor(Math.min(weight, 101) / lineWeight)
-const nearestWeight = (w: number) => PRO_WEIGHTS.reduce((a, b) => (Math.abs(b - w) < Math.abs(a - w) ? b : a))
-function sanitizeProWeight(parsed: Record<string, unknown>): number {
-  if (typeof parsed.proExoWeight === 'number' && Number.isFinite(parsed.proExoWeight)) return nearestWeight(parsed.proExoWeight)
-  // Saved as the % resistance it bought (1–5) before the weight presets.
-  if (typeof parsed.proExoRes === 'number' && Number.isFinite(parsed.proExoRes)) return nearestWeight(parsed.proExoRes * 6)
-  return 30
+/** The most a pro exo adds on a line weighing `lineWeight` per point. */
+export const proValue = (lineWeight: number) => Math.floor(PRO_WEIGHT / lineWeight)
+function sanitizeProCaps(raw: unknown): Partial<Record<ProLine, number>> {
+  if (!raw || typeof raw !== 'object') return {}
+  const out: Partial<Record<ProLine, number>> = {}
+  for (const id of PRO_LINE_IDS) {
+    const v = (raw as Record<string, unknown>)[id]
+    if (typeof v === 'number' && Number.isFinite(v) && v >= 1) out[id] = Math.min(16, Math.floor(v))
+  }
+  return out
 }
 function sanitizeProLines(raw: unknown): ProLine[] {
   return Array.isArray(raw) ? PRO_LINE_IDS.filter(id => raw.includes(id)) : [...PRO_LINE_IDS]
@@ -78,8 +80,8 @@ export function makeDefaultConfig(): OptimizerConfig {
     legendary:           true,
     excludedKinds:       [],
     proExo:              false,
-    proExoWeight:        30,
     proExoLines:         [...PRO_LINE_IDS],
+    proExoCaps:          {},
     proExoMax:           2,
   }
 }
@@ -129,8 +131,8 @@ export function loadSavedConfig(): OptimizerConfig {
       passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
       legendary:           parsed.legendary !== false,
       proExo:              parsed.proExo === true,
-      proExoWeight:        sanitizeProWeight(parsed),
       proExoLines:         sanitizeProLines(parsed.proExoLines),
+      proExoCaps:          sanitizeProCaps(parsed.proExoCaps),
       proExoMax:           intIn(parsed.proExoMax, 1, 9, defaults.proExoMax),
       excludedKinds:       sanitizeKinds(parsed.excludedKinds),
       // Vitality is no longer offered as a goal (HP covers it); an old order drops it.
@@ -193,8 +195,9 @@ export function toWireConfig(
     passiveEffects:      config.passives === 'off' ? [] : passiveEffects,
     transcendence:       config.transcendence,
     proExoMax:           config.proExo && config.proExoLines.length ? config.proExoMax : 0,
-    proExoWeight:        config.proExoWeight,
+    proExoWeight:        PRO_WEIGHT,
     proExoLines:         PRO_LINES.filter(l => config.proExoLines.includes(l.id)).flatMap(l => l.stats),
+    proExoCaps:          Object.fromEntries(PRO_LINES.filter(l => config.proExoCaps[l.id]).flatMap(l => l.stats.map(s => [s, config.proExoCaps[l.id]]))),
     islands,
   }
 }

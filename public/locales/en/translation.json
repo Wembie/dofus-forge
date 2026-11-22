@@ -2201,7 +2201,7 @@
   "fg_use_legendary": "Use legendary items",
   "fg_use_legendary_hint": "Uncheck it if you don't own legendary items: the forge won't use them. Pinned and kept ones still count.",
   "fg_pro_exo": "Exos with regular runes (pro)",
-  "fg_pro_exo_hint": "For the real pros: with regular runes, not transcendence ones, adds a % resistance or % damage exo to the items where it pays off most, as after a magesmithy critical. An item with an exo takes no transcendence rune.",
+  "fg_pro_exo_hint": "A 30-weight exo with regular runes (up to 5% resistance or 2% damage), where it pays off most. Never with a transcendence rune.",
   "fg_pro_max": "Max per build",
   "fg_pro_badge": "Pro exo +{{value}} {{stat}}",
   "fg_forge_runes": "Runes",
@@ -2213,13 +2213,9 @@
   "runes_block_transcendence": "Impossible: an item with a transcendence rune takes no more magesmithy.",
   "runes_transcendence_blocked": "Impossible: transcendence does not go on an item with exos or overs. Remove its regular runes first.",
   "runes_impossible": "impossible in the game",
-  "fg_pro_weight": "Weight per exo",
-  "fg_pro_preset_careful": "Careful · {{weight}}",
-  "fg_pro_preset_pro": "Pro · {{weight}}",
-  "fg_pro_preset_legend": "Legend · {{weight}}",
-  "fg_pro_preset_max": "Maximum · {{weight}}",
   "fg_pro_lines": "Allowed lines",
-  "fg_pro_line_res": "% Elemental res. (all 5)",
-  "fg_pro_needs": "needs weight {{weight}}",
-  "fg_pro_rule": "Never takes a line past 101 weight, nor shares an item with a transcendence rune."
+  "fg_pro_line_res": "% Elemental RES (all 5)",
+  "fg_pro_rule": "Never takes a line past 101 weight.",
+  "fg_pro_line_cap": "How much at most on {{line}}",
+  "fg_pro_up_to": "up to +{{n}}%"
 }

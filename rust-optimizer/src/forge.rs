@@ -609,7 +609,11 @@ impl Forge {
                 .filter(|name| config.pro_exo_lines.is_empty() || config.pro_exo_lines.iter().any(|l| l == *name))
                 .filter_map(|name| FIELDS.iter().position(|f| f == name))
                 .filter(|&i| !stat_targets[i].is_empty())
-                .map(|i| (i, (pro_budget / fm_weight(i)).floor() as i64))
+                .map(|i| {
+                    let bought = (pro_budget / fm_weight(i)).floor() as i64;
+                    let cap = config.pro_exo_caps.get(FIELDS[i]).copied().filter(|&c| c > 0).unwrap_or(bought);
+                    (i, bought.min(cap))
+                })
                 .filter(|&(_, v)| v > 0)
                 .collect()
         };
@@ -2301,7 +2305,7 @@ mod tests {
             required_items: vec![],
             passive_effects: vec![],
             pro_exo_max: 0,
-            pro_exo_weight: 30, pro_exo_lines: vec![],
+            pro_exo_weight: 30, pro_exo_lines: vec![], pro_exo_caps: HashMap::new(),
             transcendence: false,
             islands: 4,
             prune: true,
@@ -3048,6 +3052,17 @@ mod tests {
         let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 8);
         let r = &run(&mut f, 3)[0];
         assert_eq!(exotic(r), vec![("hat".to_string(), "% Spell Damage".to_string(), 2)]);
+    }
+
+    #[test]
+    fn pro_exo_stops_at_the_cap_the_player_set() {
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let mut cfg = config(vec![cond("earthResPercent", 0, 30)], &["hat"]);
+        pro(&mut cfg, 1, 5);
+        cfg.pro_exo_caps.insert("earthResPercent".into(), 3);
+        let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 8);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(r.runes.get("hat").map(|x| x.value), Some(3));
     }
 
     #[test]

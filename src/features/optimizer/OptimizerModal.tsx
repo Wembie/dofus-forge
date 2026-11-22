@@ -41,8 +41,6 @@ import {
 import {
   DOFUS_KINDS,
   PRO_LINES,
-  PRO_PRESET_KEY,
-  PRO_WEIGHTS,
   clampLevel,
   emptyReq,
   isActive,
@@ -762,19 +760,6 @@ function Rules({ forge }: { forge: ForgeState }) {
           <div className="fg-check-more">
             <div className="fg-inline">
               <label className="fg-num">
-                <span>{t("fg_pro_weight")}</span>
-                <select
-                  value={config.proExoWeight}
-                  onChange={(e) => setConfig((c) => ({ ...c, proExoWeight: Number(e.target.value) }))}
-                >
-                  {PRO_WEIGHTS.map((w) => (
-                    <option key={w} value={w}>
-                      {t(`fg_pro_preset_${PRO_PRESET_KEY[w]}`, { weight: w })}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="fg-num">
                 <span>{t("fg_pro_max")}</span>
                 <select
                   value={config.proExoMax}
@@ -791,16 +776,15 @@ function Rules({ forge }: { forge: ForgeState }) {
             <h5 className="fg-pro-lines-title">{t("fg_pro_lines")}</h5>
             <ul className="fg-pro-lines">
               {PRO_LINES.map((line) => {
-                const value = proValue(config.proExoWeight, line.weight);
+                const value = proValue(line.weight);
                 const label =
                   line.id === "resElemental" ? t("fg_pro_line_res") : t(OPTIMIZER_STATS.find((s) => s.key === line.id)!.tKey);
                 return (
-                  <li key={line.id} className={value > 0 ? undefined : "is-out"}>
+                  <li key={line.id}>
                     <label className="fg-check">
                       <input
                         type="checkbox"
                         checked={config.proExoLines.includes(line.id)}
-                        disabled={value <= 0}
                         onChange={(e) =>
                           setConfig((c) => ({
                             ...c,
@@ -812,7 +796,26 @@ function Rules({ forge }: { forge: ForgeState }) {
                       />
                       {label}
                     </label>
-                    <span>{value > 0 ? `+${value} %` : t("fg_pro_needs", { weight: line.weight })}</span>
+                    <div
+                      className="fg-pro-steps"
+                      role="radiogroup"
+                      aria-label={t("fg_pro_line_cap", { line: label })}
+                      aria-disabled={!config.proExoLines.includes(line.id)}
+                    >
+                      {Array.from({ length: value }, (_, i) => i + 1).map((n) => (
+                        <button
+                          key={n}
+                          role="radio"
+                          aria-checked={Math.min(config.proExoCaps[line.id] ?? value, value) === n}
+                          aria-label={t("fg_pro_up_to", { n })}
+                          disabled={!config.proExoLines.includes(line.id)}
+                          onClick={() => setConfig((c) => ({ ...c, proExoCaps: { ...c.proExoCaps, [line.id]: n } }))}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                      <span aria-hidden="true">%</span>
+                    </div>
                   </li>
                 );
               })}
