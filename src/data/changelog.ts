@@ -10,7 +10,7 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.4.7',
+    version: '0.4.6',
     date: '2026-11-21',
     notes: [
       'Fixed the equipment catalogue (mounts, pets, companions and every other slot with a type filter): once you picked a category like Mulagua, searching by name used to show every category again instead of just that one',

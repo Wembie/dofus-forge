@@ -5,7 +5,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.4.7] — 2026-11-21
+## [0.4.6] — 2026-11-21
 - Fixed the equipment catalogue (mounts, pets, companions and every other slot with a type filter): once you picked a category like Mulagua, searching by name used to show every category again instead of just that one
 - The Forger: new "Artifacts and Dofus" filter: untick Trophies, Prysmaradites or Dofus and it leaves them out of the Dofus slots, no need to ban them one by one. All ticked by default; pinned and kept items still count
 - The Forger: new "Use legendary items" box under Items: untick it if you don't own them and no result uses one. On by default; a pinned or kept legendary still counts
