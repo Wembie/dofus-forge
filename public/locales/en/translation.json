@@ -2201,7 +2201,7 @@
   "fg_use_legendary": "Use legendary items",
   "fg_use_legendary_hint": "Uncheck it if you don't own legendary items: the forge won't use them. Pinned and kept ones still count.",
   "fg_pro_exo": "Exos with regular runes (pro)",
-  "fg_pro_exo_hint": "A 30-weight exo with regular runes (up to 5% resistance or 2% damage), where it pays off most. Never with a transcendence rune.",
+  "fg_pro_exo_hint": "A 30-weight exo with regular runes (up to 5% resistance or 2% damage) on items with AP, MP, Range or Summons: that line is knocked down for the well and raised again. Never with a transcendence rune.",
   "fg_pro_max": "Max per build",
   "fg_pro_badge": "Pro exo +{{value}} {{stat}}",
   "fg_forge_runes": "Runes",

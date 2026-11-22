@@ -2201,7 +2201,7 @@
   "fg_use_legendary": "Utiliser les objets légendaires",
   "fg_use_legendary_hint": "Décochez-la si vous n'avez pas d'objets légendaires : la forge ne les utilise pas. Ceux fixés ou conservés restent.",
   "fg_pro_exo": "Exos avec runes normales (pro)",
-  "fg_pro_exo_hint": "Un exo de 30 de poids avec des runes normales (jusqu'à 5 % de résistance ou 2 % de dommages), là où il rapporte le plus. Jamais avec une rune de transcendance.",
+  "fg_pro_exo_hint": "Un exo de 30 de poids avec des runes normales (jusqu'à 5 % de résistance ou 2 % de dommages) sur les objets avec PA, PM, portée ou invocations : cette ligne est cassée pour le reliquat puis remontée. Jamais avec une rune de transcendance.",
   "fg_pro_max": "Max par build",
   "fg_pro_badge": "Exo pro +{{value}} {{stat}}",
   "fg_forge_runes": "Runes",

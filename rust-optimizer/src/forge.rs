@@ -400,6 +400,9 @@ struct Item {
     // Bit k-1 set: an AP (k=1) / MP (2) / Range (3) exo fits, since the item
     // has no such line (2 Range already weigh 102, past the 101 limit).
     exo_free: u8,
+    // Has a heavy line (AP, MP, Range or Summons): what a pro exo is made
+    // on, the line feeding the well and then raised again.
+    pro_host: bool,
     // Its own lines, without a passive: what the 101 limit is measured on.
     lines: Vec60,
     // Best transcendence rune per scored stat this item may take.
@@ -665,6 +668,7 @@ impl Forge {
                 };
                 let lines = vec;
                 let exo_free = [AP, MP, RANGE].iter().enumerate().fold(0u8, |m, (k, &st)| if lines[st] == 0 { m | 1 << k } else { m });
+                let pro_host = forgeable && [AP, MP, RANGE, SUMMONS].iter().any(|&st| lines[st] > 0);
                 // After the runes: a passive is not a line on the item, so it
                 // never changes which rune rank the item can take.
                 if let Some(passive) = passive_by_id.get(&it.ankama_id) {
@@ -678,6 +682,7 @@ impl Forge {
                     prysmaradite: it.item_type == "Prysmaradite",
                     runes,
                     exo_free,
+                    pro_host,
                     lines,
                 }
             })
@@ -782,7 +787,8 @@ impl Forge {
         let exo_wanted = forge.exo_max > 0 && (forge.exo_ap || forge.exo_mp || forge.exo_range);
         for &s in &forge.free_slots.clone() {
             let exempt = s >= DOFUS_FIRST || ALL_SLOTS[s] == "companion" || ALL_SLOTS[s] == "sidekick";
-            let rune_host = FORGEABLE.contains(&s) && (forge.pro_max > 0 || (exo_wanted && (!forge.exo_only_ring || s == RING1 || s == RING2)));
+            let rune_host = FORGEABLE.contains(&s) && exo_wanted && (!forge.exo_only_ring || s == RING1 || s == RING2);
+            let pro_slot = FORGEABLE.contains(&s) && forge.pro_max > 0;
             let pool: Vec<i32> = forge
                 .catalog
                 .iter()
@@ -795,7 +801,7 @@ impl Forge {
                         && obtainable(it)
                         && !banned_ids.contains(&it.ankama_id)
                         && !banned_types.contains(it.item_type.as_str())
-                        && (forge.useful(&item.vec) || item.set.is_some_and(|st| relevant_set[st]) || !item.runes.is_empty() || rune_host)
+                        && (forge.useful(&item.vec) || item.set.is_some_and(|st| relevant_set[st]) || !item.runes.is_empty() || rune_host || (pro_slot && item.pro_host))
                 })
                 .map(|(i, _)| i as i32)
                 .collect();
@@ -1044,6 +1050,9 @@ impl Forge {
             }
             // `a` can host an exo `b` cannot (`b` already has that line).
             if self.items[a].exo_free & !self.items[b].exo_free & exo_kinds != 0 {
+                return false;
+            }
+            if self.pro_max > 0 && self.items[a].pro_host && !self.items[b].pro_host {
                 return false;
             }
             let (vb, va) = (&self.items[b].vec, &self.items[a].vec);
@@ -1542,7 +1551,8 @@ impl Forge {
                         let mut slot = NSLOT;
                         let mut slot_loss = f64::INFINITY;
                         for &s in &open[..open_len] {
-                            if (self.items[g[s] as usize].lines[i] + v) as f64 * fm_weight(i) > EXOTIC_WEIGHT_LIMIT {
+                            let host = &self.items[g[s] as usize];
+                            if !host.pro_host || (host.lines[i] + v) as f64 * fm_weight(i) > EXOTIC_WEIGHT_LIMIT {
                                 continue;
                             }
                             let loss = self.items[g[s] as usize]
@@ -2987,7 +2997,7 @@ mod tests {
 
     #[test]
     fn pro_exo_closes_a_resistance_goal_no_item_has() {
-        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let hat = item(1, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
         let mut cfg = config(vec![cond("earthResPercent", 5, 30)], &["hat"]);
         pro(&mut cfg, 1, 5);
         let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 3);
@@ -2999,7 +3009,7 @@ mod tests {
 
     #[test]
     fn pro_exo_is_off_unless_asked() {
-        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let hat = item(1, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
         let mut f = Forge::new(config(vec![cond("earthResPercent", 5, 30)], &["hat"]), vec![hat], vec![], base(1), 3);
         let r = &run(&mut f, 3)[0];
         assert!(r.runes.is_empty());
@@ -3008,7 +3018,7 @@ mod tests {
 
     #[test]
     fn pro_exos_stay_within_the_build_limit_and_the_cap() {
-        let items: Vec<CatalogItem> = ["hat", "cape", "amulet", "belt", "boots"].iter().enumerate().map(|(i, s)| item(i as i64 + 1, s, None, vec![effect("Strength", 1)])).collect();
+        let items: Vec<CatalogItem> = ["hat", "cape", "amulet", "belt", "boots"].iter().enumerate().map(|(i, s)| item(i as i64 + 1, s, None, vec![effect("Strength", 1), effect("Range", 1)])).collect();
         let mut cfg = config(vec![cond("earthResPercent", 50, 30)], &["hat", "cape", "amulet", "belt", "boots"]);
         pro(&mut cfg, 2, 3);
         let mut f = Forge::new(cfg, items, vec![], base(1), 4);
@@ -3021,7 +3031,7 @@ mod tests {
 
     #[test]
     fn pro_exo_takes_the_smallest_value_that_reaches_the_cap() {
-        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let hat = item(1, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
         let mut cfg = config(vec![StatConfig { stat: "earthResPercent".into(), goal: 3, weight: 30, max: Some(3), absolute: false }], &["hat"]);
         pro(&mut cfg, 1, 5);
         let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 5);
@@ -3034,7 +3044,7 @@ mod tests {
         // % spell damage weighs 15: a budget of 5% resistance (30) buys 2%,
         // one of 2% resistance (12) buys none.
         for (res, want) in [(5, Some(2)), (4, Some(1)), (2, None)] {
-            let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+            let hat = item(1, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
             let mut cfg = config(vec![cond("spellDamagePercent", 0, 75)], &["hat"]);
             pro(&mut cfg, 1, res);
             let mut f = Forge::new(cfg, vec![hat], vec![], base(1), 6);
@@ -3044,8 +3054,22 @@ mod tests {
     }
 
     #[test]
+    fn pro_exo_only_goes_on_an_item_with_a_heavy_line() {
+        // The cape has no AP, MP, Range or Summons line: no pro exo there,
+        // and the hat keeps its Range next to the exo.
+        let bare = item(1, "cape", None, vec![effect("Strength", 1)]);
+        let heavy = item(2, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
+        let mut cfg = config(vec![cond("earthResPercent", 10, 30)], &["cape", "hat"]);
+        pro(&mut cfg, 2, 5);
+        let mut f = Forge::new(cfg, vec![bare, heavy], vec![], base(1), 8);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(exotic(r), vec![("hat".to_string(), "% Earth Resistance".to_string(), 5)]);
+        assert_eq!(get_stat(&r.stats, "range"), 1);
+    }
+
+    #[test]
     fn pro_exo_only_uses_the_lines_allowed() {
-        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let hat = item(1, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
         let mut cfg = config(vec![cond("earthResPercent", 5, 30), cond("spellDamagePercent", 0, 75)], &["hat"]);
         pro(&mut cfg, 1, 5);
         cfg.pro_exo_lines = vec!["spellDamagePercent".into()];
@@ -3056,7 +3080,7 @@ mod tests {
 
     #[test]
     fn pro_exo_stops_at_the_cap_the_player_set() {
-        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let hat = item(1, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
         let mut cfg = config(vec![cond("earthResPercent", 0, 30)], &["hat"]);
         pro(&mut cfg, 1, 5);
         cfg.pro_exo_caps.insert("earthResPercent".into(), 3);
@@ -3067,7 +3091,7 @@ mod tests {
 
     #[test]
     fn pro_exo_weight_reaches_the_101_limit_but_never_past_it() {
-        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let hat = item(1, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
         let mut cfg = config(vec![cond("earthResPercent", 0, 30)], &["hat"]);
         pro(&mut cfg, 1, 5);
         cfg.pro_exo_weight = 500;
@@ -3080,8 +3104,8 @@ mod tests {
     fn pro_exo_leaves_the_rune_host_to_its_rune() {
         // The hat takes a Vitality rune; the cape's Vitality 400 is too heavy
         // for any rank, so the pro exo goes on the cape.
-        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
-        let cape = item(2, "cape", None, vec![effect("Vitality", 400)]);
+        let hat = item(1, "hat", None, vec![effect("Strength", 1), effect("Range", 1)]);
+        let cape = item(2, "cape", None, vec![effect("Vitality", 400), effect("Summons", 1)]);
         let mut cfg = config(vec![cond("earthResPercent", 5, 30), cond("vitality", 0, 1)], &["hat", "cape"]);
         cfg.transcendence = true;
         pro(&mut cfg, 1, 5);

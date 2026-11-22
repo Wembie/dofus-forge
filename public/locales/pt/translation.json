@@ -2201,7 +2201,7 @@
   "fg_use_legendary": "Usar itens lendários",
   "fg_use_legendary_hint": "Desmarque se não tem itens lendários: a forja não os usa. Os fixados ou mantidos continuam.",
   "fg_pro_exo": "Exos com runas normais (pro)",
-  "fg_pro_exo_hint": "Exo de 30 de peso com runas normais (até 5% de resistência ou 2% de dano), onde mais rende. Nunca com runa de transcendência.",
+  "fg_pro_exo_hint": "Exo de 30 de peso com runas normais (até 5% de resistência ou 2% de dano) em itens com PA, PM, alcance ou invocações: essa linha é derrubada para o poço e depois subida de novo. Nunca com runa de transcendência.",
   "fg_pro_max": "Máx. por build",
   "fg_pro_badge": "Exo pro +{{value}} {{stat}}",
   "fg_forge_runes": "Runas",

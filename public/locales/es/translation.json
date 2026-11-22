@@ -2201,7 +2201,7 @@
   "fg_use_legendary": "Usar objetos legendarios",
   "fg_use_legendary_hint": "Desmarcalo si no tenés legendarios: la fragua no los usa. Los que fijes o conserves se respetan.",
   "fg_pro_exo": "Exos con runas normales (pro)",
-  "fg_pro_exo_hint": "Exo de 30 de peso con runas normales (hasta 5 % de resistencia o 2 % de daño), donde más rinde. No va con runa de transcendencia.",
+  "fg_pro_exo_hint": "Exo de 30 de peso con runas normales (hasta 5 % de resistencia o 2 % de daño) en objetos con PA, PM, alcance o invocaciones: esa línea se tumba para los restos y se vuelve a subir. No va con runa de transcendencia.",
   "fg_pro_max": "Máx. por build",
   "fg_pro_badge": "Exo pro +{{value}} {{stat}}",
   "fg_forge_runes": "Runas",
