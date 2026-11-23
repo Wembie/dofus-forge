@@ -30,7 +30,7 @@ describe('class profile portraits', () => {
   it('provides the entire picker vocabulary in every locale', () => {
     for (const lang of ['es', 'en', 'fr', 'pt']) {
       const strings = JSON.parse(readFileSync(`public/locales/${lang}/translation.json`, 'utf8'))
-      for (const key of ['account_avatar_title', 'account_avatar_hint', 'account_avatar_default', 'account_avatar_option', 'account_avatar_done', 'account_save_error', 'auth_avatar_change', 'gender_male', 'gender_female']) {
+      for (const key of ['account_avatar_title', 'account_avatar_hint', 'account_avatar_default', 'account_avatar_option', 'account_avatar_done', 'account_save_error', 'auth_avatar_change', 'gender_male', 'gender_female', 'account_avatar_view', 'account_avatar_back', 'account_avatar_full', 'account_avatar_crop', 'account_avatar_use', 'account_avatar_search', 'account_avatar_empty', 'account_avatar_current', 'account_avatar_inspect_hint']) {
         expect(typeof strings[key], `${lang}:${key}`).toBe('string')
         expect(strings[key].length, `${lang}:${key}`).toBeGreaterThan(0)
       }

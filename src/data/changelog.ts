@@ -14,6 +14,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-11-22',
     notes: [
       'New: 38 original ink-and-watercolor profile portraits, with a distinct male and female pose for every class. Choose a portrait or return to your initial from Account, preview the circular avatar and save it with your profile. The exact prompts and a reusable art template are preserved for future classes',
+      'Account: larger portrait cards, class search and a magnifying glass that opens the full illustration beside its circular profile crop. Inspecting a portrait leaves your selection unchanged; choose "Use this portrait" when ready. Returning to the gallery preserves your search, scroll position and keyboard focus',
     ],
   },
   {

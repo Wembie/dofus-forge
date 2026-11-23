@@ -2332,5 +2332,14 @@
   "account_avatar_default": "Usar minha inicial",
   "account_avatar_option": "{{class}} · {{gender}}",
   "account_avatar_done": "Pronto",
-  "account_save_error": "Não foi possível salvar as alterações. Tente novamente."
+  "account_save_error": "Não foi possível salvar as alterações. Tente novamente.",
+  "account_avatar_view": "Ampliar {{class}} · {{gender}}",
+  "account_avatar_back": "Voltar aos retratos",
+  "account_avatar_full": "Ilustração completa",
+  "account_avatar_crop": "No seu perfil",
+  "account_avatar_use": "Usar este retrato",
+  "account_avatar_search": "Buscar classe",
+  "account_avatar_empty": "Nenhuma classe encontrada.",
+  "account_avatar_current": "Foto atual",
+  "account_avatar_inspect_hint": "Toque na lupa ou na ilustração para ver os detalhes antes de escolher."
 }

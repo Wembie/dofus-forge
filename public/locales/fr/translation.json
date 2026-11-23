@@ -2332,5 +2332,14 @@
   "account_avatar_default": "Utiliser mon initiale",
   "account_avatar_option": "{{class}} · {{gender}}",
   "account_avatar_done": "Terminé",
-  "account_save_error": "Enregistrement impossible. Veuillez réessayer."
+  "account_save_error": "Enregistrement impossible. Veuillez réessayer.",
+  "account_avatar_view": "Agrandir {{class}} · {{gender}}",
+  "account_avatar_back": "Retour aux portraits",
+  "account_avatar_full": "Illustration complète",
+  "account_avatar_crop": "Sur votre profil",
+  "account_avatar_use": "Utiliser ce portrait",
+  "account_avatar_search": "Rechercher une classe",
+  "account_avatar_empty": "Aucune classe ne correspond.",
+  "account_avatar_current": "Photo actuelle",
+  "account_avatar_inspect_hint": "Touchez la loupe ou une illustration pour la voir en grand avant de choisir."
 }
