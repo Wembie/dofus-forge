@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.15',
+    date: '2026-11-23',
+    notes: [
+      'Faster first load: the site fonts are now about a third of their previous size (552 KB to 185 KB) and stay cached between visits, along with the logo, share images and interface text',
+    ],
+  },
+  {
     version: '0.4.14',
     date: '2026-11-23',
     notes: [

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.15] — 2026-11-23
+- Faster first load: the site fonts are now about a third of their previous size (552 KB to 185 KB) and stay cached between visits, along with the logo, share images and interface text
+
 ## [0.4.14] — 2026-11-23
 - Pages that do not exist (mistyped links, deleted builds and profiles) now answer as not found, so search engines stop treating them as copies of the home page
 
