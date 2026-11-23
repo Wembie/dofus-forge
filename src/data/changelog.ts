@@ -13,6 +13,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.4.9',
     date: '2026-11-22',
     notes: [
+      'New artwork: eight panoramic ink-and-watercolor landscapes prepared for profile banners — Bonta, Brakmar, Astrub, Incarnam, Amakna, Sufokia, Pandala and Frigost — with optimized image files and exact prompts saved for future additions',
       'Fixed: database checks skip the unused test-mail server, avoiding a port conflict before SQL tests start',
       'Fixed: profile pictures accept only the Forge portrait catalog or the default initial. A database constraint rejects external URLs even through modified requests; applying the migration resets older custom images to initials',
       'New: 38 original ink-and-watercolor profile portraits, with a distinct male and female pose for every class. Choose a portrait or return to your initial from Account, preview the circular avatar and save it with your profile. The exact prompts and a reusable art template are preserved for future classes',
