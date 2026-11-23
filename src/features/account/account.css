@@ -253,19 +253,29 @@
   align-self: flex-end;
   font: 10px "IBM Plex Mono" !important;
 }
-.account-avatar-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--muted);
-  margin: 0;
-}
-.account-avatar-note svg {
-  flex-shrink: 0;
-  margin-top: 2px;
-}
+.account-avatar-control { display: flex; align-items: center; gap: 16px; }
+.account-avatar-control > div { min-width: 0; }
+.account-avatar-control p { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 10px 0 0; }
+.account-avatar-control button { min-height: 44px; }
+.account-avatar-picker { min-width: 0; margin: 0; padding: 20px; border: 0; }
+.account-avatar-picker > legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.account-avatar-picker > p { color: var(--muted); font-size: 12px; line-height: 1.6; }
+.account-avatar-default { display: flex; align-items: center; gap: 8px; font-size: 12px; margin: 16px 0; cursor: pointer; }
+.account-avatar-picker input { accent-color: var(--accent); }
+.account-avatar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; }
+.account-avatar-class { border: 1px solid var(--line); border-radius: 5px; padding: 12px 8px; min-width: 0; }
+.account-avatar-class > span { display: block; text-align: center; font: 600 17px Alegreya; margin-bottom: 12px; }
+.account-avatar-class > div { display: flex; justify-content: center; gap: 8px; }
+.account-avatar-option { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; font-size: 10px; color: var(--muted); padding: 4px; border: 2px solid transparent; border-radius: 5px; }
+.account-avatar-option input { position: absolute; opacity: 0; width: 100%; height: 100%; inset: 0; margin: 0; cursor: pointer; }
+.account-avatar-option img { display: block; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.account-avatar-option:has(input:checked) { border-color: var(--accent); color: var(--text); background: var(--hover); }
+.account-avatar-option:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.account-avatar-picker:disabled { opacity: 0.65; }
+.account-avatar-picker:disabled label, .account-avatar-picker:disabled input { cursor: default; }
+.account-avatar-footer { position: sticky; bottom: 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 20px; border-top: 1px solid var(--line); background: var(--surface-panel); }
+.account-avatar-footer .account-avatar { width: 48px; height: 48px; font-size: 24px; }
+.account-avatar-footer button { min-height: 44px; }
 .account-savebar {
   display: flex;
   align-items: center;

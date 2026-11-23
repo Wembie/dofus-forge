@@ -2326,5 +2326,11 @@
   "dmgguide_t_pct_resist": "%Resistance",
   "dmgguide_t_scaled": "Scaled",
   "dmgguide_t_before_pct": "Before %s",
-  "dmgguide_t_pct_group": "% multipliers"
+  "dmgguide_t_pct_group": "% multipliers",
+  "account_avatar_title": "Class portraits",
+  "account_avatar_hint": "Choose a portrait for your profile picture, then save your profile changes.",
+  "account_avatar_default": "Use my initial",
+  "account_avatar_option": "{{class}} · {{gender}}",
+  "account_avatar_done": "Done",
+  "account_save_error": "Your changes could not be saved. Please try again."
 }

@@ -1,7 +1,7 @@
 import { useEffect, useId, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { AlertCircle, ArrowRight, ArrowUpRight, Check, Eye, EyeOff, Lock, LogOut, User } from 'lucide-react'
+import { AlertCircle, ArrowRight, ArrowUpRight, Check, Eye, EyeOff, Lock, LogOut } from 'lucide-react'
 import { Modal } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -11,6 +11,7 @@ import { useAuthStore } from '@/store/authStore.ts'
 import { AccountAvatar, FollowListModal } from '@/features/builds/FollowListModal.tsx'
 import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { PASSWORD_MIN_LENGTH, USERNAME_PATTERN, USERNAME_RE } from '@/features/auth/authRules.ts'
+import { ClassAvatarPicker } from '@/features/account/ClassAvatarPicker.tsx'
 import '@/features/account/account.css'
 
 type Tab = 'profile' | 'security' | 'session'
@@ -62,6 +63,7 @@ export function AccountPage() {
   const [username, setUsername]       = useState(profile?.username ?? '')
   const [displayName, setDisplayName] = useState(profile?.display_name ?? '')
   const [bio, setBio]                 = useState(profile?.bio ?? '')
+  const [avatar, setAvatar]           = useState(profile?.avatar_url ?? null)
   const [busy, setBusy]       = useState(false)
   const [error, setError]     = useState<string | null>(null)
   const [saved, setSaved]     = useState(false)
@@ -80,10 +82,15 @@ export function AccountPage() {
     setBio(profile?.bio ?? '')
   }, [profile])
 
+  useEffect(() => {
+    setAvatar(profile?.avatar_url ?? null)
+  }, [profile?.id, profile?.avatar_url])
+
   const profileDirty = !!profile && (
     username.trim().toLowerCase() !== profile.username ||
     (displayName.trim() || null) !== (profile.display_name ?? null) ||
-    (bio.trim() || null) !== (profile.bio ?? null))
+    (bio.trim() || null) !== (profile.bio ?? null) ||
+    avatar !== (profile.avatar_url ?? null))
   const dirty = profileDirty || !!password || !!confirm
 
   // Leaving with unsaved changes asks first.
@@ -103,6 +110,7 @@ export function AccountPage() {
     setUsername(profile?.username ?? '')
     setDisplayName(profile?.display_name ?? '')
     setBio(profile?.bio ?? '')
+    setAvatar(profile?.avatar_url ?? null)
     setError(null)
     setPartial(false)
     setSaved(false)
@@ -127,11 +135,18 @@ export function AccountPage() {
       }
       renamed = true
     }
-    const { error: err } = await updateProfile({ display_name: displayName.trim() || null, bio: bio.trim() || null })
+    let err: string | null
+    try {
+      const result = await updateProfile({ display_name: displayName.trim() || null, bio: bio.trim() || null,
+        ...(avatar !== (profile.avatar_url ?? null) ? { avatar_url: avatar } : {}) })
+      err = result.error
+    } catch {
+      err = 'network_error'
+    }
     setBusy(false)
     if (err) {
       setPartial(renamed)
-      setError(t(renamed ? 'account_partial' : 'auth_username_error'))
+      setError(t(renamed ? 'account_partial' : 'account_save_error'))
       return
     }
     setSaved(true)
@@ -247,10 +262,8 @@ export function AccountPage() {
                           aria-describedby={`${id}-bio-count`} />
                         <small id={`${id}-bio-count`} className="account-counter">{bio.length} / 300</small>
                       </div>
-                      <p className="account-avatar-note">
-                        <User size={16} aria-hidden="true" />
-                        {t('account_avatar_unavailable')}
-                      </p>
+                      <ClassAvatarPicker username={username || profile?.username || email} value={avatar}
+                        onChange={url => edit(() => setAvatar(url))} disabled={busy || !profile} />
                       {error && <Message error>{error}</Message>}
                       {saved && <Message>{t('account_saved')}</Message>}
                       <div className={'account-savebar' + (profileDirty ? ' is-dirty' : '')}>

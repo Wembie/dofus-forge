@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.9',
+    date: '2026-11-22',
+    notes: [
+      'New: 38 original ink-and-watercolor profile portraits, with a distinct male and female pose for every class. Choose a portrait or return to your initial from Account, preview the circular avatar and save it with your profile. The exact prompts and a reusable art template are preserved for future classes',
+    ],
+  },
+  {
     version: '0.4.8',
     date: '2026-11-22',
     notes: [

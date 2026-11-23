@@ -52,4 +52,49 @@ describe('AccountPage', () => {
     fireEvent.click(buttons[buttons.length - 1])
     expect(signOut).toHaveBeenCalled()
   })
+
+  it('previews a class portrait, discards it, then saves the chosen portrait', async () => {
+    page()
+    const url = '/avatars/classes/v1/iop-f.webp'
+    const choose = () => {
+      fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+      fireEvent.click(screen.getByDisplayValue(url))
+      fireEvent.click(screen.getByRole('button', { name: 'account_avatar_done' }))
+    }
+    choose()
+    expect(document.querySelector('.account-avatar-control img')?.getAttribute('src')).toBe(url)
+    expect(updateProfile).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: 'account_discard' }))
+    expect(document.querySelector('.account-avatar-control img')).toBeNull()
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
+    choose()
+    fireEvent.click(screen.getByRole('button', { name: /account_save/ }))
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, avatar_url: url }))
+  })
+
+  it('keeps the chosen avatar after a network failure so it can be retried', async () => {
+    updateProfile.mockRejectedValueOnce(new Error('offline'))
+    page()
+    const url = '/avatars/classes/v1/xelor-m.webp'
+    fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+    fireEvent.click(screen.getByDisplayValue(url))
+    fireEvent.click(screen.getByRole('button', { name: 'account_avatar_done' }))
+    const save = screen.getByRole('button', { name: /account_save/ }) as HTMLButtonElement
+    fireEvent.click(save)
+    await waitFor(() => expect(screen.getByRole('alert').textContent).toContain('account_save_error'))
+    expect(save.disabled).toBe(false)
+    expect(document.querySelector('.account-avatar-control img')?.getAttribute('src')).toBe(url)
+    fireEvent.click(save)
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledTimes(2))
+  })
+
+  it('can replace a saved class portrait with the initial avatar', async () => {
+    useAuthStore.setState({ profile: { ...profile, avatar_url: '/avatars/classes/v1/cra-m.webp' } } as never)
+    page()
+    fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+    fireEvent.click(screen.getByLabelText('account_avatar_default'))
+    fireEvent.click(screen.getByRole('button', { name: 'account_avatar_done' }))
+    fireEvent.click(screen.getByRole('button', { name: /account_save/ }))
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, avatar_url: null }))
+  })
 })

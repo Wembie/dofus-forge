@@ -2326,5 +2326,11 @@
   "dmgguide_t_pct_resist": "%Resistência",
   "dmgguide_t_scaled": "Escalado",
   "dmgguide_t_before_pct": "Antes dos %",
-  "dmgguide_t_pct_group": "Multiplicadores%"
+  "dmgguide_t_pct_group": "Multiplicadores%",
+  "account_avatar_title": "Retratos das classes",
+  "account_avatar_hint": "Escolha um retrato para a foto do seu perfil e salve as alterações do perfil.",
+  "account_avatar_default": "Usar minha inicial",
+  "account_avatar_option": "{{class}} · {{gender}}",
+  "account_avatar_done": "Pronto",
+  "account_save_error": "Não foi possível salvar as alterações. Tente novamente."
 }

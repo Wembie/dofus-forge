@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.9] — 2026-11-22
+- New: 38 original ink-and-watercolor profile portraits, with a distinct male and female pose for every class. Choose a portrait or return to your initial from Account, preview the circular avatar and save it with your profile. The exact prompts and a reusable art template are preserved for future classes
+
 ## [0.4.8] — 2026-11-22
 - New: a page explaining exactly how damage is calculated in Dofus 3, step by step. The real formula with worked numeric examples (how much a characteristic point is actually worth, how % Spell Damage and resistance apply, critical hits, push damage), linked from the footer and the navigation menu
 

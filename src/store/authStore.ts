@@ -3,6 +3,7 @@ import type { Session } from '@supabase/supabase-js'
 import { getSupabase } from '@/lib/supabase.ts'
 import { legalAcceptance, LEGAL_DOCS, type LegalDoc } from '@/features/auth/legal.ts'
 import { USERNAME_RE } from '@/features/auth/authRules.ts'
+import { isClassAvatarUrl } from '@/features/account/classAvatars.ts'
 
 export type Profile = {
   id:               string
@@ -82,14 +83,14 @@ export async function shrinkAvatar(file: File): Promise<Blob> {
   }
 }
 // avatar_url is rendered as <img src> for every viewer of a public profile —
-// restrict to http(s) so a saved `javascript:`/`data:` URI can't reach that sink.
+// local paths must identify a bundled portrait; other URLs require http(s).
 const SAFE_URL_RE = /^https?:\/\//i
 
 // Guard applied at every <img src={...}> render site, not just on save — the
 // live preview in ProfileModal renders the raw input on every keystroke,
 // before updateProfile() ever runs its own check.
 export function isSafeImageUrl(url: string | null | undefined): url is string {
-  return !!url && SAFE_URL_RE.test(url)
+  return !!url && (SAFE_URL_RE.test(url) || isClassAvatarUrl(url))
 }
 
 async function fetchProfile(userId: string): Promise<Profile | null> {
@@ -224,7 +225,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   updateProfile: async (edits) => {
     const session = get().session
     if (!session) return { error: 'Not signed in' }
-    if (edits.avatar_url && !SAFE_URL_RE.test(edits.avatar_url)) return { error: 'invalid_avatar_url' }
+    if (edits.avatar_url && !isSafeImageUrl(edits.avatar_url)) return { error: 'invalid_avatar_url' }
 
     const supabase = await getSupabase()
     const { error } = await supabase.from('profiles').update(edits).eq('id', session.user.id)
