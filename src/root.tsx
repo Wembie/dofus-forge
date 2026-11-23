@@ -237,7 +237,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="theme-color" content="#111615" />
 
         {/* Never render-blocking: fetched as print media, switched to all once loaded (BOOT_SCRIPT). */}
-        <link rel="preload" as="font" type="font/woff" href="/fonts/sourcesans3/SourceSans3-v04.woff" crossOrigin="anonymous" />
+        <link rel="preload" as="font" type="font/woff2" href="/fonts/sourcesans3/SourceSans3-v04.woff2" crossOrigin="anonymous" />
         <Links />
       </head>
       <body>
