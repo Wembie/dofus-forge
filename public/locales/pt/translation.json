@@ -2341,7 +2341,7 @@
   "account_avatar_search": "Buscar classe",
   "account_avatar_empty": "Nenhuma classe encontrada.",
   "account_avatar_current": "Foto atual",
-  "account_avatar_inspect_hint": "Toque na lupa ou na ilustração para ver os detalhes antes de escolher.",
+  "account_avatar_inspect_hint": "Abra uma ilustração para vê-la ampliada antes de escolher.",
   "profile_avatar_view": "Ampliar a foto de perfil de {{username}}",
   "profile_avatar_title": "Foto de perfil de {{username}}",
   "account_banner_title": "Banner do perfil",
@@ -2372,5 +2372,7 @@
   "profile_banner_location_xelorium": "Xelorium",
   "account_banner_back": "Voltar às paisagens",
   "build_rating_option": "Avaliar com {{value}} de 5 estrelas",
-  "build_rating_save_error": "Não foi possível salvar sua avaliação. Tente novamente."
+  "build_rating_save_error": "Não foi possível salvar sua avaliação. Tente novamente.",
+  "account_avatar_gender_look": "{{gender}} · rosto {{number}}",
+  "account_avatar_head_slot": "Rosto {{number}}"
 }

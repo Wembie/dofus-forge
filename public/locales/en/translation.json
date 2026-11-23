@@ -2341,7 +2341,7 @@
   "account_avatar_search": "Search classes",
   "account_avatar_empty": "No classes match your search.",
   "account_avatar_current": "Current picture",
-  "account_avatar_inspect_hint": "Tap the magnifying glass or illustration to see it in detail before choosing.",
+  "account_avatar_inspect_hint": "Open an illustration to view it at full size before choosing.",
   "profile_avatar_view": "Enlarge {{username}}'s profile picture",
   "profile_avatar_title": "{{username}}'s profile picture",
   "account_banner_title": "Profile banner",
@@ -2372,5 +2372,7 @@
   "profile_banner_location_xelorium": "Xelorium",
   "account_banner_back": "Back to landscapes",
   "build_rating_option": "Rate {{value}} out of 5 stars",
-  "build_rating_save_error": "Your rating could not be saved. Please try again."
+  "build_rating_save_error": "Your rating could not be saved. Please try again.",
+  "account_avatar_gender_look": "{{gender}} · face {{number}}",
+  "account_avatar_head_slot": "Face {{number}}"
 }

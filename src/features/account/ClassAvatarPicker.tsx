@@ -22,7 +22,8 @@ export function ClassAvatarPicker({ username, value, onChange, disabled }: Props
   const previewButtons = useRef(new Map<string, HTMLButtonElement>())
   const returnTo = useRef({ url: '', scrollTop: 0 })
   const className = (classId: string) => resolveClassName(classId, i18n.language.slice(0, 2), null)
-  const avatarLabel = (a: Avatar) => t('account_avatar_option', { class: className(a.classId), gender: t(`gender_${a.gender}`) })
+  const genderAndLook = (a: Avatar) => t('account_avatar_gender_look', { gender: t(`gender_${a.gender}`), number: a.headSlot })
+  const avatarLabel = (a: Avatar) => t('account_avatar_option', { class: className(a.classId), gender: genderAndLook(a) })
   const selected = CLASS_AVATARS.find(a => a.url === value)
   const classes = CLASS_DATA.filter(c => normalizeSearch(className(c.id)).includes(normalizeSearch(query.trim())))
 
@@ -104,13 +105,13 @@ export function ClassAvatarPicker({ username, value, onChange, disabled }: Props
                         <div className="account-avatar-option" key={a.url}>
                           <button type="button" className="account-avatar-inspect" onClick={() => inspect(a)}
                             ref={node => { if (node) previewButtons.current.set(a.url, node); else previewButtons.current.delete(a.url) }}
-                            aria-label={t('account_avatar_view', { class: className(c.id), gender: t(`gender_${a.gender}`) })}>
+                            aria-label={t('account_avatar_view', { class: className(c.id), gender: genderAndLook(a) })}>
                             <img src={a.url} alt="" width={128} height={128} loading="lazy" decoding="async" />
                           </button>
                           <label>
                             <input type="radio" name={id} value={a.url} checked={value === a.url} onChange={() => onChange(a.url)}
                               aria-label={avatarLabel(a)} />
-                            <span>{t(`gender_${a.gender}`)}</span>
+                            <span>{t(`gender_${a.gender}`)}<small>{t('account_avatar_head_slot', { number: a.headSlot })}</small></span>
                           </label>
                         </div>
                       ))}

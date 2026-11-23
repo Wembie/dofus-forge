@@ -17,6 +17,15 @@ function functionHeaders(sql: string) {
 }
 
 describe('supabase schema guards', () => {
+  it('adds second-face portraits without changing saved profiles or catalog permissions', () => {
+    const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261123020000_profile_avatar_second_heads.sql'), 'utf8').replace(/\r\n/g, '\n')
+    expect(schema).toContain(migration.trim())
+    expect(migration).toContain('insert into public.profile_avatar_catalog (path) values')
+    expect(migration).toContain('on conflict (path) do nothing')
+    expect(migration).not.toMatch(/\b(?:update|delete|truncate|alter|grant|revoke|drop)\b(?![^\n]*--)/i)
+    expect([...migration.matchAll(/\('([^']+\.webp)'\)/g)]).toHaveLength(38)
+  })
+
   it('widens rating precision without rewriting existing votes or build scores', () => {
     const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261123010000_half_star_ratings.sql'), 'utf8').replace(/\r\n/g, '\n')
     expect(schema).toContain(migration.trim())

@@ -5,6 +5,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Segundo rostro/peinado de las 19 clases** (0.4.16) — 38 fan arts nuevos, masculino y femenino, con traje habitual y poses propias de tinta y acuarela. Catálogo de 76 retratos, selector con rostros 1 y 2 y migración aditiva de rutas aprobadas. Inventario real del cliente y lista de progreso por clase, sexo, cabeza y cuerpo: [PROGRESS.md](brand/profile-avatars/PROGRESS.md).
+
 - [x] **Medias estrellas al valorar builds** (0.4.13) — votos de 0,5 a 5 en pasos de media estrella, selección por mitades con ratón/toque y teclado, valor localizado y media estrella dibujada. Guardado validado en cliente y PostgreSQL, promedio actualizado desde el servidor y recuperación del voto anterior ante errores. La migración conserva los votos, scores, contadores y fechas existentes.
 
 - [x] **Elegir y mostrar banners de perfil** (0.4.11) — selector en Cuenta con los 12 paisajes, búsqueda por lugar o dimensión, ampliación sin iconos superpuestos y vista previa con el avatar. Selección pendiente hasta guardar, descarte, reintento y retirada del banner. Portada en el perfil público, ampliable con clic, y persistencia en `profiles.banner_url`; catálogo aprobado también en PostgreSQL mediante migración.
@@ -459,3 +461,7 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 - [] Que los admins puedan ver cuando se meten a un perfil de una persona ver todos los stats del mismo y aparte todas las builds ocultas o privadas (etc), para mantener una trazabilidad
 
  - [] agregar un atajo en la parte de cuando selecciona los items... algo para equipar todo el set de una, como shift + cllick iZQUIERDO O ALGO ASi, no se pensarle bien
+
+- [ ] **Continuar los rostros y peinados de los avatares** — 524 de los 600 rostros del cliente siguen pendientes, siempre con el traje habitual, conservando la técnica y creando poses propias. Avanzar por tandas desde el rostro 3 y tachar modelos verificados en [el seguimiento](brand/profile-avatars/PROGRESS.md).
+
+- [ ] **Trajes alternativos de los avatares, después de los rostros** — 38 trajes alternativos mapeados con sus ids y texturas; reservar su producción hasta terminar la prioridad de rostros/peinados.
