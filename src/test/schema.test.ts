@@ -17,6 +17,15 @@ function functionHeaders(sql: string) {
 }
 
 describe('supabase schema guards', () => {
+  it('adds sixteen banner locations without rewriting profiles or weakening the catalog', () => {
+    const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261123030000_profile_banner_expansion.sql'), 'utf8').replace(/\r\n/g, '\n')
+    expect(schema).toContain(migration.trim())
+    expect(migration).toContain('insert into public.profile_banner_catalog (path) values')
+    expect(migration).toContain('on conflict (path) do nothing')
+    expect(migration.replace(/--[^\n]*/g, '')).not.toMatch(/\b(?:update|delete|truncate|alter|grant|revoke|drop)\b/i)
+    expect([...migration.matchAll(/\('([^']+\.webp)'\)/g)]).toHaveLength(16)
+  })
+
   it('adds second-face portraits without changing saved profiles or catalog permissions', () => {
     const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261123020000_profile_avatar_second_heads.sql'), 'utf8').replace(/\r\n/g, '\n')
     expect(schema).toContain(migration.trim())

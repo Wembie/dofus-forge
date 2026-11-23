@@ -5,6 +5,7 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **16 escenarios nuevos para banners de perfil** (0.4.17) — colección ampliada a 28 fondos: Moon, Wabbits, Otomai, Vulkania, Tainela, Koalaks, Abráknidos, Minotauroro, Osavora, pirámide y puerto de Picahari, Albuera, Ereboria, Nawidad, Pazcuak y Dragocerdo. Referencias de mapas y gráficos del cliente 3.7.14.18, composiciones propias de tinta y acuarela, prompts y procedencia guardados. Selector traducido y migración aditiva que conserva las portadas actuales. La ampliación futura de la colección sigue pendiente.
 - [x] **Segundo rostro/peinado de las 19 clases** (0.4.16) — 38 fan arts nuevos, masculino y femenino, con traje habitual y poses propias de tinta y acuarela. Catálogo de 76 retratos, selector con rostros 1 y 2 y migración aditiva de rutas aprobadas. Inventario real del cliente y lista de progreso por clase, sexo, cabeza y cuerpo: [PROGRESS.md](brand/profile-avatars/PROGRESS.md).
 
 - [x] **Medias estrellas al valorar builds** (0.4.13) — votos de 0,5 a 5 en pasos de media estrella, selección por mitades con ratón/toque y teclado, valor localizado y media estrella dibujada. Guardado validado en cliente y PostgreSQL, promedio actualizado desde el servidor y recuperación del voto anterior ante errores. La migración conserva los votos, scores, contadores y fechas existentes.

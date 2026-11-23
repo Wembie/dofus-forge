@@ -2374,5 +2374,21 @@
   "build_rating_option": "Puntuar con {{value}} de 5 estrellas",
   "build_rating_save_error": "No se pudo guardar tu valoración. Inténtalo de nuevo.",
   "account_avatar_gender_look": "{{gender}} · rostro {{number}}",
-  "account_avatar_head_slot": "Rostro {{number}}"
+  "account_avatar_head_slot": "Rostro {{number}}",
+  "profile_banner_location_moon": "Isla de Moon",
+  "profile_banner_location_wabbits": "Isla de los Wabbits",
+  "profile_banner_location_otomai": "Árbol Hakam de Otomai",
+  "profile_banner_location_vulkania": "Cráter Montseleya de Vulkania",
+  "profile_banner_location_tainela": "Tainela",
+  "profile_banner_location_koalaks": "Lagos encantados de los Koalaks",
+  "profile_banner_location_abraknid": "Bosque de los Abráknidos",
+  "profile_banner_location_minotoror": "Laberinto del Minotauroro",
+  "profile_banner_location_osavora": "Osavora",
+  "profile_banner_location_saharach": "Pirámide maldita de Picahari",
+  "profile_banner_location_sarakech": "Puerto de Picanesburgo",
+  "profile_banner_location_albuera": "Nueva Albuera",
+  "profile_banner_location_ereboria": "Galerías de Ereboria",
+  "profile_banner_location_nawidad": "Isla de Nawidad",
+  "profile_banner_location_pazcuak": "Isla de Pazcuak",
+  "profile_banner_location_dragocerdo": "Guarida del Dragocerdo"
 }

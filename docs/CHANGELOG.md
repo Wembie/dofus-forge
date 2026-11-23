@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.17] — 2026-11-23
+- 16 new profile banners based on the installed Dofus 3.7 client: Moon, Wabbits, Otomai, Vulkania, Tainela, Koalaks, Treechnid Forest, Minotoror, Osavora, the Cursed Pyramid and Sarakech Port, Albuera, Ereboria, Kwismas, Fleaster and Dragon Pig. Choose from 28 landscapes in the same ink-and-watercolor style
+- Exact prompts, client patch, source maps and image hashes are preserved for future artwork. Existing profile covers and all previous choices are retained
+
 ## [0.4.16] — 2026-11-23
 - 38 new class portraits: the second in-game face and hairstyle for every class, male and female, with the original outfit, distinct poses and the same ink-and-watercolor finish. Choose between faces 1 and 2 in the avatar gallery
 - Portrait production is tracked by class, gender and exact game model: 76 of 600 faces completed. All remaining faces and 38 alternate outfits are mapped, with outfits scheduled after the face collection

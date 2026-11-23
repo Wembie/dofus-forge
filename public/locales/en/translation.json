@@ -2374,5 +2374,21 @@
   "build_rating_option": "Rate {{value}} out of 5 stars",
   "build_rating_save_error": "Your rating could not be saved. Please try again.",
   "account_avatar_gender_look": "{{gender}} · face {{number}}",
-  "account_avatar_head_slot": "Face {{number}}"
+  "account_avatar_head_slot": "Face {{number}}",
+  "profile_banner_location_moon": "Moon Island",
+  "profile_banner_location_wabbits": "Wabbit Island",
+  "profile_banner_location_otomai": "Otomai Tree Keeholo",
+  "profile_banner_location_vulkania": "Vulkania Mountsaleia Crater",
+  "profile_banner_location_tainela": "Tainela",
+  "profile_banner_location_koalaks": "Koalak Enchanted Lakes",
+  "profile_banner_location_abraknid": "Treechnid Forest",
+  "profile_banner_location_minotoror": "Labyrinth of the Minotoror",
+  "profile_banner_location_osavora": "Osavora",
+  "profile_banner_location_saharach": "Ohwymi Cursed Pyramid",
+  "profile_banner_location_sarakech": "Sarakech Port",
+  "profile_banner_location_albuera": "New Albuera",
+  "profile_banner_location_ereboria": "Ereboria Tunnels",
+  "profile_banner_location_nawidad": "Kwismas Island",
+  "profile_banner_location_pazcuak": "Fleaster Island",
+  "profile_banner_location_dragocerdo": "Dragon Pig Lair"
 }

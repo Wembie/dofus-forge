@@ -2374,5 +2374,21 @@
   "build_rating_option": "Avaliar com {{value}} de 5 estrelas",
   "build_rating_save_error": "Não foi possível salvar sua avaliação. Tente novamente.",
   "account_avatar_gender_look": "{{gender}} · rosto {{number}}",
-  "account_avatar_head_slot": "Rosto {{number}}"
+  "account_avatar_head_slot": "Rosto {{number}}",
+  "profile_banner_location_moon": "Ilha de Moon",
+  "profile_banner_location_wabbits": "Ilha dos Wabbits",
+  "profile_banner_location_otomai": "Árvore Hakam de Otomai",
+  "profile_banner_location_vulkania": "Cratera Peuta de Vulkânia",
+  "profile_banner_location_tainela": "Tainela",
+  "profile_banner_location_koalaks": "Lagos Encantados dos Koalaks",
+  "profile_banner_location_abraknid": "Floresta dos Arvraknídeos",
+  "profile_banner_location_minotoror": "Labirinto do Minotoror",
+  "profile_banner_location_osavora": "Osavora",
+  "profile_banner_location_saharach": "Pirâmide Maldita de Espetárida",
+  "profile_banner_location_sarakech": "Porto de Saarrakech",
+  "profile_banner_location_albuera": "Nova Albuera",
+  "profile_banner_location_ereboria": "Galerias de Ereboria",
+  "profile_banner_location_nawidad": "Ilha de Nataw",
+  "profile_banner_location_pazcuak": "Ilha de Paskwak",
+  "profile_banner_location_dragocerdo": "Covil do Dragão-Porco"
 }

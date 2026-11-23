@@ -26,23 +26,24 @@ afterEach(cleanup)
 const page = () => render(<MemoryRouter><AccountPage /></MemoryRouter>)
 
 describe('AccountPage', () => {
-  it('inspects a banner without selecting it, then saves the explicit choice', async () => {
+  it.each(['bonta', 'moon', 'osavora'])('inspects %s without selecting it, then saves the explicit choice', async location => {
     page()
     fireEvent.click(screen.getByRole('button', { name: 'account_banner_change' }))
-    const inspect = screen.getAllByRole('button', { name: 'account_banner_view' })[0]
+    const inspect = screen.getAllByRole('button', { name: 'account_banner_view' }).find(button => button.querySelector('img')?.getAttribute('src') === `/banners/locations/v1/${location}.webp`)!
     inspect.focus()
     fireEvent.click(inspect)
-    expect(screen.getByRole('img', { name: 'profile_banner_location_bonta' }).getAttribute('src')).toBe('/banners/locations/v1/bonta.webp')
+    expect(screen.getByRole('img', { name: `profile_banner_location_${location}` }).getAttribute('src')).toBe(`/banners/locations/v1/${location}.webp`)
     expect((screen.getByRole('button', { name: /account_save/ }) as HTMLButtonElement).disabled).toBe(true)
     fireEvent.click(screen.getByRole('button', { name: 'account_banner_back' }))
-    await waitFor(() => expect(document.activeElement).toBe(screen.getAllByRole('button', { name: 'account_banner_view' })[0]))
-    fireEvent.click(screen.getAllByRole('button', { name: 'account_banner_view' })[0])
+    const returned = () => screen.getAllByRole('button', { name: 'account_banner_view' }).find(button => button.querySelector('img')?.getAttribute('src') === `/banners/locations/v1/${location}.webp`)!
+    await waitFor(() => expect(document.activeElement).toBe(returned()))
+    fireEvent.click(returned())
     fireEvent.click(screen.getByRole('button', { name: 'account_banner_use' }))
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
-    expect(document.querySelector('.account-banner-control .profile-banner img')?.getAttribute('src')).toBe('/banners/locations/v1/bonta.webp')
+    expect(document.querySelector('.account-banner-control .profile-banner img')?.getAttribute('src')).toBe(`/banners/locations/v1/${location}.webp`)
     expect(updateProfile).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole('button', { name: /account_save/ }))
-    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, banner_url: '/banners/locations/v1/bonta.webp' }))
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, banner_url: `/banners/locations/v1/${location}.webp` }))
   })
 
   it('discards an unsaved banner and can remove a previously saved one', async () => {
