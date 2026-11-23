@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.11] — 2026-11-23
+- Profile banners: choose from 12 original Dofus landscapes and divine dimensions in Account, search by place, inspect the full illustration and preview it with your avatar before choosing. Save, discard or remove your banner with the rest of your profile changes
+- Public profiles now display the saved banner above the avatar. Click the landscape to see it enlarged; pictures stay unobstructed, with a zoom cursor on hover
+
 ## [0.4.10] — 2026-11-22
 - New artwork: 12 panoramic ink-and-watercolor banners of Dofus 3.7 locations and divine dimensions, including Enutrosor, Srambad, Ecaflipus and Xelorium, with optimized images and exact prompts saved for future additions
 - Public profiles: click a profile picture to view the complete illustration at a larger size; close with Escape, the close button or the backdrop. Pictures and avatar-picker thumbnails use a zoom cursor on hover, with no icons covering the artwork

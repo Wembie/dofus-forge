@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
 import type { Session } from '@supabase/supabase-js'
 import { CLASS_AVATARS } from '@/features/account/classAvatars.ts'
+import { PROFILE_BANNERS } from '@/features/account/profileBanners.ts'
 
 const getSupabase = vi.hoisted(() => vi.fn())
 vi.mock('@/lib/supabase.ts', () => ({ getSupabase }))
@@ -143,6 +144,31 @@ describe('authStore.updateProfile avatars', () => {
       expect(from).toHaveBeenLastCalledWith('profiles')
       expect(update).toHaveBeenLastCalledWith(edits)
       expect(eq).toHaveBeenLastCalledWith('id', 'avatar-user')
+    }
+  })
+})
+
+describe('authStore.updateProfile banners', () => {
+  const original = useAuthStore.getState()
+  beforeEach(() => {
+    getSupabase.mockReset()
+    useAuthStore.setState({ session: { user: { id: 'banner-user' } } as Session, profile: null })
+  })
+  afterEach(() => useAuthStore.setState(original))
+
+  it.each(['https://tracker.example/banner.png', '//tracker.example/banner.png', '/banners/locations/v1/unknown.webp', '/banners/locations/v1/bonta.webp?x=1', ''])('rejects a forged banner before any request: %s', async banner_url => {
+    await expect(useAuthStore.getState().updateProfile({ banner_url })).resolves.toEqual({ error: 'invalid_banner_url' })
+    expect(getSupabase).not.toHaveBeenCalled()
+  })
+
+  it('accepts all approved banners and null to remove the cover', async () => {
+    const eq = vi.fn().mockResolvedValue({ error: null })
+    const update = vi.fn(() => ({ eq }))
+    getSupabase.mockResolvedValue({ from: () => ({ update }) })
+    for (const banner_url of [...PROFILE_BANNERS.map(b => b.url), null]) {
+      await expect(useAuthStore.getState().updateProfile({ banner_url })).resolves.toEqual({ error: null })
+      expect(update).toHaveBeenLastCalledWith({ banner_url })
+      expect(eq).toHaveBeenLastCalledWith('id', 'banner-user')
     }
   })
 })

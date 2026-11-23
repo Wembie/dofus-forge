@@ -231,6 +231,16 @@ describe('security audit guards (0.3.135)', () => {
     expect(schema.replace(/\r\n/g, '\n')).toContain(migration.replace(/\r\n/g, '\n').split('\n').slice(2).join('\n').trim())
   })
 
+  it('profile banners reference a catalog that API clients cannot expand', () => {
+    const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261123000000_profile_banner_catalog.sql'), 'utf8')
+    expect(schema).toContain(migration.replace(/\r\n/g, '\n').trim())
+    expect(migration).toContain('foreign key (banner_url) references public.profile_banner_catalog(path)')
+    expect(migration).toContain('alter table public.profile_banner_catalog enable row level security;')
+    expect(migration).toContain('revoke all on table public.profile_banner_catalog from public, anon, authenticated;')
+    expect(migration).toContain('grant select on table public.profile_banner_catalog to anon, authenticated;')
+    expect(migration.indexOf('update public.profiles p set banner_url = null')).toBeLessThan(migration.indexOf('add constraint profiles_banner_url_catalog_fkey'))
+  })
+
   it('pseudonymous visitor identifiers are purged on a schedule (Privacy Policy retention)', () => {
     const fn = schema.match(/create or replace function public\.purge_visitor_identifiers\(\)[\s\S]*?\$\$([\s\S]*?)\$\$/)
     expect(fn).not.toBeNull()

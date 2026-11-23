@@ -10,6 +10,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.11',
+    date: '2026-11-23',
+    notes: [
+      'Profile banners: choose from 12 original Dofus landscapes and divine dimensions in Account, search by place, inspect the full illustration and preview it with your avatar before choosing. Save, discard or remove your banner with the rest of your profile changes',
+      'Public profiles now display the saved banner above the avatar. Click the landscape to see it enlarged; pictures stay unobstructed, with a zoom cursor on hover',
+    ],
+  },
+  {
     version: '0.4.10',
     date: '2026-11-22',
     notes: [

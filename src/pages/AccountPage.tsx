@@ -12,6 +12,7 @@ import { AccountAvatar, FollowListModal } from '@/features/builds/FollowListModa
 import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { PASSWORD_MIN_LENGTH, USERNAME_PATTERN, USERNAME_RE } from '@/features/auth/authRules.ts'
 import { ClassAvatarPicker } from '@/features/account/ClassAvatarPicker.tsx'
+import { ProfileBannerPicker } from '@/features/account/ProfileBannerPicker.tsx'
 import '@/features/account/account.css'
 
 type Tab = 'profile' | 'security' | 'session'
@@ -64,6 +65,7 @@ export function AccountPage() {
   const [displayName, setDisplayName] = useState(profile?.display_name ?? '')
   const [bio, setBio]                 = useState(profile?.bio ?? '')
   const [avatar, setAvatar]           = useState(profile?.avatar_url ?? null)
+  const [banner, setBanner]           = useState(profile?.banner_url ?? null)
   const [busy, setBusy]       = useState(false)
   const [error, setError]     = useState<string | null>(null)
   const [saved, setSaved]     = useState(false)
@@ -86,11 +88,16 @@ export function AccountPage() {
     setAvatar(profile?.avatar_url ?? null)
   }, [profile?.id, profile?.avatar_url])
 
+  useEffect(() => {
+    setBanner(profile?.banner_url ?? null)
+  }, [profile?.id, profile?.banner_url])
+
   const profileDirty = !!profile && (
     username.trim().toLowerCase() !== profile.username ||
     (displayName.trim() || null) !== (profile.display_name ?? null) ||
     (bio.trim() || null) !== (profile.bio ?? null) ||
-    avatar !== (profile.avatar_url ?? null))
+    avatar !== (profile.avatar_url ?? null) ||
+    banner !== (profile.banner_url ?? null))
   const dirty = profileDirty || !!password || !!confirm
 
   // Leaving with unsaved changes asks first.
@@ -112,6 +119,7 @@ export function AccountPage() {
     setBio(profile?.bio ?? '')
     setAvatar(profile?.avatar_url ?? null)
     setError(null)
+    setBanner(profile?.banner_url ?? null)
     setPartial(false)
     setSaved(false)
   }
@@ -138,7 +146,8 @@ export function AccountPage() {
     let err: string | null
     try {
       const result = await updateProfile({ display_name: displayName.trim() || null, bio: bio.trim() || null,
-        ...(avatar !== (profile.avatar_url ?? null) ? { avatar_url: avatar } : {}) })
+        ...(avatar !== (profile.avatar_url ?? null) ? { avatar_url: avatar } : {}),
+        ...(banner !== (profile.banner_url ?? null) ? { banner_url: banner } : {}) })
       err = result.error
     } catch {
       err = 'network_error'
@@ -264,6 +273,8 @@ export function AccountPage() {
                       </div>
                       <ClassAvatarPicker username={username || profile?.username || email} value={avatar}
                         onChange={url => edit(() => setAvatar(url))} disabled={busy || !profile} />
+                      <ProfileBannerPicker username={username || profile?.username || email} avatarUrl={avatar} value={banner}
+                        onChange={url => edit(() => setBanner(url))} disabled={busy || !profile} />
                       {error && <Message error>{error}</Message>}
                       {saved && <Message>{t('account_saved')}</Message>}
                       <div className={'account-savebar' + (profileDirty ? ' is-dirty' : '')}>

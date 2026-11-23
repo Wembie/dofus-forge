@@ -8,6 +8,8 @@ import { langPathPrefix } from '@/i18n/langPath.ts'
 import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { FollowListModal } from '@/features/builds/FollowListModal.tsx'
 import { PublicProfileAvatar } from '@/features/account/PublicProfileAvatar.tsx'
+import { ProfileBanner } from '@/features/account/ProfileBanner.tsx'
+import { isProfileBannerUrl } from '@/features/account/profileBanners.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useAuthStore } from '@/store/authStore.ts'
@@ -207,7 +209,8 @@ export function UserProfilePage() {
 
       <main id="main-content" className="account-page">
         <div className="account-study">
-          <div className="public-profile-heading">
+          <ProfileBanner key={`${profile.id}:${profile.banner_url}`} username={name} url={profile.banner_url} />
+          <div className={'public-profile-heading' + (isProfileBannerUrl(profile.banner_url) ? ' has-banner' : '')}>
             <PublicProfileAvatar key={`${profile.id}:${profile.avatar_url}`} username={name} url={profile.avatar_url} />
             <div>
               <p className="account-eyebrow">{t('account_public_identity')}</p>

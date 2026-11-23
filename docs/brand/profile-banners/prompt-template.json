@@ -23,6 +23,7 @@
     "Give every place its own framing, palette and atmosphere, retaining recognizable Dofus architecture.",
     "No labels, logos, watermarks, interface, characters or fake handwritten notes.",
     "Save the exact final prompt and source URLs, retain PNG masters locally, then export WebP and record dimensions and hashes.",
-    "Review full 3:1, narrow mobile and avatar-overlap crops before integration."
+    "Review full 3:1, narrow mobile and avatar-overlap crops before integration.",
+    "Register each new path in PROFILE_BANNERS with its label in all four locales. Add an admin-authored profile_banner_catalog SQL migration and mirror the inserts in schema.sql. Apply the migration before releasing the new picker choices and run the catalog parity and database checks."
   ]
 }
