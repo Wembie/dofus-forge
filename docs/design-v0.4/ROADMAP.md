@@ -99,3 +99,5 @@ Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presenta
 - [] limitar el cambio de username a una vez cada 30 días. Esto es para que la gente no pueda estar cambiando de username cada dos por tres y que se pueda identificar a la gente más fácilmente.
 
 - [] agregar en la parte del perfil cual es la raza preferidad de la persona y que se pueda cambiar. Esto es para que la gente pueda ver cual es la raza preferida de cada persona y así poder ver si hay gente con la misma raza preferida y poder hacer amigos más fácilmente.
+
+- [] cambiar los tags a uno mas usados, y ejemplo los que tengan eso de "Tierra" Aire y cosas asi se deberian cambiar al elemento como tal.. ejemplo Fuerza, Agilidad etc y revisar bien cuales poner ya que algunas no tiene mucho sentido y no son muy usados. Esto es para que la gente pueda encontrar más fácilmente los sets que buscan y no se pierdan entre tags que no tienen mucho sentido.
