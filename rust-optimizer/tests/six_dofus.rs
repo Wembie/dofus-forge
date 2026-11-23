@@ -22,6 +22,7 @@ fn item(id: i64, slot: &str, item_type: &str, vitality: i64) -> CatalogItem {
         }],
         conditions: None,
         set_id: None,
+        ..Default::default()
     }
 }
 

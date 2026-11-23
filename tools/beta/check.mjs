@@ -34,7 +34,7 @@ try {
   assert.equal(after.stats.strength, 0)
   assert.equal(after.stats.agility, initial.strength)
   assert.equal(after.applied.hat.itemId, initial.id)
-  assert.equal(await page.locator('.beta-actions > button').nth(5).isDisabled(), true)
+  assert.equal(await page.locator('.beta-actions > button').nth(5).isDisabled(), false)
   await page.locator('.beta-actions > button').first().click()
   assert.equal(await page.evaluate(async () => (await import('/tools/beta/buildStore.ts')).useBuildStore.getState().stats.strength), initial.strength)
   await page.locator('.beta-actions > button').nth(1).click()

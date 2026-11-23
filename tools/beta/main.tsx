@@ -15,6 +15,8 @@ import { Toaster } from '../../src/components/Toaster.tsx'
 import type { DofusClass } from '../../src/engine/types.ts'
 import { DracorunePanel, type RuneDescription } from './DracorunePanel.tsx'
 import { useBuildStore, useDracorunes } from './buildStore.ts'
+import { ForgeResultExtras, useBetaForge } from './forgeRuntime.tsx'
+import type { DracoruneKind } from './forgeCatalog.ts'
 import { recordSession, restoreDocument, sessionDocument, startSession, travelSession, useSession } from './session.ts'
 import '../../src/index.css'
 import './beta.css'
@@ -30,6 +32,7 @@ function App() {
   const b = useBuildStore()
   const data = useDataStore()
   const applied = useDracorunes(s => s.applied)
+  const kinds = useBetaForge(s => s.kinds)
   const session = useSession()
   const [tab, setTab] = useState<typeof TABS[number]>('equipment')
   const [changes, setChanges] = useState<Changes | null>(null)
@@ -87,10 +90,12 @@ function App() {
         <button onClick={download}>{t('beta_export')}</button><button onClick={() => fileRef.current?.click()}>{t('beta_import')}</button>
         <input hidden ref={fileRef} type="file" accept="application/json,.json" onChange={e => void importFile(e.target.files?.[0])} />
         <button onClick={() => setSets(true)}>{t('sets_catalog_open')}</button>
-        <button disabled={Object.keys(applied).length > 0} onClick={() => setForge(true)}>{t('optimizer_open')}</button>
+        <button onClick={() => setForge(true)}>{t('optimizer_open')}</button>
         <button onClick={() => { useDracorunes.setState({ applied: {} }); b.reset() }}>{t('reset_build')}</button>
       </div>
-      {Object.keys(applied).length > 0 && <p className="beta-notice">{t('beta_forge_draco_pending')}</p>}
+      <fieldset className="beta-forge-settings"><legend>{t('beta_forge_dracorunes')}</legend>{(['earth', 'fire', 'water', 'air', 'ivory', 'ebony'] as DracoruneKind[]).map(kind => <label key={kind}><input type="checkbox" checked={kinds.includes(kind)} onChange={e => useBetaForge.setState({ kinds: e.target.checked ? [...kinds, kind] : kinds.filter(k => k !== kind) })} />{t(`beta_draco_${kind}`)}</label>)}</fieldset>
+      {kinds.includes('ebony') && <p className="beta-notice">{t('beta_ebony_assumptions')}</p>}
+      <ForgeResultExtras result={{ dracorunes: applied }} />
       <nav className="beta-tabs" aria-label={t('beta_tools')}>{TABS.map(id => <button key={id} aria-current={tab === id ? 'page' : undefined} onClick={() => setTab(id)}>{t(`beta_tab_${id}`)}</button>)}</nav>
       <main className="beta-layout"><div className="beta-content">
         {!b.selectedClass && <ClassPicker />}

@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.20',
+    date: '2026-11-23',
+    notes: [
+      'Local beta testing: The Forger can now search Dracorune conversions, preserve converted items, show the chosen runes and load results with the same totals. Conversion respects prior smithmagic, pinned and banned item identities, set-ring uniqueness and allowed rune families; Ebony stays optional while its edge cases await verification',
+    ],
+  },
+  {
     version: '0.4.19',
     date: '2026-11-23',
     notes: [

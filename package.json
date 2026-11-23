@@ -1,13 +1,14 @@
 {
   "name": "dofus-forge",
   "private": true,
-  "version": "0.4.19",
+  "version": "0.4.20",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "scripts": {
     "dev": "react-router dev",
-    "dev:beta": "vite --config tools/beta/vite.config.ts --host 127.0.0.1",
+    "dev:beta": "pnpm build:beta && vite --config tools/beta/vite.config.ts --host 127.0.0.1",
     "fetch-beta": "tsx scripts/fetch-beta.ts",
+    "build:beta": "tsx scripts/build-beta.ts",
     "check:beta": "tsc -p tools/beta/tsconfig.json --noEmit",
     "build": "tsc -b && react-router build",
     "preview": "wrangler dev --ip 127.0.0.1 --port 4173",

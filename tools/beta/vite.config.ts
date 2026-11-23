@@ -5,7 +5,7 @@ import { existsSync, readFileSync, createReadStream } from 'node:fs'
 
 const root = resolve(process.cwd())
 const data = resolve(root, 'tools/beta/data')
-const required = ['version.json', 'spells-version.json', 'changes.json', 'class-names.json', 'passives.generated.ts', ...['en', 'es', 'fr', 'pt'].map(lang => `${lang}/dracorunes.json`)]
+const required = ['version.json', 'spells-version.json', 'changes.json', 'class-names.json', 'passives.generated.ts', 'wasm/dofus_forge_optimizer.js', 'wasm/dofus_forge_optimizer_bg.wasm', ...['en', 'es', 'fr', 'pt'].map(lang => `${lang}/dracorunes.json`)]
 if (existsSync(resolve(data, '.sync-in-progress')) || required.some(file => !existsSync(resolve(data, file)))) {
   throw new Error('Run pnpm fetch-beta before pnpm dev:beta')
 }
@@ -24,7 +24,7 @@ function localFiles(): Plugin {
           req.url = '/tools/beta/index.html'
           return next()
         }
-        const dir = pathname.startsWith('/data/') ? data : pathname.startsWith('/char/') ? resolve(root, 'char-assets') : null
+        const dir = pathname.startsWith('/data/') ? data : pathname.startsWith('/char/') ? resolve(root, 'char-assets') : pathname.startsWith('/wasm/') ? resolve(data, 'wasm') : null
         if (!dir) return next()
         const relative = decodeURIComponent(pathname.slice(6))
         const file = resolve(dir, relative)
@@ -37,7 +37,7 @@ function localFiles(): Plugin {
           return res.end()
         }
         const ext = file.split('.').pop() ?? ''
-        const mime: Record<string, string> = { json: 'application/json', ts: 'text/javascript', png: 'image/png', webp: 'image/webp', bin: 'application/octet-stream' }
+        const mime: Record<string, string> = { json: 'application/json', ts: 'text/javascript', js: 'text/javascript', wasm: 'application/wasm', png: 'image/png', webp: 'image/webp', bin: 'application/octet-stream' }
         res.setHeader('Content-Type', mime[ext] ?? 'application/octet-stream')
         res.setHeader('Cache-Control', 'no-store')
         createReadStream(file).pipe(res)
@@ -54,6 +54,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@/store/buildStore.ts', replacement: resolve(root, 'tools/beta/buildStore.ts') },
+      { find: '@/features/optimizer/forgeRuntime.ts', replacement: resolve(root, 'tools/beta/forgeRuntime.tsx') },
       { find: '@/lib/supabase.ts', replacement: resolve(root, 'tools/beta/noCloud.ts') },
       { find: './buildStore.ts', replacement: resolve(root, 'tools/beta/buildStore.ts') },
       { find: './RuneModal.tsx', replacement: resolve(root, 'tools/beta/RuneModal.tsx') },

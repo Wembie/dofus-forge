@@ -2430,7 +2430,6 @@
   "beta_draco_remove": "Remove test Dracorune",
   "beta_draco_incompatible": "This conversion is invalid: a source line must exist and the target element must be absent.",
   "beta_ebony_assumptions": "Provisional rule to validate: 70% of the largest positive line, rounded down, for Power and Damage. Negative lines and neutral damage are retained; existing Power or Damage is added. These edge cases still need beta-client verification.",
-  "beta_forge_draco_pending": "Automatic Dracorune search still needs integration. Remove them from the test build to use The Forger with the beta catalog.",
   "beta_sync_needed": "Complete beta data is missing. Run pnpm fetch-beta and restart pnpm dev:beta.",
   "beta_invalid_file": "The file is not a valid test build from this beta workshop.",
   "beta_load_failed": "Local beta data could not be loaded.",
@@ -2443,7 +2442,7 @@
   "beta_changes_addedSets": "Added sets",
   "beta_changes_changedSets": "Changed sets",
   "beta_unmapped": "New effects to implement",
-  "beta_scope_pending": "Pending validation: new unmapped effects, Bellaphone-specific mechanics, Dracorune edge cases and automatic conversion search. Spell simulation uses the current engine and does not fully reproduce the new class's states and lineages.",
+  "beta_scope_pending": "Pending validation: new unmapped effects, Bellaphone-specific mechanics and Dracorune edge cases. Spell simulation uses the current engine and does not fully reproduce the new class's states and lineages.",
   "beta_official_source": "Ankama devblog: equipment and Dracorunes",
   "beta_footer": "Draft saved in this browser. No build publishing or production account connection. Experimental data for our local work.",
   "beta_draco_air": "Emerald Dracorune",
@@ -2451,5 +2450,6 @@
   "beta_draco_water": "Turquoise Dracorune",
   "beta_draco_earth": "Ochre Dracorune",
   "beta_draco_ivory": "Ivory Dracorune",
-  "beta_draco_ebony": "Ebony Dracorune"
+  "beta_draco_ebony": "Ebony Dracorune",
+  "beta_forge_dracorunes": "Dracorunes The Forger may search"
 }

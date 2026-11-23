@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.20] — 2026-11-23
+- Local beta testing: The Forger can now search Dracorune conversions, preserve converted items, show the chosen runes and load results with the same totals. Conversion respects prior smithmagic, pinned and banned item identities, set-ring uniqueness and allowed rune families; Ebony stays optional while its edge cases await verification
+
 ## [0.4.19] — 2026-11-23
 - Development tooling: an isolated local beta workshop with separate game data, local test builds, spell and passive snapshots, a catalog change report and an experimental Dracorune laboratory. Includes four languages, undo/redo, JSON import/export and validation; remaining game mechanics are tracked for testing before release
 

@@ -2430,7 +2430,6 @@
   "beta_draco_remove": "Retirar Dracoruna de la prueba",
   "beta_draco_incompatible": "Esta conversión no es válida: debe existir una línea de origen y el objeto no debe tener ya el elemento de destino.",
   "beta_ebony_assumptions": "Regla provisional para validar: 70 % de la mayor línea positiva, redondeado hacia abajo, para potencia y daños. Conserva las líneas negativas y el daño neutro; suma sobre potencia o daños ya presentes. Falta contrastar estos casos en el cliente beta.",
-  "beta_forge_draco_pending": "La búsqueda automática con Dracorunas está pendiente de integración. Retíralas de la prueba para usar la Forjadora con el catálogo beta.",
   "beta_sync_needed": "Faltan datos beta completos. Ejecuta pnpm fetch-beta y reinicia pnpm dev:beta.",
   "beta_invalid_file": "El archivo no es una prueba válida de este taller beta.",
   "beta_load_failed": "No se pudieron cargar los datos beta locales.",
@@ -2443,7 +2442,7 @@
   "beta_changes_addedSets": "Sets añadidos",
   "beta_changes_changedSets": "Sets modificados",
   "beta_unmapped": "Efectos nuevos por implementar",
-  "beta_scope_pending": "Pendiente de validar: efectos nuevos sin mapear, mecánicas particulares de Bellaphone, reglas límite de las Dracorunas y búsqueda automática con conversiones. El simulador de hechizos usa el motor actual; no reproduce por sí solo todos los estados y linajes de la nueva clase.",
+  "beta_scope_pending": "Pendiente de validar: efectos nuevos sin mapear, mecánicas particulares de Belíade y reglas límite de las Dracorunas. El simulador de hechizos usa el motor actual; no reproduce por sí solo todos los estados y linajes de la nueva clase.",
   "beta_official_source": "Devblog de Ankama: equipo y Dracorunas",
   "beta_footer": "Borrador guardado en este navegador. Sin publicación de builds ni conexión a la cuenta de producción. Datos experimentales para nuestro trabajo local.",
   "beta_draco_air": "Dracoruna esmeralda",
@@ -2451,5 +2450,6 @@
   "beta_draco_water": "Dracoruna turquesa",
   "beta_draco_earth": "Dracoruna ocre",
   "beta_draco_ivory": "Dracoruna marfil",
-  "beta_draco_ebony": "Dracoruna ébano"
+  "beta_draco_ebony": "Dracoruna ébano",
+  "beta_forge_dracorunes": "Dracorunas que puede buscar la Forjadora"
 }

@@ -2430,7 +2430,6 @@
   "beta_draco_remove": "Remover Dracoruna do teste",
   "beta_draco_incompatible": "Esta conversão é inválida: deve existir uma linha de origem e o elemento de destino deve estar ausente.",
   "beta_ebony_assumptions": "Regra provisória a validar: 70% da maior linha positiva, arredondado para baixo, para Potência e Danos. Linhas negativas e danos neutros são mantidos; Potência ou Danos existentes são somados. Esses casos ainda precisam de verificação no cliente beta.",
-  "beta_forge_draco_pending": "A busca automática com Dracorunas ainda precisa de integração. Remova-as do teste para usar a Forjadora com o catálogo beta.",
   "beta_sync_needed": "Faltam dados beta completos. Execute pnpm fetch-beta e reinicie pnpm dev:beta.",
   "beta_invalid_file": "O arquivo não é um teste válido desta oficina beta.",
   "beta_load_failed": "Não foi possível carregar os dados beta locais.",
@@ -2443,7 +2442,7 @@
   "beta_changes_addedSets": "Conjuntos adicionados",
   "beta_changes_changedSets": "Conjuntos modificados",
   "beta_unmapped": "Novos efeitos a implementar",
-  "beta_scope_pending": "A validar: novos efeitos sem mapeamento, mecânicas específicas da Bellaphone, casos limite das Dracorunas e busca automática com conversões. A simulação de feitiços usa o motor atual e não reproduz todos os estados e linhagens da nova classe.",
+  "beta_scope_pending": "A validar: novos efeitos sem mapeamento, mecânicas específicas da Belíade e casos limite das Dracorunas. A simulação de feitiços usa o motor atual e não reproduz todos os estados e linhagens da nova classe.",
   "beta_official_source": "Devblog da Ankama: equipamentos e Dracorunas",
   "beta_footer": "Rascunho salvo neste navegador. Sem publicação de builds nem conexão com a conta de produção. Dados experimentais para nosso trabalho local.",
   "beta_draco_air": "Dracoruna Esmeralda",
@@ -2451,5 +2450,6 @@
   "beta_draco_water": "Dracoruna Turquesa",
   "beta_draco_earth": "Dracoruna Ocre",
   "beta_draco_ivory": "Dracoruna Marfim",
-  "beta_draco_ebony": "Dracoruna Ébano"
+  "beta_draco_ebony": "Dracoruna Ébano",
+  "beta_forge_dracorunes": "Dracorunas permitidas na busca"
 }

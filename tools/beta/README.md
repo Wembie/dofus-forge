@@ -15,6 +15,8 @@ Abrir **http://127.0.0.1:5188/beta**. Los datos ya están descargados en esta m�
 
 `pnpm fetch-beta --force` vuelve a descargar todos los datos aunque el número de versión no cambie. Reiniciar el servidor después de actualizar: la versión mostrada se fija al arrancar Vite.
 
+`dev:beta` compila automáticamente el optimizador local con `wasm-pack` si falta o si cambiaron sus fuentes Rust; requiere las herramientas Rust/WASM habituales del proyecto. `pnpm build:beta` hace esa comprobación por separado. El binario queda en `tools/beta/data/wasm/`: el WASM público no se reemplaza.
+
 ## Separación
 
 - `tools/beta/data/` contiene los snapshots beta, está ignorado por Git y queda fuera de `public/` y del build de producción. Los scripts habituales conservan su destino y canal oficial; solo `--beta` escribe aquí.
@@ -30,7 +32,8 @@ Abrir **http://127.0.0.1:5188/beta**. Los datos ya están descargados en esta m�
 - Catálogo completo de equipo, sets, consumibles y monturas del canal beta. Constructor, condiciones y bonus de sets sobre el motor compartido.
 - Nombres, descripciones, hechizos e iconos de las 20 clases de los datos actuales, incluidos los 44 hechizos de Bellaphone, llamada Belíade en español. Sus retratos oficiales se extraen del archivo de cabezas beta.
 - Pasivos regenerados desde el release beta. Se aprovechan los controles del motor existente; esto no convierte automáticamente todos los efectos nuevos en mecánicas implementadas.
-- Forjamagia habitual, características, hechizos y Forjadora sobre el catálogo beta. La Forjadora se desactiva cuando hay Dracorunas aplicadas, porque todavía no las representa en la búsqueda.
+- Forjamagia habitual, características, hechizos y Forjadora sobre el catálogo beta. La búsqueda permite elegir las familias de Dracorunas autorizadas, muestra las conversiones elegidas y las carga junto con su forjamagia de origen. Ébano se habilita expresamente por sus reglas todavía provisionales. Las piezas conservadas incluyen su conversión y sus runas previas una sola vez.
+- El motor busca variantes de catálogo manteniendo la identidad original para vetos, objetos fijados y restricciones de anillos de set. Los bonus y pasivos conservan esa identidad. Las runas de trascendencia y los exos pro se prueban antes de convertir; la conversión no concede forjamagias que el objeto original no aceptaba.
 - Laboratorio de las seis Dracorunas: vista de antes/después con la forjamagia previa, aplicación por espacio, totales y daño de hechizos recalculados, bloqueo de nuevas forjamagias, retirada reversible y dos anillos independientes. Se conservan los bonus de sets y los ataques base del arma.
 - Deshacer, rehacer, borrador automático, exportación e importación de pruebas, y los cuatro idiomas.
 - Informe de objetos/sets añadidos, modificados y ausentes, además de nuevos efectos sin mapear. La referencia es el snapshot oficial **guardado en el repositorio**, que puede ir por detrás del API oficial actual. Los cosméticos y objetos de pruebas también aparecen en el informe y no se presentan como equipables por ese hecho.
@@ -41,7 +44,6 @@ En la primera sincronización, el proveedor entregaba beta `3.8.2.3`; el catálo
 
 - Contrastar en el cliente beta las restricciones y casos límite de las Dracorunas. La descripción de los objetos del API confirma la dirección de las conversiones y el bloqueo posterior de forjamagia, pero no todas las reglas de compatibilidad.
 - Ébano funciona como hipótesis visible: 70 % de la mayor línea positiva, redondeado hacia abajo, para Potencia y Daños; conserva penalizaciones y daño neutro, y suma sobre Potencia/Daños existentes. Redondeo, tratamiento del neutro y coexistencia con esas líneas requieren comprobación. Sus tests fijan la hipótesis del laboratorio, no demuestran que sea la regla final del juego.
-- Incorporar las conversiones a la búsqueda y resultados de la Forjadora, incluido el tratamiento correcto de piezas conservadas, runas y espacios independientes.
 - Implementar y probar las particularidades de Belíade/Bellaphone, Bellaura, linajes y estados que excedan las condiciones soportadas por el simulador actual. Cargar sus hechizos no equivale a simular toda la clase.
 - Revisar los efectos nuevos detectados. En el primer snapshot aparecen `AP Max.` y `MP Max.` en algunos objetos, además de metadatos: por ahora se muestran como efectos sin mapear y no modifican los límites de PA/PM del motor.
 - Comprobar los pasivos del nuevo Dofus y de los sets de La Fuente contra el cliente, incluidos efectos condicionales que el extractor actual no calcula.
@@ -54,9 +56,10 @@ El taller permite ir implementando y comprobando estas reglas sin habilitarlas e
 pnpm check:beta
 pnpm test -- tools/beta src/store/__tests__/buildStore.test.ts src/store/__tests__/dataStore.test.ts scripts/__tests__/fetch-passives.test.ts
 node tools/beta/check.mjs
+node tools/beta/check-forge.mjs
 ```
 
-El último comando necesita el servidor beta arrancado y comprueba conversiones, deshacer/rehacer, recarga, exportación, hechizos de Belíade, cuatro idiomas, los cinco paneles en móvil y ausencia de conexiones de datos externas. `pnpm build` verifica que el producto siga compilando por su circuito habitual.
+Los dos últimos comandos necesitan el servidor beta arrancado. Cubren conversiones, deshacer/rehacer, recarga, exportación, hechizos de Belíade, cuatro idiomas, los cinco paneles en móvil y ausencia de conexiones de datos externas; el segundo ejecuta el WASM real, busca una conversión sobre un objeto fijado y comprueba que cargarla reproduce los totales y la runa anterior. Los tests nativos conservan los golden del optimizador oficial. `pnpm build` verifica que el producto siga compilando por su circuito habitual.
 
 ## Fuentes
 

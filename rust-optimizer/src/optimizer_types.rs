@@ -17,7 +17,7 @@ pub struct CatalogCondition {
     pub value: i64,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Default)]
 pub struct CatalogItem {
     pub ankama_id: i64,
     pub name: String,
@@ -29,6 +29,20 @@ pub struct CatalogItem {
     #[serde(default)]
     pub conditions: Option<Vec<CatalogCondition>>,
     pub set_id: Option<i64>,
+    #[serde(default)]
+    pub identity_id: Option<i64>,
+    #[serde(default)]
+    pub forge_runes: Option<Vec<CatalogRune>>,
+    #[serde(default)]
+    pub forge_pro_runes: Option<Vec<CatalogRune>>,
+    #[serde(default)]
+    pub forge_locked: bool,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct CatalogRune {
+    pub stat: String,
+    pub value: i64,
 }
 
 #[derive(Debug, Clone, Deserialize)]

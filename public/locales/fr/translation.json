@@ -2430,7 +2430,6 @@
   "beta_draco_remove": "Retirer la Dracorune du test",
   "beta_draco_incompatible": "Cette conversion est invalide : une ligne de départ doit exister et l’élément cible doit être absent.",
   "beta_ebony_assumptions": "Règle provisoire à valider : 70 % de la plus grande ligne positive, arrondi à l’inférieur, pour la Puissance et les Dommages. Les lignes négatives et les dommages neutres sont conservés ; la Puissance et les Dommages existants s’ajoutent. Ces cas restent à vérifier dans le client bêta.",
-  "beta_forge_draco_pending": "La recherche automatique avec Dracorunes reste à intégrer. Retirez-les du test pour utiliser la Forgeuse avec le catalogue bêta.",
   "beta_sync_needed": "Les données bêta sont incomplètes. Exécutez pnpm fetch-beta et relancez pnpm dev:beta.",
   "beta_invalid_file": "Le fichier n’est pas un test valide de cet atelier bêta.",
   "beta_load_failed": "Impossible de charger les données bêta locales.",
@@ -2443,7 +2442,7 @@
   "beta_changes_addedSets": "Panoplies ajoutées",
   "beta_changes_changedSets": "Panoplies modifiées",
   "beta_unmapped": "Nouveaux effets à implémenter",
-  "beta_scope_pending": "À valider : nouveaux effets non mappés, mécaniques propres à la Bellaphone, cas limites des Dracorunes et recherche automatique avec conversions. La simulation des sorts utilise le moteur actuel et ne reproduit pas tous les états et lignées de la nouvelle classe.",
+  "beta_scope_pending": "À valider : nouveaux effets non mappés, mécaniques propres à la Bellaphone et cas limites des Dracorunes. La simulation des sorts utilise le moteur actuel et ne reproduit pas tous les états et lignées de la nouvelle classe.",
   "beta_official_source": "Devblog Ankama : équipements et Dracorunes",
   "beta_footer": "Brouillon sauvegardé dans ce navigateur. Aucune publication de builds ni connexion au compte de production. Données expérimentales pour notre travail local.",
   "beta_draco_air": "Dracorune Émeraude",
@@ -2451,5 +2450,6 @@
   "beta_draco_water": "Dracorune Turquoise",
   "beta_draco_earth": "Dracorune Ocre",
   "beta_draco_ivory": "Dracorune Ivoire",
-  "beta_draco_ebony": "Dracorune Ébène"
+  "beta_draco_ebony": "Dracorune Ébène",
+  "beta_forge_dracorunes": "Dracorunes autorisées dans la recherche"
 }

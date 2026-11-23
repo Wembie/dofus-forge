@@ -3,6 +3,7 @@ import { createBuildStore, ALL_SLOTS, type BuildState, type recompute as baseRec
 import { computeStats } from '../../src/engine/stats.ts'
 import { runeEffectsForSlots } from '../../src/engine/runes.ts'
 import { transformDracorune, type DracoruneMap, type Dracorune } from './dracorunes.ts'
+import type { BetaBuildResult } from './forgeCatalog.ts'
 
 export * from '../../src/store/buildStore.ts'
 
@@ -64,7 +65,11 @@ useBuildStore.setState({
     actions.swapSlots(a, b)
   },
   applyForgeResult: (result, locked) => {
-    useDracorunes.setState({ applied: Object.fromEntries(Object.entries(useDracorunes.getState().applied).filter(([slot]) => locked.has(slot as keyof typeof result.equipped))) })
+    const applied = Object.fromEntries(Object.entries(useDracorunes.getState().applied).filter(([slot]) => locked.has(slot as keyof typeof result.equipped)))
+    for (const [slot, conversion] of Object.entries((result as BetaBuildResult).dracorunes ?? {})) {
+      if (!locked.has(slot as keyof typeof result.equipped) && result.equipped[slot as keyof typeof result.equipped] === conversion.itemId) applied[slot] = conversion
+    }
+    useDracorunes.setState({ applied })
     actions.applyForgeResult(result, locked)
   },
 })
