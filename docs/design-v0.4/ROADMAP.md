@@ -97,3 +97,5 @@ Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presenta
 - [] Poner que se pueda a la hora de valorar un set un 1.5 o 0.5 o 4.5 y lo mismo para el front que uno pueda darle media estrella a un set. Esto es para que la gente pueda valorar con más precisión los sets y no solo con números enteros.
 
 - [] limitar el cambio de username a una vez cada 30 días. Esto es para que la gente no pueda estar cambiando de username cada dos por tres y que se pueda identificar a la gente más fácilmente.
+
+- [] agregar en la parte del perfil cual es la raza preferidad de la persona y que se pueda cambiar. Esto es para que la gente pueda ver cual es la raza preferida de cada persona y así poder ver si hay gente con la misma raza preferida y poder hacer amigos más fácilmente.
