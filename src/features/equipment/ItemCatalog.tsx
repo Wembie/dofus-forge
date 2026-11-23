@@ -157,7 +157,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const activeFilters = Number(range.min > 0 || range.max !== 200) + Number(!!setId) + stats.length + Number(onlyFav) + Number(legendary)
 
   return (
-    <Modal open onClose={() => { if (!setModal) onClose() }} title={t('catalog_title', { slot: slotName.toLocaleLowerCase() })} size="full" className="catalog-dialog">
+    <Modal open onClose={() => { if (setModal) setSetModal(null); else onClose() }} title={t('catalog_title', { slot: slotName.toLocaleLowerCase() })} size="full" className="catalog-dialog">
       <div className={'catalog-composition' + (selected ? ' has-selection' : '')}>
         <div className={'catalog-toolbar has-toggle' + (showFilters ? ' filters-open' : '')}>
           <div className="catalog-toolbar-main">
