@@ -82,15 +82,10 @@ export async function shrinkAvatar(file: File): Promise<Blob> {
     return file
   }
 }
-// avatar_url is rendered as <img src> for every viewer of a public profile —
-// local paths must identify a bundled portrait; other URLs require http(s).
-const SAFE_URL_RE = /^https?:\/\//i
-
-// Guard applied at every <img src={...}> render site, not just on save — the
-// live preview in ProfileModal renders the raw input on every keystroke,
-// before updateProfile() ever runs its own check.
+// Public profiles load avatars for every viewer. Only bundled portraits may
+// render, so a forged or legacy URL cannot send visitors to an external tracker.
 export function isSafeImageUrl(url: string | null | undefined): url is string {
-  return !!url && (SAFE_URL_RE.test(url) || isClassAvatarUrl(url))
+  return !!url && isClassAvatarUrl(url)
 }
 
 async function fetchProfile(userId: string): Promise<Profile | null> {
@@ -225,7 +220,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   updateProfile: async (edits) => {
     const session = get().session
     if (!session) return { error: 'Not signed in' }
-    if (edits.avatar_url && !isSafeImageUrl(edits.avatar_url)) return { error: 'invalid_avatar_url' }
+    if (edits.avatar_url != null && !isSafeImageUrl(edits.avatar_url)) return { error: 'invalid_avatar_url' }
 
     const supabase = await getSupabase()
     const { error } = await supabase.from('profiles').update(edits).eq('id', session.user.id)

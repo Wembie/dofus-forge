@@ -6,6 +6,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 ---
 
 ## [0.4.9] — 2026-11-22
+- Fixed: profile pictures accept only the Forge portrait catalog or the default initial. A database constraint rejects external URLs even through modified requests; applying the migration resets older custom images to initials
 - New: 38 original ink-and-watercolor profile portraits, with a distinct male and female pose for every class. Choose a portrait or return to your initial from Account, preview the circular avatar and save it with your profile. The exact prompts and a reusable art template are preserved for future classes
 - Account: larger portrait cards, class search and a magnifying glass that opens the full illustration beside its circular profile crop. Inspecting a portrait leaves your selection unchanged; choose "Use this portrait" when ready. Returning to the gallery preserves your search, scroll position and keyboard focus
 - Fixed: Escape closes the set window while it is loading as well as after it opens, keeping the item catalogue open until Escape is pressed again

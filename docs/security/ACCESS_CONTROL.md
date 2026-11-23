@@ -18,7 +18,8 @@ This is the effective access model after every migration (`supabase/schema.sql` 
 
 | Resource | Data | anon | user | owner | mod / admin | Controls | Tests |
 |---|---|---|---|---|---|---|---|
-| `profiles` | public profile; `settings` JSON | read all columns | read | update own row; `role` and counters reset by trigger | same | RLS `profiles own write`; `protect_profile_system_fields` | static; pgTAP "cannot promote themselves" |
+| `profiles` | public profile; `settings` JSON | read all columns | read | update own row; `role` and counters reset by trigger; avatar must reference the Forge catalog or be null | same | RLS `profiles own write`; `protect_profile_system_fields`; `profiles_avatar_url_catalog_fkey` | static; pgTAP isolation and profile avatars |
+| `profile_avatar_catalog` | approved bundled portrait paths | read | read | read | read; changes require SQL admin / service role | SELECT-only grants and RLS; local-path CHECK; profiles FK | static catalog parity; pgTAP forged requests and catalog writes |
 | `builds` (public) | build content | read | read | full CRUD; UPDATE only on editable columns | mods read all; admin `set_build_featured` | RLS `builds read/insert/update`; column grants; `reset_build_counters` | static; pgTAP read/rename/delete |
 | `builds` (unlisted) | build content | read **only** with `x-build-id: <id>` | same | full | mods read all | `requested_build_id()`; capability = UUID | static "never listable"; pgTAP "cannot list" |
 | `builds` (private) | build content | none | none | full | mods read all | RLS; the Worker drops private rows again | pgTAP private-read |
@@ -37,6 +38,14 @@ This is the effective access model after every migration (`supabase/schema.sql` 
 | `custom_rank_*` | ranks | none | public badge via `get_public_custom_rank` | — | admin only; assignments only via `admin_*_custom_rank` | RLS + RPC role check | static; pgTAP non-admin RPC |
 | Storage `avatars` | images | read (public bucket) | read | write only under `<uid>/`; png/jpeg/webp ≤ 2 MB (0.3.135) | — | storage RLS + bucket limits | — |
 | `auth.*` | emails, password hashes | none | own session | — | — | Supabase Auth | — |
+
+## Profile portrait restriction (0.4.9)
+
+Apply `supabase/migrations/20261122000000_profile_avatar_catalog.sql` to the hosted project before releasing the avatar picker. Committing or deploying the frontend does not apply SQL migrations. The existing `Database` workflow tests a disposable Supabase stack, not production.
+
+The migration seeds all 38 approved paths, resets preexisting avatars outside that catalog to null (the user's initial), and adds a validated foreign key. It leaves other profile fields intact. It can be run again safely. Anonymous and authenticated clients can read the catalog but cannot insert, update, delete or truncate its entries. A new class needs an admin-authored catalog migration as well as its actual image files; see the portrait prompt template.
+
+`supabase/tests/database/profile_avatars.test.sql` checks every approved portrait, restoring initials, forged external and local URLs, catalog mutation permissions and cross-user isolation through the actual database roles. Run these tests only on a disposable local stack.
 
 ## RPCs callable by anon
 
@@ -72,4 +81,12 @@ where n.nspname = 'public' and has_function_privilege('anon', p.oid, 'execute');
 
 -- Avatar bucket limits
 select file_size_limit, allowed_mime_types from storage.buckets where id = 'avatars';
+
+-- Profile avatars: expect 38 entries for v1, a validated FK, no client writes.
+select count(*) from public.profile_avatar_catalog;
+select conname, convalidated from pg_constraint
+where conrelid = 'public.profiles'::regclass and conname = 'profiles_avatar_url_catalog_fkey';
+select grantee, privilege_type from information_schema.role_table_grants
+where table_schema = 'public' and table_name = 'profile_avatar_catalog'
+  and grantee in ('anon', 'authenticated'); -- SELECT only
 ```

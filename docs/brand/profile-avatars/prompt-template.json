@@ -45,6 +45,7 @@
     "Choose two original poses and expressions, using the existing manifest to avoid repetition.",
     "Generate one image per gender with the approved collection style reference and the target game's model references.",
     "Keep the PNG masters, export the optimized WebP files, append both exact prompts and output metadata to manifest.json, and update collection-preview.webp.",
-    "Run the class-avatar, Account page and locale checks. The picker follows CLASS_DATA automatically; ensure the new class ships both actual image files."
+    "Add both exact public paths to public.profile_avatar_catalog through a new SQL migration and mirror those catalog inserts in supabase/schema.sql. API clients cannot add catalog entries. Apply the migration before releasing the new portraits.",
+    "Run the class-avatar, Account page, locale and database checks. The picker follows CLASS_DATA automatically; ensure the new class ships both actual image files and that its paths match the database allowlist."
   ]
 }

@@ -1,4 +1,6 @@
-import { describe, it, expect, vi } from 'vitest'
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
+import type { Session } from '@supabase/supabase-js'
+import { CLASS_AVATARS } from '@/features/account/classAvatars.ts'
 
 const getSupabase = vi.hoisted(() => vi.fn())
 vi.mock('@/lib/supabase.ts', () => ({ getSupabase }))
@@ -114,6 +116,34 @@ describe('authStore auth events', () => {
     fake.emit('SIGNED_IN', { user: { id: 'u1' }, access_token: 't1' })
     await vi.waitFor(() => expect(useAuthStore.getState().profile).toEqual({ id: 'u1', username: 'me' }))
     err.mockRestore()
+  })
+})
+
+describe('authStore.updateProfile avatars', () => {
+  const original = useAuthStore.getState()
+
+  beforeEach(() => {
+    getSupabase.mockReset()
+    useAuthStore.setState({ session: { user: { id: 'avatar-user' } } as Session, profile: null })
+  })
+  afterEach(() => useAuthStore.setState(original))
+
+  it.each(['https://tracker.example/a.png', '//tracker.example/a.png', '/avatars/classes/v1/unknown-m.webp', '/avatars/classes/v1/iop-m.webp?x=1', ''])('rejects a forged avatar before making a request: %s', async avatar_url => {
+    await expect(useAuthStore.getState().updateProfile({ avatar_url })).resolves.toEqual({ error: 'invalid_avatar_url' })
+    expect(getSupabase).not.toHaveBeenCalled()
+  })
+
+  it('accepts every bundled portrait, the initial and profile edits without an avatar', async () => {
+    const eq = vi.fn().mockResolvedValue({ error: null })
+    const update = vi.fn(() => ({ eq }))
+    const from = vi.fn(() => ({ update }))
+    getSupabase.mockResolvedValue({ from })
+    for (const edits of [...CLASS_AVATARS.map(a => ({ avatar_url: a.url })), { avatar_url: null }, { bio: 'hello' }]) {
+      await expect(useAuthStore.getState().updateProfile(edits)).resolves.toEqual({ error: null })
+      expect(from).toHaveBeenLastCalledWith('profiles')
+      expect(update).toHaveBeenLastCalledWith(edits)
+      expect(eq).toHaveBeenLastCalledWith('id', 'avatar-user')
+    }
   })
 })
 

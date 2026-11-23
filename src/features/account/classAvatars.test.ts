@@ -14,17 +14,29 @@ describe('class profile portraits', () => {
     for (const avatar of CLASS_AVATARS) expect(existsSync(`public${avatar.url}`), avatar.url).toBe(true)
   })
 
-  it('only permits the exact bundled portrait paths as local profile images', () => {
+  it('only permits the exact bundled portrait paths as profile images', () => {
     for (const avatar of CLASS_AVATARS) {
       expect(isClassAvatarUrl(avatar.url)).toBe(true)
       expect(isSafeImageUrl(avatar.url)).toBe(true)
     }
-    for (const url of ['/avatars/classes/v1/unknown-m.webp', '/avatars/classes/v1/iop-m.webp?redirect=1', '/avatars/classes/v1/../iop-m.webp', '//tracker.example/avatar.png', '/other-image.svg', 'data:image/svg+xml,evil', 'javascript:alert(1)', '']) {
+    for (const url of [
+      'https://tracker.example/avatar.webp',
+      'http://tracker.example/avatar.webp',
+      'https://dofusforge.com/avatars/classes/v1/iop-m.webp',
+      '//tracker.example/avatar.png',
+      '/avatars/classes/v1/unknown-m.webp',
+      '/avatars/classes/v2/iop-m.webp',
+      '/avatars/classes/v1/iop-m.webp?redirect=1',
+      '/avatars/classes/v1/iop-m.webp#fragment',
+      '/avatars/classes/v1/../iop-m.webp',
+      '/avatars/classes/v1/%69op-m.webp',
+      '/other-image.svg', 'data:image/svg+xml,evil', 'javascript:alert(1)', '',
+    ]) {
       expect(isClassAvatarUrl(url), url).toBe(false)
       expect(isSafeImageUrl(url), url).toBe(false)
     }
-    expect(isSafeImageUrl('https://example.com/existing-avatar.webp')).toBe(true)
     expect(isSafeImageUrl(null)).toBe(false)
+    expect(isSafeImageUrl(undefined)).toBe(false)
   })
 
   it('provides the entire picker vocabulary in every locale', () => {
@@ -35,6 +47,12 @@ describe('class profile portraits', () => {
         expect(strings[key].length, `${lang}:${key}`).toBeGreaterThan(0)
       }
     }
+  })
+
+  it('keeps the server allowlist identical to the shipped collection', () => {
+    const migration = readFileSync('supabase/migrations/20261122000000_profile_avatar_catalog.sql', 'utf8')
+    const paths = [...migration.matchAll(/\('([^']+\.webp)'\)/g)].map(m => m[1])
+    expect(paths.sort()).toEqual(CLASS_AVATARS.map(a => a.url).sort())
   })
 
   it('preserves a distinct generation prompt for each shipped portrait and a reusable template', () => {

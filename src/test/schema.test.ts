@@ -5,7 +5,7 @@ import { join } from 'node:path'
 // Guards on supabase/schema.sql (the full schema a fresh database is built
 // from) for security rules that are easy to lose when someone edits it.
 const ROOT   = join(__dirname, '..', '..')
-const schema = readFileSync(join(ROOT, 'supabase', 'schema.sql'), 'utf8')
+const schema = readFileSync(join(ROOT, 'supabase', 'schema.sql'), 'utf8').replace(/\r\n/g, '\n')
 const migrations = readdirSync(join(ROOT, 'supabase', 'migrations')).filter(f => f.endsWith('.sql'))
 
 function functionHeaders(sql: string) {
@@ -213,6 +213,16 @@ describe('security audit guards (0.3.135)', () => {
   it('the avatars bucket enforces type and size on the server', () => {
     expect(schema).toMatch(/allowed_mime_types = array\['image\/png', 'image\/jpeg', 'image\/webp'\]/)
     expect(schema).toMatch(/file_size_limit = 2097152/)
+  })
+
+  it('profile avatars reference a catalog that API clients cannot expand', () => {
+    const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261122000000_profile_avatar_catalog.sql'), 'utf8')
+    expect(schema.replace(/\r\n/g, '\n')).toContain(migration.replace(/\r\n/g, '\n').trim())
+    expect(migration).toContain('foreign key (avatar_url) references public.profile_avatar_catalog(path)')
+    expect(migration).toContain('alter table public.profile_avatar_catalog enable row level security;')
+    expect(migration).toContain('revoke all on table public.profile_avatar_catalog from public, anon, authenticated;')
+    expect(migration).toContain('grant select on table public.profile_avatar_catalog to anon, authenticated;')
+    expect(migration.indexOf('update public.profiles p set avatar_url = null')).toBeLessThan(migration.indexOf('add constraint profiles_avatar_url_catalog_fkey'))
   })
 
   it('the migration file matches the block appended to schema.sql', () => {
