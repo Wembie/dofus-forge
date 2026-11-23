@@ -18,8 +18,9 @@ This is the effective access model after every migration (`supabase/schema.sql` 
 
 | Resource | Data | anon | user | owner | mod / admin | Controls | Tests |
 |---|---|---|---|---|---|---|---|
-| `profiles` | public profile; `settings` JSON | read all columns | read | update own row; `role` and counters reset by trigger; avatar must reference the Forge catalog or be null | same | RLS `profiles own write`; `protect_profile_system_fields`; `profiles_avatar_url_catalog_fkey` | static; pgTAP isolation and profile avatars |
+| `profiles` | public profile; `settings` JSON | read all columns | read | update own row; `role` and counters reset by trigger; avatar and banner must reference their Forge catalogs or be null | same | RLS `profiles own write`; `protect_profile_system_fields`; avatar and banner catalog FKs | static; pgTAP isolation and profile images |
 | `profile_avatar_catalog` | approved bundled portrait paths | read | read | read | read; changes require SQL admin / service role | SELECT-only grants and RLS; local-path CHECK; profiles FK | static catalog parity; pgTAP forged requests and catalog writes |
+| `profile_banner_catalog` | approved bundled landscape paths | read | read | read | read; changes require SQL admin / service role | SELECT-only grants and RLS; local-path CHECK; `profiles_banner_url_catalog_fkey` | static catalog parity; pgTAP forged requests and catalog writes |
 | `builds` (public) | build content | read | read | full CRUD; UPDATE only on editable columns | mods read all; admin `set_build_featured` | RLS `builds read/insert/update`; column grants; `reset_build_counters` | static; pgTAP read/rename/delete |
 | `builds` (unlisted) | build content | read **only** with `x-build-id: <id>` | same | full | mods read all | `requested_build_id()`; capability = UUID | static "never listable"; pgTAP "cannot list" |
 | `builds` (private) | build content | none | none | full | mods read all | RLS; the Worker drops private rows again | pgTAP private-read |
@@ -46,6 +47,12 @@ Apply `supabase/migrations/20261122000000_profile_avatar_catalog.sql` to the hos
 The migration seeds all 38 approved paths, resets preexisting avatars outside that catalog to null (the user's initial), and adds a validated foreign key. It leaves other profile fields intact. It can be run again safely. Anonymous and authenticated clients can read the catalog but cannot insert, update, delete or truncate its entries. A new class needs an admin-authored catalog migration as well as its actual image files; see the portrait prompt template.
 
 `supabase/tests/database/profile_avatars.test.sql` checks every approved portrait, restoring initials, forged external and local URLs, catalog mutation permissions and cross-user isolation through the actual database roles. Run these tests only on a disposable local stack.
+
+## Profile banner restriction (0.4.11)
+
+Apply `supabase/migrations/20261123000000_profile_banner_catalog.sql` to the hosted project before releasing banner selection. It seeds the twelve approved landscapes, resets existing covers outside the catalog to null, and constrains `profiles.banner_url` through a validated foreign key. Other editable profile fields and approved covers are preserved; replay is safe. Client roles can read the catalog but cannot insert, update, delete or truncate it. Deployment does not execute the migration automatically.
+
+`supabase/tests/database/profile_banners.test.sql` exercises direct writes through anonymous and authenticated roles, all twelve choices, restoring no cover, malformed URLs, catalog permissions and cross-user isolation. Run it only on a disposable stack. The renderer and save action also check the exact bundled paths, so a legacy external URL is not loaded for visitors while awaiting rollout.
 
 ## RPCs callable by anon
 

@@ -1,6 +1,6 @@
 # Forge location banners
 
-Original environment fan art for profile covers, paired with the approved Forge ink-and-watercolor class portraits. Target: **DOFUS 3.7 / Unity**. This delivery contains artwork and its production records; the profile banner picker is a separate implementation.
+Original environment fan art for profile covers, paired with the approved Forge ink-and-watercolor class portraits. Target: **DOFUS 3.7 / Unity**. Artwork was introduced in Forge 0.4.10; Forge 0.4.11 adds the Account picker, saved choices and public profile covers.
 
 ## Collection v1
 
@@ -35,3 +35,11 @@ The full illustration includes its paper-colored background and watercolor. Keep
 The initial delivery belongs to **Forge 0.4.10**. Keep expanding the collection in later releases; the open roadmap item tracks more locations and dimensions without limiting it to the twelve already delivered.
 
 Start with the approved portrait style reference and real game environment references. Verify the target place against the current Unity version and preserve its architectural identity. Give each place its own composition, palette and mood. Apply the reusable template, inspect the full panorama and a narrow crop, and append the exact final prompt, source URLs, dimensions and hashes to the manifest. Export the optimized WebP while retaining the original PNG locally. Do not replace previous assets silently; use a new collection version for later revisions.
+
+Register new choices in `src/features/account/profileBanners.ts` and translate their place labels in all four locales. Add their exact paths to `public.profile_banner_catalog` through a new admin-authored migration and mirror the inserts in the cumulative schema. API clients cannot expand this allowlist. The catalog parity check reads the cumulative schema, so later migrations can add places without rewriting an earlier migration. Apply the migration before publishing new choices.
+
+## Database rollout for 0.4.11
+
+Apply `supabase/migrations/20261123000000_profile_banner_catalog.sql` before releasing the picker. It reuses `profiles.banner_url`, seeds the twelve approved paths and adds a validated foreign key. Existing custom or external covers are reset to null; approved covers and other editable profile fields are preserved. Replaying the migration is safe. Frontend deployment does not apply SQL migrations, and the Database workflow uses a disposable stack rather than the hosted project.
+
+The renderer and save action also enforce the exact bundled paths. A null value means no banner. Selection remains an Account draft until Save; Discard restores the stored choice. Public profiles load the saved path independently and display it above the portrait. Both public and draft covers open the full illustration on click, using a zoom cursor without an icon overlay.

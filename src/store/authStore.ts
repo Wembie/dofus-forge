@@ -4,6 +4,7 @@ import { getSupabase } from '@/lib/supabase.ts'
 import { legalAcceptance, LEGAL_DOCS, type LegalDoc } from '@/features/auth/legal.ts'
 import { USERNAME_RE } from '@/features/auth/authRules.ts'
 import { isClassAvatarUrl } from '@/features/account/classAvatars.ts'
+import { isProfileBannerUrl } from '@/features/account/profileBanners.ts'
 
 export type Profile = {
   id:               string
@@ -12,6 +13,7 @@ export type Profile = {
   display_name:     string | null
   bio:              string | null
   avatar_url:       string | null
+  banner_url:       string | null
   followers_count:  number
   following_count:  number
   builds_count:     number
@@ -21,6 +23,7 @@ export type ProfileEdits = {
   display_name?: string | null
   bio?:          string | null
   avatar_url?:   string | null
+  banner_url?:   string | null
 }
 
 type AuthState = {
@@ -92,7 +95,7 @@ async function fetchProfile(userId: string): Promise<Profile | null> {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, username, role, display_name, bio, avatar_url, followers_count, following_count, builds_count')
+    .select('id, username, role, display_name, bio, avatar_url, banner_url, followers_count, following_count, builds_count')
     .eq('id', userId)
     .single()
   if (error) {
@@ -221,6 +224,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const session = get().session
     if (!session) return { error: 'Not signed in' }
     if (edits.avatar_url != null && !isSafeImageUrl(edits.avatar_url)) return { error: 'invalid_avatar_url' }
+    if (edits.banner_url != null && !isProfileBannerUrl(edits.banner_url)) return { error: 'invalid_banner_url' }
 
     const supabase = await getSupabase()
     const { error } = await supabase.from('profiles').update(edits).eq('id', session.user.id)

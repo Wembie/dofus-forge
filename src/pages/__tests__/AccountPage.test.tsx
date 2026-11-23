@@ -26,6 +26,51 @@ afterEach(cleanup)
 const page = () => render(<MemoryRouter><AccountPage /></MemoryRouter>)
 
 describe('AccountPage', () => {
+  it('inspects a banner without selecting it, then saves the explicit choice', async () => {
+    page()
+    fireEvent.click(screen.getByRole('button', { name: 'account_banner_change' }))
+    const inspect = screen.getAllByRole('button', { name: 'account_banner_view' })[0]
+    inspect.focus()
+    fireEvent.click(inspect)
+    expect(screen.getByRole('img', { name: 'profile_banner_location_bonta' }).getAttribute('src')).toBe('/banners/locations/v1/bonta.webp')
+    expect((screen.getByRole('button', { name: /account_save/ }) as HTMLButtonElement).disabled).toBe(true)
+    fireEvent.click(screen.getByRole('button', { name: 'account_banner_back' }))
+    await waitFor(() => expect(document.activeElement).toBe(screen.getAllByRole('button', { name: 'account_banner_view' })[0]))
+    fireEvent.click(screen.getAllByRole('button', { name: 'account_banner_view' })[0])
+    fireEvent.click(screen.getByRole('button', { name: 'account_banner_use' }))
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
+    expect(document.querySelector('.account-banner-control .profile-banner img')?.getAttribute('src')).toBe('/banners/locations/v1/bonta.webp')
+    expect(updateProfile).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: /account_save/ }))
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, banner_url: '/banners/locations/v1/bonta.webp' }))
+  })
+
+  it('discards an unsaved banner and can remove a previously saved one', async () => {
+    useAuthStore.setState({ profile: { ...profile, banner_url: '/banners/locations/v1/pandala.webp' } } as never)
+    page()
+    fireEvent.click(screen.getByRole('button', { name: 'account_banner_remove' }))
+    expect(document.querySelector('.account-banner-control .profile-banner')).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: 'account_discard' }))
+    expect(document.querySelector('.account-banner-control .profile-banner img')?.getAttribute('src')).toBe('/banners/locations/v1/pandala.webp')
+    fireEvent.click(screen.getByRole('button', { name: 'account_banner_remove' }))
+    fireEvent.click(screen.getByRole('button', { name: /account_save/ }))
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, banner_url: null }))
+  })
+
+  it('keeps the selected banner after a failed save for retry', async () => {
+    updateProfile.mockRejectedValueOnce(new Error('offline'))
+    page()
+    fireEvent.click(screen.getByRole('button', { name: 'account_banner_change' }))
+    fireEvent.click(screen.getByDisplayValue('/banners/locations/v1/frigost.webp'))
+    fireEvent.click(screen.getByRole('button', { name: 'account_avatar_done' }))
+    const save = screen.getByRole('button', { name: /account_save/ })
+    fireEvent.click(save)
+    await waitFor(() => expect(screen.getByRole('alert').textContent).toContain('account_save_error'))
+    expect(document.querySelector('.account-banner-control .profile-banner img')?.getAttribute('src')).toBe('/banners/locations/v1/frigost.webp')
+    fireEvent.click(save)
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledTimes(2))
+  })
+
   it('marks unsaved changes, discards them, and saves only what changed', async () => {
     page()
     const save = screen.getByRole('button', { name: /account_save/ }) as HTMLButtonElement

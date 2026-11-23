@@ -7,7 +7,7 @@
   "targetGame": "DOFUS 3.7 / Unity",
   "gameDataVersion": "3.7.12.12",
   "version": "0.4.10",
-  "status": "Artwork assets only; profile banner selection is not implemented in this delivery",
+  "status": "Artwork introduced in 0.4.10; banner selection, persistence and public profile display added in 0.4.11",
   "referenceProvenance": "Published environment references include earlier city/Pandala redesign artwork and game screenshots. The target version does not assert that each reference was captured in 3.7. Source images remain local; these are original fan-art interpretations.",
   "banners": [
     {
@@ -364,5 +364,10 @@
       ],
       "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Xelorium (Xélorium), a divine dimension. IDENTITY: Xelorium / Xélorium, the divine dimension of Xelor in DOFUS: suspended pale-ochre carved clockwork platforms and vast toothed gear rims above a deep blue-violet void, hourglass pedestals with mint glass and brass supports, clock motifs engraved into cream paving, slender leafless pale trees and blue streams falling between time-fractured islands. Preserve the large Dofus floating platform shapes and actual hourglass construction from the screenshots; no generic steampunk city, modern clocks or sci-fi spaceships.\nINDIVIDUAL COMPOSITION AND MOOD: A dreamlike panoramic view along two time-fractured stone terraces joined by an incomplete cog-shaped bridge. A memorable brass-and-mint hourglass monument sits just right of center; enormous partial gear rims and floating pale islands recede beyond it. A thin blue stream falls between platforms, with one sparse lilac tree at the edge. Cream, ochre, muted mint and dusty violet, painted matte with airy paper gaps. Quiet pale paving low-left; clock tick marks only, no readable writing."
     }
-  ]
+  ],
+  "integration": {
+    "version": "0.4.11",
+    "catalog": "src/features/account/profileBanners.ts",
+    "databaseMigration": "supabase/migrations/20261123000000_profile_banner_catalog.sql"
+  }
 }
