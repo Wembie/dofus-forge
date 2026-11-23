@@ -6,7 +6,8 @@ import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { requestSignIn } from '@/features/auth/requestSignIn.ts'
-import { AccountAvatar, FollowListModal } from '@/features/builds/FollowListModal.tsx'
+import { FollowListModal } from '@/features/builds/FollowListModal.tsx'
+import { PublicProfileAvatar } from '@/features/account/PublicProfileAvatar.tsx'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useAuthStore } from '@/store/authStore.ts'
@@ -207,7 +208,7 @@ export function UserProfilePage() {
       <main id="main-content" className="account-page">
         <div className="account-study">
           <div className="public-profile-heading">
-            <AccountAvatar username={name} url={profile.avatar_url} />
+            <PublicProfileAvatar key={`${profile.id}:${profile.avatar_url}`} username={name} url={profile.avatar_url} />
             <div>
               <p className="account-eyebrow">{t('account_public_identity')}</p>
               <h1>{name}</h1>

@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Check, Search, ZoomIn } from 'lucide-react'
+import { ArrowLeft, Check, Search } from 'lucide-react'
 import { Modal, normalizeSearch } from '@/ui'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { resolveClassName } from '@/features/class-picker/useClassName.ts'
@@ -106,7 +106,6 @@ export function ClassAvatarPicker({ username, value, onChange, disabled }: Props
                             ref={node => { if (node) previewButtons.current.set(a.url, node); else previewButtons.current.delete(a.url) }}
                             aria-label={t('account_avatar_view', { class: className(c.id), gender: t(`gender_${a.gender}`) })}>
                             <img src={a.url} alt="" width={128} height={128} loading="lazy" decoding="async" />
-                            <span className="account-avatar-loupe"><ZoomIn size={18} aria-hidden="true" /></span>
                           </button>
                           <label>
                             <input type="radio" name={id} value={a.url} checked={value === a.url} onChange={() => onChange(a.url)}

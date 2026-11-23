@@ -1,0 +1,27 @@
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Modal } from '@/ui'
+import { isSafeImageUrl } from '@/store/authStore.ts'
+import { AccountAvatar } from '@/features/builds/FollowListModal.tsx'
+
+export function PublicProfileAvatar({ username, url }: { username: string; url: string | null }) {
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(false)
+
+  if (!isSafeImageUrl(url)) return <AccountAvatar username={username} url={url} />
+
+  return (
+    <>
+      <button type="button" className="public-profile-avatar" onClick={() => setOpen(true)}
+        aria-haspopup="dialog" aria-label={t('profile_avatar_view', { username })}
+        title={t('profile_avatar_view', { username })}>
+        <AccountAvatar username={username} url={url} />
+      </button>
+      <Modal open={open} onClose={() => setOpen(false)} title={t('profile_avatar_title', { username })} size="xl">
+        <div className="public-profile-avatar-art">
+          <img src={url} alt={t('profile_avatar_title', { username })} width={512} height={512} />
+        </div>
+      </Modal>
+    </>
+  )
+}

@@ -2341,5 +2341,7 @@
   "account_avatar_search": "Rechercher une classe",
   "account_avatar_empty": "Aucune classe ne correspond.",
   "account_avatar_current": "Photo actuelle",
-  "account_avatar_inspect_hint": "Touchez la loupe ou une illustration pour la voir en grand avant de choisir."
+  "account_avatar_inspect_hint": "Touchez la loupe ou une illustration pour la voir en grand avant de choisir.",
+  "profile_avatar_view": "Agrandir la photo de profil de {{username}}",
+  "profile_avatar_title": "Photo de profil de {{username}}"
 }

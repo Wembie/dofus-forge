@@ -5,8 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.10] — 2026-11-22
+- New artwork: 12 panoramic ink-and-watercolor banners of Dofus 3.7 locations and divine dimensions, including Enutrosor, Srambad, Ecaflipus and Xelorium, with optimized images and exact prompts saved for future additions
+- Public profiles: click a profile picture to view the complete illustration at a larger size; close with Escape, the close button or the backdrop. Pictures and avatar-picker thumbnails use a zoom cursor on hover, with no icons covering the artwork
+
 ## [0.4.9] — 2026-11-22
-- New artwork: eight panoramic ink-and-watercolor landscapes prepared for profile banners — Bonta, Brakmar, Astrub, Incarnam, Amakna, Sufokia, Pandala and Frigost — with optimized image files and exact prompts saved for future additions
 - Fixed: database checks skip the unused test-mail server, avoiding a port conflict before SQL tests start
 - Fixed: profile pictures accept only the Forge portrait catalog or the default initial. A database constraint rejects external URLs even through modified requests; applying the migration resets older custom images to initials
 - New: 38 original ink-and-watercolor profile portraits, with a distinct male and female pose for every class. Choose a portrait or return to your initial from Account, preview the circular avatar and save it with your profile. The exact prompts and a reusable art template are preserved for future classes
