@@ -103,3 +103,5 @@ Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presenta
 - [] cambiar los tags a uno mas usados, y ejemplo los que tengan eso de "Tierra" Aire y cosas asi se deberian cambiar al elemento como tal.. ejemplo Fuerza, Agilidad etc y revisar bien cuales poner ya que algunas no tiene mucho sentido y no son muy usados. Esto es para que la gente pueda encontrar más fácilmente los sets que buscan y no se pierdan entre tags que no tienen mucho sentido.
 
 - [] Que en PV salga como en las caracteristicas, pero que salga seccionado, por cuanto tiene el personaje por el nivel, mas el equipo, mas las caractericias y demas
+
+- [] quitar toda la parte donde esta un "—" ya que eso es lo que hace la ia, como tal es humanizar cada texto que se tiene, y que no se note que tiene esos rastros de IA (EN TODA LA PAGUINA) claramente sin cambiar su contenido y texto, si hay mejor forma de expresarlo adelante, pero mapear cuales se cambio, cual se tenia antes y demas
