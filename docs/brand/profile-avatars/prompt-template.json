@@ -1,6 +1,6 @@
 {
   "collection": "Forge class portraits",
-  "revision": 2,
+  "revision": 3,
   "generator": "Built-in image_gen",
   "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
   "exactPromptsForExistingImages": "docs/brand/profile-avatars/manifest.json",
@@ -24,7 +24,8 @@
     "source": "Dofus client assets extracted with scripts/extract-characters.py",
     "identityMapping": "docs/brand/profile-avatars/game-looks.json: class, sex, one-based head slot, source head/body ids, skins and original colors",
     "animation": "1-static / AnimStatiqueExplo0, facings 1 and 2",
-    "framing": "Render a close view of the head and upper torso at sufficient resolution. Inspect both angles before generation. Game renders are identity references, not the finished portrait."
+    "framing": "Render a close view of the head and upper torso at sufficient resolution. Inspect both angles before generation. Game renders are identity references, not the finished portrait.",
+    "lastVerifiedClientVersion": "3.7.14.18"
   },
   "prompt": "Create ONE original FAN ART USER PROFILE PORTRAIT of the {{gender}} {{className}} class from DOFUS, for the Dofus Forge collection. IMAGE 1 is the APPROVED COLLECTION ART STYLE ONLY. IMAGE 2 and IMAGE 3 show the ACTUAL TARGET GAME MODEL from two angles; these define class identity, gender, species, facial features, hairstyle, headwear, original palette and clothing. Never borrow the Iop's orange hair, white eyes, sword, face or pose from the style reference. Keep the target character instantly recognizable from the actual game references. TARGET GAME LOOK: head slot {{headSlot}}, head texture {{headSkin}}, body texture {{bodySkin}}. Preserve this exact face/hairstyle rather than substituting the first head. Use the default outfit while producing the head collection; alternate outfits are a later task. IDENTITY NOTES: {{identityNotes}}. INDIVIDUAL EXPRESSION, POSE AND SMALL STORY: {{individualPose}}. Make an expressive personal fan illustration with its own staging and character, not a gender swap of an existing portrait. Upper torso only, face large near center, readable at 48px. Square avatar that reads inside a centered circular crop; keep headwear and hair contained with top breathing room, shoulders may crop at bottom. Match the approved brush-pen ink and watercolor treatment: lively dark graphite preliminary strokes in a few places, confident tapered black ink with fine and heavy contours, selective hatching, charming asymmetry and expressive French fantasy comic anatomy. Hand-placed loose watercolor fills with small paper gaps near edges, natural varied watercolor boundaries, rich but slightly understated original character colors and a matte finish. Clear main silhouette and economical forms. Clean warm off-white ground with one restrained loose {{watercolorWash}} watercolor wash. No brown paper tint, artificial grunge overlay, generic polished fantasy rendering, plastic, 3D, photorealism, airbrushed gradients, cinematic glow, rim lights, embers, gloss or perfect vector cut-paper shapes. One character and only its small relevant class prop. Opaque square image with watercolor background. No caption, signature, fake notes, lettering, watermark, logo, frame, collage or multiple views.",
   "continuityRules": [
@@ -34,7 +35,8 @@
     "Use real target game references, especially for animal faces, masks, headgear and class-specific eyes.",
     "Keep one cohesive ink-and-watercolor collection while allowing individual shapes, expressions, props and quiet wash colors.",
     "Inspect the final drawing both as a square and in a small circular profile crop.",
-    "Append each exact final prompt, references and output identity to the collection manifest. Retain older approved entries when creating a new revision."
+    "Append each exact final prompt, references and output identity to the collection manifest. Retain older approved entries when creating a new revision.",
+    "Record the exact installed-client patch and hashes of identity renders for new head collections. Inspect both angles of the requested head: masks, hats, eyewear and hairstyles can change completely between slots."
   ],
   "exports": {
     "master": "Original PNG, kept locally under temp/profile-avatars/masters/v1/<class>-<m|f>.png",

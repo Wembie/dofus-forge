@@ -175,20 +175,20 @@ describe('AccountPage', () => {
     await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, avatar_url: '/avatars/classes/v1/iop-f.webp' }))
   })
 
-  it('inspects and explicitly saves the second face without changing the old avatar on preview', async () => {
+  it.each([2, 3])('inspects and saves face %s without changing the old avatar on preview', async headSlot => {
     useAuthStore.setState({ profile: { ...profile, avatar_url: '/avatars/classes/v1/iop-f.webp' } } as never)
     page()
     fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
     const card = screen.getByRole('heading', { name: 'Yopuka' }).parentElement!
-    expect(within(card).getAllByRole('button')).toHaveLength(4)
-    fireEvent.click(within(card).getAllByRole('button')[3])
-    expect(screen.getByRole('img', { name: 'account_avatar_option' }).getAttribute('src')).toBe('/avatars/classes/v1/iop-look-2-f.webp')
+    expect(within(card).getAllByRole('button')).toHaveLength(6)
+    fireEvent.click(within(card).getAllByRole('button')[headSlot * 2 - 1])
+    expect(screen.getByRole('img', { name: 'account_avatar_option' }).getAttribute('src')).toBe(`/avatars/classes/v1/iop-look-${headSlot}-f.webp`)
     expect(document.querySelector('.account-avatar-control img')?.getAttribute('src')).toBe('/avatars/classes/v1/iop-f.webp')
     expect(updateProfile).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole('button', { name: 'account_avatar_use' }))
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
     fireEvent.click(screen.getByRole('button', { name: /account_save/ }))
-    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, avatar_url: '/avatars/classes/v1/iop-look-2-f.webp' }))
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, avatar_url: `/avatars/classes/v1/iop-look-${headSlot}-f.webp` }))
   })
 
   it('finds localized class names without accents and explains an empty search', () => {
@@ -198,7 +198,7 @@ describe('AccountPage', () => {
     fireEvent.change(search, { target: { value: 'zurcarak' } })
     expect(screen.getByRole('heading', { name: 'Zurcarák' })).toBeTruthy()
     expect(screen.queryByRole('heading', { name: 'Yopuka' })).toBeNull()
-    expect(screen.getAllByRole('button', { name: 'account_avatar_view' })).toHaveLength(4)
+    expect(screen.getAllByRole('button', { name: 'account_avatar_view' })).toHaveLength(6)
     fireEvent.change(search, { target: { value: 'no-such-class' } })
     expect(screen.getByText('account_avatar_empty')).toBeTruthy()
     expect(screen.queryByRole('button', { name: 'account_avatar_view' })).toBeNull()

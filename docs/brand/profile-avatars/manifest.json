@@ -1,6 +1,6 @@
 {
   "collection": "Forge class portraits",
-  "revision": 2,
+  "revision": 3,
   "created": "2026-11-22",
   "generator": "Built-in image_gen",
   "referenceSource": "Dofus 3 client character assets rendered locally from multiple angles",
@@ -1759,8 +1759,1225 @@
       "bytes": 60876,
       "pose": "An intent amused glance toward a tiny brass gear hovering beside one temple, one bandaged finger pointing up from the shoulder to guide it; head tilted slightly back. No hourglass.",
       "prompt": "Create ONE original FAN ART PROFILE PORTRAIT of the FEMALE XELOR / Xelor from DOFUS for Dofus Forge. This is the SECOND selectable face/hairstyle, with the DEFAULT original outfit. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are two actual game renders of the EXACT target second face/hairstyle, head skin 2085, body skin 51; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact second head silhouette and its defining features; do not revert to the first head or redesign into a generic fantasy character. Never borrow the Iop's hair, sword, white eyes, anatomy or pose from the style reference.\nIDENTITY: Dark olive-gray mummy face, pale ivory side locks and a fitted angular BLUE head cap with large GOLD circular ear plates, gray bandaged torso and blue gloves. Preserve the small pointed head cap, not a large hat.\nNEW INDIVIDUAL POSE AND EXPRESSION: An intent amused glance toward a tiny brass gear hovering beside one temple, one bandaged finger pointing up from the shoulder to guide it; head tilted slightly back. No hourglass. The new drawing must have its own character and staging, not simply recolor or mirror an earlier avatar.\nMatch the approved hand-crafted French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted indigo watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop/companion if any. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "cra",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/cra-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/cra-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/cra-m-1.png",
+        "temp/profile-avatars/look-3/references/cra-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/cra-m-1.png": "af04f8f46494aefca481fcdeaadd5a750184b56db068b39fc302fb3e47a51f80",
+        "temp/profile-avatars/look-3/references/cra-m-2.png": "f550fa72efb053050c01aa553af6fd5ade2a3de11531bcf3ab79cb982c7bf170"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 131,
+        "headSkin": 2142,
+        "bodySlot": 1,
+        "bodyId": 21,
+        "bodySkin": 90
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "27eaa80aebee4fbf10035305be9b65c0f9e3ef3c9ef72d5d469c6f4ecc7f70b9",
+      "bytes": 63688,
+      "masterSha256": "1a9bb16a157da2227417a87bcad1e5c90f0305a9e394619b5267b43097481be5",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "Quiet concentration while checking the feather fletching of an arrow held horizontally low across his chest, chin inclined, eyes returning toward the viewer; no bowstring draw or hand on quiver.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE CRA / Ocra from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2142, body skin 90; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2142: long orange hair drawn back into a very high thick rounded ponytail, angular side-swept fringe with two long cheek strands, pointed ears and green eyes with pupils. Olive archer tunic, large gold shoulder guard and scrolling gold collar, brown gloves and feathered quiver. Not the small tied tuft of head 2.\nNEW INDIVIDUAL POSE AND EXPRESSION: Quiet concentration while checking the feather fletching of an arrow held horizontally low across his chest, chin inclined, eyes returning toward the viewer; no bowstring draw or hand on quiver. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular sage watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "cra",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/cra-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/cra-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/cra-f-1.png",
+        "temp/profile-avatars/look-3/references/cra-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/cra-f-1.png": "2cc19484771d6f2132ceb173062b6d447cdf1a29796129ec4db075c037f8df79",
+        "temp/profile-avatars/look-3/references/cra-f-2.png": "62d0c7f9e43f4f5ece454bc08380a73be784f6a023510775d7f810400aa9c201"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 139,
+        "headSkin": 2150,
+        "bodySlot": 1,
+        "bodyId": 22,
+        "bodySkin": 91
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "55994467750c40bc7ec888d4dcb510c4f36591f6ec025b1668fe49001df48ba4",
+      "bytes": 59308,
+      "masterSha256": "70342f8c89af7688f1b29e028ef27c276685a008b103fa5608f9a5d6f6cc82c8",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "Searching the distant horizon with her relaxed palm held just above eyebrow level as a small sun visor, a delighted discovery in her eyes; wrist stays clear of the hairstyle and ears.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE CRA / Ocra from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2150, body skin 91; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2150: compact bright orange straight front fringe and short pointed cheek strands, with a small raised spiky tuft at the rear/top rather than long loose hair. Pointed ears, green eyes, olive strapless archer top and gold shoulder details. Follow the two reference angles for the third silhouette.\nNEW INDIVIDUAL POSE AND EXPRESSION: Searching the distant horizon with her relaxed palm held just above eyebrow level as a small sun visor, a delighted discovery in her eyes; wrist stays clear of the hairstyle and ears. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular sage watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "ecaflip",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/ecaflip-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/ecaflip-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/ecaflip-m-1.png",
+        "temp/profile-avatars/look-3/references/ecaflip-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/ecaflip-m-1.png": "f5d3134bdaffff24859fef03b166abde47c83f392bc2a7c988aed5e2d289cc3f",
+        "temp/profile-avatars/look-3/references/ecaflip-m-2.png": "4334a0a5829fff9f4191a8c7373f0ab7f4deb0b4d6e506e82b0661b1260efb94"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 83,
+        "headSkin": 2094,
+        "bodySlot": 1,
+        "bodyId": 14,
+        "bodySkin": 60
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "6ac0901cbd8a4796bbc72b5321c941a406058fd96e0fabcad44ad900e934ac18",
+      "bytes": 53664,
+      "masterSha256": "a4d363fa3eaaf008552f5e585fefaa56959a177a7a398d02e4b0a47f4fddb256",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A small poker chip balanced on the back of one curled furry knuckle low beside the shoulder, eyes narrowed in a dry confident cat smile and head pitched gently forward; no thrown coin, cards or dice.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE ECAFLIP / Zurcarák from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2094, body skin 60; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2094: cream feline fur and muzzle, black cat nose, long cream ears with warm orange bands/tips and tiny orange forehead markings; no human face, no large human hairstyle. Bare furry shoulders with the turquoise/gray belt and brown glove details of the default outfit.\nNEW INDIVIDUAL POSE AND EXPRESSION: A small poker chip balanced on the back of one curled furry knuckle low beside the shoulder, eyes narrowed in a dry confident cat smile and head pitched gently forward; no thrown coin, cards or dice. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular ochre watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "ecaflip",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/ecaflip-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/ecaflip-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/ecaflip-f-1.png",
+        "temp/profile-avatars/look-3/references/ecaflip-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/ecaflip-f-1.png": "613eb27447b1e7a10a92110bdbcb1f9837abce0ef32492e20b77d12bcaed1273",
+        "temp/profile-avatars/look-3/references/ecaflip-f-2.png": "250b000797e49a05be47e63bdb495e324649052a2e8a172820956004d19a76b7"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 91,
+        "headSkin": 2102,
+        "bodySlot": 1,
+        "bodyId": 16,
+        "bodySkin": 61
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "453e80e67837c9c9e0a01db1ef79edb9b692803df45307de084301c6649c4e16",
+      "bytes": 48806,
+      "masterSha256": "ef816bf45590231e066d37d1f434c19f81c3762e1f22543e38dc20b2c3b9fb4e",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A candid open feline yawn finishing in a mischievous grin, one furry hand lightly covering only the lowest corner of her mouth, with shoulders relaxed and one ear tilted. Preserve her muzzle, not human lips.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE ECAFLIP / Zurcarák from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2102, body skin 61; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2102: cream feline face and muzzle, very tall cream ears capped and banded in teal, a small swept teal forehead tuft and tiny orange forehead marks. No orange human ponytail. Orange neck scarf and cream/gray tunic, actual cat eye anatomy and black nose.\nNEW INDIVIDUAL POSE AND EXPRESSION: A candid open feline yawn finishing in a mischievous grin, one furry hand lightly covering only the lowest corner of her mouth, with shoulders relaxed and one ear tilted. Preserve her muzzle, not human lips. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular ochre watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "eniripsa",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/eniripsa-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/eniripsa-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/eniripsa-m-1.png",
+        "temp/profile-avatars/look-3/references/eniripsa-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/eniripsa-m-1.png": "a8890bbd7978c13111a29be5fa0f56ecb2131b9832e7ef85ec29939653337396",
+        "temp/profile-avatars/look-3/references/eniripsa-m-2.png": "9d26a9e45377f99163ce25ee8aab89722419bb23c36d2bb30885bf7ca864e34e"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 99,
+        "headSkin": 2110,
+        "bodySlot": 1,
+        "bodyId": 17,
+        "bodySkin": 70
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "aeda50e9de16d57dcff53c8de83463417ae658a7506f0162b7d9620783b493e6",
+      "bytes": 71032,
+      "masterSha256": "93c1e26535d8bfb2aa1f17782f9a530f5c654ca5cd6cbfe915264640f323d0b9",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "Studying a tiny open herb notebook at the bottom edge with an amused raised eyebrow, head looking down and sideways while his dark bat wings make a quiet asymmetric frame. No hand at chin or blown mote.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE ENIRIPSA / Aniripsa from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2110, body skin 70; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2110: dramatically raised chestnut-brown swept-up pointed hair, long pointed ears, large dark bat-like wings, yellow open vest and warm pale skin. Preserve this large upswept hair silhouette, not a generic fairy cap.\nNEW INDIVIDUAL POSE AND EXPRESSION: Studying a tiny open herb notebook at the bottom edge with an amused raised eyebrow, head looking down and sideways while his dark bat wings make a quiet asymmetric frame. No hand at chin or blown mote. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular pale lilac watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "eniripsa",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/eniripsa-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/eniripsa-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/eniripsa-f-1.png",
+        "temp/profile-avatars/look-3/references/eniripsa-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/eniripsa-f-1.png": "b92faa810244a5d3f8e3a4f9bcc727ab0aa6e42c2acb736361a1c1fc9a9ce9c5",
+        "temp/profile-avatars/look-3/references/eniripsa-f-2.png": "129a3470d2c987d1aa7a2ca2edcec5872223990a520a5e474f6741f1f6624882"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 107,
+        "headSkin": 2118,
+        "bodySlot": 1,
+        "bodyId": 18,
+        "bodySkin": 71
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "fd680945179c738bdbd1ea983d18bebcc8e4c5b4f13715832139c580c46e4c3b",
+      "bytes": 64044,
+      "masterSha256": "808f2d6b12cd97ed5e42210b48ca09b0fd6194b9a2bd48dd1d542ce209c4e369",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A warm absorbed smile as she delicately twists a single thin flower stem between thumb and forefinger below her shoulder, eyes following its petals, her light butterfly wings folded loosely. No cheek resting on hand.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE ENIRIPSA / Aniripsa from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2118, body skin 71; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2118: very pale ivory hair with a heavy side fringe covering one eye and a large high curled ponytail/bun tied with red; a small red oval hair clip. Pointed ears, delicate white butterfly wings, red dress/top and green shoulder ornaments. Leave the intentionally covered eye covered.\nNEW INDIVIDUAL POSE AND EXPRESSION: A warm absorbed smile as she delicately twists a single thin flower stem between thumb and forefinger below her shoulder, eyes following its petals, her light butterfly wings folded loosely. No cheek resting on hand. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted rose watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "enutrof",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/enutrof-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/enutrof-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/enutrof-m-1.png",
+        "temp/profile-avatars/look-3/references/enutrof-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/enutrof-m-1.png": "80dcc36fa9ba7711534d288253c64794e3c0419e421618932496e51d7339881f",
+        "temp/profile-avatars/look-3/references/enutrof-m-2.png": "bca4911f81b8d66dc7b64f6aeb1c63566d2fcd5e8b08d89f7f7f79b9cbd40737"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 35,
+        "headSkin": 2046,
+        "bodySlot": 1,
+        "bodyId": 8,
+        "bodySkin": 30
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "952ef4f0f5ed7afd67ea63d9589fcbd7b3b24c47b13a65fa4ee98b483177c41d",
+      "bytes": 65528,
+      "masterSha256": "ae8f33d2f18dfaae123de24df08792afd6b63c7c57884d066e4ca15bf1866bbb",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A wry experienced chuckle with a lifted cheek, slightly hunched shoulders as both thumbs hook under the heavy backpack straps; no raised coin or walking pickaxe.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE ENUTROF / Anutrof from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2046, body skin 30; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2046: elderly bald round crown with a small upright white crest, enormous white swept side tufts at the temples, very bushy white eyebrows, white moustache and a broad pointed white beard. Dark explorer clothes, ochre/gold backpack shoulder pieces, weathered warm skin. Not youthful.\nNEW INDIVIDUAL POSE AND EXPRESSION: A wry experienced chuckle with a lifted cheek, slightly hunched shoulders as both thumbs hook under the heavy backpack straps; no raised coin or walking pickaxe. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular dusty ochre watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "enutrof",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/enutrof-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/enutrof-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/enutrof-f-1.png",
+        "temp/profile-avatars/look-3/references/enutrof-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/enutrof-f-1.png": "877a3ccd1c71d7f9022e545f6e83fc0974f681d168fb53fe430b0b02c5a9d4fd",
+        "temp/profile-avatars/look-3/references/enutrof-f-2.png": "c7e1dceedd3c86fd714a15561075928f1830ba004b1aa7c05c1b8e936c7917ba"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 43,
+        "headSkin": 2054,
+        "bodySlot": 1,
+        "bodyId": 9,
+        "bodySkin": 31
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "71da74c2bcacc496aa1789cdccd9fa8fd65e5409a753e07e096abc6a1fdfe1c3",
+      "bytes": 65798,
+      "masterSha256": "0c96288f4088615670658b92ede2747dbc164b209f7f6592c40f02617db6f52b",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "Appraising a tiny old brass key dangling from a short cord held off to one lower side, lips pursed in delighted calculation and her head angled the opposite way. No coin biting or spectacles adjustment.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE ENUTROF / Anutrof from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2054, body skin 31; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2054: elderly woman with large symmetrical white curled side rolls/buns and swept-back white central hair, small round amber spectacles and pointed ears. Black/ochre explorer clothing and gold backpack pieces. Preserve the paired side curls, not the single high bun from head 1.\nNEW INDIVIDUAL POSE AND EXPRESSION: Appraising a tiny old brass key dangling from a short cord held off to one lower side, lips pursed in delighted calculation and her head angled the opposite way. No coin biting or spectacles adjustment. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular dusty ochre watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "eliotrope",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/eliotrope-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/eliotrope-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/eliotrope-m-1.png",
+        "temp/profile-avatars/look-3/references/eliotrope-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/eliotrope-m-1.png": "12a86a2412911f4a2de399f40511555a33d3cd9a7c1ed9eb3b2915cd1d7b96b7",
+        "temp/profile-avatars/look-3/references/eliotrope-m-2.png": "79a10aece6e713a489cc25ff90ab8142b0917d923261c0a69765dfaff70e688a"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 243,
+        "headSkin": 3185,
+        "bodySlot": 1,
+        "bodyId": 36,
+        "bodySkin": 3179
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "b982d933000588129898736c113757a9fce44784310570622a9a9ce6a677ff9c",
+      "bytes": 61428,
+      "masterSha256": "7ec5145db208979c3a12e0a20133dc002739d40fb98718f9292a4ef0e9a15d52",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A bashful relieved sideways smile while one hand brushes a tiny painted speck of dust off his opposite sleeve after a portal jump; a faint cyan arc behind the far shoulder, hands stay below the face.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE ELIOTROPE / Selotrop from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 3185, body skin 3179; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 3185: very large dark-blue two-point hat with curved wide horizontal side points, cream bands and a white fish-like emblem; pale blue short hair/fringe and blue neck scarf. Pale face, bright cyan eyes, brown/cream sleeveless costume and gloves. Exact third hat shape is essential.\nNEW INDIVIDUAL POSE AND EXPRESSION: A bashful relieved sideways smile while one hand brushes a tiny painted speck of dust off his opposite sleeve after a portal jump; a faint cyan arc behind the far shoulder, hands stay below the face. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular pale cyan watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "eliotrope",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/eliotrope-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/eliotrope-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/eliotrope-f-1.png",
+        "temp/profile-avatars/look-3/references/eliotrope-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/eliotrope-f-1.png": "e07cc28c627963122dda648dd1bae93fcc01860c8eecd87cf022237886ab128f",
+        "temp/profile-avatars/look-3/references/eliotrope-f-2.png": "bd10a24dbb857c2fb02aa62eb82ad25664e550bb500682cb8cb81d1cdd664bdf"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 251,
+        "headSkin": 3193,
+        "bodySlot": 1,
+        "bodyId": 37,
+        "bodySkin": 3180
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "0d88da2d766a0ba161e4679b421f4aa6ec67aa0ccfcaeb6dbc7938a95295b44e",
+      "bytes": 60608,
+      "masterSha256": "96ac3289ec7105cb84548dfdf7ff72ae5c522ff45df50d369e70ff51ad73c0f7",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A bold conspiratorial look with a slight forward lean, holding her palms a short distance apart low at her chest as a small cyan portal sliver opens between them. Chin points up, eyes look directly at us; do not peer through a large portal.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE ELIOTROPE / Selotrop from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 3193, body skin 3180; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 3193: huge dark-blue hat with two pointed swept extensions and a pale oval patch, worn at an angle above short pale blue/white side-swept hair. Cyan eyes and pale skin; brown/cream sleeveless outfit, matching the female reference proportions. Do not borrow male hat markings.\nNEW INDIVIDUAL POSE AND EXPRESSION: A bold conspiratorial look with a slight forward lean, holding her palms a short distance apart low at her chest as a small cyan portal sliver opens between them. Chin points up, eyes look directly at us; do not peer through a large portal. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular pale cyan watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "feca",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/feca-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/feca-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/feca-m-1.png",
+        "temp/profile-avatars/look-3/references/feca-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/feca-m-1.png": "9e5e34540ab0aef98df5b1234a89097bed67a21153ee9715266ee14f3a6ef489",
+        "temp/profile-avatars/look-3/references/feca-m-2.png": "0a4d946d3ab2cde35aebdcc0cc6fb7896d996b9c4331d588ae2fc7377e14fcdc"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 3,
+        "headSkin": 2014,
+        "bodySlot": 1,
+        "bodyId": 2,
+        "bodySkin": 10
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "afb96c80677c46811449d0a3c43d8fe5d86f2b54ce5c0b6cf0caed64a348e786",
+      "bytes": 53862,
+      "masterSha256": "6d4ea86be281b578401f56eecace77bd353606732439bdf70b7f2193fb952265",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A broad reassuring laugh, head gently turned into near profile while one thumb hooks under the leather fastening at his opposite shoulder; weight settled and shoulders relaxed. No raised stopping palm or shield rim.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE FECA / Feca from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2014, body skin 10; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2014: tall gathered chestnut ponytail at the back tied with a green band, long angular brown fringe around the face, pointed ears and large dark eyes. Orange/brown sleeveless guardian tunic with dark lacing and leather wrist pieces. Preserve his actual third ponytail.\nNEW INDIVIDUAL POSE AND EXPRESSION: A broad reassuring laugh, head gently turned into near profile while one thumb hooks under the leather fastening at his opposite shoulder; weight settled and shoulders relaxed. No raised stopping palm or shield rim. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted amber watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "feca",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/feca-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/feca-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/feca-f-1.png",
+        "temp/profile-avatars/look-3/references/feca-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/feca-f-1.png": "3e6eefbb109f8a145e4bff6b7bcead7975532e6d781b13872e8d1d757b7174f3",
+        "temp/profile-avatars/look-3/references/feca-f-2.png": "59ec3890c023a38598f444659960f512dc112ac0a2597a9567c586fc75136d72"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 11,
+        "headSkin": 2022,
+        "bodySlot": 1,
+        "bodyId": 3,
+        "bodySkin": 11
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "b45a89deebe3cd7e5bc0229849a40f9ff1a79b0b8a1d8d34538cd2d2718bda0b",
+      "bytes": 52994,
+      "masterSha256": "1dcd4d4eefe923586b5d862b6a6274d3fbdfe97b77831ce433becdbc5b0c4380",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A thoughtful sidelong glance with a determined closed smile, one hand holding a small round amber ward pendant at the center of her upper chest while the other stays outside frame. No glyph drawing or peeking over a shield.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE FECA / Feca from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2022, body skin 11; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2022: two high chestnut puffy hair buns or tied tufts, loose asymmetrical front locks, pointed ears, dark eyes, orange sleeveless top and brown leather outfit. Keep the paired upper tufts entirely in frame, not a single long ponytail.\nNEW INDIVIDUAL POSE AND EXPRESSION: A thoughtful sidelong glance with a determined closed smile, one hand holding a small round amber ward pendant at the center of her upper chest while the other stays outside frame. No glyph drawing or peeking over a shield. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted amber watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "foggernaut",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/foggernaut-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/foggernaut-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/foggernaut-m-1.png",
+        "temp/profile-avatars/look-3/references/foggernaut-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/foggernaut-m-1.png": "58935cffef576d43192e4e0dadc63f32adf7f149ad76a2a4a00dc499d6e7d7e8",
+        "temp/profile-avatars/look-3/references/foggernaut-m-2.png": "529d732d6e3963b60a5b8b9ec48eefdf1d6998f606971b38e8fc776a4a6af203"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 227,
+        "headSkin": 2238,
+        "bodySlot": 1,
+        "bodyId": 34,
+        "bodySkin": 1663
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "8d06eade001049fdcc700c50de1c6cb970c4cc2d10c73879d459188ccb395c41",
+      "bytes": 62482,
+      "masterSha256": "5efdf26eb64919069950fb153b2b7f13bc31f2ba3a5c36d938c89f67be8cb34e",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A pleased inventive grin as one gloved hand checks the small brass collar clasp below the neck, head raised and gaze across the portrait rather than at a loose gear. His third head has no goggles, keep the fluffy white hair entirely visible.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE FOGGERNAUT / Steamer from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2238, body skin 1663; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2238: white fluffy side-swept hair with broad uneven front locks; NO goggles on his head in this model. Pale warm face, pointed ears, dark nautical clothes, brass/copper collar plate and round aqua chest fitting. Never add missing forehead goggles.\nNEW INDIVIDUAL POSE AND EXPRESSION: A pleased inventive grin as one gloved hand checks the small brass collar clasp below the neck, head raised and gaze across the portrait rather than at a loose gear. His third head has no goggles, keep the fluffy white hair entirely visible. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular desaturated sea blue watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "foggernaut",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/foggernaut-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/foggernaut-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/foggernaut-f-1.png",
+        "temp/profile-avatars/look-3/references/foggernaut-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/foggernaut-f-1.png": "2a08f85c9154b52d1a4c5f6618ea703c32025b5b92db5ec11e0e45146f778266",
+        "temp/profile-avatars/look-3/references/foggernaut-f-2.png": "e37757b07834c12f5e0c19979bb11caceade34e0e2c0a2c50f30e5daf08c07f4"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 235,
+        "headSkin": 2246,
+        "bodySlot": 1,
+        "bodyId": 35,
+        "bodySkin": 1664
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "306ad6a6b0ea7853f84770bd1d2d0e30e7fbbca584fedb41b32a3f192bb5ca20",
+      "bytes": 69014,
+      "masterSha256": "5c2b1b3942adf1ace21b97f8e0bc8ec750df0d91e167db39ae9794d42aff0547",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A fiercely absorbed squint as she holds a small open brass compass low and slightly tilted, one finger adjusting its rim; lips pursed to one side, chin down. No wrench, wink or listening-hand pose.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE FOGGERNAUT / Steamer from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2246, body skin 1664; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2246: white chin-length rounded bob with long angled front locks, bronze round goggles sitting on top of the head, pale warm face and pointed ears. Dark nautical suit and large brass collar/chest fitting with an aqua center. Keep the third bob silhouette.\nNEW INDIVIDUAL POSE AND EXPRESSION: A fiercely absorbed squint as she holds a small open brass compass low and slightly tilted, one finger adjusting its rim; lips pursed to one side, chin down. No wrench, wink or listening-hand pose. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular desaturated sea blue watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "forgelance",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/forgelance-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/forgelance-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/forgelance-m-1.png",
+        "temp/profile-avatars/look-3/references/forgelance-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/forgelance-m-1.png": "e5ec13a3e1a481f2b5ec19504f439a9c0397b93e4da88e3a773428820a6277e2",
+        "temp/profile-avatars/look-3/references/forgelance-m-2.png": "bf87e4b5cf5712f9fe9db893a97d835cd82bc388725c0c2e66051d0ac3ec63a9"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 296,
+        "headSkin": 3095,
+        "bodySlot": 1,
+        "bodyId": 5,
+        "bodySkin": 3221
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "fd8281348c749868d6bc1afad6bb29e7d8410c4726984b741fdd0e11948ed78d",
+      "bytes": 67050,
+      "masterSha256": "ab6ca8d7a2e0aee820e9932b779cb946c7ec16beb8c7adde8a2e6d3994a1bb4e",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "An unexpectedly gentle solemn smile, one armored hand laid flat over his own heart with fingers clearly separated, head inclined a few degrees in a respectful greeting. No upright lance or crossed forearms.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE FORGELANCE / Forjalanza from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 3095, body skin 3221; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 3095: brown shaved-side undercut with a long high swept quiff/top tuft, short brown beard and moustache, fierce brows. Cream fur collar, angular steel chest armor and dark spiked shoulder plates. Brown hair, not white, no full ponytail.\nNEW INDIVIDUAL POSE AND EXPRESSION: An unexpectedly gentle solemn smile, one armored hand laid flat over his own heart with fingers clearly separated, head inclined a few degrees in a respectful greeting. No upright lance or crossed forearms. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular smoky slate watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "forgelance",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/forgelance-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/forgelance-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/forgelance-f-1.png",
+        "temp/profile-avatars/look-3/references/forgelance-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/forgelance-f-1.png": "45627e0d5ee1404864cd3fe91ed4c45c7cf04491f2d12a72a9297eb9531a637e",
+        "temp/profile-avatars/look-3/references/forgelance-f-2.png": "f49a23c0a6152d209c5681422a9ef102abfd129f31eaa06901f0222ded688086"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 304,
+        "headSkin": 3112,
+        "bodySlot": 1,
+        "bodyId": 4,
+        "bodySkin": 3633
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "ccebfd19a6cfb642f6063bf7897ac6683c25fa24081985f5fd8da09424f1ed91",
+      "bytes": 61402,
+      "masterSha256": "19306200edd3c9ba4008985409faafdd1de999084fe6ad8d5fa2e3074d21e378",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A dry battle-ready smirk, her head almost in profile and eyes returning to us, one armored hand checking a small lance-shaft binding at the lower edge. Her forward shoulder is high and her rear shoulder low. No resting on the lance.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE FORGELANCE / Forjalanza from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 3112, body skin 3633; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 3112: short brown high swept quiff/pompadour, closely cropped sides and small rear tuft; no long ponytail. Pale skin, cream collar, steel and charcoal armor and pointed shoulder guards from the default female outfit.\nNEW INDIVIDUAL POSE AND EXPRESSION: A dry battle-ready smirk, her head almost in profile and eyes returning to us, one armored hand checking a small lance-shaft binding at the lower edge. Her forward shoulder is high and her rear shoulder low. No resting on the lance. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular smoky slate watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "huppermage",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/huppermage-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/huppermage-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/huppermage-m-1.png",
+        "temp/profile-avatars/look-3/references/huppermage-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/huppermage-m-1.png": "382d36d47c538bc80338e96758b49fec6bfa30c1776e7224186535be58e5f9de",
+        "temp/profile-avatars/look-3/references/huppermage-m-2.png": "9dc72a60856cca192a4f6ac50fb78bc1f15a46ca321e0833dfb1fd2031246d39"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 259,
+        "headSkin": 3291,
+        "bodySlot": 1,
+        "bodyId": 38,
+        "bodySkin": 3285
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "1e845428d617f6c34b40e4738502c5257fa6dcf0cbed0a180d963dc1b786e166",
+      "bytes": 58492,
+      "masterSha256": "95a794bc0f031c7f2ed9dab184a048cd732a3d3fe17cdfd9f55421700f927a4c",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "Calm intense curiosity, lightly pinching a tiny four-color elemental bead between thumb and index finger at upper-chest height, head angled toward it while both eyes remain visible. No floating rune over a finger.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE HUPPERMAGE / Hipermago from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 3291, body skin 3285; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 3291: pale blond hair swept up in thick curved locks with a short long-ended high tie, and a tall gold three-pronged crown ornament. Pointed ears, blue-green eyes and pale mint/teal mage robes with white sleeve details.\nNEW INDIVIDUAL POSE AND EXPRESSION: Calm intense curiosity, lightly pinching a tiny four-color elemental bead between thumb and index finger at upper-chest height, head angled toward it while both eyes remain visible. No floating rune over a finger. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted mint watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "huppermage",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/huppermage-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/huppermage-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/huppermage-f-1.png",
+        "temp/profile-avatars/look-3/references/huppermage-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/huppermage-f-1.png": "bd208120adb2e81f69ef159d0c35cb1911f8ec662bd9eae5dbe90dfb38a19a9d",
+        "temp/profile-avatars/look-3/references/huppermage-f-2.png": "1390b474b90aec0810f420b7cc8db074dbd2ff598f8da47664bbf6d766defd49"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 267,
+        "headSkin": 3299,
+        "bodySlot": 1,
+        "bodyId": 39,
+        "bodySkin": 3286
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "c64d895e4069bcc967ec8326f697d416c66ccfb617fe99ae8de57d3c938c354b",
+      "bytes": 63898,
+      "masterSha256": "f10c15016680a859345251035ba36defbf31fd28b769ef67f1eb34fdf6722b15",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A bright knowing glance upward from a small open spell folio held low at one side, a loose page corner lifted in the breeze; restrained four-color ink motif on the page, no readable writing. No held prism or sweeping rune.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE HUPPERMAGE / Hipermago from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 3299, body skin 3286; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 3299: compact pale blond bob with side-swept fringe, small turquoise headband and a gold oval/loop forehead ornament; no very long loose hair. Pointed ears and teal/mint robes with gold fittings and spiral skirt motif.\nNEW INDIVIDUAL POSE AND EXPRESSION: A bright knowing glance upward from a small open spell folio held low at one side, a loose page corner lifted in the breeze; restrained four-color ink motif on the page, no readable writing. No held prism or sweeping rune. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted mint watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "iop",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/iop-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/iop-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/iop-m-1.png",
+        "temp/profile-avatars/look-3/references/iop-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/iop-m-1.png": "73b9f796766e61cac43a26e4c44eb5597bf0e51fa32dcb759ac223c71393be97",
+        "temp/profile-avatars/look-3/references/iop-m-2.png": "71d08d36adfe948f8a8dcfdc74fbdef38e96fbb46d2d618db22d65ae7df3ffc5"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 115,
+        "headSkin": 2126,
+        "bodySlot": 1,
+        "bodyId": 19,
+        "bodySkin": 80
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "bc4ef737d91eea9bd87c8e6a7329f98e848a0531fa5676f2337b9b338ed18fc8",
+      "bytes": 54682,
+      "masterSha256": "3ce0c62a314b567c6ebf79292d40dc59983a866db1b7bce0e409c71f3e6588f5",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A sheepish irrepressible closed-mouth grin after a clumsy victory, one hand rubbing the back of his neck below the hairline and the opposite shoulder rolling forward. Keep his white pupil-less eyes and full third hairstyle visible. No sword across shoulders or folded arms.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE IOP / Yopuka from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2126, body skin 80; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2126: extremely tall flame-like bright orange spiky hair rising in broad angular tufts, pointed ears, bare white pupil-less eyes, white tunic with teal trim and crimson sword/cross emblem, red single shoulder guard and red gloves. Preserve the tall hair with extra top breathing room.\nNEW INDIVIDUAL POSE AND EXPRESSION: A sheepish irrepressible closed-mouth grin after a clumsy victory, one hand rubbing the back of his neck below the hairline and the opposite shoulder rolling forward. Keep his white pupil-less eyes and full third hairstyle visible. No sword across shoulders or folded arms. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular desaturated teal watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "iop",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/iop-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/iop-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/iop-f-1.png",
+        "temp/profile-avatars/look-3/references/iop-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/iop-f-1.png": "3f744098587dac43f49e7b16eb9d82c6c82c211e87a049cc71d3a5e05bf3e669",
+        "temp/profile-avatars/look-3/references/iop-f-2.png": "01a0e5fda229da8d3a2fb1fb1a44a6ced462a21cb622b66f6fc86fed256317cc"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 123,
+        "headSkin": 2134,
+        "bodySlot": 1,
+        "bodyId": 20,
+        "bodySkin": 81
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "cf3ae2f1c3c071b33a96a9652b622e891694ff4f366ee6d7cf4411cdb7afc360",
+      "bytes": 58806,
+      "masterSha256": "69584dd8408c3e6d8d16e953b7339a333537246c1c1827537755a985df615ae3",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A fierce self-assured grin while pressing the knuckles of one fist into her opposite open palm low at her chest, ready for a friendly duel; shoulders squared in a shallow diagonal. No sword grip, no headband adjustment.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE IOP / Yopuka from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2134, body skin 81; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2134: large swept-back orange spiky locks and broad angled front locks, red headband and two long orange side strands, bare white pupil-less eyes. White tunic with teal edging, crimson cross/sword emblem and red shoulder/gloves. Do not use a soft generic princess hairstyle.\nNEW INDIVIDUAL POSE AND EXPRESSION: A fierce self-assured grin while pressing the knuckles of one fist into her opposite open palm low at her chest, ready for a friendly duel; shoulders squared in a shallow diagonal. No sword grip, no headband adjustment. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular desaturated teal watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "masqueraider",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/masqueraider-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/masqueraider-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/masqueraider-m-1.png",
+        "temp/profile-avatars/look-3/references/masqueraider-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/masqueraider-m-1.png": "044aeb0380f6d28802b5bda3f60470d36d4d47cc6a8bebfeeb4fe05f8650eda0",
+        "temp/profile-avatars/look-3/references/masqueraider-m-2.png": "4f338cfb12f3bf4dfb22e1c213c8ad9a9647a8c4fa1ca764989d89c59891c146"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 211,
+        "headSkin": 2222,
+        "bodySlot": 1,
+        "bodyId": 32,
+        "bodySkin": 1437
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "2b21c0728f63b00a688d4ba560aa099bcdb913d362ebc873e8d62e2ab83dd7c9",
+      "bytes": 62444,
+      "masterSha256": "c7e39c59af335a0b0ace92381445b4a0ebaf3dcb27841a0b4ac45e48d4e4e8e9",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A sly stage-performer pause, one hand held in a small theatrical three-finger flourish beside the lower shoulder, head angled sideways and chin extended toward the audience. Preserve the exact third mask; no bow or simple forward grin.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE MASQUERAIDER / Zobal from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2222, body skin 1437; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2222: ivory tribal mask with very large round eye holes outlined in crimson, small dark nose and red markings, tall jagged crimson hair crest. Dark sleeveless brown-black/teal vest and bone/skull waist details only low if visible. Preserve the exact mask, no skull substitution.\nNEW INDIVIDUAL POSE AND EXPRESSION: A sly stage-performer pause, one hand held in a small theatrical three-finger flourish beside the lower shoulder, head angled sideways and chin extended toward the audience. Preserve the exact third mask; no bow or simple forward grin. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted crimson watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "masqueraider",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/masqueraider-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/masqueraider-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/masqueraider-f-1.png",
+        "temp/profile-avatars/look-3/references/masqueraider-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/masqueraider-f-1.png": "dfca840d5fc7ba8fe4b53d94cbb00eb6ca26d6857468f4f2732d1f37431870ba",
+        "temp/profile-avatars/look-3/references/masqueraider-f-2.png": "a2947f8df7d60d7f9b75d7c238bffd2890f863fa9cd55031672d9c014ce336d6"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 219,
+        "headSkin": 2230,
+        "bodySlot": 1,
+        "bodyId": 33,
+        "bodySkin": 1438
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "18350d81b59595a8cc240b73433233c8d120bc8736a1c9b3a137140d734d9859",
+      "bytes": 60778,
+      "masterSha256": "7cc3c67f0022bfe712575382c6e366c767bd26dba07c9025909121155a6c3a52",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A lively balancing-dancer moment with arms extended outside the lower sides of the frame, shoulders tilted like a seesaw and her masked head counter-tilted upright. Express humor through eyes and posture where the mask permits it. No salute or hand offered to viewer.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE MASQUERAIDER / Zobal from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2230, body skin 1438; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2230: ivory tribal upper-face mask with round crimson eye rims and red cheek/nose markings; crimson hair tied into several spiky side/back bunches with pale ties. Dark teal sleeveless costume. Keep the female third mask openings and exposed lower face precisely.\nNEW INDIVIDUAL POSE AND EXPRESSION: A lively balancing-dancer moment with arms extended outside the lower sides of the frame, shoulders tilted like a seesaw and her masked head counter-tilted upright. Express humor through eyes and posture where the mask permits it. No salute or hand offered to viewer. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted crimson watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "osamodas",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/osamodas-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/osamodas-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/osamodas-m-1.png",
+        "temp/profile-avatars/look-3/references/osamodas-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/osamodas-m-1.png": "fcdd4cf2c97f25b7d4680f60f21fcae79a7e18d8a3b3087669cfbe58f1060db7",
+        "temp/profile-avatars/look-3/references/osamodas-m-2.png": "dbd442df3b696bd059bbfd0a369cb784f007027e57fe7fbcc2e39938c17ec593"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 19,
+        "headSkin": 2030,
+        "bodySlot": 1,
+        "bodyId": 6,
+        "bodySkin": 20
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "5ac477e61f4db96795985b33ee02e35ae667b6455192a52513e69c60ab777532",
+      "bytes": 61742,
+      "masterSha256": "0196f3958746195c1854cd7ea3faebe3c54bcab080572a0ee8da5fb03edd078e",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A delighted tender look downward while stroking a tiny yellow Tofu nestled against the crook of his elbow at the lower corner; no companion sitting on shoulder, no coil of whip.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE OSAMODAS / Osamodas from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2030, body skin 20; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2030: tall spiky pale blond hair with two short dark-tipped ivory horns emerging beside the forehead, long pointed ears, tan face and brown eyes. Teal sleeveless summoner clothes with bright yellow shoulder edging and dark gloves; no hat.\nNEW INDIVIDUAL POSE AND EXPRESSION: A delighted tender look downward while stroking a tiny yellow Tofu nestled against the crook of his elbow at the lower corner; no companion sitting on shoulder, no coil of whip. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted turquoise watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "osamodas",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/osamodas-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/osamodas-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/osamodas-f-1.png",
+        "temp/profile-avatars/look-3/references/osamodas-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/osamodas-f-1.png": "c7dda5b0a3fc7096f55cbfcab7ab6a837464702a7126ce88397c1fa54df8ed0c",
+        "temp/profile-avatars/look-3/references/osamodas-f-2.png": "d051b97b53cda23e9df14a4ef57c47545e28965cf26d88111fc38f311a7dad17"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 27,
+        "headSkin": 2038,
+        "bodySlot": 1,
+        "bodyId": 7,
+        "bodySkin": 21
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "61f9b8215235ba6381a8c7a071de21a18920180d763792208ed496c79dd3cf3e",
+      "bytes": 61780,
+      "masterSha256": "20e419f1bb7af7672204fb0f0c50756fc120bae26266340445804a3e0e4c6e7e",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "An assured summoner whistle with softly rounded lips, one hand held palm-down at shoulder level as if asking an unseen creature to settle; a decisive eyebrow and upright chin. No finger to lips or Tofu on a finger.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE OSAMODAS / Osamodas from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2038, body skin 21; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2038: wide teal beret with short ivory/dark horn studs, pale blond spiky fringe and cheek locks, pointed ears and warm tan face. Teal sleeveless outfit with yellow edging and dark sleeves. Beret rather than an invented large horn crown.\nNEW INDIVIDUAL POSE AND EXPRESSION: An assured summoner whistle with softly rounded lips, one hand held palm-down at shoulder level as if asking an unseen creature to settle; a decisive eyebrow and upright chin. No finger to lips or Tofu on a finger. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted turquoise watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "ouginak",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/ouginak-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/ouginak-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/ouginak-m-1.png",
+        "temp/profile-avatars/look-3/references/ouginak-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/ouginak-m-1.png": "3deea07ecb6fea2b7f99ac8417d29ebb1f04e1b537ab3a0895a08f137a6c62b6",
+        "temp/profile-avatars/look-3/references/ouginak-m-2.png": "247d20952502f9901b89025aa5836380cfc71f871b421fd8f36d479006fe5189"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 286,
+        "headSkin": 3504,
+        "bodySlot": 1,
+        "bodyId": 40,
+        "bodySkin": 3498
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "21311458432bbd08f3bc10f6a559703125d384306d6c556ec93feeb590e3f73a",
+      "bytes": 52016,
+      "masterSha256": "e1ff332a5454524e7af77e356c55307cf5a8b846038911f8dac25b7d38af4cb6",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A skeptical amused canine squint, head cocked sharply to one side, one furry hand scratching gently under the outer collar edge rather than at the chin; ears keep their exact third-model form. No bone in mouth.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE OUGINAK / Uginak from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 3504, body skin 3498; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 3504: true gray-brown canine face and long muzzle, dark nose, short pointed dog ears and a compact golden upright mohawk rather than a large surrounding mane. Dark leather collar with orange center detail and black/olive armor. Never human skin or human nose.\nNEW INDIVIDUAL POSE AND EXPRESSION: A skeptical amused canine squint, head cocked sharply to one side, one furry hand scratching gently under the outer collar edge rather than at the chin; ears keep their exact third-model form. No bone in mouth. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular dusty sand watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "ouginak",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/ouginak-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/ouginak-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/ouginak-f-1.png",
+        "temp/profile-avatars/look-3/references/ouginak-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/ouginak-f-1.png": "0edd529c6477fda1eba5957253b589abaf6a7b3c25fee5d752080afb8540cf9c",
+        "temp/profile-avatars/look-3/references/ouginak-f-2.png": "65c835ded68c8dfaad9c533cbd3acda525f8616b8cff0a5f2948daaba59e3c60"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 277,
+        "headSkin": 3512,
+        "bodySlot": 1,
+        "bodyId": 42,
+        "bodySkin": 3499
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "729e70f01359405341a4fa0678477786c2b362d565d0e64abfc80830e0f1df9a",
+      "bytes": 63468,
+      "masterSha256": "e2aab7434698c6235bbcabb89fd55e77c1a34b12df7cf67c8beec522176470d1",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A delighted open canine laugh, muzzle raised and one furry palm held outward low as a playful challenge, shoulders twisting away. Keep animal teeth and muzzle, no human face and no handheld bone.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE OUGINAK / Uginak from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 3512, body skin 3499; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 3512: true dark gray canine muzzle and black nose, golden shaggy cheek locks gathered into a tall rear ponytail, dark olive studded headband and ivory bone hair ornaments. Brown/black leather clothing and orange accents, bright amber dog eyes. Do not humanize.\nNEW INDIVIDUAL POSE AND EXPRESSION: A delighted open canine laugh, muzzle raised and one furry palm held outward low as a playful challenge, shoulders twisting away. Keep animal teeth and muzzle, no human face and no handheld bone. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular dusty sand watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "pandawa",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/pandawa-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/pandawa-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/pandawa-m-1.png",
+        "temp/profile-avatars/look-3/references/pandawa-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/pandawa-m-1.png": "5adc52286b0d5115973df615cc207a9360582bec5c8296d3979b82e1bdc54954",
+        "temp/profile-avatars/look-3/references/pandawa-m-2.png": "9cf8f57074c866ff0e74919b8373e5aad08e4355c05364266987ee525b629d3e"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 179,
+        "headSkin": 2190,
+        "bodySlot": 1,
+        "bodyId": 28,
+        "bodySkin": 120
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "0f540be3535cbe88e6fc3ac237ba13bd8b74f7801caee7c82060bad4fe4ca2a6",
+      "bytes": 53820,
+      "masterSha256": "3cbe882b5e5bae8b41f89d39012294c483aa555cfc2f72d5da9f9f7f425f66f0",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A tranquil martial-arts breathing pause with eyes half closed and one furry fist nestled into the other open palm below the collar, upper body leaning subtly sideways. No toast or pouring drink.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE PANDAWA / Pandawa from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2190, body skin 120; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2190: panda species face with black eye patches and small black ears, long shaggy ivory front locks and fringe swept to one side, a red scarf and olive/charcoal furry shoulders. Maintain the panda muzzle and nose, not a human portrait with panda makeup.\nNEW INDIVIDUAL POSE AND EXPRESSION: A tranquil martial-arts breathing pause with eyes half closed and one furry fist nestled into the other open palm below the collar, upper body leaning subtly sideways. No toast or pouring drink. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted bamboo green watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "pandawa",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/pandawa-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/pandawa-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/pandawa-f-1.png",
+        "temp/profile-avatars/look-3/references/pandawa-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/pandawa-f-1.png": "62c0baa5e5424d06cf28fc71af263950c8deb0e8512891b085f92d9f6a09bd76",
+        "temp/profile-avatars/look-3/references/pandawa-f-2.png": "5413cfde587699b6666b887d99eb7d3f28b8c3aae14d7225b04ae8c8a9136beb"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 187,
+        "headSkin": 2198,
+        "bodySlot": 1,
+        "bodyId": 29,
+        "bodySkin": 121
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "516268e18c29332163135d35d646cd734702f89ed2f889dba50b950b265d45dc",
+      "bytes": 52262,
+      "masterSha256": "159a69355c95d885332435b9837a1cb1e78ff366164be15ddc2f2da3c9118dc0",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "An impish panda smile looking down toward a little bamboo cup cradled in both hands at the lowest edge, shoulders tucked warmly upward. Distinct from a raised toast and a formal martial greeting.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE PANDAWA / Pandawa from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2198, body skin 121; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2198: white panda face with dark patches and short muzzle, dark olive swept fringe and two high leaf-like hair tufts held by red wraps. Red/cream martial outfit with pale trim, olive dark limbs. Preserve her actual panda face and twin tuft silhouette.\nNEW INDIVIDUAL POSE AND EXPRESSION: An impish panda smile looking down toward a little bamboo cup cradled in both hands at the lowest edge, shoulders tucked warmly upward. Distinct from a raised toast and a formal martial greeting. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted bamboo green watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "rogue",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/rogue-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/rogue-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/rogue-m-1.png",
+        "temp/profile-avatars/look-3/references/rogue-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/rogue-m-1.png": "d6d476cc21e6e0c372ffd097a56845092fd928bb2a2ac232cc8de722c80f529d",
+        "temp/profile-avatars/look-3/references/rogue-m-2.png": "ab0cb87de2bdbaab5e62346bbd5a496309db193a1bf0f249ae4d5338b7252f7e"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 195,
+        "headSkin": 2206,
+        "bodySlot": 1,
+        "bodyId": 30,
+        "bodySkin": 1405
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "bb9cafa5be45763ab235520acb71992dbf9c0217751f8545275629c24300c1cc",
+      "bytes": 63128,
+      "masterSha256": "54588784f5bad85d124ef9fc1b4b07cd8a2ba38469e3b9a4097aea619f12aab9",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A smug almost-laugh while tugging one glove cuff with the opposite hand low at his chest, upper body leaned back and chin turned left; face coverings stay exactly as the third game head. No bomb or spyglass.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE ROGUE / Tymador from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2206, body skin 1405; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2206: spiky high teal hair and teal pointed goatee/beard, black asymmetrical eye-band/headband across the forehead and one eye region with little pale metal studs, large gold hoop earrings and dark sleeveless rogue outfit. No old tall skull bandana or ear-like cap tails.\nNEW INDIVIDUAL POSE AND EXPRESSION: A smug almost-laugh while tugging one glove cuff with the opposite hand low at his chest, upper body leaned back and chin turned left; face coverings stay exactly as the third game head. No bomb or spyglass. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular smoky blue gray watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "rogue",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/rogue-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/rogue-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/rogue-f-1.png",
+        "temp/profile-avatars/look-3/references/rogue-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/rogue-f-1.png": "c87b6616d63910426df90f6a8e3c31c6ecf57357a2bb6a08e2c0a73ecaa010f5",
+        "temp/profile-avatars/look-3/references/rogue-f-2.png": "902887dbec6d5a40b278713cba327485f1ab8ae67290f188640cedcbea13b520"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 203,
+        "headSkin": 2214,
+        "bodySlot": 1,
+        "bodyId": 31,
+        "bodySkin": 1407
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "4c0df1cf98f54d7434fe145a561888ca4dcde66a733ea2308469d67dc4bafda8",
+      "bytes": 57696,
+      "masterSha256": "18b38fa9a760d52b59a47cb3f7c2ec2610a936f5a336a1c32f880912d7b4ec44",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A sharp calculating side glance as she presses one index finger lightly against the underside of her own jaw, elbow low and shoulders held in a poised diagonal. Match all third-head coverings; no bomb, fuse or wink.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE ROGUE / Tymador from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2214, body skin 1407; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2214: vivid teal hair swept into a high spiky bun/ponytail held by black-and-gold bow/ears, long curved teal front locks, fully visible pale face and turquoise eyes. Gold earrings, black top with small white skull motif and gold trim. No black mask covering her visible eyes.\nNEW INDIVIDUAL POSE AND EXPRESSION: A sharp calculating side glance as she presses one index finger lightly against the underside of her own jaw, elbow low and shoulders held in a poised diagonal. Match all third-head coverings; no bomb, fuse or wink. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular smoky blue gray watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "sacrier",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/sacrier-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/sacrier-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/sacrier-m-1.png",
+        "temp/profile-avatars/look-3/references/sacrier-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/sacrier-m-1.png": "c0663f704625867413d888376a116a64042481232ae9972d238002f35a67cec9",
+        "temp/profile-avatars/look-3/references/sacrier-m-2.png": "475bbe987efb223a1aafcf714fec8611fda4f18c26d94ba378e1b97832940ee8"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 163,
+        "headSkin": 2174,
+        "bodySlot": 1,
+        "bodyId": 26,
+        "bodySkin": 110
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "0d24135c6b0f36fc699bb34f20ff42eb8dd5eb1668848ac50aabd5bf6f39c3f0",
+      "bytes": 65132,
+      "masterSha256": "82e9d92657d8812a382e19e8e54edc6ac9cae72f4b97e359ad2da1aa84fcb0c3",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A quiet determined exhale, eyes turned slightly upward while one wrapped hand tightens the opposite forearm bandage at the bottom of the frame, shoulders drawn back. No fist on chest or laugh, no blood.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE SACRIER / Sacrógrito from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2174, body skin 110; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2174: blunt orange hair swept into a broad cropped top, olive khaki scarf/headband with a yellow/gold round center motif and a tied tail at back. White pupil-less eyes, bare chest with red heart marking and burgundy forearm wraps. No blood or invented face tattoos.\nNEW INDIVIDUAL POSE AND EXPRESSION: A quiet determined exhale, eyes turned slightly upward while one wrapped hand tightens the opposite forearm bandage at the bottom of the frame, shoulders drawn back. No fist on chest or laugh, no blood. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular faded crimson watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "sacrier",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/sacrier-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/sacrier-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/sacrier-f-1.png",
+        "temp/profile-avatars/look-3/references/sacrier-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/sacrier-f-1.png": "8e1b0b4b44fe7e86b05b860c5ca36fb912918306d3d95c4b821b19c9a74aa2a5",
+        "temp/profile-avatars/look-3/references/sacrier-f-2.png": "b8ed7fd3c8e49188cacc72d691c1c9c7bfc6dee010ba2341951289e735e1491d"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 171,
+        "headSkin": 2182,
+        "bodySlot": 1,
+        "bodyId": 27,
+        "bodySkin": 111
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "8b34e8933f794ef4712983ef7f65c431b7be2f690b7bb5a2e2af389adab86a54",
+      "bytes": 63980,
+      "masterSha256": "028226aa33dc072e093a113c6f44b8ce83e9e346cee8642abf49b3c457431cc4",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A proud relieved laugh after a spar, one palm spread against her own far shoulder as she stretches the arm gently across her chest below the face. No boxing guard or wrist wrapping, no blood.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE SACRIER / Sacrógrito from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2182, body skin 111; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2182: very large high orange ponytail and heavy side-swept orange front locks, olive tie/scarf, white pupil-less eyes. Olive/khaki torn-looking top and burgundy sleeves/wraps. Her exposed warm skin stays uninjured, no blood.\nNEW INDIVIDUAL POSE AND EXPRESSION: A proud relieved laugh after a spar, one palm spread against her own far shoulder as she stretches the arm gently across her chest below the face. No boxing guard or wrist wrapping, no blood. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular faded crimson watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "sadida",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/sadida-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/sadida-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/sadida-m-1.png",
+        "temp/profile-avatars/look-3/references/sadida-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/sadida-m-1.png": "7b6d54700de384ce41b2f0b08c112f1ea8000bfdef476085d4b3be3e7cf85ea8",
+        "temp/profile-avatars/look-3/references/sadida-m-2.png": "093ffd7a9b5ee01c77c59967c719e902adaeb102e7acc5e7c0d56b6274f3ea1e"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 147,
+        "headSkin": 2158,
+        "bodySlot": 1,
+        "bodyId": 23,
+        "bodySkin": 100
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "f2c9738dedf9d95695bb11d9db8a027bf34d4bb5e1c97e5ff3bc14ed1200e513",
+      "bytes": 65176,
+      "masterSha256": "56e81d39c12131e5dbdfe2be637839fde756f6cbebdfd52353a6458ac2a0889c",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A broad mellow smile as a tiny wooden doll peeks from his loosely open palm at the lower side, head inclined affectionately toward it, leafy hair/beard fully readable. No plucking a leaf or rubbing neck.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE SADIDA / Sadida from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2158, body skin 100; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2158: bright green blocky leaf-like thick hair and broad angular green beard/moustache, beige/olive wrapped striped headband with small pale side fittings. Brown warm skin, pale natural cloth outfit and simple bark/bone wrist details. Never replace the beard with ordinary brown hair.\nNEW INDIVIDUAL POSE AND EXPRESSION: A broad mellow smile as a tiny wooden doll peeks from his loosely open palm at the lower side, head inclined affectionately toward it, leafy hair/beard fully readable. No plucking a leaf or rubbing neck. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular soft moss green watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "sram",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/sram-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/sram-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/sram-m-1.png",
+        "temp/profile-avatars/look-3/references/sram-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/sram-m-1.png": "5715732f054190a1542edcdc04e01ebee006a90a7447f48cbfdb399d2ee428ff",
+        "temp/profile-avatars/look-3/references/sram-m-2.png": "07cfbd3d168268acb2880ea7e4841c873824b0dae24aad60a567b3ee81f8d8dc"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 51,
+        "headSkin": 2062,
+        "bodySlot": 1,
+        "bodyId": 10,
+        "bodySkin": 40
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "380bd8a015e7f6d2b236080edfe0d99496106346159f694f39432d4531ba3764",
+      "bytes": 68818,
+      "masterSha256": "91de33ddb15bf22c551f58a6208fd3ac03aa1f8732b19876fdf2e053698f37b8",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A delighted conspiratorial skeletal grin, two bony fingertips lightly touching the outer jaw hinge while his skull leans into a steep three-quarter angle. Keep the actual third skull and any headgear; no dagger or shushing finger.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE SRAM / Sram from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2062, body skin 40; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2062: ivory skeletal skull face inside a dark-blue hood with a tall curled top and pale skull motif; ivory front bone/hair-like crest visible at the forehead, dark sockets and small pale eyes. Blue spiked collar and bone rib torso, no human skin. Follow the real curled hood exactly.\nNEW INDIVIDUAL POSE AND EXPRESSION: A delighted conspiratorial skeletal grin, two bony fingertips lightly touching the outer jaw hinge while his skull leans into a steep three-quarter angle. Keep the actual third skull and any headgear; no dagger or shushing finger. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular faded midnight blue watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "sadida",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/sadida-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/sadida-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/sadida-f-1.png",
+        "temp/profile-avatars/look-3/references/sadida-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/sadida-f-1.png": "187aa359ece1e3063c9cedc4af554286f823ad74c016bba95efbf6e27cc49775",
+        "temp/profile-avatars/look-3/references/sadida-f-2.png": "5c2da2a705c3fb62a81b5d9bb16241b237d1b3137a536f13721e04a651eb618a"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 155,
+        "headSkin": 2166,
+        "bodySlot": 1,
+        "bodyId": 25,
+        "bodySkin": 101
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "2cb1ef766fd9abd7e494b1030a3ed64438949cdc0408d85c9f257171c3726d6c",
+      "bytes": 59754,
+      "masterSha256": "f738acd62724766058384e2aa3f0de3e42587890ef301efaf618f0385b29efc9",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A mischievous attentive glance toward one tiny sprout emerging between two gently cupped hands at the lower chest; chin tipped forward and shoulders uneven. No flower by cheek or floating leaf.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE SADIDA / Sadida from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2166, body skin 101; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2166: large rounded canopy of thick bright green leafy locks, with a heavy green front fringe and cream side ties/ear ornaments. Brown warm skin, cream natural/fur-edged top and pale wrist details. Preserve the third leaf-canopy silhouette, not a tiny sprout tuft.\nNEW INDIVIDUAL POSE AND EXPRESSION: A mischievous attentive glance toward one tiny sprout emerging between two gently cupped hands at the lower chest; chin tipped forward and shoulders uneven. No flower by cheek or floating leaf. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular soft moss green watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "sram",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/sram-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/sram-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/sram-f-1.png",
+        "temp/profile-avatars/look-3/references/sram-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/sram-f-1.png": "ebfca054e623fd865c17a91c4b9e4056c4fc06a6054a6a35354804112f02f8a9",
+        "temp/profile-avatars/look-3/references/sram-f-2.png": "c14a5980bb35fc68c4266ad3c73c613266ecf0e78df6614b2009047f2c16d6d8"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 59,
+        "headSkin": 2070,
+        "bodySlot": 1,
+        "bodyId": 11,
+        "bodySkin": 41
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "8024901326dffa34117a052174d8580b2d8ada9557f37fc3df04ddfc5f8814b9",
+      "bytes": 64662,
+      "masterSha256": "57dab218ccf8e498d9ecabe3ba2c7737551766aecddda023b1fba62838199f17",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A cool guarded look over her far shoulder with one hand loosely twirling the end of a narrow cloak tie below the collar. Preserve the actual third head hair, face covering and exposed skin exactly, without assuming a hood. No dagger or cloak-pulling gesture.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE SRAM / Sram from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2070, body skin 41; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2070: close blue hood/cap with pale skull emblem, very pale spiky hair projecting behind and pale side locks, blue lower-face covering across nose/mouth. Blue strapless costume and long blue gloves with brown belt. Keep the covered lower face covered and the eyes exposed.\nNEW INDIVIDUAL POSE AND EXPRESSION: A cool guarded look over her far shoulder with one hand loosely twirling the end of a narrow cloak tie below the collar. Preserve the actual third head hair, face covering and exposed skin exactly, without assuming a hood. No dagger or cloak-pulling gesture. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular faded midnight blue watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "xelor",
+      "gender": "male",
+      "asset": "public/avatars/classes/v1/xelor-look-3-m.webp",
+      "master": "temp/profile-avatars/masters/v1/xelor-look-3-m.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/xelor-m-1.png",
+        "temp/profile-avatars/look-3/references/xelor-m-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/xelor-m-1.png": "29063c40965dc1674d4c9ac621afe7d40dc52ef45ca0eefdba95f8ccf71a9662",
+        "temp/profile-avatars/look-3/references/xelor-m-2.png": "9a7700e3a57a73ef2f792660337168e562d8592137a42aea417b779dcde02da7"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 67,
+        "headSkin": 2078,
+        "bodySlot": 1,
+        "bodyId": 12,
+        "bodySkin": 50
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "c9ebe2ca44ae69b563e19967db656084f40db9e31d8adc42a9aeb35e3932211c",
+      "bytes": 60334,
+      "masterSha256": "34b228b41217636341531a5205d1178c53906c448905ef6f0e47332341b5ceae",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "An intent curious stare, both bandaged hands held low with a tiny brass clockwork wheel being carefully aligned between them, head pitched sideways like a listening clockmaker. Preserve the third hat or wrappings exactly as visible. No pocket watch display.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the MALE XELOR / Xelor from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2078, body skin 50; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2078: no hat; a large upright ivory swept-back crest emerges above dark gray mummy head wraps and a thick horizontal forehead band. Dark gray bandaged face, small pale eyes, blue high collar/scarf and gold star on dark blue tunic. Do not add a wizard hat.\nNEW INDIVIDUAL POSE AND EXPRESSION: An intent curious stare, both bandaged hands held low with a tiny brass clockwork wheel being carefully aligned between them, head pitched sideways like a listening clockmaker. Preserve the third hat or wrappings exactly as visible. No pocket watch display. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted indigo watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
+    },
+    {
+      "classId": "xelor",
+      "gender": "female",
+      "asset": "public/avatars/classes/v1/xelor-look-3-f.webp",
+      "master": "temp/profile-avatars/masters/v1/xelor-look-3-f.png",
+      "referenceImages": [
+        "temp/profile-avatars/masters/v1/iop-m.png",
+        "temp/profile-avatars/look-3/references/xelor-f-1.png",
+        "temp/profile-avatars/look-3/references/xelor-f-2.png"
+      ],
+      "referenceHashes": {
+        "temp/profile-avatars/masters/v1/iop-m.png": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+        "temp/profile-avatars/look-3/references/xelor-f-1.png": "399f7c63fed1911459dda47947b10851ee583dae5dcff7258eb96ffe7901782b",
+        "temp/profile-avatars/look-3/references/xelor-f-2.png": "3707e2909594af7c0b2fdf3329906193f3e9653286feaf0d7d48a7294b5672e2"
+      },
+      "gameLook": {
+        "headSlot": 3,
+        "headId": 75,
+        "headSkin": 2086,
+        "bodySlot": 1,
+        "bodyId": 13,
+        "bodySkin": 51
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "sha256": "25a0848b0b770305ecbf063463af8575cc01fca7877ca6f980fe93feaa7b9d68",
+      "bytes": 60312,
+      "masterSha256": "3fb85b2dde93a6f00aab88bc8882fed3c83c0fd79a8cf95acd89589078921afa",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "pose": "A playful impatient glance from the corner of her eye while one bandaged fingertip taps the top of her opposite wrist low at the chest, shoulders angled forward as if someone is late. Keep her exact third face/headwear; no floating gear or hourglass.",
+      "prompt": "Use case: illustration-story. Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE XELOR / Xelor from DOFUS for Dofus Forge. This is the THIRD selectable face/hairstyle with the DEFAULT original outfit. Target installed game client DOFUS 3.7.14.18. IMAGE 1 defines the APPROVED COLLECTION ART STYLE ONLY. IMAGES 2 and 3 are actual game renders of the EXACT target third face/hairstyle, head skin 2086, body skin 51; these determine species, face, eyes, mask, hair, headgear, palette and costume. Preserve that exact THIRD head silhouette and defining features. Do not revert to the first or second head or redesign into a generic fantasy character. Never borrow the Iop hair, sword, white eyes, anatomy or pose from the style reference when drawing another class.\nIDENTITY OBSERVED IN THE THIRD GAME MODEL: Exact third head 2086: blue helmet with two long pointed horn-like upward extensions, large circular golden side fittings, long pale blond straight hair. Dark gray mummy face, small light eyes and gray wrapped/segmented torso with blue sleeve and gold belt. Preserve the female helmet silhouette and mummy anatomy.\nNEW INDIVIDUAL POSE AND EXPRESSION: A playful impatient glance from the corner of her eye while one bandaged fingertip taps the top of her opposite wrist low at the chest, shoulders angled forward as if someone is late. Keep her exact third face/headwear; no floating gear or hourglass. Give this character its own personality and staging; do not simply recolor, mirror or repeat another avatar. Any pose instruction is subordinate to preserving actual headgear and facial visibility in the game references.\nMatch the approved French fantasy comic INK AND WATERCOLOR finish: lively confident tapered black brush-pen lines of varied weights, a few dark graphite construction marks, selective hatching, expressive asymmetric anatomy, economical clear shapes, hand-placed loose matte watercolor with small paper gaps and varied pigment edges. Rich but slightly understated original game colors. Clean warm off-white ground with a restrained irregular muted indigo watercolor wash. No artificial grunge, brown tint, perfect vector lines, plastic 3D, photorealism, airbrush, polished generic fantasy painting, cinematic glow, rim light, sparks or glossy surfaces.\nSquare opaque image with watercolor ground included. ONE head-and-upper-torso character, face large near center, hair/headwear entirely contained with top breathing room. Make face and defining hair/headgear readable inside a centered circular crop and at 48px. Shoulders may crop at the bottom. Only the specified small class prop or companion if any. Hands anatomically readable with natural separated fingers, never extra fingers or fused limbs. No text, signature, lettering, watermark, logo, frame, collage or multiple views."
     }
   ],
   "productionTracking": "docs/brand/profile-avatars/PROGRESS.md",
-  "gameLookInventory": "docs/brand/profile-avatars/game-looks.json"
+  "gameLookInventory": "docs/brand/profile-avatars/game-looks.json",
+  "latestExpansionClientVersion": "3.7.14.18"
 }

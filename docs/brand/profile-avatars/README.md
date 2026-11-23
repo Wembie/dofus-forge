@@ -1,11 +1,23 @@
 # Retratos de perfil de Forge
 
-Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros dos rostros/peinados tienen versiones masculinas y femeninas: **76 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
+Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros tres rostros/peinados tienen versiones masculinas y femeninas: **114 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
 
 - [Progreso por clase, sexo y modelo](PROGRESS.md): lista completa con casillas de los rostros hechos y pendientes; los trajes alternativos van al final.
 - [Inventario del juego](game-looks.json): 600 rostros/peinados y 76 cuerpos de creación, incluidos los 38 trajes habituales y los 38 alternativos reservados para después.
 - [Prompts y procedencia de cada imagen](manifest.json): prompt exacto, pose, referencias, hash y `gameLook` con posición, id y textura de cabeza/cuerpo.
 - [Plantilla para continuar](prompt-template.json): conservar la técnica artística y los rasgos del modelo, inventando un gesto y expresión distintos para cada retrato.
+
+## Rostro 3
+
+38 retratos nuevos para las 19 clases, masculino y femenino, con el tercer rostro/peinado y el traje habitual del cliente DOFUS 3.7.14.18. Cada dibujo conserva su modelo exacto y tiene una pose y expresión propias. Los rostros 1 y 2 siguen disponibles. El progreso es de 114/600 rostros terminados; los 38 trajes alternativos siguen reservados para después.
+
+![Tercer rostro de cada clase](look-3-preview.webp)
+
+![Tercer rostro en recortes circulares de 150 y 48 px](look-3-circular-preview.webp)
+
+PNG originales: `temp/profile-avatars/masters/v1/<clase>-look-3-<m|f>.png`. La web usa `public/avatars/classes/v1/<clase>-look-3-<m|f>.webp` a 512 × 512 px. El manifiesto guarda el prompt exacto, pose, ids y texturas del modelo, versión del cliente, hashes de las referencias y hashes del PNG y WebP. La técnica se mantiene con el retrato aprobado; la identidad viene de dos renders del tercer modelo.
+
+Antes del despliegue, aplicar `supabase/migrations/20261123040000_profile_art_third_heads_and_locations.sql`. Solo agrega 38 retratos y ocho escenarios a los catálogos existentes; conserva las fotos, portadas y permisos actuales. No se ha ejecutado en la base de datos alojada desde este trabajo.
 
 ## Rostro 2
 

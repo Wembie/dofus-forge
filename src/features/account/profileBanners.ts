@@ -1,4 +1,4 @@
-const locations = ['bonta', 'brakmar', 'astrub', 'incarnam', 'amakna', 'sufokia', 'pandala', 'frigost', 'anutropia', 'sramvil', 'zurcalia', 'xelorium', 'moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo'] as const
+const locations = ['bonta', 'brakmar', 'astrub', 'incarnam', 'amakna', 'sufokia', 'pandala', 'frigost', 'anutropia', 'sramvil', 'zurcalia', 'xelorium', 'moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo', 'amakna-castle', 'trool-fair', 'dragoeuf', 'nimotopia', 'akwadala', 'feudala', 'terrdala', 'aerdala'] as const
 
 export const PROFILE_BANNERS = locations.map(id => ({
   id,
