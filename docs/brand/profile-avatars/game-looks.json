@@ -1,0 +1,6099 @@
+{
+  "source": "Installed Dofus 3 client; availableAtCreation bodies and heads",
+  "priority": "Heads first using the default body; alternate bodies mapped for later",
+  "slotRule": "One-based position sorted by source order then source id; preserve source ids",
+  "looks": [
+    {
+      "classId": "cra",
+      "className": "Ocra",
+      "breed": 9,
+      "gender": "male",
+      "colors": [
+        15047528,
+        14383411,
+        7696171,
+        8675096,
+        9392643,
+        16422159
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 21,
+          "skin": 90,
+          "label": "base",
+          "order": 1,
+          "assetId": "90_1"
+        },
+        {
+          "slot": 2,
+          "id": 106,
+          "skin": 5877,
+          "label": "retro",
+          "order": 2,
+          "assetId": "90_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 129,
+          "skin": 2140,
+          "label": "1",
+          "order": 0,
+          "assetId": "90_1"
+        },
+        {
+          "slot": 2,
+          "id": 130,
+          "skin": 2141,
+          "label": "2",
+          "order": 1,
+          "assetId": "90_2"
+        },
+        {
+          "slot": 3,
+          "id": 131,
+          "skin": 2142,
+          "label": "3",
+          "order": 2,
+          "assetId": "90_3"
+        },
+        {
+          "slot": 4,
+          "id": 132,
+          "skin": 2143,
+          "label": "4",
+          "order": 3,
+          "assetId": "90_4"
+        },
+        {
+          "slot": 5,
+          "id": 133,
+          "skin": 2144,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "90_5"
+        },
+        {
+          "slot": 6,
+          "id": 134,
+          "skin": 2145,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "90_6"
+        },
+        {
+          "slot": 7,
+          "id": 135,
+          "skin": 2146,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "90_7"
+        },
+        {
+          "slot": 8,
+          "id": 136,
+          "skin": 2147,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "90_8"
+        },
+        {
+          "slot": 9,
+          "id": 334,
+          "skin": 5189,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "90_9"
+        },
+        {
+          "slot": 10,
+          "id": 335,
+          "skin": 5194,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "90_10"
+        },
+        {
+          "slot": 11,
+          "id": 336,
+          "skin": 5195,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "90_11"
+        },
+        {
+          "slot": 12,
+          "id": 337,
+          "skin": 5196,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "90_12"
+        },
+        {
+          "slot": 13,
+          "id": 363,
+          "skin": 5193,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "90_13"
+        },
+        {
+          "slot": 14,
+          "id": 364,
+          "skin": 5190,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "90_14"
+        },
+        {
+          "slot": 15,
+          "id": 365,
+          "skin": 5191,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "90_15"
+        },
+        {
+          "slot": 16,
+          "id": 366,
+          "skin": 5192,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "90_16"
+        },
+        {
+          "slot": 17,
+          "id": 654,
+          "skin": 5917,
+          "label": "retro",
+          "order": 17,
+          "assetId": "90_17"
+        }
+      ]
+    },
+    {
+      "classId": "cra",
+      "className": "Ocra",
+      "breed": 9,
+      "gender": "female",
+      "colors": [
+        15047528,
+        14383411,
+        7696171,
+        9392643,
+        9392643,
+        16422159
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 22,
+          "skin": 91,
+          "label": "base",
+          "order": 1,
+          "assetId": "91_1"
+        },
+        {
+          "slot": 2,
+          "id": 107,
+          "skin": 5878,
+          "label": "retro",
+          "order": 2,
+          "assetId": "91_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 137,
+          "skin": 2148,
+          "label": "1",
+          "order": 0,
+          "assetId": "91_1"
+        },
+        {
+          "slot": 2,
+          "id": 138,
+          "skin": 2149,
+          "label": "2",
+          "order": 1,
+          "assetId": "91_2"
+        },
+        {
+          "slot": 3,
+          "id": 139,
+          "skin": 2150,
+          "label": "3",
+          "order": 2,
+          "assetId": "91_3"
+        },
+        {
+          "slot": 4,
+          "id": 140,
+          "skin": 2151,
+          "label": "4",
+          "order": 3,
+          "assetId": "91_4"
+        },
+        {
+          "slot": 5,
+          "id": 141,
+          "skin": 2152,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "91_5"
+        },
+        {
+          "slot": 6,
+          "id": 142,
+          "skin": 2153,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "91_6"
+        },
+        {
+          "slot": 7,
+          "id": 143,
+          "skin": 2154,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "91_7"
+        },
+        {
+          "slot": 8,
+          "id": 144,
+          "skin": 2155,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "91_8"
+        },
+        {
+          "slot": 9,
+          "id": 338,
+          "skin": 5197,
+          "label": "1.3",
+          "order": 9,
+          "assetId": "91_9"
+        },
+        {
+          "slot": 10,
+          "id": 339,
+          "skin": 5198,
+          "label": "2.3",
+          "order": 10,
+          "assetId": "91_10"
+        },
+        {
+          "slot": 11,
+          "id": 340,
+          "skin": 5240,
+          "label": "3.3",
+          "order": 11,
+          "assetId": "91_11"
+        },
+        {
+          "slot": 12,
+          "id": 341,
+          "skin": 5237,
+          "label": "4.3",
+          "order": 12,
+          "assetId": "91_12"
+        },
+        {
+          "slot": 13,
+          "id": 367,
+          "skin": 5238,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "91_13"
+        },
+        {
+          "slot": 14,
+          "id": 368,
+          "skin": 5239,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "91_14"
+        },
+        {
+          "slot": 15,
+          "id": 369,
+          "skin": 5199,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "91_15"
+        },
+        {
+          "slot": 16,
+          "id": 370,
+          "skin": 5241,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "91_16"
+        },
+        {
+          "slot": 17,
+          "id": 655,
+          "skin": 5918,
+          "label": "retro",
+          "order": 17,
+          "assetId": "91_17"
+        }
+      ]
+    },
+    {
+      "classId": "ecaflip",
+      "className": "Zurcarák",
+      "breed": 6,
+      "gender": "male",
+      "colors": [
+        14732959,
+        15173176,
+        15690532,
+        5478807,
+        7687730,
+        14648576
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 14,
+          "skin": 60,
+          "label": "base",
+          "order": 1,
+          "assetId": "60_1"
+        },
+        {
+          "slot": 2,
+          "id": 100,
+          "skin": 5871,
+          "label": "retro",
+          "order": 2,
+          "assetId": "60_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 81,
+          "skin": 2092,
+          "label": "1",
+          "order": 0,
+          "assetId": "60_1"
+        },
+        {
+          "slot": 2,
+          "id": 82,
+          "skin": 2093,
+          "label": "2",
+          "order": 1,
+          "assetId": "60_2"
+        },
+        {
+          "slot": 3,
+          "id": 83,
+          "skin": 2094,
+          "label": "3",
+          "order": 2,
+          "assetId": "60_3"
+        },
+        {
+          "slot": 4,
+          "id": 84,
+          "skin": 2095,
+          "label": "4",
+          "order": 3,
+          "assetId": "60_4"
+        },
+        {
+          "slot": 5,
+          "id": 85,
+          "skin": 2096,
+          "label": "1.1",
+          "order": 4,
+          "assetId": "60_5"
+        },
+        {
+          "slot": 6,
+          "id": 86,
+          "skin": 2097,
+          "label": "2.1",
+          "order": 5,
+          "assetId": "60_6"
+        },
+        {
+          "slot": 7,
+          "id": 87,
+          "skin": 2098,
+          "label": "3.1",
+          "order": 6,
+          "assetId": "60_7"
+        },
+        {
+          "slot": 8,
+          "id": 88,
+          "skin": 2099,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "60_8"
+        },
+        {
+          "slot": 9,
+          "id": 449,
+          "skin": 5377,
+          "label": "1.2",
+          "order": 8,
+          "assetId": "60_9"
+        },
+        {
+          "slot": 10,
+          "id": 451,
+          "skin": 5382,
+          "label": "2.2",
+          "order": 9,
+          "assetId": "60_10"
+        },
+        {
+          "slot": 11,
+          "id": 453,
+          "skin": 5379,
+          "label": "3.2",
+          "order": 10,
+          "assetId": "60_11"
+        },
+        {
+          "slot": 12,
+          "id": 455,
+          "skin": 5384,
+          "label": "4.2",
+          "order": 11,
+          "assetId": "60_12"
+        },
+        {
+          "slot": 13,
+          "id": 450,
+          "skin": 5381,
+          "label": "1.3",
+          "order": 13,
+          "assetId": "60_13"
+        },
+        {
+          "slot": 14,
+          "id": 452,
+          "skin": 5378,
+          "label": "2.3",
+          "order": 14,
+          "assetId": "60_14"
+        },
+        {
+          "slot": 15,
+          "id": 454,
+          "skin": 5383,
+          "label": "3.3",
+          "order": 15,
+          "assetId": "60_15"
+        },
+        {
+          "slot": 16,
+          "id": 456,
+          "skin": 5380,
+          "label": "4.3",
+          "order": 16,
+          "assetId": "60_16"
+        },
+        {
+          "slot": 17,
+          "id": 648,
+          "skin": 5911,
+          "label": "retro",
+          "order": 17,
+          "assetId": "60_17"
+        }
+      ]
+    },
+    {
+      "classId": "ecaflip",
+      "className": "Zurcarák",
+      "breed": 6,
+      "gender": "female",
+      "colors": [
+        14732959,
+        15173176,
+        15690532,
+        5478807,
+        7687730,
+        14648576
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 16,
+          "skin": 61,
+          "label": "base",
+          "order": 1,
+          "assetId": "61_1"
+        },
+        {
+          "slot": 2,
+          "id": 101,
+          "skin": 5872,
+          "label": "retro",
+          "order": 2,
+          "assetId": "61_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 89,
+          "skin": 2100,
+          "label": "1",
+          "order": 0,
+          "assetId": "61_1"
+        },
+        {
+          "slot": 2,
+          "id": 90,
+          "skin": 2101,
+          "label": "2",
+          "order": 1,
+          "assetId": "61_2"
+        },
+        {
+          "slot": 3,
+          "id": 91,
+          "skin": 2102,
+          "label": "3",
+          "order": 2,
+          "assetId": "61_3"
+        },
+        {
+          "slot": 4,
+          "id": 92,
+          "skin": 2103,
+          "label": "4",
+          "order": 3,
+          "assetId": "61_4"
+        },
+        {
+          "slot": 5,
+          "id": 93,
+          "skin": 2104,
+          "label": "1.1",
+          "order": 4,
+          "assetId": "61_5"
+        },
+        {
+          "slot": 6,
+          "id": 94,
+          "skin": 2105,
+          "label": "2.1",
+          "order": 5,
+          "assetId": "61_6"
+        },
+        {
+          "slot": 7,
+          "id": 95,
+          "skin": 2106,
+          "label": "3.1",
+          "order": 6,
+          "assetId": "61_7"
+        },
+        {
+          "slot": 8,
+          "id": 96,
+          "skin": 2107,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "61_8"
+        },
+        {
+          "slot": 9,
+          "id": 441,
+          "skin": 5385,
+          "label": "1.2",
+          "order": 8,
+          "assetId": "61_9"
+        },
+        {
+          "slot": 10,
+          "id": 443,
+          "skin": 5390,
+          "label": "2.2",
+          "order": 9,
+          "assetId": "61_10"
+        },
+        {
+          "slot": 11,
+          "id": 445,
+          "skin": 5387,
+          "label": "3.2",
+          "order": 10,
+          "assetId": "61_11"
+        },
+        {
+          "slot": 12,
+          "id": 447,
+          "skin": 5392,
+          "label": "4.2",
+          "order": 11,
+          "assetId": "61_12"
+        },
+        {
+          "slot": 13,
+          "id": 442,
+          "skin": 5389,
+          "label": "1.3",
+          "order": 13,
+          "assetId": "61_13"
+        },
+        {
+          "slot": 14,
+          "id": 444,
+          "skin": 5386,
+          "label": "2.3",
+          "order": 14,
+          "assetId": "61_14"
+        },
+        {
+          "slot": 15,
+          "id": 446,
+          "skin": 5391,
+          "label": "3.3",
+          "order": 15,
+          "assetId": "61_15"
+        },
+        {
+          "slot": 16,
+          "id": 448,
+          "skin": 5388,
+          "label": "4.3",
+          "order": 16,
+          "assetId": "61_16"
+        },
+        {
+          "slot": 17,
+          "id": 649,
+          "skin": 5912,
+          "label": "retro",
+          "order": 17,
+          "assetId": "61_17"
+        }
+      ]
+    },
+    {
+      "classId": "eniripsa",
+      "className": "Aniripsa",
+      "breed": 7,
+      "gender": "male",
+      "colors": [
+        14325094,
+        7814953,
+        13997612,
+        4739655,
+        6833937,
+        10907934
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 17,
+          "skin": 70,
+          "label": "base",
+          "order": 1,
+          "assetId": "70_1"
+        },
+        {
+          "slot": 2,
+          "id": 102,
+          "skin": 5873,
+          "label": "retro",
+          "order": 2,
+          "assetId": "70_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 97,
+          "skin": 2108,
+          "label": "1",
+          "order": 0,
+          "assetId": "70_1"
+        },
+        {
+          "slot": 2,
+          "id": 98,
+          "skin": 2109,
+          "label": "2",
+          "order": 1,
+          "assetId": "70_2"
+        },
+        {
+          "slot": 3,
+          "id": 99,
+          "skin": 2110,
+          "label": "3",
+          "order": 2,
+          "assetId": "70_3"
+        },
+        {
+          "slot": 4,
+          "id": 100,
+          "skin": 2111,
+          "label": "4",
+          "order": 3,
+          "assetId": "70_4"
+        },
+        {
+          "slot": 5,
+          "id": 101,
+          "skin": 2112,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "70_5"
+        },
+        {
+          "slot": 6,
+          "id": 102,
+          "skin": 2113,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "70_6"
+        },
+        {
+          "slot": 7,
+          "id": 103,
+          "skin": 2114,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "70_7"
+        },
+        {
+          "slot": 8,
+          "id": 104,
+          "skin": 2115,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "70_8"
+        },
+        {
+          "slot": 9,
+          "id": 413,
+          "skin": 5343,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "70_9"
+        },
+        {
+          "slot": 10,
+          "id": 415,
+          "skin": 5340,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "70_10"
+        },
+        {
+          "slot": 11,
+          "id": 417,
+          "skin": 5341,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "70_11"
+        },
+        {
+          "slot": 12,
+          "id": 419,
+          "skin": 5342,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "70_12"
+        },
+        {
+          "slot": 13,
+          "id": 414,
+          "skin": 5339,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "70_13"
+        },
+        {
+          "slot": 14,
+          "id": 416,
+          "skin": 5344,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "70_14"
+        },
+        {
+          "slot": 15,
+          "id": 418,
+          "skin": 5345,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "70_15"
+        },
+        {
+          "slot": 16,
+          "id": 420,
+          "skin": 5346,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "70_16"
+        },
+        {
+          "slot": 17,
+          "id": 650,
+          "skin": 5913,
+          "label": "retro",
+          "order": 17,
+          "assetId": "70_17"
+        }
+      ]
+    },
+    {
+      "classId": "eniripsa",
+      "className": "Aniripsa",
+      "breed": 7,
+      "gender": "female",
+      "colors": [
+        15047528,
+        14996664,
+        14368563,
+        14471352,
+        9799968,
+        9791002
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 18,
+          "skin": 71,
+          "label": "base",
+          "order": 1,
+          "assetId": "71_1"
+        },
+        {
+          "slot": 2,
+          "id": 103,
+          "skin": 5874,
+          "label": "retro",
+          "order": 2,
+          "assetId": "71_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 105,
+          "skin": 2116,
+          "label": "1",
+          "order": 0,
+          "assetId": "71_1"
+        },
+        {
+          "slot": 2,
+          "id": 106,
+          "skin": 2117,
+          "label": "2",
+          "order": 1,
+          "assetId": "71_2"
+        },
+        {
+          "slot": 3,
+          "id": 107,
+          "skin": 2118,
+          "label": "3",
+          "order": 2,
+          "assetId": "71_3"
+        },
+        {
+          "slot": 4,
+          "id": 108,
+          "skin": 2119,
+          "label": "4",
+          "order": 3,
+          "assetId": "71_4"
+        },
+        {
+          "slot": 5,
+          "id": 109,
+          "skin": 2120,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "71_5"
+        },
+        {
+          "slot": 6,
+          "id": 110,
+          "skin": 2121,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "71_6"
+        },
+        {
+          "slot": 7,
+          "id": 111,
+          "skin": 2122,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "71_7"
+        },
+        {
+          "slot": 8,
+          "id": 112,
+          "skin": 2123,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "71_8"
+        },
+        {
+          "slot": 9,
+          "id": 404,
+          "skin": 5351,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "71_9"
+        },
+        {
+          "slot": 10,
+          "id": 406,
+          "skin": 5352,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "71_10"
+        },
+        {
+          "slot": 11,
+          "id": 408,
+          "skin": 5349,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "71_11"
+        },
+        {
+          "slot": 12,
+          "id": 411,
+          "skin": 5350,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "71_12"
+        },
+        {
+          "slot": 13,
+          "id": 405,
+          "skin": 5347,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "71_13"
+        },
+        {
+          "slot": 14,
+          "id": 407,
+          "skin": 5348,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "71_14"
+        },
+        {
+          "slot": 15,
+          "id": 410,
+          "skin": 5353,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "71_15"
+        },
+        {
+          "slot": 16,
+          "id": 412,
+          "skin": 5354,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "71_16"
+        },
+        {
+          "slot": 17,
+          "id": 651,
+          "skin": 5914,
+          "label": "retro",
+          "order": 17,
+          "assetId": "71_17"
+        }
+      ]
+    },
+    {
+      "classId": "enutrof",
+      "className": "Anutrof",
+      "breed": 3,
+      "gender": "male",
+      "colors": [
+        13732958,
+        15851694,
+        3093806,
+        14325820,
+        7814953,
+        9995877
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 8,
+          "skin": 30,
+          "label": "base",
+          "order": 1,
+          "assetId": "30_1"
+        },
+        {
+          "slot": 2,
+          "id": 94,
+          "skin": 5865,
+          "label": "retro",
+          "order": 2,
+          "assetId": "30_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 33,
+          "skin": 2044,
+          "label": "1",
+          "order": 0,
+          "assetId": "30_1"
+        },
+        {
+          "slot": 2,
+          "id": 34,
+          "skin": 2045,
+          "label": "2",
+          "order": 1,
+          "assetId": "30_2"
+        },
+        {
+          "slot": 3,
+          "id": 35,
+          "skin": 2046,
+          "label": "3",
+          "order": 2,
+          "assetId": "30_3"
+        },
+        {
+          "slot": 4,
+          "id": 36,
+          "skin": 2047,
+          "label": "4",
+          "order": 3,
+          "assetId": "30_4"
+        },
+        {
+          "slot": 5,
+          "id": 37,
+          "skin": 2048,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "30_5"
+        },
+        {
+          "slot": 6,
+          "id": 38,
+          "skin": 2049,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "30_6"
+        },
+        {
+          "slot": 7,
+          "id": 39,
+          "skin": 2050,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "30_7"
+        },
+        {
+          "slot": 8,
+          "id": 40,
+          "skin": 2051,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "30_8"
+        },
+        {
+          "slot": 9,
+          "id": 497,
+          "skin": 5439,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "30_9"
+        },
+        {
+          "slot": 10,
+          "id": 498,
+          "skin": 5442,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "30_10"
+        },
+        {
+          "slot": 11,
+          "id": 499,
+          "skin": 5440,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "30_11"
+        },
+        {
+          "slot": 12,
+          "id": 501,
+          "skin": 5441,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "30_12"
+        },
+        {
+          "slot": 13,
+          "id": 500,
+          "skin": 5443,
+          "label": "3.4",
+          "order": 14,
+          "assetId": "30_14"
+        },
+        {
+          "slot": 14,
+          "id": 502,
+          "skin": 5444,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "30_16"
+        },
+        {
+          "slot": 15,
+          "id": 642,
+          "skin": 5905,
+          "label": "retro",
+          "order": 17,
+          "assetId": "30_17"
+        }
+      ]
+    },
+    {
+      "classId": "enutrof",
+      "className": "Anutrof",
+      "breed": 3,
+      "gender": "female",
+      "colors": [
+        16297081,
+        15588265,
+        3159600,
+        14517248,
+        7814953,
+        15588265
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 9,
+          "skin": 31,
+          "label": "base",
+          "order": 1,
+          "assetId": "31_1"
+        },
+        {
+          "slot": 2,
+          "id": 95,
+          "skin": 5866,
+          "label": "retro",
+          "order": 2,
+          "assetId": "31_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 41,
+          "skin": 2052,
+          "label": "1",
+          "order": 0,
+          "assetId": "31_1"
+        },
+        {
+          "slot": 2,
+          "id": 42,
+          "skin": 2053,
+          "label": "2",
+          "order": 1,
+          "assetId": "31_2"
+        },
+        {
+          "slot": 3,
+          "id": 43,
+          "skin": 2054,
+          "label": "3",
+          "order": 2,
+          "assetId": "31_3"
+        },
+        {
+          "slot": 4,
+          "id": 44,
+          "skin": 2055,
+          "label": "4",
+          "order": 3,
+          "assetId": "31_4"
+        },
+        {
+          "slot": 5,
+          "id": 45,
+          "skin": 2056,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "31_5"
+        },
+        {
+          "slot": 6,
+          "id": 46,
+          "skin": 2057,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "31_6"
+        },
+        {
+          "slot": 7,
+          "id": 47,
+          "skin": 2058,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "31_7"
+        },
+        {
+          "slot": 8,
+          "id": 48,
+          "skin": 2059,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "31_8"
+        },
+        {
+          "slot": 9,
+          "id": 506,
+          "skin": 5445,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "31_9"
+        },
+        {
+          "slot": 10,
+          "id": 507,
+          "skin": 5446,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "31_10"
+        },
+        {
+          "slot": 11,
+          "id": 509,
+          "skin": 5447,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "31_11"
+        },
+        {
+          "slot": 12,
+          "id": 510,
+          "skin": 5448,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "31_12"
+        },
+        {
+          "slot": 13,
+          "id": 508,
+          "skin": 5449,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "31_14"
+        },
+        {
+          "slot": 14,
+          "id": 511,
+          "skin": 5450,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "31_16"
+        },
+        {
+          "slot": 15,
+          "id": 643,
+          "skin": 5906,
+          "label": "retro",
+          "order": 17,
+          "assetId": "31_17"
+        }
+      ]
+    },
+    {
+      "classId": "eliotrope",
+      "className": "Selotrop",
+      "breed": 16,
+      "gender": "male",
+      "colors": [
+        16112841,
+        10072765,
+        8211000,
+        16765866,
+        2388929,
+        12957582
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 36,
+          "skin": 3179,
+          "label": "base",
+          "order": 1,
+          "assetId": "160_1"
+        },
+        {
+          "slot": 2,
+          "id": 120,
+          "skin": 5891,
+          "label": "retro",
+          "order": 2,
+          "assetId": "160_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 241,
+          "skin": 3183,
+          "label": "1",
+          "order": 0,
+          "assetId": "160_1"
+        },
+        {
+          "slot": 2,
+          "id": 242,
+          "skin": 3184,
+          "label": "2",
+          "order": 1,
+          "assetId": "160_2"
+        },
+        {
+          "slot": 3,
+          "id": 243,
+          "skin": 3185,
+          "label": "3",
+          "order": 2,
+          "assetId": "160_3"
+        },
+        {
+          "slot": 4,
+          "id": 244,
+          "skin": 3186,
+          "label": "4",
+          "order": 3,
+          "assetId": "160_4"
+        },
+        {
+          "slot": 5,
+          "id": 245,
+          "skin": 3187,
+          "label": "5",
+          "order": 4,
+          "assetId": "160_5"
+        },
+        {
+          "slot": 6,
+          "id": 246,
+          "skin": 3188,
+          "label": "2.1",
+          "order": 5,
+          "assetId": "160_6"
+        },
+        {
+          "slot": 7,
+          "id": 247,
+          "skin": 3189,
+          "label": "3.1",
+          "order": 6,
+          "assetId": "160_7"
+        },
+        {
+          "slot": 8,
+          "id": 248,
+          "skin": 3190,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "160_8"
+        },
+        {
+          "slot": 9,
+          "id": 342,
+          "skin": 5171,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "160_9"
+        },
+        {
+          "slot": 10,
+          "id": 345,
+          "skin": 5172,
+          "label": "2.2",
+          "order": 9,
+          "assetId": "160_10"
+        },
+        {
+          "slot": 11,
+          "id": 346,
+          "skin": 5174,
+          "label": "3.2",
+          "order": 10,
+          "assetId": "160_11"
+        },
+        {
+          "slot": 12,
+          "id": 347,
+          "skin": 5175,
+          "label": "4.2",
+          "order": 11,
+          "assetId": "160_12"
+        },
+        {
+          "slot": 13,
+          "id": 379,
+          "skin": 5176,
+          "label": "5.1",
+          "order": 13,
+          "assetId": "160_13"
+        },
+        {
+          "slot": 14,
+          "id": 380,
+          "skin": 5177,
+          "label": "2.3",
+          "order": 14,
+          "assetId": "160_14"
+        },
+        {
+          "slot": 15,
+          "id": 381,
+          "skin": 5178,
+          "label": "3.3",
+          "order": 15,
+          "assetId": "160_15"
+        },
+        {
+          "slot": 16,
+          "id": 382,
+          "skin": 5179,
+          "label": "4.3",
+          "order": 16,
+          "assetId": "160_16"
+        },
+        {
+          "slot": 17,
+          "id": 668,
+          "skin": 5931,
+          "label": "retro",
+          "order": 17,
+          "assetId": "160_17"
+        }
+      ]
+    },
+    {
+      "classId": "eliotrope",
+      "className": "Selotrop",
+      "breed": 16,
+      "gender": "female",
+      "colors": [
+        16112841,
+        10072765,
+        8211000,
+        16765866,
+        2388929,
+        12957582
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 37,
+          "skin": 3180,
+          "label": "base",
+          "order": 1,
+          "assetId": "161_1"
+        },
+        {
+          "slot": 2,
+          "id": 121,
+          "skin": 5892,
+          "label": "retro",
+          "order": 2,
+          "assetId": "161_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 249,
+          "skin": 3191,
+          "label": "1",
+          "order": 0,
+          "assetId": "161_1"
+        },
+        {
+          "slot": 2,
+          "id": 250,
+          "skin": 3192,
+          "label": "2",
+          "order": 1,
+          "assetId": "161_2"
+        },
+        {
+          "slot": 3,
+          "id": 251,
+          "skin": 3193,
+          "label": "3",
+          "order": 2,
+          "assetId": "161_3"
+        },
+        {
+          "slot": 4,
+          "id": 252,
+          "skin": 3194,
+          "label": "4",
+          "order": 3,
+          "assetId": "161_4"
+        },
+        {
+          "slot": 5,
+          "id": 253,
+          "skin": 3195,
+          "label": "5",
+          "order": 4,
+          "assetId": "161_5"
+        },
+        {
+          "slot": 6,
+          "id": 254,
+          "skin": 3196,
+          "label": "2.1",
+          "order": 5,
+          "assetId": "161_6"
+        },
+        {
+          "slot": 7,
+          "id": 255,
+          "skin": 3197,
+          "label": "3.1",
+          "order": 6,
+          "assetId": "161_7"
+        },
+        {
+          "slot": 8,
+          "id": 256,
+          "skin": 3198,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "161_8"
+        },
+        {
+          "slot": 9,
+          "id": 348,
+          "skin": 5180,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "161_9"
+        },
+        {
+          "slot": 10,
+          "id": 350,
+          "skin": 5181,
+          "label": "2.2",
+          "order": 9,
+          "assetId": "161_10"
+        },
+        {
+          "slot": 11,
+          "id": 351,
+          "skin": 5182,
+          "label": "3.2",
+          "order": 10,
+          "assetId": "161_11"
+        },
+        {
+          "slot": 12,
+          "id": 352,
+          "skin": 5183,
+          "label": "4.2",
+          "order": 11,
+          "assetId": "161_12"
+        },
+        {
+          "slot": 13,
+          "id": 383,
+          "skin": 5185,
+          "label": "5.1",
+          "order": 13,
+          "assetId": "161_13"
+        },
+        {
+          "slot": 14,
+          "id": 384,
+          "skin": 5186,
+          "label": "2.3",
+          "order": 14,
+          "assetId": "161_14"
+        },
+        {
+          "slot": 15,
+          "id": 385,
+          "skin": 5187,
+          "label": "3.3",
+          "order": 15,
+          "assetId": "161_15"
+        },
+        {
+          "slot": 16,
+          "id": 386,
+          "skin": 5188,
+          "label": "4.3",
+          "order": 16,
+          "assetId": "161_16"
+        },
+        {
+          "slot": 17,
+          "id": 669,
+          "skin": 5932,
+          "label": "retro",
+          "order": 17,
+          "assetId": "161_17"
+        }
+      ]
+    },
+    {
+      "classId": "feca",
+      "className": "Feca",
+      "breed": 1,
+      "gender": "male",
+      "colors": [
+        15047528,
+        7814953,
+        14185518,
+        4809554,
+        5319189,
+        5984835
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 2,
+          "skin": 10,
+          "label": "base",
+          "order": 1,
+          "assetId": "10_1"
+        },
+        {
+          "slot": 2,
+          "id": 90,
+          "skin": 5861,
+          "label": "retro",
+          "order": 2,
+          "assetId": "10_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 1,
+          "skin": 2012,
+          "label": "1",
+          "order": 0,
+          "assetId": "10_1"
+        },
+        {
+          "slot": 2,
+          "id": 2,
+          "skin": 2013,
+          "label": "2",
+          "order": 1,
+          "assetId": "10_2"
+        },
+        {
+          "slot": 3,
+          "id": 3,
+          "skin": 2014,
+          "label": "3",
+          "order": 2,
+          "assetId": "10_3"
+        },
+        {
+          "slot": 4,
+          "id": 4,
+          "skin": 2015,
+          "label": "4",
+          "order": 3,
+          "assetId": "10_4"
+        },
+        {
+          "slot": 5,
+          "id": 5,
+          "skin": 2016,
+          "label": "1.1",
+          "order": 4,
+          "assetId": "10_5"
+        },
+        {
+          "slot": 6,
+          "id": 6,
+          "skin": 2017,
+          "label": "2.1",
+          "order": 5,
+          "assetId": "10_6"
+        },
+        {
+          "slot": 7,
+          "id": 7,
+          "skin": 2018,
+          "label": "3.1",
+          "order": 6,
+          "assetId": "10_7"
+        },
+        {
+          "slot": 8,
+          "id": 8,
+          "skin": 2019,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "10_8"
+        },
+        {
+          "slot": 9,
+          "id": 358,
+          "skin": 5242,
+          "label": "1.2",
+          "order": 8,
+          "assetId": "10_9"
+        },
+        {
+          "slot": 10,
+          "id": 359,
+          "skin": 5247,
+          "label": "2.2",
+          "order": 9,
+          "assetId": "10_10"
+        },
+        {
+          "slot": 11,
+          "id": 360,
+          "skin": 5244,
+          "label": "3.2",
+          "order": 10,
+          "assetId": "10_11"
+        },
+        {
+          "slot": 12,
+          "id": 361,
+          "skin": 5249,
+          "label": "4.2",
+          "order": 11,
+          "assetId": "10_12"
+        },
+        {
+          "slot": 13,
+          "id": 375,
+          "skin": 5246,
+          "label": "1.3",
+          "order": 13,
+          "assetId": "10_13"
+        },
+        {
+          "slot": 14,
+          "id": 376,
+          "skin": 5243,
+          "label": "2.3",
+          "order": 14,
+          "assetId": "10_14"
+        },
+        {
+          "slot": 15,
+          "id": 377,
+          "skin": 5248,
+          "label": "3.3",
+          "order": 15,
+          "assetId": "10_15"
+        },
+        {
+          "slot": 16,
+          "id": 378,
+          "skin": 5245,
+          "label": "4.3",
+          "order": 16,
+          "assetId": "10_16"
+        },
+        {
+          "slot": 17,
+          "id": 638,
+          "skin": 5901,
+          "label": "retro",
+          "order": 17,
+          "assetId": "10_17"
+        }
+      ]
+    },
+    {
+      "classId": "feca",
+      "className": "Feca",
+      "breed": 1,
+      "gender": "female",
+      "colors": [
+        15047528,
+        7814953,
+        14185518,
+        4809554,
+        5319189,
+        5984835
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 3,
+          "skin": 11,
+          "label": "base",
+          "order": 1,
+          "assetId": "11_1"
+        },
+        {
+          "slot": 2,
+          "id": 91,
+          "skin": 5862,
+          "label": "retro",
+          "order": 2,
+          "assetId": "11_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 9,
+          "skin": 2020,
+          "label": "1",
+          "order": 0,
+          "assetId": "11_1"
+        },
+        {
+          "slot": 2,
+          "id": 10,
+          "skin": 2021,
+          "label": "2",
+          "order": 1,
+          "assetId": "11_2"
+        },
+        {
+          "slot": 3,
+          "id": 11,
+          "skin": 2022,
+          "label": "3",
+          "order": 2,
+          "assetId": "11_3"
+        },
+        {
+          "slot": 4,
+          "id": 12,
+          "skin": 2023,
+          "label": "4",
+          "order": 3,
+          "assetId": "11_4"
+        },
+        {
+          "slot": 5,
+          "id": 13,
+          "skin": 2024,
+          "label": "1.1",
+          "order": 4,
+          "assetId": "11_5"
+        },
+        {
+          "slot": 6,
+          "id": 14,
+          "skin": 2025,
+          "label": "2.1",
+          "order": 5,
+          "assetId": "11_6"
+        },
+        {
+          "slot": 7,
+          "id": 15,
+          "skin": 2026,
+          "label": "3.1",
+          "order": 6,
+          "assetId": "11_7"
+        },
+        {
+          "slot": 8,
+          "id": 16,
+          "skin": 2027,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "11_8"
+        },
+        {
+          "slot": 9,
+          "id": 353,
+          "skin": 5254,
+          "label": "1.2",
+          "order": 8,
+          "assetId": "11_9"
+        },
+        {
+          "slot": 10,
+          "id": 354,
+          "skin": 5251,
+          "label": "2.2",
+          "order": 9,
+          "assetId": "11_10"
+        },
+        {
+          "slot": 11,
+          "id": 356,
+          "skin": 5252,
+          "label": "3.2",
+          "order": 10,
+          "assetId": "11_11"
+        },
+        {
+          "slot": 12,
+          "id": 357,
+          "skin": 5253,
+          "label": "4.2",
+          "order": 11,
+          "assetId": "11_12"
+        },
+        {
+          "slot": 13,
+          "id": 371,
+          "skin": 5250,
+          "label": "1.3",
+          "order": 13,
+          "assetId": "11_13"
+        },
+        {
+          "slot": 14,
+          "id": 372,
+          "skin": 5255,
+          "label": "2.3",
+          "order": 14,
+          "assetId": "11_14"
+        },
+        {
+          "slot": 15,
+          "id": 373,
+          "skin": 5256,
+          "label": "3.3",
+          "order": 15,
+          "assetId": "11_15"
+        },
+        {
+          "slot": 16,
+          "id": 374,
+          "skin": 5257,
+          "label": "4.3",
+          "order": 16,
+          "assetId": "11_16"
+        },
+        {
+          "slot": 17,
+          "id": 639,
+          "skin": 5902,
+          "label": "retro",
+          "order": 17,
+          "assetId": "11_17"
+        }
+      ]
+    },
+    {
+      "classId": "foggernaut",
+      "className": "Steamer",
+      "breed": 15,
+      "gender": "male",
+      "colors": [
+        14785388,
+        15060409,
+        3882547,
+        11430949,
+        10984301,
+        8100502
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 34,
+          "skin": 1663,
+          "label": "base",
+          "order": 1,
+          "assetId": "150_1"
+        },
+        {
+          "slot": 2,
+          "id": 118,
+          "skin": 5889,
+          "label": "retro",
+          "order": 2,
+          "assetId": "150_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 225,
+          "skin": 2236,
+          "label": "1",
+          "order": 0,
+          "assetId": "150_1"
+        },
+        {
+          "slot": 2,
+          "id": 226,
+          "skin": 2237,
+          "label": "2",
+          "order": 1,
+          "assetId": "150_2"
+        },
+        {
+          "slot": 3,
+          "id": 227,
+          "skin": 2238,
+          "label": "3",
+          "order": 2,
+          "assetId": "150_3"
+        },
+        {
+          "slot": 4,
+          "id": 228,
+          "skin": 2239,
+          "label": "4",
+          "order": 3,
+          "assetId": "150_4"
+        },
+        {
+          "slot": 5,
+          "id": 229,
+          "skin": 2240,
+          "label": "1.1",
+          "order": 4,
+          "assetId": "150_5"
+        },
+        {
+          "slot": 6,
+          "id": 230,
+          "skin": 2241,
+          "label": "2.1",
+          "order": 5,
+          "assetId": "150_6"
+        },
+        {
+          "slot": 7,
+          "id": 231,
+          "skin": 2242,
+          "label": "3.1",
+          "order": 6,
+          "assetId": "150_7"
+        },
+        {
+          "slot": 8,
+          "id": 232,
+          "skin": 2243,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "150_8"
+        },
+        {
+          "slot": 9,
+          "id": 464,
+          "skin": 5396,
+          "label": "1.2",
+          "order": 8,
+          "assetId": "150_9"
+        },
+        {
+          "slot": 10,
+          "id": 466,
+          "skin": 5397,
+          "label": "2.2",
+          "order": 9,
+          "assetId": "150_10"
+        },
+        {
+          "slot": 11,
+          "id": 467,
+          "skin": 5398,
+          "label": "3.2",
+          "order": 10,
+          "assetId": "150_11"
+        },
+        {
+          "slot": 12,
+          "id": 469,
+          "skin": 5401,
+          "label": "4.2",
+          "order": 11,
+          "assetId": "150_12"
+        },
+        {
+          "slot": 13,
+          "id": 465,
+          "skin": 5399,
+          "label": "1.3",
+          "order": 13,
+          "assetId": "150_13"
+        },
+        {
+          "slot": 14,
+          "id": 468,
+          "skin": 5400,
+          "label": "3.3",
+          "order": 15,
+          "assetId": "150_15"
+        },
+        {
+          "slot": 15,
+          "id": 666,
+          "skin": 5929,
+          "label": "retro",
+          "order": 17,
+          "assetId": "150_17"
+        }
+      ]
+    },
+    {
+      "classId": "foggernaut",
+      "className": "Steamer",
+      "breed": 15,
+      "gender": "female",
+      "colors": [
+        14785388,
+        15060409,
+        3882547,
+        11430949,
+        10984301,
+        8100502
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 35,
+          "skin": 1664,
+          "label": "base",
+          "order": 1,
+          "assetId": "151_1"
+        },
+        {
+          "slot": 2,
+          "id": 119,
+          "skin": 5890,
+          "label": "retro",
+          "order": 2,
+          "assetId": "151_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 233,
+          "skin": 2244,
+          "label": "1",
+          "order": 0,
+          "assetId": "151_1"
+        },
+        {
+          "slot": 2,
+          "id": 234,
+          "skin": 2245,
+          "label": "2",
+          "order": 1,
+          "assetId": "151_2"
+        },
+        {
+          "slot": 3,
+          "id": 235,
+          "skin": 2246,
+          "label": "3",
+          "order": 2,
+          "assetId": "151_3"
+        },
+        {
+          "slot": 4,
+          "id": 236,
+          "skin": 2247,
+          "label": "4",
+          "order": 3,
+          "assetId": "151_4"
+        },
+        {
+          "slot": 5,
+          "id": 237,
+          "skin": 2248,
+          "label": "1.1",
+          "order": 4,
+          "assetId": "151_5"
+        },
+        {
+          "slot": 6,
+          "id": 238,
+          "skin": 2249,
+          "label": "2.1",
+          "order": 5,
+          "assetId": "151_6"
+        },
+        {
+          "slot": 7,
+          "id": 239,
+          "skin": 2250,
+          "label": "3.1",
+          "order": 6,
+          "assetId": "151_7"
+        },
+        {
+          "slot": 8,
+          "id": 240,
+          "skin": 2251,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "151_8"
+        },
+        {
+          "slot": 9,
+          "id": 457,
+          "skin": 5402,
+          "label": "1.2",
+          "order": 8,
+          "assetId": "151_9"
+        },
+        {
+          "slot": 10,
+          "id": 459,
+          "skin": 5403,
+          "label": "2.2",
+          "order": 9,
+          "assetId": "151_10"
+        },
+        {
+          "slot": 11,
+          "id": 461,
+          "skin": 5406,
+          "label": "3.2",
+          "order": 10,
+          "assetId": "151_11"
+        },
+        {
+          "slot": 12,
+          "id": 463,
+          "skin": 5407,
+          "label": "4.2",
+          "order": 11,
+          "assetId": "151_12"
+        },
+        {
+          "slot": 13,
+          "id": 458,
+          "skin": 5405,
+          "label": "1.3",
+          "order": 13,
+          "assetId": "151_13"
+        },
+        {
+          "slot": 14,
+          "id": 462,
+          "skin": 5404,
+          "label": "3.3",
+          "order": 15,
+          "assetId": "151_15"
+        },
+        {
+          "slot": 15,
+          "id": 667,
+          "skin": 5930,
+          "label": "retro",
+          "order": 17,
+          "assetId": "151_17"
+        }
+      ]
+    },
+    {
+      "classId": "forgelance",
+      "className": "Forjalanza",
+      "breed": 20,
+      "gender": "male",
+      "colors": [
+        15047528,
+        7814953,
+        4276545,
+        15325098,
+        8885653,
+        4209983
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 5,
+          "skin": 3221,
+          "label": "base",
+          "order": 1,
+          "assetId": "200_1"
+        },
+        {
+          "slot": 2,
+          "id": 126,
+          "skin": 5897,
+          "label": "retro",
+          "order": 2,
+          "assetId": "200_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 294,
+          "skin": 3090,
+          "label": "1",
+          "order": 0,
+          "assetId": "200_1"
+        },
+        {
+          "slot": 2,
+          "id": 295,
+          "skin": 3091,
+          "label": "2",
+          "order": 1,
+          "assetId": "200_2"
+        },
+        {
+          "slot": 3,
+          "id": 296,
+          "skin": 3095,
+          "label": "3",
+          "order": 2,
+          "assetId": "200_3"
+        },
+        {
+          "slot": 4,
+          "id": 297,
+          "skin": 3098,
+          "label": "4",
+          "order": 3,
+          "assetId": "200_4"
+        },
+        {
+          "slot": 5,
+          "id": 298,
+          "skin": 3103,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "200_5"
+        },
+        {
+          "slot": 6,
+          "id": 299,
+          "skin": 3104,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "200_6"
+        },
+        {
+          "slot": 7,
+          "id": 300,
+          "skin": 3105,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "200_7"
+        },
+        {
+          "slot": 8,
+          "id": 301,
+          "skin": 3124,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "200_8"
+        },
+        {
+          "slot": 9,
+          "id": 550,
+          "skin": 5505,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "200_9"
+        },
+        {
+          "slot": 10,
+          "id": 551,
+          "skin": 5506,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "200_10"
+        },
+        {
+          "slot": 11,
+          "id": 553,
+          "skin": 5509,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "200_11"
+        },
+        {
+          "slot": 12,
+          "id": 554,
+          "skin": 5507,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "200_12"
+        },
+        {
+          "slot": 13,
+          "id": 552,
+          "skin": 5508,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "200_14"
+        },
+        {
+          "slot": 14,
+          "id": 555,
+          "skin": 5515,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "200_16"
+        },
+        {
+          "slot": 15,
+          "id": 674,
+          "skin": 5937,
+          "label": "retro",
+          "order": 17,
+          "assetId": "200_17"
+        }
+      ]
+    },
+    {
+      "classId": "forgelance",
+      "className": "Forjalanza",
+      "breed": 20,
+      "gender": "female",
+      "colors": [
+        15047528,
+        7814953,
+        4276545,
+        15325098,
+        8885653,
+        4209983
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 4,
+          "skin": 3633,
+          "label": "base",
+          "order": 1,
+          "assetId": "201_1"
+        },
+        {
+          "slot": 2,
+          "id": 127,
+          "skin": 5898,
+          "label": "retro",
+          "order": 2,
+          "assetId": "201_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 302,
+          "skin": 3106,
+          "label": "1",
+          "order": 0,
+          "assetId": "201_1"
+        },
+        {
+          "slot": 2,
+          "id": 303,
+          "skin": 3108,
+          "label": "2",
+          "order": 1,
+          "assetId": "201_2"
+        },
+        {
+          "slot": 3,
+          "id": 304,
+          "skin": 3112,
+          "label": "3",
+          "order": 2,
+          "assetId": "201_3"
+        },
+        {
+          "slot": 4,
+          "id": 305,
+          "skin": 3115,
+          "label": "4",
+          "order": 3,
+          "assetId": "201_4"
+        },
+        {
+          "slot": 5,
+          "id": 306,
+          "skin": 3143,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "201_5"
+        },
+        {
+          "slot": 6,
+          "id": 307,
+          "skin": 3121,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "201_6"
+        },
+        {
+          "slot": 7,
+          "id": 308,
+          "skin": 3122,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "201_7"
+        },
+        {
+          "slot": 8,
+          "id": 309,
+          "skin": 3123,
+          "label": "4.1",
+          "order": 7,
+          "assetId": "201_8"
+        },
+        {
+          "slot": 9,
+          "id": 556,
+          "skin": 5510,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "201_9"
+        },
+        {
+          "slot": 10,
+          "id": 558,
+          "skin": 5516,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "201_10"
+        },
+        {
+          "slot": 11,
+          "id": 560,
+          "skin": 5512,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "201_11"
+        },
+        {
+          "slot": 12,
+          "id": 561,
+          "skin": 5514,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "201_12"
+        },
+        {
+          "slot": 13,
+          "id": 557,
+          "skin": 5511,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "201_13"
+        },
+        {
+          "slot": 14,
+          "id": 559,
+          "skin": 5513,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "201_14"
+        },
+        {
+          "slot": 15,
+          "id": 675,
+          "skin": 5938,
+          "label": "retro",
+          "order": 17,
+          "assetId": "201_17"
+        }
+      ]
+    },
+    {
+      "classId": "huppermage",
+      "className": "Hipermago",
+      "breed": 17,
+      "gender": "male",
+      "colors": [
+        16104582,
+        16439198,
+        2663850,
+        15071441,
+        16643820,
+        16755757
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 38,
+          "skin": 3285,
+          "label": "base",
+          "order": 1,
+          "assetId": "170_1"
+        },
+        {
+          "slot": 2,
+          "id": 122,
+          "skin": 5893,
+          "label": "retro",
+          "order": 2,
+          "assetId": "170_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 257,
+          "skin": 3289,
+          "label": "1",
+          "order": 0,
+          "assetId": "170_1"
+        },
+        {
+          "slot": 2,
+          "id": 258,
+          "skin": 3290,
+          "label": "2",
+          "order": 1,
+          "assetId": "170_2"
+        },
+        {
+          "slot": 3,
+          "id": 259,
+          "skin": 3291,
+          "label": "3",
+          "order": 2,
+          "assetId": "170_3"
+        },
+        {
+          "slot": 4,
+          "id": 260,
+          "skin": 3292,
+          "label": "4",
+          "order": 3,
+          "assetId": "170_4"
+        },
+        {
+          "slot": 5,
+          "id": 261,
+          "skin": 3293,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "170_5"
+        },
+        {
+          "slot": 6,
+          "id": 262,
+          "skin": 3294,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "170_6"
+        },
+        {
+          "slot": 7,
+          "id": 263,
+          "skin": 3295,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "170_7"
+        },
+        {
+          "slot": 8,
+          "id": 264,
+          "skin": 3296,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "170_8"
+        },
+        {
+          "slot": 9,
+          "id": 431,
+          "skin": 5359,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "170_9"
+        },
+        {
+          "slot": 10,
+          "id": 434,
+          "skin": 5360,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "170_10"
+        },
+        {
+          "slot": 11,
+          "id": 437,
+          "skin": 5357,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "170_11"
+        },
+        {
+          "slot": 12,
+          "id": 439,
+          "skin": 5362,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "170_12"
+        },
+        {
+          "slot": 13,
+          "id": 432,
+          "skin": 5355,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "170_13"
+        },
+        {
+          "slot": 14,
+          "id": 435,
+          "skin": 5356,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "170_14"
+        },
+        {
+          "slot": 15,
+          "id": 438,
+          "skin": 5361,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "170_15"
+        },
+        {
+          "slot": 16,
+          "id": 440,
+          "skin": 5358,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "170_16"
+        },
+        {
+          "slot": 17,
+          "id": 670,
+          "skin": 5933,
+          "label": "retro",
+          "order": 17,
+          "assetId": "170_17"
+        }
+      ]
+    },
+    {
+      "classId": "huppermage",
+      "className": "Hipermago",
+      "breed": 17,
+      "gender": "female",
+      "colors": [
+        16104582,
+        16439198,
+        2663850,
+        13426363,
+        15987438,
+        16755757
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 39,
+          "skin": 3286,
+          "label": "base",
+          "order": 1,
+          "assetId": "171_1"
+        },
+        {
+          "slot": 2,
+          "id": 123,
+          "skin": 5894,
+          "label": "retro",
+          "order": 2,
+          "assetId": "171_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 265,
+          "skin": 3297,
+          "label": "1",
+          "order": 0,
+          "assetId": "171_1"
+        },
+        {
+          "slot": 2,
+          "id": 266,
+          "skin": 3298,
+          "label": "2",
+          "order": 1,
+          "assetId": "171_2"
+        },
+        {
+          "slot": 3,
+          "id": 267,
+          "skin": 3299,
+          "label": "3",
+          "order": 2,
+          "assetId": "171_3"
+        },
+        {
+          "slot": 4,
+          "id": 268,
+          "skin": 3300,
+          "label": "4",
+          "order": 3,
+          "assetId": "171_4"
+        },
+        {
+          "slot": 5,
+          "id": 269,
+          "skin": 3301,
+          "label": "2.2",
+          "order": 4,
+          "assetId": "171_5"
+        },
+        {
+          "slot": 6,
+          "id": 270,
+          "skin": 3302,
+          "label": "1.2",
+          "order": 5,
+          "assetId": "171_6"
+        },
+        {
+          "slot": 7,
+          "id": 271,
+          "skin": 3303,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "171_7"
+        },
+        {
+          "slot": 8,
+          "id": 272,
+          "skin": 3304,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "171_8"
+        },
+        {
+          "slot": 9,
+          "id": 421,
+          "skin": 5363,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "171_9"
+        },
+        {
+          "slot": 10,
+          "id": 423,
+          "skin": 5368,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "171_10"
+        },
+        {
+          "slot": 11,
+          "id": 426,
+          "skin": 5369,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "171_11"
+        },
+        {
+          "slot": 12,
+          "id": 428,
+          "skin": 5366,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "171_12"
+        },
+        {
+          "slot": 13,
+          "id": 422,
+          "skin": 5367,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "171_13"
+        },
+        {
+          "slot": 14,
+          "id": 424,
+          "skin": 5364,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "171_14"
+        },
+        {
+          "slot": 15,
+          "id": 427,
+          "skin": 5365,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "171_15"
+        },
+        {
+          "slot": 16,
+          "id": 430,
+          "skin": 5370,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "171_16"
+        },
+        {
+          "slot": 17,
+          "id": 671,
+          "skin": 5934,
+          "label": "retro",
+          "order": 17,
+          "assetId": "171_17"
+        }
+      ]
+    },
+    {
+      "classId": "iop",
+      "className": "Yopuka",
+      "breed": 8,
+      "gender": "male",
+      "colors": [
+        15704172,
+        15301153,
+        14736065,
+        12200764,
+        484225,
+        12429686
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 19,
+          "skin": 80,
+          "label": "base",
+          "order": 1,
+          "assetId": "80_1"
+        },
+        {
+          "slot": 2,
+          "id": 104,
+          "skin": 5875,
+          "label": "retro",
+          "order": 2,
+          "assetId": "80_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 113,
+          "skin": 2124,
+          "label": "1",
+          "order": 0,
+          "assetId": "80_1"
+        },
+        {
+          "slot": 2,
+          "id": 114,
+          "skin": 2125,
+          "label": "2",
+          "order": 1,
+          "assetId": "80_2"
+        },
+        {
+          "slot": 3,
+          "id": 115,
+          "skin": 2126,
+          "label": "3",
+          "order": 2,
+          "assetId": "80_3"
+        },
+        {
+          "slot": 4,
+          "id": 116,
+          "skin": 2127,
+          "label": "4",
+          "order": 3,
+          "assetId": "80_4"
+        },
+        {
+          "slot": 5,
+          "id": 117,
+          "skin": 2128,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "80_5"
+        },
+        {
+          "slot": 6,
+          "id": 118,
+          "skin": 2129,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "80_6"
+        },
+        {
+          "slot": 7,
+          "id": 119,
+          "skin": 2130,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "80_7"
+        },
+        {
+          "slot": 8,
+          "id": 120,
+          "skin": 2131,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "80_8"
+        },
+        {
+          "slot": 9,
+          "id": 310,
+          "skin": 5228,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "80_9"
+        },
+        {
+          "slot": 10,
+          "id": 317,
+          "skin": 5229,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "80_10"
+        },
+        {
+          "slot": 11,
+          "id": 315,
+          "skin": 5230,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "80_11"
+        },
+        {
+          "slot": 12,
+          "id": 311,
+          "skin": 5231,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "80_12"
+        },
+        {
+          "slot": 13,
+          "id": 503,
+          "skin": 5451,
+          "label": "1.4",
+          "order": 12,
+          "assetId": "80_13"
+        },
+        {
+          "slot": 14,
+          "id": 504,
+          "skin": 5452,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "80_16"
+        },
+        {
+          "slot": 15,
+          "id": 652,
+          "skin": 5915,
+          "label": "retro",
+          "order": 17,
+          "assetId": "80_17"
+        }
+      ]
+    },
+    {
+      "classId": "iop",
+      "className": "Yopuka",
+      "breed": 8,
+      "gender": "female",
+      "colors": [
+        15047528,
+        15301153,
+        14736065,
+        12200764,
+        12200764,
+        12038292
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 20,
+          "skin": 81,
+          "label": "base",
+          "order": 1,
+          "assetId": "81_1"
+        },
+        {
+          "slot": 2,
+          "id": 105,
+          "skin": 5876,
+          "label": "retro",
+          "order": 2,
+          "assetId": "81_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 121,
+          "skin": 2132,
+          "label": "1",
+          "order": 0,
+          "assetId": "81_1"
+        },
+        {
+          "slot": 2,
+          "id": 122,
+          "skin": 2133,
+          "label": "2",
+          "order": 1,
+          "assetId": "81_2"
+        },
+        {
+          "slot": 3,
+          "id": 123,
+          "skin": 2134,
+          "label": "3",
+          "order": 2,
+          "assetId": "81_3"
+        },
+        {
+          "slot": 4,
+          "id": 124,
+          "skin": 2135,
+          "label": "4",
+          "order": 3,
+          "assetId": "81_4"
+        },
+        {
+          "slot": 5,
+          "id": 125,
+          "skin": 2136,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "81_5"
+        },
+        {
+          "slot": 6,
+          "id": 126,
+          "skin": 2137,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "81_6"
+        },
+        {
+          "slot": 7,
+          "id": 127,
+          "skin": 2138,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "81_7"
+        },
+        {
+          "slot": 8,
+          "id": 128,
+          "skin": 2139,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "81_8"
+        },
+        {
+          "slot": 9,
+          "id": 333,
+          "skin": 5232,
+          "label": "1.3",
+          "order": 9,
+          "assetId": "81_9"
+        },
+        {
+          "slot": 10,
+          "id": 319,
+          "skin": 5233,
+          "label": "2.3",
+          "order": 10,
+          "assetId": "81_10"
+        },
+        {
+          "slot": 11,
+          "id": 328,
+          "skin": 5234,
+          "label": "3.3",
+          "order": 11,
+          "assetId": "81_11"
+        },
+        {
+          "slot": 12,
+          "id": 318,
+          "skin": 5235,
+          "label": "4.3",
+          "order": 12,
+          "assetId": "81_12"
+        },
+        {
+          "slot": 13,
+          "id": 362,
+          "skin": 5236,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "81_13"
+        },
+        {
+          "slot": 14,
+          "id": 505,
+          "skin": 5453,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "81_14"
+        },
+        {
+          "slot": 15,
+          "id": 653,
+          "skin": 5916,
+          "label": "retro",
+          "order": 17,
+          "assetId": "81_17"
+        }
+      ]
+    },
+    {
+      "classId": "masqueraider",
+      "className": "Zobal",
+      "breed": 14,
+      "gender": "male",
+      "colors": [
+        15572842,
+        9836073,
+        4863523,
+        1855824,
+        11839343,
+        14077359
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 32,
+          "skin": 1437,
+          "label": "base",
+          "order": 1,
+          "assetId": "140_1"
+        },
+        {
+          "slot": 2,
+          "id": 116,
+          "skin": 5887,
+          "label": "retro",
+          "order": 2,
+          "assetId": "140_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 209,
+          "skin": 2220,
+          "label": "1",
+          "order": 0,
+          "assetId": "140_1"
+        },
+        {
+          "slot": 2,
+          "id": 210,
+          "skin": 2221,
+          "label": "2",
+          "order": 1,
+          "assetId": "140_2"
+        },
+        {
+          "slot": 3,
+          "id": 211,
+          "skin": 2222,
+          "label": "3",
+          "order": 2,
+          "assetId": "140_3"
+        },
+        {
+          "slot": 4,
+          "id": 212,
+          "skin": 2223,
+          "label": "4",
+          "order": 3,
+          "assetId": "140_4"
+        },
+        {
+          "slot": 5,
+          "id": 213,
+          "skin": 2224,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "140_5"
+        },
+        {
+          "slot": 6,
+          "id": 214,
+          "skin": 2225,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "140_6"
+        },
+        {
+          "slot": 7,
+          "id": 215,
+          "skin": 2226,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "140_7"
+        },
+        {
+          "slot": 8,
+          "id": 216,
+          "skin": 2227,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "140_8"
+        },
+        {
+          "slot": 9,
+          "id": 518,
+          "skin": 5454,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "140_9"
+        },
+        {
+          "slot": 10,
+          "id": 519,
+          "skin": 5455,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "140_10"
+        },
+        {
+          "slot": 11,
+          "id": 521,
+          "skin": 5456,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "140_11"
+        },
+        {
+          "slot": 12,
+          "id": 522,
+          "skin": 5457,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "140_12"
+        },
+        {
+          "slot": 13,
+          "id": 520,
+          "skin": 5458,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "140_14"
+        },
+        {
+          "slot": 14,
+          "id": 523,
+          "skin": 5459,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "140_16"
+        },
+        {
+          "slot": 15,
+          "id": 664,
+          "skin": 5927,
+          "label": "retro",
+          "order": 17,
+          "assetId": "140_17"
+        }
+      ]
+    },
+    {
+      "classId": "masqueraider",
+      "className": "Zobal",
+      "breed": 14,
+      "gender": "female",
+      "colors": [
+        15572842,
+        9836073,
+        4863523,
+        1855824,
+        11839343,
+        14077359
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 33,
+          "skin": 1438,
+          "label": "base",
+          "order": 1,
+          "assetId": "141_1"
+        },
+        {
+          "slot": 2,
+          "id": 117,
+          "skin": 5888,
+          "label": "retro",
+          "order": 2,
+          "assetId": "141_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 217,
+          "skin": 2228,
+          "label": "1",
+          "order": 0,
+          "assetId": "141_1"
+        },
+        {
+          "slot": 2,
+          "id": 218,
+          "skin": 2229,
+          "label": "2",
+          "order": 1,
+          "assetId": "141_2"
+        },
+        {
+          "slot": 3,
+          "id": 219,
+          "skin": 2230,
+          "label": "3",
+          "order": 2,
+          "assetId": "141_3"
+        },
+        {
+          "slot": 4,
+          "id": 220,
+          "skin": 2231,
+          "label": "4",
+          "order": 3,
+          "assetId": "141_4"
+        },
+        {
+          "slot": 5,
+          "id": 221,
+          "skin": 2232,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "141_5"
+        },
+        {
+          "slot": 6,
+          "id": 222,
+          "skin": 2233,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "141_6"
+        },
+        {
+          "slot": 7,
+          "id": 223,
+          "skin": 2234,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "141_7"
+        },
+        {
+          "slot": 8,
+          "id": 224,
+          "skin": 2235,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "141_8"
+        },
+        {
+          "slot": 9,
+          "id": 512,
+          "skin": 5460,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "141_9"
+        },
+        {
+          "slot": 10,
+          "id": 514,
+          "skin": 5461,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "141_10"
+        },
+        {
+          "slot": 11,
+          "id": 515,
+          "skin": 5464,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "141_11"
+        },
+        {
+          "slot": 12,
+          "id": 516,
+          "skin": 5462,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "141_12"
+        },
+        {
+          "slot": 13,
+          "id": 513,
+          "skin": 5463,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "141_14"
+        },
+        {
+          "slot": 14,
+          "id": 517,
+          "skin": 5465,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "141_16"
+        },
+        {
+          "slot": 15,
+          "id": 665,
+          "skin": 5928,
+          "label": "retro",
+          "order": 17,
+          "assetId": "141_17"
+        }
+      ]
+    },
+    {
+      "classId": "osamodas",
+      "className": "Osamodas",
+      "breed": 2,
+      "gender": "male",
+      "colors": [
+        14325094,
+        14732959,
+        3572096,
+        4800822,
+        16755757,
+        12495223
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 6,
+          "skin": 20,
+          "label": "base",
+          "order": 1,
+          "assetId": "20_1"
+        },
+        {
+          "slot": 2,
+          "id": 92,
+          "skin": 5863,
+          "label": "retro",
+          "order": 2,
+          "assetId": "20_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 17,
+          "skin": 2028,
+          "label": "1",
+          "order": 0,
+          "assetId": "20_1"
+        },
+        {
+          "slot": 2,
+          "id": 18,
+          "skin": 2029,
+          "label": "2",
+          "order": 1,
+          "assetId": "20_2"
+        },
+        {
+          "slot": 3,
+          "id": 19,
+          "skin": 2030,
+          "label": "3",
+          "order": 2,
+          "assetId": "20_3"
+        },
+        {
+          "slot": 4,
+          "id": 20,
+          "skin": 2031,
+          "label": "4",
+          "order": 3,
+          "assetId": "20_4"
+        },
+        {
+          "slot": 5,
+          "id": 21,
+          "skin": 2032,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "20_5"
+        },
+        {
+          "slot": 6,
+          "id": 22,
+          "skin": 2033,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "20_6"
+        },
+        {
+          "slot": 7,
+          "id": 23,
+          "skin": 2034,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "20_7"
+        },
+        {
+          "slot": 8,
+          "id": 24,
+          "skin": 2035,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "20_8"
+        },
+        {
+          "slot": 9,
+          "id": 582,
+          "skin": 5543,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "20_9"
+        },
+        {
+          "slot": 10,
+          "id": 584,
+          "skin": 5544,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "20_10"
+        },
+        {
+          "slot": 11,
+          "id": 585,
+          "skin": 5547,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "20_11"
+        },
+        {
+          "slot": 12,
+          "id": 586,
+          "skin": 5545,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "20_12"
+        },
+        {
+          "slot": 13,
+          "id": 583,
+          "skin": 5546,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "20_13"
+        },
+        {
+          "slot": 14,
+          "id": 587,
+          "skin": 5548,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "20_16"
+        },
+        {
+          "slot": 15,
+          "id": 640,
+          "skin": 5903,
+          "label": "retro",
+          "order": 17,
+          "assetId": "20_17"
+        }
+      ]
+    },
+    {
+      "classId": "osamodas",
+      "className": "Osamodas",
+      "breed": 2,
+      "gender": "female",
+      "colors": [
+        14325094,
+        14732959,
+        3572096,
+        4800822,
+        16755757,
+        12495223
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 7,
+          "skin": 21,
+          "label": "base",
+          "order": 1,
+          "assetId": "21_1"
+        },
+        {
+          "slot": 2,
+          "id": 93,
+          "skin": 5864,
+          "label": "retro",
+          "order": 2,
+          "assetId": "21_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 25,
+          "skin": 2036,
+          "label": "1",
+          "order": 0,
+          "assetId": "21_1"
+        },
+        {
+          "slot": 2,
+          "id": 26,
+          "skin": 2037,
+          "label": "2",
+          "order": 1,
+          "assetId": "21_2"
+        },
+        {
+          "slot": 3,
+          "id": 27,
+          "skin": 2038,
+          "label": "3",
+          "order": 2,
+          "assetId": "21_3"
+        },
+        {
+          "slot": 4,
+          "id": 28,
+          "skin": 2039,
+          "label": "4",
+          "order": 3,
+          "assetId": "21_4"
+        },
+        {
+          "slot": 5,
+          "id": 29,
+          "skin": 2040,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "21_5"
+        },
+        {
+          "slot": 6,
+          "id": 30,
+          "skin": 2041,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "21_6"
+        },
+        {
+          "slot": 7,
+          "id": 31,
+          "skin": 2042,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "21_7"
+        },
+        {
+          "slot": 8,
+          "id": 32,
+          "skin": 2043,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "21_8"
+        },
+        {
+          "slot": 9,
+          "id": 576,
+          "skin": 5549,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "21_9"
+        },
+        {
+          "slot": 10,
+          "id": 578,
+          "skin": 5550,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "21_10"
+        },
+        {
+          "slot": 11,
+          "id": 581,
+          "skin": 5554,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "21_11"
+        },
+        {
+          "slot": 12,
+          "id": 580,
+          "skin": 5551,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "21_12"
+        },
+        {
+          "slot": 13,
+          "id": 577,
+          "skin": 5552,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "21_13"
+        },
+        {
+          "slot": 14,
+          "id": 579,
+          "skin": 5553,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "21_14"
+        },
+        {
+          "slot": 15,
+          "id": 641,
+          "skin": 5904,
+          "label": "retro",
+          "order": 17,
+          "assetId": "21_17"
+        }
+      ]
+    },
+    {
+      "classId": "ouginak",
+      "className": "Uginak",
+      "breed": 18,
+      "gender": "male",
+      "colors": [
+        9795658,
+        9989653,
+        8077087,
+        4081977,
+        12868619,
+        16032267
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 40,
+          "skin": 3498,
+          "label": "base",
+          "order": 1,
+          "assetId": "180_1"
+        },
+        {
+          "slot": 2,
+          "id": 124,
+          "skin": 5895,
+          "label": "retro",
+          "order": 2,
+          "assetId": "180_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 273,
+          "skin": 3502,
+          "label": "1",
+          "order": 0,
+          "assetId": "180_1"
+        },
+        {
+          "slot": 2,
+          "id": 285,
+          "skin": 3503,
+          "label": "2",
+          "order": 1,
+          "assetId": "180_2"
+        },
+        {
+          "slot": 3,
+          "id": 286,
+          "skin": 3504,
+          "label": "3",
+          "order": 2,
+          "assetId": "180_3"
+        },
+        {
+          "slot": 4,
+          "id": 287,
+          "skin": 3505,
+          "label": "4",
+          "order": 3,
+          "assetId": "180_4"
+        },
+        {
+          "slot": 5,
+          "id": 288,
+          "skin": 3506,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "180_5"
+        },
+        {
+          "slot": 6,
+          "id": 289,
+          "skin": 3507,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "180_6"
+        },
+        {
+          "slot": 7,
+          "id": 290,
+          "skin": 3508,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "180_7"
+        },
+        {
+          "slot": 8,
+          "id": 291,
+          "skin": 3509,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "180_8"
+        },
+        {
+          "slot": 9,
+          "id": 599,
+          "skin": 5536,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "180_9"
+        },
+        {
+          "slot": 10,
+          "id": 594,
+          "skin": 5531,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "180_10"
+        },
+        {
+          "slot": 11,
+          "id": 596,
+          "skin": 5532,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "180_11"
+        },
+        {
+          "slot": 12,
+          "id": 598,
+          "skin": 5533,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "180_12"
+        },
+        {
+          "slot": 13,
+          "id": 595,
+          "skin": 5534,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "180_14"
+        },
+        {
+          "slot": 14,
+          "id": 597,
+          "skin": 5535,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "180_15"
+        },
+        {
+          "slot": 15,
+          "id": 672,
+          "skin": 5935,
+          "label": "retro",
+          "order": 17,
+          "assetId": "180_17"
+        }
+      ]
+    },
+    {
+      "classId": "ouginak",
+      "className": "Uginak",
+      "breed": 18,
+      "gender": "female",
+      "colors": [
+        9598537,
+        13012508,
+        8077087,
+        4081977,
+        9717256,
+        16756535
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 42,
+          "skin": 3499,
+          "label": "base",
+          "order": 1,
+          "assetId": "181_1"
+        },
+        {
+          "slot": 2,
+          "id": 125,
+          "skin": 5896,
+          "label": "retro",
+          "order": 2,
+          "assetId": "181_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 275,
+          "skin": 3510,
+          "label": "1",
+          "order": 0,
+          "assetId": "181_1"
+        },
+        {
+          "slot": 2,
+          "id": 276,
+          "skin": 3511,
+          "label": "2",
+          "order": 1,
+          "assetId": "181_2"
+        },
+        {
+          "slot": 3,
+          "id": 277,
+          "skin": 3512,
+          "label": "3",
+          "order": 2,
+          "assetId": "181_3"
+        },
+        {
+          "slot": 4,
+          "id": 280,
+          "skin": 3513,
+          "label": "4",
+          "order": 3,
+          "assetId": "181_4"
+        },
+        {
+          "slot": 5,
+          "id": 281,
+          "skin": 3514,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "181_5"
+        },
+        {
+          "slot": 6,
+          "id": 282,
+          "skin": 3515,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "181_6"
+        },
+        {
+          "slot": 7,
+          "id": 283,
+          "skin": 3516,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "181_7"
+        },
+        {
+          "slot": 8,
+          "id": 284,
+          "skin": 3517,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "181_8"
+        },
+        {
+          "slot": 9,
+          "id": 588,
+          "skin": 5540,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "181_9"
+        },
+        {
+          "slot": 10,
+          "id": 589,
+          "skin": 5537,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "181_10"
+        },
+        {
+          "slot": 11,
+          "id": 591,
+          "skin": 5538,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "181_11"
+        },
+        {
+          "slot": 12,
+          "id": 592,
+          "skin": 5539,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "181_12"
+        },
+        {
+          "slot": 13,
+          "id": 590,
+          "skin": 5541,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "181_14"
+        },
+        {
+          "slot": 14,
+          "id": 593,
+          "skin": 5542,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "181_16"
+        },
+        {
+          "slot": 15,
+          "id": 673,
+          "skin": 5936,
+          "label": "retro",
+          "order": 17,
+          "assetId": "181_17"
+        }
+      ]
+    },
+    {
+      "classId": "pandawa",
+      "className": "Pandawa",
+      "breed": 12,
+      "gender": "male",
+      "colors": [
+        13418918,
+        5329968,
+        9904435,
+        3423523,
+        14533780,
+        9904435
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 28,
+          "skin": 120,
+          "label": "base",
+          "order": 1,
+          "assetId": "120_1"
+        },
+        {
+          "slot": 2,
+          "id": 112,
+          "skin": 5883,
+          "label": "retro",
+          "order": 2,
+          "assetId": "120_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 177,
+          "skin": 2188,
+          "label": "1",
+          "order": 0,
+          "assetId": "120_1"
+        },
+        {
+          "slot": 2,
+          "id": 178,
+          "skin": 2189,
+          "label": "2",
+          "order": 1,
+          "assetId": "120_2"
+        },
+        {
+          "slot": 3,
+          "id": 179,
+          "skin": 2190,
+          "label": "3",
+          "order": 2,
+          "assetId": "120_3"
+        },
+        {
+          "slot": 4,
+          "id": 180,
+          "skin": 2191,
+          "label": "4",
+          "order": 3,
+          "assetId": "120_4"
+        },
+        {
+          "slot": 5,
+          "id": 181,
+          "skin": 2192,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "120_5"
+        },
+        {
+          "slot": 6,
+          "id": 182,
+          "skin": 2193,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "120_6"
+        },
+        {
+          "slot": 7,
+          "id": 183,
+          "skin": 2194,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "120_7"
+        },
+        {
+          "slot": 8,
+          "id": 184,
+          "skin": 2195,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "120_8"
+        },
+        {
+          "slot": 9,
+          "id": 534,
+          "skin": 5467,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "120_9"
+        },
+        {
+          "slot": 10,
+          "id": 531,
+          "skin": 5466,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "120_10"
+        },
+        {
+          "slot": 11,
+          "id": 536,
+          "skin": 5470,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "120_11"
+        },
+        {
+          "slot": 12,
+          "id": 537,
+          "skin": 5468,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "120_12"
+        },
+        {
+          "slot": 13,
+          "id": 532,
+          "skin": 5469,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "120_13"
+        },
+        {
+          "slot": 14,
+          "id": 535,
+          "skin": 5471,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "120_14"
+        },
+        {
+          "slot": 15,
+          "id": 660,
+          "skin": 5923,
+          "label": "retro",
+          "order": 17,
+          "assetId": "120_17"
+        }
+      ]
+    },
+    {
+      "classId": "pandawa",
+      "className": "Pandawa",
+      "breed": 12,
+      "gender": "female",
+      "colors": [
+        13418918,
+        5329968,
+        9904435,
+        9904435,
+        14533780,
+        9904435
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 29,
+          "skin": 121,
+          "label": "base",
+          "order": 1,
+          "assetId": "121_1"
+        },
+        {
+          "slot": 2,
+          "id": 113,
+          "skin": 5884,
+          "label": "retro",
+          "order": 2,
+          "assetId": "121_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 185,
+          "skin": 2196,
+          "label": "1",
+          "order": 0,
+          "assetId": "121_1"
+        },
+        {
+          "slot": 2,
+          "id": 186,
+          "skin": 2197,
+          "label": "2",
+          "order": 1,
+          "assetId": "121_2"
+        },
+        {
+          "slot": 3,
+          "id": 187,
+          "skin": 2198,
+          "label": "3",
+          "order": 2,
+          "assetId": "121_3"
+        },
+        {
+          "slot": 4,
+          "id": 188,
+          "skin": 2199,
+          "label": "4",
+          "order": 3,
+          "assetId": "121_4"
+        },
+        {
+          "slot": 5,
+          "id": 189,
+          "skin": 2200,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "121_5"
+        },
+        {
+          "slot": 6,
+          "id": 190,
+          "skin": 2201,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "121_6"
+        },
+        {
+          "slot": 7,
+          "id": 191,
+          "skin": 2202,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "121_7"
+        },
+        {
+          "slot": 8,
+          "id": 192,
+          "skin": 2203,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "121_8"
+        },
+        {
+          "slot": 9,
+          "id": 524,
+          "skin": 5472,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "121_9"
+        },
+        {
+          "slot": 10,
+          "id": 526,
+          "skin": 5476,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "121_10"
+        },
+        {
+          "slot": 11,
+          "id": 527,
+          "skin": 5473,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "121_11"
+        },
+        {
+          "slot": 12,
+          "id": 529,
+          "skin": 5474,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "121_12"
+        },
+        {
+          "slot": 13,
+          "id": 525,
+          "skin": 5475,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "121_13"
+        },
+        {
+          "slot": 14,
+          "id": 530,
+          "skin": 5477,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "121_16"
+        },
+        {
+          "slot": 15,
+          "id": 661,
+          "skin": 5924,
+          "label": "retro",
+          "order": 17,
+          "assetId": "121_17"
+        }
+      ]
+    },
+    {
+      "classId": "rogue",
+      "className": "Tymador",
+      "breed": 13,
+      "gender": "male",
+      "colors": [
+        15047528,
+        1341042,
+        3883833,
+        15703040,
+        7098924,
+        12499369
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 30,
+          "skin": 1405,
+          "label": "base",
+          "order": 1,
+          "assetId": "130_1"
+        },
+        {
+          "slot": 2,
+          "id": 114,
+          "skin": 5885,
+          "label": "retro",
+          "order": 2,
+          "assetId": "130_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 193,
+          "skin": 2204,
+          "label": "1",
+          "order": 0,
+          "assetId": "130_1"
+        },
+        {
+          "slot": 2,
+          "id": 194,
+          "skin": 2205,
+          "label": "2",
+          "order": 1,
+          "assetId": "130_2"
+        },
+        {
+          "slot": 3,
+          "id": 195,
+          "skin": 2206,
+          "label": "3",
+          "order": 2,
+          "assetId": "130_3"
+        },
+        {
+          "slot": 4,
+          "id": 196,
+          "skin": 2207,
+          "label": "4",
+          "order": 3,
+          "assetId": "130_4"
+        },
+        {
+          "slot": 5,
+          "id": 197,
+          "skin": 2208,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "130_5"
+        },
+        {
+          "slot": 6,
+          "id": 198,
+          "skin": 2209,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "130_6"
+        },
+        {
+          "slot": 7,
+          "id": 199,
+          "skin": 2210,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "130_7"
+        },
+        {
+          "slot": 8,
+          "id": 200,
+          "skin": 2211,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "130_8"
+        },
+        {
+          "slot": 9,
+          "id": 538,
+          "skin": 5481,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "130_9"
+        },
+        {
+          "slot": 10,
+          "id": 539,
+          "skin": 5478,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "130_10"
+        },
+        {
+          "slot": 11,
+          "id": 540,
+          "skin": 5479,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "130_11"
+        },
+        {
+          "slot": 12,
+          "id": 542,
+          "skin": 5480,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "130_12"
+        },
+        {
+          "slot": 13,
+          "id": 541,
+          "skin": 5482,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "130_15"
+        },
+        {
+          "slot": 14,
+          "id": 543,
+          "skin": 5483,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "130_16"
+        },
+        {
+          "slot": 15,
+          "id": 662,
+          "skin": 5925,
+          "label": "retro",
+          "order": 17,
+          "assetId": "130_17"
+        }
+      ]
+    },
+    {
+      "classId": "rogue",
+      "className": "Tymador",
+      "breed": 13,
+      "gender": "female",
+      "colors": [
+        15047528,
+        1341042,
+        3883833,
+        15703040,
+        7098924,
+        12499369
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 31,
+          "skin": 1407,
+          "label": "base",
+          "order": 1,
+          "assetId": "131_1"
+        },
+        {
+          "slot": 2,
+          "id": 115,
+          "skin": 5886,
+          "label": "retro",
+          "order": 2,
+          "assetId": "131_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 201,
+          "skin": 2212,
+          "label": "1",
+          "order": 0,
+          "assetId": "131_1"
+        },
+        {
+          "slot": 2,
+          "id": 202,
+          "skin": 2213,
+          "label": "2",
+          "order": 1,
+          "assetId": "131_2"
+        },
+        {
+          "slot": 3,
+          "id": 203,
+          "skin": 2214,
+          "label": "3",
+          "order": 2,
+          "assetId": "131_3"
+        },
+        {
+          "slot": 4,
+          "id": 204,
+          "skin": 2215,
+          "label": "4",
+          "order": 3,
+          "assetId": "131_4"
+        },
+        {
+          "slot": 5,
+          "id": 205,
+          "skin": 2216,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "131_5"
+        },
+        {
+          "slot": 6,
+          "id": 206,
+          "skin": 2217,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "131_6"
+        },
+        {
+          "slot": 7,
+          "id": 207,
+          "skin": 2218,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "131_7"
+        },
+        {
+          "slot": 8,
+          "id": 208,
+          "skin": 2219,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "131_8"
+        },
+        {
+          "slot": 9,
+          "id": 544,
+          "skin": 5484,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "131_9"
+        },
+        {
+          "slot": 10,
+          "id": 545,
+          "skin": 5487,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "131_10"
+        },
+        {
+          "slot": 11,
+          "id": 546,
+          "skin": 5485,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "131_11"
+        },
+        {
+          "slot": 12,
+          "id": 548,
+          "skin": 5486,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "131_12"
+        },
+        {
+          "slot": 13,
+          "id": 547,
+          "skin": 5488,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "131_15"
+        },
+        {
+          "slot": 14,
+          "id": 549,
+          "skin": 5489,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "131_16"
+        },
+        {
+          "slot": 15,
+          "id": 663,
+          "skin": 5926,
+          "label": "retro",
+          "order": 17,
+          "assetId": "131_17"
+        }
+      ]
+    },
+    {
+      "classId": "sacrier",
+      "className": "Sacrógrito",
+      "breed": 11,
+      "gender": "male",
+      "colors": [
+        15047528,
+        15896377,
+        8287530,
+        8727092,
+        16422159,
+        7750188
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 26,
+          "skin": 110,
+          "label": "base",
+          "order": 1,
+          "assetId": "110_1"
+        },
+        {
+          "slot": 2,
+          "id": 110,
+          "skin": 5881,
+          "label": "retro",
+          "order": 2,
+          "assetId": "110_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 161,
+          "skin": 2172,
+          "label": "1",
+          "order": 0,
+          "assetId": "110_1"
+        },
+        {
+          "slot": 2,
+          "id": 162,
+          "skin": 2173,
+          "label": "2",
+          "order": 1,
+          "assetId": "110_2"
+        },
+        {
+          "slot": 3,
+          "id": 163,
+          "skin": 2174,
+          "label": "3",
+          "order": 2,
+          "assetId": "110_3"
+        },
+        {
+          "slot": 4,
+          "id": 164,
+          "skin": 2175,
+          "label": "4",
+          "order": 3,
+          "assetId": "110_4"
+        },
+        {
+          "slot": 5,
+          "id": 165,
+          "skin": 2176,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "110_5"
+        },
+        {
+          "slot": 6,
+          "id": 166,
+          "skin": 2177,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "110_6"
+        },
+        {
+          "slot": 7,
+          "id": 167,
+          "skin": 2178,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "110_7"
+        },
+        {
+          "slot": 8,
+          "id": 168,
+          "skin": 2179,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "110_8"
+        },
+        {
+          "slot": 9,
+          "id": 396,
+          "skin": 5312,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "110_9"
+        },
+        {
+          "slot": 10,
+          "id": 397,
+          "skin": 5313,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "110_10"
+        },
+        {
+          "slot": 11,
+          "id": 398,
+          "skin": 5314,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "110_11"
+        },
+        {
+          "slot": 12,
+          "id": 399,
+          "skin": 5315,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "110_12"
+        },
+        {
+          "slot": 13,
+          "id": 400,
+          "skin": 5316,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "110_13"
+        },
+        {
+          "slot": 14,
+          "id": 401,
+          "skin": 5317,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "110_14"
+        },
+        {
+          "slot": 15,
+          "id": 402,
+          "skin": 5318,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "110_15"
+        },
+        {
+          "slot": 16,
+          "id": 403,
+          "skin": 5319,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "110_16"
+        },
+        {
+          "slot": 17,
+          "id": 658,
+          "skin": 5921,
+          "label": "retro",
+          "order": 17,
+          "assetId": "110_17"
+        }
+      ]
+    },
+    {
+      "classId": "sacrier",
+      "className": "Sacrógrito",
+      "breed": 11,
+      "gender": "female",
+      "colors": [
+        15047528,
+        15896377,
+        8287530,
+        8727092,
+        16422159,
+        7750188
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 27,
+          "skin": 111,
+          "label": "base",
+          "order": 1,
+          "assetId": "111_1"
+        },
+        {
+          "slot": 2,
+          "id": 111,
+          "skin": 5882,
+          "label": "retro",
+          "order": 2,
+          "assetId": "111_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 169,
+          "skin": 2180,
+          "label": "1",
+          "order": 0,
+          "assetId": "111_1"
+        },
+        {
+          "slot": 2,
+          "id": 170,
+          "skin": 2181,
+          "label": "2",
+          "order": 1,
+          "assetId": "111_2"
+        },
+        {
+          "slot": 3,
+          "id": 171,
+          "skin": 2182,
+          "label": "3",
+          "order": 2,
+          "assetId": "111_3"
+        },
+        {
+          "slot": 4,
+          "id": 172,
+          "skin": 2183,
+          "label": "4",
+          "order": 3,
+          "assetId": "111_4"
+        },
+        {
+          "slot": 5,
+          "id": 173,
+          "skin": 2184,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "111_5"
+        },
+        {
+          "slot": 6,
+          "id": 174,
+          "skin": 2185,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "111_6"
+        },
+        {
+          "slot": 7,
+          "id": 175,
+          "skin": 2186,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "111_7"
+        },
+        {
+          "slot": 8,
+          "id": 176,
+          "skin": 2187,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "111_8"
+        },
+        {
+          "slot": 9,
+          "id": 387,
+          "skin": 5320,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "111_9"
+        },
+        {
+          "slot": 10,
+          "id": 388,
+          "skin": 5325,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "111_10"
+        },
+        {
+          "slot": 11,
+          "id": 389,
+          "skin": 5322,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "111_11"
+        },
+        {
+          "slot": 12,
+          "id": 390,
+          "skin": 5327,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "111_12"
+        },
+        {
+          "slot": 13,
+          "id": 392,
+          "skin": 5324,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "111_13"
+        },
+        {
+          "slot": 14,
+          "id": 393,
+          "skin": 5321,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "111_14"
+        },
+        {
+          "slot": 15,
+          "id": 394,
+          "skin": 5326,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "111_15"
+        },
+        {
+          "slot": 16,
+          "id": 395,
+          "skin": 5323,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "111_16"
+        },
+        {
+          "slot": 17,
+          "id": 659,
+          "skin": 5922,
+          "label": "retro",
+          "order": 17,
+          "assetId": "111_17"
+        }
+      ]
+    },
+    {
+      "classId": "sadida",
+      "className": "Sadida",
+      "breed": 10,
+      "gender": "male",
+      "colors": [
+        9329441,
+        7966996,
+        15914657,
+        7820329,
+        15914657,
+        15914657
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 23,
+          "skin": 100,
+          "label": "base",
+          "order": 1,
+          "assetId": "100_1"
+        },
+        {
+          "slot": 2,
+          "id": 108,
+          "skin": 5879,
+          "label": "retro",
+          "order": 2,
+          "assetId": "100_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 145,
+          "skin": 2156,
+          "label": "1",
+          "order": 0,
+          "assetId": "100_1"
+        },
+        {
+          "slot": 2,
+          "id": 146,
+          "skin": 2157,
+          "label": "2",
+          "order": 1,
+          "assetId": "100_2"
+        },
+        {
+          "slot": 3,
+          "id": 147,
+          "skin": 2158,
+          "label": "3",
+          "order": 2,
+          "assetId": "100_3"
+        },
+        {
+          "slot": 4,
+          "id": 148,
+          "skin": 2159,
+          "label": "4",
+          "order": 3,
+          "assetId": "100_4"
+        },
+        {
+          "slot": 5,
+          "id": 149,
+          "skin": 2160,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "100_5"
+        },
+        {
+          "slot": 6,
+          "id": 150,
+          "skin": 2161,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "100_6"
+        },
+        {
+          "slot": 7,
+          "id": 151,
+          "skin": 2162,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "100_7"
+        },
+        {
+          "slot": 8,
+          "id": 152,
+          "skin": 2163,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "100_8"
+        },
+        {
+          "slot": 9,
+          "id": 477,
+          "skin": 5413,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "100_9"
+        },
+        {
+          "slot": 10,
+          "id": 478,
+          "skin": 5414,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "100_10"
+        },
+        {
+          "slot": 11,
+          "id": 481,
+          "skin": 5417,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "100_11"
+        },
+        {
+          "slot": 12,
+          "id": 482,
+          "skin": 5418,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "100_12"
+        },
+        {
+          "slot": 13,
+          "id": 479,
+          "skin": 5416,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "100_13"
+        },
+        {
+          "slot": 14,
+          "id": 480,
+          "skin": 5415,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "100_16"
+        },
+        {
+          "slot": 15,
+          "id": 656,
+          "skin": 5919,
+          "label": "retro",
+          "order": 17,
+          "assetId": "100_17"
+        }
+      ]
+    },
+    {
+      "classId": "sadida",
+      "className": "Sadida",
+      "breed": 10,
+      "gender": "female",
+      "colors": [
+        12282670,
+        7966996,
+        14994072,
+        10711608,
+        15258276,
+        15258276
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 25,
+          "skin": 101,
+          "label": "base",
+          "order": 1,
+          "assetId": "101_1"
+        },
+        {
+          "slot": 2,
+          "id": 109,
+          "skin": 5880,
+          "label": "retro",
+          "order": 2,
+          "assetId": "101_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 153,
+          "skin": 2164,
+          "label": "1",
+          "order": 0,
+          "assetId": "101_1"
+        },
+        {
+          "slot": 2,
+          "id": 154,
+          "skin": 2165,
+          "label": "2",
+          "order": 1,
+          "assetId": "101_2"
+        },
+        {
+          "slot": 3,
+          "id": 155,
+          "skin": 2166,
+          "label": "3",
+          "order": 2,
+          "assetId": "101_3"
+        },
+        {
+          "slot": 4,
+          "id": 156,
+          "skin": 2167,
+          "label": "4",
+          "order": 3,
+          "assetId": "101_4"
+        },
+        {
+          "slot": 5,
+          "id": 157,
+          "skin": 2168,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "101_5"
+        },
+        {
+          "slot": 6,
+          "id": 158,
+          "skin": 2169,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "101_6"
+        },
+        {
+          "slot": 7,
+          "id": 159,
+          "skin": 2170,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "101_7"
+        },
+        {
+          "slot": 8,
+          "id": 160,
+          "skin": 2171,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "101_8"
+        },
+        {
+          "slot": 9,
+          "id": 470,
+          "skin": 5419,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "101_9"
+        },
+        {
+          "slot": 10,
+          "id": 471,
+          "skin": 5420,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "101_10"
+        },
+        {
+          "slot": 11,
+          "id": 473,
+          "skin": 5423,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "101_11"
+        },
+        {
+          "slot": 12,
+          "id": 474,
+          "skin": 5421,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "101_12"
+        },
+        {
+          "slot": 13,
+          "id": 475,
+          "skin": 5422,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "101_13"
+        },
+        {
+          "slot": 14,
+          "id": 476,
+          "skin": 5424,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "101_16"
+        },
+        {
+          "slot": 15,
+          "id": 657,
+          "skin": 5920,
+          "label": "retro",
+          "order": 17,
+          "assetId": "101_17"
+        }
+      ]
+    },
+    {
+      "classId": "sram",
+      "className": "Sram",
+      "breed": 4,
+      "gender": "male",
+      "colors": [
+        14206857,
+        15392448,
+        3435918,
+        6177568,
+        10715217,
+        15066306
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 10,
+          "skin": 40,
+          "label": "base",
+          "order": 1,
+          "assetId": "40_1"
+        },
+        {
+          "slot": 2,
+          "id": 96,
+          "skin": 5867,
+          "label": "retro",
+          "order": 2,
+          "assetId": "40_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 49,
+          "skin": 2060,
+          "label": "1",
+          "order": 0,
+          "assetId": "40_1"
+        },
+        {
+          "slot": 2,
+          "id": 50,
+          "skin": 2061,
+          "label": "2",
+          "order": 1,
+          "assetId": "40_2"
+        },
+        {
+          "slot": 3,
+          "id": 51,
+          "skin": 2062,
+          "label": "3",
+          "order": 2,
+          "assetId": "40_3"
+        },
+        {
+          "slot": 4,
+          "id": 52,
+          "skin": 2063,
+          "label": "4",
+          "order": 3,
+          "assetId": "40_4"
+        },
+        {
+          "slot": 5,
+          "id": 53,
+          "skin": 2064,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "40_5"
+        },
+        {
+          "slot": 6,
+          "id": 54,
+          "skin": 2065,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "40_6"
+        },
+        {
+          "slot": 7,
+          "id": 55,
+          "skin": 2066,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "40_7"
+        },
+        {
+          "slot": 8,
+          "id": 56,
+          "skin": 2067,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "40_8"
+        },
+        {
+          "slot": 9,
+          "id": 562,
+          "skin": 5517,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "40_9"
+        },
+        {
+          "slot": 10,
+          "id": 564,
+          "skin": 5518,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "40_10"
+        },
+        {
+          "slot": 11,
+          "id": 565,
+          "skin": 5521,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "40_11"
+        },
+        {
+          "slot": 12,
+          "id": 566,
+          "skin": 5519,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "40_12"
+        },
+        {
+          "slot": 13,
+          "id": 563,
+          "skin": 5520,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "40_13"
+        },
+        {
+          "slot": 14,
+          "id": 567,
+          "skin": 5522,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "40_16"
+        },
+        {
+          "slot": 15,
+          "id": 644,
+          "skin": 5907,
+          "label": "retro",
+          "order": 17,
+          "assetId": "40_17"
+        }
+      ]
+    },
+    {
+      "classId": "sram",
+      "className": "Sram",
+      "breed": 4,
+      "gender": "female",
+      "colors": [
+        14325094,
+        15392448,
+        3435918,
+        6177568,
+        3435918,
+        15066306
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 11,
+          "skin": 41,
+          "label": "base",
+          "order": 1,
+          "assetId": "41_1"
+        },
+        {
+          "slot": 2,
+          "id": 97,
+          "skin": 5868,
+          "label": "retro",
+          "order": 2,
+          "assetId": "41_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 57,
+          "skin": 2068,
+          "label": "1",
+          "order": 0,
+          "assetId": "41_1"
+        },
+        {
+          "slot": 2,
+          "id": 58,
+          "skin": 2069,
+          "label": "2",
+          "order": 1,
+          "assetId": "41_2"
+        },
+        {
+          "slot": 3,
+          "id": 59,
+          "skin": 2070,
+          "label": "3",
+          "order": 2,
+          "assetId": "41_3"
+        },
+        {
+          "slot": 4,
+          "id": 60,
+          "skin": 2071,
+          "label": "4",
+          "order": 3,
+          "assetId": "41_4"
+        },
+        {
+          "slot": 5,
+          "id": 61,
+          "skin": 2072,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "41_5"
+        },
+        {
+          "slot": 6,
+          "id": 62,
+          "skin": 2073,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "41_6"
+        },
+        {
+          "slot": 7,
+          "id": 63,
+          "skin": 2074,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "41_7"
+        },
+        {
+          "slot": 8,
+          "id": 64,
+          "skin": 2075,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "41_8"
+        },
+        {
+          "slot": 9,
+          "id": 568,
+          "skin": 5523,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "41_9"
+        },
+        {
+          "slot": 10,
+          "id": 570,
+          "skin": 5524,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "41_10"
+        },
+        {
+          "slot": 11,
+          "id": 572,
+          "skin": 5525,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "41_11"
+        },
+        {
+          "slot": 12,
+          "id": 574,
+          "skin": 5526,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "41_12"
+        },
+        {
+          "slot": 13,
+          "id": 569,
+          "skin": 5527,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "41_13"
+        },
+        {
+          "slot": 14,
+          "id": 571,
+          "skin": 5528,
+          "label": "2.4",
+          "order": 14,
+          "assetId": "41_14"
+        },
+        {
+          "slot": 15,
+          "id": 573,
+          "skin": 5529,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "41_15"
+        },
+        {
+          "slot": 16,
+          "id": 575,
+          "skin": 5530,
+          "label": "4.4",
+          "order": 16,
+          "assetId": "41_16"
+        },
+        {
+          "slot": 17,
+          "id": 645,
+          "skin": 5908,
+          "label": "retro",
+          "order": 17,
+          "assetId": "41_17"
+        }
+      ]
+    },
+    {
+      "classId": "xelor",
+      "className": "Xelor",
+      "breed": 5,
+      "gender": "male",
+      "colors": [
+        8550749,
+        15782577,
+        1923718,
+        6700064,
+        15042816,
+        15042816
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 12,
+          "skin": 50,
+          "label": "base",
+          "order": 1,
+          "assetId": "50_1"
+        },
+        {
+          "slot": 2,
+          "id": 98,
+          "skin": 5869,
+          "label": "retro",
+          "order": 2,
+          "assetId": "50_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 65,
+          "skin": 2076,
+          "label": "1",
+          "order": 0,
+          "assetId": "50_1"
+        },
+        {
+          "slot": 2,
+          "id": 66,
+          "skin": 2077,
+          "label": "2",
+          "order": 1,
+          "assetId": "50_2"
+        },
+        {
+          "slot": 3,
+          "id": 67,
+          "skin": 2078,
+          "label": "3",
+          "order": 2,
+          "assetId": "50_3"
+        },
+        {
+          "slot": 4,
+          "id": 68,
+          "skin": 2079,
+          "label": "4",
+          "order": 3,
+          "assetId": "50_4"
+        },
+        {
+          "slot": 5,
+          "id": 69,
+          "skin": 2080,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "50_5"
+        },
+        {
+          "slot": 6,
+          "id": 70,
+          "skin": 2081,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "50_6"
+        },
+        {
+          "slot": 7,
+          "id": 71,
+          "skin": 2082,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "50_7"
+        },
+        {
+          "slot": 8,
+          "id": 72,
+          "skin": 2083,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "50_8"
+        },
+        {
+          "slot": 9,
+          "id": 491,
+          "skin": 5427,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "50_9"
+        },
+        {
+          "slot": 10,
+          "id": 493,
+          "skin": 5428,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "50_10"
+        },
+        {
+          "slot": 11,
+          "id": 494,
+          "skin": 5429,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "50_11"
+        },
+        {
+          "slot": 12,
+          "id": 496,
+          "skin": 5432,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "50_12"
+        },
+        {
+          "slot": 13,
+          "id": 492,
+          "skin": 5430,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "50_13"
+        },
+        {
+          "slot": 14,
+          "id": 495,
+          "skin": 5431,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "50_15"
+        },
+        {
+          "slot": 15,
+          "id": 646,
+          "skin": 5909,
+          "label": "retro",
+          "order": 17,
+          "assetId": "50_17"
+        }
+      ]
+    },
+    {
+      "classId": "xelor",
+      "className": "Xelor",
+      "breed": 5,
+      "gender": "female",
+      "colors": [
+        8550749,
+        14533780,
+        1923718,
+        6700064,
+        15042816,
+        12499369
+      ],
+      "bodies": [
+        {
+          "slot": 1,
+          "id": 13,
+          "skin": 51,
+          "label": "base",
+          "order": 1,
+          "assetId": "51_1"
+        },
+        {
+          "slot": 2,
+          "id": 99,
+          "skin": 5870,
+          "label": "retro",
+          "order": 2,
+          "assetId": "51_2"
+        }
+      ],
+      "heads": [
+        {
+          "slot": 1,
+          "id": 73,
+          "skin": 2084,
+          "label": "1",
+          "order": 0,
+          "assetId": "51_1"
+        },
+        {
+          "slot": 2,
+          "id": 74,
+          "skin": 2085,
+          "label": "2",
+          "order": 1,
+          "assetId": "51_2"
+        },
+        {
+          "slot": 3,
+          "id": 75,
+          "skin": 2086,
+          "label": "3",
+          "order": 2,
+          "assetId": "51_3"
+        },
+        {
+          "slot": 4,
+          "id": 76,
+          "skin": 2087,
+          "label": "4",
+          "order": 3,
+          "assetId": "51_4"
+        },
+        {
+          "slot": 5,
+          "id": 77,
+          "skin": 2088,
+          "label": "1.2",
+          "order": 4,
+          "assetId": "51_5"
+        },
+        {
+          "slot": 6,
+          "id": 78,
+          "skin": 2089,
+          "label": "2.2",
+          "order": 5,
+          "assetId": "51_6"
+        },
+        {
+          "slot": 7,
+          "id": 79,
+          "skin": 2090,
+          "label": "3.2",
+          "order": 6,
+          "assetId": "51_11"
+        },
+        {
+          "slot": 8,
+          "id": 80,
+          "skin": 2091,
+          "label": "4.2",
+          "order": 7,
+          "assetId": "51_8"
+        },
+        {
+          "slot": 9,
+          "id": 483,
+          "skin": 5433,
+          "label": "1.3",
+          "order": 8,
+          "assetId": "51_9"
+        },
+        {
+          "slot": 10,
+          "id": 484,
+          "skin": 5437,
+          "label": "2.3",
+          "order": 9,
+          "assetId": "51_10"
+        },
+        {
+          "slot": 11,
+          "id": 487,
+          "skin": 5434,
+          "label": "3.3",
+          "order": 10,
+          "assetId": "51_11"
+        },
+        {
+          "slot": 12,
+          "id": 490,
+          "skin": 5435,
+          "label": "4.3",
+          "order": 11,
+          "assetId": "51_12"
+        },
+        {
+          "slot": 13,
+          "id": 485,
+          "skin": 5436,
+          "label": "1.4",
+          "order": 13,
+          "assetId": "51_13"
+        },
+        {
+          "slot": 14,
+          "id": 489,
+          "skin": 5438,
+          "label": "3.4",
+          "order": 15,
+          "assetId": "51_15"
+        },
+        {
+          "slot": 15,
+          "id": 647,
+          "skin": 5910,
+          "label": "retro",
+          "order": 17,
+          "assetId": "51_17"
+        }
+      ]
+    }
+  ]
+}

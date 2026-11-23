@@ -1,6 +1,6 @@
 {
   "collection": "Forge class portraits",
-  "revision": 1,
+  "revision": 2,
   "generator": "Built-in image_gen",
   "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
   "exactPromptsForExistingImages": "docs/brand/profile-avatars/manifest.json",
@@ -9,7 +9,10 @@
     "gender": "male or female",
     "identityNotes": "Observed species, face, hairstyle, mask/headwear, original palette and costume from the actual game model",
     "individualPose": "A new expression, pose and small class-related story specific to this one character",
-    "watercolorWash": "A restrained desaturated color that supports the class palette"
+    "watercolorWash": "A restrained desaturated color that supports the class palette",
+    "headSlot": "One-based face/hairstyle position from game-looks.json; do not confuse with internal labels",
+    "headSkin": "Exact source texture id for the selected game face/hairstyle",
+    "bodySkin": "Exact source texture id for the default outfit; alternate outfits come after heads"
   },
   "referenceImagesInOrder": [
     "The approved male Iop portrait: use its ink-and-watercolor treatment only, never its anatomy, colors, identity or pose",
@@ -19,11 +22,11 @@
   "referencePreparation": {
     "renderer": "src/lib/character/renderer.ts",
     "source": "Dofus client assets extracted with scripts/extract-characters.py",
-    "identityMapping": "src/features/class-picker/classData.ts: breed + gender; char-assets/looks.json: body, head and original colors",
+    "identityMapping": "docs/brand/profile-avatars/game-looks.json: class, sex, one-based head slot, source head/body ids, skins and original colors",
     "animation": "1-static / AnimStatiqueExplo0, facings 1 and 2",
     "framing": "Render a close view of the head and upper torso at sufficient resolution. Inspect both angles before generation. Game renders are identity references, not the finished portrait."
   },
-  "prompt": "Create ONE original FAN ART USER PROFILE PORTRAIT of the {{gender}} {{className}} class from DOFUS, for the Dofus Forge collection. IMAGE 1 is the APPROVED COLLECTION ART STYLE ONLY. IMAGE 2 and IMAGE 3 show the ACTUAL TARGET GAME MODEL from two angles; these define class identity, gender, species, facial features, hairstyle, headwear, original palette and clothing. Never borrow the Iop's orange hair, white eyes, sword, face or pose from the style reference. Keep the target character instantly recognizable from the actual game references. IDENTITY NOTES: {{identityNotes}}. INDIVIDUAL EXPRESSION, POSE AND SMALL STORY: {{individualPose}}. Make an expressive personal fan illustration with its own staging and character, not a gender swap of an existing portrait. Upper torso only, face large near center, readable at 48px. Square avatar that reads inside a centered circular crop; keep headwear and hair contained with top breathing room, shoulders may crop at bottom. Match the approved brush-pen ink and watercolor treatment: lively dark graphite preliminary strokes in a few places, confident tapered black ink with fine and heavy contours, selective hatching, charming asymmetry and expressive French fantasy comic anatomy. Hand-placed loose watercolor fills with small paper gaps near edges, natural varied watercolor boundaries, rich but slightly understated original character colors and a matte finish. Clear main silhouette and economical forms. Clean warm off-white ground with one restrained loose {{watercolorWash}} watercolor wash. No brown paper tint, artificial grunge overlay, generic polished fantasy rendering, plastic, 3D, photorealism, airbrushed gradients, cinematic glow, rim lights, embers, gloss or perfect vector cut-paper shapes. One character and only its small relevant class prop. Opaque square image with watercolor background. No caption, signature, fake notes, lettering, watermark, logo, frame, collage or multiple views.",
+  "prompt": "Create ONE original FAN ART USER PROFILE PORTRAIT of the {{gender}} {{className}} class from DOFUS, for the Dofus Forge collection. IMAGE 1 is the APPROVED COLLECTION ART STYLE ONLY. IMAGE 2 and IMAGE 3 show the ACTUAL TARGET GAME MODEL from two angles; these define class identity, gender, species, facial features, hairstyle, headwear, original palette and clothing. Never borrow the Iop's orange hair, white eyes, sword, face or pose from the style reference. Keep the target character instantly recognizable from the actual game references. TARGET GAME LOOK: head slot {{headSlot}}, head texture {{headSkin}}, body texture {{bodySkin}}. Preserve this exact face/hairstyle rather than substituting the first head. Use the default outfit while producing the head collection; alternate outfits are a later task. IDENTITY NOTES: {{identityNotes}}. INDIVIDUAL EXPRESSION, POSE AND SMALL STORY: {{individualPose}}. Make an expressive personal fan illustration with its own staging and character, not a gender swap of an existing portrait. Upper torso only, face large near center, readable at 48px. Square avatar that reads inside a centered circular crop; keep headwear and hair contained with top breathing room, shoulders may crop at bottom. Match the approved brush-pen ink and watercolor treatment: lively dark graphite preliminary strokes in a few places, confident tapered black ink with fine and heavy contours, selective hatching, charming asymmetry and expressive French fantasy comic anatomy. Hand-placed loose watercolor fills with small paper gaps near edges, natural varied watercolor boundaries, rich but slightly understated original character colors and a matte finish. Clear main silhouette and economical forms. Clean warm off-white ground with one restrained loose {{watercolorWash}} watercolor wash. No brown paper tint, artificial grunge overlay, generic polished fantasy rendering, plastic, 3D, photorealism, airbrushed gradients, cinematic glow, rim lights, embers, gloss or perfect vector cut-paper shapes. One character and only its small relevant class prop. Opaque square image with watercolor background. No caption, signature, fake notes, lettering, watermark, logo, frame, collage or multiple views.",
   "continuityRules": [
     "Preserve the recognizable Dofus class and gender design; the new drawing adds gesture and personality.",
     "Write separate prompts and poses for male and female portraits. Do not reuse a pose merely by changing the hair.",
@@ -47,5 +50,16 @@
     "Keep the PNG masters, export the optimized WebP files, append both exact prompts and output metadata to manifest.json, and update collection-preview.webp.",
     "Add both exact public paths to public.profile_avatar_catalog through a new SQL migration and mirror those catalog inserts in supabase/schema.sql. API clients cannot add catalog entries. Apply the migration before releasing the new portraits.",
     "Run the class-avatar, Account page, locale and database checks. The picker follows CLASS_DATA automatically; ensure the new class ships both actual image files and that its paths match the database allowlist."
+  ],
+  "productionTracking": "docs/brand/profile-avatars/PROGRESS.md",
+  "addingAHead": [
+    "Refresh game-looks.json from the installed client with python scripts/extract-avatar-looks.py --export-head <slot>. Keep availableAtCreation source order and ids.",
+    "Prioritize faces/hairstyles with the default outfit; keep alternate outfits mapped for after all head work.",
+    "Render and inspect the selected male and female head from two angles. Do not assume that the second head shares the first head's hood, mask or hairstyle.",
+    "Choose a separate pose and expression per portrait after checking earlier poses in manifest.json. Preserve the approved ink-and-watercolor medium.",
+    "Save PNG masters and 512px WebP files using <class>-look-<slot>-<m|f> names; keep the original first-head paths unchanged.",
+    "Append exact prompts, poses, references, hashes and gameLook head/body slot, id and skin metadata to manifest.json. Retain old approved records.",
+    "Run node scripts/sync-avatar-progress.mjs to check completed portraits and regenerate the remaining-head and later-outfit checklists.",
+    "Add only completed heads to the picker and exact server catalog paths through a new additive SQL migration mirrored in schema.sql. Apply hosted SQL before deploying the expanded gallery."
   ]
 }

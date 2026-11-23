@@ -10,6 +10,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.16',
+    date: '2026-11-23',
+    notes: [
+      '38 new class portraits: the second in-game face and hairstyle for every class, male and female, with the original outfit, distinct poses and the same ink-and-watercolor finish. Choose between faces 1 and 2 in the avatar gallery',
+      'Portrait production is tracked by class, gender and exact game model: 76 of 600 faces completed. All remaining faces and 38 alternate outfits are mapped, with outfits scheduled after the face collection',
+    ],
+  },
+  {
     version: '0.4.15',
     date: '2026-11-23',
     notes: [

@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.16] — 2026-11-23
+- 38 new class portraits: the second in-game face and hairstyle for every class, male and female, with the original outfit, distinct poses and the same ink-and-watercolor finish. Choose between faces 1 and 2 in the avatar gallery
+- Portrait production is tracked by class, gender and exact game model: 76 of 600 faces completed. All remaining faces and 38 alternate outfits are mapped, with outfits scheduled after the face collection
+
 ## [0.4.15] — 2026-11-23
 - Faster first load: the site fonts are now about a third of their previous size (552 KB to 185 KB) and stay cached between visits, along with the logo, share images and interface text
 

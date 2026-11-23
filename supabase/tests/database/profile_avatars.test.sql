@@ -1,14 +1,14 @@
 -- LOCAL Supabase only. Exercise direct API-role writes, bypassing the UI.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(18);
+select plan(20);
 
 insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-4000-8000-0000000000c1', 'avatar-a@test.invalid', '{"username":"avatar_a"}'),
   ('00000000-0000-4000-8000-0000000000c2', 'avatar-b@test.invalid', '{"username":"avatar_b"}');
 
 set local role anon;
-select is((select count(*) from public.profile_avatar_catalog), 38::bigint,
+select is((select count(*) from public.profile_avatar_catalog), 76::bigint,
   'anonymous readers see all shipped portraits');
 select throws_ok($$ insert into public.profile_avatar_catalog (path) values ('/avatars/classes/v1/fake-m.webp') $$,
   '42501', null, 'anonymous clients cannot expand the catalog');
@@ -37,6 +37,10 @@ select throws_ok($$ update public.profiles set avatar_url = '//tracker.example/a
   '23503', null, 'a scheme-relative avatar is rejected');
 select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/fake-m.webp' where id = auth.uid() $$,
   '23503', null, 'an unregistered local image is rejected');
+select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/iop-look-3-m.webp' where id = auth.uid() $$,
+  '23503', null, 'an unfinished face is not selectable through the API');
+select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/iop-look-2-m.webp?redirect=1' where id = auth.uid() $$,
+  '23503', null, 'a second-face URL cannot be modified through a query string');
 select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/iop-m.webp?redirect=1' where id = auth.uid() $$,
   '23503', null, 'query strings cannot alter an approved avatar');
 select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/../iop-m.webp' where id = auth.uid() $$,
