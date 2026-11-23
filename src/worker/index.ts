@@ -45,10 +45,12 @@ const ITEM_IMAGE_ROUTE = /^\/img\/item\/(\d+-(?:64|128)\.png)$/
 const SPA_FALLBACK = '/__spa-fallback'
 const FILE_EXTENSION = /\.[a-z0-9]+$/i
 
-// Every set page and class guide is prerendered, so a miss under these
-// paths is a page that does not exist: a real 404 for crawlers, while the
-// fallback still renders the app's not-found view for people.
-const PRERENDERED_ONLY = /^(?:\/(?:en|es|fr|pt))?\/(?:sets|classes)\/[^/]+$/
+// Every indexable page is prerendered; these are the only app routes that
+// exist without a file of their own (builds and profiles are routed above).
+// Any other miss is a page that does not exist: a real 404 for crawlers,
+// instead of a copy of the home page, while the fallback body still renders
+// the app for people.
+const CLIENT_ONLY = /^(?:\/(?:en|es|fr|pt))?\/(?:c\/[^/]+|admin(?:\/(?:ranks|reports))?)$/
 
 async function serveFallback(env: Env, request: Request, status = 200): Promise<Response> {
   const fallback = await env.ASSETS.fetch(new Request(new URL(SPA_FALLBACK, request.url), { method: request.method }))
@@ -61,7 +63,7 @@ async function serveAsset(env: Env, request: Request): Promise<Response> {
   if (response.status !== 404 || (request.method !== 'GET' && request.method !== 'HEAD') || FILE_EXTENSION.test(url.pathname)) {
     return response
   }
-  return serveFallback(env, request, PRERENDERED_ONLY.test(url.pathname) ? 404 : 200)
+  return serveFallback(env, request, CLIENT_ONLY.test(url.pathname) ? 200 : 404)
 }
 
 const NOT_FOUND = () => new Response('Not found', { status: 404 })
@@ -73,9 +75,12 @@ const NOT_FOUND = () => new Response('Not found', { status: 404 })
  * while the build is still public; otherwise the app document, which loads
  * the build in the browser under the visitor's own permissions. A failed
  * lookup counts as "not public": never serve a page that may be private.
+ * The app document answers 404 when the build is private or gone (its owner
+ * still gets the app), but 200 when the lookup itself failed, so a Supabase
+ * outage never tells crawlers a live build is gone.
  */
 async function serveBuildPage(env: Env, request: Request, lang: Lang, id: string, isData: boolean): Promise<Response> {
-  const build = await fetchBuildPageMeta(env, id).catch(() => null)
+  const build = await fetchBuildPageMeta(env, id).catch(() => undefined)
   const isPublic = build?.visibility === 'public'
   if (isData) return isPublic ? env.ASSETS.fetch(request) : NOT_FOUND()
   if (isPublic) {
@@ -84,7 +89,7 @@ async function serveBuildPage(env: Env, request: Request, lang: Lang, id: string
   }
   // Published since the last deploy, unlisted, private or gone: the app
   // document, with the preview tags filled in for public/unlisted builds.
-  const fallback = await serveFallback(env, request)
+  const fallback = await serveFallback(env, request, build === null ? 404 : 200)
   if (!build) return fallback
   try {
     return await rewriteBuildMeta(env, new URL(request.url).origin, lang, id, build, fallback)
@@ -94,13 +99,13 @@ async function serveBuildPage(env: Env, request: Request, lang: Lang, id: string
 }
 
 async function serveProfilePage(env: Env, request: Request, username: string, isData: boolean): Promise<Response> {
-  const exists = await profileExists(env, username).catch(() => false)
+  const exists = await profileExists(env, username).catch(() => undefined)
   if (isData) return exists ? env.ASSETS.fetch(request) : NOT_FOUND()
   if (exists) {
     const prerendered = await env.ASSETS.fetch(request)
     if (prerendered.status !== 404) return prerendered
   }
-  return serveFallback(env, request)
+  return serveFallback(env, request, exists === false ? 404 : 200)
 }
 
 const FONTS: OgFont[] = [

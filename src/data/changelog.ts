@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.14',
+    date: '2026-11-23',
+    notes: [
+      'Pages that do not exist (mistyped links, deleted builds and profiles) now answer as not found, so search engines stop treating them as copies of the home page',
+    ],
+  },
+  {
     version: '0.4.13',
     date: '2026-11-23',
     notes: [

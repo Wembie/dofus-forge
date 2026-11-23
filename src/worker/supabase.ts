@@ -56,7 +56,8 @@ async function fetchBuildRow<T extends { visibility: BuildMeta['visibility'] }>(
       'x-build-id': id,
     },
   })
-  if (!res.ok) return null
+  // An error is not an answer: callers must not read it as "no such build".
+  if (!res.ok) throw new Error(`Supabase builds lookup failed (${res.status})`)
   const rows = (await res.json()) as T[]
   const row = rows[0]
   if (!row || row.visibility === 'private') return null
@@ -74,6 +75,6 @@ export async function profileExists(env: { SUPABASE_URL: string; SUPABASE_ANON_K
     cf: { cacheTtl: 60 },
     headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}` },
   })
-  if (!res.ok) return false
+  if (!res.ok) throw new Error(`Supabase profiles lookup failed (${res.status})`)
   return ((await res.json()) as unknown[]).length > 0
 }
