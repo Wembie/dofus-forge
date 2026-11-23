@@ -40,6 +40,8 @@ Thumbs.db
 
 # local dev tools
 CLAUDE.md
+CODEX.md
+AGENTS.md
 public/data/stats-browse/
 .claude/
 # extracted character assets (uploaded to object storage)

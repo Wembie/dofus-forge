@@ -2326,5 +2326,20 @@
   "dmgguide_t_pct_resist": "%Resistance",
   "dmgguide_t_scaled": "Scaled",
   "dmgguide_t_before_pct": "Before %s",
-  "dmgguide_t_pct_group": "% multipliers"
+  "dmgguide_t_pct_group": "% multipliers",
+  "account_avatar_title": "Class portraits",
+  "account_avatar_hint": "Choose a portrait for your profile picture, then save your profile changes.",
+  "account_avatar_default": "Use my initial",
+  "account_avatar_option": "{{class}} · {{gender}}",
+  "account_avatar_done": "Done",
+  "account_save_error": "Your changes could not be saved. Please try again.",
+  "account_avatar_view": "Enlarge {{class}} · {{gender}}",
+  "account_avatar_back": "Back to portraits",
+  "account_avatar_full": "Full illustration",
+  "account_avatar_crop": "On your profile",
+  "account_avatar_use": "Use this portrait",
+  "account_avatar_search": "Search classes",
+  "account_avatar_empty": "No classes match your search.",
+  "account_avatar_current": "Current picture",
+  "account_avatar_inspect_hint": "Tap the magnifying glass or illustration to see it in detail before choosing."
 }

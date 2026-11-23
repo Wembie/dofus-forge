@@ -1,0 +1,51 @@
+{
+  "collection": "Forge class portraits",
+  "revision": 1,
+  "generator": "Built-in image_gen",
+  "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
+  "exactPromptsForExistingImages": "docs/brand/profile-avatars/manifest.json",
+  "variables": {
+    "className": "Official class name and its recognizable identity",
+    "gender": "male or female",
+    "identityNotes": "Observed species, face, hairstyle, mask/headwear, original palette and costume from the actual game model",
+    "individualPose": "A new expression, pose and small class-related story specific to this one character",
+    "watercolorWash": "A restrained desaturated color that supports the class palette"
+  },
+  "referenceImagesInOrder": [
+    "The approved male Iop portrait: use its ink-and-watercolor treatment only, never its anatomy, colors, identity or pose",
+    "A close front/three-quarter render of the target class and gender from the Dofus game client",
+    "A second angle of that exact target game model"
+  ],
+  "referencePreparation": {
+    "renderer": "src/lib/character/renderer.ts",
+    "source": "Dofus client assets extracted with scripts/extract-characters.py",
+    "identityMapping": "src/features/class-picker/classData.ts: breed + gender; char-assets/looks.json: body, head and original colors",
+    "animation": "1-static / AnimStatiqueExplo0, facings 1 and 2",
+    "framing": "Render a close view of the head and upper torso at sufficient resolution. Inspect both angles before generation. Game renders are identity references, not the finished portrait."
+  },
+  "prompt": "Create ONE original FAN ART USER PROFILE PORTRAIT of the {{gender}} {{className}} class from DOFUS, for the Dofus Forge collection. IMAGE 1 is the APPROVED COLLECTION ART STYLE ONLY. IMAGE 2 and IMAGE 3 show the ACTUAL TARGET GAME MODEL from two angles; these define class identity, gender, species, facial features, hairstyle, headwear, original palette and clothing. Never borrow the Iop's orange hair, white eyes, sword, face or pose from the style reference. Keep the target character instantly recognizable from the actual game references. IDENTITY NOTES: {{identityNotes}}. INDIVIDUAL EXPRESSION, POSE AND SMALL STORY: {{individualPose}}. Make an expressive personal fan illustration with its own staging and character, not a gender swap of an existing portrait. Upper torso only, face large near center, readable at 48px. Square avatar that reads inside a centered circular crop; keep headwear and hair contained with top breathing room, shoulders may crop at bottom. Match the approved brush-pen ink and watercolor treatment: lively dark graphite preliminary strokes in a few places, confident tapered black ink with fine and heavy contours, selective hatching, charming asymmetry and expressive French fantasy comic anatomy. Hand-placed loose watercolor fills with small paper gaps near edges, natural varied watercolor boundaries, rich but slightly understated original character colors and a matte finish. Clear main silhouette and economical forms. Clean warm off-white ground with one restrained loose {{watercolorWash}} watercolor wash. No brown paper tint, artificial grunge overlay, generic polished fantasy rendering, plastic, 3D, photorealism, airbrushed gradients, cinematic glow, rim lights, embers, gloss or perfect vector cut-paper shapes. One character and only its small relevant class prop. Opaque square image with watercolor background. No caption, signature, fake notes, lettering, watermark, logo, frame, collage or multiple views.",
+  "continuityRules": [
+    "Preserve the recognizable Dofus class and gender design; the new drawing adds gesture and personality.",
+    "Write separate prompts and poses for male and female portraits. Do not reuse a pose merely by changing the hair.",
+    "Check existing poses in manifest.json before choosing the new character's expression and story.",
+    "Use real target game references, especially for animal faces, masks, headgear and class-specific eyes.",
+    "Keep one cohesive ink-and-watercolor collection while allowing individual shapes, expressions, props and quiet wash colors.",
+    "Inspect the final drawing both as a square and in a small circular profile crop.",
+    "Append each exact final prompt, references and output identity to the collection manifest. Retain older approved entries when creating a new revision."
+  ],
+  "exports": {
+    "master": "Original PNG, kept locally under temp/profile-avatars/masters/v1/<class>-<m|f>.png",
+    "web": "512 x 512 WebP, quality 88, public/avatars/classes/v1/<class>-<m|f>.webp",
+    "background": "Opaque warm off-white paper and subtle watercolor wash; do not remove unless explicitly requested",
+    "profileDisplay": "CSS circular crop; retain the complete square master"
+  },
+  "addingAClass": [
+    "Add the class's official data and localized name through the project's normal game-data pipeline.",
+    "Render the actual male and female models from two angles and inspect their defining traits.",
+    "Choose two original poses and expressions, using the existing manifest to avoid repetition.",
+    "Generate one image per gender with the approved collection style reference and the target game's model references.",
+    "Keep the PNG masters, export the optimized WebP files, append both exact prompts and output metadata to manifest.json, and update collection-preview.webp.",
+    "Add both exact public paths to public.profile_avatar_catalog through a new SQL migration and mirror those catalog inserts in supabase/schema.sql. API clients cannot add catalog entries. Apply the migration before releasing the new portraits.",
+    "Run the class-avatar, Account page, locale and database checks. The picker follows CLASS_DATA automatically; ensure the new class ships both actual image files and that its paths match the database allowlist."
+  ]
+}

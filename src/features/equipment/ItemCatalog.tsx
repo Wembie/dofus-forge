@@ -1,4 +1,4 @@
-import { startTransition, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, startTransition, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ArrowRight, ChartNoAxesColumn, Check, Crown, Pin, Search, SlidersHorizontal, Star } from 'lucide-react'
 import { PRYSMA_SLOT, recompute, useBuildStore, type SlotId } from '@/store/buildStore.ts'
@@ -14,9 +14,10 @@ import { matchesSlot, matchesStatFilter, levelCap, changeLevelRange, catalogBloc
 import { STAT_META, isIgnored } from './statDisplay.ts'
 import { ImpactDeltas, ItemFactsList, useHoverIntent } from './ItemFacts.tsx'
 import { useInfiniteList } from './useInfiniteList.ts'
-import { SetDetailModal } from './SetDetailModal.tsx'
 import './catalog.css'
 import { track } from '@/lib/analytics.ts'
+
+const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 
 type Props = {
   slot:           SlotConfig
@@ -156,7 +157,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const activeFilters = Number(range.min > 0 || range.max !== 200) + Number(!!setId) + stats.length + Number(onlyFav) + Number(legendary)
 
   return (
-    <Modal open onClose={() => { if (!setModal) onClose() }} title={t('catalog_title', { slot: slotName.toLocaleLowerCase() })} size="full" className="catalog-dialog">
+    <Modal open onClose={() => { if (setModal) setSetModal(null); else onClose() }} title={t('catalog_title', { slot: slotName.toLocaleLowerCase() })} size="full" className="catalog-dialog">
       <div className={'catalog-composition' + (selected ? ' has-selection' : '')}>
         <div className={'catalog-toolbar has-toggle' + (showFilters ? ' filters-open' : '')}>
           <div className="catalog-toolbar-main">
@@ -383,7 +384,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
           )}
         </aside>
       </div>
-      {setModal && <SetDetailModal set={setModal} onClose={() => setSetModal(null)} onEquipAll={onClose} />}
+      {setModal && <Suspense fallback={null}><SetDetailModal set={setModal} onClose={() => setSetModal(null)} onEquipAll={onClose} /></Suspense>}
     </Modal>
   )
 }

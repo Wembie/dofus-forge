@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, fireEvent, act, cleanup, within } from '@testing-library/react'
+import { render, screen, fireEvent, act, cleanup, within, waitFor } from '@testing-library/react'
+import '@/test/i18n.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -39,16 +40,27 @@ afterEach(() => {
 const cardCount = () => screen.queryAllByText(/^Item \d+$/).length
 
 describe('ItemCatalog', () => {
-  it('Escape closes only the set modal when one is open over the catalog', () => {
+  it('Escape closes only the set modal both while loading and after it opens', async () => {
     const onClose = vi.fn()
     render(<ItemCatalog slot={HAT} slotId="hat" onClose={onClose} />)
     // The card's set link (the set filter lists the same name as an <option>).
     fireEvent.click(screen.getByRole('button', { name: /Test Set/ }))
     expect(screen.getAllByText('Test Set').length).toBeGreaterThan(1)
+    expect(screen.getAllByRole('dialog')).toHaveLength(1)
 
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(onClose).not.toHaveBeenCalled()
 
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(onClose).toHaveBeenCalledTimes(1)
+
+    onClose.mockClear()
+    act(() => { useDataStore.setState({ sets: [{ ...SET, items: [1, 2], bonuses: { 2: [] } }] }) })
+    fireEvent.click(screen.getByRole('button', { name: /Test Set/ }))
+    await waitFor(() => expect(screen.getAllByRole('dialog')).toHaveLength(2))
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(onClose).not.toHaveBeenCalled()
+    await waitFor(() => expect(screen.getAllByRole('dialog')).toHaveLength(1))
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(onClose).toHaveBeenCalledTimes(1)
   })

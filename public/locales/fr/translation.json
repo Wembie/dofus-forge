@@ -2326,5 +2326,20 @@
   "dmgguide_t_pct_resist": "%Résistance",
   "dmgguide_t_scaled": "Mis à l'échelle",
   "dmgguide_t_before_pct": "Avant les %",
-  "dmgguide_t_pct_group": "Multiplicateurs %"
+  "dmgguide_t_pct_group": "Multiplicateurs %",
+  "account_avatar_title": "Portraits des classes",
+  "account_avatar_hint": "Choisissez un portrait pour votre photo de profil, puis enregistrez les modifications du profil.",
+  "account_avatar_default": "Utiliser mon initiale",
+  "account_avatar_option": "{{class}} · {{gender}}",
+  "account_avatar_done": "Terminé",
+  "account_save_error": "Enregistrement impossible. Veuillez réessayer.",
+  "account_avatar_view": "Agrandir {{class}} · {{gender}}",
+  "account_avatar_back": "Retour aux portraits",
+  "account_avatar_full": "Illustration complète",
+  "account_avatar_crop": "Sur votre profil",
+  "account_avatar_use": "Utiliser ce portrait",
+  "account_avatar_search": "Rechercher une classe",
+  "account_avatar_empty": "Aucune classe ne correspond.",
+  "account_avatar_current": "Photo actuelle",
+  "account_avatar_inspect_hint": "Touchez la loupe ou une illustration pour la voir en grand avant de choisir."
 }
