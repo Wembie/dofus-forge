@@ -82,6 +82,7 @@ document.addEventListener('load', function(e) {
 // elsewhere. The container only loads on the production host, so local
 // runs, previews and tests send nothing.
 const GTM_ID = 'GTM-M8TP3WDV'
+const ADSENSE_CLIENT = 'ca-pub-7408183630551993'
 const CONSENT_REGIONS = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH']
 const ANALYTICS_SCRIPT = `
 window.dataLayer = window.dataLayer || [];
@@ -89,13 +90,27 @@ function gtag(){dataLayer.push(arguments);}
 gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied', region: ${JSON.stringify(CONSENT_REGIONS)}, wait_for_update: 500 });
 gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' });
 gtag('js', new Date());
-if (location.hostname === 'dofusforge.com') {
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtm.js?id=${GTM_ID}';
-  document.head.appendChild(s);
-}
 `
+
+// AdSense and Tag Manager insert their own <script> tags before the first
+// script in <head>. Injected before hydration, those tags (no `async`
+// attribute, so React does not skip them) shift every <head> script one
+// slot, hydration fails and React re-renders the whole document: a full
+// layout shift on desktop. Loading both only after hydration avoids it.
+let thirdPartyLoaded = false
+function loadThirdPartyScripts() {
+  if (thirdPartyLoaded) return
+  thirdPartyLoaded = true
+  const add = (src: string, crossOrigin?: string) => {
+    const s = document.createElement('script')
+    s.async = true
+    s.src = src
+    if (crossOrigin) s.crossOrigin = crossOrigin
+    document.head.appendChild(s)
+  }
+  add(`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`, 'anonymous')
+  if (location.hostname === 'dofusforge.com') add(`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`)
+}
 
 const WEB_APPLICATION_LD = {
   '@context': 'https://schema.org',
@@ -187,8 +202,8 @@ export function Layout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
         <script dangerouslySetInnerHTML={{ __html: ANALYTICS_SCRIPT }} />
 
-        {/* Google AdSense site verification/loader — must stay high in <head> per Google's requirement */}
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7408183630551993" crossOrigin="anonymous" />
+        {/* AdSense site ownership; the ad script itself loads after hydration (loadThirdPartyScripts). */}
+        <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
 
         <SeoHead lang={lang} />
         {/* Ignored by Google for ranking since ~2009; kept because it costs nothing. */}
@@ -240,6 +255,7 @@ export default function App() {
     // Prerendered buttons are on screen before React handles their clicks;
     // the end-to-end tests wait for this before interacting.
     document.documentElement.dataset.hydrated = ''
+    loadThirdPartyScripts()
   }, [])
 
   return (

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.12] — 2026-11-23
+- Faster, steadier pages: ads and analytics now load after the page is ready, so the page no longer rebuilds itself and jumps a second after opening on desktop
+
 ## [0.4.11] — 2026-11-23
 - Profile banners: choose from 12 original Dofus landscapes and divine dimensions in Account, search by place, inspect the full illustration and preview it with your avatar before choosing. Save, discard or remove your banner with the rest of your profile changes
 - Public profiles now display the saved banner above the avatar. Click the landscape to see it enlarged; pictures stay unobstructed, with a zoom cursor on hover

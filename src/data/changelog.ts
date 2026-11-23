@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.12',
+    date: '2026-11-23',
+    notes: [
+      'Faster, steadier pages: ads and analytics now load after the page is ready, so the page no longer rebuilds itself and jumps a second after opening on desktop',
+    ],
+  },
+  {
     version: '0.4.11',
     date: '2026-11-23',
     notes: [
