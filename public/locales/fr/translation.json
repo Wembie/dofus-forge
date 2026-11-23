@@ -2374,5 +2374,21 @@
   "build_rating_option": "Noter {{value}} sur 5 étoiles",
   "build_rating_save_error": "Votre note n’a pas pu être enregistrée. Réessayez.",
   "account_avatar_gender_look": "{{gender}} · visage {{number}}",
-  "account_avatar_head_slot": "Visage {{number}}"
+  "account_avatar_head_slot": "Visage {{number}}",
+  "profile_banner_location_moon": "Île de Moon",
+  "profile_banner_location_wabbits": "Île des Wabbits",
+  "profile_banner_location_otomai": "Arbre Hakam d’Otomaï",
+  "profile_banner_location_vulkania": "Cratère Monseleya de Vulkania",
+  "profile_banner_location_tainela": "Tainéla",
+  "profile_banner_location_koalaks": "Lacs enchantés des Koalaks",
+  "profile_banner_location_abraknid": "Forêt des Abraknydes",
+  "profile_banner_location_minotoror": "Labyrinthe du Minotoror",
+  "profile_banner_location_osavora": "Osavora",
+  "profile_banner_location_saharach": "Pyramide Maudite de Saharach",
+  "profile_banner_location_sarakech": "Port de Sarakech",
+  "profile_banner_location_albuera": "Nouvelle Albuera",
+  "profile_banner_location_ereboria": "Galeries d’Ereboria",
+  "profile_banner_location_nawidad": "Île de Nowel",
+  "profile_banner_location_pazcuak": "Île de Pwâk",
+  "profile_banner_location_dragocerdo": "Antre du Dragon Cochon"
 }

@@ -1,14 +1,14 @@
 -- LOCAL Supabase only. Exercise direct API-role writes, bypassing the UI.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(18);
+select plan(20);
 
 insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-4000-8000-0000000000c1', 'banner-a@test.invalid', '{"username":"banner_a"}'),
   ('00000000-0000-4000-8000-0000000000c2', 'banner-b@test.invalid', '{"username":"banner_b"}');
 
 set local role anon;
-select is((select count(*) from public.profile_banner_catalog), 12::bigint,
+select is((select count(*) from public.profile_banner_catalog), 28::bigint,
   'anonymous readers see all shipped banners');
 select throws_ok($$ insert into public.profile_banner_catalog (path) values ('/banners/locations/v1/unknown.webp') $$,
   '42501', null, 'anonymous clients cannot expand the catalog');
@@ -37,6 +37,10 @@ select throws_ok($$ update public.profiles set banner_url = '//tracker.example/b
   '23503', null, 'a scheme-relative banner is rejected');
 select throws_ok($$ update public.profiles set banner_url = '/banners/locations/v1/unknown.webp' where id = auth.uid() $$,
   '23503', null, 'an unregistered local image is rejected');
+select throws_ok($$ update public.profiles set banner_url = '/banners/locations/v1/moon.webp?redirect=1' where id = auth.uid() $$,
+  '23503', null, 'query strings cannot alter a newly approved banner');
+select throws_ok($$ update public.profiles set banner_url = '/banners/locations/v2/moon.webp' where id = auth.uid() $$,
+  '23503', null, 'an unpublished banner version is rejected');
 select throws_ok($$ update public.profiles set banner_url = '/banners/locations/v1/bonta.webp?redirect=1' where id = auth.uid() $$,
   '23503', null, 'query strings cannot alter an approved banner');
 select throws_ok($$ update public.profiles set banner_url = '/banners/locations/v1/../bonta.webp' where id = auth.uid() $$,

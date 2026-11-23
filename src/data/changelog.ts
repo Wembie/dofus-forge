@@ -10,6 +10,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.17',
+    date: '2026-11-23',
+    notes: [
+      '16 new profile banners based on the installed Dofus 3.7 client: Moon, Wabbits, Otomai, Vulkania, Tainela, Koalaks, Treechnid Forest, Minotoror, Osavora, the Cursed Pyramid and Sarakech Port, Albuera, Ereboria, Kwismas, Fleaster and Dragon Pig. Choose from 28 landscapes in the same ink-and-watercolor style',
+      'Exact prompts, client patch, source maps and image hashes are preserved for future artwork. Existing profile covers and all previous choices are retained',
+    ],
+  },
+  {
     version: '0.4.16',
     date: '2026-11-23',
     notes: [

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { PROFILE_BANNERS, isProfileBannerUrl } from './profileBanners.ts'
 
 describe('approved profile banner catalog', () => {
@@ -24,6 +25,33 @@ describe('approved profile banner catalog', () => {
     for (const lang of ['es', 'en', 'fr', 'pt']) {
       const strings = JSON.parse(readFileSync(`public/locales/${lang}/translation.json`, 'utf8'))
       for (const key of keys) expect(strings[key]?.length, `${lang}:${key}`).toBeGreaterThan(0)
+    }
+  })
+
+  it('preserves unique artwork and pins the sixteen new locations to installed 3.7 map assets', () => {
+    const manifest = JSON.parse(readFileSync('docs/brand/profile-banners/manifest.json', 'utf8')) as {
+      banners: { id: string; asset: string; sha256: string; width: number; height: number; prompt: string; sourceClientVersion?: string; references: { role: string; mapId?: number; sourceClientVersion?: string; mapBundle?: string; sourceMapBundleSha256?: string; sha256?: string; renderer?: string }[] }[]
+    }
+    expect(new Set(manifest.banners.map(b => b.sha256)).size).toBe(PROFILE_BANNERS.length)
+    for (const banner of manifest.banners) {
+      expect(createHash('sha256').update(readFileSync(banner.asset)).digest('hex')).toBe(banner.sha256)
+      expect([banner.width, banner.height]).toEqual([1920, 640])
+    }
+    const current = manifest.banners.filter(b => b.sourceClientVersion)
+    expect(current.map(b => b.id)).toEqual(['moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo'])
+    for (const banner of current) {
+      expect(banner.sourceClientVersion).toBe('3.7.14.18')
+      expect(banner.prompt).toContain('DOFUS 3.7')
+      expect(banner.prompt).toContain('3.7.14.18')
+      const maps = banner.references.filter(r => r.mapId !== undefined)
+      expect(maps.length).toBeGreaterThan(0)
+      for (const ref of maps) {
+        expect(ref.sourceClientVersion).toBe(banner.sourceClientVersion)
+        expect(ref.mapBundle).toBe(`Map/Data/mapdata_assets_world_${ref.mapId! >> 18}.bundle`)
+        expect(ref.sourceMapBundleSha256).toMatch(/^[a-f0-9]{64}$/)
+        expect(ref.sha256).toMatch(/^[a-f0-9]{64}$/)
+        expect(ref.renderer).toBe('scripts/render-banner-references.py')
+      }
     }
   })
 })

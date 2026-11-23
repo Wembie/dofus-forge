@@ -1,13 +1,13 @@
 {
   "collection": "Forge World of Twelve banners",
-  "revision": 1,
+  "revision": 2,
   "createdOn": "2026-11-22",
   "generator": "Built-in image_gen",
   "useCase": "illustration-story",
   "targetGame": "DOFUS 3.7 / Unity",
   "gameDataVersion": "3.7.12.12",
   "version": "0.4.10",
-  "status": "Artwork introduced in 0.4.10; banner selection, persistence and public profile display added in 0.4.11",
+  "status": "Twelve initial banners introduced in 0.4.10; selection and public covers in 0.4.11; sixteen additional 3.7.14.18 client-based scenes introduced in 0.4.17, for 28 total choices",
   "referenceProvenance": "Published environment references include earlier city/Pandala redesign artwork and game screenshots. The target version does not assert that each reference was captured in 3.7. Source images remain local; these are original fan-art interpretations.",
   "banners": [
     {
@@ -363,11 +363,769 @@
         }
       ],
       "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Xelorium (Xélorium), a divine dimension. IDENTITY: Xelorium / Xélorium, the divine dimension of Xelor in DOFUS: suspended pale-ochre carved clockwork platforms and vast toothed gear rims above a deep blue-violet void, hourglass pedestals with mint glass and brass supports, clock motifs engraved into cream paving, slender leafless pale trees and blue streams falling between time-fractured islands. Preserve the large Dofus floating platform shapes and actual hourglass construction from the screenshots; no generic steampunk city, modern clocks or sci-fi spaceships.\nINDIVIDUAL COMPOSITION AND MOOD: A dreamlike panoramic view along two time-fractured stone terraces joined by an incomplete cog-shaped bridge. A memorable brass-and-mint hourglass monument sits just right of center; enormous partial gear rims and floating pale islands recede beyond it. A thin blue stream falls between platforms, with one sparse lilac tree at the edge. Cream, ochre, muted mint and dusty violet, painted matte with airy paper gaps. Quiet pale paving low-left; clock tick marks only, no readable writing."
+    },
+    {
+      "id": "moon",
+      "location": "Isla de Moon",
+      "asset": "public/banners/locations/v1/moon.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 341522,
+      "sha256": "a706970bdfa7a9e057fd3702d3b784a0fb272e8606fd48b79fdd8f9fb2506e55",
+      "localPngMaster": "temp/profile-banners/masters/v1/moon.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "af9caac52a8644da4f844670ab8bbf52c97391052e6f83517f7dfabc4375a3b5",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The actual 3.7 Moon coastal map: the tall pale stone monkey-faced statue has a round mask-like head, circular cheek shapes, a raised arm supporting a squared stone brazier/block with a tiny flame. Honey-colored sandy shore, turquoise shallows, stout curved palm trees and angular pale coastal cliffs. The statue is an architectural sculpture, never a living monkey.",
+      "composition": "A relaxed low eye-level view along a gently curving beach. Put the distinctive monkey statue near the middle, palms clustered asymmetrically at the right, pale cliffs behind and open turquoise water at the left. Soft fresh late-morning sea light; sand, sea-glass teal and leafy green. Reserve a calm sand-and-water area at the lower-left. No pirate ship or other unreferenced landmark.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/moon-156500737.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 156500737,
+          "mapBundle": "Map/Data/mapdata_assets_world_597.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "5272e79ffa02f9077e6ca9f89f3636c20c3056c8298ac6b001e577c074d19711",
+          "sourceMapBundleSha256": "b214bfbbc360752fa040418e584925b1390a2cb293ba4e796bf2b86214ab143c",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta's winged-sword fountain, buildings or composition. Preserve the actual target location's own roofs, colors and silhouette shown in its map references. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Isla de Moon.\nKEEP THE REAL LOCATION IDENTITY: The actual 3.7 Moon coastal map: the tall pale stone monkey-faced statue has a round mask-like head, circular cheek shapes, a raised arm supporting a squared stone brazier/block with a tiny flame. Honey-colored sandy shore, turquoise shallows, stout curved palm trees and angular pale coastal cliffs. The statue is an architectural sculpture, never a living monkey.\nDISTINCT COMPOSITION AND MOOD: A relaxed low eye-level view along a gently curving beach. Put the distinctive monkey statue near the middle, palms clustered asymmetrically at the right, pale cliffs behind and open turquoise water at the left. Soft fresh late-morning sea light; sand, sea-glass teal and leafy green. Reserve a calm sand-and-water area at the lower-left. No pirate ship or other unreferenced landmark.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Camino de los cráneos",
+        "en": "Skull Path",
+        "fr": "Chemin du Crâne",
+        "pt": "Caminho do Crânio"
+      }
+    },
+    {
+      "id": "wabbits",
+      "location": "Isla de los Wabbits",
+      "asset": "public/banners/locations/v1/wabbits.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 447870,
+      "sha256": "44b39cb44fe0dc0b6cb9e75392cd79398bdb55eea71dd31bc31b7024ccfb4ff4",
+      "localPngMaster": "temp/profile-banners/masters/v1/wabbits.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "7069242ad42a9f217623447b492d380fbe3101f8a05befa0c4ebac811baf54f1",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 Wa Wabbit castle exterior: asymmetric pale rabbit-shaped stone towers with long pointed ear-like tops, chunky dark wooden doors edged in gold and decorated with keyholes, cream rabbit sculptures carrying gold key rings, piles of giant orange carrots, tall red-orange carrot-emblem pennants and lush green/orange woodland. Follow the actual castle silhouette; no generic fairy-tale castle and no invented giant carrot building.",
+      "composition": "A playful warm autumn afternoon panorama looking slightly uphill toward the rabbit-eared castle gateway, centered a little to the right. A short winding path and low uneven wall lead into the door. A few carrot piles and two pennant poles anchor the sides; rounded orange-green trees recede behind the towers. Quiet grass and path at lower-left. Warm ivory, ochre, carrot orange and moss green.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/wabbits-99614979.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 99614979,
+          "mapBundle": "Map/Data/mapdata_assets_world_380.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "2ff03c031cc74aa592a6fce9f5e28a4c9927832ed734c05fdfc655574a158b8a",
+          "sourceMapBundleSha256": "443396db0e32751e0503026be3d5e3262925612d08368790038e81aea95bff4f",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta's winged-sword fountain, buildings or composition. Preserve the actual target location's own roofs, colors and silhouette shown in its map references. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Isla de los Wabbits.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 Wa Wabbit castle exterior: asymmetric pale rabbit-shaped stone towers with long pointed ear-like tops, chunky dark wooden doors edged in gold and decorated with keyholes, cream rabbit sculptures carrying gold key rings, piles of giant orange carrots, tall red-orange carrot-emblem pennants and lush green/orange woodland. Follow the actual castle silhouette; no generic fairy-tale castle and no invented giant carrot building.\nDISTINCT COMPOSITION AND MOOD: A playful warm autumn afternoon panorama looking slightly uphill toward the rabbit-eared castle gateway, centered a little to the right. A short winding path and low uneven wall lead into the door. A few carrot piles and two pennant poles anchor the sides; rounded orange-green trees recede behind the towers. Quiet grass and path at lower-left. Warm ivory, ochre, carrot orange and moss green.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Islote La Cowona",
+        "en": "Isle of the Cwown",
+        "fr": "Îlot de la Couronne",
+        "pt": "Ilha da Coroa"
+      }
+    },
+    {
+      "id": "otomai",
+      "location": "Árbol Hakam de Otomai",
+      "asset": "public/banners/locations/v1/otomai.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 458936,
+      "sha256": "fdf753a9ae7fc92312ca72e817625f1274fd508e56b37f1624c59d1336cf4c40",
+      "localPngMaster": "temp/profile-banners/masters/v1/otomai.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "e0362b73451e3158317b4d952fd4264e7f7cc2bdf8e50b04b4b2f0b0746194b3",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 Hakam / Tree Keeholo canopy: immense bark trunks and arching branches, interwoven wooden plank bridges, rounded lookout platforms and curved dark vine/wood railings. Dense layers of large triangular and broad green leaves, hanging lianas and small ochre ornaments. Preserve the playful organic rope-and-plank construction, not an elven stone city or giant fantasy castle.",
+      "composition": "An airy panoramic view from a high wooden walkway across the huge tree canopy. A curving trunk and one round timber platform occupy the middle; a plank bridge crosses diagonally toward it from the right, with leafy depth and distant misty canopy behind. Gentle broad breaks of warm daylight painted as paper gaps, not cinematic rays. Sage, olive, honey wood and soft jade. Keep the lower-left walkway simple.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/otomai-25694209.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 25694209,
+          "mapBundle": "Map/Data/mapdata_assets_world_98.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "5b5c5742b0c61aea0c0982aef4f2185209aa94496ebb193e27d08690650a063c",
+          "sourceMapBundleSha256": "34bd8c15723723b65a1c2b68cbd2c7ae9da0166a9b272a7a30e86795316bad3d",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/otomai-63964931.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 63964931,
+          "mapBundle": "Map/Data/mapdata_assets_world_244.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "9674bc69ef27fd320984714dad7a6766cacce9ce73ed03c2f66788593bafb455",
+          "sourceMapBundleSha256": "c95e188be6f6ba047760ba3f12f279db2b8d08236898531e2c0b8657784c4107",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta's winged-sword fountain, buildings or composition. Preserve the actual target location's own roofs, colors and silhouette shown in its map references. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Otomai — Árbol Hakam.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 Hakam / Tree Keeholo canopy: immense bark trunks and arching branches, interwoven wooden plank bridges, rounded lookout platforms and curved dark vine/wood railings. Dense layers of large triangular and broad green leaves, hanging lianas and small ochre ornaments. Preserve the playful organic rope-and-plank construction, not an elven stone city or giant fantasy castle.\nDISTINCT COMPOSITION AND MOOD: An airy panoramic view from a high wooden walkway across the huge tree canopy. A curving trunk and one round timber platform occupy the middle; a plank bridge crosses diagonally toward it from the right, with leafy depth and distant misty canopy behind. Gentle broad breaks of warm daylight painted as paper gaps, not cinematic rays. Sage, olive, honey wood and soft jade. Keep the lower-left walkway simple.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Las ramas del árbol Hakam",
+        "en": "Tree Keeholo Foliage",
+        "fr": "Feuillage de l'arbre Hakam",
+        "pt": "Folhagem da Árvore Hakam"
+      }
+    },
+    {
+      "id": "vulkania",
+      "location": "Cráter Montseleya de Vulkania",
+      "asset": "public/banners/locations/v1/vulkania.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 417466,
+      "sha256": "165988ef46fd4aea8d9a3fc0f3c927a2a6adbe42d25cde70e618c02906968fe9",
+      "localPngMaster": "temp/profile-banners/masters/v1/vulkania.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "5d897766aa2c5f0a7a00ae1fad7724fbe661ce3f015546b35a5f062d23dc0109",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The ACTUAL 3.7 Montseleya crater interior: irregular charcoal volcanic ledges and natural stone bridges over opaque mineral-turquoise water, clusters of tall translucent icy-white and pale lavender crystals, dark pointed stalagmites and long green climbing ropes hanging from above. Use this specific volcanic cavern from the installed client. No invented erupting mountain, dinosaur statue, beach resort or lava river.",
+      "composition": "A striking underground panorama at the level of a natural stone bridge. The bridge leads from a quiet lower-left foreground toward a distinctive central cluster of white and lilac crystals, with turquoise mineral pools below and a few slender dark rock columns and hanging green ropes framing the sides. A quiet mysterious atmosphere with restrained cool aquamarine watercolor reflections and warm gray stone. Crystal shapes are drawn and softly tinted, never neon-lit or glossy 3D.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/vulkania-75762694.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 75762694,
+          "mapBundle": "Map/Data/mapdata_assets_world_289.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "aecb8c070c21c609f6dd594bcf23462e09a4e9b961673b2a21e332ed991450c1",
+          "sourceMapBundleSha256": "f9fa60e79eed5ef2fad0cac21add8bc725132289e4289a76ce243da59c8b35fd",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta's winged-sword fountain, buildings or composition. Preserve the actual target location's own roofs, colors and silhouette shown in its map references. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Vulkania — Cráter Montseleya.\nKEEP THE REAL LOCATION IDENTITY: The ACTUAL 3.7 Montseleya crater interior: irregular charcoal volcanic ledges and natural stone bridges over opaque mineral-turquoise water, clusters of tall translucent icy-white and pale lavender crystals, dark pointed stalagmites and long green climbing ropes hanging from above. Use this specific volcanic cavern from the installed client. No invented erupting mountain, dinosaur statue, beach resort or lava river.\nDISTINCT COMPOSITION AND MOOD: A striking underground panorama at the level of a natural stone bridge. The bridge leads from a quiet lower-left foreground toward a distinctive central cluster of white and lilac crystals, with turquoise mineral pools below and a few slender dark rock columns and hanging green ropes framing the sides. A quiet mysterious atmosphere with restrained cool aquamarine watercolor reflections and warm gray stone. Crystal shapes are drawn and softly tinted, never neon-lit or glossy 3D.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Cráter Montseleya",
+        "en": "Mountsaleia Crater",
+        "fr": "Cratère Monseleya",
+        "pt": "Cratera Peuta"
+      }
+    },
+    {
+      "id": "tainela",
+      "location": "Tainela",
+      "asset": "public/banners/locations/v1/tainela.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 442492,
+      "sha256": "2ea74f96556ee531baaedbf8f3933040819ce62ef2e534c9162c8bab40d9a6ea",
+      "localPngMaster": "temp/profile-banners/masters/v1/tainela.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "9ca7de24fafef5266f6171d04779a9b9a0f0d4203f14f0067ba93faf045bbd95",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The contemporary 3.7 Royal Gobball Court exterior in Tainela: a compact cream stone and timber courtyard enclosure, crooked layered muted-blue shingle roofs, small square turrets with straw-colored roof caps, a huge curled-horn white ram/Gobball-head relief above a BLUE door, blue pennants with a simple white sheep emblem, hay bales, wooden crates and warm autumn trees. Preserve the specific rustic building and woolly ram gate silhouette; no Bonta winged sword, cathedral or palace.",
+      "composition": "A cozy welcoming panorama along the stone path to the Gobball court. Center the great curled-horn ram relief and blue entrance; low timber-and-stone buildings extend to both sides, with a few ochre leaves around the roofs. Slightly overcast golden afternoon, cream plaster, worn timber, slate blue, straw yellow and russet leaves. Lower-left is an uncluttered path. No live Gobballs, sheep or people.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/tainela-120063489.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 120063489,
+          "mapBundle": "Map/Data/mapdata_assets_world_458.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "b8b8eb7f1fe45217b0f94d8a3a1d9b54d7c34e623ea6f0374f9dbcd21503e08a",
+          "sourceMapBundleSha256": "b01d134733796fe6a946a145cc981f09fcfe021c8d362624aaf39f155d7fd837",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/tainela-121375235.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 121375235,
+          "mapBundle": "Map/Data/mapdata_assets_world_463.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "594ce7cc14a638ef1955455f7122aaa7fa7f5c7924a121478843cdad2a38ed89",
+          "sourceMapBundleSha256": "56a64ce0d122faa5b7f8475ed2b3fc3900543e194975719321df0634aa2cf91f",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta's winged-sword fountain, buildings or composition. Preserve the actual target location's own roofs, colors and silhouette shown in its map references. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Tainela.\nKEEP THE REAL LOCATION IDENTITY: The contemporary 3.7 Royal Gobball Court exterior in Tainela: a compact cream stone and timber courtyard enclosure, crooked layered muted-blue shingle roofs, small square turrets with straw-colored roof caps, a huge curled-horn white ram/Gobball-head relief above a BLUE door, blue pennants with a simple white sheep emblem, hay bales, wooden crates and warm autumn trees. Preserve the specific rustic building and woolly ram gate silhouette; no Bonta winged sword, cathedral or palace.\nDISTINCT COMPOSITION AND MOOD: A cozy welcoming panorama along the stone path to the Gobball court. Center the great curled-horn ram relief and blue entrance; low timber-and-stone buildings extend to both sides, with a few ochre leaves around the roofs. Slightly overcast golden afternoon, cream plaster, worn timber, slate blue, straw yellow and russet leaves. Lower-left is an uncluttered path. No live Gobballs, sheep or people.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Tainela",
+        "en": "Tainela",
+        "fr": "Tainéla",
+        "pt": "Tainela"
+      }
+    },
+    {
+      "id": "koalaks",
+      "location": "Lagos encantados de los Koalaks",
+      "asset": "public/banners/locations/v1/koalaks.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 394276,
+      "sha256": "0b95cb489d6ffce4d590e91eccc903a67f482c762ba10914caefb343756e5db5",
+      "localPngMaster": "temp/profile-banners/masters/v1/koalaks.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "34480b67ac9cb1a7e840f5c6331aa0f671a709d0a105a9c9960448244a924106",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 Enchanted Lakes in the Koalak Mountains: clear small turquoise ponds with little white floating flowers, angular mossy ochre rock spires, tall straight Kaliptus trunks with tiered broad umbrella-like green leaves, white five-petal flowers and a few red-orange wildflowers in vivid grass. Keep the actual strange rock and leaf shapes from the client, not pink water, cherry blossom trees or an East Asian garden.",
+      "composition": "A peaceful eye-level lakeside panorama, placing one curved turquoise pond and its tilted mossy stone outcrop in the center. Group a few tall tier-leaf Kaliptus trees to one side and a low irregular rock bank to the other; distant greenery is loose and quiet. Warm early light, jade water, yellow-green foliage and restrained creamy flowers. Leave calm water and grassy bank at the lower-left for the profile portrait.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/koalaks-75497732.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 75497732,
+          "mapBundle": "Map/Data/mapdata_assets_world_288.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "4909b2f7daed9642518ed6568491c319948473d629eea0f87f03cfe0f4ceb5ca",
+          "sourceMapBundleSha256": "41b38931f624238ee7749aec8d0f1fc067a3b6af573b817f2c2ae8cc1d845839",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta's winged-sword fountain, buildings or composition. Preserve the actual target location's own roofs, colors and silhouette shown in its map references. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Lagos encantados de los Koalaks.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 Enchanted Lakes in the Koalak Mountains: clear small turquoise ponds with little white floating flowers, angular mossy ochre rock spires, tall straight Kaliptus trunks with tiered broad umbrella-like green leaves, white five-petal flowers and a few red-orange wildflowers in vivid grass. Keep the actual strange rock and leaf shapes from the client, not pink water, cherry blossom trees or an East Asian garden.\nDISTINCT COMPOSITION AND MOOD: A peaceful eye-level lakeside panorama, placing one curved turquoise pond and its tilted mossy stone outcrop in the center. Group a few tall tier-leaf Kaliptus trees to one side and a low irregular rock bank to the other; distant greenery is loose and quiet. Warm early light, jade water, yellow-green foliage and restrained creamy flowers. Leave calm water and grassy bank at the lower-left for the profile portrait.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Lagos encantados",
+        "en": "Enchanted Lakes",
+        "fr": "Lacs enchantés",
+        "pt": "Lagos Encantados"
+      }
+    },
+    {
+      "id": "abraknid",
+      "location": "Bosque de los Abráknidos",
+      "asset": "public/banners/locations/v1/abraknid.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 404424,
+      "sha256": "de7be0677bb1ea9826c88c675ce5937ef2fe4344e8e3f122275e3d638db1bedf",
+      "localPngMaster": "temp/profile-banners/masters/v1/abraknid.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "3a7acbed2b20b006feb4cecb992eba0f34120c9f49474c7ed8618370eade79c9",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The ACTUAL 3.7 Dark Forest / Treechnid woodland near the Soft Oak clearing: vast gnarly gray-green tree trunks, tangled buttress roots and branching root archways, a dim mossy path, dark olive canopy, little yellow-green fungi and hollow root openings. Preserve the heavy interlocking root silhouettes and the unusual low broad pale rounded stone/root feature seen in the map. No walking tree monster, invented monster face, medieval ruin or purple fairy kingdom.",
+      "composition": "An atmospheric close woodland panorama from the path, under an immense asymmetric arch of interlaced roots. Keep a recognizable hollow root opening and the broad rounded pale boulder near the middle, allowing a narrow mossy path to wind through. Deep muted olive, slate bark and a few soft amber-green fungi; the image stays readable rather than nearly black. Lower-left is quiet soft moss. No neon mushroom glow.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/abraknid-147849218.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 147849218,
+          "mapBundle": "Map/Data/mapdata_assets_world_564.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "517629da6929b3c66251cba7d3280df4b9acb190cab6546ccd62dde6d3248210",
+          "sourceMapBundleSha256": "2ba83f590b68b80b10ddd3b0a6057228314e7e5ef1ba067faf332a4c37b5e0db",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta's winged-sword fountain, buildings or composition. Preserve the actual target location's own roofs, colors and silhouette shown in its map references. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Bosque de los Abráknidos.\nKEEP THE REAL LOCATION IDENTITY: The ACTUAL 3.7 Dark Forest / Treechnid woodland near the Soft Oak clearing: vast gnarly gray-green tree trunks, tangled buttress roots and branching root archways, a dim mossy path, dark olive canopy, little yellow-green fungi and hollow root openings. Preserve the heavy interlocking root silhouettes and the unusual low broad pale rounded stone/root feature seen in the map. No walking tree monster, invented monster face, medieval ruin or purple fairy kingdom.\nDISTINCT COMPOSITION AND MOOD: An atmospheric close woodland panorama from the path, under an immense asymmetric arch of interlaced roots. Keep a recognizable hollow root opening and the broad rounded pale boulder near the middle, allowing a narrow mossy path to wind through. Deep muted olive, slate bark and a few soft amber-green fungi; the image stays readable rather than nearly black. Lower-left is quiet soft moss. No neon mushroom glow.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Bosque Oscuro",
+        "en": "Dark Forest",
+        "fr": "Forêt Sombre",
+        "pt": "Floresta Sombria"
+      }
+    },
+    {
+      "id": "minotoror",
+      "location": "Laberinto del Minotauroro",
+      "asset": "public/banners/locations/v1/minotoror.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 403700,
+      "sha256": "3bead57d9ad01a5203b310e91423a7dbe6aeac1537006670fea67a42808655a3",
+      "localPngMaster": "temp/profile-banners/masters/v1/minotoror.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "3d1ac70247385fd581ea28138302241382999c63095bf4cd690ae4649d0bd260",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 Minotoror labyrinth: warm yellow sandy ground, weathered tan rectangular-block walls and broken square pillars, a dark barred gate with its small lever mechanism, floor grates and scattered old planks, dense stylized olive tropical leaves curling around the ruins. Follow the installed-client ruins; no giant bull statue, Greek marble temple, Egyptian pyramid or invented grand palace.",
+      "composition": "A sun-warmed exploratory panorama along low crumbling maze walls toward a central dark iron-barred passage with a small lever beside it. Show a square floor grate and a few broken pillars to evoke the maze, with curling olive tropical plants framing the outer edges. The wall layout leads the eye inward without becoming a diagram. Sand, honey stone, dark iron and olive greens; a broad uncluttered sandy area at lower-left.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/minotoror-152849.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 152849,
+          "mapBundle": "Map/Data/mapdata_assets_world_0.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "fc998e88939206802a28f746a4f5571265571473d71f82b1aeb0af9f47323ce9",
+          "sourceMapBundleSha256": "7a0ff6649fb33c891ac902a95f82adca61427f5210383929c04866c9a4e2bd37",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/minotoror-136316674.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 136316674,
+          "mapBundle": "Map/Data/mapdata_assets_world_520.bundle",
+          "preparation": "Static reference reconstructed from the installed map element transforms and 1x texture assets. Dynamic lighting, animated particles and special blending are omitted; not an in-game screenshot.",
+          "sha256": "84c06ff695d29783395d12947421652fd98dacd10e1df80bd2c8425ae23a7b77",
+          "sourceMapBundleSha256": "83c43cd403ff1a4927e9a5796d0a9c0dddaed05b5e808131dc546564de6bf79f",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta's winged-sword fountain, buildings or composition. Preserve the actual target location's own roofs, colors and silhouette shown in its map references. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Laberinto del Minotauroro.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 Minotoror labyrinth: warm yellow sandy ground, weathered tan rectangular-block walls and broken square pillars, a dark barred gate with its small lever mechanism, floor grates and scattered old planks, dense stylized olive tropical leaves curling around the ruins. Follow the installed-client ruins; no giant bull statue, Greek marble temple, Egyptian pyramid or invented grand palace.\nDISTINCT COMPOSITION AND MOOD: A sun-warmed exploratory panorama along low crumbling maze walls toward a central dark iron-barred passage with a small lever beside it. Show a square floor grate and a few broken pillars to evoke the maze, with curling olive tropical plants framing the outer edges. The wall layout leads the eye inward without becoming a diagram. Sand, honey stone, dark iron and olive greens; a broad uncluttered sandy area at lower-left.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Isla del Minotauroro",
+        "en": "Minotoror Island",
+        "fr": "Île du Minotoror",
+        "pt": "Ilha do Minotoror"
+      }
+    },
+    {
+      "id": "osavora",
+      "location": "Osavora",
+      "asset": "public/banners/locations/v1/osavora.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 437432,
+      "sha256": "8e4a0105eae3b81a2af7636304f5fefa0e328fcd32bcd32db090216050f1b477",
+      "localPngMaster": "temp/profile-banners/masters/v1/osavora.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "222d6e60ca038f863130e94ee4b2caf4e8bbe6ed9ee9460ef3cd480565fc1eb0",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The verified 3.7 Osavora dimension: warm golden-orange suspended rock terraces, cobalt-blue low spiky grass and shrubs, pale ivory horn/teeth-like rock and bone spires, organic blue domed huts bound with ochre/orange bands and small ivory stakes around clear water hollows. Match the real blue-and-gold biological village/plateau shapes, not a generic lush green jungle, floating medieval city or another divine dimension.",
+      "composition": "An adventurous panoramic view along an ochre rock terrace toward a small central grouping of distinctive blue organic domes and ivory horn-like pillars, with blue brushy grass and distant warm rock formations. Airy quiet pale sky, amber rock and restrained cobalt, ivory and aqua. Keep a calm bare golden terrace at lower-left. Give the scene hand-drawn personality and organic asymmetry.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/osavora-234622214.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 234622214,
+          "mapBundle": "Map/Data/mapdata_assets_world_895.bundle",
+          "sourceMapBundleSha256": "21920e7d7740dabd3fcd01b4a3857bc6b467750bc3a443e9dc18bfdf7527be4c",
+          "sha256": "ce803c2b6f79b3545d4a5734f1524c79a0b6f322037f8b7454ffa1ec915c712a",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/osavora-235406081.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 235406081,
+          "mapBundle": "Map/Data/mapdata_assets_world_898.bundle",
+          "sourceMapBundleSha256": "e0a38cbef139f79850e8389a6fd3740b64735e62967be9af9a57a085949b8798",
+          "sha256": "7fae9f3cee40d3b1176cfc1953af257bfdc6e52fa97c71be056ab563e1f0fcea",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta buildings, winged-sword fountain or composition. Preserve the target location own silhouettes, roofs and colors. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids, colored rectangular shader overlays or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Osavora.\nKEEP THE REAL LOCATION IDENTITY: The verified 3.7 Osavora dimension: warm golden-orange suspended rock terraces, cobalt-blue low spiky grass and shrubs, pale ivory horn/teeth-like rock and bone spires, organic blue domed huts bound with ochre/orange bands and small ivory stakes around clear water hollows. Match the real blue-and-gold biological village/plateau shapes, not a generic lush green jungle, floating medieval city or another divine dimension.\nDISTINCT COMPOSITION AND MOOD: An adventurous panoramic view along an ochre rock terrace toward a small central grouping of distinctive blue organic domes and ivory horn-like pillars, with blue brushy grass and distant warm rock formations. Airy quiet pale sky, amber rock and restrained cobalt, ivory and aqua. Keep a calm bare golden terrace at lower-left. Give the scene hand-drawn personality and organic asymmetry.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Osabana",
+        "en": "Osavannah",
+        "fr": "Osavane",
+        "pt": "Osavana"
+      }
+    },
+    {
+      "id": "saharach",
+      "location": "Pirámide maldita de Picahari",
+      "asset": "public/banners/locations/v1/saharach.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 360252,
+      "sha256": "60c9569db426d77deb86d9a0dd01cff671e3cef665fa324ade29a3eb8ec9d920",
+      "localPngMaster": "temp/profile-banners/masters/v1/saharach.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "3d20e4ed2613cc081bf45dae1690f2285cc8238829f162c4d8fe7b7323e3045d",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 Cursed Pyramid of Picahari / Ohwymi / Saharach: monumental ochre-gold sandstone block walls, enormous angled guardian animal-head reliefs flanking the entry, long stylized pointed ears/snout shapes, heavy square plinths, gold/turquoise ornaments and a few orange fire bowls on short columns. The source is the installed pyramid map, not a generic Egyptian tourist pyramid. No invented human pharaoh, hieroglyph text or generic sphinx.",
+      "composition": "A majestic warm interior panorama looking along a wide sandy stone terrace toward the distinctive paired guardian-head gateway in the middle. Large sloped pyramid walls extend toward both edges; simple block steps and two low fire bowls give depth without busy detail. Honey-gold stone, muted turquoise trim and warm shadows, matte watercolor paper gaps. Lower-left stays quiet and sandy.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/saharach-175637504.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 175637504,
+          "mapBundle": "Map/Data/mapdata_assets_world_670.bundle",
+          "sourceMapBundleSha256": "dc27260567d5bff1961d5944e3432c54066e24ebab0c1f3ffbb1e54cdce7d38e",
+          "sha256": "7a0715dc4a955fe5aff78fe4ef87c0154878ff81ad2c5a60559401091a22ee11",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/saharach-175641603.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 175641603,
+          "mapBundle": "Map/Data/mapdata_assets_world_670.bundle",
+          "sourceMapBundleSha256": "dc27260567d5bff1961d5944e3432c54066e24ebab0c1f3ffbb1e54cdce7d38e",
+          "sha256": "3bc2f514a494655f6e3a59947b005207515700e0d1dd121288092620f00f1e66",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta buildings, winged-sword fountain or composition. Preserve the target location own silhouettes, roofs and colors. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids, colored rectangular shader overlays or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Picahari: PirÃ¡mide Maldita.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 Cursed Pyramid of Picahari / Ohwymi / Saharach: monumental ochre-gold sandstone block walls, enormous angled guardian animal-head reliefs flanking the entry, long stylized pointed ears/snout shapes, heavy square plinths, gold/turquoise ornaments and a few orange fire bowls on short columns. The source is the installed pyramid map, not a generic Egyptian tourist pyramid. No invented human pharaoh, hieroglyph text or generic sphinx.\nDISTINCT COMPOSITION AND MOOD: A majestic warm interior panorama looking along a wide sandy stone terrace toward the distinctive paired guardian-head gateway in the middle. Large sloped pyramid walls extend toward both edges; simple block steps and two low fire bowls give depth without busy detail. Honey-gold stone, muted turquoise trim and warm shadows, matte watercolor paper gaps. Lower-left stays quiet and sandy.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Pirámide maldita",
+        "en": "Cursed Pyramid",
+        "fr": "Pyramide Maudite",
+        "pt": "Pirâmide Maldita"
+      }
+    },
+    {
+      "id": "sarakech",
+      "location": "Puerto de Picanesburgo",
+      "asset": "public/banners/locations/v1/sarakech.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 407370,
+      "sha256": "5906910b4664b930241c0bbda8a3d2abe93df82690011f9a106454aef7bda97c",
+      "localPngMaster": "temp/profile-banners/masters/v1/sarakech.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "3676b0d559d3d2e037d377b6039e4b3b1c8f59e600ff5d80f0c5e292615e93b4",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 Port of Sarakech in Picahari / Ohwymi / Saharach: bright golden sand, simple weathered timber jetties and cargo, a small stout round-hulled trading boat with a broad pale sail bearing the simple warm orange geometric emblem shown in the game, ropes, barrels, crates and sparse desert palms. Use actual harbor construction and boat silhouette. This is a different harbor view of the same desert region as Saharach, not an invented separate country or a fantasy western city.",
+      "composition": "A breezy sunlit panoramic harbor from a low sandy dock edge. Place the characteristic little trading boat and its pale emblem sail near the middle, with a simple pier and a few cargo bundles extending from the right, distant ochre desert shore and calm pale turquoise water. Loose amber, warm wood and faded aqua watercolor. Lower-left is open sand/water, free of foreground clutter.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/sarakech-173277701.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 173277701,
+          "mapBundle": "Map/Data/mapdata_assets_world_661.bundle",
+          "sourceMapBundleSha256": "e497537a19d6eeb7494aa6a497ced0a64b4011319d1d41519b0d4f037b8fbd04",
+          "sha256": "8a5b112e90fd1c72063e45066fa505cea9de97493436060d5d1b48728d100a33",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/sarakech-173277700.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 173277700,
+          "mapBundle": "Map/Data/mapdata_assets_world_661.bundle",
+          "sourceMapBundleSha256": "e497537a19d6eeb7494aa6a497ced0a64b4011319d1d41519b0d4f037b8fbd04",
+          "sha256": "4484672c5be6476105dd0a9bec7508bd943f38767d3740b29c6e33fb9a1c0b3c",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta buildings, winged-sword fountain or composition. Preserve the target location own silhouettes, roofs and colors. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids, colored rectangular shader overlays or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Picahari: Puerto de Sarakech.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 Port of Sarakech in Picahari / Ohwymi / Saharach: bright golden sand, simple weathered timber jetties and cargo, a small stout round-hulled trading boat with a broad pale sail bearing the simple warm orange geometric emblem shown in the game, ropes, barrels, crates and sparse desert palms. Use actual harbor construction and boat silhouette. This is a different harbor view of the same desert region as Saharach, not an invented separate country or a fantasy western city.\nDISTINCT COMPOSITION AND MOOD: A breezy sunlit panoramic harbor from a low sandy dock edge. Place the characteristic little trading boat and its pale emblem sail near the middle, with a simple pier and a few cargo bundles extending from the right, distant ochre desert shore and calm pale turquoise water. Loose amber, warm wood and faded aqua watercolor. Lower-left is open sand/water, free of foreground clutter.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Puerto de Picanesburgo",
+        "en": "Sarakech Port",
+        "fr": "Port de Sarakech",
+        "pt": "Porto de Saarrakech"
+      }
+    },
+    {
+      "id": "albuera",
+      "location": "Nueva Albuera",
+      "asset": "public/banners/locations/v1/albuera.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 362268,
+      "sha256": "d87c5d71ad30213c3b3852cfc867613f157b9b135b4d9e81935cc890bb29514a",
+      "localPngMaster": "temp/profile-banners/masters/v1/albuera.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "c7f31a856ec9add0456cd91fda35d7aa8fd55e65c3fcc2876616c8d4b7c88f23",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 New Albuera settlement on Valonia: substantial dark timber log cottages, very steep curved overlapping dark green/slate wooden roofs, projecting carved roof-beam ends wrapped with pale bindings, rough stone plinths, a few warm doorway lights, evergreen trees, light patches of snow and a simple wooden quay. Match the game houses, their heavy roof geometry and restrained blue textiles. No generic European stone castle, gingerbread village or fabricated Viking longship fleet.",
+      "composition": "An intimate northern harbor-village panorama, the steep-roofed log cottages arranged asymmetrically around a small central wooden jetty, with cold calm sea glimpsed beyond. A few little warm windows contrast with a soft overcast sky and muted evergreens; light snow on bank edges rather than a deep blizzard. Brown-black timber, slate roofs, desaturated sea blue and tiny amber details. Lower-left is a quiet boardwalk.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/albuera-223348996.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 223348996,
+          "mapBundle": "Map/Data/mapdata_assets_world_852.bundle",
+          "sourceMapBundleSha256": "a897a185bcf7ec570167d83529d83b5788a3b19008d72dd5df42f9e38e8dc94f",
+          "sha256": "d60b20b514a57ead385c8ed1d5a94162375428e1ed24eb6282ff9570733355c5",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/albuera-223346946.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 223346946,
+          "mapBundle": "Map/Data/mapdata_assets_world_852.bundle",
+          "sourceMapBundleSha256": "a897a185bcf7ec570167d83529d83b5788a3b19008d72dd5df42f9e38e8dc94f",
+          "sha256": "a48e9b92175dfe1cf8270044fc12f91a837a9f9739fc65019183c77359823b72",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta buildings, winged-sword fountain or composition. Preserve the target location own silhouettes, roofs and colors. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids, colored rectangular shader overlays or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Nueva Albuera.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 New Albuera settlement on Valonia: substantial dark timber log cottages, very steep curved overlapping dark green/slate wooden roofs, projecting carved roof-beam ends wrapped with pale bindings, rough stone plinths, a few warm doorway lights, evergreen trees, light patches of snow and a simple wooden quay. Match the game houses, their heavy roof geometry and restrained blue textiles. No generic European stone castle, gingerbread village or fabricated Viking longship fleet.\nDISTINCT COMPOSITION AND MOOD: An intimate northern harbor-village panorama, the steep-roofed log cottages arranged asymmetrically around a small central wooden jetty, with cold calm sea glimpsed beyond. A few little warm windows contrast with a soft overcast sky and muted evergreens; light snow on bank edges rather than a deep blizzard. Brown-black timber, slate roofs, desaturated sea blue and tiny amber details. Lower-left is a quiet boardwalk.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Nueva Albuera",
+        "en": "New Albuera",
+        "fr": "Nouvelle Albuera",
+        "pt": "Nova Albuera"
+      }
+    },
+    {
+      "id": "ereboria",
+      "location": "Galerías de Ereboria",
+      "asset": "public/banners/locations/v1/ereboria.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 336998,
+      "sha256": "89f0c4e4321354089d358bf25cee2f087cc097821cd9efc74f225648f5327a5e",
+      "localPngMaster": "temp/profile-banners/masters/v1/ereboria.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "cd4f34d044d8a360d3f6c75c7b98f189833fafa01dfe2bba490e5941e540187a",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "Actual 3.7 Ereboria galleries: massive dark blue-gray angular rock walls, broken carved square stone columns with deep geometric bands, rough cobbled paths, a short worn plank crossing and a pale jade waterfall pouring into a foaming rocky pool. These are cold abandoned subterranean ruins, not lava forges. No invented grand palace or living creatures.",
+      "composition": "A quiet impressive underground panorama centered on the pale jade waterfall between two irregular dark rock faces, with broken geometric stone pillars toward the right and a small weathered plank crossing at middle distance. Slate blue, gray-green and pale mint watercolor, matte ink contours, soft reflected water light. Lower-left is a simple dark stone ledge.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/ereboria-223086337.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 223086337,
+          "mapBundle": "Map/Data/mapdata_assets_world_851.bundle",
+          "sourceMapBundleSha256": "379a950fbbf150f69c410cf28fa2702c4c8e15396fc9a60be6e34d6427c69afa",
+          "sha256": "74c3265146ed3d8a0eaed45ae80b8f986f99427a8b02bfee7ba946cc77b83574",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/ereboria-223086088.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 223086088,
+          "mapBundle": "Map/Data/mapdata_assets_world_851.bundle",
+          "sourceMapBundleSha256": "379a950fbbf150f69c410cf28fa2702c4c8e15396fc9a60be6e34d6427c69afa",
+          "sha256": "4d1706af555720bf881ef1f93471ca6e771daf3d7cd4a17c31ddfbc57c794d43",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta buildings, winged-sword fountain or composition. Preserve the target location own silhouettes, roofs and colors. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids, colored rectangular shader overlays or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: GalerÃ­as de Ereboria.\nKEEP THE REAL LOCATION IDENTITY: The actual 3.7 Ereboria gallery environment from the installed client maps. Preserve its rock structure, engineered passages and worn underground fittings as shown in the references. Do not fabricate a generic lava forge, grand dwarven palace, living monsters or elements not visible in the current map reference.\nDISTINCT COMPOSITION AND MOOD: A dramatic but readable subterranean panoramic travel illustration, looking along the actual gallery path toward its strongest central architectural or natural landmark, with rock framing the outer edges. Retain the reference palette and material identity, with a few quiet warm painted light accents only where a lamp is present. Distinct from Brakmar and the turquoise crystal cavern of Vulkania. Keep the lower-left path visually simple.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Galerías de Ereboria",
+        "en": "Ereboria Tunnels",
+        "fr": "Galeries d'Ereboria",
+        "pt": "Galerias de Ereboria"
+      }
+    },
+    {
+      "id": "nawidad",
+      "location": "Isla de Nawidad",
+      "asset": "public/banners/locations/v1/nawidad.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 380062,
+      "sha256": "0fe788333591a7b192d8954325db08b5f5d92ce36f349f39d880052139a0f93b",
+      "localPngMaster": "temp/profile-banners/masters/v1/nawidad.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "2b3b540aa65a28a4e8e06a6a3e5a5f9fe1be01fc599161fea3d0e3dc0234f3d9",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 Kwismas / Nowel / Nawidad island: softly mounded snow, dense conical evergreen trees layered with snow, oversized rectangular gift parcels capped with snow and tied with broad RED or fresh GREEN ribbons, small snowy paths and a simple wooden gate/fence. Preserve these specific oversized game gift and snow-tree forms. No generic Christmas town, invented castle, Santa portrait, text on gifts or reindeer.",
+      "composition": "A cheerful crisp snowy panorama following a little curved trail between tiered snow-covered firs. One oversized red-ribbon gift and a smaller green-ribbon parcel sit near the middle, balanced by a small wooden gate and distant fir silhouettes. Soft clear winter daylight, blue-white snow and restrained festive red/green accents; no night-sky neon. Leave an open snowy bank in the lower-left.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/nawidad-66061312.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 66061312,
+          "mapBundle": "Map/Data/mapdata_assets_world_252.bundle",
+          "sourceMapBundleSha256": "a0da64ce91061da4c4ba1ba3fd36ecb07953aecb1dc7852aaab9a01dbc5f4a4f",
+          "sha256": "5849c210f2c7d3411463cec68f185b2a6fce9b02a71ca0c8f6b15b01682a1762",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta buildings, winged-sword fountain or composition. Preserve the target location own silhouettes, roofs and colors. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids, colored rectangular shader overlays or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Isla de Nawidad.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 Kwismas / Nowel / Nawidad island: softly mounded snow, dense conical evergreen trees layered with snow, oversized rectangular gift parcels capped with snow and tied with broad RED or fresh GREEN ribbons, small snowy paths and a simple wooden gate/fence. Preserve these specific oversized game gift and snow-tree forms. No generic Christmas town, invented castle, Santa portrait, text on gifts or reindeer.\nDISTINCT COMPOSITION AND MOOD: A cheerful crisp snowy panorama following a little curved trail between tiered snow-covered firs. One oversized red-ribbon gift and a smaller green-ribbon parcel sit near the middle, balanced by a small wooden gate and distant fir silhouettes. Soft clear winter daylight, blue-white snow and restrained festive red/green accents; no night-sky neon. Leave an open snowy bank in the lower-left.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Refugio de Nawidad",
+        "en": "Kwismas Haven",
+        "fr": "Havre de Nowel",
+        "pt": "Refúgio de Nataw"
+      }
+    },
+    {
+      "id": "pazcuak",
+      "location": "Isla de Pazcuak",
+      "asset": "public/banners/locations/v1/pazcuak.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 353004,
+      "sha256": "91128de984f2f8ed94afc96969e8b6c64789133d6508715b512ae5f055ff8156",
+      "localPngMaster": "temp/profile-banners/masters/v1/pazcuak.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "0fb59dc9c4ecc4bc8ab0547e1e94ced9234968e0c67bcce2b91297b25b2e7772",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "The 3.7 Fleaster / Pwak / Pazcuak Cream Gardens: rounded dark chocolate hills and overhangs, thick ivory cream drips over brown chocolate forms, wafer blocks, layered cake-like paths, and a winding pale white-chocolate/cream stream. Use the actual playful food-landscape geometry and cocoa/ivory palette of the client, not a generic rainbow candy theme park. No living chocolate rabbits or portrait characters.",
+      "composition": "A whimsical panoramic view along a pale cream stream curving under a low wafer-block crossing toward central rounded chocolate cliffs draped in ivory cream. Layer a few cocoa hills and simple wafer blocks in the distance with playful asymmetry. Warm cocoa, ivory and biscuit ochre, airy off-white backdrop and hand-painted matte fills. Keep the foreground lower-left as a quiet cream-colored bank. Not photorealistic food or glossy melted plastic.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/pazcuak-196870152.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 196870152,
+          "mapBundle": "Map/Data/mapdata_assets_world_751.bundle",
+          "sourceMapBundleSha256": "4d86b96cfad8959789c5492d1b43620712caa8fd74583f7df9c1f6134e0ab180",
+          "sha256": "c4b5952d172df9dd185c64d0186cf35e066d0077e661613abdbdb511644d85db",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta buildings, winged-sword fountain or composition. Preserve the target location own silhouettes, roofs and colors. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids, colored rectangular shader overlays or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Isla de Pazcuak.\nKEEP THE REAL LOCATION IDENTITY: The 3.7 Fleaster / Pwak / Pazcuak Cream Gardens: rounded dark chocolate hills and overhangs, thick ivory cream drips over brown chocolate forms, wafer blocks, layered cake-like paths, and a winding pale white-chocolate/cream stream. Use the actual playful food-landscape geometry and cocoa/ivory palette of the client, not a generic rainbow candy theme park. No living chocolate rabbits or portrait characters.\nDISTINCT COMPOSITION AND MOOD: A whimsical panoramic view along a pale cream stream curving under a low wafer-block crossing toward central rounded chocolate cliffs draped in ivory cream. Layer a few cocoa hills and simple wafer blocks in the distance with playful asymmetry. Warm cocoa, ivory and biscuit ochre, airy off-white backdrop and hand-painted matte fills. Keep the foreground lower-left as a quiet cream-colored bank. Not photorealistic food or glossy melted plastic.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Jardines de la Nata",
+        "en": "Creamy Gardens",
+        "fr": "Jardins à la Crème",
+        "pt": "Jardins de Creme"
+      }
+    },
+    {
+      "id": "dragocerdo",
+      "location": "Guarida del Dragocerdo",
+      "asset": "public/banners/locations/v1/dragocerdo.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 401484,
+      "sha256": "025f92f7d133f043a258add0973ab5c4208f4701d809dc87fdcbf55ff9b53e55",
+      "localPngMaster": "temp/profile-banners/masters/v1/dragocerdo.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "186b2b70d1accd24ce9294f06e201057e0593b069f14cabe1b3de6136b1f4eb4",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "identity": "Actual 3.7 Porco territory lair entrance: a low portal cut into warm reddish ochre rocks, a large pig snout silhouette sculpted above the doorway with two oval nostrils, little spiral tail motifs carved in flanking rocks, turquoise portal light, coarse yellow-green grass, scattered autumn trees and a short abandoned narrow mine railway behind. Use the exterior reference as main setting; the interior reference only confirms subdued green dungeon stone. No live boss, skull piles, gore or bull temple.",
+      "composition": "An inviting but daring exterior adventure panorama: the recognizable pig-snout cave entrance in the central reddish rock outcrop, pale turquoise light faintly spilling onto a winding earth path; a few sparse ochre-leaf trees at the edges, soft golden grass and a glimpse of old rails behind the rocks. Late-afternoon warm ochre with subdued olive and aqua. Keep the lower-left open grass/path.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/dragocerdo-72618499.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 72618499,
+          "mapBundle": "Map/Data/mapdata_assets_world_277.bundle",
+          "sourceMapBundleSha256": "2dc37956a2a448a073d22ca7aeb99a61388a6b1633154ecc308fde33bbb98efb",
+          "sha256": "9e54fb6ecb1a4401d0ed032ba293cff2e69fd92306d3890a041b9aa0ebf4a1ea",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion/client-3.7/dragocerdo-72351744.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 72351744,
+          "mapBundle": "Map/Data/mapdata_assets_world_276.bundle",
+          "sourceMapBundleSha256": "9f639d7153777913c85b9120370b23a07afa34b11a1cf01e11adaaa9d3b444fb",
+          "sha256": "10f473eef234d49ee31040e0df226efc3f880a8737dbf355230b4ba13a4b0e53",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client.\nIMAGE 1 is an existing approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant Bonta buildings, winged-sword fountain or composition. Preserve the target location own silhouettes, roofs and colors. Remaining images are static LOCATION IDENTITY references rendered from the actual 3.7.14.18 map data and graphic assets. Their rough viewport edges, isolated sprites, gray/white voids, colored rectangular shader overlays or omitted shader effects are preparation artifacts, never scenery to reproduce. Interpret the location as a coherent fresh panoramic landscape, not an isometric screenshot, collage, tile board or trace.\nLOCATION: Guarida del Dragocerdo.\nKEEP THE REAL LOCATION IDENTITY: The actual 3.7 Dragon Pig area and lair: the current dungeon entrance and its surrounding ochre rock, grassy path and rough subterranean construction in the supplied game maps. Preserve the distinctive pig-related stone shape or architectural motifs only where visible. No live Dragon Pig boss, blood, gore, invented cathedral or unrelated giant bull temple.\nDISTINCT COMPOSITION AND MOOD: An old-adventure-style panorama approaching the lair along a quiet rough stone path, its characteristic entry or gateway landmark near the center, flanked by the actual rock and vegetation shapes from the references. A slightly daring warm earthy atmosphere, soft olive grass and ochre/gray stone, with clear readable contours. Keep the lower-left path open for a profile avatar.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Territorio de los porcos",
+        "en": "Porco Territory",
+        "fr": "Territoire des Porcos",
+        "pt": "Território dos Porkos"
+      }
     }
   ],
   "integration": {
     "version": "0.4.11",
     "catalog": "src/features/account/profileBanners.ts",
     "databaseMigration": "supabase/migrations/20261123000000_profile_banner_catalog.sql"
-  }
+  },
+  "latestExpansionClientVersion": "3.7.14.18",
+  "latestExpansionNote": "Sixteen additional banners use only map identity references reconstructed from installed DOFUS 3.7.14.18 data and graphics. The existing Bonta artwork is a technique reference only.",
+  "latestExpansionVersion": "0.4.17"
 }

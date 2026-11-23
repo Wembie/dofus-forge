@@ -1,6 +1,6 @@
 {
   "collection": "Forge World of Twelve banners",
-  "revision": 1,
+  "revision": 2,
   "generator": "Built-in image_gen",
   "targetGame": "DOFUS 3.7 / Unity",
   "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
@@ -8,9 +8,10 @@
   "variables": {
     "locationName": "Current Dofus location",
     "identity": "Observed landmark silhouettes, architecture, materials and palette from actual game references",
-    "individualComposition": "Distinct scene, framing, weather and quiet crop area"
+    "individualComposition": "Distinct scene, framing, weather and quiet crop area",
+    "sourceClientVersion": "Verified exact installed-client patch, for example 3.7.14.18"
   },
-  "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: {{locationName}}. IDENTITY: {{identity}}\nINDIVIDUAL COMPOSITION AND MOOD: {{individualComposition}}",
+  "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, installed-client patch {{sourceClientVersion}}. IMAGE 1 is our APPROVED Forge artwork and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the approved artwork's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: {{locationName}}. IDENTITY: {{identity}}\nINDIVIDUAL COMPOSITION AND MOOD: {{individualComposition}}",
   "exports": {
     "web": "public/banners/locations/v1/<id>.webp; 3:1; quality 88",
     "master": "temp/profile-banners/masters/v1/<id>.png; preserve the native generation",
@@ -24,6 +25,16 @@
     "No labels, logos, watermarks, interface, characters or fake handwritten notes.",
     "Save the exact final prompt and source URLs, retain PNG masters locally, then export WebP and record dimensions and hashes.",
     "Review full 3:1, narrow mobile and avatar-overlap crops before integration.",
-    "Register each new path in PROFILE_BANNERS with its label in all four locales. Add an admin-authored profile_banner_catalog SQL migration and mirror the inserts in schema.sql. Apply the migration before releasing the new picker choices and run the catalog parity and database checks."
-  ]
+    "Register each new path in PROFILE_BANNERS with its label in all four locales. Add an admin-authored profile_banner_catalog SQL migration and mirror the inserts in schema.sql. Apply the migration before releasing the new picker choices and run the catalog parity and database checks.",
+    "For the 3.7 expansion, use installed-client map assets from the verified 3.7 branch as the environment references. Earlier screenshots and other game branches do not establish current identity. Existing Forge artwork may be used for technique only. Record the exact client patch on each new banner and every map reference."
+  ],
+  "approvedBannerTechniqueReference": "public/banners/locations/v1/bonta.webp",
+  "referencePreparation": {
+    "requiredGameBranch": "3.7",
+    "currentExpansionClientVersion": "3.7.14.18",
+    "clientVersionFile": "Dofus_Data/StreamingAssets/version",
+    "renderer": "scripts/render-banner-references.py",
+    "example": "python scripts/render-banner-references.py 75497732 koalaks --require-version 3.7",
+    "provenance": "Record the installed client version, source map ids, map bundle hashes and reference PNG hashes. Static map planes omit runtime effects and are not exact game screenshots. Use them for identity only; compose original fan art."
+  }
 }

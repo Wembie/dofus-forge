@@ -18,6 +18,22 @@ Original environment fan art for profile covers, paired with the approved Forge 
 | `sramvil` | Sramvil / Srambad | Angular indigo streets, bone ladders, skull details and ghost lanterns |
 | `zurcalia` | Zurcalia / Ecaflipus | Floating game-board terraces, ivory cat guardian and giant dice |
 | `xelorium` | Xelorium | Floating clockwork platforms, hourglass monument and time fractures |
+| `moon` | Isla de Moon | Raised-arm stone monkey monument, pale cliffs, palms and turquoise shore |
+| `wabbits` | Isla de los Wabbits | Rabbit-eared castle walls, golden keyholes, carrot pennants and rabbit statues |
+| `otomai` | Otomai — Árbol Hakam | Giant branches, curved wooden platforms, canopy bridges and vine railings |
+| `vulkania` | Vulkania — Cráter Montseleya | Volcanic stone bridges, mineral-turquoise pools and white/lavender crystal clusters |
+| `tainela` | Tainela | Royal Gobball ram relief, rustic cream-and-timber buildings and blue shingle roofs |
+| `koalaks` | Lagos encantados de los Koalaks | Tier-leaf Kaliptus trees, tilted mossy rocks, clear ponds and white flowers |
+| `abraknid` | Bosque de los Abráknidos | Interlocking gray-green roots, hollow trunk archways and mossy woodland paths |
+| `minotoror` | Laberinto del Minotauroro | Sandy maze ruins, barred passage, lever, floor grate and curling tropical foliage |
+| `osavora` | Osavora | Golden terraces, blue organic domes and ivory horn-like pillars |
+| `saharach` | Pirámide maldita de Picahari | Cursed Pyramid guardian-head gateway and gold sandstone |
+| `sarakech` | Puerto de Picanesburgo | Picanesburgo / Sarakech harbor, broad sail and desert timber jetty |
+| `albuera` | Nueva Albuera | Steep-roofed northern log houses and a quiet wooden quay |
+| `ereboria` | Galerías de Ereboria | Jade waterfall, angular slate cliffs and broken carved stone pillars |
+| `nawidad` | Isla de Nawidad | Snow-covered firs and oversized ribbon-wrapped gifts |
+| `pazcuak` | Isla de Pazcuak | Chocolate hills, ivory cream stream and wafer paths |
+| `dragocerdo` | Guarida del Dragocerdo | Pig-snout rock entrance, olive grass and abandoned mine rails |
 
 `manifest.json` preserves every exact generation prompt, reference source, asset hash and export dimensions. `prompt-template.json` records the reusable art direction. The game version recorded in the manifest comes from `public/data/version.json` when the assets were prepared; it is a target, not a claim that every source reference was captured in that patch. Reference publication dates vary, including the city and Pandala redesigns; original URLs remain in the manifest for review. This is an original illustrated interpretation of the places, not a screenshot pack or a literal reconstruction of a map.
 
@@ -29,6 +45,43 @@ Original environment fan art for profile covers, paired with the approved Forge 
 - Exact prompts and sources: `manifest.json` beside this file.
 
 The full illustration includes its paper-colored background and watercolor. Keep the recognizable landmark within the central area, and allow room at the lower-left for a profile picture overlay. Use `object-fit: cover` with a centered focal area when integrating the picker; inspect desktop and narrow crops before choosing a different banner aspect ratio. Do not bake profile UI, labels, gradients or avatar circles into the artwork.
+
+## Expansion from the DOFUS 3.7 client
+
+The sixteen additional scenes use identity references reconstructed directly from the installed **DOFUS 3.7.14.18** client. Its `Dofus_Data/StreamingAssets/version` file reports that exact patch and a build date of 2026-11-16. The references use that installation's map data and 1x graphic assets. The existing Bonta illustration supplies the ink-and-watercolor technique only.
+
+![Sixteen additional 3.7 scenes](expansion-preview.webp)
+
+| Banner | Source map ids in client 3.7.14.18 |
+|---|---|
+| Moon | `156500737` |
+| Wabbits | `99614979` |
+| Hakam / Tree Keeholo | `25694209`, `63964931` |
+| Vulkania | `75762694` |
+| Tainela | `120063489`, `121375235` |
+| Koalak lakes | `75497732` |
+| Treechnid forest | `147849218` |
+| Minotoror | `152849`, `136316674` |
+| Osavora | `234622214`, `235406081` |
+| Pirámide maldita de Picahari | `175637504`, `175641603` |
+| Puerto de Picanesburgo | `173277701`, `173277700` |
+| Nueva Albuera | `223348996`, `223346946` |
+| Galerías de Ereboria | `223086337`, `223086088` |
+| Isla de Nawidad | `66061312` |
+| Isla de Pazcuak | `196870152` |
+| Guarida del Dragocerdo | `72618499`, `72351744` |
+
+Saharach (French), Ohwymi (English) and Picahari (Spanish) name the same region. The expansion includes two distinct scenes from it: the Cursed Pyramid and Picanesburgo / Sarakech Port. These are separate artworks, not duplicate regional entries.
+
+To reproduce a reference, install the same extraction dependencies used by `scripts/extract-characters.py`, then run:
+
+```powershell
+python scripts/render-banner-references.py 75497732 koalaks --require-version 3.7
+```
+
+The script checks the installed version before rendering, writes a local PNG and provenance JSON, and leaves game files untouched. These are static reference planes: runtime lighting, particles and special blend shaders are omitted, with the source neutral vertex tint normalized for legibility. They are not game screenshots or final banners. The new illustrations interpret the verified landmark assets in original panoramic compositions. Each new manifest entry records the client patch, source map ids, map bundle hashes, reference image hashes, exact prompt and final image hashes. Localized location terms were checked against the same client's language tables.
+
+Apply `supabase/migrations/20261123030000_profile_banner_expansion.sql` before publishing the expanded picker. It adds sixteen paths to the existing approved catalog and preserves saved covers, old entries, grants and ownership policies. It is safe to replay. It has not been run against the hosted database from this work.
 
 ## Continuing the collection
 
