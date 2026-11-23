@@ -5,6 +5,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Medias estrellas al valorar builds** (0.4.13) — votos de 0,5 a 5 en pasos de media estrella, selección por mitades con ratón/toque y teclado, valor localizado y media estrella dibujada. Guardado validado en cliente y PostgreSQL, promedio actualizado desde el servidor y recuperación del voto anterior ante errores. La migración conserva los votos, scores, contadores y fechas existentes.
+
 - [x] **Elegir y mostrar banners de perfil** (0.4.11) — selector en Cuenta con los 12 paisajes, búsqueda por lugar o dimensión, ampliación sin iconos superpuestos y vista previa con el avatar. Selección pendiente hasta guardar, descarte, reintento y retirada del banner. Portada en el perfil público, ampliable con clic, y persistencia en `profiles.banner_url`; catálogo aprobado también en PostgreSQL mediante migración.
 
 - [x] **Ampliar la foto del perfil público** (0.4.10) — clic en la imagen para ver la ilustración completa, con cierre por Escape, botón o fondo y retorno del foco a la foto. La foto y las miniaturas del selector muestran el cursor de lupa al pasar el mouse, sin iconos encima del arte. La inicial y las URLs no aprobadas mantienen el estado sin ampliación.

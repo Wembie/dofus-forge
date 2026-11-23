@@ -18,6 +18,7 @@ import { langFromPath, langPathPrefix, langPathRootSegment } from '@/i18n/langPa
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
+import { StarRating } from '@/features/builds/StarRating.tsx'
 import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
 import { hasPassive } from '@/engine/passives.ts'
 import { STAT_META, fmtValue, isIgnored, statIconUrl } from '@/features/equipment/statDisplay.ts'
@@ -30,7 +31,7 @@ import type { AppItem, AppSet } from '@/data/loaders.ts'
 import {
   fetchBuildById, recordBuildView, fetchViewerState, toggleBuildLike,
   toggleBuildBookmark,
-  rateBuild, fetchComments, postComment,
+  rateBuild, fetchRatingSummary, fetchComments, postComment,
   fetchBuildSummary, fetchForks, toggleCommentLike,
   fetchBuildHistory, fetchVersionSnapshot, updateBuild, setBuildFeatured, type BuildVersion,
   buildTags,
@@ -67,20 +68,6 @@ export async function clientLoader() {
   return null
 }
 
-
-function StarRating({ value, onRate }: { value: number; onRate: (n: number) => void }) {
-  const { t } = useTranslation()
-  return (
-    <div className="detail-stars" role="group" aria-label={t('build_detail_your_rating')}>
-      {[1, 2, 3, 4, 5].map(n => (
-        <button key={n} type="button" onClick={() => onRate(n)} aria-label={t('a11y_rate_star', { count: n })}
-          aria-pressed={n === value} className={n <= value ? 'is-on' : ''}>
-          <Star size={20} aria-hidden="true" />
-        </button>
-      ))}
-    </div>
-  )
-}
 
 function Avatar({ name, url }: { name: string; url?: string | null }) {
   return isSafeImageUrl(url)
@@ -223,6 +210,15 @@ export function BuildDetailPage() {
   const [likeCount, setLikeCount] = useState(seed?.build?.like_count ?? 0)
   const [bookmarked, setBookmarked] = useState(false)
   const [myRating, setMyRating]   = useState<number | null>(null)
+  const [ratingBusy, setRatingBusy] = useState(false)
+  const [ratingError, setRatingError] = useState(false)
+  const ratingRequest = useRef(0)
+
+  useEffect(() => {
+    ratingRequest.current += 1
+    setRatingBusy(false)
+    setRatingError(false)
+  }, [id, session?.user.id])
 
   const [comments, setComments]         = useState<CommentRow[]>(seed?.comments ?? [])
   const [likedComments, setLikedComments] = useState<Set<string>>(new Set())
@@ -293,11 +289,12 @@ export function BuildDetailPage() {
     setLikedComments(new Set())
     if (!id || !session) return
     let cancelled = false
+    const ratingVersion = ratingRequest.current
     fetchViewerState(id, session.user.id).then(s => {
       if (cancelled) return
       setLiked(s.liked)
       setBookmarked(s.bookmarked)
-      setMyRating(s.rating)
+      if (ratingVersion === ratingRequest.current) setMyRating(s.rating)
       setLikedComments(s.commentLikes)
     })
     return () => { cancelled = true }
@@ -333,10 +330,27 @@ export function BuildDetailPage() {
   }, [session, id, bookmarked])
 
   const handleRate = useCallback(async (rating: number) => {
-    if (!session || !id) return
+    if (!session || !id || ratingBusy) return
+    const request = ++ratingRequest.current
+    const previous = myRating
     setMyRating(rating)
-    await rateBuild(id, session.user.id, rating)
-  }, [session, id])
+    setRatingBusy(true)
+    setRatingError(false)
+    const { error } = await rateBuild(id, session.user.id, rating)
+    if (request !== ratingRequest.current) return
+    setRatingBusy(false)
+    if (error) {
+      setMyRating(previous)
+      setRatingError(true)
+      return
+    }
+    setMyRating(rating)
+    const summaryVersion = ++ratingRequest.current
+    const summary = await fetchRatingSummary(id)
+    if (summaryVersion === ratingRequest.current && summary) {
+      setBuild(current => current?.id === id ? { ...current, ...summary } : current)
+    }
+  }, [session, id, ratingBusy, myRating])
 
   const handleToggleFeatured = useCallback(async () => {
     if (!build) return
@@ -633,9 +647,10 @@ export function BuildDetailPage() {
               </div>
             </dl>
             <div className="detail-rate">
-              <span>{t('build_detail_your_rating')}</span>
-              <StarRating value={myRating ?? 0} onRate={n => gated(() => handleRate(n))} />
+              <span>{t('build_detail_your_rating')}{myRating != null && <b className="detail-rating-selected">{new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 1 }).format(myRating)}</b>}</span>
+              <StarRating value={myRating ?? 0} disabled={ratingBusy} onRate={n => gated(() => handleRate(n))} />
             </div>
+            {ratingError && <p role="alert" className="detail-rating-error">{t('build_rating_save_error')}</p>}
             {!session && (
               <p className="detail-signin-note">
                 {t('build_signin_note')}{' '}

@@ -2370,5 +2370,7 @@
   "profile_banner_location_sramvil": "Srambad",
   "profile_banner_location_zurcalia": "Ecaflipus",
   "profile_banner_location_xelorium": "Xelorium",
-  "account_banner_back": "Back to landscapes"
+  "account_banner_back": "Back to landscapes",
+  "build_rating_option": "Rate {{value}} out of 5 stars",
+  "build_rating_save_error": "Your rating could not be saved. Please try again."
 }
