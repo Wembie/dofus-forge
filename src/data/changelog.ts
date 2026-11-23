@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.19',
+    date: '2026-11-23',
+    notes: [
+      'Development tooling: an isolated local beta workshop with separate game data, local test builds, spell and passive snapshots, a catalog change report and an experimental Dracorune laboratory. Includes four languages, undo/redo, JSON import/export and validation; remaining game mechanics are tracked for testing before release',
+    ],
+  },
+  {
     version: '0.4.18',
     date: '2026-11-23',
     notes: [

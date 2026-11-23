@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.19] — 2026-11-23
+- Development tooling: an isolated local beta workshop with separate game data, local test builds, spell and passive snapshots, a catalog change report and an experimental Dracorune laboratory. Includes four languages, undo/redo, JSON import/export and validation; remaining game mechanics are tracked for testing before release
+
 ## [0.4.18] — 2026-11-23
 - 38 new profile portraits: the third in-game face and hairstyle for every class, male and female, with the default outfit and individual poses in the approved ink-and-watercolor style. The avatar gallery now offers 114 portraits; earlier choices and saved pictures are retained
 - Eight more profile banners from the Dofus 3.7 client: Amakna Castle, Trool Fair, the Dreggons Sanctuary, Nimaltopia, Akwadala, Feudala, Terrdala and Aerdala. Choose from 36 landscapes; exact prompts, game models, source maps and progress are preserved for future additions

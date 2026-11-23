@@ -26,7 +26,8 @@ import { checkedVersion } from './lib/safety.ts'
 import { createGunzip } from 'node:zlib'
 
 const LANGS    = ['en', 'es', 'fr', 'pt'] as const
-const DATA_DIR = join(process.cwd(), 'public', 'data')
+const BETA = process.argv.includes('--beta')
+const DATA_DIR = BETA ? join(process.cwd(), 'tools', 'beta', 'data') : join(process.cwd(), 'public', 'data')
 const FORCE    = process.argv.includes('--force')
 
 const ELEMENT_OF: Record<number, AppSpellElement> = {
@@ -57,6 +58,7 @@ const CLASS_SLUG: Record<string, string> = {
   Huppermage:    'huppermage',
   Ouginak:       'ouginak',
   Forgelance:    'forgelance',
+  Bellaphone:    'bellaphone',
 }
 
 export type AppSpellElement = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
@@ -612,7 +614,7 @@ async function main() {
   if (existsSync(versionFile)) {
     gameVersion = checkedVersion((JSON.parse(readFileSync(versionFile, 'utf-8')) as { gameVersion: unknown }).gameVersion)
   } else {
-    const meta = await fetch('https://api.dofusdu.de/dofus3/v1/meta/version').then(r => r.json()) as { version: string }
+    const meta = await fetch(`https://api.dofusdu.de/${BETA ? 'dofus3beta' : 'dofus3'}/v1/meta/version`).then(r => r.json()) as { version: string }
     gameVersion = checkedVersion(meta.version)
   }
 
@@ -625,7 +627,7 @@ async function main() {
   }
 
   console.log(`Generating spell data for version ${gameVersion}...`)
-  const base = `https://github.com/dofusdude/dofus3-main/releases/download/${gameVersion}`
+  const base = `https://github.com/dofusdude/dofus3-${BETA ? 'beta' : 'main'}/releases/download/${gameVersion}`
 
   console.log('Downloading game data (spell_levels.json is large ~88MB):')
   const [breedsRaw, spellsRaw, levelsRaw, variantsRaw, effectsRaw, statesRaw] = await Promise.all([

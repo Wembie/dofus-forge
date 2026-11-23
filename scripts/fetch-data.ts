@@ -34,10 +34,11 @@ import {
 } from './lib/normalize.ts'
 
 const BASE_URL = 'https://api.dofusdu.de'
-const GAME     = 'dofus3'
+const BETA     = process.argv.includes('--beta')
+const GAME     = BETA ? 'dofus3beta' : 'dofus3'
 const VER      = 'v1'
 const LANGS    = ['es', 'en', 'fr', 'pt', 'de'] as const
-const DATA_DIR = join(process.cwd(), 'public', 'data')
+const DATA_DIR = BETA ? join(process.cwd(), 'tools', 'beta', 'data') : join(process.cwd(), 'public', 'data')
 const FORCE    = process.argv.includes('--force')
 
 async function get<T>(path: string): Promise<T> {
@@ -119,6 +120,7 @@ async function main() {
 
     const equipment = rawEquip.items.map(raw => {
       const item = normalizeItem(raw, legendaryIds)
+      if (BETA) item.image_url = raw.image_urls?.sd ?? raw.image_urls?.icon ?? null
       const cType = canonicalType.get(item.ankama_id)
       if (cType !== undefined && lang !== 'en') {
         item.type = cType
@@ -129,6 +131,10 @@ async function main() {
     const consumables = rawConsum.items.map(raw => normalizeItem(raw))
     const sets        = rawSets.sets.map(normalizeSet)
     const mounts      = rawMounts.mounts.map(normalizeMount)
+
+    if (BETA && (equipment.length < 3000 || equipment.filter(it => it.effects.length > 0).length < equipment.length * 0.9 || sets.filter(s => Object.keys(s.bonuses).length > 0).length < 400)) {
+      throw new Error(`Refusing incomplete ${GAME} catalog (${lang})`)
+    }
 
     writeFileSync(join(langDir, 'equipment.json'),   stringify(equipment),   'utf-8')
     writeFileSync(join(langDir, 'consumables.json'), stringify(consumables), 'utf-8')

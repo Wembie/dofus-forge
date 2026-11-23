@@ -208,12 +208,12 @@ function prysmaFirst(eq: Partial<Record<SlotId, number>>, equipment: AppItem[], 
   if (first != null) eq[at] = first; else delete eq[at]
 }
 
-export const useBuildStore = create<BuildState>((set) => {
+export const createBuildStore = (calculate: typeof recompute = recompute) => create<BuildState>((set) => {
   function update(patch: Partial<BuildState>, state: BuildState): Partial<BuildState> {
     const next = { ...state, ...patch }
     return {
       ...patch,
-      stats: recompute(
+      stats: calculate(
         next.selectedClass, next.level, next.allocated, next.scrolled,
         next.equipped, next._equipment, next._sets, next.runes,
       ),
@@ -491,3 +491,5 @@ export const useBuildStore = create<BuildState>((set) => {
     })),
   }
 })
+
+export const useBuildStore = createBuildStore()

@@ -21,12 +21,14 @@ import { join } from 'node:path'
 import { checkedVersion } from './lib/safety.ts'
 
 const ROOT    = process.cwd()
-const OUT     = join(ROOT, 'src', 'data', 'passives.generated.ts')
+const BETA    = process.argv.includes('--beta')
+const OUT     = BETA ? join(ROOT, 'tools', 'beta', 'data', 'passives.generated.ts') : join(ROOT, 'src', 'data', 'passives.generated.ts')
 const FORCE   = process.argv.includes('--force')
 // Both the game version and the item list come from the API, never from
 // files on disk, so no file content ends up in a request URL.
-const META_URL  = 'https://api.dofusdu.de/dofus3/v1/meta/version'
-const ITEMS_URL = 'https://api.dofusdu.de/dofus3/v1/en/items/equipment/all'
+const GAME = BETA ? 'dofus3beta' : 'dofus3'
+const META_URL  = `https://api.dofusdu.de/${GAME}/v1/meta/version`
+const ITEMS_URL = `https://api.dofusdu.de/${GAME}/v1/en/items/equipment/all`
 
 /** Game characteristic id → stat key used by src/engine/passives.ts. */
 const CHARACTERISTIC: Record<number, string> = {
@@ -163,7 +165,7 @@ async function main() {
     console.log(`Passives up to date (${version}). Pass --force to refresh.`)
     return
   }
-  const base = `https://github.com/dofusdude/dofus3-main/releases/download/${encodeURIComponent(version)}`
+  const base = `https://github.com/dofusdude/dofus3-${BETA ? 'beta' : 'main'}/releases/download/${encodeURIComponent(version)}`
   console.log(`Generating passives for ${version}…`)
   const [spellsRaw, levelsRaw, effectsRaw, textsRaw, itemsRaw] = await Promise.all([
     ...['spells.json', 'spell_levels.json', 'effects.json', 'en.json'].map(f => getJson(`${base}/${f}`)),

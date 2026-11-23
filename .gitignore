@@ -64,5 +64,6 @@ graphify-out/
 
 # temporary files for local dev
 temp/
+tools/beta/data/
 # Local marketing work (YouTube thumbnails): kept on disk, not in the public repo
 docs/brand/youtube-thumbnail/
