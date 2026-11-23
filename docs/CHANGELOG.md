@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.10] — 2026-11-22
+- New artwork: 12 panoramic ink-and-watercolor banners of Dofus 3.7 locations and divine dimensions, including Enutrosor, Srambad, Ecaflipus and Xelorium, with optimized images and exact prompts saved for future additions
+- Public profiles: click a profile picture to view the complete illustration at a larger size; close with Escape, the close button or the backdrop. Pictures and avatar-picker thumbnails use a zoom cursor on hover, with no icons covering the artwork
+
 ## [0.4.9] — 2026-11-22
 - Fixed: database checks skip the unused test-mail server, avoiding a port conflict before SQL tests start
 - Fixed: profile pictures accept only the Forge portrait catalog or the default initial. A database constraint rejects external URLs even through modified requests; applying the migration resets older custom images to initials

@@ -10,6 +10,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.10',
+    date: '2026-11-22',
+    notes: [
+      'New artwork: 12 panoramic ink-and-watercolor banners of Dofus 3.7 locations and divine dimensions, including Enutrosor, Srambad, Ecaflipus and Xelorium, with optimized images and exact prompts saved for future additions',
+      'Public profiles: click a profile picture to view the complete illustration at a larger size; close with Escape, the close button or the backdrop. Pictures and avatar-picker thumbnails use a zoom cursor on hover, with no icons covering the artwork',
+    ],
+  },
+  {
     version: '0.4.9',
     date: '2026-11-22',
     notes: [

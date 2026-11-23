@@ -1,0 +1,28 @@
+{
+  "collection": "Forge World of Twelve banners",
+  "revision": 1,
+  "generator": "Built-in image_gen",
+  "targetGame": "DOFUS 3.7 / Unity",
+  "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
+  "exactPrompts": "docs/brand/profile-banners/manifest.json",
+  "variables": {
+    "locationName": "Current Dofus location",
+    "identity": "Observed landmark silhouettes, architecture, materials and palette from actual game references",
+    "individualComposition": "Distinct scene, framing, weather and quiet crop area"
+  },
+  "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: {{locationName}}. IDENTITY: {{identity}}\nINDIVIDUAL COMPOSITION AND MOOD: {{individualComposition}}",
+  "exports": {
+    "web": "public/banners/locations/v1/<id>.webp; 3:1; quality 88",
+    "master": "temp/profile-banners/masters/v1/<id>.png; preserve the native generation",
+    "background": "Opaque watercolor and warm off-white paper",
+    "framing": "Landmark inside central 60% width and 70% height; lower-left remains quiet for profile avatar"
+  },
+  "continuityRules": [
+    "Inspect real references from the current Unity game; do not substitute Retro maps or unrelated fantasy scenery.",
+    "Use the approved portrait for linework and watercolor only, never its character or composition.",
+    "Give every place its own framing, palette and atmosphere, retaining recognizable Dofus architecture.",
+    "No labels, logos, watermarks, interface, characters or fake handwritten notes.",
+    "Save the exact final prompt and source URLs, retain PNG masters locally, then export WebP and record dimensions and hashes.",
+    "Review full 3:1, narrow mobile and avatar-overlap crops before integration."
+  ]
+}

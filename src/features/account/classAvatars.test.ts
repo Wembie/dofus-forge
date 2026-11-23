@@ -46,6 +46,9 @@ describe('class profile portraits', () => {
         expect(typeof strings[key], `${lang}:${key}`).toBe('string')
         expect(strings[key].length, `${lang}:${key}`).toBeGreaterThan(0)
       }
+      for (const key of ['profile_avatar_view', 'profile_avatar_title']) {
+        expect(strings[key], `${lang}:${key}`).toContain('{{username}}')
+      }
     }
   })
 

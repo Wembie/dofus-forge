@@ -5,6 +5,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Ampliar la foto del perfil público** (0.4.10) — clic en la imagen para ver la ilustración completa, con cierre por Escape, botón o fondo y retorno del foco a la foto. La foto y las miniaturas del selector muestran el cursor de lupa al pasar el mouse, sin iconos encima del arte. La inicial y las URLs no aprobadas mantienen el estado sin ampliación.
+- [x] **Ilustraciones panorámicas para banners de perfil** (0.4.10) — colección de doce lugares y dimensiones de Dofus 3.7 / Unity: Bonta, Brakmar, Astrub, Incarnam, Amakna, Sufokia, Pandala, Frigost, Anutropía, Sramvil, Zurcalia y Xelorium. Tinta y acuarela a juego con los retratos, composiciones propias, imágenes WebP de proporción 3:1 y originales PNG locales. Prompts exactos, referencias, plantilla y vista conjunta en `docs/brand/profile-banners/`. Entrega de imágenes; el selector de banners queda para su implementación posterior.
 - [x] **Retratos de perfil de las 19 clases** (0.4.9) — 38 fan arts originales de tinta y acuarela, con pose y expresión propias por clase y género, basados en las vistas reales del cliente del juego. PNG originales locales y WebP de 512 px para la web; selector accesible en Cuenta con tarjetas grandes, búsqueda por clase y lupa para comparar la ilustración completa con el recorte circular antes de elegir, conservando búsqueda, foco y posición al volver; descarte, guardado y regreso a la inicial. Prompts exactos, plantilla reutilizable y vista de la colección en `docs/brand/profile-avatars/`.
 - [x] **M167 — Página de "cómo se calcula el daño"** (0.4.8) — pedido del usuario (2026-11-21): nueva ruta `/damage-guide` con la fórmula real de daño de Dofus 3 paso a paso (orden de operaciones, característica + Potencia, daño fijo, los cuatro multiplicadores %, crítico, resistencia, daño de empuje), con un ejemplo numérico completo (golpe normal vs. crítico) y la fórmula matemática exacta mostrada como ecuación real (fracciones apiladas, corchetes de piso) armada a mano con CSS puro, sin librería de tipografía matemática (KaTeX comparado y descartado por peso/consistencia de marca). Enlazada desde el footer y el menú de navegación, en los 4 idiomas.
 - [x] **M163 — Forjadora más rápida sin cambiar resultados** (0.4.6–0.4.7) — pedido del usuario (2026-11-21): ganar velocidad sin tocar la precisión; un commit por cambio para saber cuál rompió algo. Medido antes: ~880 000 evaluaciones/s sin runas y ~270 000 con runas (un hilo); en el caso de la captura, óptimo alcanzado en 3 de 6 semillas en 10 s.
@@ -204,6 +206,9 @@ Marcar con `[x]` cuando se complete.
 ---
 
 ## Pendientes 🔧
+
+- [ ] **Ampliar la colección de banners de perfil** — generar más lugares y dimensiones de Dofus en futuras entregas, con referencias del cliente vigente, composiciones distintas y el mismo estilo de tinta y acuarela. Mantener los prompts exactos, las fuentes y la plantilla en `docs/brand/profile-banners/`; conservar los PNG originales y exportar WebP panorámicos. La colección queda abierta a nuevas zonas y propuestas del usuario.
+
 
 ### SEO — competir por el primer puesto en búsquedas relevantes
 

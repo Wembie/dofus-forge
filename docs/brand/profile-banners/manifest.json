@@ -1,0 +1,368 @@
+{
+  "collection": "Forge World of Twelve banners",
+  "revision": 1,
+  "createdOn": "2026-11-22",
+  "generator": "Built-in image_gen",
+  "useCase": "illustration-story",
+  "targetGame": "DOFUS 3.7 / Unity",
+  "gameDataVersion": "3.7.12.12",
+  "version": "0.4.10",
+  "status": "Artwork assets only; profile banner selection is not implemented in this delivery",
+  "referenceProvenance": "Published environment references include earlier city/Pandala redesign artwork and game screenshots. The target version does not assert that each reference was captured in 3.7. Source images remain local; these are original fan-art interpretations.",
+  "banners": [
+    {
+      "id": "bonta",
+      "location": "Bonta",
+      "asset": "public/banners/locations/v1/bonta.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 375566,
+      "sha256": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+      "localPngMaster": "temp/profile-banners/masters/v1/bonta.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "61f996c908636455973a8a2c1621074420f46fd4a1946145fb8dd87599c4498a",
+      "identity": "The contemporary white city of Bonta: creamy limestone monumental architecture, bright cobalt-blue tiled roofs and long blue-and-white pennants, elegant archways, cypress trees, orderly pale paving. The distinctive winged sword monument rises from its round fountain. Reinterpret these exact in-game silhouettes, not a generic European castle.",
+      "composition": "A welcoming panoramic view along a pale-stone terrace, the winged sword fountain slightly right of center and blue-roofed towers receding behind it. A broad arched gateway and two slender cypresses form an asymmetrical frame. Fresh clear morning; ivory, cobalt, sage and soft honey. Keep the lower-left stone terrace uncluttered.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://pbs.twimg.com/media/FFJM1IrWQAI07JU.jpg",
+          "localReference": "temp/profile-banners/references/bonta.jpg"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.gamosaurus.com/wp-content/uploads/dofus/dofus262/3b8d95ddb66cdb2244ed08e42d9d36fb.jpg",
+          "localReference": "temp/profile-banners/references/city3.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Bonta. IDENTITY: The contemporary white city of Bonta: creamy limestone monumental architecture, bright cobalt-blue tiled roofs and long blue-and-white pennants, elegant archways, cypress trees, orderly pale paving. The distinctive winged sword monument rises from its round fountain. Reinterpret these exact in-game silhouettes, not a generic European castle.\nINDIVIDUAL COMPOSITION AND MOOD: A welcoming panoramic view along a pale-stone terrace, the winged sword fountain slightly right of center and blue-roofed towers receding behind it. A broad arched gateway and two slender cypresses form an asymmetrical frame. Fresh clear morning; ivory, cobalt, sage and soft honey. Keep the lower-left stone terrace uncluttered."
+    },
+    {
+      "id": "brakmar",
+      "location": "Brakmar",
+      "asset": "public/banners/locations/v1/brakmar.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 364920,
+      "sha256": "ef6f9e37dcbf9adec783f4b391d52cd9d729ee4a199383a92789745021b74d08",
+      "localPngMaster": "temp/profile-banners/masters/v1/brakmar.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "5fc449d175f833ffa8bd8f5219a47b5c651ae75f0d05af7874e800ad70f3d915",
+      "identity": "Contemporary Brakmar is a dark industrial city of black bolted metal, riveted platforms, railings, thick iron chains, pipes, squat forges and crooked horn-like slate roofs. Warm orange forge emblems and lava below the iron walkways contrast with charcoal plates. Preserve the Dofus workshop shapes seen in the references; it must not turn into a generic medieval gothic castle.",
+      "composition": "A panoramic industrial canal-side walkway leading diagonally toward a memorable horn-roofed forge on the right. Layer a few irregular smokestacks and red cloth pennants behind it, with a restrained lava-orange band low in the image. Ink-black charcoal, muted red and rust-orange washes. Atmospheric but readable; quiet dark stone at the lower-left.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.gamosaurus.com/wp-content/uploads/dofus/dofus262/461c89d0a79a8b078e90124acc3a0ac6.jpg",
+          "localReference": "temp/profile-banners/references/city2.jpg"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.gamosaurus.com/wp-content/uploads/dofus/dofus262/382d819fb05a4183b3a6789d8068730e.jpg",
+          "localReference": "temp/profile-banners/references/city4.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Brakmar. IDENTITY: Contemporary Brakmar is a dark industrial city of black bolted metal, riveted platforms, railings, thick iron chains, pipes, squat forges and crooked horn-like slate roofs. Warm orange forge emblems and lava below the iron walkways contrast with charcoal plates. Preserve the Dofus workshop shapes seen in the references; it must not turn into a generic medieval gothic castle.\nINDIVIDUAL COMPOSITION AND MOOD: A panoramic industrial canal-side walkway leading diagonally toward a memorable horn-roofed forge on the right. Layer a few irregular smokestacks and red cloth pennants behind it, with a restrained lava-orange band low in the image. Ink-black charcoal, muted red and rust-orange washes. Atmospheric but readable; quiet dark stone at the lower-left."
+    },
+    {
+      "id": "astrub",
+      "location": "Astrub",
+      "asset": "public/banners/locations/v1/astrub.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 398448,
+      "sha256": "d95f50f4dd5b0cfa2c214dceb50b940e3f7110a904db3ae859aff2e0cf318816",
+      "localPngMaster": "temp/profile-banners/masters/v1/astrub.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "a2dd4f0b7f414ac49024707f559c86a3f4a794214e6604efa4220e47cbfd4a8c",
+      "identity": "Contemporary Astrub: the tall, slender ivory curved stone Hyperzaap arch and its turquoise portal, warm ochre timber-and-stone townhouses, distinctive curved tiled roofs, leafy small gardens, market crates and irregular welcoming stone lanes. Use the recognizable current town architecture in the reference rather than old Dofus Retro village houses.",
+      "composition": "A friendly street-level panorama of Astrub around its slender turquoise Hyperzaap, placed just right of center. Crooked green-roofed shops and a few awnings lead toward the portal; a leafy branch loosely frames the far left. Quiet sunlit ochre paving in the lower-left. Morning warmth with sage, amber and a small turquoise accent.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://jolstatic.fr/www/captures/93/0/129180.jpg",
+          "localReference": "temp/profile-banners/references/astrub.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Astrub. IDENTITY: Contemporary Astrub: the tall, slender ivory curved stone Hyperzaap arch and its turquoise portal, warm ochre timber-and-stone townhouses, distinctive curved tiled roofs, leafy small gardens, market crates and irregular welcoming stone lanes. Use the recognizable current town architecture in the reference rather than old Dofus Retro village houses.\nINDIVIDUAL COMPOSITION AND MOOD: A friendly street-level panorama of Astrub around its slender turquoise Hyperzaap, placed just right of center. Crooked green-roofed shops and a few awnings lead toward the portal; a leafy branch loosely frames the far left. Quiet sunlit ochre paving in the lower-left. Morning warmth with sage, amber and a small turquoise accent."
+    },
+    {
+      "id": "incarnam",
+      "location": "Incarnam",
+      "asset": "public/banners/locations/v1/incarnam.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 327514,
+      "sha256": "e40bf406bcb7067e61d4ae05297349efa5c7cfc33b0d091700cd70853889c03f",
+      "localPngMaster": "temp/profile-banners/masters/v1/incarnam.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "c0b9573c12a6f67ef769cc412ffaee6270180cc11d5599356bf1f6643608c045",
+      "identity": "Incarnam, the celestial starting island: a golden-grass plateau suspended above clouds with sheer floating rock faces, pale carved stone, the broad circular turquoise departure portal surrounded by a crenellated pale stone ring, and small dragon-like stone ornaments. Keep its welcoming golden beginner-island identity, not a purple cosmic realm or Ecaflipus.",
+      "composition": "A sweeping view across the island rim. The broad stone portal sits on the middle-right grassy ledge, with a small path, wind-bent golden vegetation and distant floating fragments fading into immense soft white clouds. Delicate turquoise portal color painted as watercolor, no glow effects. Quiet cloud-filled lower-left; pale gold, chalk, sky blue and turquoise.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/dest4d7s6_orig.jpg",
+          "localReference": "temp/profile-banners/references/incarnam.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Incarnam. IDENTITY: Incarnam, the celestial starting island: a golden-grass plateau suspended above clouds with sheer floating rock faces, pale carved stone, the broad circular turquoise departure portal surrounded by a crenellated pale stone ring, and small dragon-like stone ornaments. Keep its welcoming golden beginner-island identity, not a purple cosmic realm or Ecaflipus.\nINDIVIDUAL COMPOSITION AND MOOD: A sweeping view across the island rim. The broad stone portal sits on the middle-right grassy ledge, with a small path, wind-bent golden vegetation and distant floating fragments fading into immense soft white clouds. Delicate turquoise portal color painted as watercolor, no glow effects. Quiet cloud-filled lower-left; pale gold, chalk, sky blue and turquoise."
+    },
+    {
+      "id": "amakna",
+      "location": "Amakna",
+      "asset": "public/banners/locations/v1/amakna.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 415684,
+      "sha256": "2bbdc6c2dd7eb49dc2ec3ba519362b4b42ea1c2dfb0546e132c32251ab129851",
+      "localPngMaster": "temp/profile-banners/masters/v1/amakna.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "8d8571a6deb0b81b29419733ed4b69a3fdcd88297a5e182a42ab90de1ec5b753",
+      "identity": "The village of Amakna in the World of Twelve: lush grass, old deciduous trees, irregular stone paths, rounded rustic timber buildings and a broad whimsical tavern with heavy curved dark-brown roofing, pale walls and small warm windows. Low fences, barrels and a few outdoor tavern tables. Keep the familiar Dofus rustic proportions and the rounded tavern silhouette seen in the actual game.",
+      "composition": "A low, inviting panorama approaching the broad round-roofed Amakna tavern from a village footpath. The tavern sits center-right, one mature tree frames the far left, and a few barrels and weathered benches tell the village story. Sun-dappled green grass and straw-gold leaves, with soft russet accents. Leave the lower-left grassy path spacious.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/tuto1w-2b_orig.jpg",
+          "localReference": "temp/profile-banners/references/amakna.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Amakna. IDENTITY: The village of Amakna in the World of Twelve: lush grass, old deciduous trees, irregular stone paths, rounded rustic timber buildings and a broad whimsical tavern with heavy curved dark-brown roofing, pale walls and small warm windows. Low fences, barrels and a few outdoor tavern tables. Keep the familiar Dofus rustic proportions and the rounded tavern silhouette seen in the actual game.\nINDIVIDUAL COMPOSITION AND MOOD: A low, inviting panorama approaching the broad round-roofed Amakna tavern from a village footpath. The tavern sits center-right, one mature tree frames the far left, and a few barrels and weathered benches tell the village story. Sun-dappled green grass and straw-gold leaves, with soft russet accents. Leave the lower-left grassy path spacious."
+    },
+    {
+      "id": "sufokia",
+      "location": "Sufokia",
+      "asset": "public/banners/locations/v1/sufokia.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 383690,
+      "sha256": "88d921254475a56924fcf92c6b63308ed55dae4b2f2db1b5b5bdcc7fab02f196",
+      "localPngMaster": "temp/profile-banners/masters/v1/sufokia.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "63212f84025c2685101fb8cf4a1fd5abb298ac631713ad28ded6e9fae7054132",
+      "identity": "Sufokia is the turquoise maritime city, with pale sandstone quays and terraces perched over clear sea, round nautical doors and blue wave motifs, rough lashed wooden footbridges, ropes, small ladders, barrels and little sailboats with yellow fish-shaped pennants. Preserve the recognizably Dofus coastal masonry and the small yellow-and-white sailboat shapes in the game reference, not a generic Mediterranean resort.",
+      "composition": "An airy panorama across connected stone quays and a wooden footbridge. One charming little yellow-and-white fishing sailboat rests toward the center-right beneath blue-detailed sandstone harbor buildings. Sea and simple rocks remain quiet in the lower-left. Salt-faded cream, turquoise, muted blue and small yellow accents, warm late-afternoon light without cinematic effects.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://image.jeuxvideo.com/medias-md/173556/1735562907-3366-capture-d-ecran.jpg",
+          "localReference": "temp/profile-banners/references/sufokia.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Sufokia. IDENTITY: Sufokia is the turquoise maritime city, with pale sandstone quays and terraces perched over clear sea, round nautical doors and blue wave motifs, rough lashed wooden footbridges, ropes, small ladders, barrels and little sailboats with yellow fish-shaped pennants. Preserve the recognizably Dofus coastal masonry and the small yellow-and-white sailboat shapes in the game reference, not a generic Mediterranean resort.\nINDIVIDUAL COMPOSITION AND MOOD: An airy panorama across connected stone quays and a wooden footbridge. One charming little yellow-and-white fishing sailboat rests toward the center-right beneath blue-detailed sandstone harbor buildings. Sea and simple rocks remain quiet in the lower-left. Salt-faded cream, turquoise, muted blue and small yellow accents, warm late-afternoon light without cinematic effects."
+    },
+    {
+      "id": "pandala",
+      "location": "Pandala",
+      "asset": "public/banners/locations/v1/pandala.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 354340,
+      "sha256": "f0081073530c254bd64777e68d6510957a4706b6dc94d3460775ee8374e9c9b4",
+      "localPngMaster": "temp/profile-banners/masters/v1/pandala.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "56bc8e920db2bc0acd4df652cc020ec15fb5157f690b472ceb9010cfdac88040",
+      "identity": "The present Pandala island design: dense bamboo and lashed bamboo walkways over misty shallow water, an arched green bamboo-tiled gateway and small green-roofed pavilions, natural pale bamboo supports and hanging dark cloth with stylized panda/elemental motifs. Preserve the updated Dofus gateway silhouette and bamboo construction shown in the reference, not generic red Japanese temples or cherry-blossom scenery.",
+      "composition": "A tranquil panorama following an irregular bamboo footbridge from the lower-middle toward the green-tiled Pandala gate on the right. Tall bamboo frames the left and far-right, with a small jade pool and quiet low mist separating layers. Moss, jade, bamboo straw and a tiny vermilion lantern accent. Let the lower-left water stay spacious.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://jolstatic.fr/www/captures/93/3/144603.jpg",
+          "localReference": "temp/profile-banners/references/pandala.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Pandala. IDENTITY: The present Pandala island design: dense bamboo and lashed bamboo walkways over misty shallow water, an arched green bamboo-tiled gateway and small green-roofed pavilions, natural pale bamboo supports and hanging dark cloth with stylized panda/elemental motifs. Preserve the updated Dofus gateway silhouette and bamboo construction shown in the reference, not generic red Japanese temples or cherry-blossom scenery.\nINDIVIDUAL COMPOSITION AND MOOD: A tranquil panorama following an irregular bamboo footbridge from the lower-middle toward the green-tiled Pandala gate on the right. Tall bamboo frames the left and far-right, with a small jade pool and quiet low mist separating layers. Moss, jade, bamboo straw and a tiny vermilion lantern accent. Let the lower-left water stay spacious."
+    },
+    {
+      "id": "frigost",
+      "location": "Frigost",
+      "asset": "public/banners/locations/v1/frigost.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 333242,
+      "sha256": "ceea1622663e8b0659a4b6edeb61d0ea90cbd6db5d6130980b9d2a708a970050",
+      "localPngMaster": "temp/profile-banners/masters/v1/frigost.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "161bace0c6ad21187c5b2deefbaa62959bdd8b431ff4c05de8b7191813e5a0dd",
+      "identity": "La Bourgade on Frigost: a snowy settlement of whimsical steep-roofed stone-and-timber houses, slate-green roof tiles under thick snow, long clear icicles, heavy chimneys, oddly angled dormers and warm yellow windows. Narrow frosted cobbled lanes and dark firs. Use the recognizable Frigost house forms from the actual Dofus town, not generic alpine chalets or an invented giant ice castle.",
+      "composition": "A cozy winter panorama across a slightly curving Bourgade lane. Cluster the distinctive snow-laden houses center-right, with a modest stone village monument and an evergreen partly framing the left. A few warm windows tell the story in the cold. Soft blue-gray snow shadows, slate green, warm cream and tiny amber windows. Broad quiet snow in the lower-left.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://jolstatic.fr/dofus/equipe/412805/dossiers/avis_recherche/images/milice_bourgade.jpg",
+          "localReference": "temp/profile-banners/references/frigost.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Frigost. IDENTITY: La Bourgade on Frigost: a snowy settlement of whimsical steep-roofed stone-and-timber houses, slate-green roof tiles under thick snow, long clear icicles, heavy chimneys, oddly angled dormers and warm yellow windows. Narrow frosted cobbled lanes and dark firs. Use the recognizable Frigost house forms from the actual Dofus town, not generic alpine chalets or an invented giant ice castle.\nINDIVIDUAL COMPOSITION AND MOOD: A cozy winter panorama across a slightly curving Bourgade lane. Cluster the distinctive snow-laden houses center-right, with a modest stone village monument and an evergreen partly framing the left. A few warm windows tell the story in the cold. Soft blue-gray snow shadows, slate green, warm cream and tiny amber windows. Broad quiet snow in the lower-left."
+    },
+    {
+      "id": "anutropia",
+      "location": "Anutropía",
+      "asset": "public/banners/locations/v1/anutropia.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 355172,
+      "sha256": "eb0a65cc7cc8a4e344c722a17dfe5b8773c1a8f1df700416a07ced84818465f8",
+      "localPngMaster": "temp/profile-banners/masters/v1/anutropia.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "ffa7c2a318366337b91460d96e97075b2160c9144bc588ac6b7665ea1a0289b6",
+      "identity": "Anutropia / Enutrosor, the divine dimension of Enutrof in DOFUS: enormous warm sandstone vault architecture, gold-banded square pillars with large keyhole motifs, teal-blue pennants, sharp deep-teal mineral crystals and entire drifts of golden kamas around treasure chests. Preserve the square carved vaults, key motifs and blue crystals in the actual Dofus references. No dragons, generic dwarven cities or realistic metallic rendering.",
+      "composition": "A sweeping panorama into a monumental open treasure-vault district. A carved keyhole arch and gold-banded pillars sit center-right, with broad irregular coin drifts and one distinctive heavy treasure chest underneath. A few deep teal crystal facets frame the near left. Honey-gold, pale sandstone, muted turquoise and ink-black shadows; loose matte watercolor, spacious quieter paving at the lower-left.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/5133217_orig.png",
+          "localReference": "temp/profile-banners/references/anutropia2.jpg"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/1566370_orig.png",
+          "localReference": "temp/profile-banners/references/anutropia3.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Anutropía (Enutrosor), a divine dimension. IDENTITY: Anutropia / Enutrosor, the divine dimension of Enutrof in DOFUS: enormous warm sandstone vault architecture, gold-banded square pillars with large keyhole motifs, teal-blue pennants, sharp deep-teal mineral crystals and entire drifts of golden kamas around treasure chests. Preserve the square carved vaults, key motifs and blue crystals in the actual Dofus references. No dragons, generic dwarven cities or realistic metallic rendering.\nINDIVIDUAL COMPOSITION AND MOOD: A sweeping panorama into a monumental open treasure-vault district. A carved keyhole arch and gold-banded pillars sit center-right, with broad irregular coin drifts and one distinctive heavy treasure chest underneath. A few deep teal crystal facets frame the near left. Honey-gold, pale sandstone, muted turquoise and ink-black shadows; loose matte watercolor, spacious quieter paving at the lower-left."
+    },
+    {
+      "id": "sramvil",
+      "location": "Sramvil",
+      "asset": "public/banners/locations/v1/sramvil.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 347338,
+      "sha256": "6ff8f27d86a383f8a48d6f0fc7d20575c326e7a32acf735c7429cdb933cb9722",
+      "localPngMaster": "temp/profile-banners/masters/v1/sramvil.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "f578e515cf87f225831fa03df516cd0fdf3881a3da43997a28243a3b6169509c",
+      "identity": "Sramvil / Srambad, the DOFUS dimension of Sram: tall angular indigo-blue stone facades, irregular dark blue cobbled streets, bone-and-skull ornament, pale bone ladders, muted gold iron hinges, turquoise ghost-lanterns and narrow green-blue canals. Keep the faceted triangular stone buildings and subtle burglar-city details of the actual DOFUS screenshots. Distinct from Brakmar: no lava, forges, red industrial rooftops or generic gothic cathedral.",
+      "composition": "A secretive but charming panoramic alley beside a narrow canal, passing beneath a sharply angled blue stone arch center-right. A pale bone ladder and suspended skull-framed lantern mark the facade, with one crooked wooden footbridge leading into the district. Indigo, dusty violet, bone ivory and restrained mint-turquoise washes. Small warm window accents; spacious dark cobbles low-left. Atmospheric ink drawing without artificial glow or horror gore.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/5893640_orig.png",
+          "localReference": "temp/profile-banners/references/sramvil3.jpg"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/2792022_orig.png",
+          "localReference": "temp/profile-banners/references/sramvil4.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Sramvil (Srambad), a divine dimension. IDENTITY: Sramvil / Srambad, the DOFUS dimension of Sram: tall angular indigo-blue stone facades, irregular dark blue cobbled streets, bone-and-skull ornament, pale bone ladders, muted gold iron hinges, turquoise ghost-lanterns and narrow green-blue canals. Keep the faceted triangular stone buildings and subtle burglar-city details of the actual DOFUS screenshots. Distinct from Brakmar: no lava, forges, red industrial rooftops or generic gothic cathedral.\nINDIVIDUAL COMPOSITION AND MOOD: A secretive but charming panoramic alley beside a narrow canal, passing beneath a sharply angled blue stone arch center-right. A pale bone ladder and suspended skull-framed lantern mark the facade, with one crooked wooden footbridge leading into the district. Indigo, dusty violet, bone ivory and restrained mint-turquoise washes. Small warm window accents; spacious dark cobbles low-left. Atmospheric ink drawing without artificial glow or horror gore."
+    },
+    {
+      "id": "zurcalia",
+      "location": "Zurcalia",
+      "asset": "public/banners/locations/v1/zurcalia.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 282542,
+      "sha256": "7970652035ac810e974ef25574b197c5c0e7960cd4525da77353faaa62c3e889",
+      "localPngMaster": "temp/profile-banners/masters/v1/zurcalia.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "5d1660acd2f0f273b65da13ffcfbd4e40ce6e566cb19ca145bb2b8069ffe01a5",
+      "identity": "Zurcalia / Ecaflipus, the divine dimension of Ecaflip in DOFUS: whimsical floating pale-stone game-board terraces, cream checkerboard paving, a monumental rounded cat-headed statue with pointed ears and a simple gold forehead emblem, elegant tapered ivory pillars with turquoise and gold trim, a few giant dice and pale jade clouds. Preserve the recognizably Dofus cat-statue face and floating courtyard proportions in the references, not a modern casino, Las Vegas signs or generic Japanese cat shrine.",
+      "composition": "A playful, serene panoramic approach across a floating cream game-board terrace. The monumental stylized cat-headed guardian stands center-right beyond several broad stone steps, with a tapered ivory column and one oversize simple die giving scale. Smaller round terraces float behind through sage-colored cloud. Ivory, pale jade, soft mint and warm gold with tiny coral accents. Leave the lower-left paving quiet; no readable card text or numerals.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/5873587_orig.jpg",
+          "localReference": "temp/profile-banners/references/zurcalia1.jpg"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/6348073_orig.jpg",
+          "localReference": "temp/profile-banners/references/zurcalia2.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Zurcalia (Ecaflipus), a divine dimension. IDENTITY: Zurcalia / Ecaflipus, the divine dimension of Ecaflip in DOFUS: whimsical floating pale-stone game-board terraces, cream checkerboard paving, a monumental rounded cat-headed statue with pointed ears and a simple gold forehead emblem, elegant tapered ivory pillars with turquoise and gold trim, a few giant dice and pale jade clouds. Preserve the recognizably Dofus cat-statue face and floating courtyard proportions in the references, not a modern casino, Las Vegas signs or generic Japanese cat shrine.\nINDIVIDUAL COMPOSITION AND MOOD: A playful, serene panoramic approach across a floating cream game-board terrace. The monumental stylized cat-headed guardian stands center-right beyond several broad stone steps, with a tapered ivory column and one oversize simple die giving scale. Smaller round terraces float behind through sage-colored cloud. Ivory, pale jade, soft mint and warm gold with tiny coral accents. Leave the lower-left paving quiet; no readable card text or numerals."
+    },
+    {
+      "id": "xelorium",
+      "location": "Xelorium",
+      "asset": "public/banners/locations/v1/xelorium.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 325114,
+      "sha256": "359cc84dc1d7473d8c00548c7015e30c4f4ffd972c5cf919ccc3c3bfe44a3154",
+      "localPngMaster": "temp/profile-banners/masters/v1/xelorium.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "53742b3058b24a87e58fd4fe4cabd0c0d61a01b0565aa11f412a19941ca6b249",
+      "identity": "Xelorium / Xélorium, the divine dimension of Xelor in DOFUS: suspended pale-ochre carved clockwork platforms and vast toothed gear rims above a deep blue-violet void, hourglass pedestals with mint glass and brass supports, clock motifs engraved into cream paving, slender leafless pale trees and blue streams falling between time-fractured islands. Preserve the large Dofus floating platform shapes and actual hourglass construction from the screenshots; no generic steampunk city, modern clocks or sci-fi spaceships.",
+      "composition": "A dreamlike panoramic view along two time-fractured stone terraces joined by an incomplete cog-shaped bridge. A memorable brass-and-mint hourglass monument sits just right of center; enormous partial gear rims and floating pale islands recede beyond it. A thin blue stream falls between platforms, with one sparse lilac tree at the edge. Cream, ochre, muted mint and dusty violet, painted matte with airy paper gaps. Quiet pale paving low-left; clock tick marks only, no readable writing.",
+      "references": [
+        {
+          "role": "approved Forge technique only",
+          "file": "public/avatars/classes/v1/iop-m.webp"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/4588939_orig.png",
+          "localReference": "temp/profile-banners/references/xelorium1.jpg"
+        },
+        {
+          "role": "game environment identity",
+          "sourceUrl": "https://www.dofuspourlesnoobs.com/uploads/1/3/0/1/13010384/7578777_orig.png",
+          "localReference": "temp/profile-banners/references/xelorium2.jpg"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge user-profile location banner. Create ONE ultrawide horizontal 1536 x 512 illustration, 3:1 aspect ratio. Target visual world: DOFUS 3.7 / Unity, not Dofus Retro. IMAGE 1 is our APPROVED Forge portrait and defines ONLY the ink-and-watercolor technique; do not include its character, sword, face or portrait composition. Remaining images are actual game-environment identity references, not images to trace or paste. Create a fresh, expressive fan-art landscape that a Dofus player recognizes immediately. Match the portrait's lively tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor fills, occasional unpainted warm off-white paper gaps and restrained natural pigment edges. Keep clear large forms and believable architectural perspective. An artist's coherent finished ink-and-watercolor travel illustration, not a polished digital fantasy painting. Landscape fills the whole panoramic canvas; no white sidebars or frame. Maintain the main recognizable landmark in the middle 60 percent of the width and middle 70 percent of the height, safe for banner crops; avoid placing anything essential in the lower-left avatar-overlap area. No people, portrait characters, armies or big monsters. No caption, labels, readable writing, signature, watermarks, game logo, interface, arrows or collage. No plastic 3D look, photorealism, airbrushed gradients, cinematic bloom, neon glow, artificial grunge texture, brown parchment tint, noisy microdetail, copied photographic textures or perfect vector shapes.\nLOCATION: Xelorium (Xélorium), a divine dimension. IDENTITY: Xelorium / Xélorium, the divine dimension of Xelor in DOFUS: suspended pale-ochre carved clockwork platforms and vast toothed gear rims above a deep blue-violet void, hourglass pedestals with mint glass and brass supports, clock motifs engraved into cream paving, slender leafless pale trees and blue streams falling between time-fractured islands. Preserve the large Dofus floating platform shapes and actual hourglass construction from the screenshots; no generic steampunk city, modern clocks or sci-fi spaceships.\nINDIVIDUAL COMPOSITION AND MOOD: A dreamlike panoramic view along two time-fractured stone terraces joined by an incomplete cog-shaped bridge. A memorable brass-and-mint hourglass monument sits just right of center; enormous partial gear rims and floating pale islands recede beyond it. A thin blue stream falls between platforms, with one sparse lilac tree at the edge. Cream, ochre, muted mint and dusty violet, painted matte with airy paper gaps. Quiet pale paving low-left; clock tick marks only, no readable writing."
+    }
+  ]
+}

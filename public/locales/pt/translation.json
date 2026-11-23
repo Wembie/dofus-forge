@@ -2341,5 +2341,7 @@
   "account_avatar_search": "Buscar classe",
   "account_avatar_empty": "Nenhuma classe encontrada.",
   "account_avatar_current": "Foto atual",
-  "account_avatar_inspect_hint": "Toque na lupa ou na ilustração para ver os detalhes antes de escolher."
+  "account_avatar_inspect_hint": "Toque na lupa ou na ilustração para ver os detalhes antes de escolher.",
+  "profile_avatar_view": "Ampliar a foto de perfil de {{username}}",
+  "profile_avatar_title": "Foto de perfil de {{username}}"
 }
