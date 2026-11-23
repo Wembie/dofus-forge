@@ -273,10 +273,10 @@ describe('prerendered build and profile pages', () => {
     expect(await res.text()).toBe(PRERENDERED)
   })
 
-  it('never serves the prerendered page once the build is private or deleted', async () => {
+  it('answers 404 with the app document once the build is private or deleted', async () => {
     buildRow = null
     const res = await get(`/es/build/${ID}`)
-    expect(res.status).toBe(200)
+    expect(res.status).toBe(404)
     const html = await res.text()
     expect(html).not.toContain('prerendered')
     expect(html).toContain('<body>app</body>')
@@ -292,6 +292,16 @@ describe('prerendered build and profile pages', () => {
   it('treats a failed lookup as not public', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('network') }))
     expect(await (await get(`/es/build/${ID}`)).text()).not.toContain('prerendered')
+  })
+
+  it('never answers 404 because the lookup failed', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('network') }))
+    expect((await get(`/es/build/${ID}`)).status).toBe(200)
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('down', { status: 503 })))
+    const res = await get(`/es/build/${ID}`)
+    expect(res.status).toBe(200)
+    expect(await res.text()).not.toContain('prerendered')
+    expect((await get('/u/someone')).status).toBe(200)
   })
 
   it('serves a build published after the deploy through the app document', async () => {
@@ -310,13 +320,15 @@ describe('prerendered build and profile pages', () => {
     expect(await (await get('/u/someone')).text()).toBe(PRERENDERED)
     expect((await get('/u/someone.data')).status).toBe(200)
     profileRows = []
-    expect(await (await get('/u/someone')).text()).not.toContain('prerendered')
+    const gone = await get('/u/someone')
+    expect(gone.status).toBe(404)
+    expect(await gone.text()).not.toContain('prerendered')
     expect((await get('/u/someone.data')).status).toBe(404)
   })
 
   it('never queries Supabase for an impossible username', async () => {
     const res = await get('/u/a,b)or(x')
-    expect(res.status).toBe(200)
+    expect(res.status).toBe(404)
     expect(vi.mocked(fetch)).not.toHaveBeenCalled()
   })
 })
@@ -349,7 +361,17 @@ describe('pages that are all prerendered', () => {
     }
   })
 
-  it('keeps serving the app document with 200 for routes without their own page', async () => {
-    expect((await get('/c/some-collection')).status).toBe(200)
+  it('keeps serving the app document with 200 for app routes without their own page', async () => {
+    for (const path of ['/c/some-collection', '/fr/c/some-collection', '/admin', '/es/admin/ranks', '/admin/reports']) {
+      expect((await get(path)).status, path).toBe(200)
+    }
+  })
+
+  it('answers 404 with the app document for any other unknown path, never a copy of the home page', async () => {
+    for (const path of ['/this-page-does-not-exist', '/Explore', '/classes', '/fr/nope', '/admin/nope', '/c', '/.well-known/agent']) {
+      const res = await get(path)
+      expect(res.status, path).toBe(404)
+      expect(await res.text()).toBe(FALLBACK)
+    }
   })
 })

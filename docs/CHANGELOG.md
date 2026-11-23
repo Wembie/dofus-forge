@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.14] — 2026-11-23
+- Pages that do not exist (mistyped links, deleted builds and profiles) now answer as not found, so search engines stop treating them as copies of the home page
+
 ## [0.4.13] — 2026-11-23
 - Build ratings now accept half stars from 0.5 to 5: choose the left or right half of a star, or use the keyboard. Your score is shown precisely and existing votes, averages and vote counts are preserved
 - A saved rating refreshes the build average from the server. If saving fails, your previous vote is restored and you can retry
