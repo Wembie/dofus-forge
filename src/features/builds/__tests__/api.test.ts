@@ -9,6 +9,7 @@ import {
   fetchCollection, updateBuild, setBuildTags, submitReport, MAX_BUILD_TAGS, subscribeToNotifications,
   fetchBuildById, fetchComments, fetchBuildHistory, fetchNotifications, setBuildFeatured, moderateContent,
   BUILD_LINK_HEADER, fetchVersionSnapshot, recordBuildView, fetchViewerState, fetchProfileSummary, fetchCommunityStats,
+  rateBuild, fetchMyRating, fetchRatingSummary,
 } from '../api.ts'
 import type { BuildSnapshot } from '@/store/buildStore.ts'
 
@@ -53,6 +54,39 @@ describe('fetchPublicBuilds tag filter', () => {
     mock.on('builds', { data: [], count: 0 })
     await fetchPublicBuilds({ sort: 'likes', page: 0 })
     expect(String(opArgs(mock.callsTo('builds')[0], 'select')?.[0])).not.toContain('filter_tag')
+  })
+})
+
+describe('half-star ratings', () => {
+  it.each([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5])('sends %s unchanged, including all legacy integer scores', async rating => {
+    await expect(rateBuild('b1', 'u1', rating)).resolves.toEqual({ error: null })
+    expect(opArgs(mock.callsTo('build_ratings')[0], 'upsert')?.[0]).toEqual({ build_id: 'b1', user_id: 'u1', rating })
+  })
+
+  it.each([0, -0.5, 0.25, 1.25, 2.49, 5.5, NaN, Infinity])('rejects an invalid score before writing: %s', async rating => {
+    await expect(rateBuild('b1', 'u1', rating)).resolves.toEqual({ error: 'invalid_rating' })
+    expect(mock.calls).toHaveLength(0)
+  })
+
+  it('reads the saved fraction and authoritative average without rounding them', async () => {
+    mock.on('build_ratings', { data: { rating: 4.5 } })
+    mock.on('builds', { data: { avg_rating: 4.25, rating_count: 4 } })
+    await expect(fetchMyRating('b1', 'u1')).resolves.toBe(4.5)
+    await expect(fetchRatingSummary('b1')).resolves.toEqual({ avg_rating: 4.25, rating_count: 4 })
+    expect(opArgs(mock.callsTo('builds')[0], 'select')?.[0]).toBe('avg_rating, rating_count')
+    expect(opArgs(mock.callsTo('builds')[0], 'setHeader')).toEqual([BUILD_LINK_HEADER, 'b1'])
+  })
+
+  it('preserves a fractional vote returned by the combined viewer RPC', async () => {
+    mock.client.rpc.mockResolvedValueOnce({ data: { rating: 1.5 }, error: null } as never)
+    expect((await fetchViewerState('b1', 'u1')).rating).toBe(1.5)
+  })
+
+  it('reports a failed write and leaves aggregate refresh failures as a read failure', async () => {
+    mock.on('build_ratings', { error: { message: 'offline' } })
+    mock.on('builds', { error: { message: 'offline' } })
+    await expect(rateBuild('b1', 'u1', 2.5)).resolves.toEqual({ error: 'offline' })
+    await expect(fetchRatingSummary('b1')).resolves.toBeNull()
   })
 })
 

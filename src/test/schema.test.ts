@@ -17,6 +17,16 @@ function functionHeaders(sql: string) {
 }
 
 describe('supabase schema guards', () => {
+  it('widens rating precision without rewriting existing votes or build scores', () => {
+    const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261123010000_half_star_ratings.sql'), 'utf8').replace(/\r\n/g, '\n')
+    expect(schema).toContain(migration.trim())
+    expect(migration).toContain('alter column rating type numeric using rating::numeric')
+    expect(migration).toContain('rating >= 0.5 and rating <= 5 and mod(rating, 0.5) = 0')
+    expect(migration).not.toMatch(/\b(?:update|delete from|truncate|insert into)\s+(?:public\.)?(?:builds|build_ratings)\b/i)
+    expect(migration).not.toMatch(/alter\s+table\s+public\.builds\b/i)
+    expect(migration).toContain("notify pgrst, 'reload schema'")
+  })
+
   it('every security definer function pins its search_path', () => {
     // The last definition of each function is the one that applies.
     const latest = new Map(functionHeaders(schema).map(f => [f.name, f]))

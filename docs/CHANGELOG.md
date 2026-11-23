@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.13] — 2026-11-23
+- Build ratings now accept half stars from 0.5 to 5: choose the left or right half of a star, or use the keyboard. Your score is shown precisely and existing votes, averages and vote counts are preserved
+- A saved rating refreshes the build average from the server. If saving fails, your previous vote is restored and you can retry
+
 ## [0.4.12] — 2026-11-23
 - Faster, steadier pages: ads and analytics now load after the page is ready, so the page no longer rebuilds itself and jumps a second after opening on desktop
 

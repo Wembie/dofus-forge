@@ -1,6 +1,7 @@
 import { getSupabase } from '@/lib/supabase.ts'
 import type { BuildSnapshot, Gender } from '@/store/buildStore.ts'
 import { sanitizeSnapshot } from '@/engine/snapshot.ts'
+import { isValidRating } from './rating.ts'
 
 export type BuildVisibility = 'private' | 'unlisted' | 'public'
 export type ExploreSort = 'rating' | 'likes' | 'recent' | 'views'
@@ -724,10 +725,17 @@ export const fetchMyRating = guard(async function fetchMyRating(buildId: string,
 }, () => null)
 
 export const rateBuild = guard(async function rateBuild(buildId: string, userId: string, rating: number) {
+  if (!isValidRating(rating)) return { error: 'invalid_rating' }
   const supabase = await getSupabase()
   const { error } = await supabase.from('build_ratings').upsert({ build_id: buildId, user_id: userId, rating })
   return { error: error?.message ?? null }
 }, error => ({ error }))
+
+export const fetchRatingSummary = guard(async function fetchRatingSummary(buildId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase.from('builds').select('avg_rating, rating_count').eq('id', buildId).setHeader(BUILD_LINK_HEADER, buildId).maybeSingle()
+  return error ? null : data as { avg_rating: number; rating_count: number } | null
+}, () => null)
 
 export type CommentRow = {
   id:         string

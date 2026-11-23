@@ -2370,5 +2370,7 @@
   "profile_banner_location_sramvil": "Sramvil",
   "profile_banner_location_zurcalia": "Zurcalia",
   "profile_banner_location_xelorium": "Xelorium",
-  "account_banner_back": "Volver a los paisajes"
+  "account_banner_back": "Volver a los paisajes",
+  "build_rating_option": "Puntuar con {{value}} de 5 estrellas",
+  "build_rating_save_error": "No se pudo guardar tu valoración. Inténtalo de nuevo."
 }

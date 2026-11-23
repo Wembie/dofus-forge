@@ -10,6 +10,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.13',
+    date: '2026-11-23',
+    notes: [
+      'Build ratings now accept half stars from 0.5 to 5: choose the left or right half of a star, or use the keyboard. Your score is shown precisely and existing votes, averages and vote counts are preserved',
+      'A saved rating refreshes the build average from the server. If saving fails, your previous vote is restored and you can retry',
+    ],
+  },
+  {
     version: '0.4.12',
     date: '2026-11-23',
     notes: [

@@ -94,7 +94,7 @@ Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presenta
 - [ ] Marca y exportaciones terminadas, metadatos y páginas legales conservados.
 - [ ] QA del prototipo local y validación con personas completadas.
 
-- [] Poner que se pueda a la hora de valorar un set un 1.5 o 0.5 o 4.5 y lo mismo para el front que uno pueda darle media estrella a un set. Esto es para que la gente pueda valorar con más precisión los sets y no solo con números enteros.
+- [x] Poner que se pueda a la hora de valorar un set un 1.5 o 0.5 o 4.5 y lo mismo para el front que uno pueda darle media estrella a un set. Esto es para que la gente pueda valorar con más precisión los sets y no solo con números enteros. Completado en 0.4.13; se conservan los votos y scores anteriores.
 
 - [] limitar el cambio de username a una vez cada 30 días. Esto es para que la gente no pueda estar cambiando de username cada dos por tres y que se pueda identificar a la gente más fácilmente.
 
