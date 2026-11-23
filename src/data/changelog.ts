@@ -10,6 +10,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.18',
+    date: '2026-11-23',
+    notes: [
+      '38 new profile portraits: the third in-game face and hairstyle for every class, male and female, with the default outfit and individual poses in the approved ink-and-watercolor style. The avatar gallery now offers 114 portraits; earlier choices and saved pictures are retained',
+      'Eight more profile banners from the Dofus 3.7 client: Amakna Castle, Trool Fair, the Dreggons Sanctuary, Nimaltopia, Akwadala, Feudala, Terrdala and Aerdala. Choose from 36 landscapes; exact prompts, game models, source maps and progress are preserved for future additions',
+    ],
+  },
+  {
     version: '0.4.17',
     date: '2026-11-23',
     notes: [

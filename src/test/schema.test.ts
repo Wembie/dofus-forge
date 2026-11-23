@@ -17,6 +17,15 @@ function functionHeaders(sql: string) {
 }
 
 describe('supabase schema guards', () => {
+  it('adds third faces and eight further landscapes without rewriting profiles or permissions', () => {
+    const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261123040000_profile_art_third_heads_and_locations.sql'), 'utf8').replace(/\r\n/g, '\n')
+    expect(schema).toContain(migration.trim())
+    expect([...migration.matchAll(/\('(\/avatars\/classes\/[^']+\.webp)'\)/g)]).toHaveLength(38)
+    expect([...migration.matchAll(/\('(\/banners\/locations\/[^']+\.webp)'\)/g)]).toHaveLength(8)
+    expect([...migration.matchAll(/on conflict \(path\) do nothing/g)]).toHaveLength(2)
+    expect(migration.replace(/--[^\n]*/g, '')).not.toMatch(/\b(?:update|delete|truncate|alter|grant|revoke|drop)\b/i)
+  })
+
   it('adds sixteen banner locations without rewriting profiles or weakening the catalog', () => {
     const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261123030000_profile_banner_expansion.sql'), 'utf8').replace(/\r\n/g, '\n')
     expect(schema).toContain(migration.trim())

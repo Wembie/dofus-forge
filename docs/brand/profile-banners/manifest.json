@@ -1,13 +1,13 @@
 {
   "collection": "Forge World of Twelve banners",
-  "revision": 2,
+  "revision": 3,
   "createdOn": "2026-11-22",
   "generator": "Built-in image_gen",
   "useCase": "illustration-story",
   "targetGame": "DOFUS 3.7 / Unity",
   "gameDataVersion": "3.7.12.12",
   "version": "0.4.10",
-  "status": "Twelve initial banners introduced in 0.4.10; selection and public covers in 0.4.11; sixteen additional 3.7.14.18 client-based scenes introduced in 0.4.17, for 28 total choices",
+  "status": "36 selectable profile landscapes; 12 initial scenes, 16 additions in 0.4.17 and eight further scenes in 0.4.18",
   "referenceProvenance": "Published environment references include earlier city/Pandala redesign artwork and game screenshots. The target version does not assert that each reference was captured in 3.7. Source images remain local; these are original fan-art interpretations.",
   "banners": [
     {
@@ -1118,6 +1118,430 @@
         "fr": "Territoire des Porcos",
         "pt": "Território dos Porkos"
       }
+    },
+    {
+      "id": "amakna-castle",
+      "location": "Castillo de Amakna",
+      "asset": "public/banners/locations/v1/amakna-castle.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 472748,
+      "sha256": "aa9b5d193ccad7d35cafa3253d8f198d1b04b0cd2f31bbf70db3a93417a08453",
+      "localPngMaster": "temp/profile-banners/masters/v1/amakna-castle.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "4292a79139fa265a4a74efe8d1ba30541af8bf0f840bd5937dcab867f833a516",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.18",
+      "identity": "The actual 3.7 Amakna castle district: tall narrow cream stone watchtower with battlements, projecting carved stone supports and long red banners, fortified round-towered tan walls, black iron fences, small warm lanterns and surrounding timber houses with steep dark green tiled roofs. Grassy cobbled lanes and a few red-capped mushrooms. Preserve that real modest fortified district, no enormous invented fairytale palace.",
+      "composition": "A peaceful bright panoramic view from a cobbled castle lane toward the distinctive tall central watchtower and a lower crenellated gateway to the right. Small green-roofed half-timber houses frame the outer sides. Pale honey stone, dark moss-green roof tiles, red banners and loose spring-green watercolor. Lower-left is a quiet grassy verge.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/amakna-castle-68552193.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 68552193,
+          "mapBundle": "Map/Data/mapdata_assets_world_261.bundle",
+          "sourceMapBundleSha256": "b10e58cb3d8a2e31cac4dff5353e28f6dd7f6537201571f188552fe279fa5706",
+          "sha256": "a07990160357afc2aaf2daa82cba8bb3dc9ab75b5366ca6e1f2de356959e4af0",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/amakna-castle-68552195.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 68552195,
+          "mapBundle": "Map/Data/mapdata_assets_world_261.bundle",
+          "sourceMapBundleSha256": "b10e58cb3d8a2e31cac4dff5353e28f6dd7f6537201571f188552fe279fa5706",
+          "sha256": "303b3e5c92691d88557e5426841dc90e9e72256c64073d7386f2d3dcdbeb8829",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\nLOCATION: Castillo de Amakna.\nKEEP THE REAL LOCATION IDENTITY: The actual 3.7 Amakna castle district: tall narrow cream stone watchtower with battlements, projecting carved stone supports and long red banners, fortified round-towered tan walls, black iron fences, small warm lanterns and surrounding timber houses with steep dark green tiled roofs. Grassy cobbled lanes and a few red-capped mushrooms. Preserve that real modest fortified district, no enormous invented fairytale palace.\nDISTINCT COMPOSITION AND MOOD: A peaceful bright panoramic view from a cobbled castle lane toward the distinctive tall central watchtower and a lower crenellated gateway to the right. Small green-roofed half-timber houses frame the outer sides. Pale honey stone, dark moss-green roof tiles, red banners and loose spring-green watercolor. Lower-left is a quiet grassy verge.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Castillo de Amakna",
+        "en": "Amakna Castle",
+        "fr": "Château d'Amakna",
+        "pt": "Castelo de Amakna"
+      }
+    },
+    {
+      "id": "trool-fair",
+      "location": "Feria del Trool",
+      "asset": "public/banners/locations/v1/trool-fair.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 434102,
+      "sha256": "341390eb66b1dd9bcc2c2ad5fce098d54fb8101cde58b9a6f0ffd8369f9ab161",
+      "localPngMaster": "temp/profile-banners/masters/v1/trool-fair.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "1c09c2497587eb5cff195957ac7f3b794c6541a394bbccf0bff314ff73840c66",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.18",
+      "identity": "The current 3.7 Trool Fair: blue-and-cream striped pointed circus tents, an enormous painted round animal-face carnival attraction in cream, blue and yellow, red or orange awnings, wooden fences, green fair grass and strings of little pennants. The real whimsical hand-built fair, not a modern theme park. Remove all NPCs and visitors from reference. No words, lettering or signs.",
+      "composition": "A cheerful off-center panoramic fairground, a large blue-and-cream striped tent near the middle with the distinctive round-faced carnival structure beside it, and a few small booths trailing into the distance. Warm afternoon, dusty golden grass, cobalt and cream canvas with sparse orange and red details. Keep a broad quiet open grass path at lower-left; do not cram the whole image with stalls.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/trool-fair-139723778.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 139723778,
+          "mapBundle": "Map/Data/mapdata_assets_world_533.bundle",
+          "sourceMapBundleSha256": "341dac6b1fa3146017e24286eb131575f83ce77785d7aa1c82c48acfad446148",
+          "sha256": "b6c120a6bd97985014890abbd06f7f337cee4fd86740b17c18f7c52a6af05dc8",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/trool-fair-139724803.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 139724803,
+          "mapBundle": "Map/Data/mapdata_assets_world_533.bundle",
+          "sourceMapBundleSha256": "341dac6b1fa3146017e24286eb131575f83ce77785d7aa1c82c48acfad446148",
+          "sha256": "bc17e45e4fa342131a4b4040915edcdb1f3429ebae94162d82f2cf13075f1267",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\nLOCATION: Feria del Trool.\nKEEP THE REAL LOCATION IDENTITY: The current 3.7 Trool Fair: blue-and-cream striped pointed circus tents, an enormous painted round animal-face carnival attraction in cream, blue and yellow, red or orange awnings, wooden fences, green fair grass and strings of little pennants. The real whimsical hand-built fair, not a modern theme park. Remove all NPCs and visitors from reference. No words, lettering or signs.\nDISTINCT COMPOSITION AND MOOD: A cheerful off-center panoramic fairground, a large blue-and-cream striped tent near the middle with the distinctive round-faced carnival structure beside it, and a few small booths trailing into the distance. Warm afternoon, dusty golden grass, cobalt and cream canvas with sparse orange and red details. Keep a broad quiet open grass path at lower-left; do not cram the whole image with stalls.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Feria del Trool",
+        "en": "Trool Fair",
+        "fr": "Foire du Trool",
+        "pt": "Feira do Trool"
+      }
+    },
+    {
+      "id": "dragoeuf",
+      "location": "Santuario de los dragohuevos",
+      "asset": "public/banners/locations/v1/dragoeuf.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 316442,
+      "sha256": "8fb6d30a93ffe780f3859b49ff4509f333df4b96f10bb6e0f0d8fd6b30ed9f4b",
+      "localPngMaster": "temp/profile-banners/masters/v1/dragoeuf.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "17f9ea3093c09500f548253faa3734074245952017f0ece1a8c3a5d98244baef",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.18",
+      "identity": "The actual 3.7 Dragoeuf Sanctuary: narrow dark basalt-like stone platforms over a warm orange smoky abyss, pointed horn-shaped spires emerging from the rocks, giant translucent ochre/amber egg forms clustered on ledges, rough plank footbridges with simple rope rails and tall thin torch stakes. Preserve the real egg-shaped mineral silhouettes and suspended walkways. No live dragons, boss, invented dragon temple, skull piles, gore or generic medieval castle.",
+      "composition": "A daring underground panoramic view across an old rope-and-plank bridge toward a central group of amber egg-like forms on a jagged dark stone shelf. Repeating horn-like stone spires recede into soft orange watercolor mist beneath a high cave wall. Charcoal-brown stone, muted burnt orange and amber; clear brush-pen contour and matte wash, readable rather than almost black. Lower-left is a quiet stone ledge.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/dragoeuf-198182400.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 198182400,
+          "mapBundle": "Map/Data/mapdata_assets_world_756.bundle",
+          "sourceMapBundleSha256": "aa376777284fbeaff0a8cf2984878f2cb4da5ca76f5d0793c49efb9caa03b200",
+          "sha256": "f61e628f447735437d0d5336cb139be3e0cdbdbb64db7e304a18f1763d77a9f6",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/dragoeuf-198181889.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 198181889,
+          "mapBundle": "Map/Data/mapdata_assets_world_756.bundle",
+          "sourceMapBundleSha256": "aa376777284fbeaff0a8cf2984878f2cb4da5ca76f5d0793c49efb9caa03b200",
+          "sha256": "34624b725df2092504633c8733343eadd4fa86c8948bb0580f4d5dd1bdbb8bf7",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\nLOCATION: Santuario de los Dragohuevos.\nKEEP THE REAL LOCATION IDENTITY: The actual 3.7 Dragoeuf Sanctuary: narrow dark basalt-like stone platforms over a warm orange smoky abyss, pointed horn-shaped spires emerging from the rocks, giant translucent ochre/amber egg forms clustered on ledges, rough plank footbridges with simple rope rails and tall thin torch stakes. Preserve the real egg-shaped mineral silhouettes and suspended walkways. No live dragons, boss, invented dragon temple, skull piles, gore or generic medieval castle.\nDISTINCT COMPOSITION AND MOOD: A daring underground panoramic view across an old rope-and-plank bridge toward a central group of amber egg-like forms on a jagged dark stone shelf. Repeating horn-like stone spires recede into soft orange watercolor mist beneath a high cave wall. Charcoal-brown stone, muted burnt orange and amber; clear brush-pen contour and matte wash, readable rather than almost black. Lower-left is a quiet stone ledge.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Santuario de los dragohuevos",
+        "en": "The Dreggons' Sanctuary",
+        "fr": "Sanctuaire des Dragoeufs",
+        "pt": "Santuário dos Dragovos"
+      }
+    },
+    {
+      "id": "nimotopia",
+      "location": "Animatopía",
+      "asset": "public/banners/locations/v1/nimotopia.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 448164,
+      "sha256": "2dd73ce055d228a3b5082e7869840df7cf5b2c14cd03e467d319c40a63ad3a0f",
+      "localPngMaster": "temp/profile-banners/masters/v1/nimotopia.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "9eb1a1a36fb637201e16b9e2cb2eef549af6b7527efa7ea01f5534465f6e2212",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.18",
+      "identity": "The actual 3.7 Nimotopia / Animatopia island: pale cream cliffs, extraordinary tall layered fan-like leaves in muted cyan, violet and pink, rounded white tree trunks with pink/orange foliage, colorful coral-like shrubs and soft gold ground. A few pale stone steps and a tiny rustic structure where visible. Preserve the characteristic pastel island plants and soft cliff forms, not a generic flower meadow or candy-land. No wild animals or NPCs.",
+      "composition": "A dreamy sunlit panoramic island trail passing between two groups of tall pastel fan leaves and pink-canopied white trees, opening in the middle toward pale cliffs and a warm cream horizon. Soft coral, muted lilac and aqua over biscuit-gold ground, selective airy watercolor gaps. Make natural foliage shapes and asymmetry, no symmetrical decorative floral border. Lower-left is a quiet sandy path.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/nimotopia-179307010.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 179307010,
+          "mapBundle": "Map/Data/mapdata_assets_world_684.bundle",
+          "sourceMapBundleSha256": "8fd15cba43d8a9ea6d30a0a5c8770e212303bf1f3b576f654228e26d6c26cdf6",
+          "sha256": "d31ae59a2a5a46eba59affdc8b0a4085161424d29336c3b148d127afc5f78e33",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/nimotopia-180093952.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 180093952,
+          "mapBundle": "Map/Data/mapdata_assets_world_687.bundle",
+          "sourceMapBundleSha256": "06fdc1a787d9182fb1547f5c5f985211be691b5ccb3cdef9e53262807cbf08ab",
+          "sha256": "85fcb9edb38003f6da149fa162d3cdf69fb1ffcf81f9b9bda9ca4f2401704c41",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\nLOCATION: AnimatopÃ­a.\nKEEP THE REAL LOCATION IDENTITY: The actual 3.7 Nimotopia / Animatopia island: pale cream cliffs, extraordinary tall layered fan-like leaves in muted cyan, violet and pink, rounded white tree trunks with pink/orange foliage, colorful coral-like shrubs and soft gold ground. A few pale stone steps and a tiny rustic structure where visible. Preserve the characteristic pastel island plants and soft cliff forms, not a generic flower meadow or candy-land. No wild animals or NPCs.\nDISTINCT COMPOSITION AND MOOD: A dreamy sunlit panoramic island trail passing between two groups of tall pastel fan leaves and pink-canopied white trees, opening in the middle toward pale cliffs and a warm cream horizon. Soft coral, muted lilac and aqua over biscuit-gold ground, selective airy watercolor gaps. Make natural foliage shapes and asymmetry, no symmetrical decorative floral border. Lower-left is a quiet sandy path.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Animatopía",
+        "en": "Nimaltopia",
+        "fr": "Nimotopia",
+        "pt": "Animotopia"
+      }
+    },
+    {
+      "id": "akwadala",
+      "location": "Akwadala",
+      "asset": "public/banners/locations/v1/akwadala.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 493516,
+      "sha256": "78635ba80d44aee54189352ca6a44ec6a91709dc3efba6103d03f5cc5beb1a42",
+      "localPngMaster": "temp/profile-banners/masters/v1/akwadala.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "55fff90413f10da7d038a11aa31dd7ef6e34807596be1120664c58f0a2d34d22",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.18",
+      "identity": "Current 3.7 Akwadala in redesigned Pandala: red timber platforms and bridge supports over clear blue-green water, layered moss-green bamboo roofs, tall bamboo poles, long weeping willow leaves, pale rounded vertical cliffs, small waterfalls and bamboo water conduits. Preserve actual red/green water-village materials and carved stone shapes. No old pre-redesign fenced conquest village, generic Japanese pagoda city or fabricated castle.",
+      "composition": "A restful panoramic waterside walkway leading toward a compact red timber pavilion with a green layered bamboo roof near the center, pale misty cliffs and little waterfalls beyond, willow fronds leaning from one side. Water fills the lower half with loose turquoise washes and restrained reflections. A quiet lower-left water bank leaves space for a profile avatar.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/akwadala-204997891.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 204997891,
+          "mapBundle": "Map/Data/mapdata_assets_world_782.bundle",
+          "sourceMapBundleSha256": "5cad137cf1e084d0303c47568558815585d51b75f9f4c31443957b39bea07e7e",
+          "sha256": "69a95acfca3c6c89944ea1eb83071104f744279b2d98438fea0743273424c7c6",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/akwadala-204999680.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 204999680,
+          "mapBundle": "Map/Data/mapdata_assets_world_782.bundle",
+          "sourceMapBundleSha256": "5cad137cf1e084d0303c47568558815585d51b75f9f4c31443957b39bea07e7e",
+          "sha256": "6d69ed034be9c04280d6f2a38f60d40d332e133b8f9a92ec8c23511cf35e86bc",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\nLOCATION: Akwadala.\nKEEP THE REAL LOCATION IDENTITY: Current 3.7 Akwadala in redesigned Pandala: red timber platforms and bridge supports over clear blue-green water, layered moss-green bamboo roofs, tall bamboo poles, long weeping willow leaves, pale rounded vertical cliffs, small waterfalls and bamboo water conduits. Preserve actual red/green water-village materials and carved stone shapes. No old pre-redesign fenced conquest village, generic Japanese pagoda city or fabricated castle.\nDISTINCT COMPOSITION AND MOOD: A restful panoramic waterside walkway leading toward a compact red timber pavilion with a green layered bamboo roof near the center, pale misty cliffs and little waterfalls beyond, willow fronds leaning from one side. Water fills the lower half with loose turquoise washes and restrained reflections. A quiet lower-left water bank leaves space for a profile avatar.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Akwadala",
+        "en": "Akwadala",
+        "fr": "Akwadala",
+        "pt": "Akwadala"
+      }
+    },
+    {
+      "id": "feudala",
+      "location": "Fuegodala",
+      "asset": "public/banners/locations/v1/feudala.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 429890,
+      "sha256": "3f3bc056f0e06f58c7d1cfa99231ba63b1371fbc149781b0e06da49b7ef1213a",
+      "localPngMaster": "temp/profile-banners/masters/v1/feudala.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "f83b7151ca414e250892b9ac59151a44cc7a4d17bddf6448e1f0e04dcc3aa72c",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.18",
+      "identity": "Current 3.7 Feudala / Fuegodala: an enormous round orange furnace-like building with a broad open bowl at its top, the specific stylized dark emblem on the orange shell, low green tile entrance roof, red torii-like timber gates, dark bamboo silhouettes, pale smooth steep rock pinnacles and pumpkin-shaped hanging orange lanterns. Keep the actual spherical fire-building and gray-teal rocky valley, not a generic lava city or old conquest village. Do not reproduce shader overlay rectangles.",
+      "composition": "A calm dramatic dusk panorama following a stone path through the red timber gates toward the distinctive large round orange furnace dwelling in the center. Pale gray vertical rocks and thin bamboo frame the scene, one or two warm pumpkin lanterns hang to one side. Slate and muted teal shadows, burnt-orange furnace and warm amber painted accents; no neon bloom. Lower-left stays a simple cool stone path.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/feudala-206177282.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 206177282,
+          "mapBundle": "Map/Data/mapdata_assets_world_786.bundle",
+          "sourceMapBundleSha256": "24076fb82c070243cc504f8f25afe8d79b8b2160b6d172df13e5a8f87f995aea",
+          "sha256": "c79bd1c8a5e7cd9a78aba66c281a4a2ae8534306754104a2fb5e4fd7e44185b4",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/feudala-206045185.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 206045185,
+          "mapBundle": "Map/Data/mapdata_assets_world_786.bundle",
+          "sourceMapBundleSha256": "24076fb82c070243cc504f8f25afe8d79b8b2160b6d172df13e5a8f87f995aea",
+          "sha256": "53dd41278debea275bf2b7de465f31046f3b1e60f852b95bb6ee725b75b389cf",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\nLOCATION: Fuegodala.\nKEEP THE REAL LOCATION IDENTITY: Current 3.7 Feudala / Fuegodala: an enormous round orange furnace-like building with a broad open bowl at its top, the specific stylized dark emblem on the orange shell, low green tile entrance roof, red torii-like timber gates, dark bamboo silhouettes, pale smooth steep rock pinnacles and pumpkin-shaped hanging orange lanterns. Keep the actual spherical fire-building and gray-teal rocky valley, not a generic lava city or old conquest village. Do not reproduce shader overlay rectangles.\nDISTINCT COMPOSITION AND MOOD: A calm dramatic dusk panorama following a stone path through the red timber gates toward the distinctive large round orange furnace dwelling in the center. Pale gray vertical rocks and thin bamboo frame the scene, one or two warm pumpkin lanterns hang to one side. Slate and muted teal shadows, burnt-orange furnace and warm amber painted accents; no neon bloom. Lower-left stays a simple cool stone path.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Fuegodala",
+        "en": "Feudala",
+        "fr": "Feudala",
+        "pt": "Fogodala"
+      }
+    },
+    {
+      "id": "terrdala",
+      "location": "Tierradala",
+      "asset": "public/banners/locations/v1/terrdala.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 415802,
+      "sha256": "02db824c67cc2b63381421496fa78bd0acec56fcedd6681c09f9968ae775340a",
+      "localPngMaster": "temp/profile-banners/masters/v1/terrdala.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "c2143d9660a6b1a14800dfd0af4f0dcc6ef26c71243a9b93ab1fa883f1835136",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.18",
+      "identity": "Current 3.7 Terrdala / Tierradala: warm pale ochre stone pinnacles and tall square columns carved with interlocking geometric lines, raked sand forming large winding contour patterns, bamboo fittings and a distinctive slanted triangular stone-and-bamboo furnace structure with two large circular amber openings and round timber framing. The actual stone workshop valley, not a generic East Asian town or old conquest fort. Preserve its sculpted rock language and workshop silhouette.",
+      "composition": "A warm contemplative panoramic rock-workshop valley, the characteristic slanted stone furnace structure just to the right of center, carved geometric square pillars off to the left and tall rounded ochre rock pinnacles in the distance. Broad raked-sand curves lead the eye gently toward the furnace, only tiny amber accents in its circular openings. Soft sand, ochre and bamboo green; quiet lower-left sand.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/terrdala-205259780.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 205259780,
+          "mapBundle": "Map/Data/mapdata_assets_world_783.bundle",
+          "sourceMapBundleSha256": "6cac6de5023f913684a72759d74f51423e8d27659ba8b430042a8f90cff66b86",
+          "sha256": "efa03ddbc9e1b38ae73c92777fc6b609cd195e378ac055e1ac66dd50c14a92bb",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/terrdala-205261570.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 205261570,
+          "mapBundle": "Map/Data/mapdata_assets_world_783.bundle",
+          "sourceMapBundleSha256": "6cac6de5023f913684a72759d74f51423e8d27659ba8b430042a8f90cff66b86",
+          "sha256": "c3be99b8a2a866413cdda73327c0e90a4198b7789f92cd331d145e4488f50698",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\nLOCATION: Tierradala.\nKEEP THE REAL LOCATION IDENTITY: Current 3.7 Terrdala / Tierradala: warm pale ochre stone pinnacles and tall square columns carved with interlocking geometric lines, raked sand forming large winding contour patterns, bamboo fittings and a distinctive slanted triangular stone-and-bamboo furnace structure with two large circular amber openings and round timber framing. The actual stone workshop valley, not a generic East Asian town or old conquest fort. Preserve its sculpted rock language and workshop silhouette.\nDISTINCT COMPOSITION AND MOOD: A warm contemplative panoramic rock-workshop valley, the characteristic slanted stone furnace structure just to the right of center, carved geometric square pillars off to the left and tall rounded ochre rock pinnacles in the distance. Broad raked-sand curves lead the eye gently toward the furnace, only tiny amber accents in its circular openings. Soft sand, ochre and bamboo green; quiet lower-left sand.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Tierradala",
+        "en": "Terrdala",
+        "fr": "Terrdala",
+        "pt": "Terradala"
+      }
+    },
+    {
+      "id": "aerdala",
+      "location": "Airedala",
+      "asset": "public/banners/locations/v1/aerdala.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 323560,
+      "sha256": "4988be60f412ac71cc31b40964b408f4e65d8a6835db1487acfe6ce65f070a92",
+      "localPngMaster": "temp/profile-banners/masters/v1/aerdala.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "3de175355f2449510d795d6ed080b3a50f116d10d753246923b778f2f77b4245",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.18",
+      "identity": "Current 3.7 Aerdala / Airedala: high pale rounded limestone pinnacles amid white clouds, narrow winding steps carved around the stone, small cream wind-house with a sharply upturned green bamboo roof and hanging wind chimes/ropes. Some rocks bear large serene stylized stone faces. Preserve actual cloud-wrapped rock forms and the little green-roofed house, not a generic floating castle or old conquest village.",
+      "composition": "A breezy very airy panoramic high-mountain illustration, a small green bamboo-roofed wind-house perched near the center on a pale stone pinnacle with winding steps, distant rounded face-carved rocks rising above low white clouds. A pale cyan sky with simple flowing cloud wisps; cream stone, soft sage and delicate blue washes. Keep the lower-left as quiet cloud and a low stone edge, no void rectangles.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/aerdala-209192710.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 209192710,
+          "mapBundle": "Map/Data/mapdata_assets_world_798.bundle",
+          "sourceMapBundleSha256": "e75a4b6f0132d5d2ee6f82805e6dd883a145a8ab64cf9a555d09732af6245171",
+          "sha256": "49a51c28a88d8e8b17cf85c7890c089bf91d4188c4624f4bcb0a5b47376523aa",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/next-release/references/aerdala-209193217.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 209193217,
+          "mapBundle": "Map/Data/mapdata_assets_world_798.bundle",
+          "sourceMapBundleSha256": "e75a4b6f0132d5d2ee6f82805e6dd883a145a8ab64cf9a555d09732af6245171",
+          "sha256": "174619a83d32af5a15e66108bb005d4225abbf672f66d07e4fd5825b9ac67c62",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\nLOCATION: Airedala.\nKEEP THE REAL LOCATION IDENTITY: Current 3.7 Aerdala / Airedala: high pale rounded limestone pinnacles amid white clouds, narrow winding steps carved around the stone, small cream wind-house with a sharply upturned green bamboo roof and hanging wind chimes/ropes. Some rocks bear large serene stylized stone faces. Preserve actual cloud-wrapped rock forms and the little green-roofed house, not a generic floating castle or old conquest village.\nDISTINCT COMPOSITION AND MOOD: A breezy very airy panoramic high-mountain illustration, a small green bamboo-roofed wind-house perched near the center on a pale stone pinnacle with winding steps, distant rounded face-carved rocks rising above low white clouds. A pale cyan sky with simple flowing cloud wisps; cream stone, soft sage and delicate blue washes. Keep the lower-left as quiet cloud and a low stone edge, no void rectangles.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Airedala",
+        "en": "Aerdala",
+        "fr": "Aerdala",
+        "pt": "Ardala"
+      }
     }
   ],
   "integration": {
@@ -1126,6 +1550,6 @@
     "databaseMigration": "supabase/migrations/20261123000000_profile_banner_catalog.sql"
   },
   "latestExpansionClientVersion": "3.7.14.18",
-  "latestExpansionNote": "Sixteen additional banners use only map identity references reconstructed from installed DOFUS 3.7.14.18 data and graphics. The existing Bonta artwork is a technique reference only.",
-  "latestExpansionVersion": "0.4.17"
+  "latestExpansionNote": "Eight additional distinct scenes use map identity references from installed DOFUS 3.7.14.18. Existing Forge artwork supplies technique only; the previous 28 artworks and records are preserved.",
+  "latestExpansionVersion": "0.4.18"
 }

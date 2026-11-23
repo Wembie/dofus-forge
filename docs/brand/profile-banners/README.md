@@ -34,6 +34,14 @@ Original environment fan art for profile covers, paired with the approved Forge 
 | `nawidad` | Isla de Nawidad | Snow-covered firs and oversized ribbon-wrapped gifts |
 | `pazcuak` | Isla de Pazcuak | Chocolate hills, ivory cream stream and wafer paths |
 | `dragocerdo` | Guarida del Dragocerdo | Pig-snout rock entrance, olive grass and abandoned mine rails |
+| `amakna-castle` | Castillo de Amakna | Cream watchtower, red banners, crenellated gateway and green-roofed houses |
+| `trool-fair` | Feria del Trool | Striped circus tents, round carnival attraction, little booths and pennants |
+| `dragoeuf` | Santuario de los dragohuevos | Amber egg forms, horn-shaped spires, narrow ledges and rope bridges |
+| `nimotopia` | Animatopía | Pastel fan leaves, white trunks, coral foliage and cream cliffs |
+| `akwadala` | Akwadala | Red timber water pavilion, green bamboo roofs, willow fronds and waterfalls |
+| `feudala` | Fuegodala | Spherical orange furnace dwelling, red gates and pumpkin lanterns |
+| `terrdala` | Tierradala | Carved ochre columns, raked sand and triangular stone workshop |
+| `aerdala` | Airedala | Cloud-wrapped pale pinnacles, winding steps and a green-roofed wind-house |
 
 `manifest.json` preserves every exact generation prompt, reference source, asset hash and export dimensions. `prompt-template.json` records the reusable art direction. The game version recorded in the manifest comes from `public/data/version.json` when the assets were prepared; it is a target, not a claim that every source reference was captured in that patch. Reference publication dates vary, including the city and Pandala redesigns; original URLs remain in the manifest for review. This is an original illustrated interpretation of the places, not a screenshot pack or a literal reconstruction of a map.
 
@@ -45,6 +53,25 @@ Original environment fan art for profile covers, paired with the approved Forge 
 - Exact prompts and sources: `manifest.json` beside this file.
 
 The full illustration includes its paper-colored background and watercolor. Keep the recognizable landmark within the central area, and allow room at the lower-left for a profile picture overlay. Use `object-fit: cover` with a centered focal area when integrating the picker; inspect desktop and narrow crops before choosing a different banner aspect ratio. Do not bake profile UI, labels, gradients or avatar circles into the artwork.
+
+## Eight further scenes in Forge 0.4.18
+
+The collection now contains 36 selectable landscapes. These eight additions use only identity references reconstructed from installed DOFUS **3.7.14.18** map data and graphics, with the same approved ink-and-watercolor technique. Pandala's four elemental areas retain their current redesigned landmarks and their own material, palette and atmosphere. The previous 28 artworks and prompt records are preserved.
+
+![Eight further current-client landscapes](expansion-2-preview.webp)
+
+| Scene | Source map ids in client 3.7.14.18 |
+|---|---|
+| Castillo de Amakna | `68552193`, `68552195` |
+| Feria del Trool | `139723778`, `139724803` |
+| Santuario de los dragohuevos | `198182400`, `198181889` |
+| Animatopía | `179307010`, `180093952` |
+| Akwadala | `204997891`, `204999680` |
+| Fuegodala | `206177282`, `206045185` |
+| Tierradala | `205259780`, `205261570` |
+| Airedala | `209192710`, `209193217` |
+
+Apply `supabase/migrations/20261123040000_profile_art_third_heads_and_locations.sql` before deploying these choices. This additive migration also registers the third class faces. Existing profile rows, choices and permissions are retained. Hosted SQL has not been executed by this work.
 
 ## Expansion from the DOFUS 3.7 client
 

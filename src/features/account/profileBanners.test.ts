@@ -28,7 +28,7 @@ describe('approved profile banner catalog', () => {
     }
   })
 
-  it('preserves unique artwork and pins the sixteen new locations to installed 3.7 map assets', () => {
+  it('preserves unique artwork and pins current-client additions to installed 3.7 map assets', () => {
     const manifest = JSON.parse(readFileSync('docs/brand/profile-banners/manifest.json', 'utf8')) as {
       banners: { id: string; asset: string; sha256: string; width: number; height: number; prompt: string; sourceClientVersion?: string; references: { role: string; mapId?: number; sourceClientVersion?: string; mapBundle?: string; sourceMapBundleSha256?: string; sha256?: string; renderer?: string }[] }[]
     }
@@ -38,7 +38,7 @@ describe('approved profile banner catalog', () => {
       expect([banner.width, banner.height]).toEqual([1920, 640])
     }
     const current = manifest.banners.filter(b => b.sourceClientVersion)
-    expect(current.map(b => b.id)).toEqual(['moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo'])
+    expect(current.map(b => b.id)).toEqual(['moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo', 'amakna-castle', 'trool-fair', 'dragoeuf', 'nimotopia', 'akwadala', 'feudala', 'terrdala', 'aerdala'])
     for (const banner of current) {
       expect(banner.sourceClientVersion).toBe('3.7.14.18')
       expect(banner.prompt).toContain('DOFUS 3.7')

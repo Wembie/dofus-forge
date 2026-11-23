@@ -8,7 +8,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-4000-8000-0000000000c2', 'banner-b@test.invalid', '{"username":"banner_b"}');
 
 set local role anon;
-select is((select count(*) from public.profile_banner_catalog), 28::bigint,
+select is((select count(*) from public.profile_banner_catalog), 36::bigint,
   'anonymous readers see all shipped banners');
 select throws_ok($$ insert into public.profile_banner_catalog (path) values ('/banners/locations/v1/unknown.webp') $$,
   '42501', null, 'anonymous clients cannot expand the catalog');

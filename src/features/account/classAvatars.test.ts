@@ -28,7 +28,7 @@ describe('class profile portraits', () => {
       'https://dofusforge.com/avatars/classes/v1/iop-m.webp',
       '//tracker.example/avatar.png',
       '/avatars/classes/v1/unknown-m.webp',
-      '/avatars/classes/v1/iop-look-3-m.webp',
+      '/avatars/classes/v1/iop-look-4-m.webp',
       '/avatars/classes/v1/iop-look-02-m.webp',
       '/avatars/classes/v2/iop-m.webp',
       '/avatars/classes/v1/iop-m.webp?redirect=1',
@@ -58,8 +58,8 @@ describe('class profile portraits', () => {
   })
 
   it('keeps the server allowlist identical to the shipped collection', () => {
-    const migration = ['20261122000000_profile_avatar_catalog.sql', '20261123020000_profile_avatar_second_heads.sql'].map(name => readFileSync(`supabase/migrations/${name}`, 'utf8')).join('\n')
-    const paths = [...migration.matchAll(/\('([^']+\.webp)'\)/g)].map(m => m[1])
+    const schema = readFileSync('supabase/schema.sql', 'utf8')
+    const paths = [...new Set([...schema.matchAll(/\('(\/avatars\/classes\/[^']+\.webp)'\)/g)].map(m => m[1]))]
     expect(paths.sort()).toEqual(CLASS_AVATARS.map(a => a.url).sort())
   })
 
