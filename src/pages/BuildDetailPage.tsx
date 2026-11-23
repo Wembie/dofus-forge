@@ -1,9 +1,8 @@
 import { VISUAL_REVISION } from '../data/visual.ts'
-import { useEffect, useState, useCallback, useId, useMemo, useRef, type ReactNode } from 'react'
+import { lazy, Suspense, useEffect, useState, useCallback, useId, useMemo, useRef, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
 import { ArrowLeft, ArrowUpRight, Award, Bookmark, Compass, Eye, Flag, FolderPlus, GitFork, Heart, History, MessageSquare, RotateCcw, Star, UploadCloud } from 'lucide-react'
-import { CollectionPicker } from '@/features/collections/Collections.tsx'
 import { ReportModal } from '@/features/moderation/ReportModal.tsx'
 import type { ReportTarget } from '@/features/builds/api.ts'
 import { Modal } from '@/ui'
@@ -23,7 +22,6 @@ import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
 import { hasPassive } from '@/engine/passives.ts'
 import { STAT_META, fmtValue, isIgnored, statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
-import { SetDetailModal } from '@/features/equipment/SetDetailModal.tsx'
 import { encodeSnapshot } from '@/features/share/codec.ts'
 import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
@@ -41,6 +39,9 @@ import {
 import { SENTINEL_BUILD_ID } from '@/data/prerenderSentinels.ts'
 import { equippedCatalog } from '@/data/buildCatalog.server.ts'
 import './build-detail.css'
+
+const CollectionPicker = lazy(() => import('@/features/collections/Collections.tsx').then(m => ({ default: m.CollectionPicker })))
+const SetDetailModal = lazy(() => import('@/features/equipment/SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 
 const COMMENT_MAX = 2000
 
@@ -162,7 +163,7 @@ function ActiveSets({ active, items, worn }: { active: { set: AppSet; count: num
           </article>
         )
       })}
-      {open && <SetDetailModal set={open} onClose={() => setOpen(null)} />}
+      {open && <Suspense fallback={null}><SetDetailModal set={open} onClose={() => setOpen(null)} /></Suspense>}
     </section>
   )
 }
@@ -795,7 +796,7 @@ export function BuildDetailPage() {
 
         {session && (
           <>
-            <CollectionPicker open={collectOpen} onClose={() => setCollectOpen(false)} userId={session.user.id} buildId={build.id} />
+            {collectOpen && <Suspense fallback={null}><CollectionPicker open onClose={() => setCollectOpen(false)} userId={session.user.id} buildId={build.id} /></Suspense>}
             <ReportModal target={reportTarget} reporterId={session.user.id} onClose={() => setReportTarget(null)} />
           </>
         )}
