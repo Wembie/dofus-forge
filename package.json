@@ -1,7 +1,7 @@
 {
   "name": "dofus-forge",
   "private": true,
-  "version": "0.4.19",
+  "version": "0.4.20",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "scripts": {
@@ -19,6 +19,7 @@
     "fetch-data": "tsx scripts/fetch-data.ts",
     "fetch-spells": "tsx scripts/fetch-spells.ts",
     "fetch-passives": "tsx scripts/fetch-passives.ts",
+    "fetch-legendary-pets": "tsx scripts/fetch-legendary-pets.ts",
     "fetch-images": "tsx scripts/fetch-images.ts",
     "sync-item-images": "tsx scripts/sync-item-images.ts",
     "og:pregenerate": "tsx scripts/og-pregenerate.ts",

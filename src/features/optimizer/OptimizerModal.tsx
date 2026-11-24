@@ -51,12 +51,14 @@ import {
 } from "@/features/optimizer/forgeConfig.ts";
 import { searchItems, slotNameKey, slotsFor, useForgePicks, type RequiredPlacement } from "@/features/optimizer/forgePicks.ts";
 import {
+  withOverrides,
   PASSIVE_MODES,
   PASSIVE_SECTIONS,
   forgePassiveState,
-  orderPassiveBonus,
-  orderPassiveItems,
+  forgePassiveBonus,
+  forgePassiveItems,
   passiveSection,
+  rankLegendaryBonuses,
   type ForgePassiveMode,
   type PassiveSection,
 } from "@/features/optimizer/forgePassives.ts";
@@ -73,8 +75,11 @@ import {
   useForge,
   type Forge as ForgeState,
 } from "@/features/optimizer/useForge.ts";
+
 import { bonusParts } from "@/features/passives/passiveLabels.ts";
-import { runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
+import { ControlRow } from "@/features/passives/PassivesPanel.tsx";
+import { ITEM_PASSIVES, controlRoom } from "@/engine/passives.ts";
+import { CROQUETTE_ICON, runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { useFocusTrap } from "@/ui/useFocusTrap.ts";
 import { langPathPrefix } from "@/i18n/langPath.ts";
 import "./forge.css";
@@ -511,20 +516,41 @@ function Picks({ forge }: { forge: ForgeState }) {
 
 function PassivesRule({ forge }: { forge: ForgeState }) {
   const { t } = useTranslation();
+  const panelId = useId();
   const mode = forge.config.passives,
     on = mode !== "off",
     excluded = useMemo(() => new Set(forge.config.passiveExcluded), [forge.config.passiveExcluded]);
+  const candidates = forge.config.companionBonusCandidates;
+  function toggleCandidate(id: string) {
+    const next = candidates.includes(id) ? candidates.filter((c) => c !== id) : [...candidates, id];
+    forge.setConfig((c) => ({ ...c, companionBonusCandidates: next }));
+  }
+  const [companionOpen, setCompanionOpen] = useState(false);
+  const rankedCompanionBonuses = useMemo(() => rankLegendaryBonuses(forge.activeReqs), [forge.activeReqs]);
   const sections = useMemo(() => {
     const out = new Map<PassiveSection, AppItem[]>(PASSIVE_SECTIONS.map((s) => [s, []]));
-    for (const id of orderPassiveItems()) {
+    for (const id of forgePassiveItems()) {
       const item = forge.itemsById.get(id);
       if (item) out.get(passiveSection(item))!.push(item);
     }
     for (const list of out.values()) list.sort((a, b) => b.level - a.level || a.name.localeCompare(b.name));
     return out;
   }, [forge.itemsById]);
-  const state = useMemo(() => forgePassiveState(on ? mode : "max", forge.plannerPassives), [on, mode, forge.plannerPassives]);
+  const overrides = forge.config.passiveOverrides;
+  const adjustedCount = new Set(Object.keys(overrides).map((id) => id.split(".")[0])).size;
+  const state = useMemo(
+    () => withOverrides(forgePassiveState(on ? mode : "max", forge.plannerPassives), overrides),
+    [on, mode, forge.plannerPassives, overrides],
+  );
   const [openSection, setOpenSection] = useState<PassiveSection | null>(null);
+  const [tuning, setTuning] = useState<number | null>(null);
+  const setOverride = (control: string, value: number) =>
+    forge.setConfig((c) => ({ ...c, passiveOverrides: { ...c.passiveOverrides, [control]: value } }));
+  const clearOverrides = (id: number) =>
+    forge.setConfig((c) => ({
+      ...c,
+      passiveOverrides: Object.fromEntries(Object.entries(c.passiveOverrides).filter(([k]) => k.split(".")[0] !== String(id))),
+    }));
   function include(ids: number[], yes: boolean) {
     const next = new Set(excluded);
     for (const id of ids) {
@@ -535,7 +561,7 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
   }
   const setMode = (passives: ForgePassiveMode) => forge.setConfig((c) => ({ ...c, passives }));
   return (
-    <section className="fg-rule" aria-label={t("optimizer_passives")}>
+    <section className="fg-rule fg-passives" aria-label={t("optimizer_passives")}>
       <h4>{t("tool_passives")}</h4>
       <label className="fg-check">
         <input type="checkbox" checked={on} onChange={(e) => setMode(e.target.checked ? "max" : "off")} />
@@ -552,6 +578,77 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
       )}
       <p>{t(`optimizer_passives_${mode}_hint`)}</p>
       {on && (
+        <div className="fg-passive-summary">
+          <span>{t("fg_passive_help")}</span>
+          {adjustedCount > 0 && (
+            <button className="fg-link" onClick={() => forge.setConfig((c) => ({ ...c, passiveOverrides: {} }))}>
+              <RotateCcw size={13} aria-hidden="true" />
+              {t("fg_passive_reset_all", { count: adjustedCount })}
+            </button>
+          )}
+        </div>
+      )}
+      {on && <p>{t("fg_passive_combat_hint")}</p>}
+      {on && (
+        <div className="fg-passive-companion fg-passive-sections">
+          <div className="fg-passive-head">
+            <label className="fg-check">
+              <input
+                type="checkbox"
+                checked={candidates.length > 0}
+                ref={(el) => {
+                  if (el) el.indeterminate = candidates.length > 0 && candidates.length < rankedCompanionBonuses.length;
+                }}
+                onChange={() =>
+                  forge.setConfig((c) => ({
+                    ...c,
+                    companionBonusCandidates: candidates.length ? [] : rankedCompanionBonuses.map((r) => r.bonus.id),
+                  }))
+                }
+              />
+              <span className="sr-only">{t("optimizer_passive_companion")}</span>
+            </label>
+            <button
+              className="fg-passive-disclosure"
+              aria-expanded={companionOpen}
+              aria-controls={`${panelId}-companion`}
+              aria-label={t("optimizer_passive_companion_search")}
+              onClick={() => setCompanionOpen((o) => !o)}
+            >
+              <span>{t("optimizer_passive_companion")}</span>
+              <small>{t("fg_of", { n: candidates.length, total: rankedCompanionBonuses.length })}</small>
+              <ChevronDown size={16} aria-hidden="true" />
+            </button>
+          </div>
+          {companionOpen && (
+            <ul id={`${panelId}-companion`} className="fg-passive-items">
+              {rankedCompanionBonuses.length === 0 && <li className="fg-passive-empty">{t("fg_passive_companion_empty")}</li>}
+              {rankedCompanionBonuses.map(({ bonus, parts }) => {
+                const picked = candidates.includes(bonus.id);
+                return (
+                  <li key={bonus.id} className={`fg-passive-item${picked ? "" : " is-off"}`}>
+                    <label className="fg-check">
+                      <input type="checkbox" checked={picked} onChange={() => toggleCandidate(bonus.id)} />
+                      <img src={CROQUETTE_ICON} alt="" width={24} height={24} />
+                      <span>{t(bonus.nameKey)}</span>
+                    </label>
+                    <span className="fg-bonus">
+                      {bonusParts(parts).map((p) => (
+                        <span key={p.key} className={p.negative ? "is-negative" : ""}>
+                          <img src={statIconUrl(p.icon)} alt="" />
+                          {p.value}
+                          <span> {t(p.tKey)}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      )}
+      {on && (
         <ul className="fg-passive-sections">
           {PASSIVE_SECTIONS.map((section) => {
             const items = sections.get(section)!;
@@ -561,7 +658,7 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
               label = t(`optimizer_passive_section_${section}`),
               open = openSection === section;
             return (
-              <li key={section}>
+              <li key={section} className={open ? "is-open" : undefined}>
                 <div className="fg-passive-head">
                   <label className="fg-check">
                     <input
@@ -572,30 +669,38 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
                       }}
                       onChange={() => include(ids, count < ids.length)}
                     />
-                    {label}
+                    <span className="sr-only">{label}</span>
                   </label>
-                  <small>{t("fg_of", { n: count, total: ids.length })}</small>
                   <button
+                    className="fg-passive-disclosure"
                     aria-expanded={open}
+                    aria-controls={`${panelId}-${section}`}
                     aria-label={t("optimizer_passive_section_configure", { section: label })}
                     onClick={() => setOpenSection(open ? null : section)}
                   >
-                    <Settings2 size={15} />
+                    <span>{label}</span>
+                    <small>{t("fg_of", { n: count, total: ids.length })}</small>
+                    <ChevronDown size={16} aria-hidden="true" />
                   </button>
                 </div>
                 {open && (
-                  <ul>
+                  <ul id={`${panelId}-${section}`} className="fg-passive-items">
                     {items.map((item) => {
                       const counted = !excluded.has(item.ankama_id),
-                        parts = bonusParts(orderPassiveBonus(item.ankama_id, state));
+                        parts = bonusParts(forgePassiveBonus(item.ankama_id, state)),
+                        controls = ITEM_PASSIVES.get(item.ankama_id) ?? [],
+                        adjusted = controls.some((ctl) => ctl.id in overrides),
+                        tuned = tuning === item.ankama_id;
                       return (
-                        <li key={item.ankama_id} className={counted ? "" : "is-off"}>
+                        <li key={item.ankama_id} className={`fg-passive-item${counted ? "" : " is-off"}${tuned ? " is-tuning" : ""}`}>
                           <label className="fg-check">
                             <input type="checkbox" checked={counted} onChange={() => include([item.ankama_id], !counted)} />
-                            <ItemArt item={item} size={24} />
-                            <span>{item.name}</span>
+                            <ItemArt item={item} size={32} />
+                            <span>
+                              {item.name}
+                            </span>
                           </label>
-                          <span className="fg-bonus">
+                          <span className="fg-bonus" aria-live="polite">
                             {parts.length === 0 ? (
                               <em>{t("optimizer_passive_not_set")}</em>
                             ) : (
@@ -603,11 +708,59 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
                                 <span key={p.key} className={p.negative ? "is-negative" : ""}>
                                   <img src={statIconUrl(p.icon)} alt="" />
                                   {p.value}
-                                  <span className="sr-only"> {t(p.tKey)}</span>
+                                  <span> {t(p.tKey)}</span>
                                 </span>
                               ))
                             )}
                           </span>
+                          {controls.length > 0 && (
+                            <button
+                              className="fg-passive-tune"
+                              aria-expanded={tuned}
+                              aria-controls={`${panelId}-item-${item.ankama_id}`}
+                              aria-label={t("fg_passive_tune", { name: item.name })}
+                              onClick={() => setTuning(tuned ? null : item.ankama_id)}
+                            >
+                              <Settings2 size={14} aria-hidden="true" />
+                              <span>{t("fg_passive_edit")}</span>
+                              {adjusted && <small className="fg-passive-adjusted">{t("fg_passive_adjusted")}</small>}
+                            </button>
+                          )}
+                          {tuned && (
+                            <div className="fg-passive-controls" id={`${panelId}-item-${item.ankama_id}`}>
+                              <div className="fg-passive-editor-head">
+                                <span>{t("fg_passive_effect")}</span>
+                                <button className="fg-link" aria-label={t("fg_passive_close", { name: item.name })} onClick={(e) => {
+                                  e.currentTarget.closest(".fg-passive-item")?.querySelector<HTMLButtonElement>(".fg-passive-tune")?.focus();
+                                  setTuning(null);
+                                }}>
+                                  <X size={14} aria-hidden="true" />
+                                </button>
+                              </div>
+                              <fieldset disabled={!counted}>
+                                <legend className="sr-only">{t("fg_passive_tune", { name: item.name })}</legend>
+                                {controls.map((control) => (
+                                  <ControlRow
+                                    key={control.id}
+                                    control={control}
+                                    value={state[control.id] ?? 0}
+                                    room={controlRoom(control, state)}
+                                    onChange={setOverride}
+                                  />
+                                ))}
+                              </fieldset>
+                              {!counted && <p>{t("fg_passive_excluded_hint")}</p>}
+                              <div className="fg-passive-editor-footer">
+                                <span>{t(adjusted ? "fg_passive_custom_hint" : "fg_passive_default_hint", { mode: t(`optimizer_passives_${mode}`) })}</span>
+                                {adjusted && (
+                                  <button className="fg-link" onClick={() => clearOverrides(item.ankama_id)}>
+                                    <RotateCcw size={13} aria-hidden="true" />
+                                    {t("fg_passive_clear")}
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          )}
                         </li>
                       );
                     })}

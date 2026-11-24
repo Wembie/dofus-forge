@@ -37,6 +37,7 @@ import {
   type RuneBlock,
 } from "@/features/equipment/runeRules.ts";
 import { normalizeSearch } from "@/ui/normalize.ts";
+import { LegendarySection } from "./LegendarySection.tsx";
 import { Modal } from "@/ui";
 import { playRune } from "@/lib/sound.ts";
 import "./runes.css";
@@ -97,6 +98,7 @@ export function RuneModal({
     runes = b.runes[slot] ?? EMPTY,
     transform = b.weaponTransforms[slot] ?? null,
     signature = b.forjamagoNames[slot] ?? "";
+  const isCompanion = slot === "companion";
   const forgeable = FORGEABLE_SLOTS.has(slot),
     exotic = exoticOf(runes),
     entries = Object.entries(runes)
@@ -152,7 +154,7 @@ export function RuneModal({
     <Modal
       open
       onClose={onClose}
-      title={t("magesmithy")}
+      title={isCompanion ? t("legendary_title") : t("magesmithy")}
       size="4xl"
       className="runes-dialog"
     >
@@ -185,6 +187,9 @@ export function RuneModal({
             </div>
           )}
         </div>
+        {isCompanion ? (
+          <LegendarySection />
+        ) : (
         <div className="runes-layout">
           {mode === "normal" ? (
             <section className="runes-pick" aria-label={t("rune_picker")}>
@@ -505,6 +510,7 @@ export function RuneModal({
             </label>
           </section>
         </div>
+        )}
       </div>
     </Modal>
   );

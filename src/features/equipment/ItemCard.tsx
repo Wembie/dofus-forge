@@ -16,6 +16,10 @@ export interface ItemCardProps {
   /** A transformed weapon's neutral attack, shown in the chosen element. */
   weaponTransform?: { element: string; ratio: number } | null
   set?: { name: string; count: number; max: number; nextBonus?: string }
+  /** The companion's chosen legendary bonus: shown as the item's own ability
+   * (it isn't one — fetched item data never carries it), same spot the game
+   * shows a legendary pet's spell right in its own tooltip. */
+  legendary?: { name: string; text: string } | null
 }
 
 /**
@@ -24,7 +28,7 @@ export interface ItemCardProps {
  * effects, magesmithy, set, conditions and lore. Flat and quiet; each section
  * is separated by a thin rule.
  */
-export function ItemCard({ item, runes, forjamagoName, weaponTransform, set }: ItemCardProps) {
+export function ItemCard({ item, runes, forjamagoName, weaponTransform, set, legendary }: ItemCardProps) {
   const { t } = useTranslation()
   const all = item.effects.filter(e => !isIgnored(e.stat) && (e.effect_id == null || !IGNORED_EFFECT_IDS.has(e.effect_id)))
   const isWeapon = item.slot === 'weapon' || item.ap_cost != null
@@ -41,7 +45,8 @@ export function ItemCard({ item, runes, forjamagoName, weaponTransform, set }: I
       })
     : rawAttack
   const activeRunes = Object.entries(runes ?? {}).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a)))
-  const ability = item.ability?.split('\n').filter(Boolean) ?? []
+  const ability = item.ability?.split('\n').filter(Boolean)
+    ?? (legendary ? [legendary.name, legendary.text] : [])
 
   const line = (e: Line, i: number, kind: 'attack' | 'stat') => {
     const meta = STAT_META[e.stat]

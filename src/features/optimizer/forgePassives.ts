@@ -1,4 +1,5 @@
-import { ITEM_PASSIVES, controlBonus, controlRoom, sanitizePassiveState, type PassiveBonus, type PassiveStat, type PassiveState } from '@/engine/passives.ts'
+import { ITEM_PASSIVES, controlBonus, controlMax, controlRoom, sanitizePassiveState, type PassiveBonus, type PassiveStat, type PassiveState } from '@/engine/passives.ts'
+import { LEGENDARY_BONUSES, legendaryBonusOf, legendaryStatBonus, type LegendaryBonus } from '@/engine/petLegendary.ts'
 import type { AppItem } from '@/data/loaders.ts'
 
 // Combat passives in La Forjadora. The page resolves every passive item's
@@ -19,7 +20,7 @@ const EFFECT_NAME: Partial<Record<PassiveStat, string>> = {
   pushbackDamage: 'Pushback Damage', dodge: 'Dodge', lock: 'Lock',
   apReduction: 'AP Reduction', mpReduction: 'MP Reduction', apParry: 'AP Parry', mpParry: 'MP Parry',
   meleeDamagePercent: '% Melee Damage', rangedDamagePercent: '% Ranged Damage', spellDamagePercent: '% Spell Damage',
-  strength: 'Strength', intelligence: 'Intelligence', chance: 'Chance', agility: 'Agility',
+  strength: 'Strength', intelligence: 'Intelligence', chance: 'Chance', agility: 'Agility', range: 'Range',
   neutralResPercent: '% Neutral Resistance', earthResPercent: '% Earth Resistance', fireResPercent: '% Fire Resistance',
   waterResPercent: '% Water Resistance', airResPercent: '% Air Resistance',
 }
@@ -56,16 +57,40 @@ export function forgePassiveState(mode: ForgePassiveMode, planner: PassiveState)
   return {}
 }
 
-/** The part of one item's passive bonus under `state` that an order can ask for. */
-export function orderPassiveBonus(id: number, state: PassiveState): PassiveBonus {
+const CONTROLS = new Map([...ITEM_PASSIVES.values()].flat().map(c => [c.id, c]))
+
+/** The Forge's own setting for single passives, by control id (0 turns one off). */
+export function sanitizeOverrides(raw: unknown): Record<string, number> {
+  if (raw == null || typeof raw !== 'object' || Array.isArray(raw)) return {}
+  const out: Record<string, number> = {}
+  for (const [id, v] of Object.entries(raw as Record<string, unknown>)) {
+    const control = CONTROLS.get(id)
+    if (control && typeof v === 'number' && Number.isFinite(v)) out[id] = Math.min(controlMax(control), Math.max(0, Math.trunc(v)))
+  }
+  return out
+}
+
+/** A mode's passive settings with the player's own setting of single passives on top. */
+export function withOverrides(base: PassiveState, overrides: Record<string, number>): PassiveState {
+  if (Object.keys(overrides).length === 0) return base
+  return sanitizePassiveState({ ...base, ...overrides })
+}
+
+/** All configurable effects, including combat multipliers the order cannot optimize. */
+export function forgePassiveBonus(id: number, state: PassiveState): PassiveBonus {
   const total: PassiveBonus = {}
   for (const c of ITEM_PASSIVES.get(id) ?? []) {
     for (const [k, v] of Object.entries(controlBonus(c, state[c.id] ?? 0)) as [PassiveStat, number][]) {
-      if (EFFECT_NAME[k]) total[k] = (total[k] ?? 0) + v
+      total[k] = (total[k] ?? 0) + v
     }
   }
   for (const k of Object.keys(total) as PassiveStat[]) if (total[k] === 0) delete total[k]
   return total
+}
+
+/** The part of one item's passive bonus under `state` that an order can ask for. */
+export function orderPassiveBonus(id: number, state: PassiveState): PassiveBonus {
+  return Object.fromEntries(Object.entries(forgePassiveBonus(id, state)).filter(([k]) => EFFECT_NAME[k as PassiveStat]))
 }
 
 /**
@@ -94,10 +119,15 @@ export function passiveSection(item: AppItem): PassiveSection {
 
 let orderItems: number[] | null = null
 
-/** Items whose passive can change an order (at its best): the ones worth listing. */
+/** Items with an order-stat bonus in the default max case (legacy beta picker). */
 export function orderPassiveItems(): number[] {
   orderItems ??= forgePassiveEffects(maxPassiveState()).map(p => p.id)
   return orderItems
+}
+
+/** Every item with configurable passive effects, regardless of the order's available stats. */
+export function forgePassiveItems(): number[] {
+  return [...ITEM_PASSIVES.keys()]
 }
 
 /** Saved list of left-out passive items (untrusted: localStorage). */
@@ -106,8 +136,59 @@ export function sanitizeExcluded(raw: unknown): number[] {
   return [...new Set(raw.filter((id): id is number => Number.isSafeInteger(id) && ITEM_PASSIVES.has(id)))]
 }
 
+/** Saved list of companion legendary bonuses the player is open to trying
+ * (untrusted: localStorage): unknown ids, and ones with no stat effect
+ * (nothing for the Forge to compare), are dropped. */
+export function sanitizeLegendaryCandidates(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return []
+  return [...new Set(raw.filter((id): id is string => typeof id === "string" && !!legendaryBonusOf(id)?.control))]
+}
+
 /** The settings of the given items' passives, to carry into the planner with a loaded build. */
-export function passiveStateFor(state: PassiveState, itemIds: Iterable<number>): PassiveState {
-  const ids = new Set([...itemIds].map(String))
-  return Object.fromEntries(Object.entries(state).filter(([control]) => ids.has(control.split('.')[0])))
+export function passiveStateFor(state: PassiveState, itemIds: Iterable<number>, excluded: ReadonlySet<number> = new Set()): PassiveState {
+  return Object.fromEntries([...new Set(itemIds)].flatMap(id =>
+    (ITEM_PASSIVES.get(id) ?? []).map(control => [control.id, excluded.has(id) ? 0 : state[control.id] ?? 0]),
+  ))
+}
+
+/**
+ * The companion's rolled legendary bonus, as one engine effect tied to the
+ * equipped companion's id. Unlike ITEM_PASSIVES it isn't gated by the off/
+ * max/planner mode: the companion isn't forgeable, so there's no question of
+ * whether it ends up equipped — it's the same item in every evaluated build.
+ */
+export function legendaryForgeEffects(companionId: number | null | undefined, pick: { id: string; value: number } | null): PassiveEffects[] {
+  if (companionId == null) return []
+  const effects = (Object.entries(legendaryStatBonus(pick)) as [PassiveStat, number][])
+    .filter(([k]) => EFFECT_NAME[k])
+    .map(([k, v]) => ({ stat: EFFECT_NAME[k]!, min: v, max: v }))
+  return effects.length ? [{ id: companionId, effects }] : []
+}
+
+export type RankedLegendaryBonus = { bonus: LegendaryBonus; value: number; score: number; parts: PassiveBonus }
+
+/**
+ * The legendary bonuses an order can actually ask for (the same order-stat
+ * filter as EFFECT_NAME — final damage ones like Kanig/Boowolf never show
+ * here, same reason legendary gear's don't), ranked by how much each is
+ * worth toward the order's current weighted goals. A choice bonus (e.g.
+ * Bwork: melee or ranged) is scored at its better-fitting option.
+ */
+export function rankLegendaryBonuses(reqs: readonly { stat: string; weight: number }[]): RankedLegendaryBonus[] {
+  const weight = new Map(reqs.map(r => [r.stat, r.weight]))
+  const score = (b: PassiveBonus) =>
+    (Object.entries(b) as [PassiveStat, number][]).reduce((s, [k, v]) => s + (weight.get(k) ?? 0) * v, 0)
+  const out: RankedLegendaryBonus[] = []
+  for (const bonus of LEGENDARY_BONUSES) {
+    if (!bonus.control) continue
+    let best: { value: number; parts: PassiveBonus; score: number } | null = null
+    for (let v = 1; v <= controlMax(bonus.control); v++) {
+      const parts = legendaryStatBonus({ id: bonus.id, value: v })
+      if (Object.keys(parts).length === 0) continue
+      const s = score(parts)
+      if (!best || s > best.score) best = { value: v, parts, score: s }
+    }
+    if (best && best.score > 0) out.push({ bonus, value: best.value, parts: best.parts, score: best.score })
+  }
+  return out.sort((a, b) => b.score - a.score)
 }

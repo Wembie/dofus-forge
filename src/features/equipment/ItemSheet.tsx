@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeftRight, Layers, Pin, Sparkles, Trash2 } from 'lucide-react'
+import { ArrowLeftRight, Gem, Layers, Pin, Sparkles, Trash2 } from 'lucide-react'
 import { Modal } from '@/ui'
 import type { AppItem } from '@/data/loaders.ts'
 import { isExoticKey, runeStat } from '@/engine/runes.ts'
@@ -19,11 +19,15 @@ interface ItemSheetProps {
   onRunes?: () => void
   onViewSet?: () => void
   onUnequip: () => void
+  /** The companion slot: its "rune" action is the legendary bonus picker, not magesmithing. */
+  isCompanion?: boolean
+  /** The companion's chosen legendary bonus, standing in for `item.ability`. */
+  legendary?: { name: string; text: string } | null
 }
 
 /** An equipped piece: what it does, its runes and conditions, and every
  * action on it with its name written out. */
-export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, onRunes, onViewSet, onUnequip }: ItemSheetProps) {
+export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, onRunes, onViewSet, onUnequip, isCompanion, legendary }: ItemSheetProps) {
   const { t } = useTranslation()
   const pinned = useForgePicks(s => s.required.includes(item.ankama_id))
   const togglePin = () => useForgePicks.getState().toggleRequired(item.ankama_id)
@@ -67,7 +71,7 @@ export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, 
         </div>
 
         <div className="item-sheet-body">
-          <ItemFactsList item={item} lore={false} />
+          <ItemFactsList item={item} lore={false} legendary={legendary} />
 
           {runes.length > 0 && (
             <div role="group" className="item-sheet-section" aria-label={t('magesmithy')}>
@@ -112,7 +116,8 @@ export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, 
           </button>
           {onRunes && (
             <button type="button" onClick={onRunes} aria-keyshortcuts="R">
-              <Sparkles size={15} aria-hidden="true" />{t('magesmithy')}<kbd aria-hidden="true">R</kbd>
+              {isCompanion ? <Gem size={15} aria-hidden="true" /> : <Sparkles size={15} aria-hidden="true" />}
+              {t(isCompanion ? 'legendary_title' : 'magesmithy')}<kbd aria-hidden="true">R</kbd>
             </button>
           )}
           <button type="button" aria-pressed={pinned} onClick={togglePin} aria-keyshortcuts="P">

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, renderHook, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import '@/test/i18n.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -9,6 +9,9 @@ import { activatedReq, makeDefaultConfig, persistConfig, STORAGE_KEY } from '../
 import { useForgePicks } from '../forgePicks.ts'
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
+import { ITEM_PASSIVES } from '@/engine/passives.ts'
+import { useForge } from '../useForge.ts'
+import type { BuildResult } from '../types.ts'
 
 vi.mock('@/features/builds/api.ts', () => ({
   startForgeRun: vi.fn().mockResolvedValue(null),
@@ -153,9 +156,9 @@ describe('OptimizerModal passives', () => {
   const PRYSM    = { ...gear(22012, 'Shiny Prysipitate', 'dofus'), type: 'Prysmaradite' } as AppItem
   const BRUMAIRE = gear(20355, "Brumaire's Shiver", 'weapon')
 
-  function open() {
+  function open(extra: AppItem[] = []) {
     useBuildStore.setState({ selectedClass: 'iop', equipped: {} })
-    useDataStore.setState({ equipment: [{ ...ABYSSAL, type: 'Dofus' }, { ...OCHRE, type: 'Dofus' }, PRYSM, BRUMAIRE] as AppItem[], sets: [] })
+    useDataStore.setState({ equipment: [{ ...ABYSSAL, type: 'Dofus' }, { ...OCHRE, type: 'Dofus' }, PRYSM, BRUMAIRE, ...extra] as AppItem[], sets: [] })
     render(<MemoryRouter><OptimizerModal open onClose={() => {}} /></MemoryRouter>)
     const rule = screen.getByRole('region', { name: 'optimizer_passives' })
     const count = within(rule).getByRole('checkbox', { name: 'optimizer_passives_count' }) as HTMLInputElement
@@ -179,10 +182,96 @@ describe('OptimizerModal passives', () => {
     expect((items[0] as HTMLInputElement).checked).toBe(false)
   })
 
+  it('shows and adjusts Dofus that only add final damage, including the full Vulbis cases', () => {
+    const names = ['Crimson Dofus', 'Turquoise Dofus', 'Vulbis Dofus', 'Cloudy Dofus', 'Sparkling Silver Dofus', 'Dofzzbz']
+    const ids = [694, 739, 6980, 8698, 20286, 31794]
+    const rule = open(ids.map((id, i) => gear(id, names[i], 'dofus')))
+    fireEvent.click(within(rule).getAllByRole('button', { name: 'optimizer_passive_section_configure' })[0])
+    for (const name of names) expect(within(rule).getByRole('checkbox', { name })).toBeTruthy()
+    const dofzzbz = within(rule).getByText('Dofzzbz').closest('li')!
+    expect(within(dofzzbz).getByText('stat_final_dmg')).toBeTruthy()
+    fireEvent.click(within(dofzzbz).getByRole('button', { name: 'fg_passive_tune' }))
+    fireEvent.click(within(dofzzbz).getByRole('button', { name: 'passives_less' }))
+    expect(within(dofzzbz).getByText('+9')).toBeTruthy()
+    const vulbis = within(rule).getByText('Vulbis Dofus').closest('li')!
+    fireEvent.click(within(vulbis).getByRole('button', { name: 'fg_passive_tune' }))
+    expect(within(vulbis).getAllByRole('radio')).toHaveLength(3)
+    fireEvent.click(within(vulbis).getAllByRole('radio')[2])
+    expect(within(vulbis.querySelector('.fg-bonus')!).getByText('+20')).toBeTruthy()
+  })
+
+  it.each(['max', 'planner'] as const)('loads all combat settings in %s mode, clearing excluded and disabled passives', mode => {
+    const crimson = ITEM_PASSIVES.get(694)![0].id
+    const dofzzbz = ITEM_PASSIVES.get(31794)![0].id
+    const turquoise = ITEM_PASSIVES.get(739)![0].id
+    const cloudy = ITEM_PASSIVES.get(8698)![0].id
+    const jahash = ITEM_PASSIVES.get(20362)![0].id
+    useBuildStore.setState({ selectedClass: 'iop', equipped: {}, passives: { [crimson]: 8, [turquoise]: 4, [cloudy]: 1, [jahash]: 1 } })
+    useDataStore.setState({ equipment: [], sets: [] })
+    persistConfig({ ...makeDefaultConfig(), passives: mode, passiveExcluded: [739], passiveOverrides: { [crimson]: 5, [dofzzbz]: 3, [cloudy]: 0 } })
+    const { result } = renderHook(() => useForge({ open: true, onClose: vi.fn() }))
+    const build = {
+      equipped: { dofus1: 694, dofus2: 31794, dofus3: 739, dofus4: 8698 },
+      allocated: useBuildStore.getState().allocated,
+      scrolled: useBuildStore.getState().scrolled,
+      exo: {}, runes: {},
+    } as BuildResult
+    act(() => result.current.loadBuild(build))
+    expect(useBuildStore.getState().passives).toEqual({ [crimson]: 5, [dofzzbz]: 3, [jahash]: 1 })
+  })
+
+  it('adjusts one passive inside the forge: the Ochre counts its dodge case, and can go back', () => {
+    const rule = open()
+    fireEvent.click(within(rule).getAllByRole('button', { name: 'optimizer_passive_section_configure' })[0])
+    const ochre = within(rule).getByText('Ochre Dofus').closest('li')!
+    fireEvent.click(within(ochre).getByRole('button', { name: 'fg_passive_tune' }))
+    const cases = within(ochre).getAllByRole('radio')
+    expect(cases).toHaveLength(3)
+    expect(cases[1].getAttribute('aria-checked')).toBe('true')
+    fireEvent.click(cases[2])
+    expect(within(ochre).getAllByRole('radio')[2].getAttribute('aria-checked')).toBe('true')
+    expect(within(ochre).getByText(/fg_passive_adjusted/)).toBeTruthy()
+    const control = ITEM_PASSIVES.get(7754)![0].id
+    fireEvent.click(within(ochre).getByRole('button', { name: 'fg_passive_clear' }))
+    expect(within(ochre).getAllByRole('radio')[1].getAttribute('aria-checked')).toBe('true')
+    fireEvent.click(within(ochre).getAllByRole('radio')[0])
+    cleanup()
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).passiveOverrides).toEqual({ [control]: 0 })
+  })
+
   it('lists no section while passives are off', () => {
     const rule = open()
     fireEvent.click(within(rule).getByRole('checkbox', { name: 'optimizer_passives_count' }))
     expect(within(rule).queryAllByRole('button', { name: 'optimizer_passive_section_configure' })).toHaveLength(0)
+  })
+
+  it('resets all custom adjustments without changing excluded items or the mode', () => {
+    const config = makeDefaultConfig()
+    persistConfig({ ...config, passives: 'planner', passiveExcluded: [ABYSSAL.ankama_id], passiveOverrides: { [ITEM_PASSIVES.get(OCHRE.ankama_id)![0].id]: 2 } })
+    const rule = open()
+    fireEvent.click(within(rule).getByRole('button', { name: 'fg_passive_reset_all' }))
+    expect(within(rule).queryByRole('button', { name: 'fg_passive_reset_all' })).toBeNull()
+    cleanup()
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
+    expect(saved.passiveOverrides).toEqual({})
+    expect(saved.passiveExcluded).toEqual([ABYSSAL.ankama_id])
+    expect(saved.passives).toBe('planner')
+  })
+
+  it('disables effect editing for excluded items and restores it when included', () => {
+    const rule = open()
+    const disclosure = within(rule).getAllByRole('button', { name: 'optimizer_passive_section_configure' })[0]
+    fireEvent.click(disclosure)
+    expect(document.getElementById(disclosure.getAttribute('aria-controls')!)).toBeTruthy()
+    const ochre = within(rule).getByText('Ochre Dofus').closest('li')!
+    const tune = within(ochre).getByRole('button', { name: 'fg_passive_tune' })
+    fireEvent.click(tune)
+    const editor = document.getElementById(tune.getAttribute('aria-controls')!)!
+    fireEvent.click(within(ochre).getByRole('checkbox'))
+    expect(editor.querySelector('fieldset')!.disabled).toBe(true)
+    expect(within(editor).getByText('fg_passive_excluded_hint')).toBeTruthy()
+    fireEvent.click(within(ochre).getByRole('checkbox'))
+    expect(editor.querySelector('fieldset')!.disabled).toBe(false)
   })
 })
 

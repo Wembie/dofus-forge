@@ -208,6 +208,11 @@ export function signatureRuneUrl(): string {
   return `${BASE}data/runes/Signature_Rune.webp`
 }
 
+/** Every "Croquette infusée" looks the same in-game regardless of which
+ * legendary bonus it carries — only its name differs — so one icon stands
+ * for all 32 (and for the companion's legendary bonus row in general). */
+export const CROQUETTE_ICON = `${BASE}data/pets-legendary/croquette.webp`
+
 /** Label key and icon of each computed stat (StatBlock field), with the names
  * the stats panel has always used. Fields absent here have no production
  * label; the full sheet names them with `sheet_stat_<field>`. */

@@ -81,6 +81,29 @@ describe('equipping follows the game rules', () => {
     expect(store().runes.hat).toEqual({ Vitality: 50 })
     expect(store().forjamagoNames.hat).toBe('Smith')
   })
+
+  it("a companion's legendary bonus belongs to that companion, not the slot", () => {
+    const KRAMKRAM = item(50, 'companion', { type: 'Petsmount' })
+    const OTHER    = item(51, 'companion', { type: 'Petsmount' })
+    store().setEquipment([SET_RING, PLAIN_RING, PRYSMA_A, PRYSMA_B, DOFUS, HAT, WEAPON_A, WEAPON_B, KRAMKRAM, OTHER])
+    store().equipItem('companion', KRAMKRAM.ankama_id)
+    store().setLegendaryBonus('poukachi.thoronduddleswell', 1)
+    // Swapping in a different companion drops the old companion's bonus pick.
+    store().equipItem('companion', OTHER.ankama_id)
+    expect(store().legendaryBonus).toBeNull()
+    store().setLegendaryBonus('poukachi.thoronduddleswell', 1)
+    // Unequipping it entirely does too.
+    store().unequipItem('companion')
+    expect(store().legendaryBonus).toBeNull()
+    // Re-picking the same companion, unlike a different one, keeps it.
+    store().equipItem('companion', OTHER.ankama_id)
+    store().setLegendaryBonus('poukachi.thoronduddleswell', 1)
+    store().equipItem('companion', OTHER.ankama_id)
+    expect(store().legendaryBonus).toEqual({ id: 'poukachi.thoronduddleswell', value: 1 })
+    // Changing some OTHER slot never touches it.
+    store().equipItem('hat', HAT.ankama_id)
+    expect(store().legendaryBonus).toEqual({ id: 'poukachi.thoronduddleswell', value: 1 })
+  })
 })
 
 describe('stats', () => {

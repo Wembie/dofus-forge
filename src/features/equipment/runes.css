@@ -249,6 +249,14 @@
   padding: 0 16px;
   white-space: nowrap;
 }
+.legendary-actions {
+  margin-top: 10px;
+}
+.legendary-pool-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .runes-value input {
   min-width: 0;
   min-height: 38px;

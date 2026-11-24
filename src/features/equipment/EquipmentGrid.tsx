@@ -12,6 +12,7 @@ import { ItemSheet } from './ItemSheet.tsx'
 import { OPEN_SLOT_EVENT } from './openSlot.ts'
 import { ItemCard } from './ItemCard.tsx'
 import { isExoticKey } from '@/engine/runes.ts'
+import { legendaryBonusOf } from '@/engine/petLegendary.ts'
 
 // Lazy: these only mount once the user opens them (catalog, runes, set
 // detail), so they don't need to be in the eager bundle — combined
@@ -38,13 +39,20 @@ export const RIGHT_SLOTS:  SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boot
 export const EXTRAS_SLOTS: SlotId[] = ['sidekick']
 export const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
-const NO_RUNE_SLOTS = new Set<SlotId>(['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6','companion','sidekick'])
+const NO_RUNE_SLOTS = new Set<SlotId>(['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6','sidekick'])
 
 const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<SlotId, SlotConfig>
 
 const DOFUS_ADVANCE: Partial<Record<SlotId, SlotId>> = {
   dofus1: 'dofus2', dofus2: 'dofus3', dofus3: 'dofus4',
   dofus4: 'dofus5', dofus5: 'dofus6',
+}
+
+/** The companion's picked legendary bonus, resolved to display text — stands
+ * in for `item.ability`, which fetched companion data never carries. */
+function legendaryAbility(t: (key: string) => string, pick: { id: string; value: number } | null): { name: string; text: string } | null {
+  const bonus = pick && legendaryBonusOf(pick.id)
+  return bonus ? { name: t(bonus.nameKey), text: t(bonus.textKey) } : null
 }
 
 function slotTKey(id: SlotId): string {
@@ -86,6 +94,8 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onChangeItem, onRune, slo
   const { t }         = useTranslation()
   const forjamagoName   = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
   const weaponTransform = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
+  const legendaryBonus  = useBuildStore(s => slotId === 'companion' ? s.legendaryBonus : null)
+  const legendary       = useMemo(() => legendaryAbility(t, legendaryBonus), [t, legendaryBonus])
   const forgePinned     = useForgePicks(s => item != null && s.required.includes(item.ankama_id))
 
   const [hovered, setHovered]   = useState(false)
@@ -236,7 +246,8 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onChangeItem, onRune, slo
           }}
         >
           <ItemCard item={item} runes={slotRunes} forjamagoName={forjamagoName} weaponTransform={weaponTransform}
-            set={setName ? { name: setName, count: setCount ?? 0, max: setMax ?? 0, nextBonus } : undefined} />
+            set={setName ? { name: setName, count: setCount ?? 0, max: setMax ?? 0, nextBonus } : undefined}
+            legendary={legendary} />
         </div>
       )}
     </div>
@@ -316,6 +327,7 @@ export function EquipmentGrid() {
   const stageOn     = useCharacterStage().show
   const isDesktop   = useIsDesktop()
   const equipped    = useBuildStore(s => s.equipped)
+  const legendaryBonus = useBuildStore(s => s.legendaryBonus)
   const _sets       = useBuildStore(s => s._sets)
   const runes       = useBuildStore(s => s.runes)
   const unequipItem = useBuildStore(s => s.unequipItem)
@@ -484,6 +496,8 @@ export function EquipmentGrid() {
             onClose={() => setSheetSlot(null)}
             onChange={() => { setSheetSlot(null); openCatalog(id) }}
             onRunes={NO_RUNE_SLOTS.has(id) ? undefined : () => { setSheetSlot(null); setRuneSlot(id) }}
+            isCompanion={id === 'companion'}
+            legendary={id === 'companion' ? legendaryAbility(t, legendaryBonus) : null}
             onViewSet={set.onViewSet ? () => { setSheetSlot(null); set.onViewSet!() } : undefined}
             onUnequip={() => { setSheetSlot(null); unequipItem(id); playUnequip() }}
           />
@@ -518,6 +532,8 @@ function BuilderPassivesPanel() {
   const equipment  = useBuildStore(s => s._equipment)
   const passives   = useBuildStore(s => s.passives)
   const setPassive = useBuildStore(s => s.setPassive)
+  const legendary  = useBuildStore(s => s.legendaryBonus)
+  const setLegendaryBonus = useBuildStore(s => s.setLegendaryBonus)
   const items = useMemo(() => {
     const byId = new Map(equipment.map(it => [it.ankama_id, it]))
     return ALL_SLOTS.flatMap(slot => {
@@ -529,7 +545,11 @@ function BuilderPassivesPanel() {
   const reset = () => useBuildStore.setState({ passives: {} })
   return (
     <div className="px-3 pb-4" data-tool="passives">
-      <PassivesPanel items={items} state={passives} onChange={setPassive} onReset={reset} />
+      <PassivesPanel
+        items={items} state={passives} onChange={setPassive} onReset={reset}
+        legendary={equipped.companion ? legendary : null}
+        onLegendaryChange={(id, value) => setLegendaryBonus(id, value)}
+      />
     </div>
   )
 }

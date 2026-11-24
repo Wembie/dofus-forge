@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ITEM_PASSIVES, sanitizePassiveState, controlMax, passiveBonus } from '@/engine/passives.ts'
-import { maxPassiveState, forgePassiveState, forgePassiveEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded } from '../forgePassives.ts'
+import { maxPassiveState, forgePassiveState, forgePassiveBonus, forgePassiveItems, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded, rankLegendaryBonuses, sanitizeLegendaryCandidates, sanitizeOverrides, withOverrides } from '../forgePassives.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { makeDefaultConfig, toWireConfig, loadSavedConfig, persistConfig, loadForgeResult, STORAGE_KEY } from '../forgeConfig.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -37,6 +37,32 @@ describe('maxPassiveState', () => {
   })
 })
 
+describe('per-passive adjustments', () => {
+  const OCHRE = 7754
+  const ochre = ITEM_PASSIVES.get(OCHRE)![0].id
+
+  it('keep known controls, clamp them to their range, and keep an explicit 0', () => {
+    expect(sanitizeOverrides({ [ochre]: 9, nope: 1 })).toEqual({ [ochre]: 2 })
+    expect(sanitizeOverrides({ [ochre]: 0 })).toEqual({ [ochre]: 0 })
+    expect(sanitizeOverrides('x')).toEqual({})
+  })
+
+  it('switch one passive to another case or off, on top of the mode', () => {
+    const max = maxPassiveState()
+    expect(withOverrides(max, {})).toBe(max)
+    const dodge = forgePassiveEffects(withOverrides(max, { [ochre]: 2 })).find(p => p.id === OCHRE)!
+    expect(dodge.effects.map(e => e.stat)).toEqual(forgePassiveEffects({ [ochre]: 2 }).find(p => p.id === OCHRE)!.effects.map(e => e.stat))
+    expect(forgePassiveEffects(withOverrides(max, { [ochre]: 0 })).some(p => p.id === OCHRE)).toBe(false)
+  })
+
+  it('never lets shared stacks pass their cap', () => {
+    const controls = ITEM_PASSIVES.get(JAHASH)!
+    const cap = controls[0].kind === 'stacks' ? controls[0].shared! : 0
+    const state = withOverrides(maxPassiveState(), { [controls[0].id]: cap })
+    expect(controls.reduce((sum, c) => sum + (state[c.id] ?? 0), 0)).toBeLessThanOrEqual(cap)
+  })
+})
+
 describe('forgePassiveEffects', () => {
   it('turns each item bonus into engine effects with the same totals as the planner', () => {
     const state = maxPassiveState()
@@ -68,9 +94,36 @@ describe('forgePassiveEffects', () => {
     expect(effects.some(e => e.id === JAHASH)).toBe(true)
   })
 
-  it('lists only items whose passive can change an order', () => {
-    expect(orderPassiveItems()).toContain(ABYSSAL)
-    expect(orderPassiveItems()).not.toContain(TURQUOISE)
+  it('lists every configurable passive, including Dofus with combat-only effects', () => {
+    expect(forgePassiveItems()).toEqual([...ITEM_PASSIVES.keys()])
+    for (const id of [694, TURQUOISE, 6980, 8698, 20286, 31794]) expect(forgePassiveItems()).toContain(id)
+    expect(orderPassiveItems()).toEqual(forgePassiveEffects(maxPassiveState()).map(p => p.id))
+  })
+
+  it('previews the full combat bonus without dropping final damage or vulnerability', () => {
+    const state = maxPassiveState()
+    for (const id of forgePassiveItems()) expect(forgePassiveBonus(id, state)).toEqual(passiveBonus([id], state))
+    expect(forgePassiveBonus(694, state)).toEqual({ finalDamagePercent: 10 })
+    expect(forgePassiveBonus(TURQUOISE, state)).toEqual({ finalDamagePercent: 10 })
+    expect(forgePassiveBonus(31794, state)).toEqual({ finalDamagePercent: 10 })
+    expect(forgePassiveBonus(6980, state)).toEqual({ finalDamagePercent: 10 })
+    expect(forgePassiveBonus(21996, state)).toEqual({ finalDamagePercent: -10, ap: 1 })
+  })
+
+  it('switches the Vulbis between its final-damage and Lock cases without inventing order stats', () => {
+    const control = ITEM_PASSIVES.get(6980)![0].id
+    const state = withOverrides(maxPassiveState(), { [control]: 2 })
+    expect(forgePassiveBonus(6980, state)).toEqual({ lock: 20 })
+    expect(forgePassiveEffects(state).find(p => p.id === 6980)?.effects).toEqual([{ stat: 'Lock', min: 20, max: 20 }])
+  })
+
+  it('carries combat-only settings and explicit zeros for disabled or excluded effects', () => {
+    const crimson = ITEM_PASSIVES.get(694)![0].id
+    const turquoise = ITEM_PASSIVES.get(TURQUOISE)![0].id
+    const dofzzbz = ITEM_PASSIVES.get(31794)![0].id
+    const state = withOverrides(maxPassiveState(), { [crimson]: 4, [dofzzbz]: 0 })
+    expect(passiveStateFor(state, [694, TURQUOISE, 31794], new Set([TURQUOISE])))
+      .toEqual({ [crimson]: 4, [turquoise]: 0, [dofzzbz]: 0 })
   })
 
   it('sorts passive items into Dofus, Prysmaradites and legendary gear', () => {
@@ -78,6 +131,33 @@ describe('forgePassiveEffects', () => {
     expect(passiveSection(it('dofus', 'Dofus'))).toBe('dofus')
     expect(passiveSection(it('dofus', 'Prysmaradite'))).toBe('prysmaradite')
     expect(passiveSection(it('cloak', 'Cloak'))).toBe('legendary')
+  })
+
+  it('legendaryForgeEffects ties the companion\'s bonus to its own equipped id, with no companion or no pick counting nothing', () => {
+    expect(legendaryForgeEffects(null, { id: 'magicrabe.bwork', value: 1 })).toEqual([])
+    expect(legendaryForgeEffects(1711, null)).toEqual([])
+    expect(legendaryForgeEffects(1711, { id: 'bakushana.chafer', value: 1 })).toEqual([]) // text-only: no stat
+    // Final damage (Boowolf, Kanig) is a damage multiplier, not an order stat — same as legendary gear, it never shows here.
+    expect(legendaryForgeEffects(1711, { id: 'poukachi.boowolf', value: 2 })).toEqual([])
+    expect(legendaryForgeEffects(1711, { id: 'magicrabe.bwork', value: 2 }))
+      .toEqual([{ id: 1711, effects: [{ stat: '% Ranged Damage', min: 3, max: 3 }] }])
+  })
+
+  it('rankLegendaryBonuses only offers bonuses an order stat can ask for, scored by the order\'s weights', () => {
+    const ranked = rankLegendaryBonuses([{ stat: 'range', weight: 10 }])
+    // Only an order-stat bonus can appear; final-damage-only ones (Boowolf, Kanig) never do.
+    expect(ranked.some(r => r.bonus.id === 'poukachi.boowolf')).toBe(false)
+    expect(ranked.some(r => r.bonus.id === 'magicrabe.kanig')).toBe(false)
+    // Range-weighted goals: Range bonuses (Neye, Bambooto) win over everything else, highest score first.
+    expect(ranked[0].parts).toEqual({ range: 3 })
+    expect(ranked[0].score).toBe(30)
+    expect(ranked.every((r, i) => i === 0 || r.score <= ranked[i - 1].score)).toBe(true)
+  })
+
+  it('rankLegendaryBonuses scores a choice bonus at its better-fitting option', () => {
+    const ranked = rankLegendaryBonuses([{ stat: 'rangedDamagePercent', weight: 10 }, { stat: 'meleeDamagePercent', weight: 1 }])
+    const bwork = ranked.find(r => r.bonus.id === 'magicrabe.bwork')!
+    expect(bwork.parts).toEqual({ rangedDamagePercent: 3 })
   })
 
   it('passiveStateFor keeps only the given items', () => {
@@ -91,9 +171,10 @@ describe('forgePassiveEffects', () => {
 describe('passives in the order config', () => {
   beforeEach(() => localStorage.clear())
 
-  it('reach the engine only when switched on', () => {
+  it('passes the effects it was given through as-is — gating by mode is the caller\'s job (useForge.ts), so a companion legendary bonus survives passives: off', () => {
     const effects = forgePassiveEffects(maxPassiveState())
-    expect(toWireConfig(makeDefaultConfig(), 96, 200, undefined, effects).passiveEffects).toEqual([])
+    expect(toWireConfig(makeDefaultConfig(), 96, 200, undefined, effects).passiveEffects).toBe(effects)
+    expect(toWireConfig(makeDefaultConfig(), 96, 200, undefined, []).passiveEffects).toEqual([])
     expect(toWireConfig({ ...makeDefaultConfig(), passives: 'max' }, 96, 200, undefined, effects).passiveEffects).toBe(effects)
   })
 
@@ -103,6 +184,11 @@ describe('passives in the order config', () => {
     expect(loadSavedConfig().passiveExcluded).toEqual([ABYSSAL])
     expect(sanitizeExcluded([ABYSSAL, ABYSSAL, 1, 'x', 1.5, JAHASH])).toEqual([ABYSSAL, JAHASH])
     expect(sanitizeExcluded('nope')).toEqual([])
+  })
+
+  it('legendary bonus candidates: unknown ids and text-only bonuses are dropped', () => {
+    expect(sanitizeLegendaryCandidates(['magicrabe.bwork', 'bakushana.chafer', 'nope.nope', 1])).toEqual(['magicrabe.bwork'])
+    expect(sanitizeLegendaryCandidates('nope')).toEqual([])
   })
 
   it('the mode is saved, and anything unknown reads as off', () => {

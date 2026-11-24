@@ -21,6 +21,7 @@ import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
 import { StarRating } from '@/features/builds/StarRating.tsx'
 import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
 import { hasPassive } from '@/engine/passives.ts'
+import { legendaryBonusOf } from '@/engine/petLegendary.ts'
 import { STAT_META, fmtValue, isIgnored, statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
 import { encodeSnapshot } from '@/features/share/codec.ts'
@@ -465,6 +466,13 @@ export function BuildDetailPage() {
     return build.snapshot.e.flatMap(id => (id != null && hasPassive(id) && byId.has(id) ? [byId.get(id)!] : []))
   }, [build, equipmentData])
 
+  // The companion's legendary bonus, only shown when a companion is actually equipped.
+  const legendaryPick = useMemo(() => {
+    if (!build) return null
+    const companionEquipped = build.snapshot.e[ALL_SLOTS.indexOf('companion')] != null
+    return companionEquipped && build.snapshot.lb && legendaryBonusOf(build.snapshot.lb.id) ? build.snapshot.lb : null
+  }, [build])
+
 
   if (loading) {
     return (
@@ -684,9 +692,9 @@ export function BuildDetailPage() {
             </div>
           </div>
 
-          {passiveItems.length > 0 && (
+          {(passiveItems.length > 0 || legendaryPick) && (
             <div className="detail-passives-panel">
-              <PassivesPanel items={passiveItems} state={build.snapshot.p ?? {}} />
+              <PassivesPanel items={passiveItems} state={build.snapshot.p ?? {}} legendary={legendaryPick} />
             </div>
           )}
 

@@ -540,41 +540,297 @@ html.light .fg-dialog {
   margin: 0;
   padding: 0;
 }
+.fg-passives > .fg-check {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.fg-passives > .fg-segment {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  background: var(--canvas);
+}
+.fg-passives .fg-segment button[aria-checked="true"] {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  color: var(--accent);
+}
+.fg-passive-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin: 4px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.fg-passives > .fg-passive-sections > li,
+.fg-passive-companion {
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  overflow: hidden;
+}
+.fg-passives > .fg-passive-sections > li.is-open {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+}
 .fg-passive-head {
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid var(--subtle);
+  gap: 0;
+  padding-left: 12px;
+  background: var(--stage);
 }
 .fg-passive-head .fg-check {
-  flex: 1;
+  flex: 0 0 auto;
+  min-height: 48px;
+  padding-right: 10px;
 }
 .fg-passive-head small {
-  font: 11px "IBM Plex Mono";
-  color: var(--muted);
+  flex-shrink: 0;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: var(--subtle);
+  font: 12px "IBM Plex Mono";
+  color: var(--text);
 }
-.fg-passive-head button {
-  display: grid;
-  place-items: center;
-  min-width: 32px;
-  min-height: 32px;
+.fg-passive-head .fg-passive-disclosure {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 12px 8px 0;
   border: 0;
   background: none;
+  text-align: left;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fg-passive-disclosure > span {
+  flex: 1;
+}
+.fg-passive-disclosure > svg {
+  flex-shrink: 0;
   color: var(--muted);
 }
-.fg-passive-head button[aria-expanded="true"] {
+.fg-passive-disclosure[aria-expanded="true"] > svg {
+  transform: rotate(180deg);
   color: var(--accent);
 }
-.fg-passive-sections ul li {
-  display: flex;
+.fg-passive-sections .fg-passive-items {
+  padding: 4px 10px;
+  border-top: 1px solid var(--line);
+}
+.fg-passive-empty {
+  padding: 10px 2px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.fg-passive-items .fg-passive-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding-left: 22px;
+  gap: 2px 10px;
+  padding: 10px 2px;
+}
+.fg-passive-item + .fg-passive-item {
+  border-top: 1px solid var(--subtle);
+}
+.fg-passive-item > .fg-check {
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.fg-passive-item > .fg-check > :not(input, span) {
+  flex-shrink: 0;
+}
+.fg-passive-item > .fg-bonus {
+  grid-column: 1;
+  grid-row: 2;
+  justify-content: flex-start;
+  padding-left: 64px;
   font-size: 12px;
 }
-.fg-passive-sections ul li.is-off {
-  opacity: 0.55;
+.fg-passive-item > .fg-bonus > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.fg-passive-item > .fg-bonus img {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+}
+.fg-passive-tune {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  max-width: 100px;
+  min-height: 36px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+.fg-passive-tune[aria-expanded="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+}
+.fg-passive-controls {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: 5px;
+  background: var(--canvas);
+}
+.fg-passive-editor-head,
+.fg-passive-editor-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+}
+.fg-passive-editor-head {
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.fg-passive-editor-head button {
+  min-width: 32px;
+  justify-content: center;
+}
+.fg-passive-editor-footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--subtle);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.fg-passive-controls fieldset {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.fg-passive-controls fieldset:disabled {
+  opacity: 0.5;
+}
+.fg-passive-controls > p {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.fg-passive-controls :is(.passive-options button, .passive-toggle, .passive-step, .passive-pips button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+.fg-passive-controls .passive-options button[aria-checked="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.fg-passive-controls .passive-pips button {
+  min-height: 12px;
+  padding: 0;
+}
+.fg-dialog .fg-passive-controls .passive-pips button[aria-label] {
+  min-width: 0;
+}
+.fg-dialog .fg-passive-controls .passive-step {
+  width: 36px;
+  min-width: 36px;
+  min-height: 36px !important;
+}
+.fg-passive-controls .passive-stacks p {
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.fg-passive-controls .passive-pips button.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.fg-passive-controls .passive-bonus > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: normal;
+}
+.fg-passive-controls .passive-bonus img {
+  display: inline-block;
+  flex-shrink: 0;
+  margin: 0;
+}
+.fg-passive-controls .passive-options {
+  gap: 8px;
+}
+.fg-passive-controls .passive-options button {
+  font-size: 13px;
+}
+.fg-passive-adjusted {
+  flex-basis: 100%;
+  color: var(--accent);
+  font-size: 11px;
+}
+.fg-passive-item.is-off > :is(.fg-check, .fg-bonus) {
+  color: var(--muted);
+}
+.fg-passive-item.is-off > .fg-bonus {
+  opacity: 0.5;
+}
+.fg-passives :is(button, input):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.fg-passives button:hover:not(:disabled) {
+  background-color: var(--hover);
+}
+@media (max-width: 700px) {
+  .fg-passive-tune,
+  .fg-passive-controls :is(.passive-options button, .passive-toggle, .passive-step) {
+    min-height: 44px;
+  }
+  .fg-passive-controls {
+    padding: 10px;
+  }
+  .fg-passive-controls .passive-stacks > div {
+    grid-template-columns: 44px minmax(0, 1fr) 44px 44px;
+    gap: 5px;
+  }
+  .fg-dialog .fg-passive-controls .passive-step {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px !important;
+  }
 }
 .fg-bonus {
   display: inline-flex;
