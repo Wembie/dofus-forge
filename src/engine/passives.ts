@@ -38,7 +38,7 @@ const STATS = new Set<string>([
 ])
 
 /** One generated effect as a bonus ("% Resistance" covers the five elements). */
-function effectBonus(e: GeneratedEffect): PassiveBonus {
+export function effectBonus(e: GeneratedEffect): PassiveBonus {
   if (e.stat === 'resPercentAll') return Object.fromEntries(RES_KEYS.map(k => [k, e.value]))
   return STATS.has(e.stat) ? { [e.stat as PassiveStat]: e.value } : {}
 }
@@ -55,7 +55,7 @@ function sumBonus(bonuses: PassiveBonus[]): PassiveBonus {
  */
 type Pick = string
 
-type Layout =
+export type Layout =
   /** Stacks of one effect. Cap: the game's, or `cap` when the game sets none
    *  (the player picks the real count, so a generous bound costs nothing). */
   | { stacks: Pick; cap?: number; shared?: true }
@@ -129,7 +129,7 @@ export function pickEffect(effects: GeneratedEffect[], pick: Pick): GeneratedEff
   return effects.filter(e => e.stat === stat)[Number(n ?? 0)]
 }
 
-function fromLayout(ankamaId: number, effects: GeneratedEffect[], layout: Layout[]): PassiveControl[] | null {
+export function fromLayout(ankamaId: number, effects: GeneratedEffect[], layout: Layout[]): PassiveControl[] | null {
   const controls: PassiveControl[] = []
   for (const [i, entry] of layout.entries()) {
     const id = `${ankamaId}.${i}`
@@ -153,7 +153,7 @@ function fromLayout(ankamaId: number, effects: GeneratedEffect[], layout: Layout
 }
 
 /** An item without a layout (or whose game data changed shape): one control per effect. */
-function fallback(ankamaId: number, effects: GeneratedEffect[]): PassiveControl[] {
+export function fallback(ankamaId: number, effects: GeneratedEffect[]): PassiveControl[] {
   return effects.filter(e => Object.keys(effectBonus(e)).length > 0).map((e, i) => {
     const id = `${ankamaId}.auto${i}`
     return e.maxStack && e.maxStack > 1

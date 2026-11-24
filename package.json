@@ -19,6 +19,7 @@
     "fetch-data": "tsx scripts/fetch-data.ts",
     "fetch-spells": "tsx scripts/fetch-spells.ts",
     "fetch-passives": "tsx scripts/fetch-passives.ts",
+    "fetch-legendary-pets": "tsx scripts/fetch-legendary-pets.ts",
     "fetch-images": "tsx scripts/fetch-images.ts",
     "sync-item-images": "tsx scripts/sync-item-images.ts",
     "og:pregenerate": "tsx scripts/og-pregenerate.ts",

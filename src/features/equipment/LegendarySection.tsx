@@ -5,7 +5,7 @@ import {
   type LegendaryBonus, type LegendaryPool,
 } from "@/engine/petLegendary.ts";
 import { controlMax, type PassiveBonus } from "@/engine/passives.ts";
-import { STAT_FIELDS, statIconUrl } from "@/features/equipment/statDisplay.ts";
+import { CROQUETTE_ICON, STAT_FIELDS, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { ControlRow } from "@/features/passives/PassivesPanel.tsx";
 
 const BASE = import.meta.env.BASE_URL;
@@ -24,10 +24,6 @@ const POOL_ICON: Record<LegendaryPool, string> = {
   kwakarticho: `${BASE}data/pets-legendary/kwakarticho.webp`,
   magicrabe:   `${BASE}data/pets-legendary/magicrabe.webp`,
 };
-
-// Every "Croquette infusée" looks the same in-game regardless of which
-// bonus it carries — only its name differs — so one icon stands for all 32.
-const CROQUETTE_ICON = `${BASE}data/pets-legendary/croquette.webp`;
 
 function sampleBonus(bonus: LegendaryBonus): PassiveBonus | null {
   if (!bonus.control) return null

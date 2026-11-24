@@ -7,7 +7,7 @@ import {
   type PassiveBonus, type PassiveControl, type PassiveState,
 } from '@/engine/passives.ts'
 import { legendaryBonusOf, legendaryStatBonus } from '@/engine/petLegendary.ts'
-import { statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { CROQUETTE_ICON, statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { bonusParts } from './passiveLabels.ts'
 import './passives.css'
 
@@ -92,6 +92,7 @@ function LegendaryPassiveRow({ bonus, value, onChange }: { bonus: ReturnType<typ
   return (
     <li className={'passive' + (active ? ' is-active' : '')}>
       <div className="passive-source">
+        <img src={CROQUETTE_ICON} alt="" />
         <span>
           <b>{t(bonus.nameKey)}</b>
           <small>{t('passives_legendary_source')}</small>

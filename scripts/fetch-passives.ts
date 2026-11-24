@@ -32,7 +32,7 @@ const ITEMS_URL = `https://api.dofusdu.de/${GAME}/v1/en/items/equipment/all`
 
 /** Game characteristic id → stat key used by src/engine/passives.ts. */
 const CHARACTERISTIC: Record<number, string> = {
-  1: 'ap', 23: 'mp', 25: 'power', 16: 'damage', 18: 'critChance', 84: 'pushbackDamage',
+  1: 'ap', 23: 'mp', 19: 'range', 25: 'power', 16: 'damage', 18: 'critChance', 84: 'pushbackDamage',
   78: 'dodge', 79: 'lock', 82: 'apReduction', 83: 'mpReduction', 27: 'apParry', 28: 'mpParry',
   125: 'meleeDamagePercent', 120: 'rangedDamagePercent', 123: 'spellDamagePercent', 107: 'finalDamagePercent',
   10: 'strength', 15: 'intelligence', 13: 'chance', 14: 'agility',
@@ -44,7 +44,7 @@ const CAST_ACTIONS = new Set([792, 1017, 1018, 1160, 2017, 2160, 2793])
 /** "x#1% damage sustained": on enemies, our hits deal that much more (a separate multiplier in game). */
 const DAMAGE_SUSTAINED = 1163
 
-type Ref = Record<string, unknown>
+export type Ref = Record<string, unknown>
 
 export type GeneratedEffect = {
   stat:     string
@@ -76,7 +76,7 @@ export function passiveSpellRefs(items: ApiItem[]): { id: number; spell: number 
   return out
 }
 
-function parseRefs(raw: unknown): Map<number, Ref> {
+export function parseRefs(raw: unknown): Map<number, Ref> {
   const out = new Map<number, Ref>()
   const refs = ((raw as Ref)?.references as Ref)?.RefIds as unknown[]
   for (const ref of refs ?? []) {
@@ -86,7 +86,7 @@ function parseRefs(raw: unknown): Map<number, Ref> {
   return out
 }
 
-async function getJson(url: string, tries = 3): Promise<unknown> {
+export async function getJson(url: string, tries = 3): Promise<unknown> {
   for (let i = 1; ; i++) {
     try {
       const res = await fetch(url)
