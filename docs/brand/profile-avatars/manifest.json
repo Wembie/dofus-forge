@@ -1142,10 +1142,10 @@
         "temp/profile-avatars/game-references/sram-female-1.png",
         "temp/profile-avatars/game-references/sram-female-2.png"
       ],
-      "sha256": "b6edccda1f9125f4ff5ce9f90e9924f3339576259d81c710dd8c2e48b1b130e9",
-      "bytes": 55190,
+      "sha256": "b14410d292f8e64311cf361eca756013cbf3276971229af5d8bc14ca8fde4b51",
+      "bytes": 52526,
       "pose": "A sharp amused glance back over her shoulder, eyes narrowed with wit, one small dagger being flipped casually beside the other shoulder at the edge. Preserve the blue hood with skull emblem, pale front hair strand and blue lower-face mask.",
-      "prompt": "Use case: precise-object-edit. IMAGE 1 is an existing DOFUS Forge female Sram first-face portrait, rejected because the hand gesture reads like overlapping or duplicated hands. EDIT THIS SAME PORTRAIT. Rebuild ONLY the raised left hand, its wrist and adjacent raised forearm on the viewer-right into ONE unequivocal clean continuous forearm ending in ONE small natural open left hand. The single left palm faces toward the viewer and slightly upward beneath the same tossed dagger, with FOUR relaxed gently fanned fingers and ONE side thumb, exactly FIVE separate visible fingertips. No folded-finger stacks, no tangled knuckles, no overlapping palm shapes, no extra hand at the cuff, no extra wrist or extra arm. Exactly TWO arms in the entire character: the existing nearer arm at viewer-left stays lowered out of frame, the one at viewer-right is raised; each emerges from its own shoulder. ONE coherent torso. Remove any intermediate contour or fold that suggests a third arm or hand. This is a restrained follow-through just after releasing the dagger, not a new dramatic pose. Preserve the floating dagger and its location, first-face pale forelock, skull hood, covered lower face, green eyes, turned shoulders, outfit, proportions, square framing, ink-and-watercolor texture, palette and opaque background exactly. Images 2 and 3 are exact game identity references only. Correct left-handed thumb placement, four fingers plus one thumb, continuous wrist and forearm. No new objects, text, labels, collage, border, logos, glossy rendering or new body parts. Deliver ONE finished square portrait.",
+      "prompt": "Use case: precise-object-edit. ONE targeted anatomy correction to the existing square DOFUS Forge female Sram portrait in IMAGE 1. This is the exact version chosen by the user; keep its raised left hand gesture with index and middle extended, ring and little folded, and one thumb, FIVE digits. Do NOT replace it with an open-palm waving gesture.\nTHE DEFECT IS LOWER-LEFT SHOULDER/BACK, NOT THE RAISED HAND. The current lower-left silhouette reads as THREE arms: a large near bare shoulder descending into the central jagged blue sleeve, a spurious second narrow flesh-colored limb behind it on the far viewer-left ending in a separate blue cuff at the bottom-left corner, and the real raised arm on the viewer-right. REMOVE the spurious OUTERMOST LEFT limb and its separate bottom-left blue cuff entirely. Paint that erased region back into the same off-white watercolor background. Reconstruct a simple coherent back contour behind the near shoulder as needed, without another arm-shaped crescent. The remaining foreground near shoulder must connect to ONLY ONE upper arm and ONE jagged blue sleeve descending out of the bottom edge. The far arm at viewer-right alone remains raised under the dagger. Exactly TWO arms total, two shoulders belonging to ONE torso, no extra skin strip, detached sleeve, duplicated deltoid or third cuff.\nKeep IMAGE 1 face, eyes, pale first hairstyle, skull hood, lower-face covering, turned pose, dagger and its motion marks, and raised five-digit knife-toss hand unchanged. Preserve the existing usual blue costume; do not add a cape or new accessories. Match the original tapered ink, selective hatching, matte watercolor washes, color palette, paper texture and square/circular-avatar framing. Images 2 and 3 establish the exact game identity only.\nANATOMY CHECK BEFORE DELIVERY: trace exactly two continuous arms from one pair of shoulders to their own wrists; correct handedness and thumb position; four fingers plus one thumb when exposed; ONE coherent ribcage, back and torso, without duplicated shoulder or arm-shaped clothing folds. Inspect the entire drawing and specifically the LOWER-LEFT silhouette. No new limbs, hand changes, objects, captions, text, borders or logos. Deliver one opaque square corrected portrait.",
       "gameLook": {
         "headSlot": 1,
         "headId": 57,
@@ -1154,7 +1154,7 @@
         "bodyId": 11,
         "bodySkin": 41
       },
-      "masterSha256": "c878b268e89aef8e0099767d3e3c27a6b813b50a36ec539ae298abb3ebb1a41a",
+      "masterSha256": "37337f5f5e476de82f08ea343b22837d340d3fd839dbe176fff1161d63a0ef55",
       "masterWidth": 1254,
       "masterHeight": 1254,
       "referenceHashes": {
@@ -1163,9 +1163,9 @@
         "temp/profile-avatars/game-references/sram-female-2.png": "448b74dc423838cf02eb0ff3ba7a6dd08fd1e6d6280cbc66ce6167ffcb648600"
       },
       "referenceRoles": [
-        "rejected first hand edit: user reports a multiple-hand appearance; preserve character but simplify the hand and arm",
-        "exact selected game head and default body, angle 1",
-        "exact selected game head and default body, angle 2"
+        "user-selected two-extended-finger portrait; edit shoulder/back only",
+        "exact first female Sram game identity angle 1",
+        "exact first female Sram game identity angle 2"
       ],
       "generationMode": "anatomy edit",
       "originalGeneration": {
@@ -1192,12 +1192,13 @@
         },
         "masterSha256": "ad07af1ec5aac516930355fe8c15935a81a31589f1fc02023b8ad945006e295d"
       },
-      "anatomyCorrection": "Simplify the left knife-toss follow-through to one clean open left palm with four separated fingers and one thumb, one wrist and one continuous raised forearm. Resolve the multiple-hand appearance reported by the user after the first edit; preserve the lowered opposite arm, single torso, face, dagger and costume.",
+      "anatomyCorrection": "El usuario preciso con un recorte que la apariencia de tres brazos esta en el hombro/espalda inferior izquierdo. Prefiere como base la version con dos dedos extendidos; rechaza la sustitucion por palma abierta.",
       "anatomyReview": {
         "reviewedOn": "2026-11-24",
         "fullSizeInspected": true,
         "circularCropInspected": true,
-        "note": "Tras el rechazo del usuario por apariencia de varias manos, se simplifico el gesto: una unica palma izquierda abierta, cuatro dedos largos separados y un pulgar, una muneca y un antebrazo continuo. Brazo opuesto bajo, sin extremidades extra. Rostro y daga conservados; revision ampliada y circular a 150 y 48 px."
+        "shoulderDetailInspected": true,
+        "note": "Se elimino la franja de piel exterior detras del hombro cercano y su segundo puno azul inferior izquierdo. Solo quedan el brazo cercano con un unico hombro/manga y el brazo lejano levantado. La mano conserva indice y medio extendidos, anular y menique plegados y un pulgar; rostro, daga y traje conservados. Inspeccion individual ampliada, detalle del hombro y circulos de 150 y 48 px."
       },
       "correctionHistory": [
         {
@@ -1261,12 +1262,127 @@
                 "temp/profile-avatars/game-references/sram-female-1.png": "b9941f07bf4de2563641c4a07960382b87ef91cd1f3e7ed8954327ed4309bc8d",
                 "temp/profile-avatars/game-references/sram-female-2.png": "448b74dc423838cf02eb0ff3ba7a6dd08fd1e6d6280cbc66ce6167ffcb648600"
               },
-              "output": "temp/profile-avatars/masters/v1/sram-f.png",
+              "output": "temp/profile-avatars/sram-shoulder/before.png",
               "sha256": "c878b268e89aef8e0099767d3e3c27a6b813b50a36ec539ae298abb3ebb1a41a",
+              "selected": false,
+              "fullSizeInspected": true,
+              "circularCropInspected": true,
+              "reviewNote": "Tras el rechazo del usuario por apariencia de varias manos, se simplifico el gesto: una unica palma izquierda abierta, cuatro dedos largos separados y un pulgar, una muneca y un antebrazo continuo. Brazo opuesto bajo, sin extremidades extra. Rostro y daga conservados; revision ampliada y circular a 150 y 48 px.",
+              "previouslySelected": true,
+              "supersededOn": "2026-11-24",
+              "supersededReason": "El usuario preciso con un recorte que la apariencia de tres brazos esta en el hombro/espalda inferior izquierdo. Prefiere como base la version con dos dedos extendidos; rechaza la sustitucion por palma abierta."
+            }
+          ]
+        },
+        {
+          "reviewedOn": "2026-11-24",
+          "previousGeneration": {
+            "classId": "sram",
+            "gender": "female",
+            "asset": "public/avatars/classes/v1/sram-f.webp",
+            "master": "temp/profile-avatars/sram-shoulder/before.png",
+            "referenceImages": [
+              "temp/profile-avatars/audit-corrections/results/sram-f-attempt-1.png",
+              "temp/profile-avatars/game-references/sram-female-1.png",
+              "temp/profile-avatars/game-references/sram-female-2.png"
+            ],
+            "sha256": "b6edccda1f9125f4ff5ce9f90e9924f3339576259d81c710dd8c2e48b1b130e9",
+            "bytes": 55190,
+            "pose": "A sharp amused glance back over her shoulder, eyes narrowed with wit, one small dagger being flipped casually beside the other shoulder at the edge. Preserve the blue hood with skull emblem, pale front hair strand and blue lower-face mask.",
+            "prompt": "Use case: precise-object-edit. IMAGE 1 is an existing DOFUS Forge female Sram first-face portrait, rejected because the hand gesture reads like overlapping or duplicated hands. EDIT THIS SAME PORTRAIT. Rebuild ONLY the raised left hand, its wrist and adjacent raised forearm on the viewer-right into ONE unequivocal clean continuous forearm ending in ONE small natural open left hand. The single left palm faces toward the viewer and slightly upward beneath the same tossed dagger, with FOUR relaxed gently fanned fingers and ONE side thumb, exactly FIVE separate visible fingertips. No folded-finger stacks, no tangled knuckles, no overlapping palm shapes, no extra hand at the cuff, no extra wrist or extra arm. Exactly TWO arms in the entire character: the existing nearer arm at viewer-left stays lowered out of frame, the one at viewer-right is raised; each emerges from its own shoulder. ONE coherent torso. Remove any intermediate contour or fold that suggests a third arm or hand. This is a restrained follow-through just after releasing the dagger, not a new dramatic pose. Preserve the floating dagger and its location, first-face pale forelock, skull hood, covered lower face, green eyes, turned shoulders, outfit, proportions, square framing, ink-and-watercolor texture, palette and opaque background exactly. Images 2 and 3 are exact game identity references only. Correct left-handed thumb placement, four fingers plus one thumb, continuous wrist and forearm. No new objects, text, labels, collage, border, logos, glossy rendering or new body parts. Deliver ONE finished square portrait.",
+            "gameLook": {
+              "headSlot": 1,
+              "headId": 57,
+              "headSkin": 2068,
+              "bodySlot": 1,
+              "bodyId": 11,
+              "bodySkin": 41
+            },
+            "masterSha256": "c878b268e89aef8e0099767d3e3c27a6b813b50a36ec539ae298abb3ebb1a41a",
+            "masterWidth": 1254,
+            "masterHeight": 1254,
+            "referenceHashes": {
+              "temp/profile-avatars/audit-corrections/results/sram-f-attempt-1.png": "c70f98429f58ac6c07104ff092e47c4b6d7ef5e49c477fa2743ed89ad9ce38e3",
+              "temp/profile-avatars/game-references/sram-female-1.png": "b9941f07bf4de2563641c4a07960382b87ef91cd1f3e7ed8954327ed4309bc8d",
+              "temp/profile-avatars/game-references/sram-female-2.png": "448b74dc423838cf02eb0ff3ba7a6dd08fd1e6d6280cbc66ce6167ffcb648600"
+            },
+            "referenceRoles": [
+              "rejected first hand edit: user reports a multiple-hand appearance; preserve character but simplify the hand and arm",
+              "exact selected game head and default body, angle 1",
+              "exact selected game head and default body, angle 2"
+            ],
+            "generationMode": "anatomy edit",
+            "originalGeneration": {
+              "classId": "sram",
+              "gender": "female",
+              "asset": "public/avatars/classes/v1/sram-f.webp",
+              "master": "temp/profile-avatars/audit-corrections/originals/sram-f.png",
+              "referenceImages": [
+                "temp/profile-avatars/masters/v1/iop-m.png",
+                "temp/profile-avatars/game-references/sram-female-1.png",
+                "temp/profile-avatars/game-references/sram-female-2.png"
+              ],
+              "sha256": "cb866ed3c4ea91d9c594ec5a6f5ad00e2ebc1fda3bee33a110f347a120d21fb9",
+              "bytes": 60490,
+              "pose": "A sharp amused glance back over her shoulder, eyes narrowed with wit, one small dagger being flipped casually beside the other shoulder at the edge. Preserve the blue hood with skull emblem, pale front hair strand and blue lower-face mask.",
+              "prompt": "Create ONE original FAN ART USER PROFILE PORTRAIT of the FEMALE SRAM class from DOFUS, for the Dofus Forge collection. Reference roles: IMAGE 1 is the APPROVED COLLECTION ART STYLE ONLY (male Iop ink-and-watercolor drawing). IMAGE 2 and IMAGE 3 show the ACTUAL TARGET female sram GAME MODEL from two angles; these define this portrait's class identity, gender, species, facial features, hairstyle, headwear, original palette and clothing. DO NOT borrow the Iop's orange hair, white eyes, sword, face, arm anatomy or pose from the style reference! Keep this target character instantly recognizable from the two actual game references. Do not redesign into a generic fantasy person; faithfully retain mask, animal muzzle, ears, skin/fur color, headgear and costume as applicable.\nINDIVIDUAL EXPRESSION, POSE AND SMALL STORY for THIS portrait: A sharp amused glance back over her shoulder, eyes narrowed with wit, one small dagger being flipped casually beside the other shoulder at the edge. Preserve the blue hood with skull emblem, pale front hair strand and blue lower-face mask.\nThe drawing must feel like an expressive personal fan illustration, lovingly observed, with its OWN staging and character. Never clone the approved male Iop pose. Invent natural specific body language appropriate to this character, while preserving its iconic design. Upper torso only, one character and just the small class-related prop specified above. Face large near center, clear readable features at 48px. A square avatar that also reads inside a centered circular crop; keep headwear/hair contained within canvas with generous top breathing room, shoulders may crop at bottom. No faraway full-body figure.\nMATCH THE APPROVED ART'S ink and watercolor approach: visible lively dark graphite preliminary strokes in a few places, confident tapered black brush-pen ink with fine and heavy contours, selective hatch marks. Charming asymmetry and expressive French fantasy comic anatomy. Hand-placed loose watercolor fills with small paper gaps near edges, natural varied watercolor boundaries, rich but slightly understated original character colors, matte finish. Keep main silhouette clear and forms economical. Clean warm off-white ground with one restrained loose faded indigo watercolor wash, irregular and unobtrusive. No brown paper tint or all-over fake grunge texture. No generic polished fantasy rendering, no plastic, 3D or photorealism, no metallic over-rendering, no airbrushed gradients, cinematic glow, rim lights, embers, artificial glossy surfaces or over-detailed hair strands. No perfect vector cut-paper shapes. A joyful crafted fan drawing with life, gesture and distinctive drawing decisions.\nOpaque square image with the watercolor background included. No caption, text, signature, fake notes, lettering, watermark, logo, frame, collage or multiple views. Only ONE female sram portrait.",
+              "gameLook": {
+                "headSlot": 1,
+                "headId": 57,
+                "headSkin": 2068,
+                "bodySlot": 1,
+                "bodyId": 11,
+                "bodySkin": 41
+              },
+              "masterSha256": "ad07af1ec5aac516930355fe8c15935a81a31589f1fc02023b8ad945006e295d"
+            },
+            "anatomyCorrection": "Simplify the left knife-toss follow-through to one clean open left palm with four separated fingers and one thumb, one wrist and one continuous raised forearm. Resolve the multiple-hand appearance reported by the user after the first edit; preserve the lowered opposite arm, single torso, face, dagger and costume.",
+            "anatomyReview": {
+              "reviewedOn": "2026-11-24",
+              "fullSizeInspected": true,
+              "circularCropInspected": true,
+              "note": "Tras el rechazo del usuario por apariencia de varias manos, se simplifico el gesto: una unica palma izquierda abierta, cuatro dedos largos separados y un pulgar, una muneca y un antebrazo continuo. Brazo opuesto bajo, sin extremidades extra. Rostro y daga conservados; revision ampliada y circular a 150 y 48 px."
+            }
+          },
+          "reportedIssue": "El usuario preciso con un recorte que la apariencia de tres brazos esta en el hombro/espalda inferior izquierdo. Prefiere como base la version con dos dedos extendidos; rechaza la sustitucion por palma abierta.",
+          "prompt": "Use case: precise-object-edit. ONE targeted anatomy correction to the existing square DOFUS Forge female Sram portrait in IMAGE 1. This is the exact version chosen by the user; keep its raised left hand gesture with index and middle extended, ring and little folded, and one thumb, FIVE digits. Do NOT replace it with an open-palm waving gesture.\nTHE DEFECT IS LOWER-LEFT SHOULDER/BACK, NOT THE RAISED HAND. The current lower-left silhouette reads as THREE arms: a large near bare shoulder descending into the central jagged blue sleeve, a spurious second narrow flesh-colored limb behind it on the far viewer-left ending in a separate blue cuff at the bottom-left corner, and the real raised arm on the viewer-right. REMOVE the spurious OUTERMOST LEFT limb and its separate bottom-left blue cuff entirely. Paint that erased region back into the same off-white watercolor background. Reconstruct a simple coherent back contour behind the near shoulder as needed, without another arm-shaped crescent. The remaining foreground near shoulder must connect to ONLY ONE upper arm and ONE jagged blue sleeve descending out of the bottom edge. The far arm at viewer-right alone remains raised under the dagger. Exactly TWO arms total, two shoulders belonging to ONE torso, no extra skin strip, detached sleeve, duplicated deltoid or third cuff.\nKeep IMAGE 1 face, eyes, pale first hairstyle, skull hood, lower-face covering, turned pose, dagger and its motion marks, and raised five-digit knife-toss hand unchanged. Preserve the existing usual blue costume; do not add a cape or new accessories. Match the original tapered ink, selective hatching, matte watercolor washes, color palette, paper texture and square/circular-avatar framing. Images 2 and 3 establish the exact game identity only.\nANATOMY CHECK BEFORE DELIVERY: trace exactly two continuous arms from one pair of shoulders to their own wrists; correct handedness and thumb position; four fingers plus one thumb when exposed; ONE coherent ribcage, back and torso, without duplicated shoulder or arm-shaped clothing folds. Inspect the entire drawing and specifically the LOWER-LEFT silhouette. No new limbs, hand changes, objects, captions, text, borders or logos. Deliver one opaque square corrected portrait.",
+          "referenceImages": [
+            "temp/profile-avatars/audit-corrections/results/sram-f-attempt-1.png",
+            "temp/profile-avatars/game-references/sram-female-1.png",
+            "temp/profile-avatars/game-references/sram-female-2.png"
+          ],
+          "referenceHashes": {
+            "temp/profile-avatars/audit-corrections/results/sram-f-attempt-1.png": "c70f98429f58ac6c07104ff092e47c4b6d7ef5e49c477fa2743ed89ad9ce38e3",
+            "temp/profile-avatars/game-references/sram-female-1.png": "b9941f07bf4de2563641c4a07960382b87ef91cd1f3e7ed8954327ed4309bc8d",
+            "temp/profile-avatars/game-references/sram-female-2.png": "448b74dc423838cf02eb0ff3ba7a6dd08fd1e6d6280cbc66ce6167ffcb648600"
+          },
+          "referenceRoles": [
+            "user-selected two-extended-finger portrait; edit shoulder/back only",
+            "exact first female Sram game identity angle 1",
+            "exact first female Sram game identity angle 2"
+          ],
+          "reviewNote": "Se elimino la franja de piel exterior detras del hombro cercano y su segundo puno azul inferior izquierdo. Solo quedan el brazo cercano con un unico hombro/manga y el brazo lejano levantado. La mano conserva indice y medio extendidos, anular y menique plegados y un pulgar; rostro, daga y traje conservados. Inspeccion individual ampliada, detalle del hombro y circulos de 150 y 48 px.",
+          "attempts": [
+            {
+              "tool": "Built-in image_gen",
+              "prompt": "Use case: precise-object-edit. ONE targeted anatomy correction to the existing square DOFUS Forge female Sram portrait in IMAGE 1. This is the exact version chosen by the user; keep its raised left hand gesture with index and middle extended, ring and little folded, and one thumb, FIVE digits. Do NOT replace it with an open-palm waving gesture.\nTHE DEFECT IS LOWER-LEFT SHOULDER/BACK, NOT THE RAISED HAND. The current lower-left silhouette reads as THREE arms: a large near bare shoulder descending into the central jagged blue sleeve, a spurious second narrow flesh-colored limb behind it on the far viewer-left ending in a separate blue cuff at the bottom-left corner, and the real raised arm on the viewer-right. REMOVE the spurious OUTERMOST LEFT limb and its separate bottom-left blue cuff entirely. Paint that erased region back into the same off-white watercolor background. Reconstruct a simple coherent back contour behind the near shoulder as needed, without another arm-shaped crescent. The remaining foreground near shoulder must connect to ONLY ONE upper arm and ONE jagged blue sleeve descending out of the bottom edge. The far arm at viewer-right alone remains raised under the dagger. Exactly TWO arms total, two shoulders belonging to ONE torso, no extra skin strip, detached sleeve, duplicated deltoid or third cuff.\nKeep IMAGE 1 face, eyes, pale first hairstyle, skull hood, lower-face covering, turned pose, dagger and its motion marks, and raised five-digit knife-toss hand unchanged. Preserve the existing usual blue costume; do not add a cape or new accessories. Match the original tapered ink, selective hatching, matte watercolor washes, color palette, paper texture and square/circular-avatar framing. Images 2 and 3 establish the exact game identity only.\nANATOMY CHECK BEFORE DELIVERY: trace exactly two continuous arms from one pair of shoulders to their own wrists; correct handedness and thumb position; four fingers plus one thumb when exposed; ONE coherent ribcage, back and torso, without duplicated shoulder or arm-shaped clothing folds. Inspect the entire drawing and specifically the LOWER-LEFT silhouette. No new limbs, hand changes, objects, captions, text, borders or logos. Deliver one opaque square corrected portrait.",
+              "referenceImages": [
+                "temp/profile-avatars/audit-corrections/results/sram-f-attempt-1.png",
+                "temp/profile-avatars/game-references/sram-female-1.png",
+                "temp/profile-avatars/game-references/sram-female-2.png"
+              ],
+              "referenceHashes": {
+                "temp/profile-avatars/audit-corrections/results/sram-f-attempt-1.png": "c70f98429f58ac6c07104ff092e47c4b6d7ef5e49c477fa2743ed89ad9ce38e3",
+                "temp/profile-avatars/game-references/sram-female-1.png": "b9941f07bf4de2563641c4a07960382b87ef91cd1f3e7ed8954327ed4309bc8d",
+                "temp/profile-avatars/game-references/sram-female-2.png": "448b74dc423838cf02eb0ff3ba7a6dd08fd1e6d6280cbc66ce6167ffcb648600"
+              },
+              "output": "temp/profile-avatars/masters/v1/sram-f.png",
+              "sha256": "37337f5f5e476de82f08ea343b22837d340d3fd839dbe176fff1161d63a0ef55",
               "selected": true,
               "fullSizeInspected": true,
               "circularCropInspected": true,
-              "reviewNote": "Tras el rechazo del usuario por apariencia de varias manos, se simplifico el gesto: una unica palma izquierda abierta, cuatro dedos largos separados y un pulgar, una muneca y un antebrazo continuo. Brazo opuesto bajo, sin extremidades extra. Rostro y daga conservados; revision ampliada y circular a 150 y 48 px."
+              "shoulderDetailInspected": true,
+              "reviewNote": "Se elimino la franja de piel exterior detras del hombro cercano y su segundo puno azul inferior izquierdo. Solo quedan el brazo cercano con un unico hombro/manga y el brazo lejano levantado. La mano conserva indice y medio extendidos, anular y menique plegados y un pulgar; rostro, daga y traje conservados. Inspeccion individual ampliada, detalle del hombro y circulos de 150 y 48 px."
             }
           ]
         }

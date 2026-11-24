@@ -396,8 +396,8 @@
       "asset": "public/avatars/classes/v1/sram-f.webp",
       "headSlot": 1,
       "gender": "female",
-      "sha256": "b6edccda1f9125f4ff5ce9f90e9924f3339576259d81c710dd8c2e48b1b130e9",
-      "masterSha256": "c878b268e89aef8e0099767d3e3c27a6b813b50a36ec539ae298abb3ebb1a41a",
+      "sha256": "b14410d292f8e64311cf361eca756013cbf3276971229af5d8bc14ca8fde4b51",
+      "masterSha256": "37337f5f5e476de82f08ea343b22837d340d3fd839dbe176fff1161d63a0ef55",
       "fullSizeInspected": true,
       "circularCropInspected": true,
       "status": "corregida-y-revisada",
@@ -408,8 +408,18 @@
         "sha256": "cb866ed3c4ea91d9c594ec5a6f5ad00e2ebc1fda3bee33a110f347a120d21fb9",
         "masterSha256": "ad07af1ec5aac516930355fe8c15935a81a31589f1fc02023b8ad945006e295d"
       },
-      "resolution": "Tras el rechazo del usuario por apariencia de varias manos, se simplifico el gesto: una unica palma izquierda abierta, cuatro dedos largos separados y un pulgar, una muneca y un antebrazo continuo. Brazo opuesto bajo, sin extremidades extra. Rostro y daga conservados; revision ampliada y circular a 150 y 48 px.",
-      "correctedOn": "2026-11-24"
+      "resolution": "Se elimino la franja de piel exterior detras del hombro cercano y su segundo puno azul inferior izquierdo. Solo quedan el brazo cercano con un unico hombro/manga y el brazo lejano levantado. La mano conserva indice y medio extendidos, anular y menique plegados y un pulgar; rostro, daga y traje conservados. Inspeccion individual ampliada, detalle del hombro y circulos de 150 y 48 px.",
+      "correctedOn": "2026-11-24",
+      "followUpReviews": [
+        {
+          "reviewedOn": "2026-11-24",
+          "previousSha256": "b6edccda1f9125f4ff5ce9f90e9924f3339576259d81c710dd8c2e48b1b130e9",
+          "previousMasterSha256": "c878b268e89aef8e0099767d3e3c27a6b813b50a36ec539ae298abb3ebb1a41a",
+          "previousResolution": "Tras el rechazo del usuario por apariencia de varias manos, se simplifico el gesto: una unica palma izquierda abierta, cuatro dedos largos separados y un pulgar, una muneca y un antebrazo continuo. Brazo opuesto bajo, sin extremidades extra. Rostro y daga conservados; revision ampliada y circular a 150 y 48 px.",
+          "reportedIssue": "El usuario preciso con un recorte que la apariencia de tres brazos esta en el hombro/espalda inferior izquierdo. Prefiere como base la version con dos dedos extendidos; rechaza la sustitucion por palma abierta.",
+          "resolution": "Se elimino la franja de piel exterior detras del hombro cercano y su segundo puno azul inferior izquierdo. Solo quedan el brazo cercano con un unico hombro/manga y el brazo lejano levantado. La mano conserva indice y medio extendidos, anular y menique plegados y un pulgar; rostro, daga y traje conservados. Inspeccion individual ampliada, detalle del hombro y circulos de 150 y 48 px."
+        }
+      ]
     },
     {
       "asset": "public/avatars/classes/v1/xelor-m.webp",
@@ -1663,6 +1673,6 @@
       48
     ],
     "preservedPortrait": "public/avatars/classes/v1/ecaflip-look-4-m.webp",
-    "history": "Each corrected entry retains previousReview; manifest.correctionHistory stores exact edit prompts, attempts and review notes. The first female Sram edit was rejected by the user for a multiple-hand appearance; the selected edit simplifies the raised hand and forearm."
+    "history": "Each corrected entry retains previousReview; manifest.correctionHistory stores exact edit prompts, attempts and review notes. The first female Sram edit was rejected by the user for a multiple-hand appearance; the selected edit simplifies the raised hand and forearm. Follow-up: the user located a duplicated shoulder/back limb and cuff in the first female Sram. Remove that extra silhouette using the user-selected two-extended-finger version; preserve the hand gesture, and archive the superseded open-palm image."
   }
 }

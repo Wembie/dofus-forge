@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.27] — 2026-11-24
+- Fixed the extra arm-shaped outline behind the first female Sram shoulder and removed its duplicate sleeve cuff, preserving the chosen knife-toss hand gesture, face and outfit. Native PNG, profile image, previews and exact edit history are updated
+
 ## [0.4.26] — 2026-11-24
 - Corrected hands and finger readability in 11 profile portraits, restored the third male Ecaflip hand fur from the game model, and fixed the first male Cra bowstring connection. All 13 edits were reviewed enlarged and in circular profile crops, with exact prompts and review history retained; existing avatar choices and saved profiles are preserved
 

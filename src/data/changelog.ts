@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.27',
+    date: '2026-11-24',
+    notes: [
+      'Fixed the extra arm-shaped outline behind the first female Sram shoulder and removed its duplicate sleeve cuff, preserving the chosen knife-toss hand gesture, face and outfit. Native PNG, profile image, previews and exact edit history are updated',
+    ],
+  },
+  {
     version: '0.4.26',
     date: '2026-11-24',
     notes: [

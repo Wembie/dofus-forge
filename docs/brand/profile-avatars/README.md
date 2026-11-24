@@ -27,7 +27,11 @@ Se inspeccionaron individualmente los **152 PNG maestros** ampliados y los WebP 
 | [Osamodas mujer · 4](../../../public/avatars/classes/v1/osamodas-look-4-f.webp) | Palma izquierda con cinco dedos separados bajo la pluma. | Corregido y revisado |
 | [Tymador hombre · 3](../../../public/avatars/classes/v1/rogue-look-3-m.webp) | Mano levantada con cuatro dedos flexionados y un pulgar, conservando el guante. | Corregido y revisado |
 | [Sadida mujer · 2](../../../public/avatars/classes/v1/sadida-look-2-f.webp) | Cinco dedos con siluetas separadas en el guante abierto. | Corregido y revisado |
-| [Sram mujer · 1](../../../public/avatars/classes/v1/sram-f.webp) | Gesto simplificado tras la observación del usuario: una sola palma abierta, cinco dedos separados, una muñeca y un antebrazo continuo bajo la daga. | Corregido y revisado |
+| [Sram mujer · 1](../../../public/avatars/classes/v1/sram-f.webp) | Eliminados la franja de piel y el puño adicional detrás del hombro que sugerían un tercer brazo. Se conserva la mano elegida por el usuario: índice y medio extendidos, anular y meñique plegados y un pulgar. | Corregido y revisado |
+
+La aclaración del usuario ubicó el defecto de la sram en el hombro/espalda, no en su mano. En 0.4.27 se usó la versión que eligió como referencia y se corrigió esa silueta, descartando la variante de palma abierta. Se revisaron la imagen completa, el detalle del hombro y los recortes circulares. La ilustración anterior y ambos prompts quedan en el historial.
+
+![Sram: detalle del hombro antes y después](sram-shoulder-review.webp)
 
 **El zurcarák hombre del rostro 4 se conserva sin cambios:** el usuario aclaró que estaba bien. Los otros 139 PNG y WebP mantienen sus hashes anteriores. Se conservan los rostros, trajes, expresiones y composición de los retratos editados. No cambian las rutas autorizadas ni los perfiles guardados; estas sustituciones no requieren una nueva migración.
 
