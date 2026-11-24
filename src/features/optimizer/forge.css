@@ -567,11 +567,32 @@ html.light .fg-dialog {
 }
 .fg-passive-sections ul li {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   padding-left: 22px;
   font-size: 12px;
+}
+.fg-passive-tune {
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  min-height: 28px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+}
+.fg-passive-tune[aria-expanded="true"] {
+  color: var(--accent);
+}
+.fg-passive-controls {
+  flex-basis: 100%;
+  padding: 4px 0 8px 32px;
+}
+.fg-passive-adjusted {
+  color: var(--accent);
+  font-size: 11px;
 }
 .fg-passive-sections ul li.is-off {
   opacity: 0.55;

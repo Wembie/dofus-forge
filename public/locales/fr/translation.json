@@ -2560,5 +2560,8 @@
   "optimizer_log_companion_bonus": "Essai : {{name}} pour le compagnon",
   "optimizer_passive_companion_winner": "Recherche en cours — en tête : {{name}}",
   "optimizer_log_companion_sweep_step": "Essai {{i}} sur {{n}} : {{name}}",
-  "optimizer_log_companion_winner": "Meilleur bonus de compagnon trouvé : {{name}}"
+  "optimizer_log_companion_winner": "Meilleur bonus de compagnon trouvé : {{name}}",
+  "fg_passive_tune": "Régler le passif de {{name}}",
+  "fg_passive_adjusted": "réglé",
+  "fg_passive_clear": "Retirer le réglage"
 }

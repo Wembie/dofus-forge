@@ -9,7 +9,7 @@ import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, runeStatLabelKey } from '.
 import { isActive, loadSavedConfig, persistConfig, toWireConfig, loadForgeResult, withLegendaryBans } from './forgeConfig.ts'
 import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
-import { forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, rankLegendaryBonuses } from './forgePassives.ts'
+import { forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, rankLegendaryBonuses, withOverrides } from './forgePassives.ts'
 import { legendaryBonusOf } from '@/engine/petLegendary.ts'
 import { track } from '@/lib/analytics.ts'
 import { playForgeDone } from '@/lib/sound.ts'
@@ -455,7 +455,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     // Resolved once per forge; the engine folds them into each item's stats.
     const excludedIds = new Set(config.passiveExcluded)
     const passiveEffects = [
-      ...(config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives), excludedIds)),
+      ...(config.passives === 'off' ? [] : forgePassiveEffects(withOverrides(forgePassiveState(config.passives, plannerPassives), config.passiveOverrides), excludedIds)),
       ...(equipped.companion != null && excludedIds.has(equipped.companion) ? [] : legendaryForgeEffects(equipped.companion, effectiveLegendary ?? null)),
     ]
     countedPassivesRef.current = new Set(passiveEffects.map(p => p.id))
@@ -524,8 +524,11 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
   }
 
   function loadBuild(result: BuildResult) {
-    const counted = config.passives === 'max'
-      ? passiveStateFor(forgePassiveState('max', {}), Object.values(result.equipped).filter(id => countedPassivesRef.current.has(id)))
+    // The planner gets what the Forge counted: the max case, or the planner's
+    // own settings with the Forge's per-passive adjustments on top.
+    const adjusted = Object.keys(config.passiveOverrides).length > 0
+    const counted = config.passives === 'max' || (config.passives === 'planner' && adjusted)
+      ? passiveStateFor(withOverrides(forgePassiveState(config.passives, plannerPassives), config.passiveOverrides), Object.values(result.equipped).filter(id => countedPassivesRef.current.has(id)))
       : undefined
     loadForgeResult(result, config.lockedSlots, counted)
     handleClose()

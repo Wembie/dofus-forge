@@ -2560,5 +2560,8 @@
   "optimizer_log_companion_bonus": "Testando: {{name}} para o companheiro",
   "optimizer_passive_companion_winner": "Buscando — vencendo no momento: {{name}}",
   "optimizer_log_companion_sweep_step": "Testando {{i}} de {{n}}: {{name}}",
-  "optimizer_log_companion_winner": "Melhor bônus de companheiro encontrado: {{name}}"
+  "optimizer_log_companion_winner": "Melhor bônus de companheiro encontrado: {{name}}",
+  "fg_passive_tune": "Ajustar a passiva de {{name}}",
+  "fg_passive_adjusted": "ajustada",
+  "fg_passive_clear": "Remover ajuste"
 }

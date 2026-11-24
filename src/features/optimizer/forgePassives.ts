@@ -57,6 +57,25 @@ export function forgePassiveState(mode: ForgePassiveMode, planner: PassiveState)
   return {}
 }
 
+const CONTROLS = new Map([...ITEM_PASSIVES.values()].flat().map(c => [c.id, c]))
+
+/** The Forge's own setting for single passives, by control id (0 turns one off). */
+export function sanitizeOverrides(raw: unknown): Record<string, number> {
+  if (raw == null || typeof raw !== 'object' || Array.isArray(raw)) return {}
+  const out: Record<string, number> = {}
+  for (const [id, v] of Object.entries(raw as Record<string, unknown>)) {
+    const control = CONTROLS.get(id)
+    if (control && typeof v === 'number' && Number.isFinite(v)) out[id] = Math.min(controlMax(control), Math.max(0, Math.trunc(v)))
+  }
+  return out
+}
+
+/** A mode's passive settings with the player's own setting of single passives on top. */
+export function withOverrides(base: PassiveState, overrides: Record<string, number>): PassiveState {
+  if (Object.keys(overrides).length === 0) return base
+  return sanitizePassiveState({ ...base, ...overrides })
+}
+
 /** The part of one item's passive bonus under `state` that an order can ask for. */
 export function orderPassiveBonus(id: number, state: PassiveState): PassiveBonus {
   const total: PassiveBonus = {}

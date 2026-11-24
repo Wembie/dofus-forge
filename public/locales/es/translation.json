@@ -2560,5 +2560,8 @@
   "optimizer_log_companion_bonus": "Probando: {{name}} para la mascota",
   "optimizer_passive_companion_winner": "Buscando — por ahora gana: {{name}}",
   "optimizer_log_companion_sweep_step": "Probando {{i}} de {{n}}: {{name}}",
-  "optimizer_log_companion_winner": "Mejor bono de mascota encontrado: {{name}}"
+  "optimizer_log_companion_winner": "Mejor bono de mascota encontrado: {{name}}",
+  "fg_passive_tune": "Ajustar la pasiva de {{name}}",
+  "fg_passive_adjusted": "ajustada",
+  "fg_passive_clear": "Quitar ajuste"
 }

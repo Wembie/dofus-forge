@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ITEM_PASSIVES, sanitizePassiveState, controlMax, passiveBonus } from '@/engine/passives.ts'
-import { maxPassiveState, forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded, rankLegendaryBonuses, sanitizeLegendaryCandidates } from '../forgePassives.ts'
+import { maxPassiveState, forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded, rankLegendaryBonuses, sanitizeLegendaryCandidates, sanitizeOverrides, withOverrides } from '../forgePassives.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { makeDefaultConfig, toWireConfig, loadSavedConfig, persistConfig, loadForgeResult, STORAGE_KEY } from '../forgeConfig.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -34,6 +34,32 @@ describe('maxPassiveState', () => {
 
   it('is computed once', () => {
     expect(maxPassiveState()).toBe(maxPassiveState())
+  })
+})
+
+describe('per-passive adjustments', () => {
+  const OCHRE = 7754
+  const ochre = ITEM_PASSIVES.get(OCHRE)![0].id
+
+  it('keep known controls, clamp them to their range, and keep an explicit 0', () => {
+    expect(sanitizeOverrides({ [ochre]: 9, nope: 1 })).toEqual({ [ochre]: 2 })
+    expect(sanitizeOverrides({ [ochre]: 0 })).toEqual({ [ochre]: 0 })
+    expect(sanitizeOverrides('x')).toEqual({})
+  })
+
+  it('switch one passive to another case or off, on top of the mode', () => {
+    const max = maxPassiveState()
+    expect(withOverrides(max, {})).toBe(max)
+    const dodge = forgePassiveEffects(withOverrides(max, { [ochre]: 2 })).find(p => p.id === OCHRE)!
+    expect(dodge.effects.map(e => e.stat)).toEqual(forgePassiveEffects({ [ochre]: 2 }).find(p => p.id === OCHRE)!.effects.map(e => e.stat))
+    expect(forgePassiveEffects(withOverrides(max, { [ochre]: 0 })).some(p => p.id === OCHRE)).toBe(false)
+  })
+
+  it('never lets shared stacks pass their cap', () => {
+    const controls = ITEM_PASSIVES.get(JAHASH)!
+    const cap = controls[0].kind === 'stacks' ? controls[0].shared! : 0
+    const state = withOverrides(maxPassiveState(), { [controls[0].id]: cap })
+    expect(controls.reduce((sum, c) => sum + (state[c.id] ?? 0), 0)).toBeLessThanOrEqual(cap)
   })
 })
 

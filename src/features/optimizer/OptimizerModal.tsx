@@ -51,6 +51,7 @@ import {
 } from "@/features/optimizer/forgeConfig.ts";
 import { searchItems, slotNameKey, slotsFor, useForgePicks, type RequiredPlacement } from "@/features/optimizer/forgePicks.ts";
 import {
+  withOverrides,
   PASSIVE_MODES,
   PASSIVE_SECTIONS,
   forgePassiveState,
@@ -76,6 +77,8 @@ import {
 } from "@/features/optimizer/useForge.ts";
 
 import { bonusParts } from "@/features/passives/passiveLabels.ts";
+import { ControlRow } from "@/features/passives/PassivesPanel.tsx";
+import { ITEM_PASSIVES, controlRoom } from "@/engine/passives.ts";
 import { CROQUETTE_ICON, runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { useFocusTrap } from "@/ui/useFocusTrap.ts";
 import { langPathPrefix } from "@/i18n/langPath.ts";
@@ -532,8 +535,20 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
     for (const list of out.values()) list.sort((a, b) => b.level - a.level || a.name.localeCompare(b.name));
     return out;
   }, [forge.itemsById]);
-  const state = useMemo(() => forgePassiveState(on ? mode : "max", forge.plannerPassives), [on, mode, forge.plannerPassives]);
+  const overrides = forge.config.passiveOverrides;
+  const state = useMemo(
+    () => withOverrides(forgePassiveState(on ? mode : "max", forge.plannerPassives), overrides),
+    [on, mode, forge.plannerPassives, overrides],
+  );
   const [openSection, setOpenSection] = useState<PassiveSection | null>(null);
+  const [tuning, setTuning] = useState<number | null>(null);
+  const setOverride = (control: string, value: number) =>
+    forge.setConfig((c) => ({ ...c, passiveOverrides: { ...c.passiveOverrides, [control]: value } }));
+  const clearOverrides = (id: number) =>
+    forge.setConfig((c) => ({
+      ...c,
+      passiveOverrides: Object.fromEntries(Object.entries(c.passiveOverrides).filter(([k]) => k.split(".")[0] !== String(id))),
+    }));
   function include(ids: number[], yes: boolean) {
     const next = new Set(excluded);
     for (const id of ids) {
@@ -653,13 +668,19 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
                   <ul>
                     {items.map((item) => {
                       const counted = !excluded.has(item.ankama_id),
-                        parts = bonusParts(orderPassiveBonus(item.ankama_id, state));
+                        parts = bonusParts(orderPassiveBonus(item.ankama_id, state)),
+                        controls = ITEM_PASSIVES.get(item.ankama_id) ?? [],
+                        adjusted = controls.some((ctl) => ctl.id in overrides),
+                        tuned = tuning === item.ankama_id;
                       return (
                         <li key={item.ankama_id} className={counted ? "" : "is-off"}>
                           <label className="fg-check">
                             <input type="checkbox" checked={counted} onChange={() => include([item.ankama_id], !counted)} />
                             <ItemArt item={item} size={24} />
-                            <span>{item.name}</span>
+                            <span>
+                              {item.name}
+                              {adjusted && <small className="fg-passive-adjusted"> · {t("fg_passive_adjusted")}</small>}
+                            </span>
                           </label>
                           <span className="fg-bonus">
                             {parts.length === 0 ? (
@@ -674,6 +695,34 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
                               ))
                             )}
                           </span>
+                          {controls.length > 0 && (
+                            <button
+                              className="fg-passive-tune"
+                              aria-expanded={tuned}
+                              aria-label={t("fg_passive_tune", { name: item.name })}
+                              onClick={() => setTuning(tuned ? null : item.ankama_id)}
+                            >
+                              <Settings2 size={14} />
+                            </button>
+                          )}
+                          {tuned && (
+                            <div className="fg-passive-controls">
+                              {controls.map((control) => (
+                                <ControlRow
+                                  key={control.id}
+                                  control={control}
+                                  value={state[control.id] ?? 0}
+                                  room={controlRoom(control, state)}
+                                  onChange={setOverride}
+                                />
+                              ))}
+                              {adjusted && (
+                                <button className="fg-link" onClick={() => clearOverrides(item.ankama_id)}>
+                                  {t("fg_passive_clear")}
+                                </button>
+                              )}
+                            </div>
+                          )}
                         </li>
                       );
                     })}

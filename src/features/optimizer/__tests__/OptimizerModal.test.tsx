@@ -9,6 +9,7 @@ import { activatedReq, makeDefaultConfig, persistConfig, STORAGE_KEY } from '../
 import { useForgePicks } from '../forgePicks.ts'
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
+import { ITEM_PASSIVES } from '@/engine/passives.ts'
 
 vi.mock('@/features/builds/api.ts', () => ({
   startForgeRun: vi.fn().mockResolvedValue(null),
@@ -177,6 +178,25 @@ describe('OptimizerModal passives', () => {
     expect(items.length).toBeGreaterThan(0)
     fireEvent.click(items[0])
     expect((items[0] as HTMLInputElement).checked).toBe(false)
+  })
+
+  it('adjusts one passive inside the forge: the Ochre counts its dodge case, and can go back', () => {
+    const rule = open()
+    fireEvent.click(within(rule).getAllByRole('button', { name: 'optimizer_passive_section_configure' })[0])
+    const ochre = within(rule).getByText('Ochre Dofus').closest('li')!
+    fireEvent.click(within(ochre).getByRole('button', { name: 'fg_passive_tune' }))
+    const cases = within(ochre).getAllByRole('radio')
+    expect(cases).toHaveLength(3)
+    expect(cases[1].getAttribute('aria-checked')).toBe('true')
+    fireEvent.click(cases[2])
+    expect(within(ochre).getAllByRole('radio')[2].getAttribute('aria-checked')).toBe('true')
+    expect(within(ochre).getByText(/fg_passive_adjusted/)).toBeTruthy()
+    const control = ITEM_PASSIVES.get(7754)![0].id
+    fireEvent.click(within(ochre).getByRole('button', { name: 'fg_passive_clear' }))
+    expect(within(ochre).getAllByRole('radio')[1].getAttribute('aria-checked')).toBe('true')
+    fireEvent.click(within(ochre).getAllByRole('radio')[0])
+    cleanup()
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).passiveOverrides).toEqual({ [control]: 0 })
   })
 
   it('lists no section while passives are off', () => {
