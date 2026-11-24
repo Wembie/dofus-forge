@@ -5,33 +5,17 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.4.27] — 2026-11-24
-- Fixed the extra arm-shaped outline behind the first female Sram shoulder and removed its duplicate sleeve cuff, preserving the chosen knife-toss hand gesture, face and outfit. Native PNG, profile image, previews and exact edit history are updated
-
-## [0.4.26] — 2026-11-24
-- Corrected hands and finger readability in 11 profile portraits, restored the third male Ecaflip hand fur from the game model, and fixed the first male Cra bowstring connection. All 13 edits were reviewed enlarged and in circular profile crops, with exact prompts and review history retained; existing avatar choices and saved profiles are preserved
-
-## [0.4.25] — 2026-11-23
+## [0.4.19] — 2026-11-24
+- Development tooling: an isolated local beta workshop with separate game data, local test builds, spell and passive snapshots, a catalog change report and an experimental Dracorune laboratory. Includes four languages, undo/redo, JSON import/export and validation; remaining game mechanics are tracked for testing before release
+- Local beta testing: The Forger can now search Dracorune conversions, preserve converted items, show the chosen runes and load results with the same totals. Conversion respects prior smithmagic, pinned and banned item identities, set-ring uniqueness and allowed rune families; Ebony stays optional while its edge cases await verification
+- Local beta: equipment and active set tiers now enforce AP, MP, Range and Summons caps in build totals, passive previews and Forger scoring; official calculations remain unchanged
+- Fixed the "New collection" dialog: the name field's focus ring no longer looks broken, a confusing duplicate of the title was removed, and the dialog box no longer has fields and buttons touching its edges
+- Local beta: Bellaphone now has Bellaura scenarios, six lineage ultimates and optional self bonuses. Damage branches respect size, target position, states and poison timing instead of adding exclusive attacks; scenarios survive undo, reload and export
+- Separated beta experiments from production sources: the stable Forger, native optimizer, build store and spell panel are restored to their pre-beta implementation. Dracorunes, beta caps and Bellaphone previews now use dedicated local sources and a separate native crate
 - 38 new profile portraits: the fourth in-game face and hairstyle for all 19 classes, male and female, with the usual outfit and distinct ink-and-watercolor poses. Choose from 152 avatars; the verified checklist now records 152 of 600 faces complete, with alternate outfits reserved for later
 - Eight more Dofus 3.7 profile landscapes: Evil Forest, Cania Lake, Gisgoul, Bwork Village, Zoth Village, Mount Scauldron, Snowbound Village and Castaway Island. The banner catalog now has 44 choices, with exact prompts and current-client references saved and all earlier profile choices retained
-
-## [0.4.24] — 2026-11-23
-- Separated beta experiments from production sources: the stable Forger, native optimizer, build store and spell panel are restored to their pre-beta implementation. Dracorunes, beta caps and Bellaphone previews now use dedicated local sources and a separate native crate
-
-## [0.4.23] — 2026-11-23
-- Local beta: Bellaphone now has Bellaura scenarios, six lineage ultimates and optional self bonuses. Damage branches respect size, target position, states and poison timing instead of adding exclusive attacks; scenarios survive undo, reload and export
-
-## [0.4.22] — 2026-11-23
-- Fixed the "New collection" dialog: the name field's focus ring no longer looks broken, and a confusing duplicate of the title was removed
-
-## [0.4.21] — 2026-11-23
-- Local beta: equipment and active set tiers now enforce AP, MP, Range and Summons caps in build totals, passive previews and Forger scoring; official calculations remain unchanged
-
-## [0.4.20] — 2026-11-23
-- Local beta testing: The Forger can now search Dracorune conversions, preserve converted items, show the chosen runes and load results with the same totals. Conversion respects prior smithmagic, pinned and banned item identities, set-ring uniqueness and allowed rune families; Ebony stays optional while its edge cases await verification
-
-## [0.4.19] — 2026-11-23
-- Development tooling: an isolated local beta workshop with separate game data, local test builds, spell and passive snapshots, a catalog change report and an experimental Dracorune laboratory. Includes four languages, undo/redo, JSON import/export and validation; remaining game mechanics are tracked for testing before release
+- Corrected hands and finger readability in 11 profile portraits, restored the third male Ecaflip hand fur from the game model, and fixed the first male Cra bowstring connection. All 13 edits were reviewed enlarged and in circular profile crops, with exact prompts and review history retained; existing avatar choices and saved profiles are preserved
+- Fixed the extra arm-shaped outline behind the first female Sram shoulder and removed its duplicate sleeve cuff, preserving the chosen knife-toss hand gesture, face and outfit. Native PNG, profile image, previews and exact edit history are updated
 
 ## [0.4.18] — 2026-11-23
 - 38 new profile portraits: the third in-game face and hairstyle for every class, male and female, with the default outfit and individual poses in the approved ink-and-watercolor style. The avatar gallery now offers 114 portraits; earlier choices and saved pictures are retained
