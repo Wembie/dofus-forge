@@ -74,7 +74,7 @@ import {
   useForge,
   type Forge as ForgeState,
 } from "@/features/optimizer/useForge.ts";
-import { legendaryBonusOf, legendaryStatBonus } from "@/engine/petLegendary.ts";
+
 import { bonusParts } from "@/features/passives/passiveLabels.ts";
 import { CROQUETTE_ICON, runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { useFocusTrap } from "@/ui/useFocusTrap.ts";
@@ -516,7 +516,6 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
   const mode = forge.config.passives,
     on = mode !== "off",
     excluded = useMemo(() => new Set(forge.config.passiveExcluded), [forge.config.passiveExcluded]);
-  const companionBonus = forge.equipped.companion && forge.legendaryBonus ? legendaryBonusOf(forge.legendaryBonus.id) : undefined;
   const candidates = forge.config.companionBonusCandidates;
   function toggleCandidate(id: string) {
     const next = candidates.includes(id) ? candidates.filter((c) => c !== id) : [...candidates, id];
@@ -524,7 +523,6 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
   }
   const [companionOpen, setCompanionOpen] = useState(false);
   const rankedCompanionBonuses = useMemo(() => rankLegendaryBonuses(forge.activeReqs), [forge.activeReqs]);
-  const bestCandidate = candidates.length ? rankedCompanionBonuses.find((r) => candidates.includes(r.bonus.id)) : undefined;
   const sections = useMemo(() => {
     const out = new Map<PassiveSection, AppItem[]>(PASSIVE_SECTIONS.map((s) => [s, []]));
     for (const id of orderPassiveItems()) {
@@ -569,6 +567,9 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
               <input
                 type="checkbox"
                 checked={candidates.length > 0}
+                ref={(el) => {
+                  if (el) el.indeterminate = candidates.length > 0 && candidates.length < rankedCompanionBonuses.length;
+                }}
                 onChange={() =>
                   forge.setConfig((c) => ({
                     ...c,
@@ -591,39 +592,6 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
           </div>
           {companionOpen && (
             <ul>
-              <li>
-                <span className="fg-check is-static">
-                  <img src={CROQUETTE_ICON} alt="" width={24} height={24} />
-                  <span>
-                    {candidates.length > 0
-                      ? t("optimizer_passive_companion_winner", { name: bestCandidate ? t(bestCandidate.bonus.nameKey) : t("optimizer_passive_companion_unset") })
-                      : `${t("optimizer_passive_companion_current")}: ${companionBonus ? t(companionBonus.nameKey) : t("optimizer_passive_companion_unset")}`}
-                  </span>
-                </span>
-                <span className="fg-bonus">
-                  {candidates.length > 0 ? (
-                    bestCandidate ? (
-                      bonusParts(bestCandidate.parts).map((p) => (
-                        <span key={p.key} className={p.negative ? "is-negative" : ""}>
-                          <img src={statIconUrl(p.icon)} alt="" />
-                          {p.value}
-                          <span className="sr-only"> {t(p.tKey)}</span>
-                        </span>
-                      ))
-                    ) : null
-                  ) : companionBonus?.control ? (
-                    bonusParts(legendaryStatBonus(forge.legendaryBonus)).map((p) => (
-                      <span key={p.key} className={p.negative ? "is-negative" : ""}>
-                        <img src={statIconUrl(p.icon)} alt="" />
-                        {p.value}
-                        <span className="sr-only"> {t(p.tKey)}</span>
-                      </span>
-                    ))
-                  ) : companionBonus ? (
-                    <em>{t("passives_text_only")}</em>
-                  ) : null}
-                </span>
-              </li>
               {rankedCompanionBonuses.map(({ bonus, parts }) => {
                 const picked = candidates.includes(bonus.id);
                 return (

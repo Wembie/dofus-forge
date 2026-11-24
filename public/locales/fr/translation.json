@@ -2558,5 +2558,7 @@
   "optimizer_passive_companion_search": "Trouver le meilleur bonus légendaire pour vos objectifs",
   "optimizer_passive_companion_current": "Actuel",
   "optimizer_log_companion_bonus": "Essai : {{name}} pour le compagnon",
-  "optimizer_passive_companion_winner": "Recherche en cours — en tête : {{name}}"
+  "optimizer_passive_companion_winner": "Recherche en cours — en tête : {{name}}",
+  "optimizer_log_companion_sweep_step": "Essai {{i}} sur {{n}} : {{name}}",
+  "optimizer_log_companion_winner": "Meilleur bonus de compagnon trouvé : {{name}}"
 }

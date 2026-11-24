@@ -2558,5 +2558,7 @@
   "optimizer_passive_companion_search": "Find the best legendary bonus for your goals",
   "optimizer_passive_companion_current": "Current",
   "optimizer_log_companion_bonus": "Trying: {{name}} for the companion",
-  "optimizer_passive_companion_winner": "Searching — currently winning: {{name}}"
+  "optimizer_passive_companion_winner": "Searching — currently winning: {{name}}",
+  "optimizer_log_companion_sweep_step": "Trying {{i}} of {{n}}: {{name}}",
+  "optimizer_log_companion_winner": "Best companion bonus found: {{name}}"
 }

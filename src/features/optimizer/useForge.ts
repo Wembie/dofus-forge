@@ -10,6 +10,7 @@ import { isActive, loadSavedConfig, persistConfig, toWireConfig, loadForgeResult
 import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
 import { forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, rankLegendaryBonuses } from './forgePassives.ts'
+import { legendaryBonusOf } from '@/engine/petLegendary.ts'
 import { track } from '@/lib/analytics.ts'
 import { playForgeDone } from '@/lib/sound.ts'
 
@@ -195,6 +196,8 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
   const logIdRef     = useRef(0)
   // Items whose passive the current forge counts (marked on the result cards).
   const countedPassivesRef = useRef<ReadonlySet<number>>(new Set())
+  // Trying several companion bonus candidates: which ones, which is running now, and each one's final score.
+  const sweepRef = useRef<{ picks: { id: string; value: number }[]; i: number; scores: { id: string; value: number; score: number; results: BuildResult[] }[] } | null>(null)
 
   // Debounced: every keystroke in a minimum / ley / cap field is a config
   // change. The unmount flush keeps the last edit when the modal closes
@@ -369,9 +372,32 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     temperedRef.current++
     if (temperedRef.current < workersRef.current.length) return
     const forged = mergeResults(reportsRef.current).map(r => r.result)
-    setResults(forged)
     terminateWorkers()
     setTempering(false)
+
+    const sweep = sweepRef.current
+    if (sweep) {
+      sweep.scores.push({ ...sweep.picks[sweep.i], score: forged[0]?.score ?? -Infinity, results: forged })
+      sweep.i++
+      if (sweep.i < sweep.picks.length) {
+        lightForge([], sweep.picks[sweep.i])
+        return
+      }
+      const winner = sweep.scores.reduce((a, b) => (b.score > a.score ? b : a))
+      sweepRef.current = null
+      useBuildStore.getState().setLegendaryBonus(winner.id, winner.value)
+      setResults(winner.results)
+      addLog(t('optimizer_log_companion_winner', { name: t(legendaryBonusOf(winner.id)!.nameKey) }), 'good')
+      setPhase('forged')
+      playForgeDone()
+      void finishForgeRun(runRef.current, {
+        allMet:  winner.results[0]?.meetsRequired ?? false,
+        seconds: (performance.now() - startRef.current) / 1000,
+      })
+      return
+    }
+
+    setResults(forged)
     setPhase('forged')
     playForgeDone()
     void finishForgeRun(runRef.current, {
@@ -393,7 +419,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     setTimeout(() => setBellowsReady(true), BELLOWS_COOLDOWN_MS)
   }
 
-  function lightForge(seedBuilds: Equipped[] = []) {
+  function lightForge(seedBuilds: Equipped[] = [], legendaryOverride?: { id: string; value: number } | null) {
     if (!selectedClass) { setError(t('optimizer_no_class')); return }
     if (!equipment || !sets) return
     if (!config.stats.some(isActive)) { setError(t('optimizer_no_stats')); return }
@@ -403,21 +429,34 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     terminateWorkers()
     track('forge_run', { intensity: config.intensity })
 
+    // A fresh (non-recursive) call starts the sweep when several companion
+    // bonuses are open to trying; a sweep step passes its own pick in and
+    // leaves sweepRef alone (set by the step that started it).
+    let effectiveLegendary = legendaryOverride
+    if (legendaryOverride === undefined) {
+      sweepRef.current = null
+      const ranked = rankLegendaryBonuses(config.stats.filter(isActive))
+      const picks = config.companionBonusCandidates
+        .map(id => ranked.find(r => r.bonus.id === id))
+        .filter((r): r is NonNullable<typeof r> => r != null)
+        .map(r => ({ id: r.bonus.id, value: r.value }))
+      if (picks.length > 1 && equipped.companion != null) {
+        sweepRef.current = { picks, i: 0, scores: [] }
+        effectiveLegendary = picks[0]
+      } else {
+        effectiveLegendary = picks[0] ?? legendaryBonus
+      }
+    }
+
     const preset = forgeSettings(config)
     presetRef.current = preset
     const count = preset.threads
     const picks = withLegendaryBans(config, { required: placements.filter(p => p.status === 'placed').map(p => p.id), banned }, equipment)
     // Resolved once per forge; the engine folds them into each item's stats.
     const excludedIds = new Set(config.passiveExcluded)
-    // Open to trying several: use whichever of those scores best for this order's
-    // own weighted goals instead of the planner's single saved pick.
-    const bestCandidate = config.companionBonusCandidates.length
-      ? rankLegendaryBonuses(config.stats.filter(isActive)).find(r => config.companionBonusCandidates.includes(r.bonus.id))
-      : undefined
-    const effectiveLegendary = bestCandidate ? { id: bestCandidate.bonus.id, value: bestCandidate.value } : legendaryBonus
     const passiveEffects = [
       ...(config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives), excludedIds)),
-      ...(equipped.companion != null && excludedIds.has(equipped.companion) ? [] : legendaryForgeEffects(equipped.companion, effectiveLegendary)),
+      ...(equipped.companion != null && excludedIds.has(equipped.companion) ? [] : legendaryForgeEffects(equipped.companion, effectiveLegendary ?? null)),
     ]
     countedPassivesRef.current = new Set(passiveEffects.map(p => p.id))
     const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level, picks, passiveEffects)
@@ -445,7 +484,12 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     setLog([])
     addLog(t(seedBuilds.length ? 'optimizer_log_relit' : 'optimizer_log_lit'), 'fire')
     if (passiveEffects.length) addLog(t(`optimizer_log_passives_${config.passives}`, { n: passiveEffects.length }), 'muted')
-    if (bestCandidate) addLog(t('optimizer_log_companion_bonus', { name: t(bestCandidate.bonus.nameKey) }), 'muted')
+    if (sweepRef.current) {
+      const sweep = sweepRef.current
+      addLog(t('optimizer_log_companion_sweep_step', { i: sweep.i + 1, n: sweep.picks.length, name: t(legendaryBonusOf(sweep.picks[sweep.i].id)!.nameKey) }), 'muted')
+    } else if (effectiveLegendary) {
+      addLog(t('optimizer_log_companion_bonus', { name: t(legendaryBonusOf(effectiveLegendary.id)!.nameKey) }), 'muted')
+    }
     let ready = 0
 
     for (let i = 0; i < count; i++) {
@@ -462,6 +506,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
         } else if (msg.type === 'error') {
           setError(t('optimizer_wasm_unavailable'))
           terminateWorkers()
+          sweepRef.current = null
           setPhase('order')
         }
       }
@@ -474,6 +519,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
 
   function extinguish() {
     terminateWorkers()
+    sweepRef.current = null
     setPhase('order')
   }
 

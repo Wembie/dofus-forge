@@ -2558,5 +2558,7 @@
   "optimizer_passive_companion_search": "Buscar o melhor bônus lendário para seus objetivos",
   "optimizer_passive_companion_current": "Atual",
   "optimizer_log_companion_bonus": "Testando: {{name}} para o companheiro",
-  "optimizer_passive_companion_winner": "Buscando — vencendo no momento: {{name}}"
+  "optimizer_passive_companion_winner": "Buscando — vencendo no momento: {{name}}",
+  "optimizer_log_companion_sweep_step": "Testando {{i}} de {{n}}: {{name}}",
+  "optimizer_log_companion_winner": "Melhor bônus de companheiro encontrado: {{name}}"
 }
