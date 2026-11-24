@@ -1,10 +1,13 @@
+import { type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
+import { Heart, Repeat2, Shield, Sparkles, Users } from "lucide-react";
 import { useBuildStore } from "@/store/buildStore.ts";
 import {
   LEGENDARY_BONUSES, LEGENDARY_POOLS, POOL_ODDS,
   type LegendaryBonus, type LegendaryPool,
 } from "@/engine/petLegendary.ts";
-import { controlMax } from "@/engine/passives.ts";
+import { controlMax, type PassiveBonus } from "@/engine/passives.ts";
+import { STAT_FIELDS, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { ControlRow } from "@/features/passives/PassivesPanel.tsx";
 
 const POOL_NAME_KEY: Record<LegendaryPool, string> = {
@@ -13,6 +16,48 @@ const POOL_NAME_KEY: Record<LegendaryPool, string> = {
   kwakarticho: "legendary_pool_kwakarticho",
   magicrabe:   "legendary_pool_magicrabe",
 };
+
+// Text-only bonuses (no modeled stat) grouped by what they actually do in-game,
+// so the picker still reads at a glance instead of every row looking the same.
+const TEXT_ICON: Record<string, ComponentType<{ size?: number; className?: string; "aria-hidden"?: boolean }>> = {
+  "bakushana.prespic":    Repeat2,  // reflects a hit back at the attacker
+  "bakushana.dragoeuf":   Shield,
+  "bakushana.tofoune":    Users,    // MP to nearby allies
+  "bakushana.boursoin":   Heart,    // final-heal boost
+  "bakushana.champa":     Users,    // AP to nearby allies
+  "bakushana.pandore":    Users,    // MP to summons
+  "bakushana.scorbute":   Repeat2,  // self damage, then shared with neighbors
+  "poukachi.moskito":     Heart,    // lifesteal
+  "poukachi.trool":       Sparkles,
+  "poukachi.wabbit":      Sparkles,
+  "magicrabe.abraknyde":  Shield,
+  "magicrabe.craqueleur": Users,    // resistance to allies
+  "magicrabe.krokille":   Shield,
+  "magicrabe.bwak":       Users,    // ranged damage to allies
+  "magicrabe.gloutoblop": Heart,
+  "magicrabe.boufette":   Users,    // melee damage to allies
+  "magicrabe.chafer":     Shield,
+  "magicrabe.scarafeuille": Shield,
+  "magicrabe.timansot":   Heart,
+  "magicrabe.domoizelle": Users,    // life transfer to allies
+};
+
+function sampleBonus(bonus: LegendaryBonus): PassiveBonus | null {
+  if (!bonus.control) return null
+  return bonus.control.kind === "stacks" ? bonus.control.perStack : bonus.control.options[0].bonus
+}
+
+/** A plain icon per bonus: the stat it actually modifies, or a themed one for
+ * the text-only effects (shields, heals, ally buffs) — never a per-species
+ * photo, since the game data has no reliable art for these 33 by name. */
+function BonusIcon({ bonus }: { bonus: LegendaryBonus }) {
+  const stat = sampleBonus(bonus);
+  const statKey = stat && (Object.keys(stat)[0] as keyof typeof STAT_FIELDS);
+  const icon = statKey && STAT_FIELDS[statKey]?.icon;
+  if (icon) return <img className="rune-art is-stat" src={statIconUrl(icon)} alt="" />;
+  const Icon = TEXT_ICON[bonus.id] ?? Sparkles;
+  return <Icon size={18} className="rune-art is-stat" aria-hidden />;
+}
 
 /**
  * A pet/mount's legendary bonus is random (a Quintessence rolls one of 31
@@ -44,6 +89,7 @@ export function LegendarySection() {
                   aria-pressed={picked?.id === b.id}
                   onClick={() => setLegendaryBonus(b.id, b.control ? 0 : 1)}
                 >
+                  <BonusIcon bonus={b} />
                   <span>{t(b.nameKey)}</span>
                 </button>
               ))}
@@ -58,6 +104,7 @@ export function LegendarySection() {
           ) : (
             <>
               <p>
+                <BonusIcon bonus={bonus} />
                 <b>{t(bonus.nameKey)}</b>
               </p>
               <p className="passive-plain">{t(bonus.textKey)}</p>
