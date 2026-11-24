@@ -7,6 +7,39 @@ Colección original de fan art de las 19 clases de Dofus, basada en los modelos 
 - [Prompts y procedencia de cada imagen](manifest.json): prompt exacto, pose, referencias, hash y `gameLook` con posición, id y textura de cabeza/cuerpo.
 - [Plantilla para continuar](prompt-template.json): conservar la técnica artística y los rasgos del modelo, inventando un gesto y expresión distintos para cada retrato.
 
+## Revisión visual de la colección — 2026-11-24
+
+Se inspeccionaron individualmente los **152 PNG maestros** ampliados y los WebP públicos en recortes circulares de 150 y 48 px. El [registro por imagen](visual-audit.json) conserva los hashes de ambos archivos y el resultado: **139 sin anomalías evidentes en esta pasada, cuatro correcciones pendientes, una comparación pendiente y ocho manos dudosas**. No se modificaron ilustraciones durante esta revisión. Los banners quedan fuera de su alcance.
+
+Una imagen sin hallazgos no queda certificada como anatómicamente perfecta. Las dudas de perspectiva siguen abiertas; contar solo los dedos visibles no demuestra que falten otros. Antes de resolver manos, patas o guantes, contrastar una referencia del juego que incluya la mano completa, ya que los renders de generación priorizan cabeza y torso.
+
+Correcciones y comparación pendientes:
+
+| Retrato | Hallazgo | Estado |
+| --- | --- | --- |
+| [Ocra hombre · 1](../../../public/avatars/classes/v1/cra-m.webp) | La cuerda cruza la flecha por delante de su extremo posterior; revisar el enganche de la flecha. | Pendiente de corrección |
+| [Zobal hombre · 1](../../../public/avatars/classes/v1/masqueraider-m.webp) | La palma expuesta se lee con un pulgar y tres dedos largos. | Pendiente de corrección |
+| [Osamodas mujer · 2](../../../public/avatars/classes/v1/osamodas-look-2-f.webp) | El usuario detectó una mano derecha conectada al brazo izquierdo que sostiene el pío. | Pendiente de corrección |
+| [Osamodas mujer · 3](../../../public/avatars/classes/v1/osamodas-look-3-f.webp) | El usuario detectó seis dedos en la mano horizontal. | Pendiente de corrección |
+| [Zurcarák hombre · 3](../../../public/avatars/classes/v1/ecaflip-look-3-m.webp) | El usuario señala dedos demasiado humanos bajo el guante; contrastar forma y pelaje con una referencia completa. | Pendiente de comparación |
+
+**El zurcarák hombre del rostro 4 se conserva:** el usuario aclaró expresamente que está bien y que su observación afecta solo al rostro 3 masculino.
+
+Manos con dedos o pliegues poco claros, pendientes de resolver con una inspección enfocada:
+
+| Retrato | Duda |
+| --- | --- |
+| [Aniripsa mujer · 1](../../../public/avatars/classes/v1/eniripsa-f.webp) | Tres dedos largos y pulgar distinguibles; posible cuarto dedo oculto por la vista lateral. |
+| [Aniripsa hombre · 2](../../../public/avatars/classes/v1/eniripsa-look-2-m.webp) | La palma bajo el soplo no distingue claramente el cuarto dedo largo. |
+| [Selotrop mujer · 2](../../../public/avatars/classes/v1/eliotrope-look-2-f.webp) | La palma bajo el portal muestra tres puntas largas; comprobar el dedo que podría quedar alineado detrás. |
+| [Selotrop mujer · 3](../../../public/avatars/classes/v1/eliotrope-look-3-f.webp) | Los solapamientos de ambas manos alrededor del portal no explican claramente todos los dedos. |
+| [Osamodas mujer · 4](../../../public/avatars/classes/v1/osamodas-look-4-f.webp) | La palma bajo la pluma deja tres dedos largos distinguibles y un pulgar. |
+| [Tymador hombre · 3](../../../public/avatars/classes/v1/rogue-look-3-m.webp) | La mano levantada deja tres puntas claras y pliegues que no explican bien los demás dedos. |
+| [Sadida mujer · 2](../../../public/avatars/classes/v1/sadida-look-2-f.webp) | El guante de la palma abierta deja tres puntas largas y un pulgar distinguibles. |
+| [Sram mujer · 1](../../../public/avatars/classes/v1/sram-f.webp) | Los dedos recogidos de la mano que lanza la daga tienen una construcción ambigua. |
+
+Al editar cualquiera de estas imágenes, conservar el original y el prompt, comprobar otra vez anatomía y recorte, actualizar PNG/WebP y manifiesto, y renovar el registro para los nuevos hashes. No marcar un hallazgo como resuelto solo porque terminó la generación.
+
 ## Rostro 4
 
 38 retratos nuevos para las 19 clases, masculino y femenino, con el cuarto rostro/peinado y el traje habitual del cliente DOFUS 3.7.14.18. Cada ilustración conserva el modelo exacto y tiene una pose propia. Los rostros anteriores siguen disponibles. El progreso actual es de 152/600 rostros terminados y 448 pendientes; los 38 trajes alternativos siguen reservados para después.

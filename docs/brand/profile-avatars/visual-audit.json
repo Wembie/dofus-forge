@@ -1,0 +1,1568 @@
+{
+  "reviewedOn": "2026-11-24",
+  "collectionRevision": 4,
+  "scope": "152 retratos de personajes: 19 clases, masculino y femenino, rostros 1 a 4. Los banners no forman parte de esta revisión.",
+  "method": [
+    "Inspección visual individual de cada PNG maestro a tamaño ampliado.",
+    "Revisión de los WebP públicos en recortes circulares de 150 y 48 píxeles.",
+    "Comprobación de continuidad de brazos, muñecas y torso; lateralidad, dedos visibles, solapamientos y relación con los objetos.",
+    "Registro de las observaciones del usuario con el personaje y rostro exactos, sin trasladarlas a variantes que considera correctas."
+  ],
+  "interpretation": "Sin anomalías evidentes significa que no se detectó un defecto en esta pasada; no equivale a garantizar una anatomía perfecta. Las dudas de perspectiva y dedos ocultos siguen abiertas. Los hallazgos son una cola de revisión, no correcciones ya realizadas.",
+  "anatomyReferenceLimit": "La comparación exhaustiva de las manos con los 152 modelos del juego no se ha realizado. Las referencias de generación encuadran principalmente cabeza y torso; ampliar la referencia de cuerpo/manos antes de resolver diferencias de especie o guantes.",
+  "counts": {
+    "sin-anomalias-evidentes": 139,
+    "corregir": 4,
+    "dudosa": 8,
+    "contrastar": 1
+  },
+  "portraits": [
+    {
+      "asset": "public/avatars/classes/v1/iop-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+      "masterSha256": "2ddedf1ee16c103dd04e4b74400c25070efe1af44cd80b45f98d8d447389ff5c",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/iop-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "69bfe281d1a1647f9ffa1c8798bd528dc10f7a000b3f58fa58c30257ff761ea6",
+      "masterSha256": "4e0a1bd21d15368bf54a93db1bfb278eeff22c048a4f1a7ff2be17f1e2aa4070",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/cra-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "e4217b0f0626473ec114e5b34104bec5b92b95ee6f72522bf7c33de11d8a9bde",
+      "masterSha256": "6b9243a48533c2cecac1758b236d88bebe32c23ad7829834f4a154b15e908bb1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "corregir",
+      "severity": "media",
+      "finding": "La cuerda del arco cruza el cuerpo de la flecha cerca de las plumas en lugar de engancharse en su extremo posterior; corregir el apoyo/nock y la relación cuerda-flecha."
+    },
+    {
+      "asset": "public/avatars/classes/v1/cra-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "3aa636e88e66d46c1ef82b368652434b39a002215af3b3582c8f5a796369c797",
+      "masterSha256": "93342546e45640d74168eed3c80f5e66eebe7c52166d02c4961d532f3cc4a2eb",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ecaflip-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "b707c3477a1b22c8e63380a9ff23221812badad25be619cfc0c460bb064ffc29",
+      "masterSha256": "b27a4c3fd38eb9b6025ecb937e283c59febe0aa72a5ba51aca2d64befc18d418",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ecaflip-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "3cb09c39404c6efaecd2730307023b986fc0c5b8e2e08fe10433b245fc2e94b9",
+      "masterSha256": "84a55e0d4b7fe65127d3ca55807a34de6c190a69f9e7afd317918305e1dc25d0",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eniripsa-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "d419b948cb0d25f2cf2f29d8183ab8a89501c138d9e7850e62660a424923a963",
+      "masterSha256": "8f8b715b9f0b4890fc7f054de0c82be2c45597bc1a71c1fb4696eb1353d17c2a",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eniripsa-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "2aa70aea0b1772fa3546e7a361ef2dc4350fb3a3e92fce8e31c98b83b57dc80e",
+      "masterSha256": "3732b492fc3c551a3a3e54848e580b00b483aa42ab3dc3212d4e7863fb590159",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "dudosa",
+      "severity": "baja",
+      "finding": "La mano de la palma hacia arriba muestra tres dedos y un pulgar; la vista lateral podría ocultar el restante, pero conviene aclarar su silueta."
+    },
+    {
+      "asset": "public/avatars/classes/v1/enutrof-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "114c088da4a6d50c0188f23d17635e11259478b11188698b6419f8a93218dde7",
+      "masterSha256": "1896bb9845f3d59fe1f6d07c5fe9493153126e093cba25af14be7f76f995ed08",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/enutrof-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "306a42ddb7893d9ed642b32f93bfdd9f403e1750d88e1d7310128594f978d7d7",
+      "masterSha256": "30f9832895d2a278e6ee06520e9ab97ca4a4bb2de1b64aa19fa52014932ffac0",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eliotrope-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "55c17ac30da523da42993786b5d4ba141757a20eb8feeaff482820b3e708e96f",
+      "masterSha256": "ed25fb7291e0760f3298d609b20784c05e44813aa22cebd85aff65cb5dae6d48",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eliotrope-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "4e899423dcfcf985764ece3ce637b4908cb3cbd0cebc639f183a0a51cdd2dc2d",
+      "masterSha256": "5e4325a8d3ec094163c919f8deb1cf684a88e5359d87301f5e1702beca3aaf5c",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/feca-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "bf274f9f3841bb05916ff1b8b38f34091813006cef3f26e738ae800a13a0aaa7",
+      "masterSha256": "535acd1a9eb62ce360c93c94048bb81b11881b7f6aba43a404a0be677568139b",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/feca-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "74e2dd46da5bd7c01391c42b6f5f0c7718a514ff2d74e46c0d23ab7fd5bff767",
+      "masterSha256": "79900d7ef5feab91b4106a618295318bd8583518a4da4092fb52af0425cf25cb",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/foggernaut-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "599256397611f4f4989f705c6c393a8b4c41184bdb7b246843a83536004bdd67",
+      "masterSha256": "61ddeeb0e235e7635ac46d77766c29eeedeb2703a0fa982499736f916b6d2002",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/foggernaut-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "651f82e1a107c6a86867b1207f9bf769f58163b7f1339c8784531c1c4a137dcc",
+      "masterSha256": "b624138a9ff4e88df4c1ebb02f68198b4367e99ba982c2f08aab5e4b0f4181e1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/forgelance-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "55f91c9328d73b24a5f701916b3f5ba37efbf87720e2e62e00c1f53aa80119d0",
+      "masterSha256": "999d979fb1611a8facdd506ada1e455d6c6f133183eb05b80ba6ffc502b73764",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/forgelance-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "c93a5952211042f40376393dfcd9243772b91fe5f368b5e6f3844d5e6c4bcd61",
+      "masterSha256": "47f6e06db46fc8170e145c65d42d318f15d80140bfc9d21caaa260b6b5a4b531",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/huppermage-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "df6c71ee730648b88fe0b9800b8795faebbe431bc143c34dcf075ae899eca47e",
+      "masterSha256": "f1bfad44d736088e9ff8a023db053b129f06d5c95f3c299a2e82d69dcfc6bbf3",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/huppermage-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "7cb2bdd03803d2eefe7d258a9c93ef5d7671f4c5ed62b45fe6a772a955dedb5e",
+      "masterSha256": "5092a427951dd88764122017ffb6b3da0e42e7919c574899d9d93da53d67b46c",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/masqueraider-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "8f0cbb112a3c18ddc79c5c054f7c5e3392e41e935099bebb1e6a58934140accb",
+      "masterSha256": "2850e39757e6c300ffe49a1023a9781af482567d65d439cdae61b6bc14c0a0d1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "corregir",
+      "severity": "alta",
+      "finding": "La mano abierta hacia la cámara muestra pulgar y solo tres dedos largos separados. Falta una silueta clara del quinto dedo en una palma expuesta."
+    },
+    {
+      "asset": "public/avatars/classes/v1/masqueraider-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "f59b09211b3ad147f479c37a4bc09ad73f079b87f380e25be0ed552a8ad26916",
+      "masterSha256": "8b41b029812abd02cdcaa4bef5df5b9a27cdf73b24a911060a3537b558c2ee85",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/osamodas-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "c76289d9698371da0a5e90e9a8587693a1ad1d86121b86646069cfa189211178",
+      "masterSha256": "f6fcdd130b74700d0f7818e00e9a00a264593ea022ca50d16505a2a491c209f7",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/osamodas-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "de278daf2f355de56a96cd4f305f997d45747ce67e164ea695114b7e1d2500a2",
+      "masterSha256": "ba68224c8bd275e8efc4e5cc4dadde79062bfa38e9b1d0a282d0721c93df68c4",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ouginak-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "f7040c9534a417db375a44a83c0277516b906bbdf9b82feafaad16ee45a3d99a",
+      "masterSha256": "affa960b04039120911e00ddaeb38868d8ef1136a67bed73782b67549df9d13b",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ouginak-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "7375b9e675ff1770242a921f4105321713b43c29ee682ad6dc5459c59ad582ed",
+      "masterSha256": "d2699600c454dcf47edee8019301c134c146e59d75ce8891d0fdfb4d2f388b7e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/pandawa-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "6e5e24cfd7a684cbcbd6733b416cda7b852e212935a15ae7beb3514406bb050d",
+      "masterSha256": "13cfaea93f9e2890557069ea18245d75a0ab4a3585ef07fc302c6498bac15901",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/pandawa-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "feed3829ef28368d904650e66dd35819ea8ecfe750692c615f7a42bdbeb89349",
+      "masterSha256": "790c18b69749778d418c5731b1e0d681ed346ea5a0a8b4e8b0b76ba22581c9b1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/rogue-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "a2d580f84530b05178f4974fb4bf3d57cd8ade2181d07fbfde9211f52e7fefda",
+      "masterSha256": "2ffc2b04d3ba44a3544d5e81ff47d92441494000f62bdabd0a2cf0710324e99d",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/rogue-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "9f6a82c0c9a5a0236180c5742ac7d957e334d7ad1a7702351428957b34898980",
+      "masterSha256": "3c31557cb9e5b4bcf3d65f72761b527610193f01a06c10545caaac0a5d2b7ad9",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sacrier-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "e4f03131e28817495e23d031d98acc1c1e2d7fb21a2567a1eb82c4a3c395177a",
+      "masterSha256": "e75dbf80e5790e68a1887ed8c48e649a171fd79d013f3ead8bca1bf0279e7108",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sacrier-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "514b2fa373e9ae80b8582c0409b72f34c7831e535b25d32cdf9bbeb82d1ff369",
+      "masterSha256": "1ddffd4dc4bc47f0dd7a017676f3db754e0d5532b4c03e34638c30a6a8ca8084",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sadida-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "fa7d95cf63ecc2e1c5fd4c510c3b980c9838d0e8546a91a5fc49455cca8daa19",
+      "masterSha256": "4b8ee8e2b7c536c94dfa704a1329e4dd16f5a7098b637d20f80fee2bb9a3d4ff",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sadida-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "8878f21575d8294569969e22b30c0dc91b7f8747372c05ee4fdd57b0d0f8548f",
+      "masterSha256": "1450411322894632400ec429e47ab9cf119c036f50887314e73ec9357e954cde",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sram-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "38db7c05fb7c8464b7be72cc65260b3d819d760e350b1fe51bfe6b0b446084e1",
+      "masterSha256": "264ca881c4ea8d800a0d10c5957cf5ef1dfa6aed782c9048878576ccf43a14be",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sram-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "cb866ed3c4ea91d9c594ec5a6f5ad00e2ebc1fda3bee33a110f347a120d21fb9",
+      "masterSha256": "ad07af1ec5aac516930355fe8c15935a81a31589f1fc02023b8ad945006e295d",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "dudosa",
+      "severity": "media",
+      "finding": "La mano que lanza la daga tiene dos dedos extendidos y un pliegue ambiguo junto al pulgar; no quedan claros los dos dedos recogidos restantes. Revisar la construcción de la mano."
+    },
+    {
+      "asset": "public/avatars/classes/v1/xelor-m.webp",
+      "headSlot": 1,
+      "gender": "male",
+      "sha256": "426288acbf36e65c2e52013bc8a9828519d1638f2235764467071ad756346d49",
+      "masterSha256": "159fe572e330ba3719a016247352cee0862526ad71c8262a6a37f5326b540007",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/xelor-f.webp",
+      "headSlot": 1,
+      "gender": "female",
+      "sha256": "6bde77358096abd06d5c467ed123712c0a71bd71aa1f587828c531535bf0bebc",
+      "masterSha256": "c293b00a3e384fb3f3cbfb759588c9ccdb8c4ef94e1cba9bc1ffcc9b198d12c8",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/cra-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "13652461288d964fcf4ad176f1fa172dabd8aec823874a6b87c883cc2116626f",
+      "masterSha256": "cd43c34d766bd7bacf7e6082e764999387a6e1fcf3348bd1b67de9f52bada524",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/cra-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "1d29f974c47f5dcb09f8eb90445f92fcd137e6e0dfbf91de354cf194ea7833fb",
+      "masterSha256": "c696a51e9da425310f35f455529d30d60c4fd8c4770b079e4ff6792f1d86a378",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ecaflip-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "d083a8848cc0a6170cf54c1b4741d72b060d98e1b1bb0d8c3b3714b017f5d801",
+      "masterSha256": "ee3ecd3251501a74604fd06ebb49b60dbb70c1883d54491ca61dbe83787c6bcc",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ecaflip-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "54204729ba1e6ac32da55c41e9b26c24e19d8936063032c69f15929f20a23ca8",
+      "masterSha256": "68132c53b877cd1703a5785cf2b4f277cf8e9c26a3fdbb65374a6f3aa01e08ef",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eniripsa-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "bfba2b458f69b7d750531bc7f20b196244f6e123c15c41b88660a1f6b770192e",
+      "masterSha256": "36d25f0e2814a00ab5dd289f97b8341b38e8edb76a7df6461937638528aa13ee",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "dudosa",
+      "severity": "baja",
+      "finding": "La palma que sostiene el soplo deja solo tres dedos largos distinguibles además del pulgar. Posible solapamiento; revisar separación del cuarto dedo sin confundir ocultación con ausencia."
+    },
+    {
+      "asset": "public/avatars/classes/v1/eniripsa-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "fd85768259b379d7afb4f001648a4891b4450a81fdcdbc0aeea5ee9cb0ff69b8",
+      "masterSha256": "93a6d8b8297de8927ea09429fc3cf798c9ee370992e2068640506af4f7d6e321",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/enutrof-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "e3cdd18560866a05d23b83afb225545031abd59d0541ac51e9f230600f33f231",
+      "masterSha256": "9cb4c503daf81c92d981086eb5612134ef14f15f33175c31a607967298b6555f",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/enutrof-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "b3d809f588625d5f4d4c64dc53286ebc75cc59664f7f3ff38599d193aab66512",
+      "masterSha256": "ec011e0a91b9538d2ef87e9b66ef41ad1fea1b699073318603d6f5f49c43fc08",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eliotrope-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "eec53e7b5c85c63736394db13a023efab609d193c2e616273e37e942d4f26de0",
+      "masterSha256": "c3fb43026d3f6d629a2805c72f9f112588d9f25d3a015ac6097451756b8cd6e0",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eliotrope-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "35cf8424d136ffc67df2e903e09ea62e8c3b80f0bc1f979e8736e383b00c2bd7",
+      "masterSha256": "463f3cbbbd81a75aacab33315bf55252920727c5c932e6358bcb67619d51487e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "dudosa",
+      "severity": "baja",
+      "finding": "Mano de palma abierta: tres puntas largas más pulgar; el cuarto dedo podría estar alineado detrás. Clarificar la separación al retocar."
+    },
+    {
+      "asset": "public/avatars/classes/v1/feca-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "aa36e49e3dd1795a1d9fc92d010d9799f5237e8275dbd0da85f6024f189bb475",
+      "masterSha256": "3dea7206ddda53f1d096a5ebb9cdae29ec9806631e78633a29df7b7e0b2469a8",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/feca-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "ca958a424226b77d35980f62859660bad4e809e9c409bc4459e39c1e845ffbd5",
+      "masterSha256": "95366ca7a1ed97ea505ed28753ee7bb625191788236ea7c1f53b08884cae65aa",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/foggernaut-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "6cda70d2c14fa20f578c33e7c7a5cf3de2779e6d6b718b54e3c2d1f2168361b3",
+      "masterSha256": "19bab8a014537154e4adc62db62059ff9c722dc7eb99e7c0a1c43c2bf359a851",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/foggernaut-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "512772bea1f24611ba8896e3a315d3a407260013e9d6abfab4f0edac29d624ae",
+      "masterSha256": "cffb0a5654c525564f371d9be6dbf1241f04a09f2add69df9939423bf5bcac68",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/forgelance-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "4deb33af01049348856087f370add9fda393fb008cd928eb3bf68f44443037c1",
+      "masterSha256": "8dbaf00b93f09a1faf4f1d8df739469b6be26c9e761d9d14c087a5f30a965401",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/forgelance-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "46b8a47d763383a641d711609a8666ec8becface341d88e7c3be03342f473c55",
+      "masterSha256": "38e0e7306f0c93b3c60b196f15d94a70a0d01823ae28a52c4d3ca70899a8fd86",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/huppermage-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "193d752d16249c633f6e021f910b51d2a76c1736b5c5fc6031136b5c973b0164",
+      "masterSha256": "7df1a0fb7b56ba63de448045f2da119880d21927581f88238537f176dde20ef1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/huppermage-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "788ce42c78caa7558e1c6600c8e897514c5d60f4191a1c8d9f778273d9641495",
+      "masterSha256": "044e7ba9b033e01a0354c9803ec1b5ed08ef6e7f4d3671f2608891766bf21de7",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/iop-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "c6c96aaaaaffdfc841596826367138b9f69343f14164c2b9a1dd9b8c2c55c8ec",
+      "masterSha256": "0821660592d6ae0a41dcf87dacbfe9cba82738a42fd066e087f0ed6695233372",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/iop-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "dc84300249c8cb9733814db9efc543109c7dbeda9fdc76f0202149eb1c7e62ee",
+      "masterSha256": "842893a805b62d1138e13a5b79815500ef13b8eeb580ccea95f294bab2e6c2cd",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/masqueraider-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "1de1290927396c65995ff2943cd347156813d3f889c69c0d4dae2f34e603b084",
+      "masterSha256": "c4a29a69a16ed5eca67e8a939cf86845b32ba1547dba1eb008ba393473141313",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/masqueraider-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "707c1ba7c6974f1bc75101693ebc04ce0de5584b36a11c15a778be85f0de68f0",
+      "masterSha256": "ad832416d5c2100b0d5bf519950b4150553af97b99185cf5e54d2fbab5b1dea4",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/osamodas-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "6e3822c4aa9298bce1775193f00aebb43f57c8f09e9bf540a8b475252951d752",
+      "masterSha256": "b369986693ce795f7e4a88934491479a07a3dd8c7c7412e0260d3442fb55e37c",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/osamodas-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "57e58df86275ae5c7027f16fee621e4a60e2428cbba57dd8ef10fcdd22d75e05",
+      "masterSha256": "b726b95800445e63636d8f59b5edb5d4f4c256f820f8d8c5aa0264232b2f4626",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "corregir",
+      "severity": "alta",
+      "finding": "Observación del usuario: la mano que sostiene el pío es una derecha conectada al brazo izquierdo. Corregir lateralidad y posición del pulgar, conservando pose, ave, rostro y ropa."
+    },
+    {
+      "asset": "public/avatars/classes/v1/ouginak-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "330071f023758432185415e19db8072e2aa3c2cd0dba55414b50316e1f197863",
+      "masterSha256": "f31f0a9f5de065367c9eb1b6d631558933586f8efee03a78a83aa85b67540480",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ouginak-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "da0b7e3addea7710f63ec7b0bf2295b4f802e0e6b410510b0d7f1404cd0b7d59",
+      "masterSha256": "238970dd8f8d135e8a026bc906b5f025fbaa797b480e367d49a241ee1dad9ede",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/pandawa-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "bf7efb48b8dfb48c18e42a316be8b3cd168d73abe68ba4306fea5a0b6578a14e",
+      "masterSha256": "1f83581fefd315aba1e44edab9d69cfaba9d7fc1cf751f1d11cac8c56400bbf0",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/pandawa-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "8bf259085a90daa3535a1df95c86fbb36523ac771fd5b181af931dc3da01c2c1",
+      "masterSha256": "1fb898c6cc87d5248080e6b53231acead447928d89f34ea4cd2833ba14bcf86c",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/rogue-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "34d404c9bd017fdf99292a2543a01e646c5ddb44f516475f66e0256d5038f8c0",
+      "masterSha256": "4c0e675301a2e89411c33a293628e44a98bb42a4298e4d680556665eb02fc362",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/rogue-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "809aaa3193b2ef41df2968a59d852fec52a3cc0b84e74549fb48d4da72697dc9",
+      "masterSha256": "b866ebc3792e1c7ca7fdbc3de384b9107bd889eaef212af501b6b5681ade5c09",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sacrier-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "8adee0b0e8eed31bf21c17d173fe09ccbe5a34f5c76b297a44205e19a1ed3ab4",
+      "masterSha256": "8094a2382eddbd0f2f38cc7b341bc8645bdcdde7e5b5b8f9b2d4688d81295c34",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sacrier-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "833d4a428d59ed131432a833255b6f21e787b764e0be60658ae82c6320defd21",
+      "masterSha256": "f5b15a822c00f626de058c9ebeda55e7a7cf06bb57ec88375e9104bbc69720c1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sadida-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "6cc0c516292c6628792c60b047c6c191253cc4763ba0e7fead2b54e870c5c928",
+      "masterSha256": "3fcebfea8ea2f8f5cd2f08d10f488cbf31c9f97102703d1a38c39d9402000396",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sadida-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "1186b0bdf4dda3cbecfc3ed9dd34027565451303eac7e6f9bf271cb7e348454e",
+      "masterSha256": "37cae8b5fbff5376a35568d5b8bd6257fc68b5b7f892887c6670d0c70b4967d1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "dudosa",
+      "severity": "baja",
+      "finding": "El guante de la palma abierta muestra tres puntas largas y un pulgar; aclarar si el cuarto dedo queda oculto en perspectiva o falta en el dibujo."
+    },
+    {
+      "asset": "public/avatars/classes/v1/sram-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "18508b5a5a6c7acbd994f03eb2e45dc036af0e0449a931e544b70e9aa09655e5",
+      "masterSha256": "e1fc2bccd7c2984a549fd43255f57f03b310bc9e24abf706760bffc1d4f176c6",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sram-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "50b1859ff60738e5a95d78859c2adafac5f8d2054c5bcfc0f4acd1d16f5988c8",
+      "masterSha256": "cb3d1b7db848e3dc1f97c78d279e2739da951e916c3a90c36c176f8a3c538e9d",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/xelor-look-2-m.webp",
+      "headSlot": 2,
+      "gender": "male",
+      "sha256": "2f5a6d4831a84336a66ebb249511423ff8ddfab09cc98345ebbd2492dfc70354",
+      "masterSha256": "6b8117f8ce6e168dfac80dacd38682e0d9fa009a6e168ca6dea2f977487d3420",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/xelor-look-2-f.webp",
+      "headSlot": 2,
+      "gender": "female",
+      "sha256": "b885abc0de2645d9891b8e17d066c399d8a2b96ae2faf3b463347b8cac82a841",
+      "masterSha256": "cc95e5971372a13015fcf0a4789ba2150a4ea1eff889a2dba5943cbfd6818f9e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/cra-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "27eaa80aebee4fbf10035305be9b65c0f9e3ef3c9ef72d5d469c6f4ecc7f70b9",
+      "masterSha256": "1a9bb16a157da2227417a87bcad1e5c90f0305a9e394619b5267b43097481be5",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/cra-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "55994467750c40bc7ec888d4dcb510c4f36591f6ec025b1668fe49001df48ba4",
+      "masterSha256": "70342f8c89af7688f1b29e028ef27c276685a008b103fa5608f9a5d6f6cc82c8",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ecaflip-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "6ac0901cbd8a4796bbc72b5321c941a406058fd96e0fabcad44ad900e934ac18",
+      "masterSha256": "a4d363fa3eaaf008552f5e585fefaa56959a177a7a398d02e4b0a47f4fddb256",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "contrastar",
+      "severity": "media",
+      "finding": "El usuario aclara que la observación sobre manos humanas corresponde solo al zurcarák hombre del estilo 3. El estilo 4 le parece bien y debe conservarse. Contrastar el estilo 3 con manos completas del modelo del juego antes de editar."
+    },
+    {
+      "asset": "public/avatars/classes/v1/ecaflip-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "453e80e67837c9c9e0a01db1ef79edb9b692803df45307de084301c6649c4e16",
+      "masterSha256": "ef816bf45590231e066d37d1f434c19f81c3762e1f22543e38dc20b2c3b9fb4e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eniripsa-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "aeda50e9de16d57dcff53c8de83463417ae658a7506f0162b7d9620783b493e6",
+      "masterSha256": "93c1e26535d8bfb2aa1f17782f9a530f5c654ca5cd6cbfe915264640f323d0b9",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eniripsa-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "fd680945179c738bdbd1ea983d18bebcc8e4c5b4f13715832139c580c46e4c3b",
+      "masterSha256": "808f2d6b12cd97ed5e42210b48ca09b0fd6194b9a2bd48dd1d542ce209c4e369",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/enutrof-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "952ef4f0f5ed7afd67ea63d9589fcbd7b3b24c47b13a65fa4ee98b483177c41d",
+      "masterSha256": "ae8f33d2f18dfaae123de24df08792afd6b63c7c57884d066e4ca15bf1866bbb",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/enutrof-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "71da74c2bcacc496aa1789cdccd9fa8fd65e5409a753e07e096abc6a1fdfe1c3",
+      "masterSha256": "0c96288f4088615670658b92ede2747dbc164b209f7f6592c40f02617db6f52b",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eliotrope-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "b982d933000588129898736c113757a9fce44784310570622a9a9ce6a677ff9c",
+      "masterSha256": "7ec5145db208979c3a12e0a20133dc002739d40fb98718f9292a4ef0e9a15d52",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eliotrope-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "0d88da2d766a0ba161e4679b421f4aa6ec67aa0ccfcaeb6dbc7938a95295b44e",
+      "masterSha256": "96ac3289ec7105cb84548dfdf7ff72ae5c522ff45df50d369e70ff51ad73c0f7",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "dudosa",
+      "severity": "media",
+      "finding": "Las dos manos que rodean el portal tienen pocos dedos distinguibles y solapamientos poco claros. Redibujar la separación si no se puede justificar el quinto por la perspectiva."
+    },
+    {
+      "asset": "public/avatars/classes/v1/feca-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "afb96c80677c46811449d0a3c43d8fe5d86f2b54ce5c0b6cf0caed64a348e786",
+      "masterSha256": "6d4ea86be281b578401f56eecace77bd353606732439bdf70b7f2193fb952265",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/feca-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "b45a89deebe3cd7e5bc0229849a40f9ff1a79b0b8a1d8d34538cd2d2718bda0b",
+      "masterSha256": "1dcd4d4eefe923586b5d862b6a6274d3fbdfe97b77831ce433becdbc5b0c4380",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/foggernaut-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "8d06eade001049fdcc700c50de1c6cb970c4cc2d10c73879d459188ccb395c41",
+      "masterSha256": "5efdf26eb64919069950fb153b2b7f13bc31f2ba3a5c36d938c89f67be8cb34e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/foggernaut-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "306ad6a6b0ea7853f84770bd1d2d0e30e7fbbca584fedb41b32a3f192bb5ca20",
+      "masterSha256": "5c2b1b3942adf1ace21b97f8e0bc8ec750df0d91e167db39ae9794d42aff0547",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/forgelance-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "fd8281348c749868d6bc1afad6bb29e7d8410c4726984b741fdd0e11948ed78d",
+      "masterSha256": "ab6ca8d7a2e0aee820e9932b779cb946c7ec16beb8c7adde8a2e6d3994a1bb4e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/forgelance-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "ccebfd19a6cfb642f6063bf7897ac6683c25fa24081985f5fd8da09424f1ed91",
+      "masterSha256": "19306200edd3c9ba4008985409faafdd1de999084fe6ad8d5fa2e3074d21e378",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/huppermage-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "1e845428d617f6c34b40e4738502c5257fa6dcf0cbed0a180d963dc1b786e166",
+      "masterSha256": "95a794bc0f031c7f2ed9dab184a048cd732a3d3fe17cdfd9f55421700f927a4c",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/huppermage-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "c64d895e4069bcc967ec8326f697d416c66ccfb617fe99ae8de57d3c938c354b",
+      "masterSha256": "f10c15016680a859345251035ba36defbf31fd28b769ef67f1eb34fdf6722b15",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/iop-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "bc4ef737d91eea9bd87c8e6a7329f98e848a0531fa5676f2337b9b338ed18fc8",
+      "masterSha256": "3ce0c62a314b567c6ebf79292d40dc59983a866db1b7bce0e409c71f3e6588f5",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/iop-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "cf3ae2f1c3c071b33a96a9652b622e891694ff4f366ee6d7cf4411cdb7afc360",
+      "masterSha256": "69584dd8408c3e6d8d16e953b7339a333537246c1c1827537755a985df615ae3",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/masqueraider-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "2b21c0728f63b00a688d4ba560aa099bcdb913d362ebc873e8d62e2ab83dd7c9",
+      "masterSha256": "c7e39c59af335a0b0ace92381445b4a0ebaf3dcb27841a0b4ac45e48d4e4e8e9",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/masqueraider-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "18350d81b59595a8cc240b73433233c8d120bc8736a1c9b3a137140d734d9859",
+      "masterSha256": "7cc3c67f0022bfe712575382c6e366c767bd26dba07c9025909121155a6c3a52",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/osamodas-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "5ac477e61f4db96795985b33ee02e35ae667b6455192a52513e69c60ab777532",
+      "masterSha256": "0196f3958746195c1854cd7ea3faebe3c54bcab080572a0ee8da5fb03edd078e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/osamodas-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "61f9b8215235ba6381a8c7a071de21a18920180d763792208ed496c79dd3cf3e",
+      "masterSha256": "20e419f1bb7af7672204fb0f0c50756fc120bae26266340445804a3e0e4c6e7e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "corregir",
+      "severity": "alta",
+      "finding": "Observación del usuario: seis dedos en la mano horizontal. Redibujar una mano izquierda coherente con cuatro dedos y un pulgar, sin dedos o uñas duplicados."
+    },
+    {
+      "asset": "public/avatars/classes/v1/ouginak-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "21311458432bbd08f3bc10f6a559703125d384306d6c556ec93feeb590e3f73a",
+      "masterSha256": "e1ff332a5454524e7af77e356c55307cf5a8b846038911f8dac25b7d38af4cb6",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ouginak-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "729e70f01359405341a4fa0678477786c2b362d565d0e64abfc80830e0f1df9a",
+      "masterSha256": "e2aab7434698c6235bbcabb89fd55e77c1a34b12df7cf67c8beec522176470d1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/pandawa-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "0f540be3535cbe88e6fc3ac237ba13bd8b74f7801caee7c82060bad4fe4ca2a6",
+      "masterSha256": "3cbe882b5e5bae8b41f89d39012294c483aa555cfc2f72d5da9f9f7f425f66f0",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/pandawa-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "516268e18c29332163135d35d646cd734702f89ed2f889dba50b950b265d45dc",
+      "masterSha256": "159a69355c95d885332435b9837a1cb1e78ff366164be15ddc2f2da3c9118dc0",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/rogue-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "bb9cafa5be45763ab235520acb71992dbf9c0217751f8545275629c24300c1cc",
+      "masterSha256": "54588784f5bad85d124ef9fc1b4b07cd8a2ba38469e3b9a4097aea619f12aab9",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "dudosa",
+      "severity": "media",
+      "finding": "La mano levantada con el guante solo deja tres puntas claras; los pliegues oscuros no explican bien los otros dedos ni el pulgar. Revisar forma y separación."
+    },
+    {
+      "asset": "public/avatars/classes/v1/rogue-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "4c0df1cf98f54d7434fe145a561888ca4dcde66a733ea2308469d67dc4bafda8",
+      "masterSha256": "18b38fa9a760d52b59a47cb3f7c2ec2610a936f5a336a1c32f880912d7b4ec44",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sacrier-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "0d24135c6b0f36fc699bb34f20ff42eb8dd5eb1668848ac50aabd5bf6f39c3f0",
+      "masterSha256": "82e9d92657d8812a382e19e8e54edc6ac9cae72f4b97e359ad2da1aa84fcb0c3",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sacrier-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "8b34e8933f794ef4712983ef7f65c431b7be2f690b7bb5a2e2af389adab86a54",
+      "masterSha256": "028226aa33dc072e093a113c6f44b8ce83e9e346cee8642abf49b3c457431cc4",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sadida-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "f2c9738dedf9d95695bb11d9db8a027bf34d4bb5e1c97e5ff3bc14ed1200e513",
+      "masterSha256": "56e81d39c12131e5dbdfe2be637839fde756f6cbebdfd52353a6458ac2a0889c",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sram-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "380bd8a015e7f6d2b236080edfe0d99496106346159f694f39432d4531ba3764",
+      "masterSha256": "91de33ddb15bf22c551f58a6208fd3ac03aa1f8732b19876fdf2e053698f37b8",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sadida-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "2cb1ef766fd9abd7e494b1030a3ed64438949cdc0408d85c9f257171c3726d6c",
+      "masterSha256": "f738acd62724766058384e2aa3f0de3e42587890ef301efaf618f0385b29efc9",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sram-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "8024901326dffa34117a052174d8580b2d8ada9557f37fc3df04ddfc5f8814b9",
+      "masterSha256": "57dab218ccf8e498d9ecabe3ba2c7737551766aecddda023b1fba62838199f17",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/xelor-look-3-m.webp",
+      "headSlot": 3,
+      "gender": "male",
+      "sha256": "c9ebe2ca44ae69b563e19967db656084f40db9e31d8adc42a9aeb35e3932211c",
+      "masterSha256": "34b228b41217636341531a5205d1178c53906c448905ef6f0e47332341b5ceae",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/xelor-look-3-f.webp",
+      "headSlot": 3,
+      "gender": "female",
+      "sha256": "25a0848b0b770305ecbf063463af8575cc01fca7877ca6f980fe93feaa7b9d68",
+      "masterSha256": "3fb85b2dde93a6f00aab88bc8882fed3c83c0fd79a8cf95acd89589078921afa",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/cra-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "a07b3e113e6104691ef1f52896cc36da8da67a0cc9d052342eee543d1a3c216f",
+      "masterSha256": "58a52b8439f57843484712e4e41e3abfa0128f4e769318d130216f6dd94f75fa",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/cra-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "3f33418c00931a8d9d64d204b6aef5f4b72972080b627001a2baa28fdf755da7",
+      "masterSha256": "e197a2a490c41cbf04f008f17c68119cf1221070e74fa83efbe9bf79658cc58b",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ecaflip-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "e8254402d76e72d5c1b357445c75e2b2587f2453548fc11dc57d0da562274447",
+      "masterSha256": "8e92bfe5d39e9ccf912c09fcdef0d5001d86dd4c99ca38d6abace420dff6e6d5",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes",
+      "userInstruction": "El usuario considera correcto el estilo 4 masculino. Conservarlo; su observación sobre manos humanas afecta solo al estilo 3 masculino."
+    },
+    {
+      "asset": "public/avatars/classes/v1/ecaflip-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "722f317f200cc71ed8e3aa0617aa1a4122aff07cbef0f643a47d9fa8501ffafd",
+      "masterSha256": "15c04af2361fde005b9ca6bec54a41a1588265e366f883004aeb0a35ef34b776",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eniripsa-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "dc244315685819c57a030029b2e4a6a3d77b2b1d684b5849c40c4ed903956ee2",
+      "masterSha256": "9e7fc6e3cc267f1971fe4a4f428a46a05eb1ddf8bebec7c33d4f0697ab456f5a",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eniripsa-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "a5043b50bbb370dc71f7c8822ecbc967d4224135d171df8080e4e1f5a042133b",
+      "masterSha256": "2ae5594604e4bf4f1f68a1136e8ff645cee94e2a441e3b3af1a9ea31f9f3404b",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/enutrof-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "3fdb85cf0f2cc78da36ee07a19bb02de1d26573cee2769b1a0a3f57f71cd8cf8",
+      "masterSha256": "d0787d50e22a734fd2b7dad1d7f31ea582dacb06a1236cc5677e20c3cb8d30c1",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/enutrof-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "8a8061df386d9141c978cd57f52d045e889581eeec30bd0635ddca3360a172b2",
+      "masterSha256": "0d9e216b69781169711cab487ac83b721db5e131fc0c9cc91a9f63f96a9a198a",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eliotrope-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "cae2cf742f49243ca2155bb1bb45dc86970b31115354ddfa2bbcf974c5dee83e",
+      "masterSha256": "70c005218bded6b12292b367ebc374a68ee1ef5e2e5ccb0f64442286e12b0d0e",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/eliotrope-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "dd226c51da8d248b993a59a85a908c95c8d731e7abdbfe1f0ce257ff56138912",
+      "masterSha256": "9afb491270c204bae286d89457b448f89da77ae0c17737c177a3773c0030cca2",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/feca-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "1a2a9b326970e34c8e1bd3ce9a64da8f2a6701b5b9882484acff0fec33f26606",
+      "masterSha256": "23ba3f1882b5a3403811c392f28a51dcc7fc329136e0803a76318e1c5b982890",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/feca-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "3f10f9d5b7b8ff666cd5d6670ae6efe39191b260a0f026aa88d5e4640587e8c0",
+      "masterSha256": "a2e16543b07a55e84d5b6e2b2ccf751929ad199597a1138cc80b08d58ffc40fb",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/foggernaut-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "bd02f3c7ccef9a532b20c88ca8d96c550a06e14283314e42c0f2c10d74f5aec0",
+      "masterSha256": "3219a59166c636ddb1ddb614e78d859da92e720d6cfd0e13f99be5eafa9bdf65",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/foggernaut-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "b3243d0ae5bd196fe04538e6a39c54e1af53330bc98b1139e2706aae0526e2e1",
+      "masterSha256": "a54b02d43687c4a412bb5d37a67c5df1b3e9b3f252b523278867056180bb0ddd",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/forgelance-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "f2382fc427b910557ee6201236d425741d64c6c2f2d93c7e8aa635d5f4c6c332",
+      "masterSha256": "95f4bb370f7a5dd7f3b1805571eccd948d332d5fce2b68512e97acd22ad9577c",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/forgelance-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "b9808d3bf6abd49f1eb3648b7e88de26d53eb2fd3c73a069bcc00dfceb0b8911",
+      "masterSha256": "2eb43f26a946cf29a69d912ff917ef2577b72212c390c91ee001d70b4ff60bab",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/huppermage-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "af440825ec6cfdb1ff79a67e0a28b607215358f989c224c034a5f78e203366e2",
+      "masterSha256": "510aaa810a73d6bb05b7bde05eb1ff1d30691e79ecad1a0c750302d2abdf2c2b",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/huppermage-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "47cf70ecce24e6dfee9416b1cc078dc4a7beaa6dfcd3b24a7ba88082b9465fdf",
+      "masterSha256": "8075ce62226736a79aa5aa3941b80c057da0bb6c4894639a5e1018a9f74de304",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/iop-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "33139979bb980a02702d6a5a6de30c0324d4428e772d0d9862f9e62305a68462",
+      "masterSha256": "268c69df48371081302dbe32918a20a6aff9f91ead76d26dc743ab58defa2579",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/iop-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "db45d89b80b9d24ab6de832774f87825110efff09598a263bfe5cff180b0c81a",
+      "masterSha256": "de373dd6ffeaa5e21008192a290fd64416c961831d0a0f78441c9a8ec9eb4092",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/masqueraider-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "d29daf83023c4457e083a0998476b3fec1b2db063246b41f75e2f95eac23b3f5",
+      "masterSha256": "7152602b62cca02629ed84c7711a7c6d16f7be6e4db950291e83072f1531438d",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/masqueraider-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "325563bdcbfa28ef449c2fd5034f41c3a40ab8f1ae231f1687126baa4f3ec6fd",
+      "masterSha256": "24af7850158ef834e00257138aebb027b829e12e9a812c7ce1847e6ea76b4319",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/osamodas-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "1deb49378ca418f50f4904a7bea93052debc5b27c9172803f9dbe5e3dce1ec6f",
+      "masterSha256": "61ee18bbf0b92da0e2def2b162837045ce41f09c85e295a7b044e2ba75331e00",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/osamodas-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "1bde8340113aa07615e8d0e8f25afa828c3dc60da0b109060e0868f3695d8733",
+      "masterSha256": "60f35a2a6f46f9aadf111e30362f15626885bfc15202bbb53d17874f3b35abab",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "dudosa",
+      "severity": "baja",
+      "finding": "La mano abierta bajo la pluma presenta tres dedos largos distinguibles y un pulgar. Puede haber un dedo oculto por la perspectiva; aclarar la silueta antes de dar aprobación definitiva."
+    },
+    {
+      "asset": "public/avatars/classes/v1/ouginak-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "b9c1d839d91aa5613c8dce2c5ee802f17a1191720a302c2898b2a0accbfb7bb1",
+      "masterSha256": "dbb056e8c20e21558c15f03750050424fd612b5c6d3de863cd267787146c1ce0",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/ouginak-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "40bc1f4df5a446b6db37d4d082ed825e605de590fcab1aa9504c1b05fe265b57",
+      "masterSha256": "fd62318ac50473c97ccedb16a452761bd45ffa7f7da0cbb59e1e66f8bcaec6c8",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/pandawa-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "a41a94f04908433d8594c459904efa65811ade1b06257fc1da77456f945937b7",
+      "masterSha256": "f34f879d7f3b244baf5c1f9decbfd818380fd00decd7cc51d32de360b4c3847d",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/pandawa-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "b25b24e8479433b95e9da3f2148128ef7da928d382b085b4102aa39ccd63ea9d",
+      "masterSha256": "a29df4394fd947da1e6e4a85bd8750834392cf35a2002d33f11cd9123ffabd58",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/rogue-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "ecfad7eee9c2278a3941b9e1242ffbb0d0684baf59ed808b28731dd603589760",
+      "masterSha256": "1fa536300186d0667fd721ead15a5c6b0eb4ee72fb0ee3ab4040c6e48d48887a",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/rogue-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "eb6d8ed66459682a624b98562d3789955f3acb661fe1c5f2c2581aed5706010b",
+      "masterSha256": "73c11d040f0f6a13a0cd743e77874004df5f7d7ca0a700f0eaa0895dab32d8c9",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sacrier-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "209605c4f99cec80ca5d929fbb81daae4e4997843049141e428afdaedb4cd6a7",
+      "masterSha256": "f0a2c4e69686493dc93e72c44a1a37a5a172b77ab372bcfa2ca3941d08c8456b",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sacrier-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "9726eda6b4a450b5149db5a088c85591487f12d07f754760a9cdd4bf34efa0ab",
+      "masterSha256": "6d0536757afc974994e9690f267db9c6d2067ba5f373ab0a5496033b222c491a",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sadida-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "81af70bcde0294a83c3bc8058e7cf94619b7ed8d0d3373a51c031ab248ceeeb7",
+      "masterSha256": "7b08b00213f6fa9adb71d9ca809279f00a4705f701263e567137aef59f334c37",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sadida-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "6ffae0caa2cb5cd582f8a0348aa3790236086c70edfd01a926dfa5ebeca38c5f",
+      "masterSha256": "d87a99e5226137755e150b8b19b5a97974116b0a626dfa67e04e45daa93eb0c4",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sram-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "bdbc8c9c656d9f3a98a016b94e2cab7ee37f22c1eaf036bcd265c2fe1ff009f1",
+      "masterSha256": "740805c12e2cb4d01654e9ca775fea23ca4c9e0cb5f96a5010c1d8c52739b8c2",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/sram-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "15d076d09ea85a9778e4fb0f3b4c204e3be9e9c830e82e023313e2bae6aeaad0",
+      "masterSha256": "d88c65848d6783096ba1c1b612560fd283939c0184c5a3bf3b8ce5305bd4eff2",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/xelor-look-4-m.webp",
+      "headSlot": 4,
+      "gender": "male",
+      "sha256": "4bd9a7e8c4c35794231537f32e36661732461f1ca3a30b00da04385e6521628c",
+      "masterSha256": "527c27eda9620d3cae25912fe1feb9a859100e3a060c2df812e471b43107c9aa",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    },
+    {
+      "asset": "public/avatars/classes/v1/xelor-look-4-f.webp",
+      "headSlot": 4,
+      "gender": "female",
+      "sha256": "53d720e79eecd4e2f1261f987fba201011f06946d1c5dea40b82391f13b95f2b",
+      "masterSha256": "b805852121c9c07e1b0191e3af9087c2542d3cd808895439b13c1e84bfaf6bac",
+      "fullSizeInspected": true,
+      "circularCropInspected": true,
+      "status": "sin-anomalias-evidentes"
+    }
+  ]
+}
