@@ -2475,5 +2475,7 @@
   "profile_banner_location_zoth-village": "Pueblo de los zoths",
   "profile_banner_location_mount-torrid": "Monte Tórrido",
   "profile_banner_location_buried-village": "Pueblo Sepultado",
-  "profile_banner_location_castaway-island": "Isla de los Náufragos"
+  "profile_banner_location_castaway-island": "Isla de los Náufragos",
+  "howto_video_title": "Video explicativo (en español)",
+  "howto_video_hint": "Un recorrido en video por la página, desde la versión 0.4.4 hasta ahora."
 }

@@ -2475,5 +2475,7 @@
   "profile_banner_location_zoth-village": "Vilarejo dos Zoths",
   "profile_banner_location_mount-torrid": "Monte Tórrido",
   "profile_banner_location_buried-village": "Vilarejo Soterrado",
-  "profile_banner_location_castaway-island": "Ilha dos Náufragos"
+  "profile_banner_location_castaway-island": "Ilha dos Náufragos",
+  "howto_video_title": "Vídeo explicativo (em espanhol)",
+  "howto_video_hint": "Um tour em vídeo pelo site, da versão 0.4.4 até agora, por enquanto só em espanhol."
 }

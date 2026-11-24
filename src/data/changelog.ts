@@ -9,6 +9,7 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  { version: '0.4.20', date: '2026-11-24', notes: ['Added a Spanish-language video walkthrough of the site to the "How to use" page, covering everything since version 0.4.4'] },
   {
     version: '0.4.19',
     date: '2026-11-24',

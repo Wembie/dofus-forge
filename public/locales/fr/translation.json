@@ -2475,5 +2475,7 @@
   "profile_banner_location_zoth-village": "Village des Zoths",
   "profile_banner_location_mount-torrid": "Mont Torrideau",
   "profile_banner_location_buried-village": "Village enseveli",
-  "profile_banner_location_castaway-island": "Île des naufragés"
+  "profile_banner_location_castaway-island": "Île des naufragés",
+  "howto_video_title": "Vidéo explicative (en espagnol)",
+  "howto_video_hint": "Une visite vidéo du site, de la version 0.4.4 à aujourd'hui, pour l'instant en espagnol seulement."
 }
