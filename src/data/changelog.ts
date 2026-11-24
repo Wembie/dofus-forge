@@ -9,6 +9,14 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.4.25',
+    date: '2026-11-23',
+    notes: [
+      '38 new profile portraits: the fourth in-game face and hairstyle for all 19 classes, male and female, with the usual outfit and distinct ink-and-watercolor poses. Choose from 152 avatars; the verified checklist now records 152 of 600 faces complete, with alternate outfits reserved for later',
+      'Eight more Dofus 3.7 profile landscapes: Evil Forest, Cania Lake, Gisgoul, Bwork Village, Zoth Village, Mount Scauldron, Snowbound Village and Castaway Island. The banner catalog now has 44 choices, with exact prompts and current-client references saved and all earlier profile choices retained',
+    ],
+  },
   { version: '0.4.24', date: '2026-11-23', notes: ["Separated beta experiments from production sources: the stable Forger, native optimizer, build store and spell panel are restored to their pre-beta implementation. Dracorunes, beta caps and Bellaphone previews now use dedicated local sources and a separate native crate"] },
   { version: '0.4.23', date: '2026-11-23', notes: ["Local beta: Bellaphone now has Bellaura scenarios, six lineage ultimates and optional self bonuses. Damage branches respect size, target position, states and poison timing instead of adding exclusive attacks; scenarios survive undo, reload and export"] },
   { version: '0.4.22', date: '2026-11-23', notes: ['Fixed the "New collection" dialog: the name field\'s focus ring no longer looks broken, and a confusing duplicate of the title was removed'] },

@@ -2467,5 +2467,13 @@
   "beta_bella_inside": "Target inside Bellaura",
   "beta_bella_apply_aura": "Apply Bellaura self bonuses to these spells",
   "beta_bella_limits": "Single-target damage preview. Selected aura bonuses only affect this view; the Forger does not count them. Unlocks, turns, shields, healing and reactive ultimate damage are not simulated. Healing labels retain their base values. Choose the element manually to check it. Damage based on health percentages is also excluded.",
-  "beta_bella_pyro_note": "Pyrolysis uses the conditions of triggered spell 33319. In the beta data, rank 1 damage increases with size, contrary to its description; these values are preserved without guessing a correction."
+  "beta_bella_pyro_note": "Pyrolysis uses the conditions of triggered spell 33319. In the beta data, rank 1 damage increases with size, contrary to its description; these values are preserved without guessing a correction.",
+  "profile_banner_location_evil-forest": "Evil Forest",
+  "profile_banner_location_cania-lake": "Cania Lake",
+  "profile_banner_location_gisgoul": "Gisgoul",
+  "profile_banner_location_bwork-village": "Bwork Village",
+  "profile_banner_location_zoth-village": "Zoth Village",
+  "profile_banner_location_mount-torrid": "Mount Scauldron",
+  "profile_banner_location_buried-village": "Snowbound Village",
+  "profile_banner_location_castaway-island": "Castaway Island"
 }

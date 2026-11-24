@@ -2467,5 +2467,13 @@
   "beta_bella_inside": "Objetivo dentro de Belaura",
   "beta_bella_apply_aura": "Aplicar bonus propios de Belaura a estos hechizos",
   "beta_bella_limits": "Vista de daño de un objetivo. Los bonus de aura elegidos solo afectan a esta vista; la Forjadora no los cuenta. No simula desbloqueos, turnos, escudos, curas ni daños reactivos de los definitivos. Las curas mantienen sus valores base en las etiquetas. El elemento se elige manualmente para poder contrastarlo. El daño basado en porcentajes de vida tampoco se calcula.",
-  "beta_bella_pyro_note": "Pirólisis usa las condiciones del hechizo activado 33319. En los datos beta, el rango 1 aumenta el daño con el tamaño, al contrario que su descripción; se conservan esos valores sin corregirlos por suposición."
+  "beta_bella_pyro_note": "Pirólisis usa las condiciones del hechizo activado 33319. En los datos beta, el rango 1 aumenta el daño con el tamaño, al contrario que su descripción; se conservan esos valores sin corregirlos por suposición.",
+  "profile_banner_location_evil-forest": "Bosque Maléfico",
+  "profile_banner_location_cania-lake": "Lago de Cania",
+  "profile_banner_location_gisgoul": "Gisgul",
+  "profile_banner_location_bwork-village": "Pueblo de los bworks",
+  "profile_banner_location_zoth-village": "Pueblo de los zoths",
+  "profile_banner_location_mount-torrid": "Monte Tórrido",
+  "profile_banner_location_buried-village": "Pueblo Sepultado",
+  "profile_banner_location_castaway-island": "Isla de los Náufragos"
 }

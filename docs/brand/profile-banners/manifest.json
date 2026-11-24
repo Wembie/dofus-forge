@@ -1,13 +1,13 @@
 {
   "collection": "Forge World of Twelve banners",
-  "revision": 3,
+  "revision": 4,
   "createdOn": "2026-11-22",
   "generator": "Built-in image_gen",
   "useCase": "illustration-story",
   "targetGame": "DOFUS 3.7 / Unity",
   "gameDataVersion": "3.7.12.12",
   "version": "0.4.10",
-  "status": "36 selectable profile landscapes; 12 initial scenes, 16 additions in 0.4.17 and eight further scenes in 0.4.18",
+  "status": "44 selectable landscapes; eight fourth-collection additions in Forge 0.4.25, preserving the earlier 36 artworks",
   "referenceProvenance": "Published environment references include earlier city/Pandala redesign artwork and game screenshots. The target version does not assert that each reference was captured in 3.7. Source images remain local; these are original fan-art interpretations.",
   "banners": [
     {
@@ -1542,6 +1542,430 @@
         "fr": "Aerdala",
         "pt": "Ardala"
       }
+    },
+    {
+      "id": "evil-forest",
+      "location": "Bosque Maléfico",
+      "asset": "public/banners/locations/v1/evil-forest.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 410698,
+      "sha256": "f01897249ab243a9b3144099357f3232d01b20f001da2f2d65a3189d7ea146f4",
+      "localPngMaster": "temp/profile-banners/masters/v1/evil-forest.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "fb2ad08a2fb097a36215fd15c3778ef49cbde4ccab6ea23a8708c46ca801d9c6",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.25",
+      "identity": "The actual 3.7 Evil Forest / Dark Vlad maze: thick irregular mossy tree roots, hollowed and face-like old trunks, sparse bare black branches, scarlet mushrooms with ivory spots and smaller violet mushrooms, low wooden barriers, mossy stones and a winding muted green earth trail. Preserve the distinctive current mushroom/root silhouettes. Not a generic dead haunted forest, graveyard, living monster scene or a copy of the Treechnid arch banner.",
+      "composition": "An intimate shaded woodland panorama following a winding path between one massive moss-covered hollow tree and a loose group of the large scarlet-and-ivory mushrooms at mid-distance. An asymmetrical canopy opens a little in the center; muted olive and forest brown, pale moss and small restrained crimson/violet accents. Hand-painted dappled light with readable shapes, not black cinematic darkness. Lower-left stays a quiet mossy trail.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/evil-forest-221249538.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 221249538,
+          "mapBundle": "Map/Data/mapdata_assets_world_844.bundle",
+          "sourceMapBundleSha256": "111edb79fe5329771f2d631a0667769ffee8e03c9a17e2b2c92a2b346a0c109f",
+          "sha256": "b5c43a0074458ef6d5408e78f6f87e34735a90606bef18174b5dc7329350d687",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/evil-forest-220987911.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 220987911,
+          "mapBundle": "Map/Data/mapdata_assets_world_843.bundle",
+          "sourceMapBundleSha256": "535a8220ca369046ec58cc373f122afda6ffb225441b57af1a14d306f2f5f34e",
+          "sha256": "d758f9743690caf9b4be16d4fa11cb139ce57645030b7c69a6144bb9881beaae",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Bosque Maléfico.\nKEEP THE REAL LOCATION IDENTITY: The actual 3.7 Evil Forest / Dark Vlad maze: thick irregular mossy tree roots, hollowed and face-like old trunks, sparse bare black branches, scarlet mushrooms with ivory spots and smaller violet mushrooms, low wooden barriers, mossy stones and a winding muted green earth trail. Preserve the distinctive current mushroom/root silhouettes. Not a generic dead haunted forest, graveyard, living monster scene or a copy of the Treechnid arch banner.\nDISTINCT COMPOSITION AND MOOD: An intimate shaded woodland panorama following a winding path between one massive moss-covered hollow tree and a loose group of the large scarlet-and-ivory mushrooms at mid-distance. An asymmetrical canopy opens a little in the center; muted olive and forest brown, pale moss and small restrained crimson/violet accents. Hand-painted dappled light with readable shapes, not black cinematic darkness. Lower-left stays a quiet mossy trail.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Dédalo de Dark Vlad",
+        "en": "Dark Vlad's Labyrinth",
+        "fr": "Dédale du Dark Vlad",
+        "pt": "Labirinto do Dark Vlad"
+      }
+    },
+    {
+      "id": "cania-lake",
+      "location": "Lago de Cania",
+      "asset": "public/banners/locations/v1/cania-lake.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 421112,
+      "sha256": "e8fba09e7ae20ed828569aa673f1d8dbb556cb6b8229af42024a6caeb0952290",
+      "localPngMaster": "temp/profile-banners/masters/v1/cania-lake.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "287156ada1fbc436bf2edf40212ec02f1247163aa6048583f8f7d122531253c6",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual 3.7 Cania Lake: clear blue water with small green islets, open yellow-green grass, very pale honey limestone outcrops leaning in long angular slabs, sparse small autumn-colored trees and a few low reeds and flowers. Preserve the open Cania plain and pale pointed rock silhouettes, not Kaliptus trees, cherry blossoms or another tropical island.",
+      "composition": "A spacious sunny panoramic view from a grassy lake bank across blue water toward two little green islets and a low diagonal group of pale golden limestone slabs. A broad open plain and only a few small trees beyond, lots of airy blue sky. Fresh meadow green, faded gold and soft blue. Lower-left is a quiet grass-and-water edge.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/cania-lake-156238853.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 156238853,
+          "mapBundle": "Map/Data/mapdata_assets_world_596.bundle",
+          "sourceMapBundleSha256": "b4ba86318de7d672eeeda0f5a83450f77d2a0217a6500f037e427f5de1b26641",
+          "sha256": "2d0607111d04c59c35f558b31ee1c7f62484de3ed75b82652a4efed3dfc78446",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/cania-lake-156237833.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 156237833,
+          "mapBundle": "Map/Data/mapdata_assets_world_596.bundle",
+          "sourceMapBundleSha256": "b4ba86318de7d672eeeda0f5a83450f77d2a0217a6500f037e427f5de1b26641",
+          "sha256": "960f277fac82bf81e9ca876b52e6066bf09bded2aab509c5856edd2c393f504e",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Lago de Cania.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Cania Lake: clear blue water with small green islets, open yellow-green grass, very pale honey limestone outcrops leaning in long angular slabs, sparse small autumn-colored trees and a few low reeds and flowers. Preserve the open Cania plain and pale pointed rock silhouettes, not Kaliptus trees, cherry blossoms or another tropical island.\nDISTINCT COMPOSITION AND MOOD: A spacious sunny panoramic view from a grassy lake bank across blue water toward two little green islets and a low diagonal group of pale golden limestone slabs. A broad open plain and only a few small trees beyond, lots of airy blue sky. Fresh meadow green, faded gold and soft blue. Lower-left is a quiet grass-and-water edge.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Lago de Cania",
+        "en": "Cania Lake",
+        "fr": "Lac de Cania",
+        "pt": "Lago de Cania"
+      }
+    },
+    {
+      "id": "gisgoul",
+      "location": "Gisgul",
+      "asset": "public/banners/locations/v1/gisgoul.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 418192,
+      "sha256": "938566512ce091648f9d5726cd720babad0ba636d8b4b48e5c1b50c205ace7f3",
+      "localPngMaster": "temp/profile-banners/masters/v1/gisgoul.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "28b03df2ac63328295975223ebca9073fc675cc0b33c630962aa02bfb05e5ab2",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual 3.7 Gisgoul / Gisgul ruins: a tall damaged ochre-brown stone tower/chapel, pointed arched red stained-glass windows, dark riveted timber/iron framing around old walls, broken crenellations, ruined timber houses with dusty violet roof tiles, small iron fences and burnt-orange dead leaves on cracked lanes. Preserve the real abandoned village architecture and red window shapes. No generic cathedral city, fantasy black castle, lava or live monsters.",
+      "composition": "A melancholy warm-ochre panoramic village lane approaching the recognizable red-windowed old stone tower just off center, ruined violet-roofed houses receding to one side and a broken low wall to the other. Soft overcast late-afternoon paper light, ochre masonry, muted purple roofs and dark brown framing with very small red glass accents. Lower-left is simple cracked paving with a few dry leaves.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/gisgoul-172492290.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 172492290,
+          "mapBundle": "Map/Data/mapdata_assets_world_658.bundle",
+          "sourceMapBundleSha256": "75c4486753209d61278cab65ff2944628e779680578de8e0f02986fa7b553c09",
+          "sha256": "b77e007269f6aaf28675c3879641d0237b41ed6204d441869dc2074efdb45d11",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/gisgoul-172491781.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 172491781,
+          "mapBundle": "Map/Data/mapdata_assets_world_658.bundle",
+          "sourceMapBundleSha256": "75c4486753209d61278cab65ff2944628e779680578de8e0f02986fa7b553c09",
+          "sha256": "374752058bf826938ac759d49dbc7b74d161dd2b95925a34661e81c8db5c51e5",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Gisgul.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Gisgoul / Gisgul ruins: a tall damaged ochre-brown stone tower/chapel, pointed arched red stained-glass windows, dark riveted timber/iron framing around old walls, broken crenellations, ruined timber houses with dusty violet roof tiles, small iron fences and burnt-orange dead leaves on cracked lanes. Preserve the real abandoned village architecture and red window shapes. No generic cathedral city, fantasy black castle, lava or live monsters.\nDISTINCT COMPOSITION AND MOOD: A melancholy warm-ochre panoramic village lane approaching the recognizable red-windowed old stone tower just off center, ruined violet-roofed houses receding to one side and a broken low wall to the other. Soft overcast late-afternoon paper light, ochre masonry, muted purple roofs and dark brown framing with very small red glass accents. Lower-left is simple cracked paving with a few dry leaves.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Gisgul",
+        "en": "Gisgoul",
+        "fr": "Gisgoul",
+        "pt": "Gisgul"
+      }
+    },
+    {
+      "id": "bwork-village",
+      "location": "Pueblo de los bworks",
+      "asset": "public/banners/locations/v1/bwork-village.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 434028,
+      "sha256": "77f30554835884f97011583effb1554649477501c5180d6d8afa01e8e82b40a1",
+      "localPngMaster": "temp/profile-banners/masters/v1/bwork-village.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "f3b871b06577a97ce01fd961f105d49dc360dcf19e7d6b46d12d36edaa576b84",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual 3.7 Bwork Village: dry pale limestone cliffs forming stepped ledges, a huge pale skull-shaped cave doorway with heavy brow, large curved tusk-like projections near its base, rough timber stakes, little red cloth strips, hide tents on cliff shelves, coarse ochre-green grass, sparse black bare trees, plank ladders and an iron floor grate. Use the real skull-rock entry and primitive plateau structures. No living Bworks, armies, modern village or fabricated stone palace.",
+      "composition": "A rugged panoramic canyon-village path approaching the massive pale skull-shaped rock entrance near the middle, ochre grass and two low limestone ledges framing it, a small hide tent and rough timber details to one side. Dry ivory stone, faded olive, worn tan leather and sparse red cloth. Warm bright daylight, matte watercolor, no horror lighting. Lower-left is a quiet dusty path.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/bwork-village-104071684.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 104071684,
+          "mapBundle": "Map/Data/mapdata_assets_world_397.bundle",
+          "sourceMapBundleSha256": "90466c75e0e57f32aec30dc8c50db1316255f90c31bdb4ec2b3888c1d83ab93d",
+          "sha256": "db157ac7e221c367f436ec13c511d7eea61e1f24bf492741be6dd2083e98cb01",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/bwork-village-104072710.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 104072710,
+          "mapBundle": "Map/Data/mapdata_assets_world_397.bundle",
+          "sourceMapBundleSha256": "90466c75e0e57f32aec30dc8c50db1316255f90c31bdb4ec2b3888c1d83ab93d",
+          "sha256": "9717247de5417cb0d8c7343fbecdfe1a9b75e281de34173e46d808a814776dd7",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Pueblo de los Bworks.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Bwork Village: dry pale limestone cliffs forming stepped ledges, a huge pale skull-shaped cave doorway with heavy brow, large curved tusk-like projections near its base, rough timber stakes, little red cloth strips, hide tents on cliff shelves, coarse ochre-green grass, sparse black bare trees, plank ladders and an iron floor grate. Use the real skull-rock entry and primitive plateau structures. No living Bworks, armies, modern village or fabricated stone palace.\nDISTINCT COMPOSITION AND MOOD: A rugged panoramic canyon-village path approaching the massive pale skull-shaped rock entrance near the middle, ochre grass and two low limestone ledges framing it, a small hide tent and rough timber details to one side. Dry ivory stone, faded olive, worn tan leather and sparse red cloth. Warm bright daylight, matte watercolor, no horror lighting. Lower-left is a quiet dusty path.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Pueblo de los bworks",
+        "en": "Bwork Village",
+        "fr": "Village des Bworks",
+        "pt": "Vilarejo dos Bworks"
+      }
+    },
+    {
+      "id": "zoth-village",
+      "location": "Pueblo de los zoths",
+      "asset": "public/banners/locations/v1/zoth-village.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 416086,
+      "sha256": "0e39647feade3ff864be5abbd72a27a6b516ec6eb44023cdaac7fb26f4e23b90",
+      "localPngMaster": "temp/profile-banners/masters/v1/zoth-village.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "78ae44d8a7025c97fde19623df9979893b93845a79365c082644a86ce1071d9c",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual 3.7 Zoth Village in the Otomai canopy: broad rough wooden deck platforms woven around huge mossy living branches, small round yellow-green roofed huts with timber sides, upward-curving bone/horn decorations, rope suspension bridges with simple rope nets, hanging vines and distant white clouds beneath the canopy. Preserve the actual round huts and rough suspended village silhouette; no generic tree palace, castle, live Zoths or copy of the earlier Hakam branch walkway composition.",
+      "composition": "A breezy high-canopy panoramic village viewed along a wide weathered timber platform toward three small round huts gathered around a massive green-brown trunk, a rope bridge sweeping off to the right above loose white clouds. Warm wood and mossy lime, soft pale cyan distance; broad original asymmetric composition. Keep lower-left a simple clear deck for the avatar overlap.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/zoth-village-28051456.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 28051456,
+          "mapBundle": "Map/Data/mapdata_assets_world_107.bundle",
+          "sourceMapBundleSha256": "ae8ee61ee95bdfc2b6896f561df3ccd34975869e2a8407f82de7b919fffebfb6",
+          "sha256": "94e5568a4db6abb08f39c53730914f66785ab486a490b04e1abdc90a66be59ed",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/zoth-village-28050436.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 28050436,
+          "mapBundle": "Map/Data/mapdata_assets_world_107.bundle",
+          "sourceMapBundleSha256": "ae8ee61ee95bdfc2b6896f561df3ccd34975869e2a8407f82de7b919fffebfb6",
+          "sha256": "064ecd96f29be7190f50e34dbe852ee0edf72715fc621c5fcf776b608ef4a363",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Pueblo de los Zoths.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Zoth Village in the Otomai canopy: broad rough wooden deck platforms woven around huge mossy living branches, small round yellow-green roofed huts with timber sides, upward-curving bone/horn decorations, rope suspension bridges with simple rope nets, hanging vines and distant white clouds beneath the canopy. Preserve the actual round huts and rough suspended village silhouette; no generic tree palace, castle, live Zoths or copy of the earlier Hakam branch walkway composition.\nDISTINCT COMPOSITION AND MOOD: A breezy high-canopy panoramic village viewed along a wide weathered timber platform toward three small round huts gathered around a massive green-brown trunk, a rope bridge sweeping off to the right above loose white clouds. Warm wood and mossy lime, soft pale cyan distance; broad original asymmetric composition. Keep lower-left a simple clear deck for the avatar overlap.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Pueblo de los zoths",
+        "en": "Zoth Village",
+        "fr": "Village des Zoths",
+        "pt": "Vilarejo dos Zoths"
+      }
+    },
+    {
+      "id": "mount-torrid",
+      "location": "Monte Tórrido",
+      "asset": "public/banners/locations/v1/mount-torrid.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 409902,
+      "sha256": "8868bc8b83ae5110c2f5d4e191357cc5ceb4bba2a8a235ff9ac0f3394c2601d6",
+      "localPngMaster": "temp/profile-banners/masters/v1/mount-torrid.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "396912e420be9154956714403f8e2a008fe45f213ceb0ccd10b7b9dda1edd034",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual 3.7 Mount Scauldron / Mont Torrideau / Monte Torrido in Frigost: enormous fractured charcoal-blue volcanic rock walls and narrow black stone ledges, brilliant white snow on level ground, a pale icy cascade and narrow cut stone steps, weathered dark posts and a simple short timber guardrail on a high shelf. The source is a cold rugged rock-and-snow pass, not an erupting red volcano. No invented lava forge, palace or creatures.",
+      "composition": "A dramatic crisp panoramic mountain pass between two jagged charcoal rock faces, a pale frozen waterfall or icy spill near the center, snow on broad ledges and narrow old stone stairs zigzagging toward a little high wooden railing. White and very pale glacier blue against matte slate-gray stone, quiet cold daylight and delicate watercolor cloud gaps. Keep lower-left as a simple snow-covered shelf.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/mount-torrid-54167370.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 54167370,
+          "mapBundle": "Map/Data/mapdata_assets_world_206.bundle",
+          "sourceMapBundleSha256": "971dd9bb87460ada8da0e0bb5a5ba224af86eb212acbe29a19d6134277f8c458",
+          "sha256": "5c94f119145f04445304d5e7e60f22da58733cd13024073d06d58612b7eec476",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/mount-torrid-54168907.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 54168907,
+          "mapBundle": "Map/Data/mapdata_assets_world_206.bundle",
+          "sourceMapBundleSha256": "971dd9bb87460ada8da0e0bb5a5ba224af86eb212acbe29a19d6134277f8c458",
+          "sha256": "022d8f8d925904990e6bc61ee16f375a7ba08fb41f3217cd0755b5203c08142e",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Monte Tórrido.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Mount Scauldron / Mont Torrideau / Monte Torrido in Frigost: enormous fractured charcoal-blue volcanic rock walls and narrow black stone ledges, brilliant white snow on level ground, a pale icy cascade and narrow cut stone steps, weathered dark posts and a simple short timber guardrail on a high shelf. The source is a cold rugged rock-and-snow pass, not an erupting red volcano. No invented lava forge, palace or creatures.\nDISTINCT COMPOSITION AND MOOD: A dramatic crisp panoramic mountain pass between two jagged charcoal rock faces, a pale frozen waterfall or icy spill near the center, snow on broad ledges and narrow old stone stairs zigzagging toward a little high wooden railing. White and very pale glacier blue against matte slate-gray stone, quiet cold daylight and delicate watercolor cloud gaps. Keep lower-left as a simple snow-covered shelf.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Monte Tórrido",
+        "en": "Mount Scauldron",
+        "fr": "Mont Torrideau",
+        "pt": "Monte Tórrido"
+      }
+    },
+    {
+      "id": "buried-village",
+      "location": "Pueblo Sepultado",
+      "asset": "public/banners/locations/v1/buried-village.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 310120,
+      "sha256": "a0f7775c0a9d689c47481c8679a299580dfaae9369e3443183b5a9e0fd24ea34",
+      "localPngMaster": "temp/profile-banners/masters/v1/buried-village.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "22b658344870c674c008379127c9292590dd4da8f18f3d9a9e2fc3c37e03d15c",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual 3.7 Snowbound / Buried Village in Frigost: squat weathered timber cottages half-buried in deep pale blue snow, dark green sharply pointed roofs carrying large exposed golden clock/gear mechanisms and wind-driven fittings, huge angular white ice ridges at the village edge, little bare posts and a few tiny snow-capped conifers. Preserve the very specific gear-topped roofs and buried village shapes, not a generic Christmas town or the earlier Frigost harbor banner.",
+      "composition": "A quiet pale-blue panoramic village after a heavy snowfall, two distinctive gear-topped timber roofs and a half-buried cottage clustered near the center, great white ice ridges framing the sides, a narrow cleared path winding forward. Overcast snowy morning, muted green wood, old brass/gold and off-white snow; a tiny warm window accent only if visible. Lower-left is an open snowy bank.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/buried-village-54174535.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 54174535,
+          "mapBundle": "Map/Data/mapdata_assets_world_206.bundle",
+          "sourceMapBundleSha256": "971dd9bb87460ada8da0e0bb5a5ba224af86eb212acbe29a19d6134277f8c458",
+          "sha256": "1f79c5b8b9ad040f952beeb357b1c891797a166197f655e583047300414037c2",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/buried-village-54173511.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 54173511,
+          "mapBundle": "Map/Data/mapdata_assets_world_206.bundle",
+          "sourceMapBundleSha256": "971dd9bb87460ada8da0e0bb5a5ba224af86eb212acbe29a19d6134277f8c458",
+          "sha256": "a861576e89ba003b07ae13ef70269ef47273e76152d443cfb65b02867b2b1c7c",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Pueblo Sepultado.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Snowbound / Buried Village in Frigost: squat weathered timber cottages half-buried in deep pale blue snow, dark green sharply pointed roofs carrying large exposed golden clock/gear mechanisms and wind-driven fittings, huge angular white ice ridges at the village edge, little bare posts and a few tiny snow-capped conifers. Preserve the very specific gear-topped roofs and buried village shapes, not a generic Christmas town or the earlier Frigost harbor banner.\nDISTINCT COMPOSITION AND MOOD: A quiet pale-blue panoramic village after a heavy snowfall, two distinctive gear-topped timber roofs and a half-buried cottage clustered near the center, great white ice ridges framing the sides, a narrow cleared path winding forward. Overcast snowy morning, muted green wood, old brass/gold and off-white snow; a tiny warm window accent only if visible. Lower-left is an open snowy bank.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Pueblo Sepultado",
+        "en": "Snowbound Village",
+        "fr": "Village enseveli",
+        "pt": "Vilarejo Soterrado"
+      }
+    },
+    {
+      "id": "castaway-island",
+      "location": "Isla de los Náufragos",
+      "asset": "public/banners/locations/v1/castaway-island.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 342400,
+      "sha256": "9240b7dd3fcca6e2c364b19b0789d637f48911c4dbd7baa7815092d0919bfb7b",
+      "localPngMaster": "temp/profile-banners/masters/v1/castaway-island.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "018498e06ab7d776fa8bdf0fa2b506e718ccdec3ffcf9176d6d004a88cfb074c",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-23",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual 3.7 Castaway / Castaways Island: pale buttery sand and a dense grove of short thick-trunked palms with very broad layered fan/umbrella leaves, low red tropical flowers and small patches of lush green undergrowth, a simple gently curving tropical shore. Preserve the particular chunky game palm shapes, not photorealistic coconut palms. No invented shipwreck, pirate fort, monkey statue, stranded people or borrowed Moon landmark.",
+      "composition": "A tranquil tropical panoramic view along a broad curving cream sand shore toward a dense middle-distance grove of the characteristic broad-leaf palms on a low sandy headland. A calm pale-aqua sea fills one side, a few small red flowers sit by the grove and the sky stays breezy and clear. Warm sand, muted olive-lime foliage and light aqua watercolor. Keep lower-left as open sand and a thin water edge.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/castaway-island-153346.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 153346,
+          "mapBundle": "Map/Data/mapdata_assets_world_0.bundle",
+          "sourceMapBundleSha256": "7a0ff6649fb33c891ac902a95f82adca61427f5210383929c04866c9a4e2bd37",
+          "sha256": "94a891aded667aa06d335ea1dd6352a2b102869e864a68e71170c3e117ccf0f0",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-3/references/castaway-island-153089.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 153089,
+          "mapBundle": "Map/Data/mapdata_assets_world_0.bundle",
+          "sourceMapBundleSha256": "7a0ff6649fb33c891ac902a95f82adca61427f5210383929c04866c9a4e2bd37",
+          "sha256": "0f28755874644d163b587c060440489fdf291b5dc99753cff2c017a8d6f0128d",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Isla de los Náufragos.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Castaway / Castaways Island: pale buttery sand and a dense grove of short thick-trunked palms with very broad layered fan/umbrella leaves, low red tropical flowers and small patches of lush green undergrowth, a simple gently curving tropical shore. Preserve the particular chunky game palm shapes, not photorealistic coconut palms. No invented shipwreck, pirate fort, monkey statue, stranded people or borrowed Moon landmark.\nDISTINCT COMPOSITION AND MOOD: A tranquil tropical panoramic view along a broad curving cream sand shore toward a dense middle-distance grove of the characteristic broad-leaf palms on a low sandy headland. A calm pale-aqua sea fills one side, a few small red flowers sit by the grove and the sky stays breezy and clear. Warm sand, muted olive-lime foliage and light aqua watercolor. Keep lower-left as open sand and a thin water edge.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Isla de los Náufragos",
+        "en": "Castaway Island",
+        "fr": "Île des naufragés",
+        "pt": "Ilha dos Náufragos"
+      }
     }
   ],
   "integration": {
@@ -1550,6 +1974,6 @@
     "databaseMigration": "supabase/migrations/20261123000000_profile_banner_catalog.sql"
   },
   "latestExpansionClientVersion": "3.7.14.18",
-  "latestExpansionNote": "Eight additional distinct scenes use map identity references from installed DOFUS 3.7.14.18. Existing Forge artwork supplies technique only; the previous 28 artworks and records are preserved.",
-  "latestExpansionVersion": "0.4.18"
+  "latestExpansionNote": "Eight additional distinct scenes use map identity references from installed DOFUS 3.7.14.18. Existing Forge artwork supplies technique only; the previous 36 artworks and records are preserved.",
+  "latestExpansionVersion": "0.4.25"
 }

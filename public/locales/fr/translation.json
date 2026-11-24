@@ -2467,5 +2467,13 @@
   "beta_bella_inside": "Cible dans Bellaura",
   "beta_bella_apply_aura": "Appliquer les bonus propres de Bellaura à ces sorts",
   "beta_bella_limits": "Aperçu des dégâts sur une cible. Les bonus choisis ne concernent que cette vue ; la Forgeuse ne les compte pas. Déblocages, tours, boucliers, soins et dégâts réactifs des sorts ultimes ne sont pas simulés. Les soins gardent leurs valeurs de base dans les libellés. Choisissez manuellement l’élément pour le vérifier. Les dégâts fondés sur un pourcentage de vie sont également exclus.",
-  "beta_bella_pyro_note": "Pyrolyse utilise les conditions du sort déclenché 33319. Dans les données bêta, les dégâts du rang 1 augmentent avec la taille, contrairement à sa description ; ces valeurs sont conservées sans correction supposée."
+  "beta_bella_pyro_note": "Pyrolyse utilise les conditions du sort déclenché 33319. Dans les données bêta, les dégâts du rang 1 augmentent avec la taille, contrairement à sa description ; ces valeurs sont conservées sans correction supposée.",
+  "profile_banner_location_evil-forest": "Forêt Maléfique",
+  "profile_banner_location_cania-lake": "Lac de Cania",
+  "profile_banner_location_gisgoul": "Gisgoul",
+  "profile_banner_location_bwork-village": "Village des Bworks",
+  "profile_banner_location_zoth-village": "Village des Zoths",
+  "profile_banner_location_mount-torrid": "Mont Torrideau",
+  "profile_banner_location_buried-village": "Village enseveli",
+  "profile_banner_location_castaway-island": "Île des naufragés"
 }

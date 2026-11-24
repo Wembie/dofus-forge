@@ -1,15 +1,31 @@
 # Retratos de perfil de Forge
 
-Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros tres rostros/peinados tienen versiones masculinas y femeninas: **114 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
+Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros cuatro rostros/peinados tienen versiones masculinas y femeninas: **152 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
 
 - [Progreso por clase, sexo y modelo](PROGRESS.md): lista completa con casillas de los rostros hechos y pendientes; los trajes alternativos van al final.
 - [Inventario del juego](game-looks.json): 600 rostros/peinados y 76 cuerpos de creación, incluidos los 38 trajes habituales y los 38 alternativos reservados para después.
 - [Prompts y procedencia de cada imagen](manifest.json): prompt exacto, pose, referencias, hash y `gameLook` con posición, id y textura de cabeza/cuerpo.
 - [Plantilla para continuar](prompt-template.json): conservar la técnica artística y los rasgos del modelo, inventando un gesto y expresión distintos para cada retrato.
 
+## Rostro 4
+
+38 retratos nuevos para las 19 clases, masculino y femenino, con el cuarto rostro/peinado y el traje habitual del cliente DOFUS 3.7.14.18. Cada ilustración conserva el modelo exacto y tiene una pose propia. Los rostros anteriores siguen disponibles. El progreso actual es de 152/600 rostros terminados y 448 pendientes; los 38 trajes alternativos siguen reservados para después.
+
+![Cuarto rostro de cada clase](look-4-preview.webp)
+
+![Cuarto rostro en recortes circulares de 150 y 48 px](look-4-circular-preview.webp)
+
+PNG originales en `temp/profile-avatars/masters/v1/<clase>-look-4-<m|f>.png`; la web usa `public/avatars/classes/v1/<clase>-look-4-<m|f>.webp` a 512 × 512 px. Cada entrada guarda el prompt exacto, pose, ids de cabeza/cuerpo, versión del cliente y hashes de las referencias y archivos finales. Dos renders del cuarto modelo establecen la identidad y el retrato aprobado aporta la técnica.
+
+Aplicar `supabase/migrations/20261123050000_profile_art_fourth_heads_and_locations.sql` antes del despliegue. Agrega 38 retratos y ocho escenarios a los catálogos existentes, conserva perfiles y permisos, y puede repetirse. No se ha ejecutado contra la base de datos alojada desde este trabajo.
+
+Las seis correcciones de anatomía de esta tanda conservan el prompt y PNG anteriores en `originalGeneration`, además del prompt exacto de edición y sus referencias. Se revisaron manos, lateralidad, continuidad de los dos brazos y un solo torso antes de actualizar los PNG y WebP.
+
+![Seis retratos con anatomía corregida](anatomy-corrections-preview.webp)
+
 ## Rostro 3
 
-38 retratos nuevos para las 19 clases, masculino y femenino, con el tercer rostro/peinado y el traje habitual del cliente DOFUS 3.7.14.18. Cada dibujo conserva su modelo exacto y tiene una pose y expresión propias. Los rostros 1 y 2 siguen disponibles. El progreso es de 114/600 rostros terminados; los 38 trajes alternativos siguen reservados para después.
+38 retratos nuevos para las 19 clases, masculino y femenino, con el tercer rostro/peinado y el traje habitual del cliente DOFUS 3.7.14.18. Cada dibujo conserva su modelo exacto y tiene una pose y expresión propias. Los rostros 1 y 2 siguen disponibles. Esa tanda completó 114/600 rostros; los 38 trajes alternativos siguen reservados para después.
 
 ![Tercer rostro de cada clase](look-3-preview.webp)
 
