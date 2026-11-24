@@ -39,6 +39,19 @@ try {
   assert.equal(result.best.dracorunes.hat.rune.to, 'air')
   assert.deepEqual(result.best.runes.hat, { stat: 'Strength', value: 20 })
   assert.equal(result.loaded.agility, result.best.stats.agility)
+  const caps = await page.evaluate(async () => {
+    const { useBuildStore } = await import('/tools/beta/buildStore.ts')
+    const { useDataStore } = await import('/src/store/dataStore.ts')
+    const store = useBuildStore.getState()
+    store.reset(); store.setClass('iop'); store.setLevel(100)
+    store.setEquipment(useDataStore.getState().equipment)
+    store.equipItem('amulet', 34725)
+    return useBuildStore.getState().stats
+  })
+  assert.equal(caps.ap, 7)
+  assert.equal(caps.apRaw, 8)
+  assert.equal(caps.betaCaps.ap, 7)
+  await page.locator('.beta-stats .beta-notice').getByText(/7/).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Beta WASM forge passed: pinned canonical item, automatic Dracorune, pre-conversion smithmagic and loading reproduce the reported totals.')
+  console.log('Beta WASM forge passed: pinned canonical item, automatic Dracorune, pre-conversion smithmagic, matching loaded totals and actual beta equipment caps.')
 } finally { await browser.close() }

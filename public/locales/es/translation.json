@@ -2451,5 +2451,6 @@
   "beta_draco_earth": "Dracoruna ocre",
   "beta_draco_ivory": "Dracoruna marfil",
   "beta_draco_ebony": "Dracoruna ébano",
-  "beta_forge_dracorunes": "Dracorunas que puede buscar la Forjadora"
+  "beta_forge_dracorunes": "Dracorunas que puede buscar la Forjadora",
+  "beta_item_caps": "Límites de este equipo: PA {{ap}} · PM {{mp}} · Alcance {{range}} · Invocaciones {{summons}}"
 }

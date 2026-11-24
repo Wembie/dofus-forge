@@ -2451,5 +2451,6 @@
   "beta_draco_earth": "Ochre Dracorune",
   "beta_draco_ivory": "Ivory Dracorune",
   "beta_draco_ebony": "Ebony Dracorune",
-  "beta_forge_dracorunes": "Dracorunes The Forger may search"
+  "beta_forge_dracorunes": "Dracorunes The Forger may search",
+  "beta_item_caps": "Equipment limits: AP {{ap}} · MP {{mp}} · Range {{range}} · Summons {{summons}}"
 }

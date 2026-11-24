@@ -37,6 +37,8 @@ pub struct CatalogItem {
     pub forge_pro_runes: Option<Vec<CatalogRune>>,
     #[serde(default)]
     pub forge_locked: bool,
+    #[serde(default)]
+    pub stat_caps: Option<[i64; 4]>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

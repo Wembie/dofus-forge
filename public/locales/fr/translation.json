@@ -2451,5 +2451,6 @@
   "beta_draco_earth": "Dracorune Ocre",
   "beta_draco_ivory": "Dracorune Ivoire",
   "beta_draco_ebony": "Dracorune Ébène",
-  "beta_forge_dracorunes": "Dracorunes autorisées dans la recherche"
+  "beta_forge_dracorunes": "Dracorunes autorisées dans la recherche",
+  "beta_item_caps": "Limites de cet équipement : PA {{ap}} · PM {{mp}} · Portée {{range}} · Invocations {{summons}}"
 }

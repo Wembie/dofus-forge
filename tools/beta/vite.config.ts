@@ -56,6 +56,8 @@ export default defineConfig({
       { find: '@/store/buildStore.ts', replacement: resolve(root, 'tools/beta/buildStore.ts') },
       { find: '@/features/optimizer/forgeRuntime.ts', replacement: resolve(root, 'tools/beta/forgeRuntime.tsx') },
       { find: '@/lib/supabase.ts', replacement: resolve(root, 'tools/beta/noCloud.ts') },
+      { find: '@/engine/passives.ts', replacement: resolve(root, 'tools/beta/passives.ts') },
+      { find: './passives.ts', replacement: resolve(root, 'tools/beta/passives.ts') },
       { find: './buildStore.ts', replacement: resolve(root, 'tools/beta/buildStore.ts') },
       { find: './RuneModal.tsx', replacement: resolve(root, 'tools/beta/RuneModal.tsx') },
       { find: '@/features/class-picker/classData.ts', replacement: resolve(root, 'tools/beta/classData.ts') },

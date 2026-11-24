@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.21] — 2026-11-23
+- Local beta: equipment and active set tiers now enforce AP, MP, Range and Summons caps in build totals, passive previews and Forger scoring; official calculations remain unchanged
+
 ## [0.4.20] — 2026-11-23
 - Local beta testing: The Forger can now search Dracorune conversions, preserve converted items, show the chosen runes and load results with the same totals. Conversion respects prior smithmagic, pinned and banned item identities, set-ring uniqueness and allowed rune families; Ebony stays optional while its edge cases await verification
 

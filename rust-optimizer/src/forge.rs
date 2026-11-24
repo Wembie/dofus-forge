@@ -394,6 +394,7 @@ fn compare(actual: i64, op: u8, value: i64) -> bool {
 struct Item {
     ankama_id: i64,
     identity_id: i64,
+    stat_caps: [i64; 4],
     vec: Vec60,
     set: Option<usize>,
     conds: Vec<Cond>,
@@ -409,6 +410,15 @@ struct Item {
     // Best transcendence rune per scored stat this item may take.
     runes: Vec<(usize, i64)>,
     pro_runes: Option<Vec<(usize, i64)>>,
+}
+
+fn effect_caps(effects: &[ItemEffect]) -> [i64; 4] {
+    let mut caps = [12, 6, 6, 6];
+    for effect in effects {
+        let index = match effect.stat.as_str() { "AP Max." => 0, "MP Max." => 1, "Range Max." => 2, "Summons Max." => 3, _ => continue };
+        if effect.value() >= 0 { caps[index] = caps[index].min(effect.value()); }
+    }
+    caps
 }
 
 #[derive(Clone)]
@@ -534,6 +544,7 @@ pub struct Forge {
     catalog: Vec<CatalogItem>,
     set_data: Vec<SetData>,
     set_bonus: Vec<Vec<Vec60>>,               // [set][piece count] -> best reached tier
+    set_caps: Vec<Vec<[i64; 4]>>,
     set_members: Vec<Vec<(i32, Vec<usize>)>>, // [set] -> (item, free slots holding it in their pool)
     set_rank: Vec<usize>,                     // useful sets, most valuable for this order first
     alloy_pool: Vec<[i32; NSLOT]>,            // best set combinations, restart points for stalled islands
@@ -547,6 +558,8 @@ pub struct Forge {
     // is fixed too, but not locked: the Forge still picks its runes.
     locked: [bool; NSLOT],
     required_identity: [Option<i64>; NSLOT],
+    item_stat_caps: bool,
+    eval_caps: std::cell::Cell<[i64; 4]>,
     base_pre: Vec60,
     targets: Vec<Target>,
     stat_targets: Vec<Vec<usize>>, // [dense stat] -> targets it feeds
@@ -630,6 +643,11 @@ impl Forge {
             })
             .collect();
         let set_data: Vec<SetData> = sets.iter().map(|s| SetData { ankama_id: s.ankama_id, items: s.items.clone(), bonuses: s.bonuses.clone() }).collect();
+        let set_caps: Vec<Vec<[i64; 4]>> = sets.iter().map(|s| {
+            let mut tiers: Vec<_> = s.bonuses.iter().filter_map(|(n, effects)| n.parse::<usize>().ok().map(|n| (n, effect_caps(effects)))).collect();
+            tiers.sort_by_key(|(n, _)| *n);
+            (0..=NSLOT).map(|count| tiers.iter().rfind(|(n, _)| *n <= count).map(|(_, caps)| *caps).unwrap_or([12, 6, 6, 6])).collect()
+        }).collect();
 
         let rune_table: Vec<(usize, [i64; 3])> = TRANSCENDENCE
             .iter()
@@ -720,6 +738,7 @@ impl Forge {
                 Item {
                     ankama_id: it.ankama_id,
                     identity_id: it.identity_id.unwrap_or(it.ankama_id),
+                    stat_caps: it.stat_caps.unwrap_or([12, 6, 6, 6]),
                     vec,
                     set: it.set_id.and_then(|id| set_index.get(&id).copied()),
                     conds,
@@ -786,11 +805,13 @@ impl Forge {
 
         let island_count = config.islands.clamp(1, TOTAL_ISLANDS);
         let variant_pro = items.iter().any(|it| it.pro_runes.as_ref().is_some_and(|rows| !rows.is_empty()));
+        let item_stat_caps = catalog.iter().any(|it| it.stat_caps.is_some());
         let mut forge = Forge {
             items,
             catalog,
             set_data,
             set_bonus,
+            set_caps,
             set_members: vec![Vec::new(); sets.len()],
             set_rank: Vec::new(),
             alloy_pool: Vec::new(),
@@ -802,6 +823,8 @@ impl Forge {
             fixed,
             locked,
             required_identity,
+            item_stat_caps,
+            eval_caps: std::cell::Cell::new([12, 6, 6, 6]),
             base_pre,
             targets,
             stat_targets,
@@ -866,7 +889,7 @@ impl Forge {
                 .collect();
             forge.pools[s] = pool;
         }
-        if config.prune {
+        if config.prune && !forge.item_stat_caps {
             forge.prune_dominated();
         }
         forge.mutable_slots = forge.free_slots.iter().copied().filter(|&s| !forge.pools[s].is_empty()).collect();
@@ -1334,8 +1357,10 @@ impl Forge {
     // the same derivations and caps compute_stats applies.
     fn final_value(&self, pre: &Vec60, ch: &[i64; 6], i: usize) -> i64 {
         match i {
-            AP => pre[AP].min(12),
-            MP | RANGE | SUMMONS => pre[i].min(6),
+            AP => pre[AP].min(self.eval_caps.get()[0]),
+            MP => pre[MP].min(self.eval_caps.get()[1]),
+            RANGE => pre[RANGE].min(self.eval_caps.get()[2]),
+            SUMMONS => pre[SUMMONS].min(self.eval_caps.get()[3]),
             VIT..=AGI => ch[i - VIT],
             MAXHP => pre[MAXHP] + base_hp(self.level) + ch[0],
             INITIATIVE => pre[i] + ch[2] + ch[3] + ch[4] + ch[5],
@@ -1513,6 +1538,18 @@ impl Forge {
     }
 
     fn evaluate_worn(&self, g: &[i32; NSLOT], worn: Worn) -> Eval {
+        if self.item_stat_caps {
+            let mut caps = [12, 6, 6, 6];
+            for &i in g {
+                if i >= 0 {
+                    for (cap, value) in caps.iter_mut().zip(self.items[i as usize].stat_caps) { *cap = (*cap).min(value); }
+                }
+            }
+            for &(st, n) in &worn.sets[..worn.set_len] {
+                for (cap, value) in caps.iter_mut().zip(self.set_caps[st][n]) { *cap = (*cap).min(value); }
+            }
+            self.eval_caps.set(caps);
+        }
         let Worn { mut pre, sets: set_counts, set_len } = worn;
         let mut max_pieces = 0usize;
         for &(st, n) in &set_counts[..set_len] {
@@ -1545,7 +1582,8 @@ impl Forge {
                 }
                 let goal = self.targets.iter().filter(|t| t.idx == stat).map(|t| t.goal).max().unwrap_or(0);
                 kind_slots[kind_len] = kind;
-                if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal && self.exo_assign(g, &host_slots[..host_len], &kind_slots[..=kind_len], 0).is_some() {
+                let limit = self.eval_caps.get()[if stat == AP { 0 } else if stat == MP { 1 } else { 2 }];
+                if pre[stat].min(limit) < goal && self.exo_assign(g, &host_slots[..host_len], &kind_slots[..=kind_len], 0).is_some() {
                     pre[stat] += 1;
                     kind_len += 1;
                 }
@@ -2309,7 +2347,7 @@ impl Forge {
             chance: ev.alloc[4],
             agility: ev.alloc[5],
         };
-        let stats = compute_stats(&BuildInput {
+        let mut stats = compute_stats(&BuildInput {
             level: self.level,
             allocated: allocated.clone(),
             scrolled: self.scrolled.clone(),
@@ -2317,6 +2355,14 @@ impl Forge {
             sets: &self.set_data,
             rune_effects,
         });
+        if self.item_stat_caps {
+            let caps = self.eval_caps.get();
+            stats.ap = stats.ap_raw.min(caps[0]);
+            stats.mp = stats.mp_raw.min(caps[1]);
+            stats.range = stats.range_raw.min(caps[2]);
+            stats.summons = stats.summons.min(caps[3]);
+            for stat in ["AP Max.", "MP Max.", "Range Max.", "Summons Max."] { stats.unknown_stats.remove(stat); }
+        }
         BuildResult {
             equipped: self.equipped_map(g),
             stats,
@@ -2438,6 +2484,40 @@ mod tests {
         let r = &forge.results()[0];
         assert_eq!(r.stats.fire_res_percent, 3);
         assert!(r.runes["hat"].exotic);
+        forge.verify(r).unwrap();
+    }
+
+    #[test]
+    fn beta_item_caps_affect_scoring_reports_and_cached_builds() {
+        let mut limited = item(1, "hat", None, vec![effect("AP", 20), effect("AP Max.", 7)]);
+        limited.stat_caps = Some([7, 6, 6, 6]);
+        let ordinary = item(2, "hat", None, vec![effect("AP", 2)]);
+        let cfg = config(vec![cond("ap", 8, 100)], &["hat"]);
+        let mut forge = Forge::new(cfg, vec![limited, ordinary], vec![], base(1), 7);
+        for _ in 0..3 { forge.run_generation(); }
+        let r = &forge.results()[0];
+        assert_eq!(r.equipped.get("hat"), Some(&2));
+        assert_eq!(r.stats.ap, 8);
+        assert!(r.meets_required);
+        let mut genes = [-1; NSLOT]; genes[0] = 0;
+        let restricted = forge.to_result(&genes);
+        assert_eq!(restricted.stats.ap, 7);
+        assert_eq!(restricted.stats.ap_raw, 26);
+        assert!(!restricted.meets_required);
+        assert!(!restricted.stats.unknown_stats.contains_key("AP Max."));
+        forge.verify(&restricted).unwrap();
+    }
+
+    #[test]
+    fn beta_set_tier_caps_apply_to_kept_items() {
+        let mut hat = item(1, "hat", Some(9), vec![effect("MP", 4), effect("Range", 6), effect("Summons", 5)]);
+        hat.stat_caps = Some([12, 6, 6, 6]);
+        let cape = item(2, "cape", Some(9), vec![]);
+        let set = CatalogSet { ankama_id: 9, items: vec![1, 2], bonuses: HashMap::from([("2".into(), vec![effect("MP Max.", 2), effect("Range Max.", 2), effect("Summons Max.", 2)])]) };
+        let mut b = base(1); b.equipped = HashMap::from([("hat".into(), 1), ("cape".into(), 2)]);
+        let forge = Forge::new(config(vec![cond("mp", 2, 1)], &[]), vec![hat, cape], vec![set], b, 7);
+        let r = &forge.results()[0];
+        assert_eq!(r.stats.mp, 2); assert_eq!(r.stats.range, 2); assert_eq!(r.stats.summons, 2);
         forge.verify(r).unwrap();
     }
     fn cond(stat: &str, goal: i64, weight: i64) -> StatConfig {

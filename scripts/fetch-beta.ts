@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process'
 import { checkedVersion, extractRegularFiles } from './lib/safety.ts'
 import { STAT_MAP, IGNORED_STATS } from '../src/engine/statMap.ts'
 import type { AppItem, AppSet } from './lib/normalize.ts'
+import { CAP_KEYS } from '../tools/beta/stats.ts'
 
 const root = process.cwd()
 const dir = resolve(root, 'tools/beta/data')
@@ -58,7 +59,7 @@ async function main() {
     removedItems: live.filter(it => !beta.some(b => b.ankama_id === it.ankama_id)).map(it => ({ id: it.ankama_id, name: it.name })),
     addedSets: betaSets.filter(s => !previousSets.has(s.ankama_id)).map(s => ({ id: s.ankama_id, name: s.name })),
     changedSets: betaSets.filter(s => previousSets.has(s.ankama_id) && JSON.stringify({ items: s.items, bonuses: s.bonuses }) !== JSON.stringify({ items: previousSets.get(s.ankama_id)!.items, bonuses: previousSets.get(s.ankama_id)!.bonuses })).map(s => ({ id: s.ankama_id, name: s.name })),
-    newUnmappedEffects: [...new Set(beta.flatMap(it => it.effects.map(e => e.stat)).filter(s => !STAT_MAP[s] && !IGNORED_STATS.has(s) && !knownUnknowns.has(s)))],
+    newUnmappedEffects: [...new Set(beta.flatMap(it => it.effects.map(e => e.stat)).filter(s => !STAT_MAP[s] && !(s in CAP_KEYS) && !IGNORED_STATS.has(s) && !knownUnknowns.has(s)))],
   }
   const catalogs = ['version.json', 'spells-version.json'].map(file => read<{ gameVersion: string }>(resolve(dir, file)).gameVersion)
   const latest = checkedVersion((await json<{ version: unknown }>(`${api}/meta/version`)).version)

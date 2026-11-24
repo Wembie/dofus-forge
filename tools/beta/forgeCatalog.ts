@@ -7,13 +7,14 @@ import { RUNE_WEIGHT } from '../../src/features/equipment/runeRules.ts'
 import { itemStatEffects } from '../../src/engine/stats.ts'
 import { STAT_MAP } from '../../src/engine/statMap.ts'
 import { ELEMENTS, transformDracorune, type Dracorune, type DracoruneMap } from './dracorunes.ts'
+import { effectCaps } from './stats.ts'
 
 type WireConfig = ReturnType<typeof toWireConfig>
 type ForgeRune = { stat: string; value: number }
 export type DracoruneKind = 'air' | 'earth' | 'fire' | 'water' | 'ivory' | 'ebony'
 export type BetaBuildResult = BuildResult & { dracorunes?: DracoruneMap }
 type Variant = { itemId: number; rune: Dracorune; fixedRune?: RuneChoice; transcendence: Map<string, ForgeRune>; pro: Map<string, ForgeRune> }
-export type VariantItem = AppItem & { identity_id?: number; forge_runes?: ForgeRune[]; forge_pro_runes?: ForgeRune[]; forge_locked?: boolean }
+export type VariantItem = AppItem & { identity_id?: number; forge_runes?: ForgeRune[]; forge_pro_runes?: ForgeRune[]; forge_locked?: boolean; stat_caps?: number[] }
 const best = (e: AppEffect) => e.max !== 0 && e.max > e.min ? e.max : e.min
 const keyOf = (r: ForgeRune) => `${r.stat}:${r.value}`
 
@@ -103,7 +104,7 @@ export function prepareBetaCatalog(config: WireConfig, items: AppItem[], sets: A
     nextBase.equipped[slot] = add(item, selection.rune, effects, { forge_locked: true, forge_runes: [], forge_pro_runes: [] })
     nextBase.runes[slot] = {}
   }
-  return { config: { ...config, prune: false }, items: catalog, sets, base: nextBase, variants }
+  return { config: { ...config, prune: false }, items: catalog.map(item => { const c = effectCaps(item.effects); return { ...item, stat_caps: [c.ap, c.mp, c.range, c.summons] } }), sets, base: nextBase, variants }
 }
 
 export function normalizeBetaResult(result: BuildResult, variants: Map<number, Variant>): BetaBuildResult {

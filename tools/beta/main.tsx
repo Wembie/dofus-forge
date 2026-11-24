@@ -17,6 +17,7 @@ import { DracorunePanel, type RuneDescription } from './DracorunePanel.tsx'
 import { useBuildStore, useDracorunes } from './buildStore.ts'
 import { ForgeResultExtras, useBetaForge } from './forgeRuntime.tsx'
 import type { DracoruneKind } from './forgeCatalog.ts'
+import type { BetaStats } from './stats.ts'
 import { recordSession, restoreDocument, sessionDocument, startSession, travelSession, useSession } from './session.ts'
 import '../../src/index.css'
 import './beta.css'
@@ -34,6 +35,7 @@ function App() {
   const applied = useDracorunes(s => s.applied)
   const kinds = useBetaForge(s => s.kinds)
   const session = useSession()
+  const caps = (b.stats as BetaStats | null)?.betaCaps
   const [tab, setTab] = useState<typeof TABS[number]>('equipment')
   const [changes, setChanges] = useState<Changes | null>(null)
   const [descriptions, setDescriptions] = useState<RuneDescription[]>([])
@@ -109,7 +111,7 @@ function App() {
           <details open><summary>{t('beta_unmapped')} ({changes.newUnmappedEffects.length})</summary><ul>{changes.newUnmappedEffects.map(stat => <li key={stat}>{stat}</li>)}</ul></details>
           <p>{t('beta_scope_pending')}</p><p><a href="https://www.dofus.com/fr/mmorpg/actualites/devblog/billets/1772495-maj-3-8-equipements-dracorunes" target="_blank" rel="noreferrer">{t('beta_official_source')}</a></p>
         </section>}
-      </div><aside className="beta-stats"><CombatViewBar /><StatsPanel /></aside></main>
+      </div><aside className="beta-stats"><CombatViewBar />{caps && (caps.ap < 12 || caps.mp < 6 || caps.range < 6 || caps.summons < 6) && <p className="beta-notice">{t('beta_item_caps', caps)}</p>}<StatsPanel /></aside></main>
       <Suspense fallback={null}>{forge && <OptimizerModal open onClose={() => setForge(false)} />}{sets && <SetsCatalog onClose={() => setSets(false)} />}</Suspense>
     </>}
     <footer>{t('beta_footer')}</footer><Toaster />
