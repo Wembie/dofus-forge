@@ -1,6 +1,4 @@
-import { type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
-import { Heart, Repeat2, Shield, Sparkles, Users } from "lucide-react";
 import { useBuildStore } from "@/store/buildStore.ts";
 import {
   LEGENDARY_BONUSES, LEGENDARY_POOLS,
@@ -10,6 +8,8 @@ import { controlMax, type PassiveBonus } from "@/engine/passives.ts";
 import { STAT_FIELDS, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { ControlRow } from "@/features/passives/PassivesPanel.tsx";
 
+const BASE = import.meta.env.BASE_URL;
+
 const POOL_NAME_KEY: Record<LegendaryPool, string> = {
   bakushana:   "legendary_pool_bakushana",
   poukachi:    "legendary_pool_poukachi",
@@ -17,53 +17,37 @@ const POOL_NAME_KEY: Record<LegendaryPool, string> = {
   magicrabe:   "legendary_pool_magicrabe",
 };
 
-// Text-only bonuses (no modeled stat) grouped by what they actually do in-game,
-// so the picker still reads at a glance instead of every row looking the same.
-const TEXT_ICON: Record<string, ComponentType<{ size?: number; className?: string; "aria-hidden"?: boolean }>> = {
-  "bakushana.prespic":    Repeat2,  // reflects a hit back at the attacker
-  "bakushana.dragoeuf":   Shield,
-  "bakushana.tofoune":    Users,    // MP to nearby allies
-  "bakushana.boursoin":   Heart,    // final-heal boost
-  "bakushana.champa":     Users,    // AP to nearby allies
-  "bakushana.pandore":    Users,    // MP to summons
-  "bakushana.scorbute":   Repeat2,  // self damage, then shared with neighbors
-  "poukachi.moskito":     Heart,    // lifesteal
-  "poukachi.trool":       Sparkles,
-  "poukachi.wabbit":      Sparkles,
-  "magicrabe.abraknyde":  Shield,
-  "magicrabe.craqueleur": Users,    // resistance to allies
-  "magicrabe.krokille":   Shield,
-  "magicrabe.bwak":       Users,    // ranged damage to allies
-  "magicrabe.gloutoblop": Heart,
-  "magicrabe.boufette":   Users,    // melee damage to allies
-  "magicrabe.chafer":     Shield,
-  "magicrabe.scarafeuille": Shield,
-  "magicrabe.timansot":   Heart,
-  "magicrabe.domoizelle": Users,    // life transfer to allies
+// The "Légende animale" ingredient, one real icon per family.
+const POOL_ICON: Record<LegendaryPool, string> = {
+  bakushana:   `${BASE}data/pets-legendary/bakushana.webp`,
+  poukachi:    `${BASE}data/pets-legendary/poukachi.webp`,
+  kwakarticho: `${BASE}data/pets-legendary/kwakarticho.webp`,
+  magicrabe:   `${BASE}data/pets-legendary/magicrabe.webp`,
 };
+
+// Every "Croquette infusée" looks the same in-game regardless of which
+// bonus it carries — only its name differs — so one icon stands for all 32.
+const CROQUETTE_ICON = `${BASE}data/pets-legendary/croquette.webp`;
 
 function sampleBonus(bonus: LegendaryBonus): PassiveBonus | null {
   if (!bonus.control) return null
   return bonus.control.kind === "stacks" ? bonus.control.perStack : bonus.control.options[0].bonus
 }
 
-/** A plain icon per bonus: the stat it actually modifies, or a themed one for
- * the text-only effects (shields, heals, ally buffs) — never a per-species
- * photo, since the game data has no reliable art for these 33 by name. */
+/** The stat it actually modifies for a modeled bonus, or the croquette's own
+ * icon (same art for every flavor in-game) for a text-only one. */
 function BonusIcon({ bonus }: { bonus: LegendaryBonus }) {
   const stat = sampleBonus(bonus);
   const statKey = stat && (Object.keys(stat)[0] as keyof typeof STAT_FIELDS);
   const icon = statKey && STAT_FIELDS[statKey]?.icon;
-  if (icon) return <img className="rune-art is-stat" src={statIconUrl(icon)} alt="" />;
-  const Icon = TEXT_ICON[bonus.id] ?? Sparkles;
-  return <Icon size={18} className="rune-art is-stat" aria-hidden />;
+  return <img className="rune-art is-stat" src={icon ? statIconUrl(icon) : CROQUETTE_ICON} alt="" />;
 }
 
 /**
- * A pet/mount's legendary bonus is random (a Quintessence rolls one of 31
- * possible effects, four pools of fixed odds) — the player can't pick which
- * one their companion gets in-game, only tell the planner which it landed
- * on, same as picking a rune the piece already carries.
+ * Once a pet/mount is legendary, the player crafts one specific "Croquette
+ * infusée" (one of 8 per family) and feeds it — that croquette always
+ * grants the same fixed bonus; a later one replaces it. This is the planner
+ * picking the same thing, same as picking a rune the piece already carries.
  */
 export function LegendarySection() {
   const { t } = useTranslation();
@@ -78,7 +62,12 @@ export function LegendarySection() {
         <p className="runes-note">{t("legendary_note")}</p>
         {LEGENDARY_POOLS.map((pool) => (
           <div key={pool} role="group" aria-label={t(POOL_NAME_KEY[pool])}>
-            <h3>{t(POOL_NAME_KEY[pool])}</h3>
+            <h3>
+              <span className="legendary-pool-name">
+                <img className="rune-art" src={POOL_ICON[pool]} alt="" />
+                {t(POOL_NAME_KEY[pool])}
+              </span>
+            </h3>
             <div className="runes-grid">
               {LEGENDARY_BONUSES.filter((b) => b.pool === pool).map((b: LegendaryBonus) => (
                 <button

@@ -81,12 +81,12 @@ describe('forgePassiveEffects', () => {
   })
 
   it('legendaryForgeEffects ties the companion\'s bonus to its own equipped id, with no companion or no pick counting nothing', () => {
-    expect(legendaryForgeEffects(null, { id: 'poukachi.bwork', value: 1 })).toEqual([])
+    expect(legendaryForgeEffects(null, { id: 'magicrabe.bwork', value: 1 })).toEqual([])
     expect(legendaryForgeEffects(1711, null)).toEqual([])
-    expect(legendaryForgeEffects(1711, { id: 'bakushana.prespic', value: 1 })).toEqual([]) // text-only: no stat
+    expect(legendaryForgeEffects(1711, { id: 'bakushana.chafer', value: 1 })).toEqual([]) // text-only: no stat
     // Final damage (Mulou, Kanig) is a damage multiplier, not an order stat — same as legendary gear, it never shows here.
     expect(legendaryForgeEffects(1711, { id: 'poukachi.mulou', value: 2 })).toEqual([])
-    expect(legendaryForgeEffects(1711, { id: 'poukachi.bwork', value: 1 }))
+    expect(legendaryForgeEffects(1711, { id: 'magicrabe.bwork', value: 1 }))
       .toEqual([{ id: 1711, effects: [{ stat: '% Ranged Damage', min: 3, max: 3 }] }])
   })
 

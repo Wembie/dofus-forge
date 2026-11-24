@@ -16,29 +16,29 @@ describe('petLegendary', () => {
   it('a stacks control adds up per stack; a text-only bonus adds nothing', () => {
     const mulou = legendaryBonusOf('poukachi.mulou')!
     expect(legendaryStatBonus({ id: mulou.id, value: 2 })).toEqual({ finalDamagePercent: 10 })
-    const prespic = legendaryBonusOf('bakushana.prespic')!
-    expect(legendaryStatBonus({ id: prespic.id, value: 1 })).toEqual({})
+    const chafer = legendaryBonusOf('bakushana.chafer')!
+    expect(legendaryStatBonus({ id: chafer.id, value: 1 })).toEqual({})
     expect(legendaryStatBonus(null)).toEqual({})
   })
 
   it('a choice control with two options picks either branch by value', () => {
-    const bwork = legendaryBonusOf('poukachi.bwork')!
+    const bwork = legendaryBonusOf('magicrabe.bwork')!
     expect(legendaryStatBonus({ id: bwork.id, value: 1 })).toEqual({ rangedDamagePercent: 3 })
     expect(legendaryStatBonus({ id: bwork.id, value: 2 })).toEqual({ meleeDamagePercent: 3 })
     expect(legendaryStatBonus({ id: bwork.id, value: 0 })).toEqual({})
   })
 
   it('legendaryMax reports the control cap, or 1 for a text-only bonus (a plain on/off)', () => {
-    expect(legendaryMax('poukachi.mulou')).toBe(2)
-    expect(legendaryMax('bakushana.prespic')).toBe(1)
+    expect(legendaryMax('poukachi.mulou')).toBe(3)
+    expect(legendaryMax('bakushana.chafer')).toBe(1)
   })
 
   it('sanitizeLegendaryPick drops an unknown id and clamps a value past the max', () => {
     expect(sanitizeLegendaryPick(null)).toBeNull()
     expect(sanitizeLegendaryPick({ id: 'nope.nope', value: 1 })).toBeNull()
-    expect(sanitizeLegendaryPick({ id: 'poukachi.mulou', value: 99 })).toEqual({ id: 'poukachi.mulou', value: 2 })
+    expect(sanitizeLegendaryPick({ id: 'poukachi.mulou', value: 99 })).toEqual({ id: 'poukachi.mulou', value: 3 })
     expect(sanitizeLegendaryPick({ id: 'poukachi.mulou', value: -5 })).toEqual({ id: 'poukachi.mulou', value: 0 })
     // Text-only: no control to clamp against, so a pick always counts as "on".
-    expect(sanitizeLegendaryPick({ id: 'bakushana.prespic', value: 0 })).toEqual({ id: 'bakushana.prespic', value: 1 })
+    expect(sanitizeLegendaryPick({ id: 'bakushana.chafer', value: 0 })).toEqual({ id: 'bakushana.chafer', value: 1 })
   })
 })
