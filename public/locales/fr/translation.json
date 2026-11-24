@@ -2452,5 +2452,20 @@
   "beta_draco_ivory": "Dracorune Ivoire",
   "beta_draco_ebony": "Dracorune Ébène",
   "beta_forge_dracorunes": "Dracorunes autorisées dans la recherche",
-  "beta_item_caps": "Limites de cet équipement : PA {{ap}} · PM {{mp}} · Portée {{range}} · Invocations {{summons}}"
+  "beta_item_caps": "Limites de cet équipement : PA {{ap}} · PM {{mp}} · Portée {{range}} · Invocations {{summons}}",
+  "beta_bella_title": "Bellaphone · Scénario de Bellaura",
+  "beta_bella_intro": "Testez une situation précise. Les attaques sont filtrées par taille, position, états et moment ; les valeurs alternatives ne sont pas additionnées.",
+  "beta_bella_lineage": "Lignée",
+  "beta_bella_none": "Sans lignée",
+  "beta_bella_radius": "Taille de Bellaura",
+  "beta_bella_enemies": "Ennemis dans Bellaura",
+  "beta_bella_element": "Élément utilisé pour « meilleur élément »",
+  "beta_bella_timing": "Moment des dégâts",
+  "beta_bella_instant": "Au lancer",
+  "beta_bella_end_turn": "Poison en fin de tour",
+  "beta_bella_evolution": "Rang du sort ultime (test manuel)",
+  "beta_bella_inside": "Cible dans Bellaura",
+  "beta_bella_apply_aura": "Appliquer les bonus propres de Bellaura à ces sorts",
+  "beta_bella_limits": "Aperçu des dégâts sur une cible. Les bonus choisis ne concernent que cette vue ; la Forgeuse ne les compte pas. Déblocages, tours, boucliers, soins et dégâts réactifs des sorts ultimes ne sont pas simulés. Les soins gardent leurs valeurs de base dans les libellés. Choisissez manuellement l’élément pour le vérifier. Les dégâts fondés sur un pourcentage de vie sont également exclus.",
+  "beta_bella_pyro_note": "Pyrolyse utilise les conditions du sort déclenché 33319. Dans les données bêta, les dégâts du rang 1 augmentent avec la taille, contrairement à sa description ; ces valeurs sont conservées sans correction supposée."
 }

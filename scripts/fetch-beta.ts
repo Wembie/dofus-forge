@@ -62,6 +62,10 @@ async function main() {
     newUnmappedEffects: [...new Set(beta.flatMap(it => it.effects.map(e => e.stat)).filter(s => !STAT_MAP[s] && !(s in CAP_KEYS) && !IGNORED_STATS.has(s) && !knownUnknowns.has(s)))],
   }
   const catalogs = ['version.json', 'spells-version.json'].map(file => read<{ gameVersion: string }>(resolve(dir, file)).gameVersion)
+  for (const lang of langs) {
+    const rules = read<{ schema: number; gameVersion: string; ultimates: unknown[] }>(resolve(dir, lang, 'bellaphone-rules.json'))
+    if (rules.schema !== 1 || rules.gameVersion !== version || rules.ultimates.length !== 6) throw new Error(`Incomplete beta class rules: ${lang}`)
+  }
   const latest = checkedVersion((await json<{ version: unknown }>(`${api}/meta/version`)).version)
   if (catalogs.some(v => v !== version) || latest !== version || !readFileSync(resolve(dir, 'passives.generated.ts'), 'utf8').includes(`gameVersion: '${version}'`)) {
     throw new Error('Beta changed during synchronization. Run pnpm fetch-beta again.')

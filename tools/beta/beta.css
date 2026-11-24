@@ -34,5 +34,12 @@
 .beta-forge-settings legend { color: var(--gold); padding: 0 6px; }
 .beta-forge-settings label { flex-direction: row; align-items: center; }
 .beta-forge-conversions { padding: 10px 14px; border-left: 2px solid var(--gold); margin: 10px 0; font-size: 13px; }
+.beta-scenario { padding: 16px; margin-bottom: 20px; border: 1px solid var(--line); border-radius: 8px; }
+.beta-scenario h2 { color: var(--gold); margin-bottom: 8px; }
+.beta-scenario p { margin: 8px 0; font-size: 13px; }
+.beta-scenario-toggles { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
+.beta-scenario-toggles label { flex-direction: row; align-items: center; }
+.beta-scenario input[type=number] { width: 90px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-panel); }
+.beta-game-description { white-space: pre-line; }
 @media (max-width: 900px) { .beta-app { padding: 16px; } .beta-layout { grid-template-columns: 1fr; } .beta-stats { position: static; max-height: none; } .beta-change-list { columns: 1; } }
 @media (max-width: 900px) { .beta-content .absolute.z-30.pointer-events-none { display: none; } }

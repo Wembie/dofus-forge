@@ -3,6 +3,7 @@ import { buildSnapshotFromState } from '../../src/features/share/codec.ts'
 import { sanitizeSnapshot } from '../../src/engine/snapshot.ts'
 import { useBuildStore, useDracorunes } from './buildStore.ts'
 import { validDracorune, type DracoruneMap } from './dracorunes.ts'
+import { useBellaphone, sanitizeScenario } from './bellaphoneStore.ts'
 
 const KEY = 'dofus-forge:beta-lab:v1'
 export const useSession = create<{ canUndo: boolean; canRedo: boolean; storageError: boolean }>(() => ({ canUndo: false, canRedo: false, storageError: false }))
@@ -12,7 +13,7 @@ let restoring = false
 let version = ''
 
 export function sessionDocument() {
-  return { format: 'dofus-forge-beta', schema: 1, gameVersion: version, build: buildSnapshotFromState(useBuildStore.getState()), dracorunes: useDracorunes.getState().applied }
+  return { format: 'dofus-forge-beta', schema: 1, gameVersion: version, build: buildSnapshotFromState(useBuildStore.getState()), dracorunes: useDracorunes.getState().applied, bellaphone: useBellaphone.getState().scenario }
 }
 
 export function restoreDocument(raw: unknown) {
@@ -28,6 +29,7 @@ export function restoreDocument(raw: unknown) {
   }
   restoring = true
   try {
+    useBellaphone.setState({ scenario: sanitizeScenario(doc.bellaphone) })
     useDracorunes.setState({ applied: {} })
     useBuildStore.getState().applySnapshot(build)
     const state = useBuildStore.getState()
@@ -64,7 +66,8 @@ export function startSession(gameVersion: string) {
   }
   const stopBuild = useBuildStore.subscribe(schedule)
   const stopDracos = useDracorunes.subscribe(schedule)
-  return () => { stopped = true; stopBuild(); stopDracos() }
+  const stopBellaphone = useBellaphone.subscribe(schedule)
+  return () => { stopped = true; stopBuild(); stopDracos(); stopBellaphone() }
 }
 
 export function travelSession(delta: number) {

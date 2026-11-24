@@ -2452,5 +2452,20 @@
   "beta_draco_ivory": "Dracoruna Marfim",
   "beta_draco_ebony": "Dracoruna Ébano",
   "beta_forge_dracorunes": "Dracorunas permitidas na busca",
-  "beta_item_caps": "Limites deste equipamento: PA {{ap}} · PM {{mp}} · Alcance {{range}} · Invocações {{summons}}"
+  "beta_item_caps": "Limites deste equipamento: PA {{ap}} · PM {{mp}} · Alcance {{range}} · Invocações {{summons}}",
+  "beta_bella_title": "Bellaphone · Cenário de Belaura",
+  "beta_bella_intro": "Teste uma situação específica. Os ataques são filtrados por tamanho, posição, estados e momento; valores alternativos não são somados.",
+  "beta_bella_lineage": "Linhagem",
+  "beta_bella_none": "Sem linhagem",
+  "beta_bella_radius": "Tamanho de Belaura",
+  "beta_bella_enemies": "Inimigos em Belaura",
+  "beta_bella_element": "Elemento usado para “melhor elemento”",
+  "beta_bella_timing": "Momento do dano",
+  "beta_bella_instant": "Ao lançar",
+  "beta_bella_end_turn": "Veneno no fim do turno",
+  "beta_bella_evolution": "Grau do definitivo (teste manual)",
+  "beta_bella_inside": "Alvo dentro de Belaura",
+  "beta_bella_apply_aura": "Aplicar bônus próprios de Belaura a estes feitiços",
+  "beta_bella_limits": "Prévia de dano em um alvo. Os bônus escolhidos afetam apenas esta tela; a Forjadora não os conta. Desbloqueios, turnos, escudos, curas e danos reativos dos definitivos não são simulados. As curas mantêm seus valores base nas etiquetas. Escolha o elemento manualmente para conferi-lo. Dano baseado em porcentagens de vida também não é calculado.",
+  "beta_bella_pyro_note": "Pirólise usa as condições do feitiço ativado 33319. Nos dados beta, o dano do grau 1 aumenta com o tamanho, ao contrário da descrição; esses valores são preservados sem presumir uma correção."
 }

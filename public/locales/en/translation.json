@@ -2452,5 +2452,20 @@
   "beta_draco_ivory": "Ivory Dracorune",
   "beta_draco_ebony": "Ebony Dracorune",
   "beta_forge_dracorunes": "Dracorunes The Forger may search",
-  "beta_item_caps": "Equipment limits: AP {{ap}} · MP {{mp}} · Range {{range}} · Summons {{summons}}"
+  "beta_item_caps": "Equipment limits: AP {{ap}} · MP {{mp}} · Range {{range}} · Summons {{summons}}",
+  "beta_bella_title": "Bellaphone · Bellaura scenario",
+  "beta_bella_intro": "Test a specific situation. Attacks are filtered by size, position, states and timing; alternative values are not added together.",
+  "beta_bella_lineage": "Lineage",
+  "beta_bella_none": "No lineage",
+  "beta_bella_radius": "Bellaura size",
+  "beta_bella_enemies": "Enemies in Bellaura",
+  "beta_bella_element": "Element used for “best element”",
+  "beta_bella_timing": "Damage timing",
+  "beta_bella_instant": "On cast",
+  "beta_bella_end_turn": "End-of-turn poison",
+  "beta_bella_evolution": "Ultimate rank (manual test)",
+  "beta_bella_inside": "Target inside Bellaura",
+  "beta_bella_apply_aura": "Apply Bellaura self bonuses to these spells",
+  "beta_bella_limits": "Single-target damage preview. Selected aura bonuses only affect this view; the Forger does not count them. Unlocks, turns, shields, healing and reactive ultimate damage are not simulated. Healing labels retain their base values. Choose the element manually to check it. Damage based on health percentages is also excluded.",
+  "beta_bella_pyro_note": "Pyrolysis uses the conditions of triggered spell 33319. In the beta data, rank 1 damage increases with size, contrary to its description; these values are preserved without guessing a correction."
 }

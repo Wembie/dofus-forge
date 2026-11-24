@@ -2452,5 +2452,20 @@
   "beta_draco_ivory": "Dracoruna marfil",
   "beta_draco_ebony": "Dracoruna ébano",
   "beta_forge_dracorunes": "Dracorunas que puede buscar la Forjadora",
-  "beta_item_caps": "Límites de este equipo: PA {{ap}} · PM {{mp}} · Alcance {{range}} · Invocaciones {{summons}}"
+  "beta_item_caps": "Límites de este equipo: PA {{ap}} · PM {{mp}} · Alcance {{range}} · Invocaciones {{summons}}",
+  "beta_bella_title": "Belíade · Escenario de Belaura",
+  "beta_bella_intro": "Prueba una situación concreta. Los ataques se filtran por tamaño, posición, estados y momento; los valores alternativos no se suman.",
+  "beta_bella_lineage": "Linaje",
+  "beta_bella_none": "Sin linaje",
+  "beta_bella_radius": "Tamaño de Belaura",
+  "beta_bella_enemies": "Enemigos en Belaura",
+  "beta_bella_element": "Elemento usado para «mejor elemento»",
+  "beta_bella_timing": "Momento del daño",
+  "beta_bella_instant": "Al lanzar",
+  "beta_bella_end_turn": "Veneno al final del turno",
+  "beta_bella_evolution": "Rango del definitivo (prueba manual)",
+  "beta_bella_inside": "Objetivo dentro de Belaura",
+  "beta_bella_apply_aura": "Aplicar bonus propios de Belaura a estos hechizos",
+  "beta_bella_limits": "Vista de daño de un objetivo. Los bonus de aura elegidos solo afectan a esta vista; la Forjadora no los cuenta. No simula desbloqueos, turnos, escudos, curas ni daños reactivos de los definitivos. Las curas mantienen sus valores base en las etiquetas. El elemento se elige manualmente para poder contrastarlo. El daño basado en porcentajes de vida tampoco se calcula.",
+  "beta_bella_pyro_note": "Pirólisis usa las condiciones del hechizo activado 33319. En los datos beta, el rango 1 aumenta el daño con el tamaño, al contrario que su descripción; se conservan esos valores sin corregirlos por suposición."
 }

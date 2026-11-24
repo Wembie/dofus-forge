@@ -5,6 +5,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Escenarios de Belíade en el taller beta** (0.4.23) — selector de linaje, tamaño de Belaura, enemigos, estados, posición del objetivo, momento de daño y elemento manual; seis definitivos con rango de prueba y bonus propios opcionales de aura. Las ramas excluyentes de Pirólisis, Funeral, Puño de Dragón y Barján se evalúan separadas; Fuego Negro distingue robo inmediato y de fin de turno. Condiciones de Pirólisis extraídas del hechizo activado 33319, conservando la contradicción del rango 1 frente a su descripción. Borrador, historial y JSON incluyen el escenario. Siguen abiertos curas, escudos, desbloqueos, transiciones y efectos reactivos; no se declara completa la simulación de la clase.
+
 - [x] **Límites de características en el taller beta** (0.4.21) — PA, PM, Alcance e Invocaciones respetan el menor máximo indicado por el equipo y el bonus activo de set. Ficha, pasivos y Forjadora coinciden y conservan los totales brutos; los cálculos oficiales mantienen sus resultados anteriores. Validado con objetos reales y tests de bonus de set.
 
 - [x] **Dracorunas en la Forjadora del taller beta** (0.4.20) — búsqueda de variantes convertidas con familias autorizadas, objetos fijados/vetados por identidad original, anillos de set únicos, forjamagia previa a la conversión, piezas conservadas sin doble conteo y carga con los mismos totales. Compilación WASM exclusivamente local, controles e identificación de las conversiones en los resultados. Ébano sigue opcional y sus casos límite pendientes de contraste; continúan abiertas las mecánicas nuevas de Belíade.

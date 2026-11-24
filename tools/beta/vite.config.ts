@@ -5,12 +5,13 @@ import { existsSync, readFileSync, createReadStream } from 'node:fs'
 
 const root = resolve(process.cwd())
 const data = resolve(root, 'tools/beta/data')
-const required = ['version.json', 'spells-version.json', 'changes.json', 'class-names.json', 'passives.generated.ts', 'wasm/dofus_forge_optimizer.js', 'wasm/dofus_forge_optimizer_bg.wasm', ...['en', 'es', 'fr', 'pt'].map(lang => `${lang}/dracorunes.json`)]
+const languages = ['en', 'es', 'fr', 'pt']
+const required = ['version.json', 'spells-version.json', 'changes.json', 'class-names.json', 'passives.generated.ts', 'wasm/dofus_forge_optimizer.js', 'wasm/dofus_forge_optimizer_bg.wasm', ...languages.flatMap(lang => [`${lang}/dracorunes.json`, `${lang}/bellaphone-rules.json`])]
 if (existsSync(resolve(data, '.sync-in-progress')) || required.some(file => !existsSync(resolve(data, file)))) {
   throw new Error('Run pnpm fetch-beta before pnpm dev:beta')
 }
 const version = JSON.parse(readFileSync(resolve(data, 'version.json'), 'utf8')).gameVersion
-if (JSON.parse(readFileSync(resolve(data, 'spells-version.json'), 'utf8')).gameVersion !== version || JSON.parse(readFileSync(resolve(data, 'changes.json'), 'utf8')).betaVersion !== version || !readFileSync(resolve(data, 'passives.generated.ts'), 'utf8').includes(`gameVersion: '${version}'`)) {
+if (JSON.parse(readFileSync(resolve(data, 'spells-version.json'), 'utf8')).gameVersion !== version || JSON.parse(readFileSync(resolve(data, 'changes.json'), 'utf8')).betaVersion !== version || !readFileSync(resolve(data, 'passives.generated.ts'), 'utf8').includes(`gameVersion: '${version}'`) || languages.some(lang => JSON.parse(readFileSync(resolve(data, lang, 'bellaphone-rules.json'), 'utf8')).gameVersion !== version)) {
   throw new Error('Beta datasets have different versions. Run pnpm fetch-beta again.')
 }
 

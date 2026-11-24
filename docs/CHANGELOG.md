@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.23] — 2026-11-23
+- Local beta: Bellaphone now has Bellaura scenarios, six lineage ultimates and optional self bonuses. Damage branches respect size, target position, states and poison timing instead of adding exclusive attacks; scenarios survive undo, reload and export
+
 ## [0.4.22] — 2026-11-23
 - Fixed the "New collection" dialog: the name field's focus ring no longer looks broken, and a confusing duplicate of the title was removed
 

@@ -9,6 +9,7 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  { version: '0.4.23', date: '2026-11-23', notes: ["Local beta: Bellaphone now has Bellaura scenarios, six lineage ultimates and optional self bonuses. Damage branches respect size, target position, states and poison timing instead of adding exclusive attacks; scenarios survive undo, reload and export"] },
   { version: '0.4.22', date: '2026-11-23', notes: ['Fixed the "New collection" dialog: the name field\'s focus ring no longer looks broken, and a confusing duplicate of the title was removed'] },
   { version: '0.4.21', date: '2026-11-23', notes: ["Local beta: equipment and active set tiers now enforce AP, MP, Range and Summons caps in build totals, passive previews and Forger scoring; official calculations remain unchanged"] },
   {

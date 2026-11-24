@@ -22,7 +22,7 @@ import { recordSession, restoreDocument, sessionDocument, startSession, travelSe
 import '../../src/index.css'
 import './beta.css'
 
-const SpellsPanel = lazy(() => import('../../src/features/spells/SpellsPanel.tsx').then(m => ({ default: m.SpellsPanel })))
+const SpellsPanel = lazy(() => import('./BellaphonePanel.tsx').then(m => ({ default: m.BellaphonePanel })))
 const OptimizerModal = lazy(() => import('../../src/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
 const SetsCatalog = lazy(() => import('../../src/features/equipment/SetsCatalog.tsx').then(m => ({ default: m.SetsCatalog })))
 type Changes = { betaVersion: string; liveVersion: string; generatedAt: string; items: number; sets: number; addedItems: { id: number; name: string; slot: string }[]; changedItems: { id: number; name: string }[]; removedItems: { id: number; name: string }[]; addedSets: { id: number; name: string }[]; changedSets: { id: number; name: string }[]; newUnmappedEffects: string[] }

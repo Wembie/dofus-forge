@@ -52,6 +52,22 @@ try {
   assert.equal(caps.apRaw, 8)
   assert.equal(caps.betaCaps.ap, 7)
   await page.locator('.beta-stats .beta-notice').getByText(/7/).waitFor()
+  const source = await page.evaluate(async () => {
+    const { ITEM_PASSIVES, passiveBonus, withPassives } = await import('/tools/beta/passives.ts')
+    const { useBuildStore } = await import('/tools/beta/buildStore.ts')
+    const control = ITEM_PASSIVES.get(34577)?.[0]
+    if (!control) throw new Error('Missing Source Dofus passive')
+    const active = passiveBonus([34577], { [control.id]: 1 })
+    const inactive = passiveBonus([34577], {})
+    const unequipped = passiveBonus([], { [control.id]: 1 })
+    const base = useBuildStore.getState().stats
+    const stats = withPassives(base, active)
+    return { active, inactive, unequipped, resistance: stats.earthResPercent, baseResistance: base.earthResPercentRaw }
+  })
+  assert.deepEqual(source.inactive, {})
+  assert.deepEqual(source.unequipped, {})
+  assert.deepEqual(source.active, { neutralResPercent: 30, earthResPercent: 30, fireResPercent: 30, waterResPercent: 30, airResPercent: 30 })
+  assert.equal(source.resistance, Math.min(50, source.baseResistance + 30))
   assert.deepEqual(errors, [])
-  console.log('Beta WASM forge passed: pinned canonical item, automatic Dracorune, pre-conversion smithmagic, matching loaded totals and actual beta equipment caps.')
+  console.log('Beta WASM forge passed: pinned canonical item, automatic Dracorune, pre-conversion smithmagic, matching loaded totals, actual equipment caps and optional Source Dofus resistances.')
 } finally { await browser.close() }
