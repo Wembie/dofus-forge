@@ -9,8 +9,6 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
-  { version: '0.4.21', date: '2026-11-24', notes: ['Hardened two internal spots (the rune engine and the local beta Forger) that CodeQL flagged as writing to an object property named from user/build data, closing a theoretical prototype-pollution path; no change in behavior'] },
-  { version: '0.4.20', date: '2026-11-24', notes: ['Added a Spanish-language video walkthrough of the site to the "How to use" page, covering everything since version 0.4.4'] },
   {
     version: '0.4.19',
     date: '2026-11-24',
@@ -25,6 +23,8 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Eight more Dofus 3.7 profile landscapes: Evil Forest, Cania Lake, Gisgoul, Bwork Village, Zoth Village, Mount Scauldron, Snowbound Village and Castaway Island. The banner catalog now has 44 choices, with exact prompts and current-client references saved and all earlier profile choices retained',
       'Corrected hands and finger readability in 11 profile portraits, restored the third male Ecaflip hand fur from the game model, and fixed the first male Cra bowstring connection. All 13 edits were reviewed enlarged and in circular profile crops, with exact prompts and review history retained; existing avatar choices and saved profiles are preserved',
       'Fixed the extra arm-shaped outline behind the first female Sram shoulder and removed its duplicate sleeve cuff, preserving the chosen knife-toss hand gesture, face and outfit. Native PNG, profile image, previews and exact edit history are updated',
+      'Added a Spanish-language video walkthrough of the site to the "How to use" page, covering everything since version 0.4.4',
+      'Hardened two internal spots (the rune engine and the local beta Forger) that CodeQL flagged as writing to an object property named from user/build data, closing a theoretical prototype-pollution path; no change in behavior',
     ],
   },
   {
