@@ -5,11 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.4.21] — 2026-11-24
-- The Forger: redesigned passive adjustments with expandable category cards, readable stat labels and aligned icons, explicit Adjust buttons, a dedicated combat-effect editor, custom-setting indicators and individual or bulk resets. Excluded items explain why their controls are disabled; the layout supports mobile, keyboard focus and both themes in all four languages
-
 ## [0.4.20] — 2026-11-24
 - The Forger: each Dofus, Prysmaradite, legendary item and pet passive can now be adjusted right inside the forge: open its gear in the passive list and set its stacks, its case (for example the Ochre Dofus counting +20 Dodge instead of +1 AP) or its turn, or switch it off. The adjustment sits on top of "At their best" or "As in the planner", shows as adjusted, can be cleared, and goes to the planner with a loaded build
+- The Forger: redesigned passive adjustments with expandable category cards, readable stat labels and aligned icons, explicit Adjust buttons, a dedicated combat-effect editor, custom-setting indicators and individual or bulk resets. Excluded items explain why their controls are disabled; the layout supports mobile, keyboard focus and both themes in all four languages
 
 ## [0.4.19] — 2026-11-24
 - Development tooling: an isolated local beta workshop with separate game data, local test builds, spell and passive snapshots, a catalog change report and an experimental Dracorune laboratory. Includes four languages, undo/redo, JSON import/export and validation; remaining game mechanics are tracked for testing before release
