@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ITEM_PASSIVES, sanitizePassiveState, controlMax, passiveBonus } from '@/engine/passives.ts'
-import { maxPassiveState, forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded, rankLegendaryBonuses, sanitizeLegendaryCandidates, sanitizeOverrides, withOverrides } from '../forgePassives.ts'
+import { maxPassiveState, forgePassiveState, forgePassiveBonus, forgePassiveItems, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded, rankLegendaryBonuses, sanitizeLegendaryCandidates, sanitizeOverrides, withOverrides } from '../forgePassives.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { makeDefaultConfig, toWireConfig, loadSavedConfig, persistConfig, loadForgeResult, STORAGE_KEY } from '../forgeConfig.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -94,9 +94,36 @@ describe('forgePassiveEffects', () => {
     expect(effects.some(e => e.id === JAHASH)).toBe(true)
   })
 
-  it('lists only items whose passive can change an order', () => {
-    expect(orderPassiveItems()).toContain(ABYSSAL)
-    expect(orderPassiveItems()).not.toContain(TURQUOISE)
+  it('lists every configurable passive, including Dofus with combat-only effects', () => {
+    expect(forgePassiveItems()).toEqual([...ITEM_PASSIVES.keys()])
+    for (const id of [694, TURQUOISE, 6980, 8698, 20286, 31794]) expect(forgePassiveItems()).toContain(id)
+    expect(orderPassiveItems()).toEqual(forgePassiveEffects(maxPassiveState()).map(p => p.id))
+  })
+
+  it('previews the full combat bonus without dropping final damage or vulnerability', () => {
+    const state = maxPassiveState()
+    for (const id of forgePassiveItems()) expect(forgePassiveBonus(id, state)).toEqual(passiveBonus([id], state))
+    expect(forgePassiveBonus(694, state)).toEqual({ finalDamagePercent: 10 })
+    expect(forgePassiveBonus(TURQUOISE, state)).toEqual({ finalDamagePercent: 10 })
+    expect(forgePassiveBonus(31794, state)).toEqual({ finalDamagePercent: 10 })
+    expect(forgePassiveBonus(6980, state)).toEqual({ finalDamagePercent: 10 })
+    expect(forgePassiveBonus(21996, state)).toEqual({ finalDamagePercent: -10, ap: 1 })
+  })
+
+  it('switches the Vulbis between its final-damage and Lock cases without inventing order stats', () => {
+    const control = ITEM_PASSIVES.get(6980)![0].id
+    const state = withOverrides(maxPassiveState(), { [control]: 2 })
+    expect(forgePassiveBonus(6980, state)).toEqual({ lock: 20 })
+    expect(forgePassiveEffects(state).find(p => p.id === 6980)?.effects).toEqual([{ stat: 'Lock', min: 20, max: 20 }])
+  })
+
+  it('carries combat-only settings and explicit zeros for disabled or excluded effects', () => {
+    const crimson = ITEM_PASSIVES.get(694)![0].id
+    const turquoise = ITEM_PASSIVES.get(TURQUOISE)![0].id
+    const dofzzbz = ITEM_PASSIVES.get(31794)![0].id
+    const state = withOverrides(maxPassiveState(), { [crimson]: 4, [dofzzbz]: 0 })
+    expect(passiveStateFor(state, [694, TURQUOISE, 31794], new Set([TURQUOISE])))
+      .toEqual({ [crimson]: 4, [turquoise]: 0, [dofzzbz]: 0 })
   })
 
   it('sorts passive items into Dofus, Prysmaradites and legendary gear', () => {

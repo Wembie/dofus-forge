@@ -55,8 +55,8 @@ import {
   PASSIVE_MODES,
   PASSIVE_SECTIONS,
   forgePassiveState,
-  orderPassiveBonus,
-  orderPassiveItems,
+  forgePassiveBonus,
+  forgePassiveItems,
   passiveSection,
   rankLegendaryBonuses,
   type ForgePassiveMode,
@@ -529,7 +529,7 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
   const rankedCompanionBonuses = useMemo(() => rankLegendaryBonuses(forge.activeReqs), [forge.activeReqs]);
   const sections = useMemo(() => {
     const out = new Map<PassiveSection, AppItem[]>(PASSIVE_SECTIONS.map((s) => [s, []]));
-    for (const id of orderPassiveItems()) {
+    for (const id of forgePassiveItems()) {
       const item = forge.itemsById.get(id);
       if (item) out.get(passiveSection(item))!.push(item);
     }
@@ -588,6 +588,7 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
           )}
         </div>
       )}
+      {on && <p>{t("fg_passive_combat_hint")}</p>}
       {on && (
         <div className="fg-passive-companion fg-passive-sections">
           <div className="fg-passive-head">
@@ -686,7 +687,7 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
                   <ul id={`${panelId}-${section}`} className="fg-passive-items">
                     {items.map((item) => {
                       const counted = !excluded.has(item.ankama_id),
-                        parts = bonusParts(orderPassiveBonus(item.ankama_id, state)),
+                        parts = bonusParts(forgePassiveBonus(item.ankama_id, state)),
                         controls = ITEM_PASSIVES.get(item.ankama_id) ?? [],
                         adjusted = controls.some((ctl) => ctl.id in overrides),
                         tuned = tuning === item.ankama_id;

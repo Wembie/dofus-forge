@@ -2572,5 +2572,6 @@
   "fg_passive_excluded_hint": "Activez cet objet pour ajuster son passif.",
   "fg_passive_custom_hint": "Réglage personnalisé : prioritaire sur le mode choisi.",
   "fg_passive_default_hint": "Mode « {{mode}} » utilisé.",
-  "fg_passive_companion_empty": "Ajoutez un objectif à la commande pour voir les bonus de familier compatibles."
+  "fg_passive_companion_empty": "Ajoutez un objectif à la commande pour voir les bonus de familier compatibles.",
+  "fg_passive_combat_hint": "Vous pouvez régler tous les passifs de combat configurables. La recherche compare les objectifs de caractéristiques ; les dommages finaux et la vulnérabilité s’appliquent dans le planificateur au chargement du build."
 }

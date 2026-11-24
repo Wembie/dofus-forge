@@ -2572,5 +2572,6 @@
   "fg_passive_excluded_hint": "Activa este objeto para ajustar su pasiva.",
   "fg_passive_custom_hint": "Ajuste propio: tiene prioridad sobre el modo elegido.",
   "fg_passive_default_hint": "Usando el modo «{{mode}}».",
-  "fg_passive_companion_empty": "Añade una meta al encargo para ver los bonos de mascota compatibles."
+  "fg_passive_companion_empty": "Añade una meta al encargo para ver los bonos de mascota compatibles.",
+  "fg_passive_combat_hint": "Puedes ajustar todas las pasivas de combate. La búsqueda compara las metas del encargo; los daños finales y la vulnerabilidad se aplican en el planificador al cargar el build."
 }

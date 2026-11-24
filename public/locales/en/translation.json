@@ -2572,5 +2572,6 @@
   "fg_passive_excluded_hint": "Enable this item to adjust its passive.",
   "fg_passive_custom_hint": "Custom adjustment: takes priority over the selected mode.",
   "fg_passive_default_hint": "Using the “{{mode}}” mode.",
-  "fg_passive_companion_empty": "Add a goal to the order to see matching companion bonuses."
+  "fg_passive_companion_empty": "Add a goal to the order to see matching companion bonuses.",
+  "fg_passive_combat_hint": "You can adjust all configurable combat passives. The search compares the order’s stat goals; final damage and vulnerability apply in the planner when you load the build."
 }

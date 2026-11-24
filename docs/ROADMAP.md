@@ -5,6 +5,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Forjadora: Dofus con pasivas de daños finales** (0.4.20) — visibles los 14 Dofus con efectos configurables, incluidos Púrpura, Turquesa, Dofzzbz, Nebuloso, Plateado Centelleante y los dos casos del Vulbis. Vista previa completa y ajustes transferidos al planificador, con ceros explícitos para desactivar efectos y respetar exclusiones; explicación del alcance de las metas del encargo en cuatro idiomas.
+
 - [x] **Forjadora: rediseño del ajuste de pasivas** (0.4.20) — categorías desplegables con contadores, efectos con iconos y nombres alineados, botones Ajustar, editor de combate diferenciado, indicadores de ajuste propio y restablecimiento individual o global. Controles bloqueados con explicación al excluir un objeto, foco visible y diseño adaptable en ambos temas y cuatro idiomas.
 
 - [x] **M185 — Forjadora: ajustar cada pasiva dentro de la forja** (0.4.20) — pedido del usuario (2026-11-24): hasta ahora la forja contaba todas las pasivas "Al máximo" o "Como en el planificador", y para cambiar una sola (acumulaciones, caso, turno) había que ir al planner. Ahora cada objeto de las listas de pasivas tiene su ⚙ con los mismos controles del planner (`ControlRow`); el ajuste (`passiveOverrides`, por id de control, 0 = apagada) va encima del modo (`withOverrides`, que respeta topes compartidos), se marca "ajustada", se puede quitar, y pasa al planner al cargar un build. El motor no cambia: sigue recibiendo un valor fijo por pasiva. Los Dofus con dos condiciones (Ocre PA/Huida, Abisal PM/PA, Vulbis daños finales/Placaje) son casos excluyentes, como en el juego: el ajuste elige cuál cuenta.

@@ -2572,5 +2572,6 @@
   "fg_passive_excluded_hint": "Ative este item para ajustar sua passiva.",
   "fg_passive_custom_hint": "Ajuste próprio: tem prioridade sobre o modo escolhido.",
   "fg_passive_default_hint": "Usando o modo “{{mode}}”.",
-  "fg_passive_companion_empty": "Adicione uma meta ao pedido para ver os bônus de mascote compatíveis."
+  "fg_passive_companion_empty": "Adicione uma meta ao pedido para ver os bônus de mascote compatíveis.",
+  "fg_passive_combat_hint": "Você pode ajustar todas as passivas de combate configuráveis. A busca compara as metas de características; danos finais e vulnerabilidade são aplicados no planejador ao carregar a build."
 }

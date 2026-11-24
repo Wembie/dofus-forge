@@ -76,16 +76,21 @@ export function withOverrides(base: PassiveState, overrides: Record<string, numb
   return sanitizePassiveState({ ...base, ...overrides })
 }
 
-/** The part of one item's passive bonus under `state` that an order can ask for. */
-export function orderPassiveBonus(id: number, state: PassiveState): PassiveBonus {
+/** All configurable effects, including combat multipliers the order cannot optimize. */
+export function forgePassiveBonus(id: number, state: PassiveState): PassiveBonus {
   const total: PassiveBonus = {}
   for (const c of ITEM_PASSIVES.get(id) ?? []) {
     for (const [k, v] of Object.entries(controlBonus(c, state[c.id] ?? 0)) as [PassiveStat, number][]) {
-      if (EFFECT_NAME[k]) total[k] = (total[k] ?? 0) + v
+      total[k] = (total[k] ?? 0) + v
     }
   }
   for (const k of Object.keys(total) as PassiveStat[]) if (total[k] === 0) delete total[k]
   return total
+}
+
+/** The part of one item's passive bonus under `state` that an order can ask for. */
+export function orderPassiveBonus(id: number, state: PassiveState): PassiveBonus {
+  return Object.fromEntries(Object.entries(forgePassiveBonus(id, state)).filter(([k]) => EFFECT_NAME[k as PassiveStat]))
 }
 
 /**
@@ -114,10 +119,15 @@ export function passiveSection(item: AppItem): PassiveSection {
 
 let orderItems: number[] | null = null
 
-/** Items whose passive can change an order (at its best): the ones worth listing. */
+/** Items with an order-stat bonus in the default max case (legacy beta picker). */
 export function orderPassiveItems(): number[] {
   orderItems ??= forgePassiveEffects(maxPassiveState()).map(p => p.id)
   return orderItems
+}
+
+/** Every item with configurable passive effects, regardless of the order's available stats. */
+export function forgePassiveItems(): number[] {
+  return [...ITEM_PASSIVES.keys()]
 }
 
 /** Saved list of left-out passive items (untrusted: localStorage). */
@@ -135,9 +145,10 @@ export function sanitizeLegendaryCandidates(raw: unknown): string[] {
 }
 
 /** The settings of the given items' passives, to carry into the planner with a loaded build. */
-export function passiveStateFor(state: PassiveState, itemIds: Iterable<number>): PassiveState {
-  const ids = new Set([...itemIds].map(String))
-  return Object.fromEntries(Object.entries(state).filter(([control]) => ids.has(control.split('.')[0])))
+export function passiveStateFor(state: PassiveState, itemIds: Iterable<number>, excluded: ReadonlySet<number> = new Set()): PassiveState {
+  return Object.fromEntries([...new Set(itemIds)].flatMap(id =>
+    (ITEM_PASSIVES.get(id) ?? []).map(control => [control.id, excluded.has(id) ? 0 : state[control.id] ?? 0]),
+  ))
 }
 
 /**

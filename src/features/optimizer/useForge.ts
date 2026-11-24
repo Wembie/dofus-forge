@@ -524,13 +524,14 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
   }
 
   function loadBuild(result: BuildResult) {
-    // The planner gets what the Forge counted: the max case, or the planner's
-    // own settings with the Forge's per-passive adjustments on top.
-    const adjusted = Object.keys(config.passiveOverrides).length > 0
-    const counted = config.passives === 'max' || (config.passives === 'planner' && adjusted)
-      ? passiveStateFor(withOverrides(forgePassiveState(config.passives, plannerPassives), config.passiveOverrides), Object.values(result.equipped).filter(id => countedPassivesRef.current.has(id)))
-      : undefined
-    loadForgeResult(result, config.lockedSlots, counted)
+    // Combat-only effects travel to the planner even though they do not
+    // contribute to the order's stat goals. Explicit zeros clear old settings.
+    const passives = config.passives === 'off' ? undefined : passiveStateFor(
+      withOverrides(forgePassiveState(config.passives, plannerPassives), config.passiveOverrides),
+      Object.values(result.equipped),
+      new Set(config.passiveExcluded),
+    )
+    loadForgeResult(result, config.lockedSlots, passives)
     handleClose()
   }
 
