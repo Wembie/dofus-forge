@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SpellsPanel } from '../../src/features/spells/SpellsPanel.tsx'
+import { SpellsPanel } from './SpellsPanel.tsx'
 import { useDataStore } from '../../src/store/dataStore.ts'
 import { useCombatStats } from '../../src/store/useCombatStats.ts'
 import { useBuildStore } from './buildStore.ts'

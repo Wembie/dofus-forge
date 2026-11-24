@@ -26,7 +26,6 @@ import type { AppItem } from "@/data/loaders.ts";
 import { CHARACTERISTICS } from "@/engine/types.ts";
 import { ClassPicker } from "@/features/class-picker/ClassPicker.tsx";
 import { ForgeScene } from "@/features/optimizer/ForgeParts.tsx";
-import { ForgeResultExtras } from "@/features/optimizer/forgeRuntime.ts";
 import type { BuildResult, ForgeCustom, ForgeIntensity, ForgeRequirement } from "@/features/optimizer/types.ts";
 import {
   LEY_PRESETS,
@@ -998,7 +997,6 @@ function ResultCard({
           {t("optimizer_quality")} <b className={result.score < 0 ? "is-negative" : ""}>{group(result.score, i18n.language)}</b>
         </span>
       </div>
-      <ForgeResultExtras result={result} />
       <div className="fg-pieces" aria-hidden="true">
         {pieces.map(({ slot, item }) => {
           const exo = result.exo[slot],

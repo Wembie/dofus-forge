@@ -15,12 +15,15 @@ Abrir **http://127.0.0.1:5188/beta**. Los datos ya están descargados en esta m�
 
 `pnpm fetch-beta --force` vuelve a descargar todos los datos aunque el número de versión no cambie. Reiniciar el servidor después de actualizar: la versión mostrada se fija al arrancar Vite.
 
-`dev:beta` compila automáticamente el optimizador local con `wasm-pack` si falta o si cambiaron sus fuentes Rust; requiere las herramientas Rust/WASM habituales del proyecto. `pnpm build:beta` hace esa comprobación por separado. El binario queda en `tools/beta/data/wasm/`: el WASM público no se reemplaza.
+`dev:beta` compila automáticamente el optimizador local con `wasm-pack` desde `tools/beta/rust-optimizer` si falta o si cambiaron sus fuentes Rust o sus módulos estables compartidos; requiere las herramientas Rust/WASM habituales del proyecto. `pnpm build:beta` hace esa comprobación por separado. El binario queda en `tools/beta/data/wasm/`: el WASM público no se reemplaza.
 
 ## Separación
 
 - `tools/beta/data/` contiene los snapshots beta, está ignorado por Git y queda fuera de `public/` y del build de producción. Los scripts habituales conservan su destino y canal oficial; solo `--beta` escribe aquí.
-- El servidor local sirve esos snapshots desde `/data/`. Solo comparte con producción el arte estático de estadísticas, runas y clases, junto con los componentes y el motor existente.
+- El servidor local sirve esos snapshots desde `/data/`. Reutiliza arte estático, CSS, componentes de catálogo y primitivas de cálculo estables, sin modificarlos para añadir reglas beta.
+- La Forjadora experimental tiene fuentes propias: `forge/useForge.ts`, `forge/OptimizerModal.tsx` y `rust-optimizer/src/{forge,optimizer_types}.rs` dentro de este directorio. El store base está en `baseBuildStore.ts` y el panel de hechizos en `SpellsPanel.tsx`. Las fuentes equivalentes de `src/` y del crate raíz `rust-optimizer/` se restauraron al contenido anterior a la beta (`d53da0bf`); no contienen los hooks ni las reglas experimentales.
+- El crate beta compila de forma independiente, con su propio manifiesto, lockfile y directorio de artefactos. Solo lee los módulos estables `characteristics`, `stat_map`, `stats` y `types` del crate oficial. Sus extensiones de catálogo y búsqueda no forman parte del motor que compila producción.
+- Los alias beta pertenecen exclusivamente a `tools/beta/vite.config.ts`; el Vite habitual no importa este directorio. Los tests de aislamiento revisan las dependencias de `src/`, la configuración y la separación de los motores.
 - El taller tiene una instancia propia del store de la build. Las conversiones viven en `tools/beta/`; no se añaden a los snapshots públicos.
 - La configuración no expone variables `VITE_*`. Supabase se sustituye por un adaptador que rechaza las operaciones, y la política del navegador permite conexiones de datos únicamente al servidor local. Las imágenes de objetos y runas se leen del CDN beta.
 - No monta autenticación, publicaciones, perfiles, analítica ni rutas de comunidad. El borrador y el historial son locales al origen `http://127.0.0.1:5188`, con la clave `dofus-forge:beta-lab:v1`.
@@ -29,7 +32,7 @@ Abrir **http://127.0.0.1:5188/beta**. Los datos ya están descargados en esta m�
 
 ## Disponible
 
-- Catálogo completo de equipo, sets, consumibles y monturas del canal beta. Constructor, condiciones y bonus de sets sobre el motor compartido.
+- Catálogo completo de equipo, sets, consumibles y monturas del canal beta. Constructor, condiciones y bonus de sets sobre la implementación local y las primitivas estables compartidas.
 - Nombres, descripciones, hechizos e iconos de las 20 clases de los datos actuales, incluidos los 44 hechizos de Bellaphone, llamada Belíade en español, y sus seis definitivos de linaje para pruebas manuales. Sus retratos oficiales se extraen del archivo de cabezas beta.
 - Escenarios de Belaura: linaje, tamaño (1–4), enemigos presentes, posición del objetivo, estados y daño al lanzar o al final del turno. El elemento se elige expresamente para las acciones de «mejor elemento». Se filtran los criterios reales de tamaño y cantidad de enemigos; las ramas de daño y crítico no se suman entre sí. Los daños basados en porcentajes de vida y las curas quedan fuera de esta vista calculada. Los bonus propios directos de aura se pueden aplicar a la vista de hechizos; no se incluyen en la búsqueda de la Forjadora. Escenario guardado en borrador, historial y JSON.
 - Pasivos regenerados desde el release beta. Se aprovechan los controles del motor existente; esto no convierte automáticamente todos los efectos nuevos en mecánicas implementadas.
@@ -41,6 +44,10 @@ Abrir **http://127.0.0.1:5188/beta**. Los datos ya están descargados en esta m�
 - Informe de objetos/sets añadidos, modificados y ausentes, además de nuevos efectos sin mapear. La referencia es el snapshot oficial **guardado en el repositorio**, que puede ir por detrás del API oficial actual. Los cosméticos y objetos de pruebas también aparecen en el informe y no se presentan como equipables por ese hecho.
 
 En la primera sincronización, el proveedor entregaba beta `3.8.2.3`; el catálogo oficial del repositorio era `3.7.12.12`: 4.147 objetos, 959 sets, 52 objetos añadidos, 222 modificados y 19 sets añadidos. Son diferencias entre esos snapshots, no una lista oficial del parche 3.8. El taller sigue la versión disponible del API y no fija el `3.8.2.8` que se había mencionado inicialmente.
+
+## Mantenimiento del aislamiento
+
+Las reglas nuevas se desarrollan en este directorio. Las copias locales de la Forjadora, el store y el panel de hechizos se mantienen de forma explícita: una mejora en producción se revisa antes de trasladarla al taller. La promoción de una regla beta a producción requiere una implementación y revisión posteriores; fusionar estos archivos de herramientas no la habilita en el producto. No se añaden condiciones experimentales al motor oficial ni hooks beta a sus paneles.
 
 ## Trabajo que sigue abierto
 
@@ -57,13 +64,16 @@ El taller permite ir implementando y comprobando estas reglas sin habilitarlas e
 
 ```sh
 pnpm check:beta
+cargo test --locked --manifest-path rust-optimizer/Cargo.toml --lib
+cargo test --locked --manifest-path rust-optimizer/Cargo.toml --test forge_golden
+cargo test --locked --manifest-path tools/beta/rust-optimizer/Cargo.toml --lib
 pnpm test -- tools/beta src/store/__tests__/buildStore.test.ts src/store/__tests__/dataStore.test.ts scripts/__tests__/fetch-passives.test.ts
 node tools/beta/check.mjs
 node tools/beta/check-forge.mjs
 node tools/beta/check-bellaphone.mjs
 ```
 
-Los tres últimos comandos necesitan el servidor beta arrancado. Cubren conversiones, deshacer/rehacer, recarga, exportación, hechizos de Belíade, cuatro idiomas, los cinco paneles en móvil y ausencia de conexiones de datos externas; el segundo ejecuta el WASM real, busca una conversión sobre un objeto fijado y comprueba que cargarla reproduce los totales y la runa anterior. El tercero contrasta ramas normales y críticas, veneno, seis definitivos, bonus propios, recarga del escenario y cuatro idiomas sobre los snapshots beta reales. Los tests nativos conservan los golden del optimizador oficial. `pnpm build` verifica que el producto siga compilando por su circuito habitual.
+Los tres últimos comandos necesitan el servidor beta arrancado. Cubren conversiones, deshacer/rehacer, recarga, exportación, hechizos de Belíade, cuatro idiomas, los cinco paneles en móvil y ausencia de conexiones de datos externas; el segundo ejecuta el WASM real, busca una conversión sobre un objeto fijado, comprueba que cargarla reproduce los totales y la runa anterior, y confirma que el diálogo carga los módulos de Forjadora locales. El tercero contrasta ramas normales y críticas, veneno, seis definitivos, bonus propios, recarga del escenario y cuatro idiomas sobre los snapshots beta reales. Los tests nativos conservan los golden del optimizador oficial. `pnpm build` verifica que el producto siga compilando por su circuito habitual.
 
 ## Fuentes
 

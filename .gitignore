@@ -65,5 +65,7 @@ graphify-out/
 # temporary files for local dev
 temp/
 tools/beta/data/
+tools/beta/rust-optimizer/target/
+tools/beta/rust-optimizer/pkg/
 # Local marketing work (YouTube thumbnails): kept on disk, not in the public repo
 docs/brand/youtube-thumbnail/

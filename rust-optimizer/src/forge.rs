@@ -267,7 +267,7 @@ impl std::hash::BuildHasher for IdentityBuild {
 pub const HALL_SIZE: usize = 10;
 
 fn obtainable(item: &CatalogItem) -> bool {
-    if [6894, 6895, 7913, 9031, 34569].contains(&item.identity_id.unwrap_or(item.ankama_id)) {
+    if [6894, 6895, 7913, 9031, 34569].contains(&item.ankama_id) {
         return false;
     }
     let lower = item.name.to_lowercase();
@@ -393,8 +393,6 @@ fn compare(actual: i64, op: u8, value: i64) -> bool {
 
 struct Item {
     ankama_id: i64,
-    identity_id: i64,
-    stat_caps: [i64; 4],
     vec: Vec60,
     set: Option<usize>,
     conds: Vec<Cond>,
@@ -409,16 +407,6 @@ struct Item {
     lines: Vec60,
     // Best transcendence rune per scored stat this item may take.
     runes: Vec<(usize, i64)>,
-    pro_runes: Option<Vec<(usize, i64)>>,
-}
-
-fn effect_caps(effects: &[ItemEffect]) -> [i64; 4] {
-    let mut caps = [12, 6, 6, 6];
-    for effect in effects {
-        let index = match effect.stat.as_str() { "AP Max." => 0, "MP Max." => 1, "Range Max." => 2, "Summons Max." => 3, _ => continue };
-        if effect.value() >= 0 { caps[index] = caps[index].min(effect.value()); }
-    }
-    caps
 }
 
 #[derive(Clone)]
@@ -544,7 +532,6 @@ pub struct Forge {
     catalog: Vec<CatalogItem>,
     set_data: Vec<SetData>,
     set_bonus: Vec<Vec<Vec60>>,               // [set][piece count] -> best reached tier
-    set_caps: Vec<Vec<[i64; 4]>>,
     set_members: Vec<Vec<(i32, Vec<usize>)>>, // [set] -> (item, free slots holding it in their pool)
     set_rank: Vec<usize>,                     // useful sets, most valuable for this order first
     alloy_pool: Vec<[i32; NSLOT]>,            // best set combinations, restart points for stalled islands
@@ -557,9 +544,6 @@ pub struct Forge {
     // Slots kept as the planner has them, runes included. A required item
     // is fixed too, but not locked: the Forge still picks its runes.
     locked: [bool; NSLOT],
-    required_identity: [Option<i64>; NSLOT],
-    item_stat_caps: bool,
-    eval_caps: std::cell::Cell<[i64; 4]>,
     base_pre: Vec60,
     targets: Vec<Target>,
     stat_targets: Vec<Vec<usize>>, // [dense stat] -> targets it feeds
@@ -643,11 +627,6 @@ impl Forge {
             })
             .collect();
         let set_data: Vec<SetData> = sets.iter().map(|s| SetData { ankama_id: s.ankama_id, items: s.items.clone(), bonuses: s.bonuses.clone() }).collect();
-        let set_caps: Vec<Vec<[i64; 4]>> = sets.iter().map(|s| {
-            let mut tiers: Vec<_> = s.bonuses.iter().filter_map(|(n, effects)| n.parse::<usize>().ok().map(|n| (n, effect_caps(effects)))).collect();
-            tiers.sort_by_key(|(n, _)| *n);
-            (0..=NSLOT).map(|count| tiers.iter().rfind(|(n, _)| *n <= count).map(|(_, caps)| *caps).unwrap_or([12, 6, 6, 6])).collect()
-        }).collect();
 
         let rune_table: Vec<(usize, [i64; 3])> = TRANSCENDENCE
             .iter()
@@ -706,17 +685,8 @@ impl Forge {
                     })
                     .unwrap_or_default();
                 let mut vec = dense(&raw_effects_block(&it.effects, it.slot == "weapon"));
-                let forgeable = !it.forge_locked && ["hat", "cape", "amulet", "ring", "belt", "boots", "weapon", "shield"].contains(&it.slot.as_str());
-                let overrides = |rows: &Vec<crate::optimizer_types::CatalogRune>| -> Vec<(usize, i64)> {
-                    rows.iter().filter_map(|row| {
-                        let probe = dense(&raw_effects_block(&[ItemEffect { stat: row.stat.clone(), min: 1, max: 1, effect_id: None }], false));
-                        let i = probe.iter().position(|v| *v == 1)?;
-                        (row.value > 0 && !stat_targets[i].is_empty()).then_some((i, row.value))
-                    }).collect()
-                };
-                let runes = if let Some(rows) = it.forge_runes.as_ref().filter(|_| forgeable && config.transcendence) {
-                    overrides(rows)
-                } else if forgeable {
+                let forgeable = ["hat", "cape", "amulet", "ring", "belt", "boots", "weapon", "shield"].contains(&it.slot.as_str());
+                let runes = if forgeable {
                     rune_table
                         .iter()
                         .filter_map(|(i, values)| {
@@ -728,23 +698,20 @@ impl Forge {
                     Vec::new()
                 };
                 let lines = vec;
-                let exo_free = if it.forge_locked { 0 } else { [AP, MP, RANGE].iter().enumerate().fold(0u8, |m, (k, &st)| if lines[st] == 0 { m | 1 << k } else { m }) };
+                let exo_free = [AP, MP, RANGE].iter().enumerate().fold(0u8, |m, (k, &st)| if lines[st] == 0 { m | 1 << k } else { m });
                 let pro_host = forgeable && [AP, MP, RANGE, SUMMONS].iter().any(|&st| lines[st] > 0);
                 // After the runes: a passive is not a line on the item, so it
                 // never changes which rune rank the item can take.
-                if let Some(passive) = passive_by_id.get(&it.identity_id.unwrap_or(it.ankama_id)) {
+                if let Some(passive) = passive_by_id.get(&it.ankama_id) {
                     add_into(&mut vec, &dense(&raw_effects_block(passive, false)));
                 }
                 Item {
                     ankama_id: it.ankama_id,
-                    identity_id: it.identity_id.unwrap_or(it.ankama_id),
-                    stat_caps: it.stat_caps.unwrap_or([12, 6, 6, 6]),
                     vec,
                     set: it.set_id.and_then(|id| set_index.get(&id).copied()),
                     conds,
                     prysmaradite: it.item_type == "Prysmaradite",
                     runes,
-                    pro_runes: it.forge_pro_runes.as_ref().map(overrides),
                     exo_free,
                     pro_host,
                     lines,
@@ -752,7 +719,7 @@ impl Forge {
             })
             .collect();
         let by_ankama: HashMap<i64, i32> = items.iter().enumerate().map(|(i, it)| (it.ankama_id, i as i32)).collect();
-        let passives: Vec<Vec<ItemEffect>> = catalog.iter().map(|it| passive_by_id.get(&it.identity_id.unwrap_or(it.ankama_id)).map(|p| (*p).clone()).unwrap_or_default()).collect();
+        let passives: Vec<Vec<ItemEffect>> = catalog.iter().map(|it| passive_by_id.get(&it.ankama_id).map(|p| (*p).clone()).unwrap_or_default()).collect();
 
         let locked_names: HashSet<&str> = config.locked_slots.iter().map(|s| s.as_str()).collect();
         let mut fixed = [-1i32; NSLOT];
@@ -778,16 +745,6 @@ impl Forge {
         }
 
         place_required(&config.required_items, &catalog, &by_ankama, &mut fixed, &mut free_slots);
-        let mut required_identity = [None; NSLOT];
-        for s in 0..NSLOT {
-            if !locked[s] && fixed[s] >= 0 {
-                let id = items[fixed[s] as usize].identity_id;
-                if items.iter().any(|it| it.identity_id == id && it.ankama_id != id) {
-                    required_identity[s] = Some(id);
-                    free_slots.push(s);
-                }
-            }
-        }
 
         let mut base_pre = [0i64; NF];
         base_pre[AP] = BASE_AP + if base.level >= 100 { 1 } else { 0 };
@@ -804,14 +761,11 @@ impl Forge {
         }
 
         let island_count = config.islands.clamp(1, TOTAL_ISLANDS);
-        let variant_pro = items.iter().any(|it| it.pro_runes.as_ref().is_some_and(|rows| !rows.is_empty()));
-        let item_stat_caps = catalog.iter().any(|it| it.stat_caps.is_some());
         let mut forge = Forge {
             items,
             catalog,
             set_data,
             set_bonus,
-            set_caps,
             set_members: vec![Vec::new(); sets.len()],
             set_rank: Vec::new(),
             alloy_pool: Vec::new(),
@@ -822,9 +776,6 @@ impl Forge {
             mutable_slots: Vec::new(),
             fixed,
             locked,
-            required_identity,
-            item_stat_caps,
-            eval_caps: std::cell::Cell::new([12, 6, 6, 6]),
             base_pre,
             targets,
             stat_targets,
@@ -838,7 +789,7 @@ impl Forge {
             exo_range: config.exo.range,
             exo_only_ring: config.exo.only_on_ring,
             exo_max: config.exo.max_count.clamp(0, 3) as usize,
-            pro_max: if pro_table.is_empty() && !variant_pro { 0 } else { config.pro_exo_max.min(FORGEABLE.len()) },
+            pro_max: if pro_table.is_empty() { 0 } else { config.pro_exo_max.min(FORGEABLE.len()) },
             pro_table,
             islands: Vec::new(),
             next_pop: Vec::with_capacity(ISLAND_SIZE),
@@ -880,8 +831,7 @@ impl Forge {
                         && it.level <= max_level
                         && (exempt || it.level >= floor)
                         && obtainable(it)
-                        && !banned_ids.contains(&item.identity_id)
-                        && required_identity[s].is_none_or(|id| item.identity_id == id)
+                        && !banned_ids.contains(&it.ankama_id)
                         && !banned_types.contains(it.item_type.as_str())
                         && (forge.useful(&item.vec) || item.set.is_some_and(|st| relevant_set[st]) || !item.runes.is_empty() || rune_host || (pro_slot && item.pro_host))
                 })
@@ -889,14 +839,10 @@ impl Forge {
                 .collect();
             forge.pools[s] = pool;
         }
-        if config.prune && !forge.item_stat_caps {
+        if config.prune {
             forge.prune_dominated();
         }
         forge.mutable_slots = forge.free_slots.iter().copied().filter(|&s| !forge.pools[s].is_empty()).collect();
-        let variant_values: Vec<f64> = if forge.catalog.iter().any(|it| it.identity_id.is_some()) { forge.items.iter().map(|it| {
-            let gain = |i: usize, v: i64| forge.stat_targets[i].iter().map(|&t| forge.targets[t].weight * v as f64).sum::<f64>();
-            (0..NF).map(|i| gain(i, it.vec[i])).sum::<f64>() + it.runes.iter().map(|&(i, v)| gain(i, v)).fold(0.0, f64::max)
-        }).collect() } else { Vec::new() };
         for &s in &forge.free_slots {
             for &i in &forge.pools[s] {
                 if forge.fixed.contains(&i) {
@@ -904,11 +850,8 @@ impl Forge {
                 }
                 if let Some(st) = forge.items[i as usize].set {
                     let members = &mut forge.set_members[st];
-                    match members.iter_mut().find(|(id, _)| forge.items[*id as usize].identity_id == forge.items[i as usize].identity_id) {
-                        Some((id, slots)) => {
-                            if !slots.contains(&s) { slots.push(s); }
-                            if *id != i && variant_values[i as usize] > variant_values[*id as usize] { *id = i; }
-                        },
+                    match members.iter_mut().find(|(id, _)| *id == i) {
+                        Some((_, slots)) => slots.push(s),
                         None => members.push((i, vec![s])),
                     }
                 }
@@ -1249,10 +1192,7 @@ impl Forge {
     }
 
     fn valid(&self, g: &[i32; NSLOT]) -> bool {
-        if self.required_identity.iter().enumerate().any(|(s, id)| id.is_some_and(|id| g[s] < 0 || self.items[g[s] as usize].identity_id != id)) {
-            return false;
-        }
-        if g[RING1] >= 0 && g[RING2] >= 0 && self.items[g[RING1] as usize].identity_id == self.items[g[RING2] as usize].identity_id && self.items[g[RING1] as usize].set.is_some() {
+        if g[RING1] >= 0 && g[RING1] == g[RING2] && self.items[g[RING1] as usize].set.is_some() {
             return false;
         }
         let mut prysma = 0;
@@ -1357,10 +1297,8 @@ impl Forge {
     // the same derivations and caps compute_stats applies.
     fn final_value(&self, pre: &Vec60, ch: &[i64; 6], i: usize) -> i64 {
         match i {
-            AP => pre[AP].min(self.eval_caps.get()[0]),
-            MP => pre[MP].min(self.eval_caps.get()[1]),
-            RANGE => pre[RANGE].min(self.eval_caps.get()[2]),
-            SUMMONS => pre[SUMMONS].min(self.eval_caps.get()[3]),
+            AP => pre[AP].min(12),
+            MP | RANGE | SUMMONS => pre[i].min(6),
             VIT..=AGI => ch[i - VIT],
             MAXHP => pre[MAXHP] + base_hp(self.level) + ch[0],
             INITIATIVE => pre[i] + ch[2] + ch[3] + ch[4] + ch[5],
@@ -1538,18 +1476,6 @@ impl Forge {
     }
 
     fn evaluate_worn(&self, g: &[i32; NSLOT], worn: Worn) -> Eval {
-        if self.item_stat_caps {
-            let mut caps = [12, 6, 6, 6];
-            for &i in g {
-                if i >= 0 {
-                    for (cap, value) in caps.iter_mut().zip(self.items[i as usize].stat_caps) { *cap = (*cap).min(value); }
-                }
-            }
-            for &(st, n) in &worn.sets[..worn.set_len] {
-                for (cap, value) in caps.iter_mut().zip(self.set_caps[st][n]) { *cap = (*cap).min(value); }
-            }
-            self.eval_caps.set(caps);
-        }
         let Worn { mut pre, sets: set_counts, set_len } = worn;
         let mut max_pieces = 0usize;
         for &(st, n) in &set_counts[..set_len] {
@@ -1582,8 +1508,7 @@ impl Forge {
                 }
                 let goal = self.targets.iter().filter(|t| t.idx == stat).map(|t| t.goal).max().unwrap_or(0);
                 kind_slots[kind_len] = kind;
-                let limit = self.eval_caps.get()[if stat == AP { 0 } else if stat == MP { 1 } else { 2 }];
-                if pre[stat].min(limit) < goal && self.exo_assign(g, &host_slots[..host_len], &kind_slots[..=kind_len], 0).is_some() {
+                if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal && self.exo_assign(g, &host_slots[..host_len], &kind_slots[..=kind_len], 0).is_some() {
                     pre[stat] += 1;
                     kind_len += 1;
                 }
@@ -1664,7 +1589,7 @@ impl Forge {
                         let mut slot_loss = f64::INFINITY;
                         for &s in &open[..open_len] {
                             let host = &self.items[g[s] as usize];
-                            if !host.pro_host || host.pro_runes.is_some() || (host.lines[i] + v) as f64 * fm_weight(i) > EXOTIC_WEIGHT_LIMIT {
+                            if !host.pro_host || (host.lines[i] + v) as f64 * fm_weight(i) > EXOTIC_WEIGHT_LIMIT {
                                 continue;
                             }
                             let loss = self.items[g[s] as usize]
@@ -1680,22 +1605,7 @@ impl Forge {
                         }
                         if slot < NSLOT {
                             best = Some((slot, i, v));
-                            best_gain = gain;
                             is_pro = true;
-                        }
-                    }
-                    for &s in &open[..open_len] {
-                        let host = &self.items[g[s] as usize];
-                        if !host.pro_host { continue; }
-                        if let Some(options) = &host.pro_runes {
-                            for &(i, v) in options {
-                                let gain = self.memo_gain(memo, &mut pre, &mut ch, i, v);
-                                if gain > best_gain {
-                                    best_gain = gain;
-                                    best = Some((s, i, v));
-                                    is_pro = true;
-                                }
-                            }
                         }
                     }
                 }
@@ -2347,7 +2257,7 @@ impl Forge {
             chance: ev.alloc[4],
             agility: ev.alloc[5],
         };
-        let mut stats = compute_stats(&BuildInput {
+        let stats = compute_stats(&BuildInput {
             level: self.level,
             allocated: allocated.clone(),
             scrolled: self.scrolled.clone(),
@@ -2355,14 +2265,6 @@ impl Forge {
             sets: &self.set_data,
             rune_effects,
         });
-        if self.item_stat_caps {
-            let caps = self.eval_caps.get();
-            stats.ap = stats.ap_raw.min(caps[0]);
-            stats.mp = stats.mp_raw.min(caps[1]);
-            stats.range = stats.range_raw.min(caps[2]);
-            stats.summons = stats.summons.min(caps[3]);
-            for stat in ["AP Max.", "MP Max.", "Range Max.", "Summons Max."] { stats.unknown_stats.remove(stat); }
-        }
         BuildResult {
             equipped: self.equipped_map(g),
             stats,
@@ -2428,97 +2330,13 @@ impl Forge {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::optimizer_types::{CatalogCondition, CatalogRune, ExoConfig, PassiveEffects, StatConfig};
+    use crate::optimizer_types::{CatalogCondition, ExoConfig, PassiveEffects, StatConfig};
 
     fn effect(stat: &str, v: i64) -> ItemEffect {
         ItemEffect { stat: stat.to_string(), min: v, max: 0, effect_id: None }
     }
     fn item(id: i64, slot: &str, set_id: Option<i64>, effects: Vec<ItemEffect>) -> CatalogItem {
-        CatalogItem { ankama_id: id, name: format!("Item {id}"), level: 1, item_type: "Misc".to_string(), slot: slot.to_string(), effects, conditions: None, set_id, ..Default::default() }
-    }
-
-    #[test]
-    fn converted_variants_share_set_ring_uniqueness_and_bans() {
-        let original = item(1, "ring", Some(9), vec![effect("Strength", 20)]);
-        let mut variant = item(2, "ring", Some(9), vec![effect("Agility", 20)]);
-        variant.identity_id = Some(1);
-        variant.forge_runes = Some(vec![]);
-        let mut cfg = config(vec![cond("agility", 1, 1)], &["ring1", "ring2"]);
-        cfg.transcendence = false;
-        cfg.prune = false;
-        let set = CatalogSet { ankama_id: 9, items: vec![1], bonuses: HashMap::new() };
-        let forge = Forge::new(cfg.clone(), vec![original.clone(), variant.clone()], vec![set], base(1), 7);
-        let mut genes = [-1; NSLOT]; genes[RING1] = 0; genes[RING2] = 1;
-        assert!(!forge.valid(&genes));
-        cfg.banned_items = vec![1];
-        let banned = Forge::new(cfg, vec![original, variant], vec![], base(1), 7);
-        assert!(banned.pools[RING1].is_empty());
-    }
-
-    #[test]
-    fn required_item_can_choose_a_converted_variant_and_its_source_rune() {
-        let original = item(1, "hat", None, vec![effect("Strength", 20)]);
-        let mut variant = item(2, "hat", None, vec![effect("Agility", 20)]);
-        variant.identity_id = Some(1);
-        variant.forge_runes = Some(vec![CatalogRune { stat: "Agility".into(), value: 20 }]);
-        let mut cfg = config(vec![cond("agility", 1, 1)], &["hat"]);
-        cfg.required_items = vec![1]; cfg.prune = false; cfg.transcendence = true;
-        let mut forge = Forge::new(cfg, vec![original, variant], vec![], base(1), 7);
-        for _ in 0..5 { forge.run_generation(); }
-        let r = &forge.results()[0];
-        assert_eq!(r.equipped.get("hat"), Some(&2));
-        assert_eq!(r.stats.agility, 40);
-        assert_eq!(r.runes["hat"].value, 20);
-        forge.verify(r).unwrap();
-    }
-
-    #[test]
-    fn converted_pro_rune_can_feed_a_different_element_from_the_requested_source() {
-        let mut variant = item(2, "hat", None, vec![effect("AP", 1), effect("Fire Resistance", 10)]);
-        variant.identity_id = Some(1);
-        variant.forge_runes = Some(vec![]);
-        variant.forge_pro_runes = Some((1..=3).map(|value| CatalogRune { stat: "% Fire Resistance".into(), value }).collect());
-        let mut cfg = config(vec![cond("fireResPercent", 3, 10)], &["hat"]);
-        cfg.pro_exo_max = 1; cfg.pro_exo_lines = vec!["earthResPercent".into()]; cfg.prune = false;
-        let forge = Forge::new(cfg, vec![variant], vec![], base(1), 7);
-        let r = &forge.results()[0];
-        assert_eq!(r.stats.fire_res_percent, 3);
-        assert!(r.runes["hat"].exotic);
-        forge.verify(r).unwrap();
-    }
-
-    #[test]
-    fn beta_item_caps_affect_scoring_reports_and_cached_builds() {
-        let mut limited = item(1, "hat", None, vec![effect("AP", 20), effect("AP Max.", 7)]);
-        limited.stat_caps = Some([7, 6, 6, 6]);
-        let ordinary = item(2, "hat", None, vec![effect("AP", 2)]);
-        let cfg = config(vec![cond("ap", 8, 100)], &["hat"]);
-        let mut forge = Forge::new(cfg, vec![limited, ordinary], vec![], base(1), 7);
-        for _ in 0..3 { forge.run_generation(); }
-        let r = &forge.results()[0];
-        assert_eq!(r.equipped.get("hat"), Some(&2));
-        assert_eq!(r.stats.ap, 8);
-        assert!(r.meets_required);
-        let mut genes = [-1; NSLOT]; genes[0] = 0;
-        let restricted = forge.to_result(&genes);
-        assert_eq!(restricted.stats.ap, 7);
-        assert_eq!(restricted.stats.ap_raw, 26);
-        assert!(!restricted.meets_required);
-        assert!(!restricted.stats.unknown_stats.contains_key("AP Max."));
-        forge.verify(&restricted).unwrap();
-    }
-
-    #[test]
-    fn beta_set_tier_caps_apply_to_kept_items() {
-        let mut hat = item(1, "hat", Some(9), vec![effect("MP", 4), effect("Range", 6), effect("Summons", 5)]);
-        hat.stat_caps = Some([12, 6, 6, 6]);
-        let cape = item(2, "cape", Some(9), vec![]);
-        let set = CatalogSet { ankama_id: 9, items: vec![1, 2], bonuses: HashMap::from([("2".into(), vec![effect("MP Max.", 2), effect("Range Max.", 2), effect("Summons Max.", 2)])]) };
-        let mut b = base(1); b.equipped = HashMap::from([("hat".into(), 1), ("cape".into(), 2)]);
-        let forge = Forge::new(config(vec![cond("mp", 2, 1)], &[]), vec![hat, cape], vec![set], b, 7);
-        let r = &forge.results()[0];
-        assert_eq!(r.stats.mp, 2); assert_eq!(r.stats.range, 2); assert_eq!(r.stats.summons, 2);
-        forge.verify(r).unwrap();
+        CatalogItem { ankama_id: id, name: format!("Item {id}"), level: 1, item_type: "Misc".to_string(), slot: slot.to_string(), effects, conditions: None, set_id }
     }
     fn cond(stat: &str, goal: i64, weight: i64) -> StatConfig {
         StatConfig { stat: stat.to_string(), goal, weight, max: None, absolute: false }

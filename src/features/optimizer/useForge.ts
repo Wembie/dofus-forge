@@ -12,7 +12,6 @@ import { useForgePicks, planRequired } from './forgePicks.ts'
 import { forgePassiveState, forgePassiveEffects, passiveStateFor } from './forgePassives.ts'
 import { track } from '@/lib/analytics.ts'
 import { playForgeDone } from '@/lib/sound.ts'
-import { createForgeWorker, extraResultKey } from '@/features/optimizer/forgeRuntime.ts'
 
 // The Forge's search and order, shared by every presentation: phases, the
 // order config and its persistence, the Workers and their reports, heat,
@@ -100,7 +99,7 @@ export function fingerprint(r: BuildResult): string {
   const rings = [r.equipped.ring1 ?? 0, r.equipped.ring2 ?? 0].sort((a, b) => a - b)
   const dofus = (['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6'] as SlotId[]).map(s => r.equipped[s] ?? 0).sort((a, b) => a - b)
   const rest = ALL_SLOTS.filter(s => !s.startsWith('ring') && !s.startsWith('dofus')).map(s => r.equipped[s] ?? 0)
-  return [...rest, ...rings, ...dofus].join(',') + extraResultKey(r)
+  return [...rest, ...rings, ...dofus].join(',')
 }
 
 export function mergeResults(reports: (ForgeReport | null)[]): { result: BuildResult; worker: number }[] {
@@ -438,7 +437,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     let ready = 0
 
     for (let i = 0; i < count; i++) {
-      const worker = createForgeWorker()
+      const worker = new Worker(new URL('../../workers/optimizer.worker.ts', import.meta.url), { type: 'module' })
       worker.onmessage = (e: MessageEvent) => {
         const msg = e.data as { type: string; report?: ForgeReport; emigrants?: Equipped[] }
         if (msg.type === 'ready') {

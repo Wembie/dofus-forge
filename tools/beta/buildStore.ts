@@ -1,11 +1,11 @@
 import { create } from 'zustand'
-import { createBuildStore, ALL_SLOTS, type BuildState, type recompute as baseRecompute } from '../../src/store/buildStore.ts'
+import { createBuildStore, ALL_SLOTS, type BuildState, type recompute as baseRecompute } from './baseBuildStore.ts'
 import { computeStats } from './stats.ts'
 import { runeEffectsForSlots } from '../../src/engine/runes.ts'
 import { transformDracorune, type DracoruneMap, type Dracorune } from './dracorunes.ts'
 import type { BetaBuildResult } from './forgeCatalog.ts'
 
-export * from '../../src/store/buildStore.ts'
+export * from './baseBuildStore.ts'
 
 export const useDracorunes = create<{ applied: DracoruneMap }>(() => ({ applied: {} }))
 

@@ -5,7 +5,9 @@ const browser = await chromium.launch({ headless: true })
 try {
   const page = await browser.newPage()
   const errors = []
+  const modules = []
   page.on('pageerror', e => errors.push(String(e)))
+  page.on('request', request => modules.push(new URL(request.url()).pathname))
   await page.goto('http://127.0.0.1:5188/beta')
   await page.locator('.beta-class select').waitFor()
   const result = await page.evaluate(async () => {
@@ -68,6 +70,11 @@ try {
   assert.deepEqual(source.unequipped, {})
   assert.deepEqual(source.active, { neutralResPercent: 30, earthResPercent: 30, fireResPercent: 30, waterResPercent: 30, airResPercent: 30 })
   assert.equal(source.resistance, Math.min(50, source.baseResistance + 30))
+  await page.locator('.beta-actions > button').nth(5).click()
+  await page.locator('.fg-dialog').waitFor()
+  assert.ok(modules.includes('/tools/beta/forge/OptimizerModal.tsx'))
+  assert.ok(modules.includes('/tools/beta/forge/useForge.ts'))
+  assert.ok(!modules.includes('/src/features/optimizer/useForge.ts'))
   assert.deepEqual(errors, [])
   console.log('Beta WASM forge passed: pinned canonical item, automatic Dracorune, pre-conversion smithmagic, matching loaded totals, actual equipment caps and optional Source Dofus resistances.')
 } finally { await browser.close() }

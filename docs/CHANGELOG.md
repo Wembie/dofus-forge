@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.24] — 2026-11-23
+- Separated beta experiments from production sources: the stable Forger, native optimizer, build store and spell panel are restored to their pre-beta implementation. Dracorunes, beta caps and Bellaphone previews now use dedicated local sources and a separate native crate
+
 ## [0.4.23] — 2026-11-23
 - Local beta: Bellaphone now has Bellaura scenarios, six lineage ultimates and optional self bonuses. Damage branches respect size, target position, states and poison timing instead of adding exclusive attacks; scenarios survive undo, reload and export
 

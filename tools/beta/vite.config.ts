@@ -55,7 +55,8 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@/store/buildStore.ts', replacement: resolve(root, 'tools/beta/buildStore.ts') },
-      { find: '@/features/optimizer/forgeRuntime.ts', replacement: resolve(root, 'tools/beta/forgeRuntime.tsx') },
+      { find: '@/features/optimizer/useForge.ts', replacement: resolve(root, 'tools/beta/forge/useForge.ts') },
+      { find: './useForge.ts', replacement: resolve(root, 'tools/beta/forge/useForge.ts') },
       { find: '@/lib/supabase.ts', replacement: resolve(root, 'tools/beta/noCloud.ts') },
       { find: '@/engine/passives.ts', replacement: resolve(root, 'tools/beta/passives.ts') },
       { find: './passives.ts', replacement: resolve(root, 'tools/beta/passives.ts') },

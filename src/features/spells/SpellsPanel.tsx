@@ -538,15 +538,14 @@ function pairs(list: AppSpell[]) {
 }
 
 /** The weapon attack, then each spell next to its variant, with damage for the build's stats. */
-export function SpellsPanel({ heading = true, classSpells, combatStats }: { heading?: boolean; classSpells?: AppSpell[]; combatStats?: StatBlock | null } = {}) {
+export function SpellsPanel({ heading = true }: { heading?: boolean } = {}) {
   const { t } = useTranslation(),
     b = useBuildStore(),
-    baseStats = useCombatStats(),
+    stats = useCombatStats(),
     spells = useDataStore((s) => s.spells),
     lang = useDataStore((s) => s.lang),
     loadSpells = useDataStore((s) => s.loadSpells),
     items = useBuildStore((s) => s._equipment);
-  const stats = combatStats === undefined ? baseStats : combatStats;
   const auto = spellGrade(b.level),
     [manual, setManual] = useState<number | null>(null),
     grade = manual ?? auto,
@@ -644,7 +643,7 @@ export function SpellsPanel({ heading = true, classSpells, combatStats }: { head
       </section>
       {b.selectedClass &&
         (own ? (
-          section(t("spells_class"), classSpells ?? own.spells)
+          section(t("spells_class"), own.spells)
         ) : (
           <p className="sp-empty">{t("spells_loading")}</p>
         ))}

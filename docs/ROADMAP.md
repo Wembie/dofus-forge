@@ -5,6 +5,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Aislamiento de fuentes del taller beta** (0.4.24) — motor Rust experimental en `tools/beta/rust-optimizer`, Forjadora en `tools/beta/forge`, store base y panel de hechizos locales. Las fuentes estables del motor, store y paneles vuelven al contenido anterior a la beta; desaparecen los hooks experimentales en producción. Tests de dependencias impiden referencias desde `src/` a `tools/beta`; compilación y pruebas nativas independientes y comprobación de módulos cargados por el navegador. Compartir el repositorio no activa estas reglas al desplegar la aplicación habitual.
+
 - [x] **Escenarios de Belíade en el taller beta** (0.4.23) — selector de linaje, tamaño de Belaura, enemigos, estados, posición del objetivo, momento de daño y elemento manual; seis definitivos con rango de prueba y bonus propios opcionales de aura. Las ramas excluyentes de Pirólisis, Funeral, Puño de Dragón y Barján se evalúan separadas; Fuego Negro distingue robo inmediato y de fin de turno. Condiciones de Pirólisis extraídas del hechizo activado 33319, conservando la contradicción del rango 1 frente a su descripción. Borrador, historial y JSON incluyen el escenario. Siguen abiertos curas, escudos, desbloqueos, transiciones y efectos reactivos; no se declara completa la simulación de la clase.
 
 - [x] **Límites de características en el taller beta** (0.4.21) — PA, PM, Alcance e Invocaciones respetan el menor máximo indicado por el equipo y el bonus activo de set. Ficha, pasivos y Forjadora coinciden y conservan los totales brutos; los cálculos oficiales mantienen sus resultados anteriores. Validado con objetos reales y tests de bonus de set.
