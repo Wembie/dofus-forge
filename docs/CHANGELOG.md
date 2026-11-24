@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.22] — 2026-11-23
+- Fixed the "New collection" dialog: the name field's focus ring no longer looks broken, and a confusing duplicate of the title was removed
+
 ## [0.4.21] — 2026-11-23
 - Local beta: equipment and active set tiers now enforce AP, MP, Range and Summons caps in build totals, passive previews and Forger scoring; official calculations remain unchanged
 

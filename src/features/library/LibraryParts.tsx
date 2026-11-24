@@ -344,7 +344,7 @@ export function CollectionDialog({ userId, collection, onClose, onSaved }: {
   return (
     <Modal open onClose={() => !busy && onClose()} title={t(collection ? 'lib_edit_collection' : 'lib_new_collection')} size="md">
       <form className="library-dialog-body" onSubmit={submit} aria-busy={busy}>
-        <Subject icon={<FolderOpen size={25} aria-hidden="true" />} kicker={t('lib_collection_eyebrow')} name={collection?.name ?? t('lib_new_collection')} />
+        {collection && <Subject icon={<FolderOpen size={25} aria-hidden="true" />} kicker={t('lib_collection_eyebrow')} name={collection.name} />}
         <div className="library-field">
           <label htmlFor={`${id}-name`}>{t('lib_collection_name')}</label>
           <input id={`${id}-name`} required maxLength={COLLECTION_NAME_MAX} value={name} disabled={busy} autoFocus onChange={e => setName(e.target.value)} />

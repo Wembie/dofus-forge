@@ -221,6 +221,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Pendientes 🔧
 
+- [ ] **Completar el mapeo de sombreros/capas/escudos del personaje animado (M128)** — reporte del usuario (2026-11-23): el "Pendiente de Kongoku" (ankama_id 17107, type `Hat`, slot `hat`) no dibuja nada sobre el personaje. No es un bug del renderer: el ítem no está en `scripts/character-gear.json` (el mapeo de 761 ítems se hizo a mano por histograma + revisión visual, M128/0.4.1, y no llega al 100%). Corregirlo requiere correr `scripts/extract-characters.py` contra el cliente de Dofus instalado localmente y emparejar el skin a ojo (pipeline lento, ~9 min de extracción + revisión manual); no se puede resolver sin esa instalación. Revisar en una próxima pasada qué otros ítems de equipo visible quedan sin skin asignado, no solo este caso puntual.
+
 - [ ] **Ampliar la colección de banners de perfil** — generar más lugares y dimensiones de Dofus en futuras entregas, con referencias del cliente vigente, composiciones distintas y el mismo estilo de tinta y acuarela. Mantener los prompts exactos, las fuentes y la plantilla en `docs/brand/profile-banners/`; conservar los PNG originales y exportar WebP panorámicos. La colección queda abierta a nuevas zonas y propuestas del usuario.
 
 
