@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.21] — 2026-11-24
+- Hardened two internal spots (the rune engine and the local beta Forger) that CodeQL flagged as writing to an object property named from user/build data, closing a theoretical prototype-pollution path; no change in behavior
+
 ## [0.4.20] — 2026-11-24
 - Added a Spanish-language video walkthrough of the site to the "How to use" page, covering everything since version 0.4.4
 

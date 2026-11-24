@@ -97,6 +97,7 @@ export function prepareBetaCatalog(config: WireConfig, items: AppItem[], sets: A
   }
   const nextBase = { ...base, equipped: { ...base.equipped }, runes: { ...base.runes } }
   for (const slot of config.lockedSlots as SlotId[]) {
+    if (!ALL_SLOTS.includes(slot)) continue
     const selection = applied[slot], item = byId.get(base.equipped[slot] ?? -1)
     if (!selection || !item || selection.itemId !== item.ankama_id) continue
     const effects = transformDracorune(item, base.runes[slot] ?? {}, selection.rune)

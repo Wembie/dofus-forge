@@ -9,6 +9,7 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  { version: '0.4.21', date: '2026-11-24', notes: ['Hardened two internal spots (the rune engine and the local beta Forger) that CodeQL flagged as writing to an object property named from user/build data, closing a theoretical prototype-pollution path; no change in behavior'] },
   { version: '0.4.20', date: '2026-11-24', notes: ['Added a Spanish-language video walkthrough of the site to the "How to use" page, covering everything since version 0.4.4'] },
   {
     version: '0.4.19',
