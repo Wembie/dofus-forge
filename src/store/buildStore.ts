@@ -319,7 +319,10 @@ export const useBuildStore = create<BuildState>((set) => {
       const runes             = { ...s.runes,            [slot]: {} }
       const forjamagoNames    = { ...s.forjamagoNames,   [slot]: '' }
       const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
-      return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
+      // The legendary bonus belongs to the companion that's leaving, not the
+      // one coming in — same as how its runes don't carry over on a swap.
+      const legendaryBonus = slot === 'companion' ? null : s.legendaryBonus
+      return update({ equipped: eq, runes, forjamagoNames, weaponTransforms, legendaryBonus }, s)
     }),
     applyForgeResult: (forged, lockedSlots) => set(s => {
       const equipped = { ...forged.equipped }
@@ -356,15 +359,17 @@ export const useBuildStore = create<BuildState>((set) => {
       const runes            = { ...s.runes }
       const forjamagoNames   = { ...s.forjamagoNames }
       const weaponTransforms = { ...s.weaponTransforms }
+      let legendaryBonus = s.legendaryBonus
       for (const { slot, ankama_id } of items) {
         releaseConflicts(eq, slot, ankama_id, s._equipment)
         eq[slot]               = ankama_id
         runes[slot]            = {}
         forjamagoNames[slot]   = ''
         weaponTransforms[slot] = null
+        if (slot === 'companion') legendaryBonus = null
       }
       prysmaFirst(eq, s._equipment)
-      return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
+      return update({ equipped: eq, runes, forjamagoNames, weaponTransforms, legendaryBonus }, s)
     }),
 
     unequipItem: (slot) => set(s => {
@@ -373,7 +378,8 @@ export const useBuildStore = create<BuildState>((set) => {
       const runes             = { ...s.runes,            [slot]: {} }
       const forjamagoNames    = { ...s.forjamagoNames,   [slot]: '' }
       const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
-      return update({ equipped, runes, forjamagoNames, weaponTransforms }, s)
+      const legendaryBonus = slot === 'companion' ? null : s.legendaryBonus
+      return update({ equipped, runes, forjamagoNames, weaponTransforms, legendaryBonus }, s)
     }),
 
     swapSlots: (slotA, slotB) => set(s => {

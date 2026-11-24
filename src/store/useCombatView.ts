@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { ITEM_PASSIVES } from '@/engine/passives.ts'
+import { legendaryBonusOf } from '@/engine/petLegendary.ts'
 import { useBuildStore } from './buildStore.ts'
 
 // "With passives" view: switched in the stats sheet header, followed by the
@@ -36,7 +37,12 @@ export function useCombatView(): boolean {
   return useSyncExternalStore(subscribe, () => on, () => false)
 }
 
-/** An equipped item has a combat passive with stats (the switch only makes sense then). */
+/** An equipped item, or the companion's legendary bonus, has a combat passive
+ * with stats (the switch only makes sense then). */
 export function useHasPassives(): boolean {
-  return useBuildStore(s => Object.values(s.equipped).some(id => id != null && ITEM_PASSIVES.has(id)))
+  return useBuildStore(s => {
+    if (Object.values(s.equipped).some(id => id != null && ITEM_PASSIVES.has(id))) return true
+    if (!s.equipped.companion || !s.legendaryBonus) return false
+    return !!legendaryBonusOf(s.legendaryBonus.id)?.control
+  })
 }

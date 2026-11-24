@@ -43,15 +43,18 @@ function EffectRow({ effect, attack }: { effect: AppEffect; attack?: boolean }) 
 }
 
 /** Everything a piece does, so it reads without opening it: ability, weapon
- * attack, effects, spell effects and lore. */
-export function ItemFactsList({ item, lore = true }: { item: AppItem; lore?: boolean }) {
+ * attack, effects, spell effects and lore. `legendary` stands in for a
+ * companion's chosen legendary bonus, which isn't in the fetched item data. */
+export function ItemFactsList({ item, lore = true, legendary }: { item: AppItem; lore?: boolean; legendary?: { name: string; text: string } | null }) {
   const { t } = useTranslation()
   const { attack, stats, spells } = itemFacts(item)
+  const abilityLines = item.ability?.split('\n').filter(Boolean)
+    ?? (legendary ? [legendary.name, legendary.text] : [])
   return (
     <>
-      {item.ability && (
+      {abilityLines.length > 0 && (
         <div className="facts-ability">
-          {item.ability.split('\n').filter(Boolean).map((line, i) => <p key={i}>{line}</p>)}
+          {abilityLines.map((line, i) => <p key={i}>{line}</p>)}
         </div>
       )}
       {attack.length > 0 && (

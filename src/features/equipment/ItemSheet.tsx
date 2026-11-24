@@ -21,11 +21,13 @@ interface ItemSheetProps {
   onUnequip: () => void
   /** The companion slot: its "rune" action is the legendary bonus picker, not magesmithing. */
   isCompanion?: boolean
+  /** The companion's chosen legendary bonus, standing in for `item.ability`. */
+  legendary?: { name: string; text: string } | null
 }
 
 /** An equipped piece: what it does, its runes and conditions, and every
  * action on it with its name written out. */
-export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, onRunes, onViewSet, onUnequip, isCompanion }: ItemSheetProps) {
+export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, onRunes, onViewSet, onUnequip, isCompanion, legendary }: ItemSheetProps) {
   const { t } = useTranslation()
   const pinned = useForgePicks(s => s.required.includes(item.ankama_id))
   const togglePin = () => useForgePicks.getState().toggleRequired(item.ankama_id)
@@ -69,7 +71,7 @@ export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, 
         </div>
 
         <div className="item-sheet-body">
-          <ItemFactsList item={item} lore={false} />
+          <ItemFactsList item={item} lore={false} legendary={legendary} />
 
           {runes.length > 0 && (
             <div role="group" className="item-sheet-section" aria-label={t('magesmithy')}>

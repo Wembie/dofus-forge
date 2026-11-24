@@ -1,16 +1,23 @@
 import { useTranslation } from 'react-i18next'
 import { Shield, Swords, SlidersHorizontal } from 'lucide-react'
 import { ITEM_PASSIVES } from '@/engine/passives.ts'
+import { legendaryBonusOf } from '@/engine/petLegendary.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { setCombatView, useCombatView, useHasPassives } from '@/store/useCombatView.ts'
 import { scrollBehavior } from '@/lib/motionSettings.ts'
 import './passives.css'
 
-/** Equipped items with at least one active passive control. */
+/** Equipped items with at least one active passive control, plus the
+ * companion's legendary bonus when it's set and actually modeled. */
 function useActivePassiveCount(): number {
-  return useBuildStore(s => Object.values(s.equipped).filter(id =>
-    id != null && (ITEM_PASSIVES.get(id) ?? []).some(c => (s.passives[c.id] ?? 0) > 0),
-  ).length)
+  return useBuildStore(s => {
+    const items = Object.values(s.equipped).filter(id =>
+      id != null && (ITEM_PASSIVES.get(id) ?? []).some(c => (s.passives[c.id] ?? 0) > 0),
+    ).length
+    const pick = s.equipped.companion ? s.legendaryBonus : null
+    const legendary = pick && legendaryBonusOf(pick.id)?.control && pick.value > 0 ? 1 : 0
+    return items + legendary
+  })
 }
 
 /** Scrolls to the (visible) combat passives panel, where passives are set. */
