@@ -2552,5 +2552,6 @@
   "legendary_pool_poukachi": "Poukachi Quintessence",
   "legendary_pool_kwakarticho": "Kwakarticho Quintessence",
   "legendary_pool_magicrabe": "Magicrabe Quintessence",
-  "passives_legendary_source": "Legendary companion"
+  "passives_legendary_source": "Legendary companion",
+  "optimizer_passive_companion": "Companion legendary bonus"
 }

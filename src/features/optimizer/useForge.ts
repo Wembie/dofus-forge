@@ -408,9 +408,10 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     const count = preset.threads
     const picks = withLegendaryBans(config, { required: placements.filter(p => p.status === 'placed').map(p => p.id), banned }, equipment)
     // Resolved once per forge; the engine folds them into each item's stats.
+    const excludedIds = new Set(config.passiveExcluded)
     const passiveEffects = [
-      ...(config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives), new Set(config.passiveExcluded))),
-      ...legendaryForgeEffects(equipped.companion, legendaryBonus),
+      ...(config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives), excludedIds)),
+      ...(equipped.companion != null && excludedIds.has(equipped.companion) ? [] : legendaryForgeEffects(equipped.companion, legendaryBonus)),
     ]
     countedPassivesRef.current = new Set(passiveEffects.map(p => p.id))
     const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level, picks, passiveEffects)
@@ -526,6 +527,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     scrolled,
     equipped,
     plannerPassives,
+    legendaryBonus,
     itemsById,
   }
 }

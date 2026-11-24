@@ -73,6 +73,7 @@ import {
   useForge,
   type Forge as ForgeState,
 } from "@/features/optimizer/useForge.ts";
+import { legendaryBonusOf, legendaryStatBonus } from "@/engine/petLegendary.ts";
 import { bonusParts } from "@/features/passives/passiveLabels.ts";
 import { runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { useFocusTrap } from "@/ui/useFocusTrap.ts";
@@ -514,6 +515,7 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
   const mode = forge.config.passives,
     on = mode !== "off",
     excluded = useMemo(() => new Set(forge.config.passiveExcluded), [forge.config.passiveExcluded]);
+  const companionBonus = forge.equipped.companion && forge.legendaryBonus ? legendaryBonusOf(forge.legendaryBonus.id) : undefined;
   const sections = useMemo(() => {
     const out = new Map<PassiveSection, AppItem[]>(PASSIVE_SECTIONS.map((s) => [s, []]));
     for (const id of orderPassiveItems()) {
@@ -551,6 +553,27 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
         </div>
       )}
       <p>{t(`optimizer_passives_${mode}_hint`)}</p>
+      {companionBonus?.control && (
+        <div className="fg-passive-head">
+          <label className="fg-check">
+            <input
+              type="checkbox"
+              checked={!excluded.has(forge.equipped.companion!)}
+              onChange={() => include([forge.equipped.companion!], excluded.has(forge.equipped.companion!))}
+            />
+            {t("optimizer_passive_companion")}: {t(companionBonus.nameKey)}
+          </label>
+          <span className="fg-bonus">
+            {bonusParts(legendaryStatBonus(forge.legendaryBonus)).map((p) => (
+              <span key={p.key} className={p.negative ? "is-negative" : ""}>
+                <img src={statIconUrl(p.icon)} alt="" />
+                {p.value}
+                <span className="sr-only"> {t(p.tKey)}</span>
+              </span>
+            ))}
+          </span>
+        </div>
+      )}
       {on && (
         <ul className="fg-passive-sections">
           {PASSIVE_SECTIONS.map((section) => {
