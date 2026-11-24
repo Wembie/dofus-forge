@@ -637,6 +637,7 @@
   display: flex;
   flex-direction: column;
   gap: 22px;
+  padding: 20px 22px 22px;
 }
 .library-dialog-body > p {
   margin: 0;
@@ -651,6 +652,7 @@
   background: var(--stage);
   border-bottom: 1px solid var(--line);
   padding: 18px;
+  margin: -20px -22px 0;
 }
 .library-dialog-subject > svg {
   flex-shrink: 0;
@@ -700,6 +702,7 @@
   color: var(--muted);
   text-align: right;
 }
+.library-field input:focus-visible,
 .library-field textarea:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -954,9 +957,11 @@
   }
   .library-dialog-body {
     gap: 20px;
+    padding: 16px;
   }
   .library-dialog-subject {
     padding: 16px;
+    margin: -16px -16px 0;
   }
   .library-dialog-subject b {
     font-size: 23px;

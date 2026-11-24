@@ -214,6 +214,57 @@
   color: var(--muted);
 }
 
+/* How to use: a video walkthrough link, flat border card, no gradients/glow. */
+.rd-video-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 24px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 120ms;
+}
+.rd-video-card:hover {
+  border-color: var(--accent);
+}
+.rd-video-card img {
+  width: 120px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.rd-video-card span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.rd-video-card b {
+  font-size: 14px;
+  font-weight: 600;
+}
+.rd-video-card small {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.rd-video-card svg {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+@media (max-width: 480px) {
+  .rd-video-card img {
+    width: 84px;
+    height: 48px;
+  }
+}
+
 /* How to use: a numbered path. */
 .rd-steps {
   list-style: none;

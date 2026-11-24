@@ -26,7 +26,7 @@ afterEach(cleanup)
 const page = () => render(<MemoryRouter><AccountPage /></MemoryRouter>)
 
 describe('AccountPage', () => {
-  it.each(['bonta', 'moon', 'osavora'])('inspects %s without selecting it, then saves the explicit choice', async location => {
+  it.each(['bonta', 'moon', 'osavora', 'gisgoul'])('inspects %s without selecting it, then saves the explicit choice', async location => {
     page()
     fireEvent.click(screen.getByRole('button', { name: 'account_banner_change' }))
     const inspect = screen.getAllByRole('button', { name: 'account_banner_view' }).find(button => button.querySelector('img')?.getAttribute('src') === `/banners/locations/v1/${location}.webp`)!
@@ -175,12 +175,12 @@ describe('AccountPage', () => {
     await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ display_name: 'Brasa', bio: null, avatar_url: '/avatars/classes/v1/iop-f.webp' }))
   })
 
-  it.each([2, 3])('inspects and saves face %s without changing the old avatar on preview', async headSlot => {
+  it.each([2, 3, 4])('inspects and saves face %s without changing the old avatar on preview', async headSlot => {
     useAuthStore.setState({ profile: { ...profile, avatar_url: '/avatars/classes/v1/iop-f.webp' } } as never)
     page()
     fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
     const card = screen.getByRole('heading', { name: 'Yopuka' }).parentElement!
-    expect(within(card).getAllByRole('button')).toHaveLength(6)
+    expect(within(card).getAllByRole('button')).toHaveLength(8)
     fireEvent.click(within(card).getAllByRole('button')[headSlot * 2 - 1])
     expect(screen.getByRole('img', { name: 'account_avatar_option' }).getAttribute('src')).toBe(`/avatars/classes/v1/iop-look-${headSlot}-f.webp`)
     expect(document.querySelector('.account-avatar-control img')?.getAttribute('src')).toBe('/avatars/classes/v1/iop-f.webp')
@@ -198,7 +198,7 @@ describe('AccountPage', () => {
     fireEvent.change(search, { target: { value: 'zurcarak' } })
     expect(screen.getByRole('heading', { name: 'Zurcarák' })).toBeTruthy()
     expect(screen.queryByRole('heading', { name: 'Yopuka' })).toBeNull()
-    expect(screen.getAllByRole('button', { name: 'account_avatar_view' })).toHaveLength(6)
+    expect(screen.getAllByRole('button', { name: 'account_avatar_view' })).toHaveLength(8)
     fireEvent.change(search, { target: { value: 'no-such-class' } })
     expect(screen.getByText('account_avatar_empty')).toBeTruthy()
     expect(screen.queryByRole('button', { name: 'account_avatar_view' })).toBeNull()

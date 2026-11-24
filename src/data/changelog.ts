@@ -10,6 +10,24 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.19',
+    date: '2026-11-24',
+    notes: [
+      'Development tooling: an isolated local beta workshop with separate game data, local test builds, spell and passive snapshots, a catalog change report and an experimental Dracorune laboratory. Includes four languages, undo/redo, JSON import/export and validation; remaining game mechanics are tracked for testing before release',
+      'Local beta testing: The Forger can now search Dracorune conversions, preserve converted items, show the chosen runes and load results with the same totals. Conversion respects prior smithmagic, pinned and banned item identities, set-ring uniqueness and allowed rune families; Ebony stays optional while its edge cases await verification',
+      'Local beta: equipment and active set tiers now enforce AP, MP, Range and Summons caps in build totals, passive previews and Forger scoring; official calculations remain unchanged',
+      'Fixed the "New collection" dialog: the name field\'s focus ring no longer looks broken, a confusing duplicate of the title was removed, and the dialog box no longer has fields and buttons touching its edges',
+      'Local beta: Bellaphone now has Bellaura scenarios, six lineage ultimates and optional self bonuses. Damage branches respect size, target position, states and poison timing instead of adding exclusive attacks; scenarios survive undo, reload and export',
+      'Separated beta experiments from production sources: the stable Forger, native optimizer, build store and spell panel are restored to their pre-beta implementation. Dracorunes, beta caps and Bellaphone previews now use dedicated local sources and a separate native crate',
+      '38 new profile portraits: the fourth in-game face and hairstyle for all 19 classes, male and female, with the usual outfit and distinct ink-and-watercolor poses. Choose from 152 avatars; the verified checklist now records 152 of 600 faces complete, with alternate outfits reserved for later',
+      'Eight more Dofus 3.7 profile landscapes: Evil Forest, Cania Lake, Gisgoul, Bwork Village, Zoth Village, Mount Scauldron, Snowbound Village and Castaway Island. The banner catalog now has 44 choices, with exact prompts and current-client references saved and all earlier profile choices retained',
+      'Corrected hands and finger readability in 11 profile portraits, restored the third male Ecaflip hand fur from the game model, and fixed the first male Cra bowstring connection. All 13 edits were reviewed enlarged and in circular profile crops, with exact prompts and review history retained; existing avatar choices and saved profiles are preserved',
+      'Fixed the extra arm-shaped outline behind the first female Sram shoulder and removed its duplicate sleeve cuff, preserving the chosen knife-toss hand gesture, face and outfit. Native PNG, profile image, previews and exact edit history are updated',
+      'Added a Spanish-language video walkthrough of the site to the "How to use" page, covering everything since version 0.4.4',
+      'Hardened two internal spots (the rune engine and the local beta Forger) that CodeQL flagged as writing to an object property named from user/build data, closing a theoretical prototype-pollution path; no change in behavior',
+    ],
+  },
+  {
     version: '0.4.18',
     date: '2026-11-23',
     notes: [

@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import { Hammer, Wand2 } from 'lucide-react'
+import { Hammer, Play, Wand2 } from 'lucide-react'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { Actions, GoLink, Reading } from '@/features/reading/Reading.tsx'
 
 const STEPS = [1, 2, 3, 4, 5, 6, 7, 8] as const
+const VIDEO_ID = 'MS8hQt_vNuk'
 
 export function HowToUsePage() {
   const { t, i18n } = useTranslation()
@@ -22,6 +23,14 @@ export function HowToUsePage() {
       intro={<p>{t('howto_intro')}</p>}
       toc={STEPS.map(n => ({ id: `step${n}`, label: t(`howto_step${n}_title`) }))}
     >
+      <a className="rd-video-card" href={`https://youtu.be/${VIDEO_ID}`} target="_blank" rel="noreferrer">
+        <img src={`https://img.youtube.com/vi/${VIDEO_ID}/hqdefault.jpg`} alt="" aria-hidden="true" loading="lazy" />
+        <span>
+          <b>{t('howto_video_title')}</b>
+          <small>{t('howto_video_hint')}</small>
+        </span>
+        <Play size={18} aria-hidden="true" />
+      </a>
       <ol className="rd-steps">
         {STEPS.map(n => (
           <li key={n} id={`step${n}`}>

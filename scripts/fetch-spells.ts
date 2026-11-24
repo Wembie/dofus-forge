@@ -24,9 +24,12 @@ import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { checkedVersion } from './lib/safety.ts'
 import { createGunzip } from 'node:zlib'
+import { bellaphoneRules } from './lib/bellaphone.ts'
+import { ULTIMATES } from '../tools/beta/bellaphone.ts'
 
 const LANGS    = ['en', 'es', 'fr', 'pt'] as const
-const DATA_DIR = join(process.cwd(), 'public', 'data')
+const BETA = process.argv.includes('--beta')
+const DATA_DIR = BETA ? join(process.cwd(), 'tools', 'beta', 'data') : join(process.cwd(), 'public', 'data')
 const FORCE    = process.argv.includes('--force')
 
 const ELEMENT_OF: Record<number, AppSpellElement> = {
@@ -57,6 +60,7 @@ const CLASS_SLUG: Record<string, string> = {
   Huppermage:    'huppermage',
   Ouginak:       'ouginak',
   Forgelance:    'forgelance',
+  Bellaphone:    'bellaphone',
 }
 
 export type AppSpellElement = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
@@ -612,11 +616,11 @@ async function main() {
   if (existsSync(versionFile)) {
     gameVersion = checkedVersion((JSON.parse(readFileSync(versionFile, 'utf-8')) as { gameVersion: unknown }).gameVersion)
   } else {
-    const meta = await fetch('https://api.dofusdu.de/dofus3/v1/meta/version').then(r => r.json()) as { version: string }
+    const meta = await fetch(`https://api.dofusdu.de/${BETA ? 'dofus3beta' : 'dofus3'}/v1/meta/version`).then(r => r.json()) as { version: string }
     gameVersion = checkedVersion(meta.version)
   }
 
-  if (!FORCE && existsSync(spellVersionFile)) {
+  if (!FORCE && existsSync(spellVersionFile) && (!BETA || LANGS.every(lang => existsSync(join(DATA_DIR, lang, 'bellaphone-rules.json'))))) {
     const sv = (JSON.parse(readFileSync(spellVersionFile, 'utf-8')) as { gameVersion: string }).gameVersion
     if (sv === gameVersion) {
       console.log(`Spell data up to date (${gameVersion}). Pass --force to refresh.`)
@@ -625,7 +629,7 @@ async function main() {
   }
 
   console.log(`Generating spell data for version ${gameVersion}...`)
-  const base = `https://github.com/dofusdude/dofus3-main/releases/download/${gameVersion}`
+  const base = `https://github.com/dofusdude/dofus3-${BETA ? 'beta' : 'main'}/releases/download/${gameVersion}`
 
   console.log('Downloading game data (spell_levels.json is large ~88MB):')
   const [breedsRaw, spellsRaw, levelsRaw, variantsRaw, effectsRaw, statesRaw] = await Promise.all([
@@ -775,6 +779,14 @@ async function main() {
       }
     }
 
+    if (BETA && classSlug === 'bellaphone') for (const id of ULTIMATES) {
+      const lvls = levelsBySpell.get(id) ?? []
+      const iconId = iconIdMap.get(id) ?? 0
+      if (!spells.has(id) || !lvls.length) throw new Error(`Missing beta ultimate ${id}`)
+      if (iconId > 0) neededIconIds.add(iconId)
+      classSpells.push({ id, name: '', element: 'mixed', is_variant: false, image_url: iconId > 0 ? `/data/spells/img/sort_${iconId}-48.png` : null, levels: lvls })
+    }
+
     allClassSpells.set(breedId, { slug: classSlug, spells: classSpells })
   }
 
@@ -860,7 +872,12 @@ async function main() {
 
       const dir = join(DATA_DIR, lang, 'spells')
       mkdirSync(dir, { recursive: true })
-      writeFileSync(join(dir, `${classSlug}.json`), JSON.stringify({ classSlug, spells: namedSpells }), 'utf-8')
+      const normalSpells = BETA && classSlug === 'bellaphone' ? namedSpells.filter(s => !ULTIMATES.includes(s.id as typeof ULTIMATES[number])) : namedSpells
+      writeFileSync(join(dir, `${classSlug}.json`), JSON.stringify({ classSlug, spells: normalSpells }), 'utf-8')
+      if (BETA && classSlug === 'bellaphone') {
+        const rules = bellaphoneRules(gameVersion, spells, levels, statesMeta, entries, namedSpells.filter(s => ULTIMATES.includes(s.id as typeof ULTIMATES[number])), e => renderEffectLabel({ effectId: Number(e.actionId), min: Number(e.actionId) === 786 ? Number(e.value) : Number(e.diceNum), max: Number(e.diceSide), turns: Number(e.effectTriggerDuration ?? 0) === 63 ? 0 : Number(e.effectTriggerDuration ?? 0) }, entries, effectDescMap))
+        writeFileSync(join(DATA_DIR, lang, 'bellaphone-rules.json'), JSON.stringify(rules), 'utf-8')
+      }
       written++
       void breedId
     }

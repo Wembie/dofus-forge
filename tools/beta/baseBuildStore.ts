@@ -1,0 +1,495 @@
+import { create } from 'zustand'
+import type { DofusClass, Characteristic, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
+import { CHARACTERISTICS } from '@/engine/types.ts'
+import type { AppItem, AppSet } from '@/data/loaders.ts'
+import { pointCost, statBudget } from '@/engine/characteristics.ts'
+import { computeStats } from '@/engine/stats.ts'
+import { sanitizePassiveState, setControl, type PassiveState } from '@/engine/passives.ts'
+import { runeEffectsForSlots, withoutExotic, exoticKey } from '@/engine/runes.ts'
+import { sanitizeSnapshot } from '@/engine/snapshot.ts'
+import type { StatBlock } from '@/engine/types.ts'
+
+export type RuneMap = Record<string, number>
+
+export type WeaponTransform = {
+  element: 'fire' | 'earth' | 'water' | 'air'
+  ratio:   85 | 68 | 50
+}
+
+export type SlotId =
+  | 'hat' | 'cape' | 'amulet' | 'ring1' | 'ring2'
+  | 'belt' | 'boots' | 'weapon' | 'shield' | 'companion'
+  | 'sidekick'
+  | 'dofus1' | 'dofus2' | 'dofus3' | 'dofus4' | 'dofus5' | 'dofus6'
+
+export const ALL_SLOTS: SlotId[] = [
+  'hat', 'cape', 'amulet', 'ring1', 'ring2',
+  'belt', 'boots', 'weapon', 'shield', 'companion',
+  'sidekick',
+  'dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6',
+]
+
+const ZERO_ALLOC: AllocatedCharacteristics = {
+  vitality: 0, wisdom: 0, strength: 0, intelligence: 0, chance: 0, agility: 0,
+}
+const NO_SCROLLS: ScrolledCharacteristics = {
+  vitality: false, wisdom: false, strength: false, intelligence: false, chance: false, agility: false,
+}
+
+export type Gender = 'male' | 'female'
+
+export interface BuildState {
+  selectedClass: DofusClass | null
+  /** User-given name for the build (e.g. "Mi build PvP"), shown in the class card and carried in shared URLs */
+  buildName:     string
+  level:         number
+  gender:        Gender
+  /** id of the cloud `builds` row this local state was loaded from/published
+   * as (My Builds, or your own build's detail page) — set so re-publishing
+   * updates that same row instead of always inserting a new one. Cleared on
+   * reset() or when loading someone else's build. */
+  linkedBuildId: string | null
+  /** Public build this one was remixed from (someone else's, opened with
+   * Remix): recorded as builds.fork_of when it's published as a new build. */
+  forkOf:        string | null
+  allocated:     AllocatedCharacteristics
+  scrolled:      ScrolledCharacteristics
+  /** Stores only ankama_id per slot — decoupled from data load state */
+  equipped:      Partial<Record<SlotId, number>>
+  /** Magesmithy rune bonuses per slot: stat label → flat bonus amount */
+  runes:          Partial<Record<SlotId, RuneMap>>
+  /** Craftsman signature per slot (only meaningful when runes are present) */
+  forjamagoNames: Partial<Record<SlotId, string>>
+  /** Elemental weapon damage transformation per slot (weapon slot only) */
+  weaponTransforms: Partial<Record<SlotId, WeaponTransform | null>>
+  /** Combat passives the player turned on (engine/passives.ts). Only the
+   * equipped items' passives count; the gear `stats` never include them. */
+  passives:      PassiveState
+
+  stats: StatBlock | null
+
+  // data refs — injected by dataStore after load
+  _equipment: AppItem[]
+  _sets:      AppSet[]
+
+  // actions
+  setClass:      (c: DofusClass) => void
+  setBuildName:  (name: string) => void
+  setLevel:      (l: number) => void
+  setGender:     (g: Gender) => void
+  addPoint:      (char: Characteristic) => void
+  removePoint:   (char: Characteristic) => void
+  addPoints:     (char: Characteristic, amount: number) => void
+  removePoints:  (char: Characteristic, amount: number) => void
+  toggleScroll:   (char: Characteristic) => void
+  setAllScrolls:  (active: boolean) => void
+  equipItem:     (slot: SlotId, ankama_id: number) => void
+  /** Equips several items in one atomic state update — one history entry, not one per item. */
+  equipMultiple: (items: { slot: SlotId; ankama_id: number }[]) => void
+  /** Loads a La Forjadora result in ONE update (one undo step): gear, points,
+   * scrolls and forgemagie. Unlocked slots get fresh forgemagie (runes,
+   * craftsman name, weapon transform) plus the result's exo / transcendence. */
+  applyForgeResult: (result: {
+    equipped:  Partial<Record<SlotId, number>>
+    allocated: AllocatedCharacteristics
+    scrolled:  ScrolledCharacteristics
+    exo:       Partial<Record<SlotId, 'ap' | 'mp' | 'range'>>
+    runes:     Partial<Record<SlotId, { stat: string; value: number; exotic?: boolean }>>
+    /** Passive settings to merge in (the ones the Forge counted). */
+    passives?: PassiveState
+  }, lockedSlots: ReadonlySet<SlotId>) => void
+  unequipItem:   (slot: SlotId) => void
+  swapSlots:     (slotA: SlotId, slotB: SlotId) => void
+  setEquipment:  (equipment: AppItem[]) => void
+  setSetsData:   (sets: AppSet[]) => void
+  setRune:             (slot: SlotId, stat: string, value: number) => void
+  clearRune:           (slot: SlotId, stat: string) => void
+  clearAllRunes:       (slot: SlotId) => void
+  /** Sets the slot's single exotic effect (exo or transcendence rune), replacing any other. */
+  setExotic:           (slot: SlotId, stat: string, value: number) => void
+  clearExotic:         (slot: SlotId) => void
+  setForjamagoName:    (slot: SlotId, name: string) => void
+  setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
+  /** Stacks or option (0 = off) of one passive control. */
+  setPassive:          (id: string, value: number) => void
+  setEquipped:         (eq: Partial<Record<SlotId, number>>) => void
+  setAllocated:        (allocated: AllocatedCharacteristics) => void
+  setScrolled:         (scrolled: ScrolledCharacteristics) => void
+  applySnapshot:       (snap: BuildSnapshot) => void
+  setLinkedBuildId:    (id: string | null) => void
+  setForkOf:           (id: string | null) => void
+  reset:         () => void
+}
+
+export type BuildSnapshot = {
+  v:  1
+  c:  string    // class id ('' = none)
+  n?: string    // build name (optional, empty when unset)
+  l:  number    // level
+  g?: 'm' | 'f' // gender (optional, default male)
+  a:  number[]  // allocated per CHARACTERISTICS order
+  s:  number    // scrolled bitmask (bit i = CHARACTERISTICS[i])
+  e:  (number | null)[]  // equipped ankama_ids per ALL_SLOTS order
+  r?: Record<string, Record<string, number>>  // runes: slot → stat → value (optional)
+  fn?: Record<string, string>                 // forjamagoNames: slot → craftsman name (optional)
+  wt?: Record<string, { el: string, r: number }>  // weaponTransforms: slot → { element, ratio }
+  p?:  Record<string, number>                     // combat passives: control id → stacks / option (engine/passives.ts)
+}
+
+/** Exported so read-only build views (build detail, previews) can compute a
+ * StatBlock from a fetched snapshot without duplicating this logic. */
+export function recompute(
+  selectedClass: DofusClass | null,
+  level: number,
+  allocated: AllocatedCharacteristics,
+  scrolled: ScrolledCharacteristics,
+  equipped: Partial<Record<SlotId, number>>,
+  equipment: AppItem[],
+  sets: AppSet[],
+  runes: Partial<Record<SlotId, RuneMap>>,
+): StatBlock | null {
+  if (!selectedClass) return null
+
+  const equipMap = new Map(equipment.map(it => [it.ankama_id, it]))
+  const items = ALL_SLOTS
+    .map(slot => {
+      const id = equipped[slot]
+      if (id == null) return null
+      const it = equipMap.get(id)
+      return it ? { ankama_id: it.ankama_id, effects: it.effects, set_id: it.set_id, slot: it.slot } : null
+    })
+    .filter((x): x is NonNullable<typeof x> => x !== null)
+
+  const runeEffects = runeEffectsForSlots(runes, slot => equipMap.has(equipped[slot as SlotId] ?? -1))
+
+  return computeStats({ class: selectedClass, level, allocated, scrolled, items, sets, runeEffects })
+}
+
+const DOFUS_SLOTS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
+/** The only Dofus slot a Prysmaradite can be worn in. */
+export const PRYSMA_SLOT: SlotId = 'dofus1'
+const isPrysmaId = (id: number | undefined, equipment: AppItem[]) =>
+  id != null && equipment.find(it => it.ankama_id === id)?.type === 'Prysmaradite'
+
+/**
+ * Frees other slots that can't hold `id` alongside `slot`, as the game does:
+ * a Dofus is unique, the same set ring can't be worn twice, and only one
+ * Prysmaradite fits at a time. Mutates `eq`.
+ */
+function releaseConflicts(eq: Partial<Record<SlotId, number>>, slot: SlotId, id: number, equipment: AppItem[]) {
+  if (slot.startsWith('dofus')) {
+    for (const ds of DOFUS_SLOTS) if (ds !== slot && eq[ds] === id) delete eq[ds]
+  }
+  const item = equipment.find(it => it.ankama_id === id)
+  if (!item) return
+  if ((slot === 'ring1' || slot === 'ring2') && item.set_id != null) {
+    const other: SlotId = slot === 'ring1' ? 'ring2' : 'ring1'
+    if (eq[other] === id) delete eq[other]
+  }
+  if (item.type === 'Prysmaradite') {
+    for (const ds of DOFUS_SLOTS) {
+      if (ds === slot || eq[ds] == null) continue
+      if (equipment.find(it => it.ankama_id === eq[ds])?.type === 'Prysmaradite') delete eq[ds]
+    }
+  }
+}
+
+/**
+ * Moves a Prysmaradite that landed in another Dofus slot (a Forger result,
+ * several items at once) into the first one, trading places with what was
+ * there, unless the first slot is kept as is. Mutates `eq`.
+ */
+function prysmaFirst(eq: Partial<Record<SlotId, number>>, equipment: AppItem[], locked?: ReadonlySet<SlotId>) {
+  if (locked?.has(PRYSMA_SLOT)) return
+  const at = DOFUS_SLOTS.find(ds => ds !== PRYSMA_SLOT && isPrysmaId(eq[ds], equipment))
+  if (!at || (locked?.has(at))) return
+  const first = eq[PRYSMA_SLOT]
+  eq[PRYSMA_SLOT] = eq[at]
+  if (first != null) eq[at] = first; else delete eq[at]
+}
+
+export const createBuildStore = (calculate: typeof recompute = recompute) => create<BuildState>((set) => {
+  function update(patch: Partial<BuildState>, state: BuildState): Partial<BuildState> {
+    const next = { ...state, ...patch }
+    return {
+      ...patch,
+      stats: calculate(
+        next.selectedClass, next.level, next.allocated, next.scrolled,
+        next.equipped, next._equipment, next._sets, next.runes,
+      ),
+    }
+  }
+
+  return {
+    selectedClass:    null,
+    buildName:        '',
+    level:            200,
+    gender:           'male',
+    linkedBuildId:    null,
+    forkOf:           null,
+    allocated:        { ...ZERO_ALLOC },
+    scrolled:         { ...NO_SCROLLS },
+    equipped:          {},
+    runes:             {},
+    forjamagoNames:    {},
+    weaponTransforms:  {},
+    passives:          {},
+    stats:             null,
+    _equipment:        [],
+    _sets:             [],
+
+    setClass:     (c)    => set(s => update({ selectedClass: c }, s)),
+    // By code point: slicing UTF-16 could split an emoji and make the share
+    // link encoder throw on every later change.
+    setBuildName: (name) => set(s => update({ buildName: Array.from(name).slice(0, 60).join('') }, s)),
+    setLevel:  (l) => set(s => update({ level: Math.max(1, Math.min(200, l)) }, s)),
+    setGender: (g) => set(s => ({ ...s, gender: g })),
+
+    addPoint: (char) => set(s => {
+      const budget  = statBudget(s.level)
+      const spent   = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, s.allocated[c]), 0)
+      const current = s.allocated[char]
+      const nextCost = pointCost(char, current + 1) - pointCost(char, current)
+      if (spent + nextCost > budget) return s
+      return update({ allocated: { ...s.allocated, [char]: current + 1 } }, s)
+    }),
+
+    removePoint: (char) => set(s => {
+      if (s.allocated[char] <= 0) return s
+      return update({ allocated: { ...s.allocated, [char]: s.allocated[char] - 1 } }, s)
+    }),
+
+    addPoints: (char, amount) => set(s => {
+      const budget = statBudget(s.level)
+      let spent    = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, s.allocated[c]), 0)
+      let current  = s.allocated[char]
+      let added    = 0
+      while (added < amount) {
+        const cost = pointCost(char, current + 1) - pointCost(char, current)
+        if (spent + cost > budget) break
+        spent += cost
+        current++
+        added++
+      }
+      if (added === 0) return s
+      return update({ allocated: { ...s.allocated, [char]: current } }, s)
+    }),
+
+    removePoints: (char, amount) => set(s => {
+      const current = s.allocated[char]
+      if (current <= 0) return s
+      return update({ allocated: { ...s.allocated, [char]: Math.max(0, current - amount) } }, s)
+    }),
+
+    toggleScroll: (char) => set(s =>
+      update({ scrolled: { ...s.scrolled, [char]: !s.scrolled[char] } }, s)
+    ),
+
+    setAllScrolls: (active) => set(s => {
+      const scrolled = {} as typeof s.scrolled
+      for (const c of CHARACTERISTICS) scrolled[c] = active
+      return update({ scrolled }, s)
+    }),
+
+    equipItem: (requested, id) => set(s => {
+      const eq = { ...s.equipped }
+      // A Prysmaradite always goes to the first Dofus slot; what was there
+      // takes the slot that was asked for.
+      let slot = requested
+      if (requested.startsWith('dofus') && requested !== PRYSMA_SLOT && isPrysmaId(id, s._equipment)) {
+        slot = PRYSMA_SLOT
+        const moved = eq[PRYSMA_SLOT]
+        if (moved != null && !isPrysmaId(moved, s._equipment) && moved !== id) eq[requested] = moved
+      }
+      // Re-picking the item already in the slot must not wipe its forgemagie.
+      if (s.equipped[slot] === id) return s
+      releaseConflicts(eq, slot, id, s._equipment)
+      eq[slot] = id
+      const runes             = { ...s.runes,            [slot]: {} }
+      const forjamagoNames    = { ...s.forjamagoNames,   [slot]: '' }
+      const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
+      return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
+    }),
+    applyForgeResult: (forged, lockedSlots) => set(s => {
+      const equipped = { ...forged.equipped }
+      prysmaFirst(equipped, s._equipment, lockedSlots)
+      const result = { ...forged, equipped }
+      const runes            = { ...s.runes }
+      const forjamagoNames   = { ...s.forjamagoNames }
+      const weaponTransforms = { ...s.weaponTransforms }
+      const exoStat = { ap: 'AP', mp: 'MP', range: 'Range' } as const
+      for (const slot of ALL_SLOTS) {
+        if (lockedSlots.has(slot)) continue
+        const slotRunes: RuneMap = {}
+        const exo = result.exo[slot]
+        if (exo) slotRunes[exoStat[exo]] = 1
+        const rune = result.runes[slot]
+        // A pro exo is made with regular runes: it joins the item's normal
+        // forgemagie, not the transcendence slot.
+        if (rune) slotRunes[rune.exotic ? rune.stat : exoticKey(rune.stat)] = rune.value
+        runes[slot] = slotRunes
+        if (result.equipped[slot] !== s.equipped[slot]) {
+          forjamagoNames[slot]   = ''
+          weaponTransforms[slot] = null
+        }
+      }
+      return update({
+        equipped: result.equipped, allocated: result.allocated, scrolled: result.scrolled,
+        runes, forjamagoNames, weaponTransforms,
+        ...(result.passives ? { passives: sanitizePassiveState({ ...s.passives, ...result.passives }) } : {}),
+      }, s)
+    }),
+
+    equipMultiple: (items) => set(s => {
+      const eq               = { ...s.equipped }
+      const runes            = { ...s.runes }
+      const forjamagoNames   = { ...s.forjamagoNames }
+      const weaponTransforms = { ...s.weaponTransforms }
+      for (const { slot, ankama_id } of items) {
+        releaseConflicts(eq, slot, ankama_id, s._equipment)
+        eq[slot]               = ankama_id
+        runes[slot]            = {}
+        forjamagoNames[slot]   = ''
+        weaponTransforms[slot] = null
+      }
+      prysmaFirst(eq, s._equipment)
+      return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
+    }),
+
+    unequipItem: (slot) => set(s => {
+      const equipped          = { ...s.equipped }
+      delete equipped[slot]
+      const runes             = { ...s.runes,            [slot]: {} }
+      const forjamagoNames    = { ...s.forjamagoNames,   [slot]: '' }
+      const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
+      return update({ equipped, runes, forjamagoNames, weaponTransforms }, s)
+    }),
+
+    swapSlots: (slotA, slotB) => set(s => {
+      const eA = s.equipped[slotA]
+      const eB = s.equipped[slotB]
+      if ((isPrysmaId(eA, s._equipment) && slotB !== PRYSMA_SLOT) || (isPrysmaId(eB, s._equipment) && slotA !== PRYSMA_SLOT)) return s
+      const equipped = { ...s.equipped }
+      if (eA !== undefined) equipped[slotB] = eA; else delete equipped[slotB]
+      if (eB !== undefined) equipped[slotA] = eB; else delete equipped[slotA]
+
+      const runes = {
+        ...s.runes,
+        [slotA]: s.runes[slotB] ?? {},
+        [slotB]: s.runes[slotA] ?? {},
+      }
+      const forjamagoNames = {
+        ...s.forjamagoNames,
+        [slotA]: s.forjamagoNames[slotB] ?? '',
+        [slotB]: s.forjamagoNames[slotA] ?? '',
+      }
+      const weaponTransforms = {
+        ...s.weaponTransforms,
+        [slotA]: s.weaponTransforms[slotB] ?? null,
+        [slotB]: s.weaponTransforms[slotA] ?? null,
+      }
+      return update({ equipped, runes, forjamagoNames, weaponTransforms }, s)
+    }),
+
+    setRune: (slot, stat, value) => set(s => {
+      const slotRunes = { ...(s.runes[slot] ?? {}), [stat]: value }
+      return update({ runes: { ...s.runes, [slot]: slotRunes } }, s)
+    }),
+
+    clearRune: (slot, stat) => set(s => {
+      const slotRunes = { ...(s.runes[slot] ?? {}) }
+      delete slotRunes[stat]
+      return update({ runes: { ...s.runes, [slot]: slotRunes } }, s)
+    }),
+
+    clearAllRunes: (slot) => set(s =>
+      update({ runes: { ...s.runes, [slot]: {} } }, s)
+    ),
+
+    setExotic: (slot, stat, value) => set(s =>
+      update({ runes: { ...s.runes, [slot]: { ...withoutExotic(s.runes[slot]), [exoticKey(stat)]: value } } }, s)
+    ),
+
+    clearExotic: (slot) => set(s =>
+      update({ runes: { ...s.runes, [slot]: withoutExotic(s.runes[slot]) } }, s)
+    ),
+
+    setEquipped:  (eq)        => set(s => update({ equipped: eq }, s)),
+    setAllocated: (allocated) => set(s => update({ allocated }, s)),
+    setScrolled:  (scrolled)  => set(s => update({ scrolled }, s)),
+
+    setForjamagoName:   (slot, name)      => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
+    setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),
+    setPassive: (id, value) => set(s => ({ passives: setControl(s.passives, id, value) })),
+
+    setEquipment: (equipment) => set(s =>
+      update({ _equipment: equipment }, s)
+    ),
+
+    setSetsData: (sets) => set(s =>
+      update({ _sets: sets }, s)
+    ),
+
+    applySnapshot: (input) => set(s => {
+      const snap = sanitizeSnapshot(input)
+      if (!snap) return s
+      const selectedClass = (snap.c || null) as DofusClass | null
+      const buildName     = snap.n ?? ''
+      const level         = Math.max(1, Math.min(200, snap.l))
+      const gender: Gender = snap.g === 'f' ? 'female' : 'male'
+      const allocated     = Object.fromEntries(
+        CHARACTERISTICS.map((c, i) => [c, snap.a[i] ?? 0])
+      ) as AllocatedCharacteristics
+      const scrolled      = Object.fromEntries(
+        CHARACTERISTICS.map((c, i) => [c, Boolean(snap.s & (1 << i))])
+      ) as ScrolledCharacteristics
+      const equipped      = Object.fromEntries(
+        ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)
+      ) as Partial<Record<SlotId, number>>
+      const runes = snap.r
+        ? (snap.r as Partial<Record<SlotId, RuneMap>>)
+        : {}
+      const forjamagoNames = snap.fn
+        ? (snap.fn as Partial<Record<SlotId, string>>)
+        : {}
+      const weaponTransforms: Partial<Record<SlotId, WeaponTransform | null>> = {}
+      if (snap.wt) {
+        for (const [slot, v] of Object.entries(snap.wt)) {
+          if (v && (v.r === 85 || v.r === 68 || v.r === 50) &&
+              (v.el === 'fire' || v.el === 'earth' || v.el === 'water' || v.el === 'air')) {
+            weaponTransforms[slot as SlotId] = { element: v.el, ratio: v.r }
+          }
+        }
+      }
+      // Loading a snapshot (shared link, My Builds, someone else's build)
+      // clears any previous cloud link — the caller re-sets it via
+      // setLinkedBuildId() right after, only when it actually knows the id.
+      const passives = sanitizePassiveState(snap.p)
+      return update({ selectedClass, buildName, level, gender, linkedBuildId: null, forkOf: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms, passives }, s)
+    }),
+
+    setLinkedBuildId: (id) => set({ linkedBuildId: id }),
+    setForkOf:        (id) => set({ forkOf: id }),
+
+    reset: () => set(s => ({
+      selectedClass:    null,
+      buildName:        '',
+      level:            200,
+      gender:           'male',
+      linkedBuildId:    null,
+    forkOf:           null,
+      allocated:        { ...ZERO_ALLOC },
+      scrolled:         { ...NO_SCROLLS },
+      equipped:          {},
+      runes:             {},
+      forjamagoNames:    {},
+      weaponTransforms:  {},
+      passives:          {},
+      stats:             null,
+      _equipment:       s._equipment,
+      _sets:            s._sets,
+    })),
+  }
+})
+
+export const useBuildStore = createBuildStore()

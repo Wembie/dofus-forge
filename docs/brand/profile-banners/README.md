@@ -54,9 +54,28 @@ Original environment fan art for profile covers, paired with the approved Forge 
 
 The full illustration includes its paper-colored background and watercolor. Keep the recognizable landmark within the central area, and allow room at the lower-left for a profile picture overlay. Use `object-fit: cover` with a centered focal area when integrating the picker; inspect desktop and narrow crops before choosing a different banner aspect ratio. Do not bake profile UI, labels, gradients or avatar circles into the artwork.
 
+## Eight further scenes in Forge 0.4.25
+
+The collection now contains 44 landscapes. These eight additions use installed DOFUS **3.7.14.18** map data and graphics for identity, with original panoramic compositions in the approved ink-and-watercolor style. The previous 36 artworks and prompt records are preserved. Evil Forest uses the current Dark Vlad labyrinth maps; the manifest retains their precise localized subarea names alongside the broader collection label.
+
+![Eight further current-client landscapes](expansion-3-preview.webp)
+
+| Scene | Source map ids in client 3.7.14.18 |
+|---|---|
+| Bosque Maléfico | `221249538`, `220987911` |
+| Lago de Cania | `156238853`, `156237833` |
+| Gisgul | `172492290`, `172491781` |
+| Pueblo de los bworks | `104071684`, `104072710` |
+| Pueblo de los zoths | `28051456`, `28050436` |
+| Monte Tórrido | `54167370`, `54168907` |
+| Pueblo Sepultado | `54174535`, `54173511` |
+| Isla de los Náufragos | `153346`, `153089` |
+
+Apply `supabase/migrations/20261123050000_profile_art_fourth_heads_and_locations.sql` before deploying these choices. The same additive migration registers the fourth class faces and preserves existing profile rows and catalog permissions. Hosted SQL has not been executed by this work.
+
 ## Eight further scenes in Forge 0.4.18
 
-The collection now contains 36 selectable landscapes. These eight additions use only identity references reconstructed from installed DOFUS **3.7.14.18** map data and graphics, with the same approved ink-and-watercolor technique. Pandala's four elemental areas retain their current redesigned landmarks and their own material, palette and atmosphere. The previous 28 artworks and prompt records are preserved.
+Forge 0.4.18 expanded the collection to 36 selectable landscapes. These eight additions use only identity references reconstructed from installed DOFUS **3.7.14.18** map data and graphics, with the same approved ink-and-watercolor technique. Pandala's four elemental areas retain their current redesigned landmarks and their own material, palette and atmosphere. The previous 28 artworks and prompt records are preserved.
 
 ![Eight further current-client landscapes](expansion-2-preview.webp)
 

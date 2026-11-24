@@ -28,11 +28,11 @@ export function withoutExotic(runes: RuneMapLike): Record<string, number> {
 
 /** Plain stat → value: a transcendence and a normal rune on one stat add up. */
 export function flattenRunes(runes: RuneMapLike): Record<string, number> {
-  const out: Record<string, number> = {}
+  const out = new Map<string, number>()
   for (const [key, value] of Object.entries(runes ?? {})) {
-    if (value > 0) out[runeStat(key)] = (out[runeStat(key)] ?? 0) + value
+    if (value > 0) { const stat = runeStat(key); out.set(stat, (out.get(stat) ?? 0) + value) }
   }
-  return out
+  return Object.fromEntries(out)
 }
 
 /** Rune effects of the slots that actually hold an item: runes left on an

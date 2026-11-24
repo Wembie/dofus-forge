@@ -1,6 +1,6 @@
 {
   "collection": "Forge class portraits",
-  "revision": 3,
+  "revision": 4,
   "generator": "Built-in image_gen",
   "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
   "exactPromptsForExistingImages": "docs/brand/profile-avatars/manifest.json",
@@ -57,11 +57,19 @@
   "addingAHead": [
     "Refresh game-looks.json from the installed client with python scripts/extract-avatar-looks.py --export-head <slot>. Keep availableAtCreation source order and ids.",
     "Prioritize faces/hairstyles with the default outfit; keep alternate outfits mapped for after all head work.",
-    "Render and inspect the selected male and female head from two angles. Do not assume that the second head shares the first head's hood, mask or hairstyle.",
+    "Render and inspect the selected male and female head from two angles. Inspect the chosen head without assuming it shares an earlier head's hood, mask, eyewear or hairstyle.",
     "Choose a separate pose and expression per portrait after checking earlier poses in manifest.json. Preserve the approved ink-and-watercolor medium.",
     "Save PNG masters and 512px WebP files using <class>-look-<slot>-<m|f> names; keep the original first-head paths unchanged.",
     "Append exact prompts, poses, references, hashes and gameLook head/body slot, id and skin metadata to manifest.json. Retain old approved records.",
     "Run node scripts/sync-avatar-progress.mjs to check completed portraits and regenerate the remaining-head and later-outfit checklists.",
     "Add only completed heads to the picker and exact server catalog paths through a new additive SQL migration mirrored in schema.sql. Apply hosted SQL before deploying the expanded gallery."
+  ],
+  "anatomyReviewChecklist": [
+    "Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs.",
+    "Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture.",
+    "Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand.",
+    "Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds.",
+    "Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy.",
+    "For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP."
   ]
 }
