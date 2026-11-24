@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.21',
+    date: '2026-11-24',
+    notes: [
+      'The Forger: redesigned passive adjustments with expandable category cards, readable stat labels and aligned icons, explicit Adjust buttons, a dedicated combat-effect editor, custom-setting indicators and individual or bulk resets. Excluded items explain why their controls are disabled; the layout supports mobile, keyboard focus and both themes in all four languages',
+    ],
+  },
+  {
     version: '0.4.20',
     date: '2026-11-24',
     notes: [

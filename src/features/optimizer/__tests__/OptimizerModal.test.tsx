@@ -204,6 +204,35 @@ describe('OptimizerModal passives', () => {
     fireEvent.click(within(rule).getByRole('checkbox', { name: 'optimizer_passives_count' }))
     expect(within(rule).queryAllByRole('button', { name: 'optimizer_passive_section_configure' })).toHaveLength(0)
   })
+
+  it('resets all custom adjustments without changing excluded items or the mode', () => {
+    const config = makeDefaultConfig()
+    persistConfig({ ...config, passives: 'planner', passiveExcluded: [ABYSSAL.ankama_id], passiveOverrides: { [ITEM_PASSIVES.get(OCHRE.ankama_id)![0].id]: 2 } })
+    const rule = open()
+    fireEvent.click(within(rule).getByRole('button', { name: 'fg_passive_reset_all' }))
+    expect(within(rule).queryByRole('button', { name: 'fg_passive_reset_all' })).toBeNull()
+    cleanup()
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
+    expect(saved.passiveOverrides).toEqual({})
+    expect(saved.passiveExcluded).toEqual([ABYSSAL.ankama_id])
+    expect(saved.passives).toBe('planner')
+  })
+
+  it('disables effect editing for excluded items and restores it when included', () => {
+    const rule = open()
+    const disclosure = within(rule).getAllByRole('button', { name: 'optimizer_passive_section_configure' })[0]
+    fireEvent.click(disclosure)
+    expect(document.getElementById(disclosure.getAttribute('aria-controls')!)).toBeTruthy()
+    const ochre = within(rule).getByText('Ochre Dofus').closest('li')!
+    const tune = within(ochre).getByRole('button', { name: 'fg_passive_tune' })
+    fireEvent.click(tune)
+    const editor = document.getElementById(tune.getAttribute('aria-controls')!)!
+    fireEvent.click(within(ochre).getByRole('checkbox'))
+    expect(editor.querySelector('fieldset')!.disabled).toBe(true)
+    expect(within(editor).getByText('fg_passive_excluded_hint')).toBeTruthy()
+    fireEvent.click(within(ochre).getByRole('checkbox'))
+    expect(editor.querySelector('fieldset')!.disabled).toBe(false)
+  })
 })
 
 describe('OptimizerModal Dofus slot kinds', () => {

@@ -2563,5 +2563,14 @@
   "optimizer_log_companion_winner": "Best companion bonus found: {{name}}",
   "fg_passive_tune": "Adjust the passive of {{name}}",
   "fg_passive_adjusted": "adjusted",
-  "fg_passive_clear": "Clear adjustment"
+  "fg_passive_clear": "Use mode value",
+  "fg_passive_help": "Open a category to choose and adjust its passives.",
+  "fg_passive_edit": "Adjust",
+  "fg_passive_effect": "Combat effect",
+  "fg_passive_close": "Close the adjustment for {{name}}",
+  "fg_passive_reset_all": "Reset adjustments ({{count}})",
+  "fg_passive_excluded_hint": "Enable this item to adjust its passive.",
+  "fg_passive_custom_hint": "Custom adjustment: takes priority over the selected mode.",
+  "fg_passive_default_hint": "Using the “{{mode}}” mode.",
+  "fg_passive_companion_empty": "Add a goal to the order to see matching companion bonuses."
 }

@@ -2563,5 +2563,14 @@
   "optimizer_log_companion_winner": "Meilleur bonus de compagnon trouvé : {{name}}",
   "fg_passive_tune": "Régler le passif de {{name}}",
   "fg_passive_adjusted": "réglé",
-  "fg_passive_clear": "Retirer le réglage"
+  "fg_passive_clear": "Utiliser la valeur du mode",
+  "fg_passive_help": "Ouvrez une catégorie pour choisir et ajuster ses passifs.",
+  "fg_passive_edit": "Ajuster",
+  "fg_passive_effect": "Effet en combat",
+  "fg_passive_close": "Fermer le réglage de {{name}}",
+  "fg_passive_reset_all": "Réinitialiser les réglages ({{count}})",
+  "fg_passive_excluded_hint": "Activez cet objet pour ajuster son passif.",
+  "fg_passive_custom_hint": "Réglage personnalisé : prioritaire sur le mode choisi.",
+  "fg_passive_default_hint": "Mode « {{mode}} » utilisé.",
+  "fg_passive_companion_empty": "Ajoutez un objectif à la commande pour voir les bonus de familier compatibles."
 }

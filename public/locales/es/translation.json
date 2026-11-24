@@ -2563,5 +2563,14 @@
   "optimizer_log_companion_winner": "Mejor bono de mascota encontrado: {{name}}",
   "fg_passive_tune": "Ajustar la pasiva de {{name}}",
   "fg_passive_adjusted": "ajustada",
-  "fg_passive_clear": "Quitar ajuste"
+  "fg_passive_clear": "Usar valor del modo",
+  "fg_passive_help": "Abre una categoría para elegir y ajustar sus pasivas.",
+  "fg_passive_edit": "Ajustar",
+  "fg_passive_effect": "Efecto en combate",
+  "fg_passive_close": "Cerrar el ajuste de {{name}}",
+  "fg_passive_reset_all": "Restablecer ajustes ({{count}})",
+  "fg_passive_excluded_hint": "Activa este objeto para ajustar su pasiva.",
+  "fg_passive_custom_hint": "Ajuste propio: tiene prioridad sobre el modo elegido.",
+  "fg_passive_default_hint": "Usando el modo «{{mode}}».",
+  "fg_passive_companion_empty": "Añade una meta al encargo para ver los bonos de mascota compatibles."
 }
