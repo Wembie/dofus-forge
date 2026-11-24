@@ -8,13 +8,11 @@
     "Comprobación de continuidad de brazos, muñecas y torso; lateralidad, dedos visibles, solapamientos y relación con los objetos.",
     "Registro de las observaciones del usuario con el personaje y rostro exactos, sin trasladarlas a variantes que considera correctas."
   ],
-  "interpretation": "Sin anomalías evidentes significa que no se detectó un defecto en esta pasada; no equivale a garantizar una anatomía perfecta. Las dudas de perspectiva y dedos ocultos siguen abiertas. Los hallazgos son una cola de revisión, no correcciones ya realizadas.",
-  "anatomyReferenceLimit": "La comparación exhaustiva de las manos con los 152 modelos del juego no se ha realizado. Las referencias de generación encuadran principalmente cabeza y torso; ampliar la referencia de cuerpo/manos antes de resolver diferencias de especie o guantes.",
+  "interpretation": "Sin anomalías evidentes significa que no se detectó un defecto en esta pasada; no equivale a garantizar una anatomía perfecta. Los 13 hallazgos y dudas de la primera revisión se corrigieron y revisaron individualmente ampliados y en sus recortes circulares. previousReview conserva las observaciones y hashes anteriores.",
+  "anatomyReferenceLimit": "La comparación exhaustiva de las manos con los 152 modelos del juego no se ha realizado. Las referencias de generación encuadran principalmente cabeza y torso. Para el zurcarák masculino del rostro 3 se añadieron y contrastaron dos vistas completas del modelo exacto del cliente 3.7.14.18: manos y muñecas con pelaje crema, sin el guante marrón inventado. No se modificó el rostro 4 masculino aprobado.",
   "counts": {
     "sin-anomalias-evidentes": 139,
-    "corregir": 4,
-    "dudosa": 8,
-    "contrastar": 1
+    "corregida-y-revisada": 13
   },
   "portraits": [
     {
@@ -41,13 +39,20 @@
       "asset": "public/avatars/classes/v1/cra-m.webp",
       "headSlot": 1,
       "gender": "male",
-      "sha256": "e4217b0f0626473ec114e5b34104bec5b92b95ee6f72522bf7c33de11d8a9bde",
-      "masterSha256": "6b9243a48533c2cecac1758b236d88bebe32c23ad7829834f4a154b15e908bb1",
+      "sha256": "a6622e3d59c511321d20017b64eb2e7830f2833d884ae6bfc50acde5b78bed2a",
+      "masterSha256": "26d7be67b90374b8f9561d3543b821b9aa62cf10b9f217ec7aab6864a3908217",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "corregir",
-      "severity": "media",
-      "finding": "La cuerda del arco cruza el cuerpo de la flecha cerca de las plumas en lugar de engancharse en su extremo posterior; corregir el apoyo/nock y la relación cuerda-flecha."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "corregir",
+        "finding": "La cuerda del arco cruza el cuerpo de la flecha cerca de las plumas en lugar de engancharse en su extremo posterior; corregir el apoyo/nock y la relación cuerda-flecha.",
+        "severity": "media",
+        "sha256": "e4217b0f0626473ec114e5b34104bec5b92b95ee6f72522bf7c33de11d8a9bde",
+        "masterSha256": "6b9243a48533c2cecac1758b236d88bebe32c23ad7829834f4a154b15e908bb1"
+      },
+      "resolution": "Las dos ramas tensas de la cuerda convergen en el extremo posterior de la flecha, junto a la mano y detras de las plumas; no en mitad del astil. Agarre continuo, dos brazos y rostro conservados; recorte circular legible a 150 y 48 px.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/cra-f.webp",
@@ -93,13 +98,20 @@
       "asset": "public/avatars/classes/v1/eniripsa-f.webp",
       "headSlot": 1,
       "gender": "female",
-      "sha256": "2aa70aea0b1772fa3546e7a361ef2dc4350fb3a3e92fce8e31c98b83b57dc80e",
-      "masterSha256": "3732b492fc3c551a3a3e54848e580b00b483aa42ab3dc3212d4e7863fb590159",
+      "sha256": "bfbd9321670be79622984121dcb31a03255fbd426f470126a888c0f8b6e56018",
+      "masterSha256": "72bcacb2fa90b8e783fbe655a0313faeace7fdec40ab6eb5fb97522002605d35",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "dudosa",
-      "severity": "baja",
-      "finding": "La mano de la palma hacia arriba muestra tres dedos y un pulgar; la vista lateral podría ocultar el restante, pero conviene aclarar su silueta."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "dudosa",
+        "finding": "La mano de la palma hacia arriba muestra tres dedos y un pulgar; la vista lateral podría ocultar el restante, pero conviene aclarar su silueta.",
+        "severity": "baja",
+        "sha256": "2aa70aea0b1772fa3546e7a361ef2dc4350fb3a3e92fce8e31c98b83b57dc80e",
+        "masterSha256": "3732b492fc3c551a3a3e54848e580b00b483aa42ab3dc3212d4e7863fb590159"
+      },
+      "resolution": "La palma izquierda presenta cuatro dedos largos separados y un pulgar a su lado radial, con cinco puntas visibles y muneca continua. Rostro, alas, risa, traje y mote conservados; recortes de 150 y 48 px legibles. Se rechazo un primer intento que aun ocultaba el menique.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/enutrof-m.webp",
@@ -225,13 +237,20 @@
       "asset": "public/avatars/classes/v1/masqueraider-m.webp",
       "headSlot": 1,
       "gender": "male",
-      "sha256": "8f0cbb112a3c18ddc79c5c054f7c5e3392e41e935099bebb1e6a58934140accb",
-      "masterSha256": "2850e39757e6c300ffe49a1023a9781af482567d65d439cdae61b6bc14c0a0d1",
+      "sha256": "a38f149feff43e7e8604ac13a280b58bf23d6a4ce9af3e5892f241b4bfb53adf",
+      "masterSha256": "43ad3a509b96143cafbf91bc5695d5245161c8f0678952041e2b8ab57301ad1d",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "corregir",
-      "severity": "alta",
-      "finding": "La mano abierta hacia la cámara muestra pulgar y solo tres dedos largos separados. Falta una silueta clara del quinto dedo en una palma expuesta."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "corregir",
+        "finding": "La mano abierta hacia la cámara muestra pulgar y solo tres dedos largos separados. Falta una silueta clara del quinto dedo en una palma expuesta.",
+        "severity": "alta",
+        "sha256": "8f0cbb112a3c18ddc79c5c054f7c5e3392e41e935099bebb1e6a58934140accb",
+        "masterSha256": "2850e39757e6c300ffe49a1023a9781af482567d65d439cdae61b6bc14c0a0d1"
+      },
+      "resolution": "La palma derecha abierta presenta cuatro dedos largos separados y un pulgar, todos continuos con la muneca en escorzo. Se conserva la otra mano con el dado, mascara, sonrisa y unico torso; el rostro permanece legible a 150 y 48 px.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/masqueraider-f.webp",
@@ -377,13 +396,20 @@
       "asset": "public/avatars/classes/v1/sram-f.webp",
       "headSlot": 1,
       "gender": "female",
-      "sha256": "cb866ed3c4ea91d9c594ec5a6f5ad00e2ebc1fda3bee33a110f347a120d21fb9",
-      "masterSha256": "ad07af1ec5aac516930355fe8c15935a81a31589f1fc02023b8ad945006e295d",
+      "sha256": "b6edccda1f9125f4ff5ce9f90e9924f3339576259d81c710dd8c2e48b1b130e9",
+      "masterSha256": "c878b268e89aef8e0099767d3e3c27a6b813b50a36ec539ae298abb3ebb1a41a",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "dudosa",
-      "severity": "media",
-      "finding": "La mano que lanza la daga tiene dos dedos extendidos y un pliegue ambiguo junto al pulgar; no quedan claros los dos dedos recogidos restantes. Revisar la construcción de la mano."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "dudosa",
+        "finding": "La mano que lanza la daga tiene dos dedos extendidos y un pliegue ambiguo junto al pulgar; no quedan claros los dos dedos recogidos restantes. Revisar la construcción de la mano.",
+        "severity": "media",
+        "sha256": "cb866ed3c4ea91d9c594ec5a6f5ad00e2ebc1fda3bee33a110f347a120d21fb9",
+        "masterSha256": "ad07af1ec5aac516930355fe8c15935a81a31589f1fc02023b8ad945006e295d"
+      },
+      "resolution": "Tras el rechazo del usuario por apariencia de varias manos, se simplifico el gesto: una unica palma izquierda abierta, cuatro dedos largos separados y un pulgar, una muneca y un antebrazo continuo. Brazo opuesto bajo, sin extremidades extra. Rostro y daga conservados; revision ampliada y circular a 150 y 48 px.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/xelor-m.webp",
@@ -449,13 +475,20 @@
       "asset": "public/avatars/classes/v1/eniripsa-look-2-m.webp",
       "headSlot": 2,
       "gender": "male",
-      "sha256": "bfba2b458f69b7d750531bc7f20b196244f6e123c15c41b88660a1f6b770192e",
-      "masterSha256": "36d25f0e2814a00ab5dd289f97b8341b38e8edb76a7df6461937638528aa13ee",
+      "sha256": "337718c2a9d7455c4622945b47db7beddcd46d1c1abebf860465fb74eb1f0845",
+      "masterSha256": "1cc476f4b19d81d508b191c205b3b5e0dd004b4bb17690466931f9d762be3638",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "dudosa",
-      "severity": "baja",
-      "finding": "La palma que sostiene el soplo deja solo tres dedos largos distinguibles además del pulgar. Posible solapamiento; revisar separación del cuarto dedo sin confundir ocultación con ausencia."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "dudosa",
+        "finding": "La palma que sostiene el soplo deja solo tres dedos largos distinguibles además del pulgar. Posible solapamiento; revisar separación del cuarto dedo sin confundir ocultación con ausencia.",
+        "severity": "baja",
+        "sha256": "bfba2b458f69b7d750531bc7f20b196244f6e123c15c41b88660a1f6b770192e",
+        "masterSha256": "36d25f0e2814a00ab5dd289f97b8341b38e8edb76a7df6461937638528aa13ee"
+      },
+      "resolution": "Palma izquierda abierta con cuatro dedos largos y un pulgar separado, cinco puntas claras y muneca coherente. Se conservan el soplido, la hoja, segundo peinado, alas y chaleco; un torso y recortes circulares de 150 y 48 px legibles.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/eniripsa-look-2-f.webp",
@@ -501,13 +534,20 @@
       "asset": "public/avatars/classes/v1/eliotrope-look-2-f.webp",
       "headSlot": 2,
       "gender": "female",
-      "sha256": "35cf8424d136ffc67df2e903e09ea62e8c3b80f0bc1f979e8736e383b00c2bd7",
-      "masterSha256": "463f3cbbbd81a75aacab33315bf55252920727c5c932e6358bcb67619d51487e",
+      "sha256": "0ea21a13f0a46b2e79387d271c0e0fcee4685b0f424b776a5267874e46924c13",
+      "masterSha256": "4989ff5a2b42c54a6dcf6df1f801b00eff3767de4bb85072f7ee5e412d2af73a",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "dudosa",
-      "severity": "baja",
-      "finding": "Mano de palma abierta: tres puntas largas más pulgar; el cuarto dedo podría estar alineado detrás. Clarificar la separación al retocar."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "dudosa",
+        "finding": "Mano de palma abierta: tres puntas largas más pulgar; el cuarto dedo podría estar alineado detrás. Clarificar la separación al retocar.",
+        "severity": "baja",
+        "sha256": "35cf8424d136ffc67df2e903e09ea62e8c3b80f0bc1f979e8736e383b00c2bd7",
+        "masterSha256": "463f3cbbbd81a75aacab33315bf55252920727c5c932e6358bcb67619d51487e"
+      },
+      "resolution": "La palma izquierda bajo el portal muestra cuatro dedos largos separados y un pulgar, sin fusion ni dedo oculto. Muneca conectada al antebrazo, un torso; segundo rostro, capucha, gesto y colores conservados. Lectura circular clara a 150 y 48 px.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/feca-look-2-m.webp",
@@ -643,13 +683,20 @@
       "asset": "public/avatars/classes/v1/osamodas-look-2-f.webp",
       "headSlot": 2,
       "gender": "female",
-      "sha256": "57e58df86275ae5c7027f16fee621e4a60e2428cbba57dd8ef10fcdd22d75e05",
-      "masterSha256": "b726b95800445e63636d8f59b5edb5d4f4c256f820f8d8c5aa0264232b2f4626",
+      "sha256": "5d39468ad3f663004f4282bd78d27f1cedbc1224daaa39aa2e178d6d2a5308c7",
+      "masterSha256": "2482540f0f982275d1291c82f2815eacbaa99f35acd3c9872d2284f71943b5cb",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "corregir",
-      "severity": "alta",
-      "finding": "Observación del usuario: la mano que sostiene el pío es una derecha conectada al brazo izquierdo. Corregir lateralidad y posición del pulgar, conservando pose, ave, rostro y ropa."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "corregir",
+        "finding": "Observación del usuario: la mano que sostiene el pío es una derecha conectada al brazo izquierdo. Corregir lateralidad y posición del pulgar, conservando pose, ave, rostro y ropa.",
+        "severity": "alta",
+        "sha256": "57e58df86275ae5c7027f16fee621e4a60e2428cbba57dd8ef10fcdd22d75e05",
+        "masterSha256": "b726b95800445e63636d8f59b5edb5d4f4c256f820f8d8c5aa0264232b2f4626"
+      },
+      "resolution": "La mano izquierda muestra la cara palmar, un indice que sostiene el ave, tres dedos plegados separados y un pulgar en su lado correcto. Muneca y antebrazo continuos, un torso; rostro, ave y recortes de 150 y 48 px conservados.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/ouginak-look-2-m.webp",
@@ -745,13 +792,20 @@
       "asset": "public/avatars/classes/v1/sadida-look-2-f.webp",
       "headSlot": 2,
       "gender": "female",
-      "sha256": "1186b0bdf4dda3cbecfc3ed9dd34027565451303eac7e6f9bf271cb7e348454e",
-      "masterSha256": "37cae8b5fbff5376a35568d5b8bd6257fc68b5b7f892887c6670d0c70b4967d1",
+      "sha256": "c77070c465fdcdc3de69a6b59390669354803e7648e8533c8d14980a4566b5fe",
+      "masterSha256": "3c98450865a4ef70c2f287441bcb9993351ddea8bb23fa96194a1a714c6f70d4",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "dudosa",
-      "severity": "baja",
-      "finding": "El guante de la palma abierta muestra tres puntas largas y un pulgar; aclarar si el cuarto dedo queda oculto en perspectiva o falta en el dibujo."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "dudosa",
+        "finding": "El guante de la palma abierta muestra tres puntas largas y un pulgar; aclarar si el cuarto dedo queda oculto en perspectiva o falta en el dibujo.",
+        "severity": "baja",
+        "sha256": "1186b0bdf4dda3cbecfc3ed9dd34027565451303eac7e6f9bf271cb7e348454e",
+        "masterSha256": "37cae8b5fbff5376a35568d5b8bd6257fc68b5b7f892887c6670d0c70b4967d1"
+      },
+      "resolution": "La palma izquierda enguantada tiene cuatro dedos largos separados y un pulgar, cinco siluetas visibles con muneca natural. Se conservan flor, segundo peinado, hoja, gesto y traje; dos brazos y un torso. Recortes circulares de 150 y 48 px legibles.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/sram-look-2-m.webp",
@@ -817,13 +871,20 @@
       "asset": "public/avatars/classes/v1/ecaflip-look-3-m.webp",
       "headSlot": 3,
       "gender": "male",
-      "sha256": "6ac0901cbd8a4796bbc72b5321c941a406058fd96e0fabcad44ad900e934ac18",
-      "masterSha256": "a4d363fa3eaaf008552f5e585fefaa56959a177a7a398d02e4b0a47f4fddb256",
+      "sha256": "384f9762133ef290a2ebf0cfa771514ae181401ffe4e56d588ac754e14bf0880",
+      "masterSha256": "39c3d52e7582c4c30fd6d54e3d1de2cb5673d6dacb36c1253a5d26ff00373c79",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "contrastar",
-      "severity": "media",
-      "finding": "El usuario aclara que la observación sobre manos humanas corresponde solo al zurcarák hombre del estilo 3. El estilo 4 le parece bien y debe conservarse. Contrastar el estilo 3 con manos completas del modelo del juego antes de editar."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "contrastar",
+        "finding": "El usuario aclara que la observación sobre manos humanas corresponde solo al zurcarák hombre del estilo 3. El estilo 4 le parece bien y debe conservarse. Contrastar el estilo 3 con manos completas del modelo del juego antes de editar.",
+        "severity": "media",
+        "sha256": "6ac0901cbd8a4796bbc72b5321c941a406058fd96e0fabcad44ad900e934ac18",
+        "masterSha256": "a4d363fa3eaaf008552f5e585fefaa56959a177a7a398d02e4b0a47f4fddb256"
+      },
+      "resolution": "Mano y muneca cubiertas de pelaje crema como las dos vistas completas del modelo; cuatro dedos curvados separados y un pulgar visible, cinco puntas con pequenas garras. Ficha, tercer rostro y cuerpo conservados, recortes legibles. La primera edicion se rechazo por dedos ambiguos; el rostro 4 permanece intacto.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/ecaflip-look-3-f.webp",
@@ -889,13 +950,20 @@
       "asset": "public/avatars/classes/v1/eliotrope-look-3-f.webp",
       "headSlot": 3,
       "gender": "female",
-      "sha256": "0d88da2d766a0ba161e4679b421f4aa6ec67aa0ccfcaeb6dbc7938a95295b44e",
-      "masterSha256": "96ac3289ec7105cb84548dfdf7ff72ae5c522ff45df50d369e70ff51ad73c0f7",
+      "sha256": "10b27fd5a996e7e369a4b6abd1b8110b98d4cc36a0aa20715eb3cb1d30a27113",
+      "masterSha256": "4b414dda4a831209443091f364eb54c9a89ff8b5110beaa2c90e32f5e1d472ac",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "dudosa",
-      "severity": "media",
-      "finding": "Las dos manos que rodean el portal tienen pocos dedos distinguibles y solapamientos poco claros. Redibujar la separación si no se puede justificar el quinto por la perspectiva."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "dudosa",
+        "finding": "Las dos manos que rodean el portal tienen pocos dedos distinguibles y solapamientos poco claros. Redibujar la separación si no se puede justificar el quinto por la perspectiva.",
+        "severity": "media",
+        "sha256": "0d88da2d766a0ba161e4679b421f4aa6ec67aa0ccfcaeb6dbc7938a95295b44e",
+        "masterSha256": "96ac3289ec7105cb84548dfdf7ff72ae5c522ff45df50d369e70ff51ad73c0f7"
+      },
+      "resolution": "Mano derecha superior: cuatro dedos curvos separados y un pulgar inferior. Mano izquierda inferior: cuatro puntas y unas diferenciadas, con pulgar arriba; diez dedos entre ambas, dos munecas continuas. Tercer rostro, portal y torso conservados, recortes circulares legibles.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/feca-look-3-m.webp",
@@ -1031,13 +1099,20 @@
       "asset": "public/avatars/classes/v1/osamodas-look-3-f.webp",
       "headSlot": 3,
       "gender": "female",
-      "sha256": "61f9b8215235ba6381a8c7a071de21a18920180d763792208ed496c79dd3cf3e",
-      "masterSha256": "20e419f1bb7af7672204fb0f0c50756fc120bae26266340445804a3e0e4c6e7e",
+      "sha256": "442f2febf5704386c1b8cd16a119586d8cdb2d2f4f8ac30d6df28cb8d667dc5a",
+      "masterSha256": "8bbe598cd022866b3443595e6d6e7c513e00464db2e099b03b709281c24146c4",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "corregir",
-      "severity": "alta",
-      "finding": "Observación del usuario: seis dedos en la mano horizontal. Redibujar una mano izquierda coherente con cuatro dedos y un pulgar, sin dedos o uñas duplicados."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "corregir",
+        "finding": "Observación del usuario: seis dedos en la mano horizontal. Redibujar una mano izquierda coherente con cuatro dedos y un pulgar, sin dedos o uñas duplicados.",
+        "severity": "alta",
+        "sha256": "61f9b8215235ba6381a8c7a071de21a18920180d763792208ed496c79dd3cf3e",
+        "masterSha256": "20e419f1bb7af7672204fb0f0c50756fc120bae26266340445804a3e0e4c6e7e"
+      },
+      "resolution": "La mano izquierda horizontal tiene cuatro dedos largos con cuatro puntas separadas y un unico pulgar mas corto debajo. Se mantiene el gesto de calmar, la muneca continua y el personaje del rostro 3; recortes de 150 y 48 px legibles.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/ouginak-look-3-m.webp",
@@ -1083,13 +1158,20 @@
       "asset": "public/avatars/classes/v1/rogue-look-3-m.webp",
       "headSlot": 3,
       "gender": "male",
-      "sha256": "bb9cafa5be45763ab235520acb71992dbf9c0217751f8545275629c24300c1cc",
-      "masterSha256": "54588784f5bad85d124ef9fc1b4b07cd8a2ba38469e3b9a4097aea619f12aab9",
+      "sha256": "9194c09d519f5a8a0b21fce227469e965ef29b3f860889dbcaa9c82d0f6ac97e",
+      "masterSha256": "e44159f94572088d95b1e7a59764efdcde5c0d36a21fccf85b84954f72e8fc4f",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "dudosa",
-      "severity": "media",
-      "finding": "La mano levantada con el guante solo deja tres puntas claras; los pliegues oscuros no explican bien los otros dedos ni el pulgar. Revisar forma y separación."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "dudosa",
+        "finding": "La mano levantada con el guante solo deja tres puntas claras; los pliegues oscuros no explican bien los otros dedos ni el pulgar. Revisar forma y separación.",
+        "severity": "media",
+        "sha256": "bb9cafa5be45763ab235520acb71992dbf9c0217751f8545275629c24300c1cc",
+        "masterSha256": "54588784f5bad85d124ef9fc1b4b07cd8a2ba38469e3b9a4097aea619f12aab9"
+      },
+      "resolution": "La mano izquierda levantada tiene cuatro dedos flexionados separados y un pulgar radial, cinco puntas claras con guante continuo. La mano derecha sigue tirando del puno sin dedos extra; dos brazos y un torso. Tercer rostro, pelo y barba conservados, recortes circulares legibles.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/rogue-look-3-f.webp",
@@ -1416,13 +1498,20 @@
       "asset": "public/avatars/classes/v1/osamodas-look-4-f.webp",
       "headSlot": 4,
       "gender": "female",
-      "sha256": "1bde8340113aa07615e8d0e8f25afa828c3dc60da0b109060e0868f3695d8733",
-      "masterSha256": "60f35a2a6f46f9aadf111e30362f15626885bfc15202bbb53d17874f3b35abab",
+      "sha256": "7e9843cc825f19842434c6e0d0e89f7350cfb7beab3a507212d19c736197b49b",
+      "masterSha256": "b3d266d1ab762ac55fe02aa0dd5ebcbf6ff3808c5b0de68a6a0721180a11321d",
       "fullSizeInspected": true,
       "circularCropInspected": true,
-      "status": "dudosa",
-      "severity": "baja",
-      "finding": "La mano abierta bajo la pluma presenta tres dedos largos distinguibles y un pulgar. Puede haber un dedo oculto por la perspectiva; aclarar la silueta antes de dar aprobación definitiva."
+      "status": "corregida-y-revisada",
+      "previousReview": {
+        "status": "dudosa",
+        "finding": "La mano abierta bajo la pluma presenta tres dedos largos distinguibles y un pulgar. Puede haber un dedo oculto por la perspectiva; aclarar la silueta antes de dar aprobación definitiva.",
+        "severity": "baja",
+        "sha256": "1bde8340113aa07615e8d0e8f25afa828c3dc60da0b109060e0868f3695d8733",
+        "masterSha256": "60f35a2a6f46f9aadf111e30362f15626885bfc15202bbb53d17874f3b35abab"
+      },
+      "resolution": "Palma izquierda en abanico con cuatro dedos largos y un pulgar, cinco puntas visibles y conexion natural con la muneca. Cuarto peinado, cuernos, expresion curiosa, pluma y torso conservados; avatar circular legible a 150 y 48 px.",
+      "correctedOn": "2026-11-24"
     },
     {
       "asset": "public/avatars/classes/v1/ouginak-look-4-m.webp",
@@ -1564,5 +1653,16 @@
       "circularCropInspected": true,
       "status": "sin-anomalias-evidentes"
     }
-  ]
+  ],
+  "correctionReview": {
+    "completedOn": "2026-11-24",
+    "corrected": 13,
+    "remainingFlagged": 0,
+    "circularSizes": [
+      150,
+      48
+    ],
+    "preservedPortrait": "public/avatars/classes/v1/ecaflip-look-4-m.webp",
+    "history": "Each corrected entry retains previousReview; manifest.correctionHistory stores exact edit prompts, attempts and review notes. The first female Sram edit was rejected by the user for a multiple-hand appearance; the selected edit simplifies the raised hand and forearm."
+  }
 }

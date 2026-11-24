@@ -9,36 +9,31 @@ Colección original de fan art de las 19 clases de Dofus, basada en los modelos 
 
 ## Revisión visual de la colección — 2026-11-24
 
-Se inspeccionaron individualmente los **152 PNG maestros** ampliados y los WebP públicos en recortes circulares de 150 y 48 px. El [registro por imagen](visual-audit.json) conserva los hashes de ambos archivos y el resultado: **139 sin anomalías evidentes en esta pasada, cuatro correcciones pendientes, una comparación pendiente y ocho manos dudosas**. No se modificaron ilustraciones durante esta revisión. Los banners quedan fuera de su alcance.
+Se inspeccionaron individualmente los **152 PNG maestros** ampliados y los WebP públicos en recortes circulares de 150 y 48 px. La primera pasada dejó 139 sin anomalías evidentes y 13 hallazgos o dudas. **Los 13 retratos se corrigieron y volvieron a revisar individualmente**, ampliados y en ambos recortes. El [registro por imagen](visual-audit.json) vincula el resultado a los hashes finales y conserva el hallazgo anterior en `previousReview`. Los banners quedan fuera del alcance de esta revisión.
 
-Una imagen sin hallazgos no queda certificada como anatómicamente perfecta. Las dudas de perspectiva siguen abiertas; contar solo los dedos visibles no demuestra que falten otros. Antes de resolver manos, patas o guantes, contrastar una referencia del juego que incluya la mano completa, ya que los renders de generación priorizan cabeza y torso.
+![Los 13 retratos corregidos y revisados](audit-corrections-preview.webp)
 
-Correcciones y comparación pendientes:
-
-| Retrato | Hallazgo | Estado |
+| Retrato | Corrección revisada | Estado |
 | --- | --- | --- |
-| [Ocra hombre · 1](../../../public/avatars/classes/v1/cra-m.webp) | La cuerda cruza la flecha por delante de su extremo posterior; revisar el enganche de la flecha. | Pendiente de corrección |
-| [Zobal hombre · 1](../../../public/avatars/classes/v1/masqueraider-m.webp) | La palma expuesta se lee con un pulgar y tres dedos largos. | Pendiente de corrección |
-| [Osamodas mujer · 2](../../../public/avatars/classes/v1/osamodas-look-2-f.webp) | El usuario detectó una mano derecha conectada al brazo izquierdo que sostiene el pío. | Pendiente de corrección |
-| [Osamodas mujer · 3](../../../public/avatars/classes/v1/osamodas-look-3-f.webp) | El usuario detectó seis dedos en la mano horizontal. | Pendiente de corrección |
-| [Zurcarák hombre · 3](../../../public/avatars/classes/v1/ecaflip-look-3-m.webp) | El usuario señala dedos demasiado humanos bajo el guante; contrastar forma y pelaje con una referencia completa. | Pendiente de comparación |
+| [Ocra hombre · 1](../../../public/avatars/classes/v1/cra-m.webp) | Las dos ramas de la cuerda llegan al extremo posterior de la flecha, detrás de las plumas. | Corregido y revisado |
+| [Zobal hombre · 1](../../../public/avatars/classes/v1/masqueraider-m.webp) | Cuatro dedos largos y un pulgar en la palma abierta en escorzo. | Corregido y revisado |
+| [Osamodas mujer · 2](../../../public/avatars/classes/v1/osamodas-look-2-f.webp) | Mano izquierda con pulgar en el lado correcto; índice bajo el pío y tres dedos recogidos. | Corregido y revisado |
+| [Osamodas mujer · 3](../../../public/avatars/classes/v1/osamodas-look-3-f.webp) | Cuatro dedos largos y un solo pulgar en la mano horizontal. | Corregido y revisado |
+| [Zurcarák hombre · 3](../../../public/avatars/classes/v1/ecaflip-look-3-m.webp) | Mano y muñeca con pelaje crema, cinco dedos y pequeñas garras; eliminado el guante marrón inventado tras contrastar dos vistas completas del modelo. | Corregido y revisado |
+| [Aniripsa mujer · 1](../../../public/avatars/classes/v1/eniripsa-f.webp) | Palma izquierda con cuatro dedos largos separados y un pulgar. | Corregido y revisado |
+| [Aniripsa hombre · 2](../../../public/avatars/classes/v1/eniripsa-look-2-m.webp) | Cinco dedos distinguibles en la palma bajo el soplo. | Corregido y revisado |
+| [Selotrop mujer · 2](../../../public/avatars/classes/v1/eliotrope-look-2-f.webp) | Cinco dedos visibles en la palma bajo el portal. | Corregido y revisado |
+| [Selotrop mujer · 3](../../../public/avatars/classes/v1/eliotrope-look-3-f.webp) | Cinco dedos por mano, lateralidad y dos muñecas continuas alrededor del portal. | Corregido y revisado |
+| [Osamodas mujer · 4](../../../public/avatars/classes/v1/osamodas-look-4-f.webp) | Palma izquierda con cinco dedos separados bajo la pluma. | Corregido y revisado |
+| [Tymador hombre · 3](../../../public/avatars/classes/v1/rogue-look-3-m.webp) | Mano levantada con cuatro dedos flexionados y un pulgar, conservando el guante. | Corregido y revisado |
+| [Sadida mujer · 2](../../../public/avatars/classes/v1/sadida-look-2-f.webp) | Cinco dedos con siluetas separadas en el guante abierto. | Corregido y revisado |
+| [Sram mujer · 1](../../../public/avatars/classes/v1/sram-f.webp) | Gesto simplificado tras la observación del usuario: una sola palma abierta, cinco dedos separados, una muñeca y un antebrazo continuo bajo la daga. | Corregido y revisado |
 
-**El zurcarák hombre del rostro 4 se conserva:** el usuario aclaró expresamente que está bien y que su observación afecta solo al rostro 3 masculino.
+**El zurcarák hombre del rostro 4 se conserva sin cambios:** el usuario aclaró que estaba bien. Los otros 139 PNG y WebP mantienen sus hashes anteriores. Se conservan los rostros, trajes, expresiones y composición de los retratos editados. No cambian las rutas autorizadas ni los perfiles guardados; estas sustituciones no requieren una nueva migración.
 
-Manos con dedos o pliegues poco claros, pendientes de resolver con una inspección enfocada:
+Los PNG finales están en `temp/profile-avatars/masters/v1/` y los WebP públicos en `public/avatars/classes/v1/`. En el [manifiesto](manifest.json), `correctionHistory` conserva los prompts exactos de edición, referencias, hashes y notas de revisión; `originalGeneration` conserva la generación anterior. Los intentos descartados del zurcarák, la aniripsa y la sram también guardan prompt, hash y motivo. Se usó la herramienta integrada `image_gen`.
 
-| Retrato | Duda |
-| --- | --- |
-| [Aniripsa mujer · 1](../../../public/avatars/classes/v1/eniripsa-f.webp) | Tres dedos largos y pulgar distinguibles; posible cuarto dedo oculto por la vista lateral. |
-| [Aniripsa hombre · 2](../../../public/avatars/classes/v1/eniripsa-look-2-m.webp) | La palma bajo el soplo no distingue claramente el cuarto dedo largo. |
-| [Selotrop mujer · 2](../../../public/avatars/classes/v1/eliotrope-look-2-f.webp) | La palma bajo el portal muestra tres puntas largas; comprobar el dedo que podría quedar alineado detrás. |
-| [Selotrop mujer · 3](../../../public/avatars/classes/v1/eliotrope-look-3-f.webp) | Los solapamientos de ambas manos alrededor del portal no explican claramente todos los dedos. |
-| [Osamodas mujer · 4](../../../public/avatars/classes/v1/osamodas-look-4-f.webp) | La palma bajo la pluma deja tres dedos largos distinguibles y un pulgar. |
-| [Tymador hombre · 3](../../../public/avatars/classes/v1/rogue-look-3-m.webp) | La mano levantada deja tres puntas claras y pliegues que no explican bien los demás dedos. |
-| [Sadida mujer · 2](../../../public/avatars/classes/v1/sadida-look-2-f.webp) | El guante de la palma abierta deja tres puntas largas y un pulgar distinguibles. |
-| [Sram mujer · 1](../../../public/avatars/classes/v1/sram-f.webp) | Los dedos recogidos de la mano que lanza la daga tienen una construcción ambigua. |
-
-Al editar cualquiera de estas imágenes, conservar el original y el prompt, comprobar otra vez anatomía y recorte, actualizar PNG/WebP y manifiesto, y renovar el registro para los nuevos hashes. No marcar un hallazgo como resuelto solo porque terminó la generación.
+Esta revisión visual no garantiza una anatomía perfecta ni sustituye una comparación exhaustiva de las manos de los 152 modelos del juego. Cada futura edición debe revisar primero el retrato y sus referencias, y después su resultado ampliado y en círculo antes de aprobarlo o pasar al siguiente.
 
 ## Rostro 4
 

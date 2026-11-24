@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.26',
+    date: '2026-11-24',
+    notes: [
+      'Corrected hands and finger readability in 11 profile portraits, restored the third male Ecaflip hand fur from the game model, and fixed the first male Cra bowstring connection. All 13 edits were reviewed enlarged and in circular profile crops, with exact prompts and review history retained; existing avatar choices and saved profiles are preserved',
+    ],
+  },
+  {
     version: '0.4.25',
     date: '2026-11-23',
     notes: [

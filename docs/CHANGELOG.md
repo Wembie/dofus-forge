@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.26] — 2026-11-24
+- Corrected hands and finger readability in 11 profile portraits, restored the third male Ecaflip hand fur from the game model, and fixed the first male Cra bowstring connection. All 13 edits were reviewed enlarged and in circular profile crops, with exact prompts and review history retained; existing avatar choices and saved profiles are preserved
+
 ## [0.4.25] — 2026-11-23
 - 38 new profile portraits: the fourth in-game face and hairstyle for all 19 classes, male and female, with the usual outfit and distinct ink-and-watercolor poses. Choose from 152 avatars; the verified checklist now records 152 of 600 faces complete, with alternate outfits reserved for later
 - Eight more Dofus 3.7 profile landscapes: Evil Forest, Cania Lake, Gisgoul, Bwork Village, Zoth Village, Mount Scauldron, Snowbound Village and Castaway Island. The banner catalog now has 44 choices, with exact prompts and current-client references saved and all earlier profile choices retained

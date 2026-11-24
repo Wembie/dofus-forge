@@ -5,6 +5,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Correcciones de anatomía tras revisar los 152 retratos** (0.4.26) — 13 ilustraciones corregidas y revisadas individualmente ampliadas y en recortes de 150 y 48 px: manos, lateralidad, dedos, pelaje del zurcarák hombre 3 y enganche de la flecha del ocra hombre 1. Se conservan prompts, intentos descartados, originales e historial de revisión. Los otros 139 retratos mantienen sus hashes, incluido el zurcarák hombre 4 aprobado. Mismas rutas y perfiles; no requiere una nueva migración.
+
 - [x] **Cuarto rostro de las 19 clases y ocho escenarios más** (0.4.25) — 38 retratos nuevos, masculino y femenino, con traje habitual, modelos del cliente 3.7.14.18 y poses propias; 152/600 rostros terminados. Catálogo de 44 banners con Bosque Maléfico, Lago de Cania, Gisgul, Pueblo de los Bworks, Pueblo de los Zoths, Monte Tórrido, Pueblo Sepultado e Isla de los Náufragos. Prompts y procedencia guardados, progreso verificado por modelo y migración aditiva que conserva perfiles y permisos. Los demás rostros, trajes posteriores y nuevos escenarios siguen pendientes.
 - [x] **Aislamiento de fuentes del taller beta** (0.4.24) — motor Rust experimental en `tools/beta/rust-optimizer`, Forjadora en `tools/beta/forge`, store base y panel de hechizos locales. Las fuentes estables del motor, store y paneles vuelven al contenido anterior a la beta; desaparecen los hooks experimentales en producción. Tests de dependencias impiden referencias desde `src/` a `tools/beta`; compilación y pruebas nativas independientes y comprobación de módulos cargados por el navegador. Compartir el repositorio no activa estas reglas al desplegar la aplicación habitual.
 
