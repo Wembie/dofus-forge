@@ -1,5 +1,5 @@
 import { ITEM_PASSIVES, controlBonus, controlMax, controlRoom, sanitizePassiveState, type PassiveBonus, type PassiveStat, type PassiveState } from '@/engine/passives.ts'
-import { LEGENDARY_BONUSES, legendaryStatBonus, type LegendaryBonus } from '@/engine/petLegendary.ts'
+import { LEGENDARY_BONUSES, legendaryBonusOf, legendaryStatBonus, type LegendaryBonus } from '@/engine/petLegendary.ts'
 import type { AppItem } from '@/data/loaders.ts'
 
 // Combat passives in La Forjadora. The page resolves every passive item's
@@ -105,6 +105,14 @@ export function orderPassiveItems(): number[] {
 export function sanitizeExcluded(raw: unknown): number[] {
   if (!Array.isArray(raw)) return []
   return [...new Set(raw.filter((id): id is number => Number.isSafeInteger(id) && ITEM_PASSIVES.has(id)))]
+}
+
+/** Saved list of companion legendary bonuses the player is open to trying
+ * (untrusted: localStorage): unknown ids, and ones with no stat effect
+ * (nothing for the Forge to compare), are dropped. */
+export function sanitizeLegendaryCandidates(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return []
+  return [...new Set(raw.filter((id): id is string => typeof id === "string" && !!legendaryBonusOf(id)?.control))]
 }
 
 /** The settings of the given items' passives, to carry into the planner with a loaded build. */

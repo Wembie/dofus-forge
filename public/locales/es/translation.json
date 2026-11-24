@@ -2556,5 +2556,7 @@
   "optimizer_passive_companion": "Pasivas Mascotas/Mascoturas",
   "optimizer_passive_companion_unset": "Sin bono legendario elegido",
   "optimizer_passive_companion_search": "Buscar el mejor bono legendario para tus metas",
-  "optimizer_passive_companion_current": "Actual"
+  "optimizer_passive_companion_current": "Actual",
+  "optimizer_log_companion_bonus": "Probando: {{name}} para la mascota",
+  "optimizer_passive_companion_winner": "Buscando — por ahora gana: {{name}}"
 }

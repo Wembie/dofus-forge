@@ -51,6 +51,10 @@ export type OptimizerConfig = {
   passives:            ForgePassiveMode
   /** Passive items the player left out of the count. */
   passiveExcluded:     number[]
+  /** Companion legendary bonuses the player is open to trying; when set, the
+   * Forge picks whichever scores best for the order's current goals instead
+   * of the planner's single saved pick. */
+  companionBonusCandidates: string[]
   intensity:           ForgeIntensity
   custom:              ForgeCustom
   /** Pro forgemagie: exotic % res / % damage lines on up to `proExoMax` items. */

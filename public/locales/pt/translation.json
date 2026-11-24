@@ -2556,5 +2556,7 @@
   "optimizer_passive_companion": "Passivas de mascotes/montarias",
   "optimizer_passive_companion_unset": "Nenhum bônus lendário escolhido",
   "optimizer_passive_companion_search": "Buscar o melhor bônus lendário para seus objetivos",
-  "optimizer_passive_companion_current": "Atual"
+  "optimizer_passive_companion_current": "Atual",
+  "optimizer_log_companion_bonus": "Testando: {{name}} para o companheiro",
+  "optimizer_passive_companion_winner": "Buscando — vencendo no momento: {{name}}"
 }

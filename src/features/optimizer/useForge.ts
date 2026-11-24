@@ -9,7 +9,7 @@ import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, runeStatLabelKey } from '.
 import { isActive, loadSavedConfig, persistConfig, toWireConfig, loadForgeResult, withLegendaryBans } from './forgeConfig.ts'
 import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
-import { forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor } from './forgePassives.ts'
+import { forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, rankLegendaryBonuses } from './forgePassives.ts'
 import { track } from '@/lib/analytics.ts'
 import { playForgeDone } from '@/lib/sound.ts'
 
@@ -409,9 +409,15 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     const picks = withLegendaryBans(config, { required: placements.filter(p => p.status === 'placed').map(p => p.id), banned }, equipment)
     // Resolved once per forge; the engine folds them into each item's stats.
     const excludedIds = new Set(config.passiveExcluded)
+    // Open to trying several: use whichever of those scores best for this order's
+    // own weighted goals instead of the planner's single saved pick.
+    const bestCandidate = config.companionBonusCandidates.length
+      ? rankLegendaryBonuses(config.stats.filter(isActive)).find(r => config.companionBonusCandidates.includes(r.bonus.id))
+      : undefined
+    const effectiveLegendary = bestCandidate ? { id: bestCandidate.bonus.id, value: bestCandidate.value } : legendaryBonus
     const passiveEffects = [
       ...(config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives), excludedIds)),
-      ...(equipped.companion != null && excludedIds.has(equipped.companion) ? [] : legendaryForgeEffects(equipped.companion, legendaryBonus)),
+      ...(equipped.companion != null && excludedIds.has(equipped.companion) ? [] : legendaryForgeEffects(equipped.companion, effectiveLegendary)),
     ]
     countedPassivesRef.current = new Set(passiveEffects.map(p => p.id))
     const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level, picks, passiveEffects)
@@ -439,6 +445,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     setLog([])
     addLog(t(seedBuilds.length ? 'optimizer_log_relit' : 'optimizer_log_lit'), 'fire')
     if (passiveEffects.length) addLog(t(`optimizer_log_passives_${config.passives}`, { n: passiveEffects.length }), 'muted')
+    if (bestCandidate) addLog(t('optimizer_log_companion_bonus', { name: t(bestCandidate.bonus.nameKey) }), 'muted')
     let ready = 0
 
     for (let i = 0; i < count; i++) {

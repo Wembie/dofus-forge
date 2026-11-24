@@ -21,7 +21,7 @@ import {
   Wind,
   X,
 } from "lucide-react";
-import { ALL_SLOTS, useBuildStore, type SlotId } from "@/store/buildStore.ts";
+import { ALL_SLOTS, type SlotId } from "@/store/buildStore.ts";
 import type { AppItem } from "@/data/loaders.ts";
 import { CHARACTERISTICS } from "@/engine/types.ts";
 import { ClassPicker } from "@/features/class-picker/ClassPicker.tsx";
@@ -517,9 +517,14 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
     on = mode !== "off",
     excluded = useMemo(() => new Set(forge.config.passiveExcluded), [forge.config.passiveExcluded]);
   const companionBonus = forge.equipped.companion && forge.legendaryBonus ? legendaryBonusOf(forge.legendaryBonus.id) : undefined;
-  const setLegendaryBonus = useBuildStore((s) => s.setLegendaryBonus);
+  const candidates = forge.config.companionBonusCandidates;
+  function toggleCandidate(id: string) {
+    const next = candidates.includes(id) ? candidates.filter((c) => c !== id) : [...candidates, id];
+    forge.setConfig((c) => ({ ...c, companionBonusCandidates: next }));
+  }
   const [companionOpen, setCompanionOpen] = useState(false);
   const rankedCompanionBonuses = useMemo(() => rankLegendaryBonuses(forge.activeReqs), [forge.activeReqs]);
+  const bestCandidate = candidates.length ? rankedCompanionBonuses.find((r) => candidates.includes(r.bonus.id)) : undefined;
   const sections = useMemo(() => {
     const out = new Map<PassiveSection, AppItem[]>(PASSIVE_SECTIONS.map((s) => [s, []]));
     for (const id of orderPassiveItems()) {
@@ -557,17 +562,23 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
         </div>
       )}
       <p>{t(`optimizer_passives_${mode}_hint`)}</p>
-      {on && forge.equipped.companion != null && (
+      {on && (
         <div className="fg-passive-companion fg-passive-sections">
           <div className="fg-passive-head">
             <label className="fg-check">
               <input
                 type="checkbox"
-                checked={!!companionBonus?.control && !excluded.has(forge.equipped.companion)}
-                onChange={() => include([forge.equipped.companion!], excluded.has(forge.equipped.companion!))}
+                checked={candidates.length > 0}
+                onChange={() =>
+                  forge.setConfig((c) => ({
+                    ...c,
+                    companionBonusCandidates: candidates.length ? [] : rankedCompanionBonuses.map((r) => r.bonus.id),
+                  }))
+                }
               />
               {t("optimizer_passive_companion")}
             </label>
+            <small>{t("fg_of", { n: candidates.length, total: rankedCompanionBonuses.length })}</small>
             {rankedCompanionBonuses.length > 0 && (
               <button
                 aria-expanded={companionOpen}
@@ -584,11 +595,23 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
                 <span className="fg-check is-static">
                   <img src={CROQUETTE_ICON} alt="" width={24} height={24} />
                   <span>
-                    {t("optimizer_passive_companion_current")}: {companionBonus ? t(companionBonus.nameKey) : t("optimizer_passive_companion_unset")}
+                    {candidates.length > 0
+                      ? t("optimizer_passive_companion_winner", { name: bestCandidate ? t(bestCandidate.bonus.nameKey) : t("optimizer_passive_companion_unset") })
+                      : `${t("optimizer_passive_companion_current")}: ${companionBonus ? t(companionBonus.nameKey) : t("optimizer_passive_companion_unset")}`}
                   </span>
                 </span>
                 <span className="fg-bonus">
-                  {companionBonus?.control ? (
+                  {candidates.length > 0 ? (
+                    bestCandidate ? (
+                      bonusParts(bestCandidate.parts).map((p) => (
+                        <span key={p.key} className={p.negative ? "is-negative" : ""}>
+                          <img src={statIconUrl(p.icon)} alt="" />
+                          {p.value}
+                          <span className="sr-only"> {t(p.tKey)}</span>
+                        </span>
+                      ))
+                    ) : null
+                  ) : companionBonus?.control ? (
                     bonusParts(legendaryStatBonus(forge.legendaryBonus)).map((p) => (
                       <span key={p.key} className={p.negative ? "is-negative" : ""}>
                         <img src={statIconUrl(p.icon)} alt="" />
@@ -601,17 +624,12 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
                   ) : null}
                 </span>
               </li>
-              {rankedCompanionBonuses.map(({ bonus, value, parts }) => {
-                const picked = forge.legendaryBonus?.id === bonus.id;
+              {rankedCompanionBonuses.map(({ bonus, parts }) => {
+                const picked = candidates.includes(bonus.id);
                 return (
-                  <li key={bonus.id}>
+                  <li key={bonus.id} className={picked ? "" : "is-off"}>
                     <label className="fg-check">
-                      <input
-                        type="radio"
-                        name="companion-legendary-bonus"
-                        checked={picked}
-                        onChange={() => setLegendaryBonus(bonus.id, value)}
-                      />
+                      <input type="checkbox" checked={picked} onChange={() => toggleCandidate(bonus.id)} />
                       <img src={CROQUETTE_ICON} alt="" width={24} height={24} />
                       <span>{t(bonus.nameKey)}</span>
                     </label>

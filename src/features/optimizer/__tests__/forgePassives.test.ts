@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ITEM_PASSIVES, sanitizePassiveState, controlMax, passiveBonus } from '@/engine/passives.ts'
-import { maxPassiveState, forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded, rankLegendaryBonuses } from '../forgePassives.ts'
+import { maxPassiveState, forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded, rankLegendaryBonuses, sanitizeLegendaryCandidates } from '../forgePassives.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { makeDefaultConfig, toWireConfig, loadSavedConfig, persistConfig, loadForgeResult, STORAGE_KEY } from '../forgeConfig.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -131,6 +131,11 @@ describe('passives in the order config', () => {
     expect(loadSavedConfig().passiveExcluded).toEqual([ABYSSAL])
     expect(sanitizeExcluded([ABYSSAL, ABYSSAL, 1, 'x', 1.5, JAHASH])).toEqual([ABYSSAL, JAHASH])
     expect(sanitizeExcluded('nope')).toEqual([])
+  })
+
+  it('legendary bonus candidates: unknown ids and text-only bonuses are dropped', () => {
+    expect(sanitizeLegendaryCandidates(['magicrabe.bwork', 'bakushana.chafer', 'nope.nope', 1])).toEqual(['magicrabe.bwork'])
+    expect(sanitizeLegendaryCandidates('nope')).toEqual([])
   })
 
   it('the mode is saved, and anything unknown reads as off', () => {

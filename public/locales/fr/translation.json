@@ -2556,5 +2556,7 @@
   "optimizer_passive_companion": "Passives familiers/montures",
   "optimizer_passive_companion_unset": "Aucun bonus légendaire choisi",
   "optimizer_passive_companion_search": "Trouver le meilleur bonus légendaire pour vos objectifs",
-  "optimizer_passive_companion_current": "Actuel"
+  "optimizer_passive_companion_current": "Actuel",
+  "optimizer_log_companion_bonus": "Essai : {{name}} pour le compagnon",
+  "optimizer_passive_companion_winner": "Recherche en cours — en tête : {{name}}"
 }

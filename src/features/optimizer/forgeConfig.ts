@@ -1,7 +1,7 @@
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, ForgeCustom, OptimizerStatKey, DofusKind, ProLine } from './types.ts'
 import { OPTIMIZER_STATS, leyPreset, suggestedCap, unitValue } from './statList.ts'
-import { PASSIVE_MODES, sanitizeExcluded, type PassiveEffects } from './forgePassives.ts'
+import { PASSIVE_MODES, sanitizeExcluded, sanitizeLegendaryCandidates, type PassiveEffects } from './forgePassives.ts'
 import type { PassiveState } from '@/engine/passives.ts'
 import type { AppItem } from '@/data/loaders.ts'
 
@@ -96,6 +96,7 @@ export function makeDefaultConfig(): OptimizerConfig {
     assumeFullyScrolled: true,
     passives:            'off',
     passiveExcluded:     [],
+    companionBonusCandidates: [],
     intensity:           'standard',
     custom:              { ...DEFAULT_CUSTOM },
     legendary:           true,
@@ -151,6 +152,7 @@ export function loadSavedConfig(): OptimizerConfig {
       custom:              sanitizeCustom(parsed.custom),
       passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
       passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
+      companionBonusCandidates: sanitizeLegendaryCandidates(parsed.companionBonusCandidates),
       legendary:           parsed.legendary !== false,
       proExo:              parsed.proExo === true,
       proExoLines:         sanitizeProLines(parsed.proExoLines),
