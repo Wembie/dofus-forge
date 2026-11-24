@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ITEM_PASSIVES, sanitizePassiveState, controlMax, passiveBonus } from '@/engine/passives.ts'
-import { maxPassiveState, forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded } from '../forgePassives.ts'
+import { maxPassiveState, forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded, rankLegendaryBonuses } from '../forgePassives.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { makeDefaultConfig, toWireConfig, loadSavedConfig, persistConfig, loadForgeResult, STORAGE_KEY } from '../forgeConfig.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -88,6 +88,23 @@ describe('forgePassiveEffects', () => {
     expect(legendaryForgeEffects(1711, { id: 'poukachi.boowolf', value: 2 })).toEqual([])
     expect(legendaryForgeEffects(1711, { id: 'magicrabe.bwork', value: 2 }))
       .toEqual([{ id: 1711, effects: [{ stat: '% Ranged Damage', min: 3, max: 3 }] }])
+  })
+
+  it('rankLegendaryBonuses only offers bonuses an order stat can ask for, scored by the order\'s weights', () => {
+    const ranked = rankLegendaryBonuses([{ stat: 'range', weight: 10 }])
+    // Only an order-stat bonus can appear; final-damage-only ones (Boowolf, Kanig) never do.
+    expect(ranked.some(r => r.bonus.id === 'poukachi.boowolf')).toBe(false)
+    expect(ranked.some(r => r.bonus.id === 'magicrabe.kanig')).toBe(false)
+    // Range-weighted goals: Range bonuses (Neye, Bambooto) win over everything else, highest score first.
+    expect(ranked[0].parts).toEqual({ range: 3 })
+    expect(ranked[0].score).toBe(30)
+    expect(ranked.every((r, i) => i === 0 || r.score <= ranked[i - 1].score)).toBe(true)
+  })
+
+  it('rankLegendaryBonuses scores a choice bonus at its better-fitting option', () => {
+    const ranked = rankLegendaryBonuses([{ stat: 'rangedDamagePercent', weight: 10 }, { stat: 'meleeDamagePercent', weight: 1 }])
+    const bwork = ranked.find(r => r.bonus.id === 'magicrabe.bwork')!
+    expect(bwork.parts).toEqual({ rangedDamagePercent: 3 })
   })
 
   it('passiveStateFor keeps only the given items', () => {

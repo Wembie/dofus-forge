@@ -1,5 +1,5 @@
-import { ITEM_PASSIVES, controlBonus, controlRoom, sanitizePassiveState, type PassiveBonus, type PassiveStat, type PassiveState } from '@/engine/passives.ts'
-import { legendaryStatBonus } from '@/engine/petLegendary.ts'
+import { ITEM_PASSIVES, controlBonus, controlMax, controlRoom, sanitizePassiveState, type PassiveBonus, type PassiveStat, type PassiveState } from '@/engine/passives.ts'
+import { LEGENDARY_BONUSES, legendaryStatBonus, type LegendaryBonus } from '@/engine/petLegendary.ts'
 import type { AppItem } from '@/data/loaders.ts'
 
 // Combat passives in La Forjadora. The page resolves every passive item's
@@ -125,4 +125,32 @@ export function legendaryForgeEffects(companionId: number | null | undefined, pi
     .filter(([k]) => EFFECT_NAME[k])
     .map(([k, v]) => ({ stat: EFFECT_NAME[k]!, min: v, max: v }))
   return effects.length ? [{ id: companionId, effects }] : []
+}
+
+export type RankedLegendaryBonus = { bonus: LegendaryBonus; value: number; score: number; parts: PassiveBonus }
+
+/**
+ * The legendary bonuses an order can actually ask for (the same order-stat
+ * filter as EFFECT_NAME — final damage ones like Kanig/Boowolf never show
+ * here, same reason legendary gear's don't), ranked by how much each is
+ * worth toward the order's current weighted goals. A choice bonus (e.g.
+ * Bwork: melee or ranged) is scored at its better-fitting option.
+ */
+export function rankLegendaryBonuses(reqs: readonly { stat: string; weight: number }[]): RankedLegendaryBonus[] {
+  const weight = new Map(reqs.map(r => [r.stat, r.weight]))
+  const score = (b: PassiveBonus) =>
+    (Object.entries(b) as [PassiveStat, number][]).reduce((s, [k, v]) => s + (weight.get(k) ?? 0) * v, 0)
+  const out: RankedLegendaryBonus[] = []
+  for (const bonus of LEGENDARY_BONUSES) {
+    if (!bonus.control) continue
+    let best: { value: number; parts: PassiveBonus; score: number } | null = null
+    for (let v = 1; v <= controlMax(bonus.control); v++) {
+      const parts = legendaryStatBonus({ id: bonus.id, value: v })
+      if (Object.keys(parts).length === 0) continue
+      const s = score(parts)
+      if (!best || s > best.score) best = { value: v, parts, score: s }
+    }
+    if (best && best.score > 0) out.push({ bonus, value: best.value, parts: best.parts, score: best.score })
+  }
+  return out.sort((a, b) => b.score - a.score)
 }

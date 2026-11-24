@@ -2553,5 +2553,8 @@
   "legendary_pool_kwakarticho": "Kwakarticho Quintessence",
   "legendary_pool_magicrabe": "Magicrabe Quintessence",
   "passives_legendary_source": "Legendary companion",
-  "optimizer_passive_companion": "Companion legendary bonus"
+  "optimizer_passive_companion": "Pet/Mount passives",
+  "optimizer_passive_companion_unset": "No legendary bonus set",
+  "optimizer_passive_companion_search": "Find the best legendary bonus for your goals",
+  "optimizer_passive_companion_current": "Current"
 }

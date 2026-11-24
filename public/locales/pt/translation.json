@@ -2553,5 +2553,8 @@
   "legendary_pool_kwakarticho": "Quintessência de Kwakarticho",
   "legendary_pool_magicrabe": "Quintessência de Magicrabe",
   "passives_legendary_source": "Mascote lendária",
-  "optimizer_passive_companion": "Bônus lendário do companheiro"
+  "optimizer_passive_companion": "Passivas de mascotes/montarias",
+  "optimizer_passive_companion_unset": "Nenhum bônus lendário escolhido",
+  "optimizer_passive_companion_search": "Buscar o melhor bônus lendário para seus objetivos",
+  "optimizer_passive_companion_current": "Atual"
 }

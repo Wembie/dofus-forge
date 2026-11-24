@@ -21,7 +21,7 @@ import {
   Wind,
   X,
 } from "lucide-react";
-import { ALL_SLOTS, type SlotId } from "@/store/buildStore.ts";
+import { ALL_SLOTS, useBuildStore, type SlotId } from "@/store/buildStore.ts";
 import type { AppItem } from "@/data/loaders.ts";
 import { CHARACTERISTICS } from "@/engine/types.ts";
 import { ClassPicker } from "@/features/class-picker/ClassPicker.tsx";
@@ -57,6 +57,7 @@ import {
   orderPassiveBonus,
   orderPassiveItems,
   passiveSection,
+  rankLegendaryBonuses,
   type ForgePassiveMode,
   type PassiveSection,
 } from "@/features/optimizer/forgePassives.ts";
@@ -75,7 +76,7 @@ import {
 } from "@/features/optimizer/useForge.ts";
 import { legendaryBonusOf, legendaryStatBonus } from "@/engine/petLegendary.ts";
 import { bonusParts } from "@/features/passives/passiveLabels.ts";
-import { runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
+import { CROQUETTE_ICON, runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { useFocusTrap } from "@/ui/useFocusTrap.ts";
 import { langPathPrefix } from "@/i18n/langPath.ts";
 import "./forge.css";
@@ -516,6 +517,9 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
     on = mode !== "off",
     excluded = useMemo(() => new Set(forge.config.passiveExcluded), [forge.config.passiveExcluded]);
   const companionBonus = forge.equipped.companion && forge.legendaryBonus ? legendaryBonusOf(forge.legendaryBonus.id) : undefined;
+  const setLegendaryBonus = useBuildStore((s) => s.setLegendaryBonus);
+  const [companionOpen, setCompanionOpen] = useState(false);
+  const rankedCompanionBonuses = useMemo(() => rankLegendaryBonuses(forge.activeReqs), [forge.activeReqs]);
   const sections = useMemo(() => {
     const out = new Map<PassiveSection, AppItem[]>(PASSIVE_SECTIONS.map((s) => [s, []]));
     for (const id of orderPassiveItems()) {
@@ -553,25 +557,78 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
         </div>
       )}
       <p>{t(`optimizer_passives_${mode}_hint`)}</p>
-      {companionBonus?.control && (
-        <div className="fg-passive-head">
-          <label className="fg-check">
-            <input
-              type="checkbox"
-              checked={!excluded.has(forge.equipped.companion!)}
-              onChange={() => include([forge.equipped.companion!], excluded.has(forge.equipped.companion!))}
-            />
-            {t("optimizer_passive_companion")}: {t(companionBonus.nameKey)}
-          </label>
-          <span className="fg-bonus">
-            {bonusParts(legendaryStatBonus(forge.legendaryBonus)).map((p) => (
-              <span key={p.key} className={p.negative ? "is-negative" : ""}>
-                <img src={statIconUrl(p.icon)} alt="" />
-                {p.value}
-                <span className="sr-only"> {t(p.tKey)}</span>
-              </span>
-            ))}
-          </span>
+      {on && forge.equipped.companion != null && (
+        <div className="fg-passive-companion fg-passive-sections">
+          <div className="fg-passive-head">
+            <label className="fg-check">
+              <input
+                type="checkbox"
+                checked={!!companionBonus?.control && !excluded.has(forge.equipped.companion)}
+                onChange={() => include([forge.equipped.companion!], excluded.has(forge.equipped.companion!))}
+              />
+              {t("optimizer_passive_companion")}
+            </label>
+            {rankedCompanionBonuses.length > 0 && (
+              <button
+                aria-expanded={companionOpen}
+                aria-label={t("optimizer_passive_companion_search")}
+                onClick={() => setCompanionOpen((o) => !o)}
+              >
+                <Settings2 size={15} />
+              </button>
+            )}
+          </div>
+          {companionOpen && (
+            <ul>
+              <li>
+                <span className="fg-check is-static">
+                  <img src={CROQUETTE_ICON} alt="" width={24} height={24} />
+                  <span>
+                    {t("optimizer_passive_companion_current")}: {companionBonus ? t(companionBonus.nameKey) : t("optimizer_passive_companion_unset")}
+                  </span>
+                </span>
+                <span className="fg-bonus">
+                  {companionBonus?.control ? (
+                    bonusParts(legendaryStatBonus(forge.legendaryBonus)).map((p) => (
+                      <span key={p.key} className={p.negative ? "is-negative" : ""}>
+                        <img src={statIconUrl(p.icon)} alt="" />
+                        {p.value}
+                        <span className="sr-only"> {t(p.tKey)}</span>
+                      </span>
+                    ))
+                  ) : companionBonus ? (
+                    <em>{t("passives_text_only")}</em>
+                  ) : null}
+                </span>
+              </li>
+              {rankedCompanionBonuses.map(({ bonus, value, parts }) => {
+                const picked = forge.legendaryBonus?.id === bonus.id;
+                return (
+                  <li key={bonus.id}>
+                    <label className="fg-check">
+                      <input
+                        type="radio"
+                        name="companion-legendary-bonus"
+                        checked={picked}
+                        onChange={() => setLegendaryBonus(bonus.id, value)}
+                      />
+                      <img src={CROQUETTE_ICON} alt="" width={24} height={24} />
+                      <span>{t(bonus.nameKey)}</span>
+                    </label>
+                    <span className="fg-bonus">
+                      {bonusParts(parts).map((p) => (
+                        <span key={p.key} className={p.negative ? "is-negative" : ""}>
+                          <img src={statIconUrl(p.icon)} alt="" />
+                          {p.value}
+                          <span className="sr-only"> {t(p.tKey)}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       )}
       {on && (

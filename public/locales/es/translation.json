@@ -2553,5 +2553,8 @@
   "legendary_pool_kwakarticho": "Quintaesencia de Kwakarticho",
   "legendary_pool_magicrabe": "Quintaesencia de Magicrabe",
   "passives_legendary_source": "Mascota legendaria",
-  "optimizer_passive_companion": "Pasiva legendaria de mascota"
+  "optimizer_passive_companion": "Pasivas Mascotas/Mascoturas",
+  "optimizer_passive_companion_unset": "Sin bono legendario elegido",
+  "optimizer_passive_companion_search": "Buscar el mejor bono legendario para tus metas",
+  "optimizer_passive_companion_current": "Actual"
 }
