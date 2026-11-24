@@ -18,6 +18,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - Fixed the extra arm-shaped outline behind the first female Sram shoulder and removed its duplicate sleeve cuff, preserving the chosen knife-toss hand gesture, face and outfit. Native PNG, profile image, previews and exact edit history are updated
 - Added a Spanish-language video walkthrough of the site to the "How to use" page, covering everything since version 0.4.4
 - Hardened two internal spots (the rune engine and the local beta Forger) that CodeQL flagged as writing to an object property named from user/build data, closing a theoretical prototype-pollution path; no change in behavior
+- Companion legendary bonus: clicking an equipped pet or mount now opens a picker for its 33 possible legendary bonuses (four pools, in Spanish/English/French/Portuguese), since the game rolls this at random and only the player knows which one theirs landed on. The numeric ones (damage, AP, MP, Range, Lock, Dodge) count in the planner's stats and in The Forger; the rest (shields, heals, ally buffs) show as text only. Saved in builds and share links
 
 ## [0.4.18] — 2026-11-23
 - 38 new profile portraits: the third in-game face and hairstyle for every class, male and female, with the default outfit and individual poses in the approved ink-and-watercolor style. The avatar gallery now offers 114 portraits; earlier choices and saved pictures are retained

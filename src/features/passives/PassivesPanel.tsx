@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown, Minus, Plus, RotateCcw, Sparkles } from 'lucide-react'
 import type { AppItem } from '@/data/loaders.ts'
 import {
-  ITEM_PASSIVES, TEXT_ONLY_PASSIVES, passiveBonus, controlRoom,
+  ITEM_PASSIVES, TEXT_ONLY_PASSIVES, passiveBonus, controlRoom, controlMax,
   type PassiveBonus, type PassiveControl, type PassiveState,
 } from '@/engine/passives.ts'
+import { legendaryBonusOf, legendaryStatBonus } from '@/engine/petLegendary.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { bonusParts } from './passiveLabels.ts'
 import './passives.css'
@@ -34,18 +35,26 @@ type Props = {
   /** Omitted on read-only views (a published build). */
   onChange?: (id: string, value: number) => void
   onReset?:  () => void
+  /** The companion's rolled legendary bonus, when one is equipped and set. */
+  legendary?: { id: string; value: number } | null
+  onLegendaryChange?: (id: string, value: number) => void
 }
 
-/** Combat passives of the equipped Dofus, Prysmaradites and legendaries:
- * one row per item, set to the state you want to read, with their combined bonus. */
-export function PassivesPanel({ items, state, onChange, onReset }: Props) {
+/** Combat passives of the equipped Dofus, Prysmaradites, legendaries and the
+ * companion's legendary bonus: one row per source, set to the state you want
+ * to read, with their combined bonus. */
+export function PassivesPanel({ items, state, onChange, onReset, legendary, onLegendaryChange }: Props) {
   const { t } = useTranslation()
   const titleId = useId()
   const withPassive = items.filter(it => ITEM_PASSIVES.has(it.ankama_id) || TEXT_ONLY_PASSIVES.has(it.ankama_id))
+  const legendaryBonus = legendary ? legendaryBonusOf(legendary.id) : undefined
   const total = passiveBonus(withPassive.map(it => it.ankama_id), state)
-  if (withPassive.length === 0) return null
+  if (legendaryBonus) for (const [k, v] of Object.entries(legendaryStatBonus(legendary!)) as [keyof PassiveBonus, number][]) total[k] = (total[k] ?? 0) + v
+  if (withPassive.length === 0 && !legendaryBonus) return null
 
   const activeCount = withPassive.filter(it => (ITEM_PASSIVES.get(it.ankama_id) ?? []).some(c => (state[c.id] ?? 0) > 0)).length
+    + (legendaryBonus && (!legendaryBonus.control || (legendary!.value > 0)) ? 1 : 0)
+  const sourceCount = withPassive.length + (legendaryBonus ? 1 : 0)
   const readOnly = !onChange
   const empty = Object.keys(total).length === 0
 
@@ -53,7 +62,7 @@ export function PassivesPanel({ items, state, onChange, onReset }: Props) {
     <section className="passives" aria-labelledby={titleId} data-testid="passives-panel">
       <header className="passives-head">
         <h2 id={titleId}><Sparkles size={15} aria-hidden="true" /> {t('passives_title')}</h2>
-        <span>{t('passives_active_count', { count: activeCount, total: withPassive.length })}</span>
+        <span>{t('passives_active_count', { count: activeCount, total: sourceCount })}</span>
       </header>
       <div className="passive-total" aria-live="polite">
         <span>{t('passives_total')}</span>
@@ -67,9 +76,33 @@ export function PassivesPanel({ items, state, onChange, onReset }: Props) {
       </div>
       <ul className="passive-list">
         {withPassive.map(item => <PassiveRow key={item.ankama_id} item={item} state={state} onChange={onChange} />)}
+        {legendaryBonus && (
+          <LegendaryPassiveRow bonus={legendaryBonus} value={legendary!.value} onChange={onLegendaryChange} />
+        )}
       </ul>
       {!readOnly && <p className="passive-plain">{t('passives_note')}</p>}
     </section>
+  )
+}
+
+function LegendaryPassiveRow({ bonus, value, onChange }: { bonus: ReturnType<typeof legendaryBonusOf>; value: number; onChange?: (id: string, value: number) => void }) {
+  const { t } = useTranslation()
+  if (!bonus) return null
+  const active = bonus.control ? value > 0 : true
+  return (
+    <li className={'passive' + (active ? ' is-active' : '')}>
+      <div className="passive-source">
+        <span>
+          <b>{t(bonus.nameKey)}</b>
+          <small>{t('passives_legendary_source')}</small>
+        </span>
+        <i className="passive-dot" role="img" aria-label={active ? t('passives_on') : t('passives_off_state')} title={active ? t('passives_on') : t('passives_off_state')} />
+      </div>
+      <div className="passive-controls">
+        {bonus.control && <ControlRow control={bonus.control} value={value} room={controlMax(bonus.control)} onChange={onChange} />}
+        <p className="passive-plain">{t(bonus.textKey)}</p>
+      </div>
+    </li>
   )
 }
 
@@ -130,7 +163,7 @@ function PassiveRow({ item, state, onChange }: { item: AppItem; state: PassiveSt
   )
 }
 
-function ControlRow({ control, value, room, onChange }: { control: PassiveControl; value: number; room: number; onChange?: Props['onChange'] }) {
+export function ControlRow({ control, value, room, onChange }: { control: PassiveControl; value: number; room: number; onChange?: Props['onChange'] }) {
   const { t } = useTranslation()
   const readOnly = !onChange
   const set = (v: number) => onChange?.(control.id, v)

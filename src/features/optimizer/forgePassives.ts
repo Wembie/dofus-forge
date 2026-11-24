@@ -1,4 +1,5 @@
 import { ITEM_PASSIVES, controlBonus, controlRoom, sanitizePassiveState, type PassiveBonus, type PassiveStat, type PassiveState } from '@/engine/passives.ts'
+import { legendaryStatBonus } from '@/engine/petLegendary.ts'
 import type { AppItem } from '@/data/loaders.ts'
 
 // Combat passives in La Forjadora. The page resolves every passive item's
@@ -19,7 +20,7 @@ const EFFECT_NAME: Partial<Record<PassiveStat, string>> = {
   pushbackDamage: 'Pushback Damage', dodge: 'Dodge', lock: 'Lock',
   apReduction: 'AP Reduction', mpReduction: 'MP Reduction', apParry: 'AP Parry', mpParry: 'MP Parry',
   meleeDamagePercent: '% Melee Damage', rangedDamagePercent: '% Ranged Damage', spellDamagePercent: '% Spell Damage',
-  strength: 'Strength', intelligence: 'Intelligence', chance: 'Chance', agility: 'Agility',
+  strength: 'Strength', intelligence: 'Intelligence', chance: 'Chance', agility: 'Agility', range: 'Range',
   neutralResPercent: '% Neutral Resistance', earthResPercent: '% Earth Resistance', fireResPercent: '% Fire Resistance',
   waterResPercent: '% Water Resistance', airResPercent: '% Air Resistance',
 }
@@ -110,4 +111,18 @@ export function sanitizeExcluded(raw: unknown): number[] {
 export function passiveStateFor(state: PassiveState, itemIds: Iterable<number>): PassiveState {
   const ids = new Set([...itemIds].map(String))
   return Object.fromEntries(Object.entries(state).filter(([control]) => ids.has(control.split('.')[0])))
+}
+
+/**
+ * The companion's rolled legendary bonus, as one engine effect tied to the
+ * equipped companion's id. Unlike ITEM_PASSIVES it isn't gated by the off/
+ * max/planner mode: the companion isn't forgeable, so there's no question of
+ * whether it ends up equipped — it's the same item in every evaluated build.
+ */
+export function legendaryForgeEffects(companionId: number | null | undefined, pick: { id: string; value: number } | null): PassiveEffects[] {
+  if (companionId == null) return []
+  const effects = (Object.entries(legendaryStatBonus(pick)) as [PassiveStat, number][])
+    .filter(([k]) => EFFECT_NAME[k])
+    .map(([k, v]) => ({ stat: EFFECT_NAME[k]!, min: v, max: v }))
+  return effects.length ? [{ id: companionId, effects }] : []
 }

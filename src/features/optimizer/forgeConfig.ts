@@ -214,7 +214,9 @@ export function toWireConfig(
     bannedItems:         picks.banned,
     bannedTypes:         config.excludedKinds,
     requiredItems:       picks.required,
-    passiveEffects:      config.passives === 'off' ? [] : passiveEffects,
+    // The 'off' gate is the caller's job: it must drop item passives but
+    // keep the companion's legendary bonus (not a forgeable-item assumption).
+    passiveEffects,
     transcendence:       config.transcendence,
     proExoMax:           config.proExo && config.proExoLines.length ? config.proExoMax : 0,
     proExoWeight:        PRO_WEIGHT,

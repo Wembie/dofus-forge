@@ -38,7 +38,7 @@ export const RIGHT_SLOTS:  SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boot
 export const EXTRAS_SLOTS: SlotId[] = ['sidekick']
 export const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
-const NO_RUNE_SLOTS = new Set<SlotId>(['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6','companion','sidekick'])
+const NO_RUNE_SLOTS = new Set<SlotId>(['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6','sidekick'])
 
 const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<SlotId, SlotConfig>
 
@@ -518,6 +518,8 @@ function BuilderPassivesPanel() {
   const equipment  = useBuildStore(s => s._equipment)
   const passives   = useBuildStore(s => s.passives)
   const setPassive = useBuildStore(s => s.setPassive)
+  const legendary  = useBuildStore(s => s.legendaryBonus)
+  const setLegendaryBonus = useBuildStore(s => s.setLegendaryBonus)
   const items = useMemo(() => {
     const byId = new Map(equipment.map(it => [it.ankama_id, it]))
     return ALL_SLOTS.flatMap(slot => {
@@ -529,7 +531,11 @@ function BuilderPassivesPanel() {
   const reset = () => useBuildStore.setState({ passives: {} })
   return (
     <div className="px-3 pb-4" data-tool="passives">
-      <PassivesPanel items={items} state={passives} onChange={setPassive} onReset={reset} />
+      <PassivesPanel
+        items={items} state={passives} onChange={setPassive} onReset={reset}
+        legendary={equipped.companion ? legendary : null}
+        onLegendaryChange={(id, value) => setLegendaryBonus(id, value)}
+      />
     </div>
   )
 }

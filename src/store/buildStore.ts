@@ -6,10 +6,12 @@ import { pointCost, statBudget } from '@/engine/characteristics.ts'
 import { computeStats } from '@/engine/stats.ts'
 import { sanitizePassiveState, setControl, type PassiveState } from '@/engine/passives.ts'
 import { runeEffectsForSlots, withoutExotic, exoticKey } from '@/engine/runes.ts'
+import { sanitizeLegendaryPick } from '@/engine/petLegendary.ts'
 import { sanitizeSnapshot } from '@/engine/snapshot.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
 export type RuneMap = Record<string, number>
+export type LegendaryPick = { id: string; value: number }
 
 export type WeaponTransform = {
   element: 'fire' | 'earth' | 'water' | 'air'
@@ -65,6 +67,9 @@ export interface BuildState {
   /** Combat passives the player turned on (engine/passives.ts). Only the
    * equipped items' passives count; the gear `stats` never include them. */
   passives:      PassiveState
+  /** Companion's rolled legendary bonus (one of src/engine/petLegendary.ts's
+   * 31), if the player set one — independent of which pet/mount is equipped. */
+  legendaryBonus: LegendaryPick | null
 
   stats: StatBlock | null
 
@@ -112,6 +117,10 @@ export interface BuildState {
   setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
   /** Stacks or option (0 = off) of one passive control. */
   setPassive:          (id: string, value: number) => void
+  /** Picks the companion's legendary bonus; value defaults to its single
+   * option when the bonus has one (a plain toggle), else 0. */
+  setLegendaryBonus:   (id: string, value?: number) => void
+  clearLegendaryBonus: () => void
   setEquipped:         (eq: Partial<Record<SlotId, number>>) => void
   setAllocated:        (allocated: AllocatedCharacteristics) => void
   setScrolled:         (scrolled: ScrolledCharacteristics) => void
@@ -134,6 +143,7 @@ export type BuildSnapshot = {
   fn?: Record<string, string>                 // forjamagoNames: slot → craftsman name (optional)
   wt?: Record<string, { el: string, r: number }>  // weaponTransforms: slot → { element, ratio }
   p?:  Record<string, number>                     // combat passives: control id → stacks / option (engine/passives.ts)
+  lb?: { id: string; value: number }               // companion legendary bonus (engine/petLegendary.ts)
 }
 
 /** Exported so read-only build views (build detail, previews) can compute a
@@ -234,6 +244,7 @@ export const useBuildStore = create<BuildState>((set) => {
     forjamagoNames:    {},
     weaponTransforms:  {},
     passives:          {},
+    legendaryBonus:    null,
     stats:             null,
     _equipment:        [],
     _sets:             [],
@@ -421,6 +432,11 @@ export const useBuildStore = create<BuildState>((set) => {
     setForjamagoName:   (slot, name)      => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
     setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),
     setPassive: (id, value) => set(s => ({ passives: setControl(s.passives, id, value) })),
+    setLegendaryBonus: (id, value) => set(s => {
+      const pick = sanitizeLegendaryPick({ id, value: value ?? 1 })
+      return update({ legendaryBonus: pick }, s)
+    }),
+    clearLegendaryBonus: () => set(s => update({ legendaryBonus: null }, s)),
 
     setEquipment: (equipment) => set(s =>
       update({ _equipment: equipment }, s)
@@ -465,7 +481,8 @@ export const useBuildStore = create<BuildState>((set) => {
       // clears any previous cloud link — the caller re-sets it via
       // setLinkedBuildId() right after, only when it actually knows the id.
       const passives = sanitizePassiveState(snap.p)
-      return update({ selectedClass, buildName, level, gender, linkedBuildId: null, forkOf: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms, passives }, s)
+      const legendaryBonus = sanitizeLegendaryPick(snap.lb)
+      return update({ selectedClass, buildName, level, gender, linkedBuildId: null, forkOf: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms, passives, legendaryBonus }, s)
     }),
 
     setLinkedBuildId: (id) => set({ linkedBuildId: id }),
@@ -485,6 +502,7 @@ export const useBuildStore = create<BuildState>((set) => {
       forjamagoNames:    {},
       weaponTransforms:  {},
       passives:          {},
+      legendaryBonus:    null,
       stats:             null,
       _equipment:       s._equipment,
       _sets:            s._sets,

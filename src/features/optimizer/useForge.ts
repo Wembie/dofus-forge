@@ -9,7 +9,7 @@ import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, runeStatLabelKey } from '.
 import { isActive, loadSavedConfig, persistConfig, toWireConfig, loadForgeResult, withLegendaryBans } from './forgeConfig.ts'
 import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
-import { forgePassiveState, forgePassiveEffects, passiveStateFor } from './forgePassives.ts'
+import { forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor } from './forgePassives.ts'
 import { track } from '@/lib/analytics.ts'
 import { playForgeDone } from '@/lib/sound.ts'
 
@@ -230,6 +230,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
   const equipped      = useBuildStore(s => s.equipped)
   const runes         = useBuildStore(s => s.runes)
   const plannerPassives = useBuildStore(s => s.passives)
+  const legendaryBonus  = useBuildStore(s => s.legendaryBonus)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
   const required      = useForgePicks(s => s.required)
@@ -407,7 +408,10 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     const count = preset.threads
     const picks = withLegendaryBans(config, { required: placements.filter(p => p.status === 'placed').map(p => p.id), banned }, equipment)
     // Resolved once per forge; the engine folds them into each item's stats.
-    const passiveEffects = config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives), new Set(config.passiveExcluded))
+    const passiveEffects = [
+      ...(config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives), new Set(config.passiveExcluded))),
+      ...legendaryForgeEffects(equipped.companion, legendaryBonus),
+    ]
     countedPassivesRef.current = new Set(passiveEffects.map(p => p.id))
     const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level, picks, passiveEffects)
     const base = { selectedClass, level, allocated, scrolled, equipped, runes: Object.fromEntries(Object.entries(runes).map(([slot, map]) => [slot, flattenRunes(map)])) }

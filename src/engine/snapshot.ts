@@ -1,5 +1,6 @@
 import type { BuildSnapshot } from '../store/buildStore.ts'
 import { sanitizePassiveState } from './passives.ts'
+import { sanitizeLegendaryPick } from './petLegendary.ts'
 
 // Relative imports only: the Cloudflare Worker bundles this file too.
 
@@ -75,5 +76,7 @@ export function sanitizeSnapshot(raw: unknown): BuildSnapshot | null {
   }
   const passives = sanitizePassiveState(raw.p)
   if (Object.keys(passives).length > 0) snap.p = passives
+  const legendary = sanitizeLegendaryPick(raw.lb)
+  if (legendary) snap.lb = legendary
   return snap
 }

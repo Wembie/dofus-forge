@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ITEM_PASSIVES, sanitizePassiveState, controlMax, passiveBonus } from '@/engine/passives.ts'
-import { maxPassiveState, forgePassiveState, forgePassiveEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded } from '../forgePassives.ts'
+import { maxPassiveState, forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded } from '../forgePassives.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { makeDefaultConfig, toWireConfig, loadSavedConfig, persistConfig, loadForgeResult, STORAGE_KEY } from '../forgeConfig.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -80,6 +80,16 @@ describe('forgePassiveEffects', () => {
     expect(passiveSection(it('cloak', 'Cloak'))).toBe('legendary')
   })
 
+  it('legendaryForgeEffects ties the companion\'s bonus to its own equipped id, with no companion or no pick counting nothing', () => {
+    expect(legendaryForgeEffects(null, { id: 'poukachi.bwork', value: 1 })).toEqual([])
+    expect(legendaryForgeEffects(1711, null)).toEqual([])
+    expect(legendaryForgeEffects(1711, { id: 'bakushana.prespic', value: 1 })).toEqual([]) // text-only: no stat
+    // Final damage (Mulou, Kanig) is a damage multiplier, not an order stat — same as legendary gear, it never shows here.
+    expect(legendaryForgeEffects(1711, { id: 'poukachi.mulou', value: 2 })).toEqual([])
+    expect(legendaryForgeEffects(1711, { id: 'poukachi.bwork', value: 1 }))
+      .toEqual([{ id: 1711, effects: [{ stat: '% Ranged Damage', min: 3, max: 3 }] }])
+  })
+
   it('passiveStateFor keeps only the given items', () => {
     const state = maxPassiveState()
     const kept = passiveStateFor(state, [ABYSSAL, undefined as unknown as number])
@@ -91,9 +101,10 @@ describe('forgePassiveEffects', () => {
 describe('passives in the order config', () => {
   beforeEach(() => localStorage.clear())
 
-  it('reach the engine only when switched on', () => {
+  it('passes the effects it was given through as-is — gating by mode is the caller\'s job (useForge.ts), so a companion legendary bonus survives passives: off', () => {
     const effects = forgePassiveEffects(maxPassiveState())
-    expect(toWireConfig(makeDefaultConfig(), 96, 200, undefined, effects).passiveEffects).toEqual([])
+    expect(toWireConfig(makeDefaultConfig(), 96, 200, undefined, effects).passiveEffects).toBe(effects)
+    expect(toWireConfig(makeDefaultConfig(), 96, 200, undefined, []).passiveEffects).toEqual([])
     expect(toWireConfig({ ...makeDefaultConfig(), passives: 'max' }, 96, 200, undefined, effects).passiveEffects).toBe(effects)
   })
 

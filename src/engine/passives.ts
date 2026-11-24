@@ -16,7 +16,7 @@ import { PASSIVE_DATA, type GeneratedEffect } from '../data/passives.generated.t
  */
 
 export type PassiveStat =
-  | 'ap' | 'mp' | 'power' | 'damage' | 'critChance' | 'pushbackDamage' | 'dodge' | 'lock'
+  | 'ap' | 'mp' | 'range' | 'power' | 'damage' | 'critChance' | 'pushbackDamage' | 'dodge' | 'lock'
   | 'apReduction' | 'mpReduction' | 'apParry' | 'mpParry'
   | 'meleeDamagePercent' | 'rangedDamagePercent' | 'spellDamagePercent' | 'finalDamagePercent' | 'targetVulnerabilityPercent'
   | 'strength' | 'intelligence' | 'chance' | 'agility'
@@ -32,7 +32,7 @@ export type PassiveControl =
 
 const RES_KEYS = ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent'] as const
 const STATS = new Set<string>([
-  'ap', 'mp', 'power', 'damage', 'critChance', 'pushbackDamage', 'dodge', 'lock', 'apReduction', 'mpReduction',
+  'ap', 'mp', 'range', 'power', 'damage', 'critChance', 'pushbackDamage', 'dodge', 'lock', 'apReduction', 'mpReduction',
   'apParry', 'mpParry', 'meleeDamagePercent', 'rangedDamagePercent', 'spellDamagePercent', 'finalDamagePercent', 'targetVulnerabilityPercent',
   'strength', 'intelligence', 'chance', 'agility', ...RES_KEYS,
 ])
