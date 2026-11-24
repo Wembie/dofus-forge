@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Heart, Repeat2, Shield, Sparkles, Users } from "lucide-react";
 import { useBuildStore } from "@/store/buildStore.ts";
 import {
-  LEGENDARY_BONUSES, LEGENDARY_POOLS, POOL_ODDS,
+  LEGENDARY_BONUSES, LEGENDARY_POOLS,
   type LegendaryBonus, type LegendaryPool,
 } from "@/engine/petLegendary.ts";
 import { controlMax, type PassiveBonus } from "@/engine/passives.ts";
@@ -78,10 +78,7 @@ export function LegendarySection() {
         <p className="runes-note">{t("legendary_note")}</p>
         {LEGENDARY_POOLS.map((pool) => (
           <div key={pool} role="group" aria-label={t(POOL_NAME_KEY[pool])}>
-            <h3>
-              {t(POOL_NAME_KEY[pool])}
-              <span className="view-count">{Math.round(POOL_ODDS[pool] * 1000) / 10}%</span>
-            </h3>
+            <h3>{t(POOL_NAME_KEY[pool])}</h3>
             <div className="runes-grid">
               {LEGENDARY_BONUSES.filter((b) => b.pool === pool).map((b: LegendaryBonus) => (
                 <button
@@ -116,8 +113,8 @@ export function LegendarySection() {
                   onChange={(_, v) => setLegendaryBonus(bonus.id, v)}
                 />
               )}
-              <div className="runes-value">
-                <button className="site-primary" onClick={clearLegendaryBonus}>
+              <div className="legendary-actions">
+                <button type="button" className="site-primary" onClick={clearLegendaryBonus}>
                   {t("legendary_clear")}
                 </button>
               </div>

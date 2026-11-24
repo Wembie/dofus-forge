@@ -19,11 +19,6 @@ import { controlBonus, controlMax } from './passives.ts'
 export type LegendaryPool = 'bakushana' | 'poukachi' | 'kwakarticho' | 'magicrabe'
 export const LEGENDARY_POOLS: LegendaryPool[] = ['bakushana', 'poukachi', 'kwakarticho', 'magicrabe']
 
-/** Chance of landing on any one bonus in the pool, feeding that Quintessence. */
-export const POOL_ODDS: Record<LegendaryPool, number> = {
-  bakushana: 1 / 8, poukachi: 1 / 6, kwakarticho: 1 / 9, magicrabe: 1 / 10,
-}
-
 export type LegendaryBonus = {
   id:   string
   pool: LegendaryPool

@@ -484,6 +484,7 @@ export function EquipmentGrid() {
             onClose={() => setSheetSlot(null)}
             onChange={() => { setSheetSlot(null); openCatalog(id) }}
             onRunes={NO_RUNE_SLOTS.has(id) ? undefined : () => { setSheetSlot(null); setRuneSlot(id) }}
+            isCompanion={id === 'companion'}
             onViewSet={set.onViewSet ? () => { setSheetSlot(null); set.onViewSet!() } : undefined}
             onUnequip={() => { setSheetSlot(null); unequipItem(id); playUnequip() }}
           />
