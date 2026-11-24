@@ -6,8 +6,7 @@ import { pointCost, statBudget } from '@/engine/characteristics.ts'
 import { computeStats } from '@/engine/stats.ts'
 import { sanitizePassiveState, setControl, type PassiveState } from '@/engine/passives.ts'
 import { runeEffectsForSlots, withoutExotic, exoticKey } from '@/engine/runes.ts'
-import { sanitizeLegendaryPick } from '@/engine/petLegendary.ts'
-import { sanitizeSnapshot } from '@/engine/snapshot.ts'
+import { sanitizeLegendaryShape, sanitizeSnapshot } from '@/engine/snapshot.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
 export type RuneMap = Record<string, number>
@@ -439,7 +438,7 @@ export const useBuildStore = create<BuildState>((set) => {
     setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),
     setPassive: (id, value) => set(s => ({ passives: setControl(s.passives, id, value) })),
     setLegendaryBonus: (id, value) => set(s => {
-      const pick = sanitizeLegendaryPick({ id, value: value ?? 1 })
+      const pick = sanitizeLegendaryShape({ id, value: value ?? 1 })
       return update({ legendaryBonus: pick }, s)
     }),
     clearLegendaryBonus: () => set(s => update({ legendaryBonus: null }, s)),
@@ -487,7 +486,7 @@ export const useBuildStore = create<BuildState>((set) => {
       // clears any previous cloud link — the caller re-sets it via
       // setLinkedBuildId() right after, only when it actually knows the id.
       const passives = sanitizePassiveState(snap.p)
-      const legendaryBonus = sanitizeLegendaryPick(snap.lb)
+      const legendaryBonus = sanitizeLegendaryShape(snap.lb)
       return update({ selectedClass, buildName, level, gender, linkedBuildId: null, forkOf: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms, passives, legendaryBonus }, s)
     }),
 

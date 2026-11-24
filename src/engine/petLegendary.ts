@@ -100,9 +100,10 @@ export function legendaryMax(id: string): number {
 
 /** The picked bonus's value on the bearer's own stats; {} when text-only or unset. */
 export function legendaryStatBonus(pick: { id: string; value: number } | null): PassiveBonus {
-  if (!pick) return {}
-  const b = BY_ID.get(pick.id)
-  return b?.control ? controlBonus(b.control, pick.value) : {}
+  const valid = sanitizeLegendaryPick(pick)
+  if (!valid) return {}
+  const b = BY_ID.get(valid.id)
+  return b?.control ? controlBonus(b.control, valid.value) : {}
 }
 
 /** A saved pick kept in range for its bonus (unknown id or a value past its max is dropped/clamped). */

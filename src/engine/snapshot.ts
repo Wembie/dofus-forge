@@ -1,6 +1,5 @@
 import type { BuildSnapshot } from '../store/buildStore.ts'
 import { sanitizePassiveState } from './passives.ts'
-import { sanitizeLegendaryPick } from './petLegendary.ts'
 
 // Relative imports only: the Cloudflare Worker bundles this file too.
 
@@ -76,7 +75,21 @@ export function sanitizeSnapshot(raw: unknown): BuildSnapshot | null {
   }
   const passives = sanitizePassiveState(raw.p)
   if (Object.keys(passives).length > 0) snap.p = passives
-  const legendary = sanitizeLegendaryPick(raw.lb)
+  const legendary = sanitizeLegendaryShape(raw.lb)
   if (legendary) snap.lb = legendary
   return snap
+}
+
+/**
+ * A companion legendary pick's shape only (an id and a whole value), with no
+ * game data: the store and the share-link codec load on every page, and the
+ * 32 bonuses would ride along. Whatever reads a pick checks it against the
+ * data (petLegendary.ts: an unknown id counts nothing, a value is clamped).
+ */
+export function sanitizeLegendaryShape(raw: unknown): { id: string; value: number } | null {
+  if (!isRecord(raw)) return null
+  const { id, value } = raw
+  if (typeof id !== 'string' || id.length === 0 || id.length > 64) return null
+  const n = typeof value === 'number' && Number.isFinite(value) ? Math.trunc(value) : 1
+  return { id, value: Math.max(0, Math.min(99, n)) }
 }
