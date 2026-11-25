@@ -32,6 +32,22 @@ def image(path,x,y,w,h):
     uri='data:image/png;base64,'+base64.b64encode(path.read_bytes()).decode()
     return f'<image href="{uri}" x="{x}" y="{y}" width="{w}" height="{h}" preserveAspectRatio="xMidYMid meet"/>'
 
+if '--x-banner' in sys.argv:
+    social=ROOT/'docs'/'brand'/'social'
+    social.mkdir(parents=True,exist_ok=True)
+    content=f'<rect width="1500" height="500" fill="{BG}"/>'
+    content+='<path d="M-80 30H135L505 400H1500V500H385L-80 115Z" fill="#1a241e"/>'
+    content+='<path d="M880 0H1150L1540 390V500H1380Z" fill="#18211d"/>'
+    content+=f'<path d="M-20 75H150L460 385H1520M-20 120H130L440 430H1520" fill="none" stroke="{ACCENT}" stroke-width="2" opacity=".09"/>'
+    content+=f'<path d="M1010 -30L1510 470M1060 -30L1510 420" fill="none" stroke="{ACCENT}" stroke-width="2" opacity=".08"/>'
+    content+=f'<path d="M220 247H305M1265 247H1350" stroke="{ACCENT}" stroke-width="2" opacity=".5"/>'
+    word=(OUT/'wordmark.svg').read_text(encoding='utf8').split('>',1)[1].rsplit('</svg>',1)[0]
+    content+=f'<svg x="360" y="180" width="850" height="150" viewBox="0 30 475 84">{word}</svg>'
+    content+=text('EL TALLER DE LOS DOCE',18,651,357,MUTED,spacing=2.4)
+    (social/'dofus-forge-x-banner-es-1500x500.svg').write_text(svg(1500,500,content),encoding='utf8')
+    print('Spanish X banner source generated from the live wordmark, palette and outlined type.')
+    raise SystemExit
+
 if '--raster' in sys.argv:
     from PIL import Image
     for lang in ['en','es','fr','pt']:
