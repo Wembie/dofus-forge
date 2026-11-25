@@ -12,7 +12,7 @@ import { ItemSheet } from './ItemSheet.tsx'
 import { OPEN_SLOT_EVENT } from './openSlot.ts'
 import { ItemCard } from './ItemCard.tsx'
 import { isExoticKey } from '@/engine/runes.ts'
-import { legendaryBonusOf } from '@/engine/petLegendary.ts'
+import { legendaryBonusOf, legendaryEligible } from '@/engine/petLegendary.ts'
 
 // Lazy: these only mount once the user opens them (catalog, runes, set
 // detail), so they don't need to be in the eager bundle — combined
@@ -40,6 +40,14 @@ export const EXTRAS_SLOTS: SlotId[] = ['sidekick']
 export const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
 const NO_RUNE_SLOTS = new Set<SlotId>(['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6','sidekick'])
+
+/** Companion's "rune" action is the legendary bonus picker — only a real
+ * use for a Pet/Petsmount companion; a Dragoturkey/Seemyool/Rhineetle mount
+ * can't go legendary at all. */
+function noRuneAction(id: SlotId, item: AppItem | null | undefined): boolean {
+  if (NO_RUNE_SLOTS.has(id)) return true
+  return id === 'companion' && !legendaryEligible(item?.type)
+}
 
 const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<SlotId, SlotConfig>
 
@@ -420,7 +428,7 @@ export function EquipmentGrid() {
         item={getItem(id)}
         onOpen={() => (getItem(id) ? setSheetSlot(id) : openCatalog(id))}
         onChangeItem={() => openCatalog(id)}
-        onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
+        onRune={noRuneAction(id, getItem(id)) ? undefined : () => setRuneSlot(id)}
         onUnequip={() => { unequipItem(id); playUnequip() }}
         slotRunes={runes[id]}
         isDragOver={dragOverSlot === id && isValidTarget}
@@ -495,8 +503,8 @@ export function EquipmentGrid() {
             set={set.setName ? { name: set.setName, count: set.setCount!, max: set.setMax! } : undefined}
             onClose={() => setSheetSlot(null)}
             onChange={() => { setSheetSlot(null); openCatalog(id) }}
-            onRunes={NO_RUNE_SLOTS.has(id) ? undefined : () => { setSheetSlot(null); setRuneSlot(id) }}
-            isCompanion={id === 'companion'}
+            onRunes={noRuneAction(id, getItem(id)) ? undefined : () => { setSheetSlot(null); setRuneSlot(id) }}
+            isCompanion={id === 'companion' && legendaryEligible(getItem(id)?.type)}
             legendary={id === 'companion' ? legendaryAbility(t, legendaryBonus) : null}
             onViewSet={set.onViewSet ? () => { setSheetSlot(null); set.onViewSet!() } : undefined}
             onUnequip={() => { setSheetSlot(null); unequipItem(id); playUnequip() }}

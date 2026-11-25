@@ -38,6 +38,7 @@ import {
 } from "@/features/equipment/runeRules.ts";
 import { normalizeSearch } from "@/ui/normalize.ts";
 import { LegendarySection } from "./LegendarySection.tsx";
+import { legendaryEligible } from "@/engine/petLegendary.ts";
 import { Modal } from "@/ui";
 import { playRune } from "@/lib/sound.ts";
 import "./runes.css";
@@ -98,7 +99,7 @@ export function RuneModal({
     runes = b.runes[slot] ?? EMPTY,
     transform = b.weaponTransforms[slot] ?? null,
     signature = b.forjamagoNames[slot] ?? "";
-  const isCompanion = slot === "companion";
+  const isCompanion = slot === "companion" && legendaryEligible(item.type);
   const forgeable = FORGEABLE_SLOTS.has(slot),
     exotic = exoticOf(runes),
     entries = Object.entries(runes)
