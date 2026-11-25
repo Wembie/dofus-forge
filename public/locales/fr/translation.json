@@ -2573,5 +2573,22 @@
   "fg_passive_custom_hint": "Réglage personnalisé : prioritaire sur le mode choisi.",
   "fg_passive_default_hint": "Mode « {{mode}} » utilisé.",
   "fg_passive_companion_empty": "Ajoutez un objectif à la commande pour voir les bonus de familier compatibles.",
-  "fg_passive_combat_hint": "Vous pouvez régler tous les passifs de combat configurables. La recherche compare les objectifs de caractéristiques ; les dommages finaux et la vulnérabilité s’appliquent dans le planificateur au chargement du build."
+  "fg_passive_combat_hint": "Vous pouvez régler tous les passifs de combat configurables. La recherche compare les objectifs de caractéristiques ; les dommages finaux et la vulnérabilité s’appliquent dans le planificateur au chargement du build.",
+  "fg_share_order": "Partager la commande",
+  "fg_import_order": "Importer une commande",
+  "fg_share_with_gear": "Inclure mon personnage (niveau, équipement, runes et pièces verrouillées)",
+  "fg_share_hint": "Qui l’ouvre forge avec vos mêmes objectifs, règles, objets obligatoires et bannis, et passifs, sur son propre personnage.",
+  "fg_share_hint_gear": "Qui l’ouvre forge exactement comme vous : votre commande et votre personnage, qui remplace le sien (il peut l’annuler).",
+  "fg_share_link": "Lien de la commande",
+  "fg_share_copy_link": "Copier le lien",
+  "fg_share_copy_code": "Copier le code",
+  "fg_share_copied": "Copié",
+  "fg_share_copy_failed": "Copie impossible : sélectionnez le texte et copiez-le à la main",
+  "fg_import_hint": "Collez le lien ou le code reçu. Il remplace votre commande actuelle ; vous pouvez l’annuler.",
+  "fg_import_placeholder": "Lien ou code de la commande",
+  "fg_import_load": "Charger",
+  "fg_import_invalid": "Ce lien ou ce code n’est pas une commande valide pour La Forgeuse.",
+  "fg_import_done": "Commande importée.",
+  "fg_import_done_gear": "Commande importée avec son personnage.",
+  "fg_import_undo": "Annuler"
 }

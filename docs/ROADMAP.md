@@ -5,6 +5,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **M186 — Forjadora: compartir e importar el encargo** (0.4.21) — pedido del usuario (2026-11-24): pasarle a un amigo el encargo tal cual para que pruebe lo mismo. "Compartir encargo" copia un enlace (`?forge=f1.…`) o solo el código; lleva objetivos activos, reglas, exos/pro, intensidad, pasivas y sus ajustes, legendarios, tipos de Dofus excluidos y objetos obligatorios/vetados. Con "Incluir mi personaje" también lleva el build (nivel, equipo, runas) y las piezas fijadas. "Importar encargo" acepta enlace o código, reemplaza el encargo y se puede deshacer. Lo importado pasa por el mismo `parseConfig` que el guardado (ahora también valida ranuras fijadas y acota mínimo/ley/tope) y por `sanitizeSnapshot`/`sanitizePicks`: un código editado a mano solo puede dar un encargo válido.
+
 - [x] **Forjadora: Dofus con pasivas de daños finales** (0.4.20) — visibles los 14 Dofus con efectos configurables, incluidos Púrpura, Turquesa, Dofzzbz, Nebuloso, Plateado Centelleante y los dos casos del Vulbis. Vista previa completa y ajustes transferidos al planificador, con ceros explícitos para desactivar efectos y respetar exclusiones; explicación del alcance de las metas del encargo en cuatro idiomas.
 
 - [x] **Forjadora: rediseño del ajuste de pasivas** (0.4.20) — categorías desplegables con contadores, efectos con iconos y nombres alineados, botones Ajustar, editor de combate diferenciado, indicadores de ajuste propio y restablecimiento individual o global. Controles bloqueados con explicación al excluir un objeto, foco visible y diseño adaptable en ambos temas y cuatro idiomas.

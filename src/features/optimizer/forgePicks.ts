@@ -16,14 +16,17 @@ export type ForgePicks = { required: number[]; banned: number[] }
 const ids = (v: unknown): number[] =>
   Array.isArray(v) ? [...new Set(v.filter((x): x is number => Number.isSafeInteger(x) && x > 0))] : []
 
+/** Required and banned ids from untrusted input; an id banned wins over required. */
+export function sanitizePicks(raw: unknown): ForgePicks {
+  const parsed = (raw && typeof raw === 'object' ? raw : {}) as Partial<Record<keyof ForgePicks, unknown>>
+  const banned = ids(parsed.banned)
+  return { required: ids(parsed.required).filter(id => !banned.includes(id)), banned }
+}
+
 export function readPicks(): ForgePicks {
   try {
     const raw = localStorage.getItem(PICKS_KEY)
-    if (raw) {
-      const parsed = JSON.parse(raw) as Partial<ForgePicks>
-      const banned = ids(parsed.banned)
-      return { required: ids(parsed.required).filter(id => !banned.includes(id)), banned }
-    }
+    if (raw) return sanitizePicks(JSON.parse(raw))
     // Bans used to live in the order config, which no longer saves them:
     // move them over now, before the next config save drops them.
     const legacy = localStorage.getItem(CONFIG_KEY)

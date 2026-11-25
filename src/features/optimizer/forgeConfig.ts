@@ -1,4 +1,4 @@
-import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
+import { ALL_SLOTS, useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, ForgeCustom, OptimizerStatKey, DofusKind, ProLine } from './types.ts'
 import { OPTIMIZER_STATS, leyPreset, suggestedCap, unitValue } from './statList.ts'
 import { sanitizeOverrides, PASSIVE_MODES, sanitizeExcluded, sanitizeLegendaryCandidates, type PassiveEffects } from './forgePassives.ts'
@@ -70,7 +70,7 @@ export function clampLevel(v: number | null | undefined, fallback = MAX_LEVEL): 
 
 // Bumped when a forgemagie/scroll default changes, so saves made under the
 // previous defaults pick up the new ones once.
-const DEFAULTS_REV = 2
+export const DEFAULTS_REV = 2
 
 // The minimum (and cap) a goal starts with when the player turns it on,
 // e.g. 12 AP. Keys: OPTIMIZER_STATS in statList.ts. `cap` is optional:
@@ -135,20 +135,43 @@ export function migrateReq(stat: OptimizerStatKey, saved: Record<string, unknown
 }
 
 export function loadSavedConfig(): OptimizerConfig {
-  const defaults = makeDefaultConfig()
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return defaults
-    const parsed = JSON.parse(raw)
-    const savedStats = (parsed.stats ?? []) as Record<string, unknown>[]
+    return raw ? parseConfig(JSON.parse(raw)) : makeDefaultConfig()
+  } catch {
+    return makeDefaultConfig()
+  }
+}
+
+// A goal's numbers, whatever wrote them (an old save, a shared order).
+function boundedReq(r: ForgeRequirement): ForgeRequirement {
+  const n = (v: number, max: number) => (Number.isFinite(v) ? Math.max(0, Math.min(max, Math.round(v))) : 0)
+  const cap = r.cap != null && Number.isFinite(r.cap) && r.cap > 0 ? Math.min(100000, Math.round(r.cap)) : null
+  return { ...r, minimum: n(r.minimum, 10000), weight: n(r.weight, 10000), cap }
+}
+
+const EXO_KEYS = ['ap', 'mp', 'range', 'onlyOnRing'] as const
+
+/** A saved or shared order, untrusted: anything unknown or out of range falls back to the default. */
+export function parseConfig(input: unknown): OptimizerConfig {
+  const defaults = makeDefaultConfig()
+  if (!input || typeof input !== 'object' || Array.isArray(input)) return defaults
+  try {
+    const parsed = input as Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
+    const savedStats = (Array.isArray(parsed.stats) ? parsed.stats : []).filter((s: unknown) => s && typeof s === 'object') as Record<string, unknown>[]
     const current = parsed.defaultsRev === DEFAULTS_REV
+    const exo = { ...defaults.exo }
+    if (current && parsed.exo && typeof parsed.exo === 'object') {
+      for (const k of EXO_KEYS) if (typeof parsed.exo[k] === 'boolean') exo[k] = parsed.exo[k]
+      exo.maxCount = intIn(parsed.exo.maxCount, 0, 3, defaults.exo.maxCount)
+    }
     return {
       ...defaults,
       maxLevel:            typeof parsed.maxLevel === 'number' ? clampLevel(parsed.maxLevel) : defaults.maxLevel,
       assumeFullyScrolled: current && typeof parsed.assumeFullyScrolled === 'boolean' ? parsed.assumeFullyScrolled : defaults.assumeFullyScrolled,
       transcendence:       parsed.transcendence !== false,
-      exo:                 { ...defaults.exo, ...(current && typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
-      lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
+      exo,
+      lockedSlots:         new Set<SlotId>(Array.isArray(parsed.lockedSlots) ? ALL_SLOTS.filter(s => parsed.lockedSlots.includes(s)) : []),
       intensity:           INTENSITIES.includes(parsed.intensity) ? parsed.intensity : defaults.intensity,
       custom:              sanitizeCustom(parsed.custom),
       passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
@@ -162,7 +185,7 @@ export function loadSavedConfig(): OptimizerConfig {
       proExoMax:           intIn(parsed.proExoMax, 1, 9, defaults.proExoMax),
       excludedKinds:       sanitizeKinds(parsed.excludedKinds),
       // Vitality is no longer offered as a goal (HP covers it); an old order drops it.
-      stats:               OPTIMIZER_STATS.map(s => s.key === 'vitality' ? emptyReq(s.key) : migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
+      stats:               OPTIMIZER_STATS.map(s => s.key === 'vitality' ? emptyReq(s.key) : boundedReq(migrateReq(s.key, savedStats.find(ss => ss.stat === s.key)))),
     }
   } catch {
     return defaults

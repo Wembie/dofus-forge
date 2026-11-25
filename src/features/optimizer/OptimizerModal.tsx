@@ -9,19 +9,23 @@ import {
   BookOpen,
   Check,
   ChevronDown,
+  Copy,
+  Download,
   Flame,
   Infinity as InfinityIcon,
+  Link2,
   Lock,
   Pin,
   Plus,
   RotateCcw,
   Search,
   Settings2,
+  Share2,
   Unlock,
   Wind,
   X,
 } from "lucide-react";
-import { ALL_SLOTS, type SlotId } from "@/store/buildStore.ts";
+import { ALL_SLOTS, useBuildStore, type SlotId } from "@/store/buildStore.ts";
 import type { AppItem } from "@/data/loaders.ts";
 import { CHARACTERISTICS } from "@/engine/types.ts";
 import { ClassPicker } from "@/features/class-picker/ClassPicker.tsx";
@@ -81,6 +85,9 @@ import { ControlRow } from "@/features/passives/PassivesPanel.tsx";
 import { ITEM_PASSIVES, controlRoom } from "@/engine/passives.ts";
 import { CROQUETTE_ICON, runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { useFocusTrap } from "@/ui/useFocusTrap.ts";
+import { useToastStore } from "@/store/toastStore.ts";
+import { buildSnapshotFromState } from "@/features/share/codec.ts";
+import { decodeOrder, encodeOrder } from "@/features/optimizer/forgeShare.ts";
 import { langPathPrefix } from "@/i18n/langPath.ts";
 import "./forge.css";
 
@@ -1440,13 +1447,137 @@ function Forged({ forge }: { forge: ForgeState }) {
   );
 }
 
-function Order({ forge }: { forge: ForgeState }) {
+type OrderShareState = ReturnType<typeof useOrderShare>;
+
+// Importing a shared order (pasted, or from a ?forge= link once the catalog
+// is in), and the way back to the order that was here before.
+function useOrderShare(forge: ForgeState, incoming: string | null) {
+  const [status, setStatus] = useState<{ gear: boolean; undo: () => void } | null>(null);
+  const [failed, setFailed] = useState(false);
+  const pending = useRef(incoming);
+  function load(text: string): boolean {
+    const order = decodeOrder(text);
+    setFailed(!order);
+    if (!order) return false;
+    setStatus({ gear: order.build != null, undo: forge.applyOrder(order) });
+    return true;
+  }
+  const ready = (forge.equipment?.length ?? 0) > 0;
+  useEffect(() => {
+    if (!ready || !pending.current) return;
+    const text = pending.current;
+    pending.current = null;
+    load(text);
+  }, [ready]); // eslint-disable-line react-hooks/exhaustive-deps
+  return {
+    status,
+    failed,
+    load,
+    clearFailed: () => setFailed(false),
+    undo: () => {
+      status?.undo();
+      setStatus(null);
+    },
+  };
+}
+
+function ShareOrderPanel({ forge }: { forge: ForgeState }) {
   const { t, i18n } = useTranslation();
+  const [withGear, setWithGear] = useState(false);
+  const gear = withGear && forge.selectedClass != null;
+  const code = useMemo(
+    () => encodeOrder(forge.config, { required: forge.required, banned: forge.banned }, gear ? buildSnapshotFromState(useBuildStore.getState()) : null),
+    [forge.config, forge.required, forge.banned, gear],
+  );
+  const link = useMemo(() => {
+    const url = new URL(`${import.meta.env.BASE_URL}${langPathPrefix(i18n.language)}`, window.location.origin);
+    url.searchParams.set("forge", code);
+    return url.toString();
+  }, [code, i18n.language]);
+  function copy(value: string) {
+    const toast = useToastStore.getState().addToast;
+    if (!navigator.clipboard) return toast(t("fg_share_copy_failed"), "!");
+    navigator.clipboard.writeText(value).then(
+      () => toast(t("fg_share_copied")),
+      () => toast(t("fg_share_copy_failed"), "!"),
+    );
+  }
+  return (
+    <div className="fg-share">
+      <label className="fg-check">
+        <input type="checkbox" checked={gear} disabled={forge.selectedClass == null} onChange={(e) => setWithGear(e.target.checked)} />
+        {t("fg_share_with_gear")}
+      </label>
+      <p className="fg-share-hint">{t(gear ? "fg_share_hint_gear" : "fg_share_hint")}</p>
+      <div className="fg-share-row">
+        <input className="fg-share-field" readOnly value={link} aria-label={t("fg_share_link")} onFocus={(e) => e.currentTarget.select()} />
+        <button type="button" onClick={() => copy(link)}>
+          <Link2 size={15} aria-hidden="true" /> {t("fg_share_copy_link")}
+        </button>
+        <button type="button" onClick={() => copy(code)}>
+          <Copy size={15} aria-hidden="true" /> {t("fg_share_copy_code")}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ImportOrderPanel({ share, onDone }: { share: OrderShareState; onDone: () => void }) {
+  const { t } = useTranslation();
+  const [text, setText] = useState("");
+  return (
+    <form
+      className="fg-share"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (share.load(text)) onDone();
+      }}
+    >
+      <p className="fg-share-hint">{t("fg_import_hint")}</p>
+      <div className="fg-share-row">
+        <input
+          className="fg-share-field"
+          value={text}
+          placeholder={t("fg_import_placeholder")}
+          aria-label={t("fg_import_placeholder")}
+          onChange={(e) => {
+            setText(e.target.value);
+            share.clearFailed();
+          }}
+        />
+        <button type="submit" disabled={!text.trim()}>
+          <Download size={15} aria-hidden="true" /> {t("fg_import_load")}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function Order({ forge, share }: { forge: ForgeState; share: OrderShareState }) {
+  const { t, i18n } = useTranslation();
+  const [sharePanel, setSharePanel] = useState<"share" | "import" | null>(null);
+  const toggle = (panel: "share" | "import") => {
+    share.clearFailed();
+    setSharePanel((p) => (p === panel ? null : panel));
+  };
   return (
     <div className="fg-order">
       {forge.error && (
         <p className="fg-error" role="alert">
           <AlertTriangle size={16} /> {forge.error}
+        </p>
+      )}
+      {share.failed && (
+        <p className="fg-error" role="alert">
+          <AlertTriangle size={16} /> {t("fg_import_invalid")}
+        </p>
+      )}
+      {share.status && (
+        <p className="fg-note" role="status">
+          {t(share.status.gear ? "fg_import_done_gear" : "fg_import_done")}{" "}
+          <button type="button" className="fg-link" onClick={share.undo}>
+            <RotateCcw size={13} aria-hidden="true" /> {t("fg_import_undo")}
+          </button>
         </p>
       )}
       <div className="fg-context">
@@ -1462,7 +1593,15 @@ function Order({ forge }: { forge: ForgeState }) {
         <a href={`/${langPathPrefix(i18n.language)}forge-guide`} target="_blank" rel="noopener">
           <BookOpen size={14} /> {t("optimizer_guide_link")}
         </a>
+        <button type="button" className="fg-link" aria-expanded={sharePanel === "share"} onClick={() => toggle("share")}>
+          <Share2 size={14} aria-hidden="true" /> {t("fg_share_order")}
+        </button>
+        <button type="button" className="fg-link" aria-expanded={sharePanel === "import"} onClick={() => toggle("import")}>
+          <Download size={14} aria-hidden="true" /> {t("fg_import_order")}
+        </button>
       </div>
+      {sharePanel === "share" && <ShareOrderPanel forge={forge} />}
+      {sharePanel === "import" && <ImportOrderPanel share={share} onDone={() => setSharePanel(null)} />}
       <div className="fg-columns">
         <Goals forge={forge} />
         <Rules forge={forge} />
@@ -1488,14 +1627,15 @@ function Order({ forge }: { forge: ForgeState }) {
 /** La Forjadora with its own presentation; every rule and the search come from useForge. */
 /** La Forjadora: a full-window dialog over the workshop, in three steps
  * (order, search, results), driven by useForge. */
-export function OptimizerModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function OptimizerModal({ open, onClose, orderCode = null }: { open: boolean; onClose: () => void; orderCode?: string | null }) {
   if (!open) return null;
-  return <ForgeDialog onClose={onClose} />;
+  return <ForgeDialog onClose={onClose} orderCode={orderCode} />;
 }
 
-function ForgeDialog({ onClose }: { onClose: () => void }) {
+function ForgeDialog({ onClose, orderCode }: { onClose: () => void; orderCode: string | null }) {
   const { t } = useTranslation();
   const forge = useForge({ open: true, onClose });
+  const share = useOrderShare(forge, orderCode);
   const ref = useRef<HTMLDivElement>(null);
   // Production's trap: only the topmost window answers Tab and Escape.
   useFocusTrap(ref, true, forge.handleClose);
@@ -1520,7 +1660,7 @@ function ForgeDialog({ onClose }: { onClose: () => void }) {
     );
   else if (forge.phase === "forging") body = <Forging forge={forge} />;
   else if (forge.phase === "forged") body = <Forged forge={forge} />;
-  else body = <Order forge={forge} />;
+  else body = <Order forge={forge} share={share} />;
   return createPortal(
     <div className="fg-overlay" onClick={(e) => { if (e.target === e.currentTarget && forge.phase !== "forging") forge.handleClose(); }}>
       <div ref={ref} className="fg-dialog" role="dialog" aria-modal="true" aria-label={t("optimizer_title")} tabIndex={-1}>

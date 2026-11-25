@@ -105,13 +105,17 @@ function BuilderContent() {
   const clearHistory = useHistoryStore(s => s.clear)
   const [showChangelog,  setShowChangelog]  = useState(false)
   const [showOptimizer,  setShowOptimizer]  = useState(false)
+  const [sharedOrder,    setSharedOrder]    = useState<string | null>(null)
   // ?forge=1 (the guide's "Open The Forger") opens it on arrival, once: a
   // reload or a shared link must not reopen it. Read after mount, since the
-  // prerendered page this hydrates was rendered without the query.
+  // prerendered page this hydrates was rendered without the query. Any other
+  // value is a shared order, which The Forger itself checks and loads.
   useEffect(() => {
     const url = new URL(window.location.href)
     if (!url.searchParams.has('forge')) return
-    if (url.searchParams.get('forge') === '1') setShowOptimizer(true)
+    const value = url.searchParams.get('forge') ?? ''
+    if (value !== '1' && value !== '') setSharedOrder(value)
+    if (value !== '') setShowOptimizer(true)
     url.searchParams.delete('forge')
     window.history.replaceState(window.history.state, '', url)
   }, [])
@@ -326,7 +330,7 @@ function BuilderContent() {
       {/* Optimizer modal — La Forjadora */}
       {showOptimizer && (
         <Suspense fallback={null}>
-          <OptimizerModal open={showOptimizer} onClose={() => setShowOptimizer(false)} />
+          <OptimizerModal open={showOptimizer} orderCode={sharedOrder} onClose={() => { setShowOptimizer(false); setSharedOrder(null) }} />
         </Suspense>
       )}
 

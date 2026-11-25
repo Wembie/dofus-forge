@@ -2573,5 +2573,22 @@
   "fg_passive_custom_hint": "Ajuste propio: tiene prioridad sobre el modo elegido.",
   "fg_passive_default_hint": "Usando el modo «{{mode}}».",
   "fg_passive_companion_empty": "Añade una meta al encargo para ver los bonos de mascota compatibles.",
-  "fg_passive_combat_hint": "Puedes ajustar todas las pasivas de combate. La búsqueda compara las metas del encargo; los daños finales y la vulnerabilidad se aplican en el planificador al cargar el build."
+  "fg_passive_combat_hint": "Puedes ajustar todas las pasivas de combate. La búsqueda compara las metas del encargo; los daños finales y la vulnerabilidad se aplican en el planificador al cargar el build.",
+  "fg_share_order": "Compartir encargo",
+  "fg_import_order": "Importar encargo",
+  "fg_share_with_gear": "Incluir mi personaje (nivel, equipo, runas y piezas fijadas)",
+  "fg_share_hint": "Quien lo abra forja con tus mismos objetivos, reglas, objetos obligatorios y vetados, y pasivas, sobre su propio personaje.",
+  "fg_share_hint_gear": "Quien lo abra forja exactamente lo mismo que tú: tu encargo y tu personaje, que reemplaza el suyo (puede deshacerlo).",
+  "fg_share_link": "Enlace del encargo",
+  "fg_share_copy_link": "Copiar enlace",
+  "fg_share_copy_code": "Copiar código",
+  "fg_share_copied": "Copiado",
+  "fg_share_copy_failed": "No se pudo copiar: selecciona el texto y cópialo a mano",
+  "fg_import_hint": "Pega el enlace o el código que te pasaron. Reemplaza tu encargo actual; puedes deshacerlo.",
+  "fg_import_placeholder": "Enlace o código del encargo",
+  "fg_import_load": "Cargar",
+  "fg_import_invalid": "Ese enlace o código no es un encargo de La Forjadora válido.",
+  "fg_import_done": "Encargo importado.",
+  "fg_import_done_gear": "Encargo importado con su personaje.",
+  "fg_import_undo": "Deshacer"
 }

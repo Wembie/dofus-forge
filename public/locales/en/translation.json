@@ -2573,5 +2573,22 @@
   "fg_passive_custom_hint": "Custom adjustment: takes priority over the selected mode.",
   "fg_passive_default_hint": "Using the “{{mode}}” mode.",
   "fg_passive_companion_empty": "Add a goal to the order to see matching companion bonuses.",
-  "fg_passive_combat_hint": "You can adjust all configurable combat passives. The search compares the order’s stat goals; final damage and vulnerability apply in the planner when you load the build."
+  "fg_passive_combat_hint": "You can adjust all configurable combat passives. The search compares the order’s stat goals; final damage and vulnerability apply in the planner when you load the build.",
+  "fg_share_order": "Share order",
+  "fg_import_order": "Import order",
+  "fg_share_with_gear": "Include my character (level, gear, runes and locked pieces)",
+  "fg_share_hint": "Whoever opens it forges with your same goals, rules, required and banned items, and passives, on their own character.",
+  "fg_share_hint_gear": "Whoever opens it forges exactly what you do: your order and your character, which replaces theirs (they can undo it).",
+  "fg_share_link": "Order link",
+  "fg_share_copy_link": "Copy link",
+  "fg_share_copy_code": "Copy code",
+  "fg_share_copied": "Copied",
+  "fg_share_copy_failed": "Could not copy: select the text and copy it by hand",
+  "fg_import_hint": "Paste the link or code you were given. It replaces your current order; you can undo it.",
+  "fg_import_placeholder": "Order link or code",
+  "fg_import_load": "Load",
+  "fg_import_invalid": "That link or code is not a valid order for The Forger.",
+  "fg_import_done": "Order imported.",
+  "fg_import_done_gear": "Order imported with its character.",
+  "fg_import_undo": "Undo"
 }

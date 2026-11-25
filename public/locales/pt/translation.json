@@ -2573,5 +2573,22 @@
   "fg_passive_custom_hint": "Ajuste próprio: tem prioridade sobre o modo escolhido.",
   "fg_passive_default_hint": "Usando o modo “{{mode}}”.",
   "fg_passive_companion_empty": "Adicione uma meta ao pedido para ver os bônus de mascote compatíveis.",
-  "fg_passive_combat_hint": "Você pode ajustar todas as passivas de combate configuráveis. A busca compara as metas de características; danos finais e vulnerabilidade são aplicados no planejador ao carregar a build."
+  "fg_passive_combat_hint": "Você pode ajustar todas as passivas de combate configuráveis. A busca compara as metas de características; danos finais e vulnerabilidade são aplicados no planejador ao carregar a build.",
+  "fg_share_order": "Compartilhar encomenda",
+  "fg_import_order": "Importar encomenda",
+  "fg_share_with_gear": "Incluir meu personagem (nível, equipamento, runas e peças fixadas)",
+  "fg_share_hint": "Quem abrir forja com os mesmos objetivos, regras, itens obrigatórios e banidos, e passivas, no próprio personagem.",
+  "fg_share_hint_gear": "Quem abrir forja exatamente o mesmo que você: sua encomenda e seu personagem, que substitui o dele (dá para desfazer).",
+  "fg_share_link": "Link da encomenda",
+  "fg_share_copy_link": "Copiar link",
+  "fg_share_copy_code": "Copiar código",
+  "fg_share_copied": "Copiado",
+  "fg_share_copy_failed": "Não foi possível copiar: selecione o texto e copie manualmente",
+  "fg_import_hint": "Cole o link ou o código que você recebeu. Ele substitui sua encomenda atual; dá para desfazer.",
+  "fg_import_placeholder": "Link ou código da encomenda",
+  "fg_import_load": "Carregar",
+  "fg_import_invalid": "Esse link ou código não é uma encomenda válida da Forjadora.",
+  "fg_import_done": "Encomenda importada.",
+  "fg_import_done_gear": "Encomenda importada com o personagem.",
+  "fg_import_undo": "Desfazer"
 }
