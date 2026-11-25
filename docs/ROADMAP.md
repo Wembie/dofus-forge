@@ -1,4 +1,6 @@
-# Dofus Forge — Roadmap / MVPs
+#- [x] **M187 — Forjadora: puntos de características con objetivo de Iniciativa** (0.4.23) — validación pedida por el usuario (2026-11-25). El reparto voraz (`spend`) cubría una Iniciativa que faltaba con el elemento más barato en ese momento (Fuerza a 1 punto con Agilidad ya a 2), sin ver que los puntos de Agilidad de después la cubrían igual: con Agilidad ley 5 + Iniciativa ≥ 350 quedaban 100 Fuerza, 100 Inteligencia y 51 Suerte y solo 336 Agilidad. Ahora, si quedan puntos en un elemento que solo alimenta Iniciativa, `reallocate` los mueve (todo, su tramo de coste, 50, 10 o 1) a la característica donde puntúan más y repite el reparto con lo que sobre: 398 Agilidad, Iniciativa cumplida. Se comprobó que las stats derivadas con tope (Placaje, Huida, Retiro/Esquiva PA/PM, Iniciativa) ya no recibían puntos al llegar al tope. Velocidad igual (orden de agilidad, ~53–56 mil evaluaciones/s).
+
+ Dofus Forge — Roadmap / MVPs
 
 Track de mejoras UX/UI, fidelidad al juego y nuevas features.
 Marcar con `[x]` cuando se complete.

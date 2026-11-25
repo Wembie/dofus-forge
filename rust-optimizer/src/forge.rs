@@ -1346,9 +1346,96 @@ impl Forge {
     // them first, since an unmet condition invalidates the whole build.
     fn allocate(&self, pre: &Vec60, extra: &[Target]) -> [i64; 6] {
         let budget = stat_budget(self.level);
-        let mut spent = 0i64;
         let mut alloc = [0i64; 6];
-        let mut ch = Self::chars_of(pre, &alloc);
+        self.spend(pre, extra, &mut alloc, 0, budget);
+        // Initiative is the one stat four characteristics feed. Spending step
+        // by step, a missing Initiative goal goes to whichever element is
+        // cheapest right now (Strength at 1 point while Agility already costs
+        // 2), blind to the Agility points still to come covering it anyway.
+        // Points left in an element that only feeds Initiative are moved
+        // wherever they score more.
+        let initiative_only = |c: usize| {
+            let related = &self.stat_targets[VIT + c];
+            alloc[c] > 0 && !related.is_empty() && related.iter().all(|&ti| self.targets[ti].idx == INITIATIVE) && !extra.iter().any(|t| t.idx == VIT + c)
+        };
+        if (2..6).any(initiative_only) && self.reallocate(pre, extra, &mut alloc, budget) {
+            let spent = (0..6).map(|c| point_cost(CHARS[c], alloc[c])).sum();
+            self.spend(pre, extra, &mut alloc, spent, budget);
+        }
+        alloc
+    }
+
+    // Score of an allocation over every target a characteristic feeds,
+    // the build's own equip conditions included.
+    fn alloc_value(&self, pre: &Vec60, extra: &[Target], alloc: &[i64; 6]) -> f64 {
+        let ch = Self::chars_of(pre, alloc);
+        let mut v = 0.0;
+        for t in &self.targets {
+            if (VIT..=AGI).any(|i| feeds(i, t)) {
+                v += Self::greedy_value(t, self.effective(pre, &ch, t));
+            }
+        }
+        for t in extra {
+            v += Self::greedy_value(t, ch[t.idx - VIT]);
+        }
+        v
+    }
+
+    // Most points characteristic `c` can take from `from` with `free` points.
+    fn affordable(c: usize, from: i64, mut free: i64) -> i64 {
+        let mut at = from;
+        loop {
+            let unit = point_cost(CHARS[c], at + 1) - point_cost(CHARS[c], at);
+            let room = if c >= 2 && at < 300 { 100 - at % 100 } else { i64::MAX / 4 };
+            let n = (free / unit).min(room);
+            if n <= 0 {
+                return at - from;
+            }
+            at += n;
+            free -= n * unit;
+        }
+    }
+
+    // Steepest ascent over moves of points out of an element into any
+    // characteristic (all of it, its top cost bracket, 50, 10 or 1 point).
+    fn reallocate(&self, pre: &Vec60, extra: &[Target], alloc: &mut [i64; 6], budget: i64) -> bool {
+        let mut best = self.alloc_value(pre, extra, alloc);
+        let mut moved = false;
+        for _ in 0..32 {
+            let spent: i64 = (0..6).map(|c| point_cost(CHARS[c], alloc[c])).sum();
+            let mut pick: Option<([i64; 6], f64)> = None;
+            for a in 2..6 {
+                if alloc[a] == 0 {
+                    continue;
+                }
+                let top = alloc[a] % 100;
+                for (k, x) in [alloc[a], top, 50, 10, 1].into_iter().enumerate() {
+                    if x <= 0 || x > alloc[a] || (k > 0 && x == alloc[a]) || (k > 1 && x == top) {
+                        continue;
+                    }
+                    let free = budget - spent + point_cost(CHARS[a], alloc[a]) - point_cost(CHARS[a], alloc[a] - x);
+                    for b in (0..6).filter(|&b| b != a) {
+                        let mut next = *alloc;
+                        next[a] -= x;
+                        next[b] += Self::affordable(b, next[b], free);
+                        let v = self.alloc_value(pre, extra, &next);
+                        if v > pick.map_or(best, |p| p.1) + 1e-9 {
+                            pick = Some((next, v));
+                        }
+                    }
+                }
+            }
+            let Some((next, v)) = pick else { break };
+            *alloc = next;
+            best = v;
+            moved = true;
+        }
+        moved
+    }
+
+    // The greedy spend itself, from `alloc` with `spent` points used.
+    fn spend(&self, pre: &Vec60, extra: &[Target], alloc: &mut [i64; 6], mut spent: i64, budget: i64) {
+        let mut ch = Self::chars_of(pre, alloc);
         loop {
             let mut best: Option<(usize, i64, i64)> = None;
             let mut best_ratio = 0.0f64;
@@ -1405,7 +1492,6 @@ impl Forge {
             ch[c] += k;
             spent += cost;
         }
-        alloc
     }
 
     // Hosts for each exo kind, in order (first fit, backtracking): an item
@@ -2497,6 +2583,35 @@ mod tests {
         assert_eq!(r.allocated.strength, 100);
         assert!(r.meets_required);
         assert_eq!(r.allocated.vitality, 895);
+    }
+
+    #[test]
+    fn initiative_never_strands_points_in_an_element_that_only_feeds_it() {
+        let mut hat = item(1, "hat", None, vec![effect("Vitality", 1)]);
+        hat.level = 190;
+        // All 995 points in Agility give 398 Agility and 398 Initiative:
+        // the Initiative goal is met without a point in Strength or Intelligence.
+        let mut f = Forge::new(config(vec![cond("agility", 0, 5), cond("initiative", 350, 1)], &["hat"]), vec![hat], vec![], base(200), 4);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(r.allocated.agility, 398);
+        assert!(r.allocated.strength + r.allocated.intelligence + r.allocated.chance <= 3, "{:?}", r.allocated);
+        assert!(target_value(r, "initiative") >= 350);
+    }
+
+    #[test]
+    fn a_derived_stat_at_its_cap_takes_no_more_points() {
+        let mut hat = item(1, "hat", None, vec![effect("Vitality", 1)]);
+        hat.level = 190;
+        let capped = |stat: &str, goal: i64| StatConfig { stat: stat.into(), goal, weight: 50, max: Some(goal), absolute: false };
+        let alloc = |stats: Vec<StatConfig>| {
+            let mut f = Forge::new(config(stats, &["hat"]), vec![hat.clone()], vec![], base(200), 4);
+            run(&mut f, 3)[0].allocated.clone()
+        };
+        assert_eq!(alloc(vec![capped("lock", 20), cond("chance", 0, 1)]).agility, 200);
+        assert_eq!(alloc(vec![capped("dodge", 15), cond("strength", 0, 1)]).agility, 150);
+        assert_eq!(alloc(vec![capped("apReduction", 20), cond("vitality", 0, 1)]).wisdom, 200);
+        let a = alloc(vec![capped("initiative", 300), cond("vitality", 0, 1)]);
+        assert_eq!(a.strength + a.intelligence + a.chance + a.agility, 300);
     }
 
     #[test]
