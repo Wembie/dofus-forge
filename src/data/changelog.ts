@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.22',
+    date: '2026-11-24',
+    notes: [
+      "Fix: the companion legendary bonus picker only shows up for a Pet or Petsmount companion now — a Dragoturkey, Seemyool or Rhineetle mount can't go legendary at all and no longer offers it. Any of the 32 bonuses is still open to any eligible companion (a croquette's own name is flavor text, not a restriction to that one species)",
+    ],
+  },
+  {
     version: '0.4.21',
     date: '2026-11-24',
     notes: [

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.22] — 2026-11-24
+- Fix: the companion legendary bonus picker only shows up for a Pet or Petsmount companion now — a Dragoturkey, Seemyool or Rhineetle mount can't go legendary at all and no longer offers it. Any of the 32 bonuses is still open to any eligible companion (a croquette's own name is flavor text, not a restriction to that one species)
+
 ## [0.4.21] — 2026-11-24
 - The Forger: share an order with friends. "Share order" copies a link (or a short code for chat) that opens The Forger with the same goals, rules, required and banned items and passives; tick "Include my character" and it also carries your level, gear, runes and locked pieces, so they forge exactly what you did. "Import order" takes a pasted link or code, replaces the current order and can be undone. Every shared order goes through the same checks as a saved one
 

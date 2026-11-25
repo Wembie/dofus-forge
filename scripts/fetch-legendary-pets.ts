@@ -17,6 +17,9 @@
  * stable, readable slug ("moskito") with no hand-kept id map. Its family
  * (Bakushana / Poukachi / Kwakarticho / Magicrabe) comes from its recipe's
  * first ingredient, a "<Family> Animal Legend" resource — also no hand map.
+ * The croquette's name is just flavor text — any of the 32 can be fed to any
+ * companion that can go legendary at all (a Pet or Petsmount item; a
+ * Dragoturkey/Seemyool/Rhineetle mount can't), not only its namesake.
  *
  * What this does NOT auto-update: the bonus's display name/text in
  * public/locales/*\/translation.json (petleg_<slug>_name / _text) and which

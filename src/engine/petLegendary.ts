@@ -6,10 +6,11 @@ import type { GeneratedEffect } from '../data/passives.generated.ts'
 // Relative imports only: the share-link codec (and so the Worker) use this.
 
 /**
- * Once a pet/mount is legendary, the player crafts one specific "Croquette
- * infusée" (one of 8 per family) and feeds it — that croquette always
- * grants the same fixed bonus; a later one replaces it. This is the planner
- * picking the same thing, same as picking a rune the piece already carries.
+ * Once a pet/mount is legendary, the player crafts one of the 32 "Croquette
+ * infusée" and feeds it — any of them, the croquette's own name/species is
+ * just flavor text, not a restriction — which always grants that croquette's
+ * fixed bonus; a later one replaces it. This is the planner picking the same
+ * thing, same as picking a rune the piece already carries.
  *
  * Which family each croquette belongs to and the bearer's own stat effects
  * (value, sign, stack cap) come from scripts/fetch-legendary-pets.ts, same
@@ -91,6 +92,13 @@ export const LEGENDARY_BONUSES: LegendaryBonus[] = Object.entries(LEGENDARY_PET_
 const BY_ID = new Map(LEGENDARY_BONUSES.map(b => [b.id, b]))
 
 export const legendaryBonusOf = (id: string): LegendaryBonus | undefined => BY_ID.get(id)
+
+/** Only a Pet or Petsmount can go legendary at all — a Dragoturkey/Seemyool/
+ * Rhineetle mount can't, whatever croquette it's fed. */
+const LEGENDARY_ELIGIBLE_TYPES = new Set(['Pet', 'Petsmount'])
+export function legendaryEligible(itemType: string | null | undefined): boolean {
+  return itemType != null && LEGENDARY_ELIGIBLE_TYPES.has(itemType)
+}
 
 /** Highest value its control takes (stacks, or option count); 1 for a text-only bonus (plain on/off). */
 export function legendaryMax(id: string): number {

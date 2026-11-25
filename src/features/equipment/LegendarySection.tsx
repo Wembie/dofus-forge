@@ -40,10 +40,11 @@ function BonusIcon({ bonus }: { bonus: LegendaryBonus }) {
 }
 
 /**
- * Once a pet/mount is legendary, the player crafts one specific "Croquette
- * infusée" (one of 8 per family) and feeds it — that croquette always
- * grants the same fixed bonus; a later one replaces it. This is the planner
- * picking the same thing, same as picking a rune the piece already carries.
+ * Once a pet/mount is legendary, the player crafts one of the 32 "Croquette
+ * infusée" and feeds it — any of them, not just its own namesake — which
+ * always grants that croquette's fixed bonus; a later one replaces it. This
+ * is the planner picking the same thing, same as picking a rune the piece
+ * already carries.
  */
 export function LegendarySection() {
   const { t } = useTranslation();
