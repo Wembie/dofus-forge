@@ -7,6 +7,7 @@ import type { AppItem } from '@/data/loaders.ts'
 import { OptimizerModal } from '../OptimizerModal.tsx'
 import { activatedReq, makeDefaultConfig, persistConfig, STORAGE_KEY } from '../forgeConfig.ts'
 import { useForgePicks } from '../forgePicks.ts'
+import { decodeOrder, encodeOrder } from '../forgeShare.ts'
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ITEM_PASSIVES } from '@/engine/passives.ts'
@@ -371,5 +372,53 @@ describe('OptimizerModal stop rule', () => {
     act(() => { vi.advanceTimersByTime(5_000) })
     report(-100, false)
     expect(finished()).toBe(true)
+  })
+})
+
+describe('sharing an order', () => {
+  function shared(): string {
+    const config = makeDefaultConfig()
+    return encodeOrder({ ...config, intensity: 'master', stats: config.stats.map(r => (r.stat === 'ap' ? activatedReq('ap') : r)) }, { required: [], banned: [21] }, null)
+  }
+  function open(orderCode: string | null = null) {
+    useBuildStore.setState({ selectedClass: 'iop', equipped: {} })
+    useDataStore.setState({ equipment: DOFUS, sets: [] })
+    render(<MemoryRouter><OptimizerModal open orderCode={orderCode} onClose={() => {}} /></MemoryRouter>)
+  }
+  const saved = () => JSON.parse(localStorage.getItem(STORAGE_KEY)!)
+
+  it('loads the order a link brings, and undo brings back the one that was there', () => {
+    open(shared())
+    expect(screen.getByRole('status').textContent).toContain('fg_import_done')
+    expect(useForgePicks.getState().banned).toEqual([21])
+    cleanup()
+    expect(saved().intensity).toBe('master')
+    open()
+    expect(screen.queryByRole('status')).toBeNull()
+  })
+
+  it('loads a pasted code, can undo it, and says when a paste is not an order', () => {
+    open()
+    fireEvent.click(screen.getByRole('button', { name: 'fg_import_order' }))
+    const field = screen.getByRole('textbox', { name: 'fg_import_placeholder' })
+    fireEvent.change(field, { target: { value: 'hello' } })
+    fireEvent.click(screen.getByRole('button', { name: 'fg_import_load' }))
+    expect(screen.getByRole('alert').textContent).toContain('fg_import_invalid')
+    fireEvent.change(field, { target: { value: `https://dofusforge.com/es?forge=${shared()}` } })
+    fireEvent.click(screen.getByRole('button', { name: 'fg_import_load' }))
+    expect(screen.queryByRole('alert')).toBeNull()
+    expect(useForgePicks.getState().banned).toEqual([21])
+    fireEvent.click(screen.getByRole('button', { name: 'fg_import_undo' }))
+    expect(useForgePicks.getState().banned).toEqual([])
+    cleanup()
+    expect(saved().intensity).toBe('standard')
+  })
+
+  it('shares a link that loads back into the same order', () => {
+    open()
+    fireEvent.click(screen.getByRole('button', { name: 'fg_share_order' }))
+    const link = (screen.getByRole('textbox', { name: 'fg_share_link' }) as HTMLInputElement).value
+    expect(link).toContain('?forge=f1.')
+    expect(decodeOrder(link)).not.toBeNull()
   })
 })

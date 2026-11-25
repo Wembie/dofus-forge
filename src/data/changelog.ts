@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.21',
+    date: '2026-11-24',
+    notes: [
+      "The Forger: share an order with friends. \"Share order\" copies a link (or a short code for chat) that opens The Forger with the same goals, rules, required and banned items and passives; tick \"Include my character\" and it also carries your level, gear, runes and locked pieces, so they forge exactly what you did. \"Import order\" takes a pasted link or code, replaces the current order and can be undone. Every shared order goes through the same checks as a saved one",
+    ],
+  },
+  {
     version: '0.4.20',
     date: '2026-11-24',
     notes: [

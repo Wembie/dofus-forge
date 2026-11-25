@@ -778,3 +778,61 @@ fn plateau_profile() {
         }
     }
 }
+
+// How far a normal forge lands from the best known piece. Each seed runs
+// browser-like for FORGE_SECS; its prefix up to where the page's stop rule
+// (significant gain: +0.2% of the quality, at least 1, or reaching every
+// minimum; stall window x1.5 while a minimum is missing; hard cap) would
+// settle is what a player gets, and the best over every seed and the whole
+// run is the reference. FORGE_ORDERS FORGE_SEEDS FORGE_SECS FORGE_WORKERS
+#[test]
+#[ignore]
+fn oracle_gap() {
+    let env = |k: &str, d: f64| std::env::var(k).ok().and_then(|v| v.parse().ok()).unwrap_or(d);
+    let workers = env("FORGE_WORKERS", 8.0) as usize;
+    let secs = env("FORGE_SECS", 240.0);
+    let seeds = env("FORGE_SEEDS", 3.0) as u64;
+    let mut orders: Vec<(String, Vec<StatConfig>)> = vec![("agility".into(), agility_order()), ("screenshot".into(), screenshot_order())];
+    orders.extend(cases().into_iter().map(|(n, s)| (n.to_string(), s)));
+    let wanted = std::env::var("FORGE_ORDERS").unwrap_or_default();
+    // (name, stall seconds, cap seconds)
+    let presets: [(&str, f64, f64); 2] = [("standard", 30.0, 120.0), ("master", 60.0, 300.0)];
+    for (name, stats) in orders.iter().filter(|(n, _)| wanted.is_empty() || wanted.split(',').any(|w| w == n)) {
+        let mut runs = Vec::new();
+        for seed in 1..=seeds {
+            runs.push(browser_timeline(stats, seed, workers, secs));
+        }
+        let oracle = runs.iter().filter_map(|tl| tl.last().map(|x| x.1)).fold(f64::NEG_INFINITY, f64::max);
+        for (seed, tl) in runs.iter().enumerate() {
+            let Some(&(t_best, best)) = tl.last() else { continue };
+            let mut sig: Vec<(f64, f64)> = Vec::new();
+            for &(t, s) in tl {
+                let keep = match sig.last() {
+                    None => true,
+                    Some(&(_, last)) => (last < 0.0 && s >= 0.0) || s - last >= (last.abs() * 0.002).max(1.0),
+                };
+                if keep {
+                    sig.push((t, s));
+                }
+            }
+            let at = |t_stop: f64| tl.iter().filter(|(t, _)| *t <= t_stop).map(|(_, s)| *s).fold(f64::NEG_INFINITY, f64::max);
+            let stops: Vec<String> = presets
+                .iter()
+                .map(|&(p, stall, cap)| {
+                    let mut stop = cap.min(secs);
+                    for (k, &(t, s)) in sig.iter().enumerate() {
+                        let win = if s < 0.0 { stall * 1.5 } else { stall };
+                        let next = sig.get(k + 1).map_or(f64::INFINITY, |n| n.0);
+                        if next - t >= win {
+                            stop = stop.min(t + win);
+                            break;
+                        }
+                    }
+                    let got = at(stop);
+                    format!("{p}: stop {stop:.0}s score {got:.0} gap {:.0}", oracle - got)
+                })
+                .collect();
+            println!("[{name}] seed {}: run best {best:.0} at {t_best:.0}s (oracle {oracle:.0}) | {}", seed + 1, stops.join(" | "));
+        }
+    }
+}

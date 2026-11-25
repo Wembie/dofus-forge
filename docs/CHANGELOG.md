@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.21] — 2026-11-24
+- The Forger: share an order with friends. "Share order" copies a link (or a short code for chat) that opens The Forger with the same goals, rules, required and banned items and passives; tick "Include my character" and it also carries your level, gear, runes and locked pieces, so they forge exactly what you did. "Import order" takes a pasted link or code, replaces the current order and can be undone. Every shared order goes through the same checks as a saved one
+
 ## [0.4.20] — 2026-11-24
 - The Forger now lists all 14 Dofus with configurable combat passives, including Crimson, Turquoise, Dofzzbz, Cloudy, Sparkling Silver and both Vulbis cases. Full passive previews include final damage and vulnerability instead of hiding combat-only effects. Loading a result preserves those settings and clears disabled or excluded effects; the search still compares the order stat goals, as explained in all four languages
 - The Forger: each Dofus, Prysmaradite, legendary item and pet passive can now be adjusted right inside the forge: open its gear in the passive list and set its stacks, its case (for example the Ochre Dofus counting +20 Dodge instead of +1 AP) or its turn, or switch it off. The adjustment sits on top of "At their best" or "As in the planner", shows as adjusted, can be cleared, and goes to the planner with a loaded build

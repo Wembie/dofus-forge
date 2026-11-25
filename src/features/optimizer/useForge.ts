@@ -9,6 +9,8 @@ import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, runeStatLabelKey } from '.
 import { isActive, loadSavedConfig, persistConfig, toWireConfig, loadForgeResult, withLegendaryBans } from './forgeConfig.ts'
 import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
+import type { SharedOrder } from './forgeShare.ts'
+import { buildSnapshotFromState } from '@/features/share/codec.ts'
 import { forgePassiveState, forgePassiveEffects, legendaryForgeEffects, passiveStateFor, rankLegendaryBonuses, withOverrides } from './forgePassives.ts'
 import { legendaryBonusOf } from '@/engine/petLegendary.ts'
 import { track } from '@/lib/analytics.ts'
@@ -535,6 +537,26 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     handleClose()
   }
 
+  // A shared order replaces this one, and with its build the character and
+  // the locked pieces too. Returns how to go back to what was here before.
+  function applyOrder(order: SharedOrder): () => void {
+    const prevConfig = latestConfigRef.current
+    const { required: prevRequired, banned: prevBanned } = useForgePicks.getState()
+    const build = useBuildStore.getState()
+    const prevBuild = order.build && build.selectedClass ? buildSnapshotFromState(build) : null
+    const next = order.build ? order.config : { ...order.config, lockedSlots: prevConfig.lockedSlots }
+    setConfig(next)
+    useForgePicks.setState(order.picks)
+    if (order.build) build.applySnapshot(order.build)
+    const active = new Set(next.stats.filter(isActive).map(s => s.stat))
+    setExpandedGroups(open => new Set([...open, ...STAT_GROUPS.filter(g => g.statKeys.some(k => active.has(k))).map(g => g.key)]))
+    return () => {
+      setConfig(prevConfig)
+      useForgePicks.setState({ required: prevRequired, banned: prevBanned })
+      if (prevBuild) useBuildStore.getState().applySnapshot(prevBuild)
+    }
+  }
+
   const activeSlots = ALL_SLOTS.length - config.lockedSlots.size
   const pinnedSlots = new Map(placements.filter(p => p.status === 'placed' && p.slot).map(p => [p.slot!, p.item?.name ?? '']))
   const activeReqs = config.stats.filter(isActive).sort((a, b) => goalOrder(a.stat) - goalOrder(b.stat))
@@ -565,6 +587,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     lightForge,
     extinguish,
     loadBuild,
+    applyOrder,
     stoke,
     finishForging,
     handleClose,
