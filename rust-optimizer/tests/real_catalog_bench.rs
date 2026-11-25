@@ -635,7 +635,7 @@ fn agility_results_verify() {
         f.verify(r).unwrap();
     }
     let r = &results[0];
-    println!("score {} met {}/{} exo {:?}", r.score, r.requirements_met, r.requirements_total, r.exo);
+    println!("score {} met {}/{} exo {:?}\n  points {:?}", r.score, r.requirements_met, r.requirements_total, r.exo, r.allocated);
     let mut slots: Vec<_> = r.equipped.iter().collect();
     slots.sort();
     for (slot, id) in slots {

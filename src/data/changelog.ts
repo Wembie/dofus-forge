@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.23',
+    date: '2026-11-25',
+    notes: [
+      "The Forger: smarter characteristic points with an Initiative goal. It used to cover a missing Initiative with the element that was cheapest at that moment (Strength at 1 point while Agility already cost 2), even when the Agility points still to come would cover it anyway, leaving points stranded where they only fed Initiative. Those points now move to where they count, for example to Agility, keeping the Initiative goal met. Lock, Dodge, Prospecting, Pods and AP/MP Reduction and Parry already stopped taking points at their cap",
+    ],
+  },
+  {
     version: '0.4.22',
     date: '2026-11-24',
     notes: [

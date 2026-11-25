@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.23] — 2026-11-25
+- The Forger: smarter characteristic points with an Initiative goal. It used to cover a missing Initiative with the element that was cheapest at that moment (Strength at 1 point while Agility already cost 2), even when the Agility points still to come would cover it anyway, leaving points stranded where they only fed Initiative. Those points now move to where they count, for example to Agility, keeping the Initiative goal met. Lock, Dodge, Prospecting, Pods and AP/MP Reduction and Parry already stopped taking points at their cap
+
 ## [0.4.22] — 2026-11-24
 - Fix: the companion legendary bonus picker only shows up for a Pet or Petsmount companion now — a Dragoturkey, Seemyool or Rhineetle mount can't go legendary at all and no longer offers it. Any of the 32 bonuses is still open to any eligible companion (a croquette's own name is flavor text, not a restriction to that one species)
 
