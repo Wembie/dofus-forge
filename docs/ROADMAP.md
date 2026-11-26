@@ -7,6 +7,10 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Quinto rostro de las 19 clases y ocho escenarios más** (0.4.24) — 38 retratos, hombre y mujer, con traje habitual y poses propias; 190/600 rostros terminados. 52 banners con Kontatrás, Grobe, Kéfriho, Bosque Petrificado, Pueblo de los kanigs, Acuadomo de Merkator, Teatro de Dramak y Dimensión Obscura. Prompts, referencias 3.7.14.18, historial de correcciones y revisiones individuales guardados; migración aditiva, imágenes previas conservadas. Xelor mujer original restaurada y manos del pandawa, zurcarák y sram ajustadas según las observaciones del usuario.
+
+- [x] **Portada ilustrada original para X, en inglés** (2026-11-25) — [PNG de 1500 × 500 px y fuente SVG](brand/social/README.md), con un taller fantástico sobre un valle, yunque encantado y equipo tomando forma. Nombre apilado y lema en inglés, tinta y acuarela, zona libre para el avatar y prompt exacto conservado. Exportación reproducible mediante `node scripts/build-brand-v04.mjs --x-banner`, sin cambiar los recursos de la aplicación.
+
 - [x] **M186 — Forjadora: compartir e importar el encargo** (0.4.21) — pedido del usuario (2026-11-24): pasarle a un amigo el encargo tal cual para que pruebe lo mismo. "Compartir encargo" copia un enlace (`?forge=f1.…`) o solo el código; lleva objetivos activos, reglas, exos/pro, intensidad, pasivas y sus ajustes, legendarios, tipos de Dofus excluidos y objetos obligatorios/vetados. Con "Incluir mi personaje" también lleva el build (nivel, equipo, runas) y las piezas fijadas. "Importar encargo" acepta enlace o código, reemplaza el encargo y se puede deshacer. Lo importado pasa por el mismo `parseConfig` que el guardado (ahora también valida ranuras fijadas y acota mínimo/ley/tope) y por `sanitizeSnapshot`/`sanitizePicks`: un código editado a mano solo puede dar un encargo válido.
 
 - [x] **Forjadora: Dofus con pasivas de daños finales** (0.4.20) — visibles los 14 Dofus con efectos configurables, incluidos Púrpura, Turquesa, Dofzzbz, Nebuloso, Plateado Centelleante y los dos casos del Vulbis. Vista previa completa y ajustes transferidos al planificador, con ceros explícitos para desactivar efectos y respetar exclusiones; explicación del alcance de las metas del encargo en cuatro idiomas.
@@ -490,6 +494,6 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 
  - [] agregar un atajo en la parte de cuando selecciona los items... algo para equipar todo el set de una, como shift + cllick iZQUIERDO O ALGO ASi, no se pensarle bien
 
-- [ ] **Continuar los rostros y peinados de los avatares** — 524 de los 600 rostros del cliente siguen pendientes, siempre con el traje habitual, conservando la técnica y creando poses propias. Avanzar por tandas desde el rostro 3 y tachar modelos verificados en [el seguimiento](brand/profile-avatars/PROGRESS.md).
+- [ ] **Continuar los rostros y peinados de los avatares** — 410 de los 600 rostros del cliente siguen pendientes, siempre con el traje habitual, conservando la técnica y creando poses propias. Avanzar por tandas desde el rostro 6 y tachar modelos verificados en [el seguimiento](brand/profile-avatars/PROGRESS.md).
 
 - [ ] **Trajes alternativos de los avatares, después de los rostros** — 38 trajes alternativos mapeados con sus ids y texturas; reservar su producción hasta terminar la prioridad de rostros/peinados.

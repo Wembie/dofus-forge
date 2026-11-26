@@ -1,0 +1,128 @@
+{
+  "scope": "Eight new banners only",
+  "reviewedOn": "2026-11-26",
+  "sourceClientVersion": "3.7.14.18",
+  "banners": [
+    {
+      "id": "kontatras-castle",
+      "asset": "public/banners/locations/v1/kontatras-castle.webp",
+      "sha256": "25ddee21faf87f8b76fa676f7a383d52b5080b0e8ef12d1ada4244f92e05a463",
+      "master": "temp/profile-banners/masters/v1/kontatras-castle.png",
+      "masterSha256": "58219b7972630ddaf9c9349d8d0bcba516d3785a6eb103a667b86342e2d4c288",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Torre con ventanas de engranaje, entrada remachada, puente y nieve reconocibles. Vista nativa y recortes escritorio/movil revisados; sin personajes ni artefactos de reconstruccion. Tejado superior llega al borde como en referencia; ventanas y entrada permanecen visibles."
+      }
+    },
+    {
+      "id": "grobe",
+      "asset": "public/banners/locations/v1/grobe.webp",
+      "sha256": "383af0c6387748c440a7bdb0f519f8985ca0c21d2a97584504d023310a65580d",
+      "master": "temp/profile-banners/masters/v1/grobe.png",
+      "masterSha256": "b12b9b6175052c9ba40cdb3362041812381bc04ddc1e9a392c662f02bcd1866c",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Estelas redondeadas con musgo, talla funeraria de panda, bambu y linterna conservan la identidad del cementerio actual. Revisados original y dos recortes; camino y monumentos legibles, sin criaturas ni artefactos del render."
+      }
+    },
+    {
+      "id": "kefriho",
+      "asset": "public/banners/locations/v1/kefriho.webp",
+      "sha256": "ba6241b1b13c7d11a6c4407e1cc42d3b0c1d7f69b151768a9968dd63b142c6bb",
+      "master": "temp/profile-banners/masters/v1/kefriho.png",
+      "masterSha256": "640bc334057eff90aa2f5a26bbbf9064c5668538f0baa282f772206daa419e22",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Puerto helado con tubos turquesa huecos, palmeras deterioradas cubiertas de nieve y embarcadero de madera coherentes con cliente 3.7. Original y recortes revisados; los tubos y palmera siguen reconocibles en movil, sin personas ni artefactos."
+      }
+    },
+    {
+      "id": "petrified-forest",
+      "asset": "public/banners/locations/v1/petrified-forest.webp",
+      "sha256": "bc2bea4e741240d1df3b0b02ba3249bf56a6031eaf3aea7465ec3d88f82b430b",
+      "master": "temp/profile-banners/masters/v1/petrified-forest.png",
+      "masterSha256": "45aa0ad7c619f0526db6a8b1fdb85dab7290a0c383cb10bbb7b3bce516e867e9",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Troncos desnudos con flores palidas, vetas menta y carambanos identificables frente al hielo de Frigost. Original y recortes revisados: raiz central legible, acabado mate, sin criaturas, UI o manchas rectangulares de referencia."
+      }
+    },
+    {
+      "id": "kanig-village",
+      "asset": "public/banners/locations/v1/kanig-village.webp",
+      "sha256": "30bb649d7c8c5453d4b80eac82437ce667d634f47700458bab03cc98920dde6c",
+      "master": "temp/profile-banners/masters/v1/kanig-village.png",
+      "masterSha256": "e936432228e1503130eb1df4a21f110e30f80a9adb980d267393eac59403a2a4",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Pinchos de roca palida con bandas, cuerdas atadas y vivienda con piel ocre mantienen los rasgos especificos del poblado actual. Original y recortes escritorio/movil revisados; vivienda legible y camino despejado, sin habitantes ni artefactos."
+      }
+    },
+    {
+      "id": "merkator",
+      "asset": "public/banners/locations/v1/merkator.webp",
+      "sha256": "5d113897eb9d0a1a5c01a3998c4b4c9f9423f1ddee9f428f0ca5d63a0446d4dd",
+      "master": "temp/profile-banners/masters/v1/merkator.png",
+      "masterSha256": "786f425855a4d7d7cdfa4509f502d0e8c4ee34640d1184cba68bd22dd2280744",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Acuadomo con ventanales submarinos curvos, costillas remachadas, maquinaria de presion y cubierta de madera coherentes con referencia. Original y recortes revisados; deposito central visible en movil, sin buzos o personajes y sin artefactos de render."
+      }
+    },
+    {
+      "id": "dramak",
+      "asset": "public/banners/locations/v1/dramak.webp",
+      "sha256": "ae79e682857ceff7663df4b64a8fcbfdba76778e6761882eb7f3ae12f3036973",
+      "master": "temp/profile-banners/masters/v1/dramak.png",
+      "masterSha256": "85bbd67b9c9b2788b2bb13a5b19d2f0462bbc34cb689b33aa6b2ec48d38f011a",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Escenario rojo y dorado con estrellas, apoyos articulados de madera y cuerdas reconocibles del teatro del cliente. Revisados original y recortes; columnas, escenario y escenografia se leen en movil. Soportes inanimados, ninguna figura humana ni texto."
+      }
+    },
+    {
+      "id": "obscure-dimension",
+      "asset": "public/banners/locations/v1/obscure-dimension.webp",
+      "sha256": "57bcffbc61f227282708353d1a24ac606f48ac51a925bf5aedd580acdb9bb9c3",
+      "master": "temp/profile-banners/masters/v1/obscure-dimension.png",
+      "masterSha256": "9404541fe82a15dedafdc3e665c51ffb29479b2c02376480502113aaf437e731",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Islas de piedra suspendidas, escalera fragmentada, portal circular y aguja rota coinciden con rasgos del cliente actual. Original y recortes escritorio/movil revisados; portal y aguja siguen legibles, runas discretas, sin seres ni artefactos del render."
+      }
+    }
+  ],
+  "preservedPreviousBanners": 44
+}

@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.24] — 2026-11-26
+- 38 new profile portraits: the fifth in-game face and hairstyle for all 19 classes, male and female, with their usual outfit and distinct ink-and-watercolor poses. Choose from 190 avatars; the checklist records 190 of 600 faces complete, with alternate outfits reserved for later
+- Eight more DOFUS 3.7 profile landscapes: Harebourg's Castle, Nolifis Island, Sakai Island, Petrified Forest, Kanig Village, Merkator's Aquadome, Dramak's Theatre and Lost Dimension. Choose from 52 banners; exact prompts, current-client references and individual crop reviews are saved
+- Portrait refinements: restored the preferred first female Xelor image and corrected the male Pandawa hand, male Ecaflip cup grip and both male Sram hands. The previous 152 portraits and 44 banners keep their files; the new choices use the same exact-path catalog checks
+
 ## [0.4.23] — 2026-11-25
 - The Forger: smarter characteristic points with an Initiative goal. It used to cover a missing Initiative with the element that was cheapest at that moment (Strength at 1 point while Agility already cost 2), even when the Agility points still to come would cover it anyway, leaving points stranded where they only fed Initiative. Those points now move to where they count, for example to Agility, keeping the Initiative goal met. Lock, Dodge, Prospecting, Pods and AP/MP Reduction and Parry already stopped taking points at their cap
 

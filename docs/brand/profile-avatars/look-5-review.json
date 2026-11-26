@@ -1,0 +1,883 @@
+{
+  "scope": "Only the 38 fifth-face portraits, not a new audit of the previous 152 images",
+  "reviewedOn": "2026-11-26",
+  "sourceClientVersion": "3.7.14.18",
+  "generator": "Built-in image_gen",
+  "portraits": [
+    {
+      "classId": "cra",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 133,
+        "headSkin": 2144,
+        "bodySlot": 1,
+        "bodyId": 21,
+        "bodySkin": 90
+      },
+      "asset": "public/avatars/classes/v1/cra-look-5-m.webp",
+      "sha256": "929f8a85e54cd90fe66b9d34699c6e99ab02e1b5b0917346f4f38007749743c1",
+      "master": "temp/profile-avatars/masters/v1/cra-look-5-m.png",
+      "masterSha256": "81766abdc36b67dc78b9feb67ad309265d9a4a240411fad800266342384825d6",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto modelo conservado: parche sobre el ojo derecho con cruz amarilla, ojo izquierdo verde y gran coleta naranja. Mano izquierda con indice y pulgar sujetando el silbato y tres dedos plegados, dos brazos y un torso sin punos extra. Rostro reconocible en circulos de 150 y 48 px."
+      }
+    },
+    {
+      "classId": "cra",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 141,
+        "headSkin": 2152,
+        "bodySlot": 1,
+        "bodyId": 22,
+        "bodySkin": 91
+      },
+      "asset": "public/avatars/classes/v1/cra-look-5-f.webp",
+      "sha256": "11f41c574c840c426f8bbed6ce2989f6dc86d40fd6749357526c88291cc9360b",
+      "master": "temp/profile-avatars/masters/v1/cra-look-5-f.png",
+      "masterSha256": "d6a798e979e2fefab829071476c3dc5a45ea5c1ca20a96a9ccaaa73d34880b3b",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Bob naranja asimetrico, broche dorado derecho, dos mechones de coronilla, ojos verdes y pecas del quinto rostro conservados. Pulgar derecho levantado y cuatro dedos plegados separados, cinco en total; dos brazos continuos y un torso. Rostro claro en los recortes de 150 y 48 px."
+      }
+    },
+    {
+      "classId": "ecaflip",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 85,
+        "headSkin": 2096,
+        "bodySlot": 1,
+        "bodyId": 14,
+        "bodySkin": 60
+      },
+      "asset": "public/avatars/classes/v1/ecaflip-look-5-m.webp",
+      "sha256": "3a05acf268c4bad166e151322a7fff48c11cdc6d556f70fdd6629002f45dfad8",
+      "master": "temp/profile-avatars/masters/v1/ecaflip-look-5-m.png",
+      "masterSha256": "782ddb9f27e85f5dca722f0c32656a36e078bac60d7dc81ebf80ab3a6bc28c0c",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Correccion de zona marcada por usuario: eliminado pulgar largo que salia sobre borde posterior del cubilete. Cuatro dedos peludos curvados delante y pulgar opuesto nace de la misma palma y apoya al costado a media altura, cinco. Continuidad de muneca/brazo y pelaje crema felino, sin piel humana. Dos brazos y un torso; grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "ecaflip",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 93,
+        "headSkin": 2104,
+        "bodySlot": 1,
+        "bodyId": 16,
+        "bodySkin": 61
+      },
+      "asset": "public/avatars/classes/v1/ecaflip-look-5-f.webp",
+      "sha256": "6aa2c36fef1f63d3fef32594fde9f56ee4432912edbe9c38a7f0c1ebe9d8ac9c",
+      "master": "temp/profile-avatars/masters/v1/ecaflip-look-5-f.png",
+      "masterSha256": "c5a1134385a51017c82eee4c5546c69abab5baaf6941414441be5cb018c66e8b",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Dos coletas naranjas con exactamente dos gomas turquesas, dos manchas y ojos vino del quinto rostro. Mano izquierda de pelaje crema: pulgar e indice sujetan el pelo y tres dedos se pliegan por separado; cinco garras, muneca continua, dos brazos y un torso. Recortes claros a 150 y 48 px; se retiro el accesorio extra antes de aprobar."
+      }
+    },
+    {
+      "classId": "eniripsa",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 101,
+        "headSkin": 2112,
+        "bodySlot": 1,
+        "bodyId": 17,
+        "bodySkin": 70
+      },
+      "asset": "public/avatars/classes/v1/eniripsa-look-5-m.webp",
+      "sha256": "b036f3525915805d9bec3b652b2babba0952158c84f969ba7727e5729d8bcc24",
+      "master": "temp/profile-avatars/masters/v1/eniripsa-look-5-m.png",
+      "masterSha256": "ec388f2328cfc99acbb05e00772098b3cd57184279eb4745ca6ea1b7679022fc",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto rostro con pelo castano compacto, pintura verde azulado alrededor de ambos ojos marrones y pendientes angulosos; alas oscuras fieles. Agarre de escritura con cuatro dedos separados y pulgar parcialmente tapado por el canon de la pluma, una muneca continua. Dos brazos aparte de las alas, un torso; recortes circulares claros a 150 y 48 px."
+      }
+    },
+    {
+      "classId": "eniripsa",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 109,
+        "headSkin": 2120,
+        "bodySlot": 1,
+        "bodyId": 18,
+        "bodySkin": 71
+      },
+      "asset": "public/avatars/classes/v1/eniripsa-look-5-f.webp",
+      "sha256": "6821c13ee1aaa6fc39efb1be3bf5eaaaef89c3924f90d98bde588a782d0758fe",
+      "master": "temp/profile-avatars/masters/v1/eniripsa-look-5-f.png",
+      "masterSha256": "f1897b5687dbc12db4d921c26d73fd2a9f60095838d80207c9e8dcc123343aca",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto flequillo diagonal sobre el ojo derecho, pelo blanco largo detras de hombros, ojos ambar y alas claras con dos aberturas por lado conservados. Indice sobre el tapon, tres dedos recogidos y pulgar ocluido parcialmente por el cuello del vial; muneca natural, dos brazos y un torso. Rostro legible en circulos de 150 y 48 px."
+      }
+    },
+    {
+      "classId": "enutrof",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 37,
+        "headSkin": 2048,
+        "bodySlot": 1,
+        "bodyId": 8,
+        "bodySkin": 30
+      },
+      "asset": "public/avatars/classes/v1/enutrof-look-5-m.webp",
+      "sha256": "4cb48bab1cf66364570e28010b848d4bf9e150175d22349061e5ea24d343ea13",
+      "master": "temp/profile-avatars/masters/v1/enutrof-look-5-m.png",
+      "masterSha256": "bc734d852e43c46d7602a6189c4932bfcf918156c243112f7b8a7e7e91eb09f5",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Calva, cejas blancas angulosas, bigote horizontal y barba del quinto modelo conservados. Tras corregir el dedo ausente, pulgar e indice se tocan y hay tres puntas plegadas separadas debajo: cinco dedos y muneca izquierda natural. Dos brazos, un torso, ninguna manga extra; circulos claros a 150 y 48 px."
+      }
+    },
+    {
+      "classId": "enutrof",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 45,
+        "headSkin": 2056,
+        "bodySlot": 1,
+        "bodyId": 9,
+        "bodySkin": 31
+      },
+      "asset": "public/avatars/classes/v1/enutrof-look-5-f.webp",
+      "sha256": "64c038f0532980c3424769f990adac2b907017863a7cc4452ed1f00e3a82af32",
+      "master": "temp/profile-avatars/masters/v1/enutrof-look-5-f.png",
+      "masterSha256": "4156fb96c234b30e41f7412512ad5308a4435f60fba82445a1f5610828f50f65",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Gran mono blanco, flequillo recto, mechones a la mandibula y gafas doradas bajas del quinto modelo conservados, con rasgos maduros. Gesto de encogerse de hombros: dos mangas descienden fuera de plano, sin manos ni extremidades extra; un torso y mochila coherentes. Cara y gafas reconocibles a 150 y 48 px."
+      }
+    },
+    {
+      "classId": "eliotrope",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 245,
+        "headSkin": 3187,
+        "bodySlot": 1,
+        "bodyId": 36,
+        "bodySkin": 3179
+      },
+      "asset": "public/avatars/classes/v1/eliotrope-look-5-m.webp",
+      "sha256": "8ef5b389b06f4924e5eb18e8705a2fc0272cda2b2ccb77bf87e524065abbab1a",
+      "master": "temp/profile-avatars/masters/v1/eliotrope-look-5-m.png",
+      "masterSha256": "87c93357728a8d349113c89042b4af50dc5e7dee9230b7cd4841efe2b26394fc",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Capucha buho del quinto modelo cubre ambos ojos, dos anillos crema impresos y dos extensiones azules de puntas crema; mechones azul claro y cierre X correctos. Sonrisa bajo la capucha, dos brazos grises bajan fuera del recorte, una manga por brazo y un torso. Identidad legible a 150 y 48 px, sin ojos inventados."
+      }
+    },
+    {
+      "classId": "eliotrope",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 253,
+        "headSkin": 3195,
+        "bodySlot": 1,
+        "bodyId": 37,
+        "bodySkin": 3180
+      },
+      "asset": "public/avatars/classes/v1/eliotrope-look-5-f.webp",
+      "sha256": "320db8b93745b1f27935e40aee9db6016ca4fc0a34a06e6b0831d39a9a5a6758",
+      "master": "temp/profile-avatars/masters/v1/eliotrope-look-5-f.png",
+      "masterSha256": "478d0ab0f4f50b1b727622838f66f8f83f82f247a8cbff5f1335ba119dcf15c4",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Capucha buho exacta, ojos completamente tapados, dos anillos crema y orejas con bandas. Una caja toracica con dos piezas del corse, dos brazos continuos sin bandas de piel adicionales. Cuatro dedos descansan sobre el brazal y el pulgar queda naturalmente oculto tras su borde. Revisada grande y en circulos de 150 y 48 px."
+      }
+    },
+    {
+      "classId": "feca",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 5,
+        "headSkin": 2016,
+        "bodySlot": 1,
+        "bodyId": 2,
+        "bodySkin": 10
+      },
+      "asset": "public/avatars/classes/v1/feca-look-5-m.webp",
+      "sha256": "7e939efa9827d775f164b86428e223ba1e25d224718c49913746f0595b5a1954",
+      "master": "temp/profile-avatars/masters/v1/feca-look-5-m.png",
+      "masterSha256": "a23147aa0c6fc2ffc05cc135546e7cb95bd5e3f64b10edcea39d62a820cdcce5",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto peinado castano con coleta corta, flequillo lateral y dos mechones largos, ojos marrones y cuello naranja X correctos. Mano derecha sobre libro con cuatro dedos plegados y pulgar opuesto claro; dos brazos continuos y un torso. Sin manguitos duplicados; revisado ampliado y circular a 150 y 48 px."
+      }
+    },
+    {
+      "classId": "feca",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 13,
+        "headSkin": 2024,
+        "bodySlot": 1,
+        "bodyId": 3,
+        "bodySkin": 11
+      },
+      "asset": "public/avatars/classes/v1/feca-look-5-f.webp",
+      "sha256": "e34d3276546deea2d991ad256b03a017226d210537c37acab0c8250457b7bf87",
+      "master": "temp/profile-avatars/masters/v1/feca-look-5-f.png",
+      "masterSha256": "175f48288c1a01e310b8521cf422a7e8de04ec9aa069d6b6e14cc577dbefbef6",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Corregido pulgar izquierdo ausente: ahora cuatro dedos largos y pulgar corto en su lado anatomico, cinco puntas claras. Dos brazos desde dos hombros, un torso y dos copas de la blusa sin bultos extra. Coleta segmentada quinta, banda teal y maquillaje angular correctos; grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "foggernaut",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 229,
+        "headSkin": 2240,
+        "bodySlot": 1,
+        "bodyId": 34,
+        "bodySkin": 1663
+      },
+      "asset": "public/avatars/classes/v1/foggernaut-look-5-m.webp",
+      "sha256": "dc0ec1f636b8f0abf638b16b1735d7db864b5515ba656f4a5b5a837f38587f75",
+      "master": "temp/profile-avatars/masters/v1/foggernaut-look-5-m.png",
+      "masterSha256": "3ea1f5c98c80a404018b791a3cec4d814c7b69f4c2b315173b4183ccfa03c6cf",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Pelo blanco quinto y gafas sobre frente, ojo propio derecho gris con dos marcas marrones y ojo izquierdo violeta correctos. Dos mangas oliva continuas hacia abajo sin manos expuestas, un torso blindado y rejilla central. Rollo de papel distinguible de un miembro. Revisado ampliado y en ambos circulos 150/48 px."
+      }
+    },
+    {
+      "classId": "foggernaut",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 237,
+        "headSkin": 2248,
+        "bodySlot": 1,
+        "bodyId": 35,
+        "bodySkin": 1664
+      },
+      "asset": "public/avatars/classes/v1/foggernaut-look-5-f.webp",
+      "sha256": "916efe8b8ec88140d19df8292a9a2230871be33e923d68ed25ba92f7fe7a7c9c",
+      "master": "temp/profile-avatars/masters/v1/foggernaut-look-5-f.png",
+      "masterSha256": "ac56886a3989933f362418a595cd3d41c8ca8e6a2d6d4f13ba6905f6f516e6be",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Rizos laterales blancos, pelo posterior suelto y gafas altas del quinto rostro correctos. V con indice y medio extendidos, anular y menique plegados separados y pulgar transversal anatomico: cinco dedos. Un guante por brazo, dos brazos continuos y una coraza sin pliegues de bustos extra. Revisada grande y circular 150/48."
+      }
+    },
+    {
+      "classId": "forgelance",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 298,
+        "headSkin": 3103,
+        "bodySlot": 1,
+        "bodyId": 5,
+        "bodySkin": 3221
+      },
+      "asset": "public/avatars/classes/v1/forgelance-look-5-m.webp",
+      "sha256": "2d68e829f44d86105f54152ac130f0da93f5076e2549d6c5e1c0a5c344731679",
+      "master": "temp/profile-avatars/masters/v1/forgelance-look-5-m.png",
+      "masterSha256": "a8d63a17ccd7b68febc927a7c5ba96ed24b615ae631414c8e677f3480fefa35c",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Cresta castana quinta con raya marfil completa y margen superior tras correccion. Puno derecho con cuatro dedos plegados separados y un pulgar lateral correcto; dos brazos y dos brazales, una coraza sin hombros falsos. Barba y triangulos bajo ambos ojos fieles. Reinspeccionado ampliado y circular 150/48 px."
+      }
+    },
+    {
+      "classId": "forgelance",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 306,
+        "headSkin": 3143,
+        "bodySlot": 1,
+        "bodyId": 4,
+        "bodySkin": 3633
+      },
+      "asset": "public/avatars/classes/v1/forgelance-look-5-f.webp",
+      "sha256": "a41f4bdca8ef9dd66a5d3e08d4f1c222fcddfe00cc7bf1f6a3d7c3e83a14d9b8",
+      "master": "temp/profile-avatars/masters/v1/forgelance-look-5-f.png",
+      "masterSha256": "87fa1fc8cd50ed18214058dbfa2d5aef38f1c2bc17de520c0474227e6a575eec",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Correccion de hombro ambiguo: ahora dos hombreras correctamente asentadas, un brazo continuo bajo cada una y un solo torso. Manos fuera del recorte alto. Quinto recogido segmentado castano con mechon blanco y bandas acero, ojos y marcas fieles. Revisada grande y circulos 150/48 sin tercer hombro ni piel adicional."
+      }
+    },
+    {
+      "classId": "huppermage",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 261,
+        "headSkin": 3293,
+        "bodySlot": 1,
+        "bodyId": 38,
+        "bodySkin": 3285
+      },
+      "asset": "public/avatars/classes/v1/huppermage-look-5-m.webp",
+      "sha256": "ccc368581aa4a7d3b90e1bf97e4a4ded46ce1a15b46c8e0a6f4bf71afc156eb4",
+      "master": "temp/profile-avatars/masters/v1/huppermage-look-5-m.png",
+      "masterSha256": "36471960d1e3e610d18659b7fe7546bef40527e35b7d4de0469a4b71f088537b",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Coleta quinta completa con margen tras correccion, raya vertical solo al ojo derecho propio y aros correctos. Palma izquierda enguantada hacia arriba con cuatro dedos largos separados y pulgar en lado interno correcto; dos brazos y un manguito por brazo, torso coherente. Revisada grande y circular 150/48 px."
+      }
+    },
+    {
+      "classId": "huppermage",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 269,
+        "headSkin": 3301,
+        "bodySlot": 1,
+        "bodyId": 39,
+        "bodySkin": 3286
+      },
+      "asset": "public/avatars/classes/v1/huppermage-look-5-f.webp",
+      "sha256": "8dbc9648e4d0720f92892f4d403b6866f97b021735416f1e035878cf764aa3df",
+      "master": "temp/profile-avatars/masters/v1/huppermage-look-5-f.png",
+      "masterSha256": "0b591fda887e976a283eca8ec1bb2a86f7ab54b8ae72befc17a750c9134f8773",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto recogido rubio con banda teal, alas laterales y dos adornos oro, raya solo en ojo derecho propio. Mano izquierda conecta al brazo izquierdo: indice sobre colgante, tres dedos plegados y pulgar naturalmente oculto detras de la hoja al pinzar. Dos brazos, un torso y dos piezas de busto; grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "iop",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 117,
+        "headSkin": 2128,
+        "bodySlot": 1,
+        "bodyId": 19,
+        "bodySkin": 80
+      },
+      "asset": "public/avatars/classes/v1/iop-look-5-m.webp",
+      "sha256": "8d132b247e62ae373a4b37f3d683e483cbe9c47cd9524703b75b8adee8d56102",
+      "master": "temp/profile-avatars/masters/v1/iop-look-5-m.png",
+      "masterSha256": "0784ff838302158d0422946654a9504b846d3185216bee4b8026609510a3886e",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto pelo llama naranja completo, ojos blancos sin pupila y marcas teal bajo ambos ojos. Mano derecha desnuda con cuatro dedos plegados y un pulgar erguido claros; brazal rojo termina antes de mano. Hombrera solo izquierda, dos brazos continuos y un torso. Aprobado ampliado y circular 150/48 px."
+      }
+    },
+    {
+      "classId": "iop",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 125,
+        "headSkin": 2136,
+        "bodySlot": 1,
+        "bodyId": 20,
+        "bodySkin": 81
+      },
+      "asset": "public/avatars/classes/v1/iop-look-5-f.webp",
+      "sha256": "7ce820bd6f0a10255bb74a034f550c6f0849f2ba200cb44ce4aa1a46b8a7965e",
+      "master": "temp/profile-avatars/masters/v1/iop-look-5-f.png",
+      "masterSha256": "c6d6bdc4d5ae55852428025b76946b2c169c63b65a2b6f8af3ea38601faa5013",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto peinado naranja con cinta, dos mechones atados y coleta baja; ojos blancos y maquillaje rojo fieles. Brazo derecho continuo cruza hacia hombrera izquierda; dedos caen sobre borde en perspectiva, pulgar y dedo lejano parcialmente ocultos por armadura y mano. Solo dos brazos, un torso sin tira de piel extra. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "masqueraider",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 213,
+        "headSkin": 2224,
+        "bodySlot": 1,
+        "bodyId": 32,
+        "bodySkin": 1437
+      },
+      "asset": "public/avatars/classes/v1/masqueraider-look-5-m.webp",
+      "sha256": "202161d4dbcbdcc8e6ee659a04675edfb00633adda309d9edf38f26e624b82cc",
+      "master": "temp/profile-avatars/masters/v1/masqueraider-look-5-m.png",
+      "masterSha256": "93cede48e39084533e92423bd9233198e5678501341acab5b391154b40543d8e",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Mascara quinta marfil con cejas oliva, nariz conica roja, lineas verticales, aros cuadrados rojos y cresta roja fieles. Indice izquierdo vertical, tres dedos plegados y pulgar separado: cinco en posicion correcta. Dos brazos continuos y chaleco de un torso sin hombros extra. Revisado grande y en 150/48 circular."
+      }
+    },
+    {
+      "classId": "masqueraider",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 221,
+        "headSkin": 2232,
+        "bodySlot": 1,
+        "bodyId": 33,
+        "bodySkin": 1438
+      },
+      "asset": "public/avatars/classes/v1/masqueraider-look-5-f.webp",
+      "sha256": "dba283f1d3a2bff9091019620f2b14017ecedb420b23fb36a2f21107b030fe45",
+      "master": "temp/profile-avatars/masters/v1/masqueraider-look-5-f.png",
+      "masterSha256": "a0b77b43399fd19f352e4b73ae7001494676da8d6e065c24a1a5a7b3382f44a0",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Mascara quinta completa con nariz roja, labios pintados pequenos, cejas talladas oliva y aros espiral rojos; coleta roja con calavera unica correcta. Dos hombros conectan a dos brazos hacia atras, manos naturalmente fuera de vista y un solo torso/busto. Revisada individualmente grande y en circulos 150/48 px."
+      }
+    },
+    {
+      "classId": "osamodas",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 21,
+        "headSkin": 2032,
+        "bodySlot": 1,
+        "bodyId": 6,
+        "bodySkin": 20
+      },
+      "asset": "public/avatars/classes/v1/osamodas-look-5-m.webp",
+      "sha256": "2666337e4a6c8e5d5b77f1e82f3543ec932a1564fbacdcdefaf38da1ac6df93d",
+      "master": "temp/profile-avatars/masters/v1/osamodas-look-5-m.png",
+      "masterSha256": "8062b4f6a0b37a98103aca93f0dcc25e726a90efcd584a1f01ccba0010cfcbfa",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Correccion verificada: indice y pulgar pinzan galleta, medio anular y menique plegados como tres puntas distintas: cinco dedos. Cabello quinto completo con margen, dos cuernos bicolores, orejas y ojos rojos fieles. Dos brazos con un brazal cada uno y torso unico. Revisado ampliado y circular 150/48 px."
+      }
+    },
+    {
+      "classId": "osamodas",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 29,
+        "headSkin": 2040,
+        "bodySlot": 1,
+        "bodyId": 7,
+        "bodySkin": 21
+      },
+      "asset": "public/avatars/classes/v1/osamodas-look-5-f.webp",
+      "sha256": "98a296fad0e9cc145efda7c0c1ab493fd6b441c299aa614c19f455b1ca070ffe",
+      "master": "temp/profile-avatars/masters/v1/osamodas-look-5-f.png",
+      "masterSha256": "e9274161c39ca106e7f0b36942604fb8b9ad09ca127ea0fbdc0261342be6e9dc",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Boina teal quinta con dos cuernos bicolores, melena corta crema y ojos rojos con marcas negras correctos. Mano izquierda desnuda en brazo izquierdo con cuatro dedos curvados separados alrededor del mango y pulgar opuesto visible en lado correcto. Dos mangas terminan antes de manos, un torso sin duplicacion. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "ouginak",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 288,
+        "headSkin": 3506,
+        "bodySlot": 1,
+        "bodyId": 40,
+        "bodySkin": 3498
+      },
+      "asset": "public/avatars/classes/v1/ouginak-look-5-m.webp",
+      "sha256": "0a84c31081ae4bed68153bcab8e9999fd6166c857dc1b719a8fca2731587136b",
+      "master": "temp/profile-avatars/masters/v1/ouginak-look-5-m.png",
+      "masterSha256": "f2d2ebe6d187f75604a7079b47c8622ce8d2cdb59b50a4a1991c0305e83701fc",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Cabeza canina quinta fiel con melena dorada redondeada, cinta oscura, manchas marrones y hocico beige proyectado con colmillos animales. Dos brazos peludos bajan de hombros unicos, un brazal cada uno, manos fuera de recorte. Dos aros dorados sobre un solo torso, sin extremidades adicionales. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "ouginak",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 281,
+        "headSkin": 3514,
+        "bodySlot": 1,
+        "bodyId": 42,
+        "bodySkin": 3499
+      },
+      "asset": "public/avatars/classes/v1/ouginak-look-5-f.webp",
+      "sha256": "8cabb470576619e67b428be74a677083411a4a6031e369cc10c977848bf1973b",
+      "master": "temp/profile-avatars/masters/v1/ouginak-look-5-f.png",
+      "masterSha256": "ba3c08e79495660f0cb81b47108bda15f3f1b8c7a77c547bbc928d73a9624169",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Melena quinta dorada con cinta de tres remaches, ojos ambar y hocico/nariz caninos fieles. Mano derecha taupe con pelaje fino, indice toca pelo y tres dedos plegados con garras; pulgar pinza naturalmente detras del mechon. Dos brazos continuos sin manga extra, un solo torso. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "pandawa",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 181,
+        "headSkin": 2192,
+        "bodySlot": 1,
+        "bodyId": 28,
+        "bodySkin": 120
+      },
+      "asset": "public/avatars/classes/v1/pandawa-look-5-m.webp",
+      "sha256": "cc743c814c13d179770d12ca921f94be7d3a1dfd942db185ab696cd9b9ec94c4",
+      "master": "temp/profile-avatars/masters/v1/pandawa-look-5-m.png",
+      "masterSha256": "817d6a2aeb1c4c5c0767caf580dacd656a9972dace9cd6932abfa4d98eb1b54c",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Nueva correccion solicitada por el usuario: eliminado el dedo grueso tipo banana junto a la muneca. Indice en mejilla y tres dedos largos flexionados con raices claras; pulgar recogido parcialmente oculto dentro de la palma, sin extremo flotante o superpuesto. Revisados PNG ampliado y circulos 150/48, pelaje oliva, dos brazos y un torso coherentes."
+      }
+    },
+    {
+      "classId": "pandawa",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 189,
+        "headSkin": 2200,
+        "bodySlot": 1,
+        "bodyId": 29,
+        "bodySkin": 121
+      },
+      "asset": "public/avatars/classes/v1/pandawa-look-5-f.webp",
+      "sha256": "f22bbbd64754128e505d73d05bdfaeed1bd4a76443f833d277f5e9cbed84eeaf",
+      "master": "temp/profile-avatars/masters/v1/pandawa-look-5-f.png",
+      "masterSha256": "8f07fb4b14f994adec7c748734683be1a5037ab6cab5893f66f179013750d5ac",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto flequillo crema y dos coletas oliva con bandas rojas, ojos ambar correctos. Un torso con chaleco rojo continuo, dos copas solamente; dos antebrazos cruzados se trazan a dos hombros, dedos visibles sobre brazo y pulgar oculto naturalmente tras el. Una venda por brazo, sin segundo torso. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "rogue",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 197,
+        "headSkin": 2208,
+        "bodySlot": 1,
+        "bodyId": 30,
+        "bodySkin": 1405
+      },
+      "asset": "public/avatars/classes/v1/rogue-look-5-m.webp",
+      "sha256": "a5198085acf7ef71aa88dc5b6b232a4e298a38a93d127a335cff139825accfc5",
+      "master": "temp/profile-avatars/masters/v1/rogue-look-5-m.png",
+      "masterSha256": "c2d46669c34fff5c07e8f03b73c6e3f745ffb14f2a3ae9146bedd07734be3264",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Corregido menique: mano derecha con indice y pulgar pinzando ganzua, tres dedos plegados distintos, cinco. Capucha quinta con colas caidas y calavera, ojos blancos y barba corta fieles. Dos brazos con guantes completos y un manguito cada uno, torso unico. Revisado grande y circular 150/48 tras editar."
+      }
+    },
+    {
+      "classId": "rogue",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 205,
+        "headSkin": 2216,
+        "bodySlot": 1,
+        "bodyId": 31,
+        "bodySkin": 1407
+      },
+      "asset": "public/avatars/classes/v1/rogue-look-5-f.webp",
+      "sha256": "71ad93574860becd0f67506bf7b57cc675af237b92a48e6483e31db7e8ed63b4",
+      "master": "temp/profile-avatars/masters/v1/rogue-look-5-f.png",
+      "masterSha256": "fd098c889a1c23e51180dd886dd48919a7a61aa9e25b310e177e7cd77e6e97e2",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinta capucha mascara con calavera y dos remaches, ojos blancos, coleta teal puntiaguda y lazo negro/oro correctos. Risa con rostro inferior visible, dos brazos bajan desde dos hombros con mangas largas unicas y manos fuera del cuadro; un torso y dos volumenes de pecho, sin piel extra. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "sacrier",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 165,
+        "headSkin": 2176,
+        "bodySlot": 1,
+        "bodyId": 26,
+        "bodySkin": 110
+      },
+      "asset": "public/avatars/classes/v1/sacrier-look-5-m.webp",
+      "sha256": "f1fa9942791b85da5fdd7c7ce9ea4811c5d856b3d1af894d2dc9c50c9cc3a020",
+      "master": "temp/profile-avatars/masters/v1/sacrier-look-5-m.png",
+      "masterSha256": "8c850748e556abc690fee638883866660c599f0465cb51bc1b3cb70eb21bc922",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto gorro remendado con parche amarillo, ojos blancos y marca asimetrica lagrima derecha/dos rayas izquierdas fieles. Saludo izquierdo con indice medio extendidos, anular menique plegados y pulgar cruzado correcto: cinco dedos. Corazon pecho derecho propio, dos brazos vendados continuos, torso unico. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "sacrier",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 173,
+        "headSkin": 2184,
+        "bodySlot": 1,
+        "bodyId": 27,
+        "bodySkin": 111
+      },
+      "asset": "public/avatars/classes/v1/sacrier-look-5-f.webp",
+      "sha256": "1ffa2586f87a6620de2ebd598a16cd018266d30e9901595f35c3d25438e85868",
+      "master": "temp/profile-avatars/masters/v1/sacrier-look-5-f.png",
+      "masterSha256": "1340819c0599a71a8b9861756fda7f0c5899e1ee42333391f336126b5e7dcf67",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto gorro con parche, cresta naranja y coleta segmentada fieles, ojos blancos y dos marcas simetricas sin lagrima masculina. Brazo izquierdo se traza por hombro codo antebrazo hasta mano tras nuca, dedos naturalmente ocultos por pelo y cuello. Segundo brazo baja y torso unico con top oliva y corazon derecho. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "sadida",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 149,
+        "headSkin": 2160,
+        "bodySlot": 1,
+        "bodyId": 23,
+        "bodySkin": 100
+      },
+      "asset": "public/avatars/classes/v1/sadida-look-5-m.webp",
+      "sha256": "c2a3f02d46ca2844ec5f43544b85e6b86107d85017d1adaf66422679fb8425e2",
+      "master": "temp/profile-avatars/masters/v1/sadida-look-5-m.png",
+      "masterSha256": "cc54f1ec922aac7b8d95108e105058038aac53ee7e04e3adf9ae2b5982ebb8d4",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto peinado verde con coleta redonda y barba verde atada en punta, abertura triangular al ojo derecho y ojos marrones correctos. Dos brazos marrones continuos con bandas superiores y punos unicos, manos fuera de cuadro; un torso. Mariposa pequena coherente sobre hombro, no parece miembro. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "sadida",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 157,
+        "headSkin": 2168,
+        "bodySlot": 1,
+        "bodyId": 25,
+        "bodySkin": 101
+      },
+      "asset": "public/avatars/classes/v1/sadida-look-5-f.webp",
+      "sha256": "2f8ca567bf2c9768292fa08dda21b6c21673cd2400ec60c62a6386bd681f70a7",
+      "master": "temp/profile-avatars/masters/v1/sadida-look-5-f.png",
+      "masterSha256": "9ff686da4b4773b163afc8902802fa951f076665c05acbbf0a67b0cb4420180f",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinta coleta lateral pequena, flequillo verde y pelo posterior largo fieles; piel marron y manga termina antes de mano. Mano izquierda con cuatro dedos alrededor de ramita y pulgar parcialmente oculto naturalmente en pinza detras de indice/tallo; conexion correcta al brazo. Dos brazos, top unico sin bustos extra. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "sram",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 53,
+        "headSkin": 2064,
+        "bodySlot": 1,
+        "bodyId": 10,
+        "bodySkin": 40
+      },
+      "asset": "public/avatars/classes/v1/sram-look-5-m.webp",
+      "sha256": "ca5fb31455155a2e73ba96c4deab8c8f5a0eee1fdb7a1a463a72bbbf4c144087",
+      "master": "temp/profile-avatars/masters/v1/sram-look-5-m.png",
+      "masterSha256": "356a6b4a53e3b56404dd5d65056e9171eefa3321b53067eb9cab4b4217a37629",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Correccion solicitada por usuario: ambas palmas abiertas muestran cuatro dedos largos separados y un pulgar lateral correcto, cinco claramente contables en cada mano. Dos munecas conectadas por manguitos unicos a dos brazos oseos y un torso; sin dedos superpuestos ni huesos extra. Identidad quinta fiel, revisado ampliado y circular 150/48 px."
+      }
+    },
+    {
+      "classId": "sram",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 61,
+        "headSkin": 2072,
+        "bodySlot": 1,
+        "bodyId": 11,
+        "bodySkin": 41
+      },
+      "asset": "public/avatars/classes/v1/sram-look-5-f.webp",
+      "sha256": "4a0996fb3883470398233beb10785936edb2ee8b83d549285022d0617bf996af",
+      "master": "temp/profile-avatars/masters/v1/sram-look-5-f.png",
+      "masterSha256": "5d0b581d7683f34059142e5e0dd25b954e2b1e7fb79fc1af4cab658dab509e1f",
+      "review": {
+        "reviewedOn": "2026-11-25",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Capucha quinta con tres pinchos por lado y emblema, cabello marfil, ojos oliva y mascarilla fieles. Palma izquierda desnuda con cuatro dedos y pulgar hacia torso en lado correcto; conexion a una sola manga izquierda. Dos brazos desde dos hombros, ningun tercer brazo/tira posterior y un unico torso. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "xelor",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 69,
+        "headSkin": 2080,
+        "bodySlot": 1,
+        "bodyId": 12,
+        "bodySkin": 50
+      },
+      "asset": "public/avatars/classes/v1/xelor-look-5-m.webp",
+      "sha256": "caf23f4e1a96ee7d5408f53c873bde74f95215c019a19ab2303f306a00fe58da",
+      "master": "temp/profile-avatars/masters/v1/xelor-look-5-m.png",
+      "masterSha256": "7afb0574edf7e5453cd3576d76925f30607c96c55ee2a8cbefb82d8a7eead65b",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Quinto sombrero azul con banda marron, cog parcial dorado y punta larga completo; rostro gris vendado y ojos amarillos con pupila fieles. Mano izquierda con cuatro dedos curvados y pulgar opuesto claro alrededor del reloj, cinco. Dos brazos y un manguito por brazo, torso unico con estrella. Grande y circular 150/48 revisados."
+      }
+    },
+    {
+      "classId": "xelor",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 5,
+        "headId": 77,
+        "headSkin": 2088,
+        "bodySlot": 1,
+        "bodyId": 13,
+        "bodySkin": 51
+      },
+      "asset": "public/avatars/classes/v1/xelor-look-5-f.webp",
+      "sha256": "5fa04506625289178e617da074cdc0368af742c3c9c752a833e50ea3aee23b39",
+      "master": "temp/profile-avatars/masters/v1/xelor-look-5-f.png",
+      "masterSha256": "3c28be78222f44a29834767af7ec94472e284ef0b6c5d5b5f98c4aad14c555b6",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Primera imagen restaurada intacta por solicitud explicita del usuario el 26 de noviembre; la version refinada queda descartada y archivada. Dos dedos extendidos y dos plegados visibles, pulgar no expuesto en esta vista. Identidad quinta, dos brazos y torso revisados de nuevo ampliados y en circulos 150/48; sin insertar dedos nuevos."
+      }
+    }
+  ],
+  "preservedPreviousPortraits": 152
+}

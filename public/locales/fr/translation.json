@@ -2590,5 +2590,13 @@
   "fg_import_invalid": "Ce lien ou ce code n’est pas une commande valide pour La Forgeuse.",
   "fg_import_done": "Commande importée.",
   "fg_import_done_gear": "Commande importée avec son personnage.",
-  "fg_import_undo": "Annuler"
+  "fg_import_undo": "Annuler",
+  "profile_banner_location_kontatras-castle": "Château de Harebourg",
+  "profile_banner_location_grobe": "Grobe",
+  "profile_banner_location_kefriho": "Île de Sakaï",
+  "profile_banner_location_petrified-forest": "Forêt pétrifiée",
+  "profile_banner_location_kanig-village": "Village des Kanigs",
+  "profile_banner_location_merkator": "Aquadôme de Merkator",
+  "profile_banner_location_dramak": "Théâtre de Dramak",
+  "profile_banner_location_obscure-dimension": "Dimension Obscure"
 }

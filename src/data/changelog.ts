@@ -10,6 +10,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.24',
+    date: '2026-11-26',
+    notes: [
+      "38 new profile portraits: the fifth in-game face and hairstyle for all 19 classes, male and female, with their usual outfit and distinct ink-and-watercolor poses. Choose from 190 avatars; the checklist records 190 of 600 faces complete, with alternate outfits reserved for later",
+      "Eight more DOFUS 3.7 profile landscapes: Harebourg's Castle, Nolifis Island, Sakai Island, Petrified Forest, Kanig Village, Merkator's Aquadome, Dramak's Theatre and Lost Dimension. Choose from 52 banners; exact prompts, current-client references and individual crop reviews are saved",
+      "Portrait refinements: restored the preferred first female Xelor image and corrected the male Pandawa hand, male Ecaflip cup grip and both male Sram hands. The previous 152 portraits and 44 banners keep their files; the new choices use the same exact-path catalog checks",
+    ],
+  },
+  {
     version: '0.4.23',
     date: '2026-11-25',
     notes: [

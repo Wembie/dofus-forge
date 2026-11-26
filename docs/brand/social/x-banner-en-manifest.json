@@ -1,0 +1,71 @@
+{
+  "createdOn": "2026-11-25",
+  "use": "X profile header",
+  "language": "en",
+  "concept": "An original imagined equipment-making workshop above a cloud-filled valley; a build takes shape around an enchanted anvil. This is not a literal game location.",
+  "generator": "Built-in image_gen for the illustration; existing native brand font outlines and resvg for layout/export",
+  "prompt": "Use case: illustration-story. Create one ORIGINAL illustrated panoramic background for the X profile banner of DOFUS FORGE, aspect ratio exactly 3:1, ideally 3000x1000 pixels. This is a new creative composition, not a variation of another social profile's centered wordmark with green stripes. IMAGE 1 is ONLY our approved hand-inked watercolor medium and fantasy craftsmanship reference; do not copy its Bonta buildings or layout. IMAGE 2 is our actual peach anvil/flame brand symbol, used only to inform the workshop concept and warm accent color; do NOT draw a logo or any typography because exact branding will be added separately.\nCONCEPT: a secluded enchanted equipment-maker's workshop above a blue cloud-filled valley at dusk, in an expressive French fantasy comic world evocative of DOFUS. On the RIGHT HALF, an elegant wrought anvil on a weathered stone workbench is the hero; a small egg-shaped magical ember hovers over it, shaped like the flame in our symbol. A modest curved sword and a round shield rest naturally nearby. A curled blank equipment-planning parchment and just two small crystalline eggs sit on the bench. A few restrained thin magical arcs connect the parchment's empty circles to the equipment, suggesting a build taking shape. No hands or characters. Behind the bench, a tall asymmetrical arch cut in stone reveals the far indigo valley, with a tiny copper-roofed workshop tower and a hanging plant framing the extreme right. This is an original imagined Forge workshop, not a literal game screenshot.\nCOMPOSITION: one continuous wide scene. Keep the LEFT 58% quiet, dark and spacious for later brand typography: deep blue-green charcoal wall, very faint hand-drawn chalk equipment diagrams only at the edges, without legible words, with the central-left panel essentially plain. The forge starts around 62% width; brightest focal point at 78% width and 52% height. Keep the upper and lower 10% of the image free of important details. Lower-left remains dark and quiet where the avatar will overlap. The workshop must feel part of one coherent landscape, not a cutout illustration pasted onto a background. No centered symmetrical framing, geometric striping or ornamental bars.\nSTYLE: original hand-drawn fantasy fan art, confident tapered ink contours, selective graphite construction lines and hatching, layered matte watercolor with organic edges and visible fine paper grain. Rich restrained midnight teal and ink-blue, warm peach/copper illumination and a little muted turquoise crystal color. Sharp economical forms, charming asymmetry, very controlled warmth from the magical ember, no glossy 3D, photorealism, neon, cinematic light rays, excessive particles or plastic AI fantasy rendering. Keep it graphic and legible as a narrow social header. All objects have coherent perspective and material, just one anvil, clear sword and shield silhouettes, no duplicated or melted objects. Opaque background. Absolutely NO text, letters, numbers, captions, wordmarks, signatures, labels, borders, watermarks or social media UI. Deliver ONLY the finished wide illustrated background.\n",
+  "referenceImages": [
+    {
+      "file": "public/banners/locations/v1/bonta.webp",
+      "role": "approved Forge ink-and-watercolor technique only; not its scene or landmarks",
+      "sha256": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352"
+    },
+    {
+      "file": "public/brand/mark-256.png",
+      "role": "live brand anvil/flame idea and warm accent; no copied profile-header composition",
+      "sha256": "70d207e2cb2cbd2256ae039846e3b488854d6fdf4327a79ec1739a18531508c2"
+    }
+  ],
+  "master": {
+    "localPng": "temp/x-banner-creative/background-master.png",
+    "width": 2172,
+    "height": 724,
+    "sha256": "833f53c5a20b6d6bcb3098edcd9445242b1cf08ee84eb03de598ba74c9e8e8c9",
+    "embeddedLosslesslyIn": "docs/brand/social/dofus-forge-x-banner-en-1500x500.svg"
+  },
+  "copy": {
+    "title": [
+      "DOFUS",
+      "FORGE"
+    ],
+    "tagline": "Every great build starts here."
+  },
+  "layout": {
+    "titleX": 390,
+    "titleBaselines": [
+      194,
+      298
+    ],
+    "titleFont": "BarlowCondensed-SemiBold.ttf",
+    "titleFontSize": 122,
+    "titleTracking": 2.6,
+    "taglineX": 390,
+    "taglineBaseline": 355,
+    "taglineFont": "SourceSans3-Regular.ttf",
+    "taglineFontSize": 22,
+    "taglineTracking": 0.1
+  },
+  "outputs": [
+    {
+      "file": "docs/brand/social/dofus-forge-x-banner-en-1500x500.png",
+      "width": 1500,
+      "height": 500,
+      "sha256": "ae26954d5e955f352c3ab8ac6910c0ccfedf691cee36b23c5c7af842ae66dd15",
+      "bytes": 1574908
+    },
+    {
+      "file": "docs/brand/social/dofus-forge-x-banner-en-1500x500.svg",
+      "width": 1500,
+      "height": 500,
+      "sha256": "e607455e5e299e9ecfa6bb8b2a2931f7abb4ded326b2c16d0c3f87a1ed627582",
+      "bytes": 3727942
+    }
+  ],
+  "review": {
+    "illustrationInspected": true,
+    "fullHeaderInspected": true,
+    "reducedProfilePreviewInspected": true,
+    "notes": "Original asymmetric workshop composition, all visible text in English, exact brand font outlines, coherent anvil/sword/shield objects, no characters or hands. The supplied competitor profile informed the intended use only. Reviewed at 600px profile width with the existing avatar: title and tagline remain outside the overlap."
+  }
+}

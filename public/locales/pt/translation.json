@@ -2590,5 +2590,13 @@
   "fg_import_invalid": "Esse link ou código não é uma encomenda válida da Forjadora.",
   "fg_import_done": "Encomenda importada.",
   "fg_import_done_gear": "Encomenda importada com o personagem.",
-  "fg_import_undo": "Desfazer"
+  "fg_import_undo": "Desfazer",
+  "profile_banner_location_kontatras-castle": "Castelo de Traspafrent",
+  "profile_banner_location_grobe": "Grobe",
+  "profile_banner_location_kefriho": "Ilha de Kifril",
+  "profile_banner_location_petrified-forest": "Floresta Petrificada",
+  "profile_banner_location_kanig-village": "Vilarejo dos Kanigs",
+  "profile_banner_location_merkator": "Aquódromo do Merkator",
+  "profile_banner_location_dramak": "Teatro de Dramak",
+  "profile_banner_location_obscure-dimension": "Dimensão Obscura"
 }

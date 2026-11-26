@@ -32,6 +32,19 @@ def image(path,x,y,w,h):
     uri='data:image/png;base64,'+base64.b64encode(path.read_bytes()).decode()
     return f'<image href="{uri}" x="{x}" y="{y}" width="{w}" height="{h}" preserveAspectRatio="xMidYMid meet"/>'
 
+if '--x-banner' in sys.argv:
+    from xml.etree import ElementTree
+    social=ROOT/'docs'/'brand'/'social'
+    source=social/'dofus-forge-x-banner-en-1500x500.svg'
+    background=ElementTree.parse(source).getroot().find('{http://www.w3.org/2000/svg}image').attrib['href']
+    content=f'<image href="{background}" x="0" y="0" width="1500" height="500" preserveAspectRatio="xMidYMid meet"/>'
+    content+=text('DOFUS',122,390,194,INK,'BarlowCondensed-SemiBold.ttf',2.6)
+    content+=text('FORGE',122,390,298,ACCENT,'BarlowCondensed-SemiBold.ttf',2.6)
+    content+=text('Every great build starts here.',22,390,355,INK,'SourceSans3-Regular.ttf',.1)
+    source.write_text(svg(1500,500,content),encoding='utf8')
+    print('English X banner source generated; original illustrated background retained.')
+    raise SystemExit
+
 if '--raster' in sys.argv:
     from PIL import Image
     for lang in ['en','es','fr','pt']:

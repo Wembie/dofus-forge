@@ -2,8 +2,15 @@ import {spawnSync} from 'node:child_process';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {Resvg} from '@cf-wasm/resvg/node';
 function python(...args){const result=spawnSync('python',['scripts/build-brand-v04.py',...args],{stdio:'inherit'});if(result.status!==0)throw Error('Brand source generation failed')}
-python();
 const render=async(source,target,width)=>{const resvg=await Resvg.async(readFileSync(source),{fitTo:{mode:'width',value:width}});writeFileSync(target,resvg.render().asPng())};
+if(process.argv.includes('--x-banner')||process.argv.includes('--x-banner-en')){
+  python('--x-banner');
+  const source='docs/brand/social/dofus-forge-x-banner-en-1500x500';
+  await render(source+'.svg',source+'.png',1500);
+  console.log('English illustrated X banner ready: '+source+'.png');
+  process.exit(0);
+}
+python();
 const dir='public/brand/';
 for(const size of [96,512])await render(dir+'icon.svg',dir+`icon-${size}.png`,size);
 for(const size of [256,1024])await render(dir+'mark.svg',dir+`mark-${size}.png`,size);

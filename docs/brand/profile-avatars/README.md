@@ -1,11 +1,27 @@
 # Retratos de perfil de Forge
 
-Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros cuatro rostros/peinados tienen versiones masculinas y femeninas: **152 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
+Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros cinco rostros/peinados tienen versiones masculinas y femeninas: **190 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
 
 - [Progreso por clase, sexo y modelo](PROGRESS.md): lista completa con casillas de los rostros hechos y pendientes; los trajes alternativos van al final.
 - [Inventario del juego](game-looks.json): 600 rostros/peinados y 76 cuerpos de creación, incluidos los 38 trajes habituales y los 38 alternativos reservados para después.
 - [Prompts y procedencia de cada imagen](manifest.json): prompt exacto, pose, referencias, hash y `gameLook` con posición, id y textura de cabeza/cuerpo.
 - [Plantilla para continuar](prompt-template.json): conservar la técnica artística y los rasgos del modelo, inventando un gesto y expresión distintos para cada retrato.
+
+## Rostro 5 — 2026-11-26
+
+38 fan arts nuevos: quinto rostro/peinado de las 19 clases, hombre y mujer, con traje habitual y poses propias, basados en los modelos exactos del cliente DOFUS 3.7.14.18. **190/600 rostros terminados, 410 pendientes**. Los 38 trajes alternativos siguen mapeados para después.
+
+![Quinto rostro de cada clase](look-5-preview.webp)
+
+![Quinto rostro en círculos de 150 y 48 px](look-5-circular-preview.webp)
+
+El [registro de esta tanda](look-5-review.json) recoge la revisión individual ampliada y en círculo; el [manifiesto](manifest.json) conserva prompts exactos, referencias con hashes, modelos e intentos descartados. Los 152 retratos previos mantienen sus archivos y registros. Esta revisión cubre solo los 38 nuevos, sin sustituir la auditoría histórica de abajo.
+
+Se restauró intacta la primera xelor mujer por preferencia del usuario. Se ajustaron el agarre de la taza del zurcarák hombre, ambas manos del sram hombre y la mano del pandawa hombre, incluido el último dedo señalado: pulgar recogido de forma natural y parcialmente oculto, sin el extremo grueso junto a la muñeca. Los descartes conservan sus prompts y hashes. La oclusión natural de los dedos se distingue de una mano completamente expuesta.
+
+PNG nativos opacos en `temp/profile-avatars/masters/v1/<clase>-look-5-<m|f>.png`; WebP de 512 × 512 px en `public/avatars/classes/v1/`. Generados y editados con la herramienta integrada `image_gen`. El recorte circular es de presentación; se conserva la ilustración cuadrada para ampliar.
+
+Aplicar `supabase/migrations/20261126010000_profile_art_fifth_heads_and_locations.sql` antes del despliegue: agrega únicamente las 38 rutas de retratos y ocho de banners. Conserva perfiles y permisos y admite repetición. No se ejecutó contra la base de datos alojada.
 
 ## Revisión visual de la colección — 2026-11-24
 

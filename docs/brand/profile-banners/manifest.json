@@ -1,13 +1,13 @@
 {
   "collection": "Forge World of Twelve banners",
-  "revision": 4,
+  "revision": 5,
   "createdOn": "2026-11-22",
   "generator": "Built-in image_gen",
   "useCase": "illustration-story",
   "targetGame": "DOFUS 3.7 / Unity",
   "gameDataVersion": "3.7.12.12",
   "version": "0.4.10",
-  "status": "44 selectable landscapes; eight fourth-collection additions in Forge 0.4.25, preserving the earlier 36 artworks",
+  "status": "52 selectable landscapes; eight fifth-collection additions in Forge 0.4.24, preserving the earlier 44 artworks",
   "referenceProvenance": "Published environment references include earlier city/Pandala redesign artwork and game screenshots. The target version does not assert that each reference was captured in 3.7. Source images remain local; these are original fan-art interpretations.",
   "banners": [
     {
@@ -1966,6 +1966,494 @@
         "fr": "Île des naufragés",
         "pt": "Ilha dos Náufragos"
       }
+    },
+    {
+      "id": "kontatras-castle",
+      "location": "Castillo de Kontatrás",
+      "asset": "public/banners/locations/v1/kontatras-castle.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 352452,
+      "sha256": "25ddee21faf87f8b76fa676f7a383d52b5080b0e8ef12d1ada4244f92e05a463",
+      "localPngMaster": "temp/profile-banners/masters/v1/kontatras-castle.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "58219b7972630ddaf9c9349d8d0bcba516d3785a6eb103a667b86342e2d4c288",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.24",
+      "identity": "The actual 3.7 Harebourg castle approach: a massive cylindrical ivory-stone tower with distinctive black COG-SHAPED windows, steep segmented dark slate conical roof with raised rusty brown bands, a low round arched doorway with heavy riveted brown metal trim, snow caps and long icicles. The huge ochre stone bridge has squared piers, broad lower arches, brown-capped chain guardrails and small pale-blue snowflake banners, suspended above clouds. Preserve these recognizable mechanical castle details. No generic blue ice palace or fantasy cathedral.",
+      "composition": "A sweeping cold panorama approaching the recognizable cog-windowed round tower near the middle along the monumental old bridge, its arches falling away into white cloud below. Tower and roof fully legible, distant snowy cliffs muted. Ivory snow, charcoal slate, weathered ochre and pale blue. Lower-left is a quiet snowy approach.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/kontatras-castle-108922368.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 108922368,
+          "mapBundle": "Map/Data/mapdata_assets_world_415.bundle",
+          "sourceMapBundleSha256": "ddc4155d5aa62a11d099fa2aeb91e51d095e4175d6387778ff8e875b2bb34e64",
+          "sha256": "cbd1e8b48e6c8463e274659a3ab101103f7046b48ff3a4d12745912d8b31783e",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/kontatras-castle-111150592.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 111150592,
+          "mapBundle": "Map/Data/mapdata_assets_world_424.bundle",
+          "sourceMapBundleSha256": "5c01e2ed8400314863a17d82648e15386432250c53e78c324c8109c3dde9a631",
+          "sha256": "f629d116f01faf9e0c0f09ec710ea66e9cc6e1e60e15f8471c668f6ab87a02ae",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Castillo de Kontatrás.\nKEEP THE REAL LOCATION IDENTITY: The actual 3.7 Harebourg castle approach: a massive cylindrical ivory-stone tower with distinctive black COG-SHAPED windows, steep segmented dark slate conical roof with raised rusty brown bands, a low round arched doorway with heavy riveted brown metal trim, snow caps and long icicles. The huge ochre stone bridge has squared piers, broad lower arches, brown-capped chain guardrails and small pale-blue snowflake banners, suspended above clouds. Preserve these recognizable mechanical castle details. No generic blue ice palace or fantasy cathedral.\nDISTINCT COMPOSITION AND MOOD: A sweeping cold panorama approaching the recognizable cog-windowed round tower near the middle along the monumental old bridge, its arches falling away into white cloud below. Tower and roof fully legible, distant snowy cliffs muted. Ivory snow, charcoal slate, weathered ochre and pale blue. Lower-left is a quiet snowy approach.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Entrada del castillo de Kontatrás",
+        "en": "Entrance to Harebourg's Castle",
+        "fr": "Entrée du château de Harebourg",
+        "pt": "Entrada do Castelo de Traspafrent"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Torre con ventanas de engranaje, entrada remachada, puente y nieve reconocibles. Vista nativa y recortes escritorio/movil revisados; sin personajes ni artefactos de reconstruccion. Tejado superior llega al borde como en referencia; ventanas y entrada permanecen visibles."
+      }
+    },
+    {
+      "id": "grobe",
+      "location": "Grobe",
+      "asset": "public/banners/locations/v1/grobe.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 384342,
+      "sha256": "383af0c6387748c440a7bdb0f519f8985ca0c21d2a97584504d023310a65580d",
+      "localPngMaster": "temp/profile-banners/masters/v1/grobe.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "b12b9b6175052c9ba40cdb3362041812381bc04ddc1e9a392c662f02bcd1866c",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.24",
+      "identity": "Actual current 3.7 Grobe cemetery in Pandala: crowded slender rounded limestone grave steles and narrow rock faces coated with heavy olive moss, incised understated spiral marks, small stylized panda-shaped funerary stone carvings, short tiered stone lanterns with tiny warm orange openings, skinny bamboo, a winding grass path and narrow worn stone stairs. A restrained distant pale-gray ritual tent with dark red trim and white folded paper streamers can appear, but cemetery landscape dominates. No generic Japanese city, torii parade or living spirits/monsters.",
+      "composition": "An intimate misty olive-green cemetery panorama, a winding open moss path leads between rounded moss-covered grave stones toward narrow old stairs and one tiny warm stone lantern in the central distance. A small worn panda stone carving is off center; thin bamboo frames edges. Soft sage mist, ochre stone and olive moss, readable shadow shapes rather than near-black darkness. Quiet grass at lower-left.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/grobe-206833153.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 206833153,
+          "mapBundle": "Map/Data/mapdata_assets_world_789.bundle",
+          "sourceMapBundleSha256": "bb35f96be0f1d8d939edfda9553a5b107f3a91a71864f1952fdcfd0da281edf5",
+          "sha256": "760cbce887a0256b72c6971bf13ea9296309deed4ea9e3ced038a5ffe4a75107",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/grobe-206832645.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 206832645,
+          "mapBundle": "Map/Data/mapdata_assets_world_789.bundle",
+          "sourceMapBundleSha256": "bb35f96be0f1d8d939edfda9553a5b107f3a91a71864f1952fdcfd0da281edf5",
+          "sha256": "4eace904d6d9215c35d2fd55dd5f667dce1e98a8963914d517e718e39a52e8c3",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Grobe.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Grobe cemetery in Pandala: crowded slender rounded limestone grave steles and narrow rock faces coated with heavy olive moss, incised understated spiral marks, small stylized panda-shaped funerary stone carvings, short tiered stone lanterns with tiny warm orange openings, skinny bamboo, a winding grass path and narrow worn stone stairs. A restrained distant pale-gray ritual tent with dark red trim and white folded paper streamers can appear, but cemetery landscape dominates. No generic Japanese city, torii parade or living spirits/monsters.\nDISTINCT COMPOSITION AND MOOD: An intimate misty olive-green cemetery panorama, a winding open moss path leads between rounded moss-covered grave stones toward narrow old stairs and one tiny warm stone lantern in the central distance. A small worn panda stone carving is off center; thin bamboo frames edges. Soft sage mist, ochre stone and olive moss, readable shadow shapes rather than near-black darkness. Quiet grass at lower-left.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Cementerio de Grobe",
+        "en": "Nolifis Cemetery",
+        "fr": "Cimetière de Grobe",
+        "pt": "Cemitério de Grobe"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Estelas redondeadas con musgo, talla funeraria de panda, bambu y linterna conservan la identidad del cementerio actual. Revisados original y dos recortes; camino y monumentos legibles, sin criaturas ni artefactos del render."
+      }
+    },
+    {
+      "id": "kefriho",
+      "location": "Isla de Kéfriho",
+      "asset": "public/banners/locations/v1/kefriho.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 376438,
+      "sha256": "ba6241b1b13c7d11a6c4407e1cc42d3b0c1d7f69b151768a9968dd63b142c6bb",
+      "localPngMaster": "temp/profile-banners/masters/v1/kefriho.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "640bc334057eff90aa2f5a26bbbf9064c5668538f0baa282f772206daa419e22",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.24",
+      "identity": "Actual 3.7 Sakai / Kefriho shore: pale blue frozen water, broad snow-covered banks and broken gray-green timber piers, distinctive hollow turquoise tubular sponge-like growths of many heights, brown palm trunks with huge tattered frost-gray fan leaves, scattered old cogwheels and worn industrial debris. The docked weathered wooden ship has a plain mast and rope rigging. This is a FROZEN island with damaged frosted palms and turquoise tubes, not a warm beach, coral reef or generic pine forest.",
+      "composition": "A fresh chilly harbor panorama from an open pale snow bank across blue ice to a broken timber jetty in the central area, turquoise hollow tube clusters rising beside it, a frost-stripped broad-leaf palm just off center and part of the docked old wooden ship on the right. Airy off-white, pale aqua, weathered brown and muted turquoise. Lower-left simple snow and ice.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/kefriho-54159142.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 54159142,
+          "mapBundle": "Map/Data/mapdata_assets_world_206.bundle",
+          "sourceMapBundleSha256": "971dd9bb87460ada8da0e0bb5a5ba224af86eb212acbe29a19d6134277f8c458",
+          "sha256": "d77f0461d2bb04dae4ad092c44400096a4007b0cc36429ffd5d4cd78224d4172",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/kefriho-54160681.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 54160681,
+          "mapBundle": "Map/Data/mapdata_assets_world_206.bundle",
+          "sourceMapBundleSha256": "971dd9bb87460ada8da0e0bb5a5ba224af86eb212acbe29a19d6134277f8c458",
+          "sha256": "3f3d253533c7bdb1909cc0a617b011848fc3644d6fb8d207207bdfe4e04fa56f",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Isla de Kéfriho.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Sakai / Kefriho shore: pale blue frozen water, broad snow-covered banks and broken gray-green timber piers, distinctive hollow turquoise tubular sponge-like growths of many heights, brown palm trunks with huge tattered frost-gray fan leaves, scattered old cogwheels and worn industrial debris. The docked weathered wooden ship has a plain mast and rope rigging. This is a FROZEN island with damaged frosted palms and turquoise tubes, not a warm beach, coral reef or generic pine forest.\nDISTINCT COMPOSITION AND MOOD: A fresh chilly harbor panorama from an open pale snow bank across blue ice to a broken timber jetty in the central area, turquoise hollow tube clusters rising beside it, a frost-stripped broad-leaf palm just off center and part of the docked old wooden ship on the right. Airy off-white, pale aqua, weathered brown and muted turquoise. Lower-left simple snow and ice.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Puerto de Kéfriho",
+        "en": "Sakai Harbour",
+        "fr": "Port de Sakaï",
+        "pt": "Porto de Kifril"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Puerto helado con tubos turquesa huecos, palmeras deterioradas cubiertas de nieve y embarcadero de madera coherentes con cliente 3.7. Original y recortes revisados; los tubos y palmera siguen reconocibles en movil, sin personas ni artefactos."
+      }
+    },
+    {
+      "id": "petrified-forest",
+      "location": "Bosque Petrificado",
+      "asset": "public/banners/locations/v1/petrified-forest.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 335376,
+      "sha256": "bc2bea4e741240d1df3b0b02ba3249bf56a6031eaf3aea7465ec3d88f82b430b",
+      "localPngMaster": "temp/profile-banners/masters/v1/petrified-forest.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "45aa0ad7c619f0526db6a8b1fdb85dab7290a0c383cb10bbb7b3bce516e867e9",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.24",
+      "identity": "Actual 3.7 Frigost Petrified Forest: tall thin dark gray-green leafless trunks, twisted old roots with delicate mint-colored spiral veins, small clusters of pale cream-green round blossoms on otherwise bare branches, long icicles and snowy ground, scattered stones carrying matching restrained spiral veins. Huge pale ice escarpments at the edge. Preserve this unusual winter grove with sparsely flowering petrified trees, not an ordinary evergreen forest, giant mushroom forest or lava setting.",
+      "composition": "A quiet winter woodland panorama through an asymmetric group of slender petrified trees with spare cream blossoms and fine mint veins; a winding strip of pale snow leads between the central trees toward an icy wall receding into soft blue distance. One thick twisted root near the middle, fine icicles, airy snow shadows and gentle diffuse daylight. No intense neon light; the veins are small watercolor accents. Lower-left quiet snow.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/petrified-forest-60033539.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 60033539,
+          "mapBundle": "Map/Data/mapdata_assets_world_229.bundle",
+          "sourceMapBundleSha256": "154f4eeb2a3c1cb66397eb8318dbe7a665eeb8592d39ad27cc8c8885af2f4acd",
+          "sha256": "3c646e273d6cb16f62f3d0c3d7b14022abdc295ac3380d8d0eb69e1cba89e4ff",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/petrified-forest-60034053.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 60034053,
+          "mapBundle": "Map/Data/mapdata_assets_world_229.bundle",
+          "sourceMapBundleSha256": "154f4eeb2a3c1cb66397eb8318dbe7a665eeb8592d39ad27cc8c8885af2f4acd",
+          "sha256": "98af4269901d2e4c80382427fa8332944a7a0100d425e85baee5700bba189ea3",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Bosque Petrificado.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Frigost Petrified Forest: tall thin dark gray-green leafless trunks, twisted old roots with delicate mint-colored spiral veins, small clusters of pale cream-green round blossoms on otherwise bare branches, long icicles and snowy ground, scattered stones carrying matching restrained spiral veins. Huge pale ice escarpments at the edge. Preserve this unusual winter grove with sparsely flowering petrified trees, not an ordinary evergreen forest, giant mushroom forest or lava setting.\nDISTINCT COMPOSITION AND MOOD: A quiet winter woodland panorama through an asymmetric group of slender petrified trees with spare cream blossoms and fine mint veins; a winding strip of pale snow leads between the central trees toward an icy wall receding into soft blue distance. One thick twisted root near the middle, fine icicles, airy snow shadows and gentle diffuse daylight. No intense neon light; the veins are small watercolor accents. Lower-left quiet snow.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Bosque Petrificado",
+        "en": "Petrified Forest",
+        "fr": "Forêt pétrifiée",
+        "pt": "Floresta Petrificada"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Troncos desnudos con flores palidas, vetas menta y carambanos identificables frente al hielo de Frigost. Original y recortes revisados: raiz central legible, acabado mate, sin criaturas, UI o manchas rectangulares de referencia."
+      }
+    },
+    {
+      "id": "kanig-village",
+      "location": "Pueblo de los kanigs",
+      "asset": "public/banners/locations/v1/kanig-village.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 334414,
+      "sha256": "30bb649d7c8c5453d4b80eac82437ce667d634f47700458bab03cc98920dde6c",
+      "localPngMaster": "temp/profile-banners/masters/v1/kanig-village.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "e936432228e1503130eb1df4a21f110e30f80a9adb980d267393eac59403a2a4",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.24",
+      "identity": "Actual 3.7 Kanig Village: immense pale yellow-ivory pointed rock spikes with horizontal ochre-gray bands, clustered in diagonal toothlike fins across dry yellow-green grass. Simple ropes lashed around paired stone spikes, rough timber/cart shelters fitted between rocks, stitched ochre hides and bone ornaments over small entrances. Preserve these distinctive striped pointed rock dwellings and rough camp fittings; no ordinary wooden village, red desert palace, live Kanigs or skull cave reused from Bwork village.",
+      "composition": "A bright dry-country panoramic lane winding between two loose groups of the characteristic striped ivory rock spires, one small ochre hide-fronted rock dwelling just off center with an irregular bone lintel and tied ropes. A low rough timber shelter nestles beside it; open rolling golden-green plain beyond. Warm pale limestone, muted straw green, tan leather. Lower-left is an open dusty path.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/kanig-village-126093082.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 126093082,
+          "mapBundle": "Map/Data/mapdata_assets_world_481.bundle",
+          "sourceMapBundleSha256": "775b18e4fa04c89eda26c903b4e22818609bff0be663b531432bdfeca2bb424e",
+          "sha256": "b06f7ccd0f3d049fa9a0420a75c5bd74bef0c60170f0fd4d2cb3530d0737b893",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/kanig-village-126094104.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 126094104,
+          "mapBundle": "Map/Data/mapdata_assets_world_481.bundle",
+          "sourceMapBundleSha256": "775b18e4fa04c89eda26c903b4e22818609bff0be663b531432bdfeca2bb424e",
+          "sha256": "55002a9660208b71a920b89b46689b0dbedf00e699d92e82a763554bb034780e",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Pueblo de los kanigs.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Kanig Village: immense pale yellow-ivory pointed rock spikes with horizontal ochre-gray bands, clustered in diagonal toothlike fins across dry yellow-green grass. Simple ropes lashed around paired stone spikes, rough timber/cart shelters fitted between rocks, stitched ochre hides and bone ornaments over small entrances. Preserve these distinctive striped pointed rock dwellings and rough camp fittings; no ordinary wooden village, red desert palace, live Kanigs or skull cave reused from Bwork village.\nDISTINCT COMPOSITION AND MOOD: A bright dry-country panoramic lane winding between two loose groups of the characteristic striped ivory rock spires, one small ochre hide-fronted rock dwelling just off center with an irregular bone lintel and tied ropes. A low rough timber shelter nestles beside it; open rolling golden-green plain beyond. Warm pale limestone, muted straw green, tan leather. Lower-left is an open dusty path.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Pueblo de los kanigs",
+        "en": "Kanig Village",
+        "fr": "Village des Kanigs",
+        "pt": "Vilarejo dos Kanigs"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Pinchos de roca palida con bandas, cuerdas atadas y vivienda con piel ocre mantienen los rasgos especificos del poblado actual. Original y recortes escritorio/movil revisados; vivienda legible y camino despejado, sin habitantes ni artefactos."
+      }
+    },
+    {
+      "id": "merkator",
+      "location": "Acuadomo de Merkator",
+      "asset": "public/banners/locations/v1/merkator.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 334160,
+      "sha256": "5d113897eb9d0a1a5c01a3998c4b4c9f9423f1ddee9f428f0ca5d63a0446d4dd",
+      "localPngMaster": "temp/profile-banners/masters/v1/merkator.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "786f425855a4d7d7cdfa4509f502d0e8c4ee34640d1184cba68bd22dd2280744",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.24",
+      "identity": "Actual 3.7 Merkator Aquadome interior: curved blue underwater observation glazing held by broad riveted rusty brown metal ribs; round timber-and-metal deck, brass-ringed pipes, gauges, squat pressure cylinders with round portholes, old controls, ropes and a few treasure crates. Jagged blue ocean rock silhouettes outside. Preserve the actual warm worn industrial diving observatory, not a generic glass city, spaceship or exterior undersea palace. No live characters, diving-suit people, floating robot monsters or fish crowds. A pressure cylinder may be static machinery without limbs.",
+      "composition": "A panoramic view along an empty curved wooden observation deck inside the Aquadome, broad brown riveted window ribs framing a wide soft blue undersea vista through the center. A few squat brass pressure pipes and a gauge panel to one side, worn crates tucked at the far edge, no figures. Warm copper/brown foreground contrasts with matte pale teal-blue water outside, diffuse amber worklight, readable ink detail. Lower-left is uncluttered timber deck.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/merkator-119276033.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 119276033,
+          "mapBundle": "Map/Data/mapdata_assets_world_455.bundle",
+          "sourceMapBundleSha256": "45f18b5317d86c4528574a1a1f4a74f430cfbdc39cabf438d42617ee0a4b0191",
+          "sha256": "3633d9e1bd9a7c93b95cc67217fc7f04693079cc116e001b7783e40d6138e21a",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/merkator-119277065.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 119277065,
+          "mapBundle": "Map/Data/mapdata_assets_world_455.bundle",
+          "sourceMapBundleSha256": "45f18b5317d86c4528574a1a1f4a74f430cfbdc39cabf438d42617ee0a4b0191",
+          "sha256": "e368ed2a7fe62a97fe79964564375625fda4f7e5032543bd7b579c18d381bbf4",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Acuadomo de Merkator.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Merkator Aquadome interior: curved blue underwater observation glazing held by broad riveted rusty brown metal ribs; round timber-and-metal deck, brass-ringed pipes, gauges, squat pressure cylinders with round portholes, old controls, ropes and a few treasure crates. Jagged blue ocean rock silhouettes outside. Preserve the actual warm worn industrial diving observatory, not a generic glass city, spaceship or exterior undersea palace. No live characters, diving-suit people, floating robot monsters or fish crowds. A pressure cylinder may be static machinery without limbs.\nDISTINCT COMPOSITION AND MOOD: A panoramic view along an empty curved wooden observation deck inside the Aquadome, broad brown riveted window ribs framing a wide soft blue undersea vista through the center. A few squat brass pressure pipes and a gauge panel to one side, worn crates tucked at the far edge, no figures. Warm copper/brown foreground contrasts with matte pale teal-blue water outside, diffuse amber worklight, readable ink detail. Lower-left is uncluttered timber deck.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Acuadomo de Merkator",
+        "en": "Merkator's Aquadome",
+        "fr": "Aquadôme de Merkator",
+        "pt": "Aquódromo do Merkator"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Acuadomo con ventanales submarinos curvos, costillas remachadas, maquinaria de presion y cubierta de madera coherentes con referencia. Original y recortes revisados; deposito central visible en movil, sin buzos o personajes y sin artefactos de render."
+      }
+    },
+    {
+      "id": "dramak",
+      "location": "Teatro de Dramak",
+      "asset": "public/banners/locations/v1/dramak.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 350602,
+      "sha256": "ae79e682857ceff7663df4b64a8fcbfdba76778e6761882eb7f3ae12f3036973",
+      "localPngMaster": "temp/profile-banners/masters/v1/dramak.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "85bbd67b9c9b2788b2bb13a5b19d2f0462bbc34cb689b33aa6b2ec48d38f011a",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.24",
+      "identity": "Actual 3.7 Dramak theater: a lavish but handmade puppet theater with red wooden curtain-shaped hanging scenery outlined in old gold, gold star-shaped fasteners, enormous jointed dark timber puppet-arm structures with circular pivot bolts at the sides, hanging ropes and small flat stage props, pale wooden parquet stage, rows of rounded red theater seats and small round footlights. No living puppets, real performers, people, masks with bodies or generic opera palace. The recognizable huge ARTICULATED WOODEN SUPPORTS are inanimate scenery.",
+      "composition": "A whimsical panoramic view from just behind a low row of empty red theater seats toward the central empty stage. Asymmetric red-and-gold curved scenery hangs above it; one huge jointed wooden puppet-arm support frames each outer side with visible pivots and ropes, small gold stars and gentle warm stage light. The central stage stays readable and uncluttered. Matte wine red, honey gold, dark walnut and cream watercolor; no blinding glow. Quiet lower-left seats.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/dramak-118230016.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 118230016,
+          "mapBundle": "Map/Data/mapdata_assets_world_451.bundle",
+          "sourceMapBundleSha256": "efe696c940af36afb4221d0dd9d68ef799dbfec7117d3c4f288bf60e97457492",
+          "sha256": "a284db16becd41dc0c147d6bb9d3fa7eaaaa3977c7ee7ffa3195fca620572082",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/dramak-118230020.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 118230020,
+          "mapBundle": "Map/Data/mapdata_assets_world_451.bundle",
+          "sourceMapBundleSha256": "efe696c940af36afb4221d0dd9d68ef799dbfec7117d3c4f288bf60e97457492",
+          "sha256": "416705bc1d2720a5488fe37d74d088de52528304f73574d151eb1e6a8faecb38",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Teatro de Dramak.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Dramak theater: a lavish but handmade puppet theater with red wooden curtain-shaped hanging scenery outlined in old gold, gold star-shaped fasteners, enormous jointed dark timber puppet-arm structures with circular pivot bolts at the sides, hanging ropes and small flat stage props, pale wooden parquet stage, rows of rounded red theater seats and small round footlights. No living puppets, real performers, people, masks with bodies or generic opera palace. The recognizable huge ARTICULATED WOODEN SUPPORTS are inanimate scenery.\nDISTINCT COMPOSITION AND MOOD: A whimsical panoramic view from just behind a low row of empty red theater seats toward the central empty stage. Asymmetric red-and-gold curved scenery hangs above it; one huge jointed wooden puppet-arm support frames each outer side with visible pivots and ropes, small gold stars and gentle warm stage light. The central stage stays readable and uncluttered. Matte wine red, honey gold, dark walnut and cream watercolor; no blinding glow. Quiet lower-left seats.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Teatro de Dramak",
+        "en": "Dramak's Theatre",
+        "fr": "Théâtre de Dramak",
+        "pt": "Teatro de Dramak"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Escenario rojo y dorado con estrellas, apoyos articulados de madera y cuerdas reconocibles del teatro del cliente. Revisados original y recortes; columnas, escenario y escenografia se leen en movil. Soportes inanimados, ninguna figura humana ni texto."
+      }
+    },
+    {
+      "id": "obscure-dimension",
+      "location": "Dimensión Obscura",
+      "asset": "public/banners/locations/v1/obscure-dimension.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 266844,
+      "sha256": "57bcffbc61f227282708353d1a24ac606f48ac51a925bf5aedd580acdb9bb9c3",
+      "localPngMaster": "temp/profile-banners/masters/v1/obscure-dimension.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "9404541fe82a15dedafdc3e665c51ffb29479b2c02376480502113aaf437e731",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.24",
+      "identity": "Actual 3.7 Obscure Dimension: irregular charcoal-violet floating stone islands with cracked flat tops and jagged downward-pointing undersides, suspended broken rock fragments, narrow floating stone stairways, tapering broken stacked-stone spires and a freestanding old circular/arched stone portal. Sparse thin ivory-aqua curling rune marks on stone, small pale luminous plants and a huge quiet blue-teal misty void. Preserve the empty shattered floating dimension, no space planets, galaxy wallpaper, purple crystal city or live Shadow monster.",
+      "composition": "An eerie but readable wide panorama across a few charcoal floating stone islands in layered blue-gray mist. A broken stair climbs to a central island with the simple round stone portal; a narrow ruined stone spire sits just to its right and a few small rock fragments float between. Fine restrained ivory-mint spiral marks on two stones, lots of airy teal negative space. Soft matte watercolor luminosity, not neon bloom. Quiet lower-left broken stone shelf.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/obscure-dimension-121634820.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 121634820,
+          "mapBundle": "Map/Data/mapdata_assets_world_464.bundle",
+          "sourceMapBundleSha256": "cb4b342b49b0fb37e1e3ec046400187adbe37f843661217a009d10c74e0d7d30",
+          "sha256": "162d1addd24810460e5e30c43932f0fc28e7fc6388006b92b9d29127d0fe8453",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-4/references/obscure-dimension-121634816.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 121634816,
+          "mapBundle": "Map/Data/mapdata_assets_world_464.bundle",
+          "sourceMapBundleSha256": "cb4b342b49b0fb37e1e3ec046400187adbe37f843661217a009d10c74e0d7d30",
+          "sha256": "a296d5a3d81679246374aabe4000fbdfd6d374efea5c5f7cdbffa2d137c86f7f",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\nLOCATION: Dimensión Obscura.\nKEEP THE REAL LOCATION IDENTITY: Actual 3.7 Obscure Dimension: irregular charcoal-violet floating stone islands with cracked flat tops and jagged downward-pointing undersides, suspended broken rock fragments, narrow floating stone stairways, tapering broken stacked-stone spires and a freestanding old circular/arched stone portal. Sparse thin ivory-aqua curling rune marks on stone, small pale luminous plants and a huge quiet blue-teal misty void. Preserve the empty shattered floating dimension, no space planets, galaxy wallpaper, purple crystal city or live Shadow monster.\nDISTINCT COMPOSITION AND MOOD: An eerie but readable wide panorama across a few charcoal floating stone islands in layered blue-gray mist. A broken stair climbs to a central island with the simple round stone portal; a narrow ruined stone spire sits just to its right and a few small rock fragments float between. Fine restrained ivory-mint spiral marks on two stones, lots of airy teal negative space. Soft matte watercolor luminosity, not neon bloom. Quiet lower-left broken stone shelf.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Dimensión obscura",
+        "en": "Lost Dimension",
+        "fr": "Dimension Obscure",
+        "pt": "Dimensão Obscura"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Islas de piedra suspendidas, escalera fragmentada, portal circular y aguja rota coinciden con rasgos del cliente actual. Original y recortes escritorio/movil revisados; portal y aguja siguen legibles, runas discretas, sin seres ni artefactos del render."
+      }
     }
   ],
   "integration": {
@@ -1974,6 +2462,6 @@
     "databaseMigration": "supabase/migrations/20261123000000_profile_banner_catalog.sql"
   },
   "latestExpansionClientVersion": "3.7.14.18",
-  "latestExpansionNote": "Eight additional distinct scenes use map identity references from installed DOFUS 3.7.14.18. Existing Forge artwork supplies technique only; the previous 36 artworks and records are preserved.",
-  "latestExpansionVersion": "0.4.25"
+  "latestExpansionNote": "Eight distinct scenes use identity references reconstructed from installed DOFUS 3.7.14.18 maps. Each native image and desktop/mobile crop was inspected individually. The earlier 44 artworks and records are preserved.",
+  "latestExpansionVersion": "0.4.24"
 }
