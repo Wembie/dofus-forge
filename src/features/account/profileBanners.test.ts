@@ -2,8 +2,20 @@ import { describe, expect, it } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { PROFILE_BANNERS, isProfileBannerUrl } from './profileBanners.ts'
+import { PROFILE_BANNER_GROUPS, PROFILE_BANNER_OPTIONS } from './profileAppearanceCatalog.ts'
 
 describe('approved profile banner catalog', () => {
+  it('gives every landscape one browsing category and localizes the appearance gallery', () => {
+    const mapped = PROFILE_BANNER_GROUPS.flatMap(group => [...group.locations])
+    expect(new Set(mapped).size).toBe(mapped.length)
+    expect([...mapped].sort()).toEqual(PROFILE_BANNERS.map(b => b.id).sort())
+    expect(PROFILE_BANNER_OPTIONS.map(b => b.url)).toEqual(PROFILE_BANNERS.map(b => b.url))
+    for (const b of PROFILE_BANNER_OPTIONS) expect(PROFILE_BANNER_GROUPS.some(g => g.id === b.category)).toBe(true)
+    for (const lang of ['es', 'en', 'fr', 'pt']) {
+      const strings = JSON.parse(readFileSync(`public/locales/${lang}/translation.json`, 'utf8'))
+      for (const key of ['appearance_title', 'appearance_apply', 'appearance_pending', 'appearance_new', 'appearance_preview', 'appearance_class', 'appearance_gender', 'appearance_face', 'appearance_empty_title', 'appearance_empty_hint', 'appearance_clear', 'appearance_save_hint', 'appearance_category_all', ...PROFILE_BANNER_GROUPS.map(g => `appearance_category_${g.id}`)]) expect(strings[key]?.length, `${lang}:${key}`).toBeGreaterThan(0)
+    }
+  })
   it('keeps shipped artwork, browser choices and the server allowlist identical', () => {
     const manifest = JSON.parse(readFileSync('docs/brand/profile-banners/manifest.json', 'utf8')) as { banners: { asset: string }[] }
     const schema = readFileSync('supabase/schema.sql', 'utf8')

@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.25] — 2026-11-26
+- Profile customization: browse avatars and banners together in one gallery, with a live profile preview, class and face filters, compact all/male/female gender buttons, landscape categories, accent-insensitive search and a latest-additions filter
+- Try combinations before committing: inspect full illustrations without selecting them, apply both choices together, or cancel the preview. Your changes publish only when you save the profile. Mobile has a two-column gallery and an expandable preview; keyboard focus and browsing position return after inspecting artwork
+
 ## [0.4.24] — 2026-11-26
 - 38 new profile portraits: the fifth in-game face and hairstyle for all 19 classes, male and female, with their usual outfit and distinct ink-and-watercolor poses. Choose from 190 avatars; the checklist records 190 of 600 faces complete, with alternate outfits reserved for later
 - Eight more DOFUS 3.7 profile landscapes: Harebourg's Castle, Nolifis Island, Sakai Island, Petrified Forest, Kanig Village, Merkator's Aquadome, Dramak's Theatre and Lost Dimension. Choose from 52 banners; exact prompts, current-client references and individual crop reviews are saved

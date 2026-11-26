@@ -10,6 +10,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.25',
+    date: '2026-11-26',
+    notes: [
+      "Profile customization: browse avatars and banners together in one gallery, with a live profile preview, class and face filters, compact all/male/female gender buttons, landscape categories, accent-insensitive search and a latest-additions filter",
+      "Try combinations before committing: inspect full illustrations without selecting them, apply both choices together, or cancel the preview. Your changes publish only when you save the profile. Mobile has a two-column gallery and an expandable preview; keyboard focus and browsing position return after inspecting artwork",
+    ],
+  },
+  {
     version: '0.4.24',
     date: '2026-11-26',
     notes: [

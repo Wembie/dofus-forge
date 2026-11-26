@@ -7,6 +7,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Galería para personalizar avatar y banner juntos** (0.4.25) — vista previa del perfil, búsqueda, filtros de clase y rostro, botones de género todos/masculino/femenino con iconos, categorías de paisajes y novedades. Ampliar conserva selección, filtros, foco y posición; aplicar prepara la combinación y guardar la publica. Cancelación, descarte y reintento conservados. Galería móvil de dos columnas y vista previa desplegable, ambos temas y cuatro idiomas. [Diseño y capturas](design/profile-appearance/README.md).
+
 - [x] **Quinto rostro de las 19 clases y ocho escenarios más** (0.4.24) — 38 retratos, hombre y mujer, con traje habitual y poses propias; 190/600 rostros terminados. 52 banners con Kontatrás, Grobe, Kéfriho, Bosque Petrificado, Pueblo de los kanigs, Acuadomo de Merkator, Teatro de Dramak y Dimensión Obscura. Prompts, referencias 3.7.14.18, historial de correcciones y revisiones individuales guardados; migración aditiva, imágenes previas conservadas. Xelor mujer original restaurada y manos del pandawa, zurcarák y sram ajustadas según las observaciones del usuario.
 
 - [x] **Portada ilustrada original para X, en inglés** (2026-11-25) — [PNG de 1500 × 500 px y fuente SVG](brand/social/README.md), con un taller fantástico sobre un valle, yunque encantado y equipo tomando forma. Nombre apilado y lema en inglés, tinta y acuarela, zona libre para el avatar y prompt exacto conservado. Exportación reproducible mediante `node scripts/build-brand-v04.mjs --x-banner`, sin cambiar los recursos de la aplicación.

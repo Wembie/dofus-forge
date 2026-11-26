@@ -253,61 +253,6 @@
   align-self: flex-end;
   font: 10px "IBM Plex Mono" !important;
 }
-.account-avatar-control { display: flex; align-items: center; gap: 16px; }
-.account-avatar-control > div { min-width: 0; }
-.account-avatar-control p { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 10px 0 0; }
-.account-avatar-control button { min-height: 44px; }
-.account-avatar-picker { min-width: 0; margin: 0; padding: 24px; border: 0; }
-.account-avatar-picker > legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-.account-avatar-picker > p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0 0 18px; }
-.account-avatar-search { display: flex; align-items: center; gap: 10px; padding: 0 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--muted); }
-.account-avatar-search:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
-.account-avatar-search input { min-width: 0; width: 100%; min-height: 44px; border: 0; padding: 10px 0; background: transparent; font: inherit; color: var(--text); outline: none; }
-.account-avatar-default { display: flex; align-items: center; gap: 8px; font-size: 12px; margin: 16px 0; cursor: pointer; }
-.account-avatar-picker input { accent-color: var(--accent); }
-.account-avatar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-.account-avatar-class { border: 1px solid var(--line); border-radius: 8px; padding: 14px 10px 10px; min-width: 0; background: var(--stage); }
-.account-avatar-class > h3 { text-align: center; font: 600 21px Alegreya; margin: 0 0 12px; }
-.account-avatar-class > div { display: grid; grid-template-columns: repeat(2, minmax(0, 128px)); justify-content: center; gap: 10px; }
-.account-avatar-option { display: flex; flex: 1; flex-direction: column; max-width: 128px; min-width: 0; color: var(--muted); padding: 4px; border: 2px solid transparent; border-radius: 8px; }
-.account-avatar-inspect { position: relative; display: block; width: 100%; aspect-ratio: 1; border: 0; padding: 0; border-radius: 5px; background: var(--surface); cursor: zoom-in; overflow: hidden; }
-.account-avatar-inspect img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.account-avatar-inspect:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.account-avatar-option > label { display: flex; justify-content: center; align-items: center; gap: 6px; min-height: 44px; font-size: 12px; cursor: pointer; }
-.account-avatar-option small { display: block; font-size: 11px; color: var(--muted); }
-.account-avatar-option input { width: 15px; height: 15px; margin: 0; cursor: pointer; }
-.account-avatar-option:has(input:checked) { border-color: var(--accent); color: var(--text); background: var(--hover); }
-.account-avatar-option:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
-.account-avatar-picker:disabled { opacity: 0.65; }
-.account-avatar-picker:disabled label, .account-avatar-picker:disabled input, .account-avatar-picker:disabled button { cursor: default; }
-.account-avatar-footer { position: sticky; bottom: 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 20px; border-top: 1px solid var(--line); background: var(--surface-panel); }
-.account-avatar-footer .account-avatar { width: 48px; height: 48px; font-size: 24px; }
-.account-avatar-footer button { min-height: 44px; }
-.account-avatar-selection { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.account-avatar-selection > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.account-avatar-selection strong { font-size: 12px; font-weight: 600; }
-.account-avatar-selection > div > span { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
-.account-avatar-detail { padding: 24px; }
-.account-avatar-detail > button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; border: 1px solid var(--line); border-radius: 5px; padding: 8px 12px; background: var(--surface); color: var(--text); font: inherit; cursor: pointer; }
-.account-avatar-art-layout { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 28px; align-items: center; margin-top: 20px; }
-.account-avatar-art { margin: 0; min-width: 0; width: 100%; max-width: 512px; justify-self: center; }
-.account-avatar-art > img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 8px; }
-.account-avatar-art figcaption { text-align: center; color: var(--muted); font-size: 12px; margin-top: 12px; }
-.account-avatar-crop { display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; min-width: 0; }
-.account-avatar-crop > .account-avatar { width: 144px; height: 144px; }
-.account-avatar-crop h3 { font: 600 24px Alegreya; margin: 0 0 10px; }
-.account-avatar-crop p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0; }
-.account-avatar-crop > button { width: 100%; min-height: 44px; }
-@media (max-width: 600px) {
-  .account-avatar-picker, .account-avatar-detail { padding: 16px; }
-  .account-avatar-grid { grid-template-columns: minmax(0, 1fr); }
-  .account-avatar-footer { padding: 12px 16px; }
-  .account-avatar-art-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .account-avatar-crop { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; text-align: left; }
-  .account-avatar-crop > .account-avatar { width: 96px; height: 96px; }
-  .account-avatar-crop h3 { font-size: 21px; }
-  .account-avatar-crop > button { grid-column: 1 / -1; }
-}
 .account-savebar {
   display: flex;
   align-items: center;
@@ -628,45 +573,12 @@
   cursor: zoom-in;
 }
 .profile-banner img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.profile-banner:focus-visible,
-.account-banner-inspect:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.profile-banner:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .profile-banner-full-art { padding: 16px; }
 .profile-banner-full-art img { display: block; width: 100%; height: auto; max-height: calc(90dvh - 100px); object-fit: contain; border-radius: 5px; }
-.account-banner-control { padding-top: 24px; border-top: 1px solid var(--line); }
-.account-banner-intro { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 16px; }
-.account-banner-intro h3 { font: 600 23px Alegreya; margin: 0 0 8px; }
-.account-banner-intro p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0; }
-.account-banner-intro > button { flex-shrink: 0; min-height: 44px; }
-.account-banner-empty { display: grid; place-items: center; min-height: 110px; border: 1px dashed var(--line); border-radius: 8px; color: var(--muted); font-size: 13px; }
-.account-banner-remove { display: block; margin-top: 8px; min-height: 44px; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 13px; cursor: pointer; }
-.account-banner-picker { margin: 0; padding: 24px; border: 0; min-width: 0; }
-.account-banner-picker > p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0 0 16px; }
-.account-banner-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.account-banner-option { min-width: 0; border: 2px solid transparent; border-radius: 7px; padding: 4px; background: var(--stage); }
-.account-banner-inspect { display: block; width: 100%; aspect-ratio: 3; border: 0; border-radius: 4px; overflow: hidden; padding: 0; cursor: zoom-in; background: var(--surface); }
-.account-banner-inspect img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.account-banner-option > label { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 8px; font-size: 14px; cursor: pointer; }
-.account-banner-option input { accent-color: var(--accent); }
-.account-banner-option:has(input:checked) { border-color: var(--accent); }
-.account-banner-option:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
-.account-banner-detail { padding: 20px; }
-.account-banner-detail > button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
-.account-banner-detail .profile-banner-full-art { padding: 20px 0; }
-.account-banner-detail-actions { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-.account-banner-detail-actions > button { min-height: 44px; flex-shrink: 0; }
-.account-banner-profile-preview { width: 360px; max-width: 100%; min-width: 0; margin: 0; }
-.account-banner-profile-preview > img { display: block; width: 100%; height: auto; border-radius: 5px; }
-.account-banner-profile-preview > div { position: relative; display: flex; align-items: center; gap: 12px; padding: 8px 12px 0; }
-.account-banner-profile-preview .account-avatar { width: 56px; height: 56px; margin-top: -24px; box-shadow: 0 0 0 3px var(--surface-panel); }
-.account-banner-profile-preview strong { font-size: 13px; overflow-wrap: anywhere; }
-.account-banner-profile-preview figcaption { color: var(--muted); font-size: 12px; margin-top: 8px; }
 .public-profile-heading.has-banner > .public-profile-avatar,
 .public-profile-heading.has-banner > .account-avatar { margin-top: -48px; position: relative; box-shadow: 0 0 0 4px var(--canvas); background: var(--canvas); }
 @media (max-width: 600px) {
-  .account-banner-grid { grid-template-columns: minmax(0, 1fr); }
-  .account-banner-picker, .account-banner-detail { padding: 16px; }
-  .account-banner-intro, .account-banner-detail-actions { align-items: stretch; flex-direction: column; }
-  .account-banner-detail-actions > button { width: 100%; }
   .public-profile-heading.has-banner > .public-profile-avatar,
   .public-profile-heading.has-banner > .account-avatar { margin-top: -32px; }
 }

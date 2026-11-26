@@ -11,8 +11,7 @@ import { useAuthStore } from '@/store/authStore.ts'
 import { AccountAvatar, FollowListModal } from '@/features/builds/FollowListModal.tsx'
 import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { PASSWORD_MIN_LENGTH, USERNAME_PATTERN, USERNAME_RE } from '@/features/auth/authRules.ts'
-import { ClassAvatarPicker } from '@/features/account/ClassAvatarPicker.tsx'
-import { ProfileBannerPicker } from '@/features/account/ProfileBannerPicker.tsx'
+import { ProfileAppearancePicker } from '@/features/account/ProfileAppearancePicker.tsx'
 import '@/features/account/account.css'
 
 type Tab = 'profile' | 'security' | 'session'
@@ -252,6 +251,9 @@ export function AccountPage() {
                     <h2 id={`${id}-profile`}>{t('account_public_identity')}</h2>
                     <p>{t('account_profile_hint')}</p>
                     <form onSubmit={save} aria-busy={busy} className="account-form">
+                      <ProfileAppearancePicker username={username || profile?.username || email} displayName={displayName} bio={bio}
+                        avatar={avatar} banner={banner} disabled={busy || !profile}
+                        onChange={appearance => edit(() => { setAvatar(appearance.avatar); setBanner(appearance.banner) })} />
                       <div className="account-field">
                         <label htmlFor={`${id}-username`}>{t('auth_username')}</label>
                         <input id={`${id}-username`} value={username} disabled={busy} onChange={e => edit(() => setUsername(e.target.value))}
@@ -271,10 +273,6 @@ export function AccountPage() {
                           aria-describedby={`${id}-bio-count`} />
                         <small id={`${id}-bio-count`} className="account-counter">{bio.length} / 300</small>
                       </div>
-                      <ClassAvatarPicker username={username || profile?.username || email} value={avatar}
-                        onChange={url => edit(() => setAvatar(url))} disabled={busy || !profile} />
-                      <ProfileBannerPicker username={username || profile?.username || email} avatarUrl={avatar} value={banner}
-                        onChange={url => edit(() => setBanner(url))} disabled={busy || !profile} />
                       {error && <Message error>{error}</Message>}
                       {saved && <Message>{t('account_saved')}</Message>}
                       <div className={'account-savebar' + (profileDirty ? ' is-dirty' : '')}>
