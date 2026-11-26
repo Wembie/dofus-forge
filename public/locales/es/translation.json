@@ -2637,5 +2637,13 @@
   "appearance_avatar_count_one": "{{count}} retrato",
   "appearance_avatar_count_other": "{{count}} retratos",
   "appearance_banner_count_one": "{{count}} paisaje",
-  "appearance_banner_count_other": "{{count}} paisajes"
+  "appearance_banner_count_other": "{{count}} paisajes",
+  "profile_banner_location_crocuzko": "Cocuzko",
+  "profile_banner_location_master-crow-library": "Biblioteca del Maestro Cuerbok",
+  "profile_banner_location_giant-kralove": "Antro del Kralamar Gigante",
+  "profile_banner_location_dopple-village": "Pueblo de los dopeuls",
+  "profile_banner_location_breeders-village": "Pueblo de los ganaderos",
+  "profile_banner_location_dantinea-palace": "Palacio de Dientinea",
+  "profile_banner_location_solar-tower": "Torre de Solar",
+  "profile_banner_location_tortured-cemetery": "Cementerio de los Torturados"
 }

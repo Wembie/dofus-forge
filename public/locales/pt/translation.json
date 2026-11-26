@@ -2637,5 +2637,13 @@
   "appearance_avatar_count_one": "{{count}} retrato",
   "appearance_avatar_count_other": "{{count}} retratos",
   "appearance_banner_count_one": "{{count}} paisagem",
-  "appearance_banner_count_other": "{{count}} paisagens"
+  "appearance_banner_count_other": "{{count}} paisagens",
+  "profile_banner_location_crocuzko": "Crocuzko",
+  "profile_banner_location_master-crow-library": "Biblioteca do Mestre Corvoc",
+  "profile_banner_location_giant-kralove": "Antro do Kralamor Gigante",
+  "profile_banner_location_dopple-village": "Vilarejo dos Dopels",
+  "profile_banner_location_breeders-village": "Vilarejo dos Criadores",
+  "profile_banner_location_dantinea-palace": "Palácio de Dentinea",
+  "profile_banner_location_solar-tower": "Torre de Solar",
+  "profile_banner_location_tortured-cemetery": "Cemitério dos Torturados"
 }

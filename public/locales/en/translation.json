@@ -2637,5 +2637,13 @@
   "appearance_avatar_count_one": "{{count}} portrait",
   "appearance_avatar_count_other": "{{count}} portraits",
   "appearance_banner_count_one": "{{count}} landscape",
-  "appearance_banner_count_other": "{{count}} landscapes"
+  "appearance_banner_count_other": "{{count}} landscapes",
+  "profile_banner_location_crocuzko": "Crocuzko",
+  "profile_banner_location_master-crow-library": "Lord Crow's Library",
+  "profile_banner_location_giant-kralove": "Lair of the Giant Kralove",
+  "profile_banner_location_dopple-village": "Dopple Village",
+  "profile_banner_location_breeders-village": "Breeder Village",
+  "profile_banner_location_dantinea-palace": "Dantinea's Palace",
+  "profile_banner_location_solar-tower": "Solar's Tower",
+  "profile_banner_location_tortured-cemetery": "Cemetery of the Tortured"
 }

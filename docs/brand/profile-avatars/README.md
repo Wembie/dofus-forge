@@ -1,11 +1,25 @@
 # Retratos de perfil de Forge
 
-Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros cinco rostros/peinados tienen versiones masculinas y femeninas: **190 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
+Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros seis rostros/peinados tienen versiones masculinas y femeninas: **228 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
 
 - [Progreso por clase, sexo y modelo](PROGRESS.md): lista completa con casillas de los rostros hechos y pendientes; los trajes alternativos van al final.
 - [Inventario del juego](game-looks.json): 600 rostros/peinados y 76 cuerpos de creación, incluidos los 38 trajes habituales y los 38 alternativos reservados para después.
 - [Prompts y procedencia de cada imagen](manifest.json): prompt exacto, pose, referencias, hash y `gameLook` con posición, id y textura de cabeza/cuerpo.
 - [Plantilla para continuar](prompt-template.json): conservar la técnica artística y los rasgos del modelo, inventando un gesto y expresión distintos para cada retrato.
+
+## Rostro 6 — Forge 0.4.25 — 2026-11-26
+
+38 retratos nuevos del sexto rostro/peinado, hombre y mujer de las 19 clases, con traje habitual y poses propias. Referencias exactas del cliente instalado DOFUS 3.7.14.18. **228/600 rostros terminados, 372 pendientes**; los 38 trajes alternativos quedan para después. Se incorporan a la misma 0.4.25 junto con la nueva galería.
+
+![Sexto rostro de cada clase](look-6-preview.webp)
+
+![Sexto rostro en círculos de 150 y 48 px](look-6-circular-preview.webp)
+
+[Revisión individual de esta tanda](look-6-review.json): imagen ampliada, referencias y círculos de 150/48 px. Una segunda pasada revisó ampliaciones de las manos visibles; se corrigieron específicamente los cinco dedos del agarre de la hoja de la pandawa mujer y del aro del uginak hombre tras las observaciones del usuario. La revisión adicional separó también los dos dedos recogidos en el saludo de la hipermaga. Los intentos anteriores, prompts, referencias y hashes quedan en el manifiesto. Se ajustaron también el encuadre del ocra hombre, las manos del zurcarák hombre y los encuadres de la selotrop mujer y del sram hombre. Los **190 retratos anteriores conservan sus archivos y registros**; esta tanda no sustituye la auditoría histórica.
+
+PNG nativos opacos en `temp/profile-avatars/masters/v1/<clase>-look-6-<m|f>.png`; WebP de 512 × 512 px en `public/avatars/classes/v1/`. Herramienta integrada `image_gen`; prompts exactos en [manifest.json](manifest.json). Las imágenes siguen siendo cuadradas para ampliarlas; el círculo solo se aplica al mostrarlas como avatar.
+
+Aplicar `supabase/migrations/20261126020000_profile_art_sixth_heads_and_locations.sql` antes del despliegue. Agrega únicamente 38 rutas de retratos y ocho de banners, sin cambiar perfiles ni permisos. No se ejecutó SQL alojado.
 
 ## Rostro 5 — 2026-11-26
 

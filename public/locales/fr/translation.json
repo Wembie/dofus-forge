@@ -2637,5 +2637,13 @@
   "appearance_avatar_count_one": "{{count}} portrait",
   "appearance_avatar_count_other": "{{count}} portraits",
   "appearance_banner_count_one": "{{count}} paysage",
-  "appearance_banner_count_other": "{{count}} paysages"
+  "appearance_banner_count_other": "{{count}} paysages",
+  "profile_banner_location_crocuzko": "Crocuzko",
+  "profile_banner_location_master-crow-library": "Bibliothèque du Maître Corbac",
+  "profile_banner_location_giant-kralove": "Antre du Kralamoure Géant",
+  "profile_banner_location_dopple-village": "Village des Dopeuls",
+  "profile_banner_location_breeders-village": "Village des Éleveurs",
+  "profile_banner_location_dantinea-palace": "Palais de Dantinéa",
+  "profile_banner_location_solar-tower": "Tour de Solar",
+  "profile_banner_location_tortured-cemetery": "Cimetière des Torturés"
 }

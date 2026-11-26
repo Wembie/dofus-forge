@@ -1,0 +1,921 @@
+{
+  "scope": "Only the 38 sixth-face portraits, not a new audit of the previous 190 images",
+  "reviewedOn": "2026-11-26",
+  "sourceClientVersion": "3.7.14.18",
+  "generator": "Built-in image_gen",
+  "portraits": [
+    {
+      "classId": "cra",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 134,
+        "headSkin": 2145,
+        "bodySlot": 1,
+        "bodyId": 21,
+        "bodySkin": 90
+      },
+      "asset": "public/avatars/classes/v1/cra-look-6-m.webp",
+      "sha256": "79f971c9f46b208e9dc19631bf7962b6117d873bd62e8daf1861154824b59ae3",
+      "master": "temp/profile-avatars/masters/v1/cra-look-6-m.png",
+      "masterSha256": "f46d57f49b79057b58e0862d63d5d8f86ff1d3da6d19406a3df87c87fb23ec7a",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sexto rostro comparado con dos angulos y modelo completo: dos ojos verdes, dos marcas oliva bajo los ojos y sin parche. Revision ampliada y circulos 150/48: coleta completa con margen superior corregido, dos brazos continuos y un torso; manos fuera de cuadro, sin dedos inventados."
+      }
+    },
+    {
+      "classId": "cra",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 142,
+        "headSkin": 2153,
+        "bodySlot": 1,
+        "bodyId": 22,
+        "bodySkin": 91
+      },
+      "asset": "public/avatars/classes/v1/cra-look-6-f.webp",
+      "sha256": "555543724a26d80c494777082f98d52e07bef6257fe8541b9ed57ee3215ba393",
+      "master": "temp/profile-avatars/masters/v1/cra-look-6-f.png",
+      "masterSha256": "da05b82c6e329290248a9b785685dab20204cf3dacaa6e9018e1003785ed7f2f",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sexto rostro verificado: broche oval oliva abierto, cresta naranja completa, ojos oliva con pupila y pecas. Original y circulos 150/48 inspeccionados; mano derecha con cuatro dedos curvados y pulgar opuesto parcialmente visible alrededor del arco, una muneca continua, dos brazos y un solo torso."
+      }
+    },
+    {
+      "classId": "ecaflip",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 86,
+        "headSkin": 2097,
+        "bodySlot": 1,
+        "bodyId": 14,
+        "bodySkin": 60
+      },
+      "asset": "public/avatars/classes/v1/ecaflip-look-6-m.webp",
+      "sha256": "69d0467b8fa0726c1fcba4087f5fe4b4d406418aec0739d8ea1f982c06a3eb17",
+      "master": "temp/profile-avatars/masters/v1/ecaflip-look-6-m.png",
+      "masterSha256": "f1c265bd1d9aed55637560cb977bc46ac45f79566296fdcd6aa1a842503e99c8",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sexto modelo verificado con marca naranja asimetrica sobre ojo derecho, dos ovalos frontales y ojos vino. Mano izquierda corregida antes de aprobar: pulgar e indice sujetan dado y tres dedos plegados con garras separadas, cinco en total, pelaje crema y muneca continua. Original ampliado y circulos 150/48 revisados; dos brazos y torso unico."
+      }
+    },
+    {
+      "classId": "ecaflip",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 94,
+        "headSkin": 2105,
+        "bodySlot": 1,
+        "bodyId": 16,
+        "bodySkin": 61
+      },
+      "asset": "public/avatars/classes/v1/ecaflip-look-6-f.webp",
+      "sha256": "1efe5e1b4e839cefbf9c60057446ac400c9ad97f7d019fdee575a3f57b218610",
+      "master": "temp/profile-avatars/masters/v1/ecaflip-look-6-f.png",
+      "masterSha256": "a43b88b51676fb7e3dfdae5a110c6e4ab33daea37b17adfa80ac4de5bde1ba6e",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Exact sixth face preserved: blunt orange fringe, single high ponytail and teal band, cream feline fur and bell. One torso and two continuous arms, both hands naturally below crop. Native and 150/48px circles checked; no duplicated anatomy."
+      }
+    },
+    {
+      "classId": "eniripsa",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 102,
+        "headSkin": 2113,
+        "bodySlot": 1,
+        "bodyId": 17,
+        "bodySkin": 70
+      },
+      "asset": "public/avatars/classes/v1/eniripsa-look-6-m.webp",
+      "sha256": "b05e698e0a2ac1f8ffea9825be6f1bf0969c92d16cc40d66fc91e76d64e6b048",
+      "master": "temp/profile-avatars/masters/v1/eniripsa-look-6-m.png",
+      "masterSha256": "cd8f31cb931126c84fcb1b49ede5f2a03ac61f1965f0e0d509c23186cd8a0e50",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Exact compact sixth haircut, pointed ears and sage angular eye paint match the model. Cupped left hand has four fingers and opposing thumb with continuous wrist and forearm; two arms, back-anchored wings, single chest. Enlarged and both circular crops checked."
+      }
+    },
+    {
+      "classId": "eniripsa",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 110,
+        "headSkin": 2121,
+        "bodySlot": 1,
+        "bodyId": 18,
+        "bodySkin": 71
+      },
+      "asset": "public/avatars/classes/v1/eniripsa-look-6-f.webp",
+      "sha256": "acb1585ac0b93c01a352c173facf668247361666a9aa6f2a8c5d6b8c0ed79cee",
+      "master": "temp/profile-avatars/masters/v1/eniripsa-look-6-f.png",
+      "masterSha256": "8408a56b62b56828deca37b72ca45fa0aff8df8a9100865896112a5fdddabb91",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Short curled ivory bob, white eyebrows and red butterfly eye paint match sixth model; usual red bodice and pale wings preserved. Single chest and two shoulder-arm chains with hands outside crop. Hair contained in native and face reads in both circular sizes."
+      }
+    },
+    {
+      "classId": "enutrof",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 38,
+        "headSkin": 2049,
+        "bodySlot": 1,
+        "bodyId": 8,
+        "bodySkin": 30
+      },
+      "asset": "public/avatars/classes/v1/enutrof-look-6-m.webp",
+      "sha256": "6ff571fec2eeeaceb5a3917f738f42200873dfc1a5b23035cfef61f0ef1b8895",
+      "master": "temp/profile-avatars/masters/v1/enutrof-look-6-m.png",
+      "masterSha256": "9b095404f875cde7c629d9b2ba5802ff720ef18b8f66444105a91a49a758bbae",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Bald scalp, short wide fan beard, angular ivory brows and default gold-ended pack match sixth model. Native image has one torso and exactly two continuous lowered arms, hands below frame. Both circular sizes preserve the laughing face without clipping the head."
+      }
+    },
+    {
+      "classId": "enutrof",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 46,
+        "headSkin": 2057,
+        "bodySlot": 1,
+        "bodyId": 9,
+        "bodySkin": 31
+      },
+      "asset": "public/avatars/classes/v1/enutrof-look-6-f.webp",
+      "sha256": "ee0f663d9e05cd77d21dd53b4926d7623c2d14a5a42a106dfd743682359d9aa8",
+      "master": "temp/profile-avatars/masters/v1/enutrof-look-6-f.png",
+      "masterSha256": "643f0254c31c8f1fa6ff442caad2f8c46a25105d34d711131212770fbc8b8daa",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sawtooth fringe, compact bun with two gold-tipped sticks, round low spectacles and elderly face match sixth head. Right hand has opposing thumb, index and three curled fingers all rooted naturally; two arms and single coat torso. Native and 150/48 circles inspected."
+      }
+    },
+    {
+      "classId": "eliotrope",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 246,
+        "headSkin": 3188,
+        "bodySlot": 1,
+        "bodyId": 36,
+        "bodySkin": 3179
+      },
+      "asset": "public/avatars/classes/v1/eliotrope-look-6-m.webp",
+      "sha256": "e9b605045e8aec0d539cd6434a69a618af041b835bafc1031dd8d15601ebe674",
+      "master": "temp/profile-avatars/masters/v1/eliotrope-look-6-m.png",
+      "masterSha256": "a2d475bf34961536a6d01d6c467f7a64e1149d12499cbb3090f1dd42bc7cf735",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth hood has short banded cones and ivory M opening with two dashes, both cyan eyes and blue cheek stripes exposed. Raised left palm has four fingers plus correctly opposed thumb, continuous wrist and bracer; two arms and one torso. Native and both circles checked."
+      }
+    },
+    {
+      "classId": "eliotrope",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 254,
+        "headSkin": 3196,
+        "bodySlot": 1,
+        "bodyId": 37,
+        "bodySkin": 3180
+      },
+      "asset": "public/avatars/classes/v1/eliotrope-look-6-f.webp",
+      "sha256": "02bef1e3295fb6f0178e9371ad5db6949a1069602d1fea605ca6d62a3b57cca7",
+      "master": "temp/profile-avatars/masters/v1/eliotrope-look-6-f.png",
+      "masterSha256": "3060145f2b3e1df368b2f99021afd2817179578418acbb8caeda9eb712fb3d14",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Refinement removes the accidentally exposed unclear-digit hands. Wide sideways banded hood with central single insignia, blunt icy bob and cyan eyes match sixth model. Two continuous down arms, single bodice and torso; native and both circular crops rechecked."
+      }
+    },
+    {
+      "classId": "feca",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 6,
+        "headSkin": 2017,
+        "bodySlot": 1,
+        "bodyId": 2,
+        "bodySkin": 10
+      },
+      "asset": "public/avatars/classes/v1/feca-look-6-m.webp",
+      "sha256": "25cbfe4549db22d45eb75f3d0d4ad3128df379fdd44ef13c9d1eccb849a56ce0",
+      "master": "temp/profile-avatars/masters/v1/feca-look-6-m.png",
+      "masterSha256": "6c97e7e40d6533198a9a0975085bea38566b7092cdbdf00416c0dd609934b822",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth angular fringe, tied ponytail and purple four-point right-cheek mark preserved. Crossed forearms trace to two shoulders; both hands naturally tucked behind opposite arms, no false fingers or extra limbs. Single torso, full native head and 150/48 circles checked."
+      }
+    },
+    {
+      "classId": "feca",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 14,
+        "headSkin": 2025,
+        "bodySlot": 1,
+        "bodyId": 3,
+        "bodySkin": 11
+      },
+      "asset": "public/avatars/classes/v1/feca-look-6-f.webp",
+      "sha256": "eb86b8ed84f7282de5c57f3ced1d4bac6dfb3bfe9166f77da147d60c75d37ece",
+      "master": "temp/profile-avatars/masters/v1/feca-look-6-f.png",
+      "masterSha256": "4801611070f46a5f234e246fc3933e39ae1959f8276509c64beeabcc3cd357dd",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Long loose chestnut hair with pointed fringe and flipped ends, clean cheeks and teal-fastened orange outfit match sixth model. Left staff grip has four curled fingers and naturally opposing thumb, one continuous wrist; two arms and single torso. Native and circles reviewed."
+      }
+    },
+    {
+      "classId": "foggernaut",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 230,
+        "headSkin": 2241,
+        "bodySlot": 1,
+        "bodyId": 34,
+        "bodySkin": 1663
+      },
+      "asset": "public/avatars/classes/v1/foggernaut-look-6-m.webp",
+      "sha256": "1beca11c8bb092780c2d125ac5f5da34b9b9dca3a39fda560bea8c4f1b34b2f1",
+      "master": "temp/profile-avatars/masters/v1/foggernaut-look-6-m.png",
+      "masterSha256": "3bb1790fabc12405dbf74ccfad97b44ad4d5c078b7a93bedfc397a75a94aca63",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Round teal brass goggles remain over both eyes, parted white temple locks and spiky crest match sixth model. Olive glove shows four curled digits and one continuous rising thumb with natural fist and wrist. Two arms, one torso, native and both small circles reviewed."
+      }
+    },
+    {
+      "classId": "foggernaut",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 238,
+        "headSkin": 2249,
+        "bodySlot": 1,
+        "bodyId": 35,
+        "bodySkin": 1664
+      },
+      "asset": "public/avatars/classes/v1/foggernaut-look-6-f.webp",
+      "sha256": "784476d251b5072a99ffcd2431434a65289664c61eb7ab02be36a9916709785e",
+      "master": "temp/profile-avatars/masters/v1/foggernaut-look-6-f.png",
+      "masterSha256": "92d9d64f2156884408583bcaf02ca107655962975126b4d8ae51940fcf94f3fe",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Rounded short curled updo, cheek ringlets and absence of goggles match sixth model. Right gloved index touches under chin, three curled fingers and naturally partly occluded thumb connect to one palm; wrist and two arm chains coherent. Single chest grille, native and circles checked."
+      }
+    },
+    {
+      "classId": "forgelance",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 299,
+        "headSkin": 3104,
+        "bodySlot": 1,
+        "bodyId": 5,
+        "bodySkin": 3221
+      },
+      "asset": "public/avatars/classes/v1/forgelance-look-6-m.webp",
+      "sha256": "05aabe419f1affcf846e6d802483278370da9b3421307b71712806259a822f84",
+      "master": "temp/profile-avatars/masters/v1/forgelance-look-6-m.png",
+      "masterSha256": "3b8a7591147dfd75ed08ad8a141ca118937bfc6579ff3a704f6e2115ff88efac",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth auburn ponytail, silver tie, shaved sides, short beard and dark eye triangles preserved, no white streak. Left hand rests on opposite pauldron: four fingers on front, thumb naturally occluded behind rim; wrist and forearm trace correctly to left shoulder. One torso, native and circles checked."
+      }
+    },
+    {
+      "classId": "forgelance",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 307,
+        "headSkin": 3121,
+        "bodySlot": 1,
+        "bodyId": 4,
+        "bodySkin": 3633
+      },
+      "asset": "public/avatars/classes/v1/forgelance-look-6-f.webp",
+      "sha256": "5f5ac58da721d4ac5540d956e0eabf3b88632e44bc127c50ebd6e032cd92f23d",
+      "master": "temp/profile-avatars/masters/v1/forgelance-look-6-f.png",
+      "masterSha256": "8a905fb02d7e3acf6578aeba76533122784f83c7fa71c47af03954896e85b026",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth compact segmented crest and ponytail with silver bands, narrow ivory streak, shaved stripes and eye triangles match refs. Right hand collar pinch has index, opposing thumb and three curled digits rooted to one palm; wrist connects through bracer. Two seated shoulders, one torso, native and circles reviewed."
+      }
+    },
+    {
+      "classId": "huppermage",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 262,
+        "headSkin": 3294,
+        "bodySlot": 1,
+        "bodyId": 38,
+        "bodySkin": 3285
+      },
+      "asset": "public/avatars/classes/v1/huppermage-look-6-m.webp",
+      "sha256": "9d87222a9e1a4602afa841c5202a843f059ea8e0937a153d3792b0477b1b92c1",
+      "master": "temp/profile-avatars/masters/v1/huppermage-look-6-m.png",
+      "masterSha256": "b2f589e9f0cd26ba093d037018bdab64f21eb91e6d821c1f2bfc992e9753b269",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth upright blond mohawk, closely cropped sides, triangular gold studs and teal angular eye-cheek paint match refs. Exactly two lowered sleeved arms and one ivory tabard torso, hands below crop. Head fully contained natively and readable in both circular sizes."
+      }
+    },
+    {
+      "classId": "huppermage",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 270,
+        "headSkin": 3302,
+        "bodySlot": 1,
+        "bodyId": 39,
+        "bodySkin": 3286
+      },
+      "asset": "public/avatars/classes/v1/huppermage-look-6-f.webp",
+      "sha256": "30812a1c6983abf0f5227f70bd36201bef2f143580d5ecb944ac3efed12bae5e",
+      "master": "temp/profile-avatars/masters/v1/huppermage-look-6-f.png",
+      "masterSha256": "4fd9854833c017c92e5f181192a6e271ebda81cf28f372279bb48982128ece76",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Additional hand audit correction: right salute now clearly has TWO extended fingers, TWO separate curled fingertips with outlined glove nails, and ONE side-rooted thumb, five total. Correct right palm and continuous wrist preserved. Full native, enlarged hand and 150/48 circles rechecked; sixth hood, face and torso unchanged."
+      }
+    },
+    {
+      "classId": "iop",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 118,
+        "headSkin": 2129,
+        "bodySlot": 1,
+        "bodyId": 19,
+        "bodySkin": 80
+      },
+      "asset": "public/avatars/classes/v1/iop-look-6-m.webp",
+      "sha256": "b7a0b0b83f088a7c9809b0778459eedd9f359b892b9e9a9a9431a985ac5fd196",
+      "master": "temp/profile-avatars/masters/v1/iop-look-6-m.png",
+      "masterSha256": "6615f932be391dd08f5fccf4058322c1e6626207b0c62c8f9837043fe45da62e",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Orange bundled sixth ponytail, red tie, central crest and long temple locks match refs; blank white eyes and teal lower marks retained. Right sword grip has four distinct curled digits plus natural opposing thumb behind upper grip, continuous red bracer wrist. Two arms one torso; native and circles reviewed."
+      }
+    },
+    {
+      "classId": "iop",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 126,
+        "headSkin": 2137,
+        "bodySlot": 1,
+        "bodyId": 20,
+        "bodySkin": 81
+      },
+      "asset": "public/avatars/classes/v1/iop-look-6-f.webp",
+      "sha256": "5ec40e35812cd7f5785724bde9287068689f7a0878674cbcb51fe3948a6ebcfe",
+      "master": "temp/profile-avatars/masters/v1/iop-look-6-f.png",
+      "masterSha256": "3489390e254db27d885e9fdd584aa9949c10e16ffbbf4a1a7842ab99e9f3fea6",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Twin high orange fan bunches with red ties, short fringe, blank white eyes and crimson paint match sixth model; no old headband. Exactly two arms tucked behind, hands outside frame, single cream-cross torso. Entire hair contained natively and both circle sizes inspected."
+      }
+    },
+    {
+      "classId": "masqueraider",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 214,
+        "headSkin": 2225,
+        "bodySlot": 1,
+        "bodyId": 32,
+        "bodySkin": 1437
+      },
+      "asset": "public/avatars/classes/v1/masqueraider-look-6-m.webp",
+      "sha256": "de06cf824ffb842cc9e70a8771845a4b10b2dc02c934105de91982156d8acebd",
+      "master": "temp/profile-avatars/masters/v1/masqueraider-look-6-m.png",
+      "masterSha256": "acebd34fd6e409475cc79ccf604eb621a9ad8595673bdfc195253048d4afad1b",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Grooved ivory sixth mask, olive brow plaques, pointed red nose and crimson crest preserved, no invented earrings. Folded arms trace to exactly two shoulders; four relaxed fingers rest on upper arm with thumb occluded naturally behind it, second hand tucked. One torso, native and circles checked."
+      }
+    },
+    {
+      "classId": "masqueraider",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 222,
+        "headSkin": 2233,
+        "bodySlot": 1,
+        "bodyId": 33,
+        "bodySkin": 1438
+      },
+      "asset": "public/avatars/classes/v1/masqueraider-look-6-f.webp",
+      "sha256": "6598d96e9cbd36616c884de76206f388ab913b72c905d23cb419ef104ee39ca9",
+      "master": "temp/profile-avatars/masters/v1/masqueraider-look-6-f.png",
+      "masterSha256": "eba70f5b11cff517fde786c1682e6a9e7e7e794add82590482bb13af48d1083f",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth choppy crimson fringe with pale temple star, skull band and fixed ivory red-marked mask preserved. Left hand over cloth shows four natural fingers and correct thumb side, continuous wrist and forearm, two shoulders and single torso. Native and both circular crops inspected."
+      }
+    },
+    {
+      "classId": "osamodas",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 22,
+        "headSkin": 2033,
+        "bodySlot": 1,
+        "bodyId": 6,
+        "bodySkin": 20
+      },
+      "asset": "public/avatars/classes/v1/osamodas-look-6-m.webp",
+      "sha256": "dfee97a02326cd53dbbdd52e159177b2e0331d363d6d44939250689311821e32",
+      "master": "temp/profile-avatars/masters/v1/osamodas-look-6-m.png",
+      "masterSha256": "3207d1bec8d6b5809605435e2ff535b478efea706b6e6fde09db946f77f4cde1",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth broad swept blond fringe, thin jaw locks, dark-based ivory horns and red irises match model. Whistling face distinct from earlier poses. Native shows exactly two continuous lowered arms and single usual teal tunic torso, no hands exposed; both circle crops checked."
+      }
+    },
+    {
+      "classId": "osamodas",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 30,
+        "headSkin": 2041,
+        "bodySlot": 1,
+        "bodyId": 7,
+        "bodySkin": 21
+      },
+      "asset": "public/avatars/classes/v1/osamodas-look-6-f.webp",
+      "sha256": "54fe1cc2d553c16c40a24cf87b2e619d0367b952b7d34900478a171f77fc61dc",
+      "master": "temp/profile-avatars/masters/v1/osamodas-look-6-f.png",
+      "masterSha256": "ba5e93a7189f7750ff369c715dc416d026d48a2f3b63c9cd38ac15c7c853bdd5",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth short choppy bob and narrow teal horned headband match model, no beret. Left waving palm has exactly four fingers plus correctly opposed thumb, all roots clear and one wrist through black bracer. Exactly two arms and one torso; native and 150/48 circle crops inspected."
+      }
+    },
+    {
+      "classId": "ouginak",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 289,
+        "headSkin": 3507,
+        "bodySlot": 1,
+        "bodyId": 40,
+        "bodySkin": 3498
+      },
+      "asset": "public/avatars/classes/v1/ouginak-look-6-m.webp",
+      "sha256": "3c8ea1daf05eae6e3baa867857c8971176755da02531a66aed8693b24bb57ee4",
+      "master": "temp/profile-avatars/masters/v1/ouginak-look-6-m.png",
+      "masterSha256": "a7a13f9d1a0d8e5d26871cffb43b2328cfe0996489ca1ca0d28fc4bcf7aa56d0",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "User-requested correction: enlarged harness hand now has FOUR clearly separate curled fingers, each with its own claw, plus ONE opposing thumb rooted to palm side, five total. Natural wrist and gripping contact, furry anatomy maintained. Full native, targeted hand close-up and both circular sizes rechecked; face and sixth model unchanged."
+      }
+    },
+    {
+      "classId": "ouginak",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 282,
+        "headSkin": 3515,
+        "bodySlot": 1,
+        "bodyId": 42,
+        "bodySkin": 3499
+      },
+      "asset": "public/avatars/classes/v1/ouginak-look-6-f.webp",
+      "sha256": "055b68097f58d3dc25a9233fd279e7964da640bc0fd126486891db03fe787a51",
+      "master": "temp/profile-avatars/masters/v1/ouginak-look-6-f.png",
+      "masterSha256": "adc46285be2b5d18087ba6014a9515fa765c8ddd883998a44a703bba75512ac0",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth high gold bun, crossed bones, studded guard and side tusks match game refs; canine muzzle and fur preserved. One coherent rust halter torso and exactly two continuous lowered arms, hands naturally outside crop. Native high ornaments and both small circular crops checked."
+      }
+    },
+    {
+      "classId": "pandawa",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 182,
+        "headSkin": 2193,
+        "bodySlot": 1,
+        "bodyId": 28,
+        "bodySkin": 120
+      },
+      "asset": "public/avatars/classes/v1/pandawa-look-6-m.webp",
+      "sha256": "25b77823c3cdab7229c438457e42b7390e6441d08429792fd15276d1c20dac2c",
+      "master": "temp/profile-avatars/masters/v1/pandawa-look-6-m.png",
+      "masterSha256": "551e9f94be3a378e313cd9925e9487b7bb145c7026ce2cdfdba5a60f37d45962",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth rounded cream head with short crown ridge and paired ear rings preserved, no old tall crest. Laughing muzzle and usual red scarf read clearly. Exactly two lowered furry arms and one continuous torso, hands outside crop. Native and both circular crops inspected."
+      }
+    },
+    {
+      "classId": "pandawa",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 190,
+        "headSkin": 2201,
+        "bodySlot": 1,
+        "bodyId": 29,
+        "bodySkin": 121
+      },
+      "asset": "public/avatars/classes/v1/pandawa-look-6-f.webp",
+      "sha256": "06d05825c8617b0913bf1b8cc8beee1a425a93e15552b0424979711b4efe2861",
+      "master": "temp/profile-avatars/masters/v1/pandawa-look-6-f.png",
+      "masterSha256": "01a8b57bca39cdb754beadb6f1e0c2bfe2d50451d9f6b8eaeb1a4b5e7bd9bcd4",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "User-requested correction: enlarged left hand now clearly shows INDEX and opposing THUMB pinching leaf plus THREE separate curled digits with distinct claws, five total. Finger roots and thumb arise from one furry palm, wrist natural, no added wrist digit. Sixth face and single torso preserved; full native, hand close-up and 150/48 circles rechecked."
+      }
+    },
+    {
+      "classId": "rogue",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 198,
+        "headSkin": 2209,
+        "bodySlot": 1,
+        "bodyId": 30,
+        "bodySkin": 1405
+      },
+      "asset": "public/avatars/classes/v1/rogue-look-6-m.webp",
+      "sha256": "d399fbf4952e86a9994fb69a5689868a0a6c2967a64bc4836da4b7be954b3391",
+      "master": "temp/profile-avatars/masters/v1/rogue-look-6-m.png",
+      "masterSha256": "1ed3f33e12ac835081d864a904e3972cc62c7c137e2931283a4597eae90b6969",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth rim above visible brown eyes, teal fringe, moustache and short goatee, small gold rectangular loops match exact refs. Two lowered arms with hands outside crop and single charcoal vest torso, both ribbon tails contained. Full native and 150/48 circle crops reviewed."
+      }
+    },
+    {
+      "classId": "rogue",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 206,
+        "headSkin": 2217,
+        "bodySlot": 1,
+        "bodyId": 31,
+        "bodySkin": 1407
+      },
+      "asset": "public/avatars/classes/v1/rogue-look-6-f.webp",
+      "sha256": "beca60d0d36ac5d5edc8be649f45af9f1e2732c4724575569a44886a330fecea",
+      "master": "temp/profile-avatars/masters/v1/rogue-look-6-f.png",
+      "masterSha256": "c1035f6f05f3da533fe9e46dc62c2c780270f11e584217ad00d0c91b5c8c5cd3",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth bandana above visible teal eyes and brow, compact teal ponytail and gold bow preserved. Left glove has index at brim, opposite thumb and THREE distinct curled fingers, correct palm roots and continuous wrist. Two arms and single top torso; native and both circles reviewed."
+      }
+    },
+    {
+      "classId": "sacrier",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 166,
+        "headSkin": 2177,
+        "bodySlot": 1,
+        "bodyId": 26,
+        "bodySkin": 110
+      },
+      "asset": "public/avatars/classes/v1/sacrier-look-6-m.webp",
+      "sha256": "0c906a438eff49f701a5f7f5df3e04e9dde7ae928ac815c39ece804f645a012d",
+      "master": "temp/profile-avatars/masters/v1/sacrier-look-6-m.png",
+      "masterSha256": "f8bd29251a420baffb4a61dec0e767d1aa4184a06717f246e555824f495b47b8",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth broad orange fringe with narrow olive headband, white eyes and burgundy lower paint match model. Raised left index plus THREE distinct curled fingers and side-rooted thumb clearly count five, wrist connects through wrap. Two arms, one chest and original heart placement; native and both circles checked."
+      }
+    },
+    {
+      "classId": "sacrier",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 174,
+        "headSkin": 2185,
+        "bodySlot": 1,
+        "bodyId": 27,
+        "bodySkin": 111
+      },
+      "asset": "public/avatars/classes/v1/sacrier-look-6-f.webp",
+      "sha256": "438c1d3761b85a40dbfc05c07d4c8ba0e74841f55f7ba166dc6271fe9a725d65",
+      "master": "temp/profile-avatars/masters/v1/sacrier-look-6-f.png",
+      "masterSha256": "394b5b92c78ac3bbdf2ee7beb3154ed8dede417139414cd4c9a74e09dbf80558",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth center-parted orange curtains, high olive-tied ponytail and narrow patched headband preserved. Two original cheek stripes and heart above usual bodice match model. Exactly two lowered wrapped arms and one coherent torso, no hands exposed; native and circular crops inspected."
+      }
+    },
+    {
+      "classId": "sadida",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 150,
+        "headSkin": 2161,
+        "bodySlot": 1,
+        "bodyId": 23,
+        "bodySkin": 100
+      },
+      "asset": "public/avatars/classes/v1/sadida-look-6-m.webp",
+      "sha256": "3e6bdeae580dbd0632eb4999738f96c0e2d23132bed33dacc36b30f530bacae2",
+      "master": "temp/profile-avatars/masters/v1/sadida-look-6-m.png",
+      "masterSha256": "8b561d8a7f60810fa388ab3974474580ed160633dc4609e0f217f50edbe8f587",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Ivory eye mask with brown side plaques and upright wrapped green topknot match sixth model. Yawning right hand clearly has four long fingers plus shorter thumb, all rooted to one palm and bone cuff wrist. Two continuous arms, single brown torso, full native and both circles inspected."
+      }
+    },
+    {
+      "classId": "sadida",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 158,
+        "headSkin": 2169,
+        "bodySlot": 1,
+        "bodyId": 25,
+        "bodySkin": 101
+      },
+      "asset": "public/avatars/classes/v1/sadida-look-6-f.webp",
+      "sha256": "f78cecc6a9975fdf972c78e1473df43212e6900a6cf046f52532ceed7d1218f1",
+      "master": "temp/profile-avatars/masters/v1/sadida-look-6-f.png",
+      "masterSha256": "acb954423d248d4b40d560e7ed64655b06c4c597c4c38f147a62c47d58722baf",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth loose green bob, heavy fringe covering left eye and ivory flower ornament with two knobbed sticks preserved. One coherent ivory top and two continuous sleeved arms, hands outside crop. Full ornament and hair contained in native, face readable in both circular sizes; no duplicated chest."
+      }
+    },
+    {
+      "classId": "sram",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 54,
+        "headSkin": 2065,
+        "bodySlot": 1,
+        "bodyId": 10,
+        "bodySkin": 40
+      },
+      "asset": "public/avatars/classes/v1/sram-look-6-m.webp",
+      "sha256": "f1accc91289fa70f657d93bcd428800683de21e081e61e8805aa8e723c4352d9",
+      "master": "temp/profile-avatars/masters/v1/sram-look-6-m.png",
+      "masterSha256": "52cc390a98964b2f4960eeb2abbdddaa2220bc25d530015ca95962fee4bd1cfb",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Refined close bust removes accidentally exposed edge gloves. Exact huge spiked sixth cranium, black sockets with white dots and ivory face points match refs, no hood. Two shoulder bones and two upper arms beside one ribcage, no hands on canvas. Full native and both circular sizes rechecked."
+      }
+    },
+    {
+      "classId": "sram",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 62,
+        "headSkin": 2073,
+        "bodySlot": 1,
+        "bodyId": 11,
+        "bodySkin": 41
+      },
+      "asset": "public/avatars/classes/v1/sram-look-6-f.webp",
+      "sha256": "a141e131761b6b708048692f187a36fca217648c2d8afecc7a5f7254af8e416d",
+      "master": "temp/profile-avatars/masters/v1/sram-look-6-f.png",
+      "masterSha256": "a496ca2cbeb839caa2ff10632cbe16f7f0fa78928c43ed4b0abb7db556ee2810",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth uncovered face, high ivory ponytail with blue tie and triangular blue skull forehead band preserved. Two upper arms descend from two shoulders into separate blue cuffs; one coherent bandeau chest, no extra bare back strip or false third limb. No hands exposed. Native and circular crops checked."
+      }
+    },
+    {
+      "classId": "xelor",
+      "gender": "male",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 70,
+        "headSkin": 2081,
+        "bodySlot": 1,
+        "bodyId": 12,
+        "bodySkin": 50
+      },
+      "asset": "public/avatars/classes/v1/xelor-look-6-m.webp",
+      "sha256": "c265b7ff3617b6b8ea93caf3626f03951201080d0ba79f3dbf5cf67abc056e12",
+      "master": "temp/profile-avatars/masters/v1/xelor-look-6-m.png",
+      "masterSha256": "5f72da2f3188725415ddabe1d498b4755a0386c7fe5632699f3f0cfb5f67f2a7",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Exact sixth loose upright curling mummy strips, brow band and two vertical face wraps preserved, no hat. Yellow eyes visible with black pupils, single blue star tunic and two lowered sleeves; hands outside frame. Entire native head strips contained and both circle sizes reviewed."
+      }
+    },
+    {
+      "classId": "xelor",
+      "gender": "female",
+      "gameLook": {
+        "headSlot": 6,
+        "headId": 78,
+        "headSkin": 2089,
+        "bodySlot": 1,
+        "bodyId": 13,
+        "bodySkin": 51
+      },
+      "asset": "public/avatars/classes/v1/xelor-look-6-f.webp",
+      "sha256": "28c23da157362c7a6aca8513534203366a30d39b43fa26873366a71ae7384c70",
+      "master": "temp/profile-avatars/masters/v1/xelor-look-6-f.png",
+      "masterSha256": "12ab5822c9993544436bb78e7ab774ab6e161645945258dcda3cb32cf3a93aef",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Sixth single curled blue cap tip with gold X ear buttons, short ivory bob and yellow eyes on gray mummy face match game. Exactly two continuous bandaged arms, one fitted torso, hands outside crop. Native and both circular sizes inspected; no old long side horns."
+      }
+    }
+  ],
+  "preservedPreviousPortraits": 190,
+  "additionalHandReview": {
+    "reviewedOn": "2026-11-26",
+    "scope": "Only visible hands in the 38 sixth-face portraits; excludes historical collections",
+    "method": "Enlarged individual hand crops; trace finger roots, thumb side, wrist and gripping contact. Distinguish actual prop/arm occlusion from missing fingers.",
+    "corrections": [
+      "pandawa-f: index and thumb pinch the leaf, three separate curled fingers visible",
+      "ouginak-m: four distinct curled clawed fingers around harness ring plus opposing thumb",
+      "huppermage-f: two separate curled fingertips clarified in five-digit right-hand salute"
+    ],
+    "naturallyOccludedThumbs": [
+      "cra-f: thumb behind bow grip",
+      "foggernaut-f: thumb behind curled fingers at chin",
+      "forgelance-m: thumb behind pauldron rim",
+      "masqueraider-m: thumb behind opposite upper arm"
+    ],
+    "enlargements": [
+      "temp/profile-avatars/look-6/review/cra-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/ecaflip-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/eniripsa-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/enutrof-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/eliotrope-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/feca-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/foggernaut-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/foggernaut-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/forgelance-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/forgelance-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/huppermage-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/iop-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/masqueraider-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/masqueraider-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/osamodas-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/rogue-f-hand-audit.png",
+      "temp/profile-avatars/look-6/review/sacrier-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/sadida-m-hand-audit.png",
+      "temp/profile-avatars/look-6/review/pandawa-f-fixed-hand.png",
+      "temp/profile-avatars/look-6/review/ouginak-m-fixed-hand.png"
+    ]
+  }
+}
