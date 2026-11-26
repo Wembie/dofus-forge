@@ -2,6 +2,27 @@
 
 Original environment fan art for profile covers, paired with the approved Forge ink-and-watercolor class portraits. Target: **DOFUS 3.7 / Unity**. Artwork was introduced in Forge 0.4.10; Forge 0.4.11 adds the Account picker, saved choices and public profile covers.
 
+## Fifth collection — Forge 0.4.24
+
+**52 selectable landscapes**, including eight new original ink-and-watercolor panoramas based on the installed DOFUS **3.7.14.18** client. The earlier 44 artworks and records are preserved. Each new native illustration and desktop/mobile crop was inspected individually; see [review records](expansion-4-review.json). Exact prompts, reconstructed-map reference hashes and localized source names are saved in [the manifest](manifest.json).
+
+![Eight new current-client landscapes](expansion-4-preview.webp)
+
+| Scene | Source map ids |
+|---|---|
+| Castillo de Kontatrás | `108922368`, `111150592` |
+| Grobe | `206833153`, `206832645` |
+| Isla de Kéfriho | `54159142`, `54160681` |
+| Bosque Petrificado | `60033539`, `60034053` |
+| Pueblo de los kanigs | `126093082`, `126094104` |
+| Acuadomo de Merkator | `119276033`, `119277065` |
+| Teatro de Dramak | `118230016`, `118230020` |
+| Dimensión Obscura | `121634820`, `121634816` |
+
+Opaque PNG masters are retained locally in `temp/profile-banners/masters/v1/`; web assets are 1920 × 640 WebP in `public/banners/locations/v1/`. Generated with built-in `image_gen`. The game references were reconstructed from installed map planes, not screenshots; renderer artifacts were excluded from the illustrations.
+
+Apply `supabase/migrations/20261126010000_profile_art_fifth_heads_and_locations.sql` before deploying the expanded choices. It adds 38 portrait and eight banner paths without changing profile rows or permissions. Hosted SQL was not executed.
+
 ## Collection v1
 
 | ID | Location | Recognizable focus |
@@ -56,7 +77,7 @@ The full illustration includes its paper-colored background and watercolor. Keep
 
 ## Eight further scenes in Forge 0.4.25
 
-The collection now contains 44 landscapes. These eight additions use installed DOFUS **3.7.14.18** map data and graphics for identity, with original panoramic compositions in the approved ink-and-watercolor style. The previous 36 artworks and prompt records are preserved. Evil Forest uses the current Dark Vlad labyrinth maps; the manifest retains their precise localized subarea names alongside the broader collection label.
+That expansion brought the collection to 44 landscapes. These eight additions use installed DOFUS **3.7.14.18** map data and graphics for identity, with original panoramic compositions in the approved ink-and-watercolor style. The previous 36 artworks and prompt records are preserved. Evil Forest uses the current Dark Vlad labyrinth maps; the manifest retains their precise localized subarea names alongside the broader collection label.
 
 ![Eight further current-client landscapes](expansion-3-preview.webp)
 

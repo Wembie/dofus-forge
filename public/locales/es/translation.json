@@ -2590,5 +2590,13 @@
   "fg_import_invalid": "Ese enlace o código no es un encargo de La Forjadora válido.",
   "fg_import_done": "Encargo importado.",
   "fg_import_done_gear": "Encargo importado con su personaje.",
-  "fg_import_undo": "Deshacer"
+  "fg_import_undo": "Deshacer",
+  "profile_banner_location_kontatras-castle": "Castillo de Kontatrás",
+  "profile_banner_location_grobe": "Grobe",
+  "profile_banner_location_kefriho": "Isla de Kéfriho",
+  "profile_banner_location_petrified-forest": "Bosque Petrificado",
+  "profile_banner_location_kanig-village": "Pueblo de los kanigs",
+  "profile_banner_location_merkator": "Acuadomo de Merkator",
+  "profile_banner_location_dramak": "Teatro de Dramak",
+  "profile_banner_location_obscure-dimension": "Dimensión obscura"
 }

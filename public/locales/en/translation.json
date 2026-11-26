@@ -2590,5 +2590,13 @@
   "fg_import_invalid": "That link or code is not a valid order for The Forger.",
   "fg_import_done": "Order imported.",
   "fg_import_done_gear": "Order imported with its character.",
-  "fg_import_undo": "Undo"
+  "fg_import_undo": "Undo",
+  "profile_banner_location_kontatras-castle": "Harebourg's Castle",
+  "profile_banner_location_grobe": "Nolifis Island",
+  "profile_banner_location_kefriho": "Sakai Island",
+  "profile_banner_location_petrified-forest": "Petrified Forest",
+  "profile_banner_location_kanig-village": "Kanig Village",
+  "profile_banner_location_merkator": "Merkator's Aquadome",
+  "profile_banner_location_dramak": "Dramak's Theatre",
+  "profile_banner_location_obscure-dimension": "Lost Dimension"
 }

@@ -28,7 +28,7 @@ describe('class profile portraits', () => {
       'https://dofusforge.com/avatars/classes/v1/iop-m.webp',
       '//tracker.example/avatar.png',
       '/avatars/classes/v1/unknown-m.webp',
-      '/avatars/classes/v1/iop-look-5-m.webp',
+      '/avatars/classes/v1/iop-look-6-m.webp',
       '/avatars/classes/v1/iop-look-02-m.webp',
       '/avatars/classes/v2/iop-m.webp',
       '/avatars/classes/v1/iop-m.webp?redirect=1',

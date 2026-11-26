@@ -38,7 +38,7 @@ describe('approved profile banner catalog', () => {
       expect([banner.width, banner.height]).toEqual([1920, 640])
     }
     const current = manifest.banners.filter(b => b.sourceClientVersion)
-    expect(current.map(b => b.id)).toEqual(['moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo', 'amakna-castle', 'trool-fair', 'dragoeuf', 'nimotopia', 'akwadala', 'feudala', 'terrdala', 'aerdala', 'evil-forest', 'cania-lake', 'gisgoul', 'bwork-village', 'zoth-village', 'mount-torrid', 'buried-village', 'castaway-island'])
+    expect(current.map(b => b.id)).toEqual(['moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo', 'amakna-castle', 'trool-fair', 'dragoeuf', 'nimotopia', 'akwadala', 'feudala', 'terrdala', 'aerdala', 'evil-forest', 'cania-lake', 'gisgoul', 'bwork-village', 'zoth-village', 'mount-torrid', 'buried-village', 'castaway-island', 'kontatras-castle', 'grobe', 'kefriho', 'petrified-forest', 'kanig-village', 'merkator', 'dramak', 'obscure-dimension'])
     for (const banner of current) {
       expect(banner.sourceClientVersion).toBe('3.7.14.18')
       expect(banner.prompt).toContain('DOFUS 3.7')
