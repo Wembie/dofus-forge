@@ -7,6 +7,10 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Sexto rostro de las 19 clases y ocho escenarios más** (0.4.25) — 38 retratos con traje habitual y poses propias; 228/600 rostros terminados y 60 banners. Cocuzko, Biblioteca del Maestro Cuerbok, Antro del Kralamar Gigante, Pueblo de los Dopeuls, Pueblo de los Ganaderos, Palacio de Dientinea, Torre de Solar y Cementerio de los Torturados. Prompts, referencias 3.7.14.18, revisiones y correcciones de la pandawa y el uginak guardados; migración aditiva y archivos previos conservados. Misma versión que la nueva galería.
+
+- [x] **Galería para personalizar avatar y banner juntos** (0.4.25) — vista previa del perfil, búsqueda, filtros de clase y rostro, botones de género todos/masculino/femenino con iconos, categorías de paisajes y novedades. Ampliar conserva selección, filtros, foco y posición; aplicar prepara la combinación y guardar la publica. Cancelación, descarte y reintento conservados. Galería móvil de dos columnas y vista previa desplegable, ambos temas y cuatro idiomas. [Diseño y capturas](design/profile-appearance/README.md).
+
 - [x] **Quinto rostro de las 19 clases y ocho escenarios más** (0.4.24) — 38 retratos, hombre y mujer, con traje habitual y poses propias; 190/600 rostros terminados. 52 banners con Kontatrás, Grobe, Kéfriho, Bosque Petrificado, Pueblo de los kanigs, Acuadomo de Merkator, Teatro de Dramak y Dimensión Obscura. Prompts, referencias 3.7.14.18, historial de correcciones y revisiones individuales guardados; migración aditiva, imágenes previas conservadas. Xelor mujer original restaurada y manos del pandawa, zurcarák y sram ajustadas según las observaciones del usuario.
 
 - [x] **Portada ilustrada original para X, en inglés** (2026-11-25) — [PNG de 1500 × 500 px y fuente SVG](brand/social/README.md), con un taller fantástico sobre un valle, yunque encantado y equipo tomando forma. Nombre apilado y lema en inglés, tinta y acuarela, zona libre para el avatar y prompt exacto conservado. Exportación reproducible mediante `node scripts/build-brand-v04.mjs --x-banner`, sin cambiar los recursos de la aplicación.
@@ -494,6 +498,6 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 
  - [] agregar un atajo en la parte de cuando selecciona los items... algo para equipar todo el set de una, como shift + cllick iZQUIERDO O ALGO ASi, no se pensarle bien
 
-- [ ] **Continuar los rostros y peinados de los avatares** — 410 de los 600 rostros del cliente siguen pendientes, siempre con el traje habitual, conservando la técnica y creando poses propias. Avanzar por tandas desde el rostro 6 y tachar modelos verificados en [el seguimiento](brand/profile-avatars/PROGRESS.md).
+- [ ] **Continuar los rostros y peinados de los avatares** — 372 de los 600 rostros del cliente siguen pendientes, siempre con el traje habitual, conservando la técnica y creando poses propias. Avanzar por tandas desde el rostro 7 y tachar modelos verificados en [el seguimiento](brand/profile-avatars/PROGRESS.md).
 
 - [ ] **Trajes alternativos de los avatares, después de los rostros** — 38 trajes alternativos mapeados con sus ids y texturas; reservar su producción hasta terminar la prioridad de rostros/peinados.

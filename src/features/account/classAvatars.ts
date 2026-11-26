@@ -1,6 +1,6 @@
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 
-export const AVATAR_HEAD_SLOTS = [1, 2, 3, 4, 5] as const
+export const AVATAR_HEAD_SLOTS = [1, 2, 3, 4, 5, 6] as const
 
 export const CLASS_AVATARS = CLASS_DATA.flatMap(c => AVATAR_HEAD_SLOTS.flatMap(headSlot => (['male', 'female'] as const).map(gender => ({
   classId: c.id,

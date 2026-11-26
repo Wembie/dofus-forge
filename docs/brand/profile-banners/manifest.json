@@ -1,13 +1,13 @@
 {
   "collection": "Forge World of Twelve banners",
-  "revision": 5,
+  "revision": 6,
   "createdOn": "2026-11-22",
   "generator": "Built-in image_gen",
   "useCase": "illustration-story",
   "targetGame": "DOFUS 3.7 / Unity",
   "gameDataVersion": "3.7.12.12",
   "version": "0.4.10",
-  "status": "52 selectable landscapes; eight fifth-collection additions in Forge 0.4.24, preserving the earlier 44 artworks",
+  "status": "60 selectable landscapes; eight sixth-collection additions in Forge 0.4.25, preserving the earlier 52 artworks",
   "referenceProvenance": "Published environment references include earlier city/Pandala redesign artwork and game screenshots. The target version does not assert that each reference was captured in 3.7. Source images remain local; these are original fan-art interpretations.",
   "banners": [
     {
@@ -2454,6 +2454,494 @@
         "gameReferencesInspected": true,
         "note": "Islas de piedra suspendidas, escalera fragmentada, portal circular y aguja rota coinciden con rasgos del cliente actual. Original y recortes escritorio/movil revisados; portal y aguja siguen legibles, runas discretas, sin seres ni artefactos del render."
       }
+    },
+    {
+      "id": "crocuzko",
+      "location": "Cocuzko",
+      "asset": "public/banners/locations/v1/crocuzko.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 369050,
+      "sha256": "25979475cba3d33b126cea6dfa082f43b2ddb1892c5623e6e2cb9c5ce5d2301f",
+      "localPngMaster": "temp/profile-banners/masters/v1/crocuzko.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "9cb124fa322458f93dbe458a47346c7b0d8a1a9a531f3d3e3addefde9b9874af",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual current 3.7 Crocuzko / Cocuzko: huge stepped jade-gray stone pyramid plinths, tall angular masonry with spare geometric carved bands, a gigantic old crocodile skull and rib fossils embedded among low blue-green weeds, small scattered bones and an open olive earth floor, murky turquoise underwater atmosphere. Preserve the angular temple blocks and fossil crocodile identity. The dark rectangles and opaque black foreground bars in the reconstructed references are preparation artifacts, not structures to copy. Not a warm Aztec jungle city or generic tropical beach.",
+      "composition": "A mysterious submerged ruin panorama viewed from a low open stone path toward the huge weathered jade stepped pyramid base at mid-distance, the pale old crocodile skull and its long ribs partly framing the right side. Muted teal water beyond, soft filtered paper-light, olive sediment and tiny blue-green plants. Make the masonry readable rather than pitch black; no neon lighting. Quiet lower-left sediment path.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/crocuzko-198443014.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 198443014,
+          "mapBundle": "Map/Data/mapdata_assets_world_757.bundle",
+          "sourceMapBundleSha256": "1438f59662183247352cb2044279956c752ed1e501d80a99b012b4659c242369",
+          "sha256": "4eefde42aaa249cfa626c8892303ffe82ae844948cf98e04dd866a09ee61f8e7",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/crocuzko-198575110.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 198575110,
+          "mapBundle": "Map/Data/mapdata_assets_world_757.bundle",
+          "sourceMapBundleSha256": "1438f59662183247352cb2044279956c752ed1e501d80a99b012b4659c242369",
+          "sha256": "14f5f53e9062b93f1361236031e69db32cc3fffb17bd65dd812fe98d7a8f6ac6",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Cocuzko.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Crocuzko / Cocuzko: huge stepped jade-gray stone pyramid plinths, tall angular masonry with spare geometric carved bands, a gigantic old crocodile skull and rib fossils embedded among low blue-green weeds, small scattered bones and an open olive earth floor, murky turquoise underwater atmosphere. Preserve the angular temple blocks and fossil crocodile identity. The dark rectangles and opaque black foreground bars in the reconstructed references are preparation artifacts, not structures to copy. Not a warm Aztec jungle city or generic tropical beach.\nDISTINCT COMPOSITION AND MOOD: A mysterious submerged ruin panorama viewed from a low open stone path toward the huge weathered jade stepped pyramid base at mid-distance, the pale old crocodile skull and its long ribs partly framing the right side. Muted teal water beyond, soft filtered paper-light, olive sediment and tiny blue-green plants. Make the masonry readable rather than pitch black; no neon lighting. Quiet lower-left sediment path.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Cocuzko",
+        "en": "Crocuzko",
+        "fr": "Crocuzko",
+        "pt": "Crocuzko"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes de escritorio y movil revisados. Piramide escalonada jade, bandas geometricas y fosil de cocodrilo reconocibles del cliente 3.7; craneo y templo legibles en recorte central, sin criaturas vivas ni artefactos de referencia."
+      }
+    },
+    {
+      "id": "master-crow-library",
+      "location": "Biblioteca del Maestro Cuerbok",
+      "asset": "public/banners/locations/v1/master-crow-library.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 413324,
+      "sha256": "0acbdff9e58ae7123a2e1f46fba983b3b5ab5b4c6e89240877033a1b9256cdc1",
+      "localPngMaster": "temp/profile-banners/masters/v1/master-crow-library.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "6c87175258b96752389efcedff7ff7f8ddff730aa87f235129e74ab77bb55355",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual current 3.7 Master Crow library: honey-ivory stone chamber, absurdly tall stacks of worn books used as pillars, packed red/green book shelves, distinctive pointed stone raven-beak shaped door frames with dark riveted inner edges and a rib-like pale bird structure inside, black metal gallery rails made from repeated curved beak motifs, glass book display cases, little candlelit reading tables and olive rugs with small pale footprints. Preserve this whimsical book architecture, not a generic gothic school library. No live crows, skeleton people, adventurers or readable lettering.",
+      "composition": "A warm panoramic library aisle between two irregular towering stacks of old books, a recognizable pointed raven-beak stone doorway just right of center and red/green shelves receding along the left wall. One small reading table and candle in the middle distance, a low glass book case at the edge. Honey stone, olive green, dusty wine red and aged book brown, quiet candle warmth and pale paper gaps. Lower-left simple ivory floor.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/master-crow-library-159122436.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 159122436,
+          "mapBundle": "Map/Data/mapdata_assets_world_607.bundle",
+          "sourceMapBundleSha256": "a3e35bd78d885ca4444f208da9653eb15fdfc1b3d9e8b5703ced8d4fa2ec9645",
+          "sha256": "4a0fb87b462ec86246131526cfea016ca62c9b1140331fc76326f72774159a6e",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/master-crow-library-159122438.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 159122438,
+          "mapBundle": "Map/Data/mapdata_assets_world_607.bundle",
+          "sourceMapBundleSha256": "a3e35bd78d885ca4444f208da9653eb15fdfc1b3d9e8b5703ced8d4fa2ec9645",
+          "sha256": "0ded410a134cd5a291614409037e6862aeffbd4245bf116c7101b924d6049305",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Biblioteca del Maestro Cuerbok.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Master Crow library: honey-ivory stone chamber, absurdly tall stacks of worn books used as pillars, packed red/green book shelves, distinctive pointed stone raven-beak shaped door frames with dark riveted inner edges and a rib-like pale bird structure inside, black metal gallery rails made from repeated curved beak motifs, glass book display cases, little candlelit reading tables and olive rugs with small pale footprints. Preserve this whimsical book architecture, not a generic gothic school library. No live crows, skeleton people, adventurers or readable lettering.\nDISTINCT COMPOSITION AND MOOD: A warm panoramic library aisle between two irregular towering stacks of old books, a recognizable pointed raven-beak stone doorway just right of center and red/green shelves receding along the left wall. One small reading table and candle in the middle distance, a low glass book case at the edge. Honey stone, olive green, dusty wine red and aged book brown, quiet candle warmth and pale paper gaps. Lower-left simple ivory floor.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Biblioteca del Maestro Cuerbok",
+        "en": "Lord Crow's Library",
+        "fr": "Bibliothèque du Maître Corbac",
+        "pt": "Biblioteca do Mestre Corvoc"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil revisados. Puerta con formas de pico de cuervo, columnas de libros, barandilla curva y vitrinas conservan la biblioteca del cliente; composicion legible sin figuras vivas, letras reconocibles o artefactos de render."
+      }
+    },
+    {
+      "id": "giant-kralove",
+      "location": "Antro del Kralamar Gigante",
+      "asset": "public/banners/locations/v1/giant-kralove.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 436382,
+      "sha256": "430451fd1985304bc26a85b4a88d45b33fad9ed6cdb824d541cd4a380cf6b6e4",
+      "localPngMaster": "temp/profile-banners/masters/v1/giant-kralove.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "e423f26d121b228ee044b9715dc8fa369c8b26ee69c1a841529d5fb1bdd427d6",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual current 3.7 Giant Kralove lair: mossy low stone islands in stagnant dark olive water, creaking plain timber bridges, dense thin reed and cattail clusters, curling dark hanging vines, tiny orange mushrooms, worn stumps and distinctive ochre square-tiled arena floor with irregular missing tiles beside a weathered timber platform. Use the empty environment and tiled arena features from the references. Exclude the huge living red Kralove creature shown in reference 3; do not turn it into an invented statue. No people or monsters. Do not invent a grand castle or a polished blue sea.",
+      "composition": "A humid marsh panorama looking along a weathered timber bridge toward the open ochre checker-tiled arena platform, low mossy stone banks and a curtain of sparse hanging vines around the middle. Still olive water visible between uneven wooden supports, reeds and tiny warm mushrooms soften the edges. Muted moss, gray stone and weathered ochre, filtered misty daylight. Keep the tiled area distinct and quiet lower-left water/wood.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/giant-kralove-26739712.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 26739712,
+          "mapBundle": "Map/Data/mapdata_assets_world_102.bundle",
+          "sourceMapBundleSha256": "d02aa006f478a969c4a7a33872a0782feb399abd7907338dc7ad2fdbf20f5cdd",
+          "sha256": "0b17e51c22f7eaeb4545b1a215a574138cf11a39da06a77a299950af8258daa3",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/giant-kralove-26740740.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 26740740,
+          "mapBundle": "Map/Data/mapdata_assets_world_102.bundle",
+          "sourceMapBundleSha256": "d02aa006f478a969c4a7a33872a0782feb399abd7907338dc7ad2fdbf20f5cdd",
+          "sha256": "d23618b02702f6d6e30f006a7ee2194a3e1daac25d681b29b048a996f997fd65",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Antro del Kralamar Gigante.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Giant Kralove lair: mossy low stone islands in stagnant dark olive water, creaking plain timber bridges, dense thin reed and cattail clusters, curling dark hanging vines, tiny orange mushrooms, worn stumps and distinctive ochre square-tiled arena floor with irregular missing tiles beside a weathered timber platform. Use the empty environment and tiled arena features from the references. Exclude the huge living red Kralove creature shown in reference 3; do not turn it into an invented statue. No people or monsters. Do not invent a grand castle or a polished blue sea.\nDISTINCT COMPOSITION AND MOOD: A humid marsh panorama looking along a weathered timber bridge toward the open ochre checker-tiled arena platform, low mossy stone banks and a curtain of sparse hanging vines around the middle. Still olive water visible between uneven wooden supports, reeds and tiny warm mushrooms soften the edges. Muted moss, gray stone and weathered ochre, filtered misty daylight. Keep the tiled area distinct and quiet lower-left water/wood.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Antro del Kralamar Gigante",
+        "en": "Lair of the Giant Kralove",
+        "fr": "Antre du Kralamoure Géant",
+        "pt": "Antro do Kralamor Gigante"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes de escritorio/movil inspeccionados. Arena de baldosas ocres incompletas, puentes viejos, agua estancada, raices y juncos conservan el entorno del antro actual. Se representa el lugar vacio sin copiar la criatura de la referencia ni convertirla en estatua."
+      }
+    },
+    {
+      "id": "dopple-village",
+      "location": "Pueblo de los Dopeuls",
+      "asset": "public/banners/locations/v1/dopple-village.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 412568,
+      "sha256": "7a7533c7f81a99f8d6c879b0e6b6885be33d24712a2f5f2dea18415ae1373588",
+      "localPngMaster": "temp/profile-banners/masters/v1/dopple-village.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "70079f052887862f56efc080be44457c45c808770b32539ea041e63e8cd87230",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual current 3.7 Dopple village: green grassy clearing bordered by sharply leaning pale striped limestone fins, tall square-topped worn tan stone totem pillars carved with large dark brown curling/spiral motifs, broken shorter decorated pillar sections, orange-leaf shrubs and small violet-blue flowers along a pale earthen path. Preserve the particular spiral-carved square totems and low ruins; not the Kanig hide dwellings, a generic human town or giant living Dopeul faces.",
+      "composition": "A bright fresh panoramic clearing with a loose group of three tall spiral-carved square stone totems near the center, a little broken carved block low at their base and pale leaning limestone fins sweeping in from one side. A thin path curves through green grass with restrained orange leaves and violet flowers. Soft warm daylight, stone cream and gentle spring green; lower-left quiet grass and path.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/dopple-village-100140544.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 100140544,
+          "mapBundle": "Map/Data/mapdata_assets_world_382.bundle",
+          "sourceMapBundleSha256": "002646c4eb812cbe0a82407212c6ec805cad01beb6d1cc0a968ebba68702d779",
+          "sha256": "f8b46942315d680d45112f6e915e3c4d134c893505b76d9b3b650a19fb216fdd",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/dopple-village-100140289.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 100140289,
+          "mapBundle": "Map/Data/mapdata_assets_world_382.bundle",
+          "sourceMapBundleSha256": "002646c4eb812cbe0a82407212c6ec805cad01beb6d1cc0a968ebba68702d779",
+          "sha256": "456c14171f85141ef2aa073139d708cd8a6874420bb189d53d6635d829a5a42e",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Pueblo de los Dopeuls.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Dopple village: green grassy clearing bordered by sharply leaning pale striped limestone fins, tall square-topped worn tan stone totem pillars carved with large dark brown curling/spiral motifs, broken shorter decorated pillar sections, orange-leaf shrubs and small violet-blue flowers along a pale earthen path. Preserve the particular spiral-carved square totems and low ruins; not the Kanig hide dwellings, a generic human town or giant living Dopeul faces.\nDISTINCT COMPOSITION AND MOOD: A bright fresh panoramic clearing with a loose group of three tall spiral-carved square stone totems near the center, a little broken carved block low at their base and pale leaning limestone fins sweeping in from one side. A thin path curves through green grass with restrained orange leaves and violet flowers. Soft warm daylight, stone cream and gentle spring green; lower-left quiet grass and path.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Pueblo de los dopeuls",
+        "en": "Dopple Village",
+        "fr": "Village des Dopeuls",
+        "pt": "Vilarejo dos Dopels"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil revisados. Totems cuadrados con grandes espirales marrones, bloques caidos y lajas palidas con bandas reproducen los rasgos del lugar actual. Totems principales contenidos en recorte central, sin habitantes ni artefactos de referencia."
+      }
+    },
+    {
+      "id": "breeders-village",
+      "location": "Pueblo de los Ganaderos",
+      "asset": "public/banners/locations/v1/breeders-village.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 453914,
+      "sha256": "2f0cbe2018f01ecb0ad6bc966e8a10128ac0cef15431d29324d4dbd7bc311a3d",
+      "localPngMaster": "temp/profile-banners/masters/v1/breeders-village.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "3b248673bee35a201cd4a6991e71ec126fd4cd8e11e58e117a9b4ba3ded4d331",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual current 3.7 Breeders Village in the Koalak region: small low fenced grassy paddocks with plain timber feeding troughs and water bowls, squat round wooden water barrels on short supports and steps, pale honey rock outcrops, thick segmented Kaliptus trunks with broad layered umbrella leaves, straw bales, small red white-spotted mushrooms and scattered low flowers. Preserve the modest pastoral enclosures nestled among those particular trees and rocks, not a generic European red barn, palace or new invented species. No living mounts or ranchers.",
+      "composition": "A peaceful panoramic ranch corner following a low curved wooden paddock fence toward one barrel-shaped water station beside a pale honey rock outcrop near the middle, broad-leaf Kaliptus trees framing the sides and open yellow-green grass beyond. An empty timber trough and a little straw bale on the edge. Warm meadow green, honey rock and old wood, soft clear morning. Lower-left quiet grassy verge.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/breeders-village-73533441.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 73533441,
+          "mapBundle": "Map/Data/mapdata_assets_world_280.bundle",
+          "sourceMapBundleSha256": "5bfac91b5cd899dc371804f2c78584cded290fdc44aad973d38b2a71adb62156",
+          "sha256": "a434c40c971c852622d07c7d9f2d5982b1029ab00bef449c207d855dabd97742",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/breeders-village-73533185.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 73533185,
+          "mapBundle": "Map/Data/mapdata_assets_world_280.bundle",
+          "sourceMapBundleSha256": "5bfac91b5cd899dc371804f2c78584cded290fdc44aad973d38b2a71adb62156",
+          "sha256": "07d88da017a37116129012039c9c3246a4e5efe66c8be8239727ebc60ee72dd9",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Pueblo de los Ganaderos.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Breeders Village in the Koalak region: small low fenced grassy paddocks with plain timber feeding troughs and water bowls, squat round wooden water barrels on short supports and steps, pale honey rock outcrops, thick segmented Kaliptus trunks with broad layered umbrella leaves, straw bales, small red white-spotted mushrooms and scattered low flowers. Preserve the modest pastoral enclosures nestled among those particular trees and rocks, not a generic European red barn, palace or new invented species. No living mounts or ranchers.\nDISTINCT COMPOSITION AND MOOD: A peaceful panoramic ranch corner following a low curved wooden paddock fence toward one barrel-shaped water station beside a pale honey rock outcrop near the middle, broad-leaf Kaliptus trees framing the sides and open yellow-green grass beyond. An empty timber trough and a little straw bale on the edge. Warm meadow green, honey rock and old wood, soft clear morning. Lower-left quiet grassy verge.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Pueblo de los ganaderos",
+        "en": "Breeder Village",
+        "fr": "Village des Éleveurs",
+        "pt": "Vilarejo dos Criadores"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil inspeccionados. Cercado bajo, bebedero de barril elevado con escalones, kaliptus de hojas anchas y rocas miel coinciden con la zona del cliente. Elementos centrales legibles; sin monturas, granjeros, edificios inventados o artefactos del render."
+      }
+    },
+    {
+      "id": "dantinea-palace",
+      "location": "Palacio de Dientinea",
+      "asset": "public/banners/locations/v1/dantinea-palace.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 372652,
+      "sha256": "292d5271d556241c791ebaeb0e25291a7991a888f054e69a0e28ab97b2e44c47",
+      "localPngMaster": "temp/profile-banners/masters/v1/dantinea-palace.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "7174ab0a7f485cdc99a658d685f55fd931d6815e3cc932eecbf07e9a4d11609e",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual current 3.7 Dantinea palace: pale ivory and warm yellow stone terraces under the sea, curved shell/finned stone arches, slim aqua-patterned columns capped by small carved round pufferfish ornaments, a central crowned stylized seahorse/sea-king stone statue holding a trident, low coral planters with restrained pink/lavender fronds and ochre sea grasses, huge dark open-holed sponge tubes at the outer edges. Preserve these specific shell arches and crown/trident statue, no generic mermaid city, industrial brass dome or live creatures.",
+      "composition": "An elegant underwater panoramic terrace approaching the crowned trident-bearing sea-king stone sculpture just left of center, a broad pale shell-like arch behind it and two slim aqua-decorated pufferfish-topped columns receding to one side. Small pink coral planters and pale yellow paving, distant blue-green water with gentle watercolor haze. Bright readable ivory rather than cinematic darkness; quiet lower-left terrace paving.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/dantinea-palace-169611264.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 169611264,
+          "mapBundle": "Map/Data/mapdata_assets_world_647.bundle",
+          "sourceMapBundleSha256": "b758090b1f312896424fde0b6a37f6055e73615426267e5633d4dc1b1d514e0d",
+          "sha256": "385373b70cc0d17688b4d1e1c3adc3a911e1b6041df8b3c63ca75598723b9c65",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/dantinea-palace-169610240.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 169610240,
+          "mapBundle": "Map/Data/mapdata_assets_world_647.bundle",
+          "sourceMapBundleSha256": "b758090b1f312896424fde0b6a37f6055e73615426267e5633d4dc1b1d514e0d",
+          "sha256": "ad3ea047ed2336f1c3fc215932095368a556f7b71c3db632bb73102441244d1c",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Palacio de Dientinea.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Dantinea palace: pale ivory and warm yellow stone terraces under the sea, curved shell/finned stone arches, slim aqua-patterned columns capped by small carved round pufferfish ornaments, a central crowned stylized seahorse/sea-king stone statue holding a trident, low coral planters with restrained pink/lavender fronds and ochre sea grasses, huge dark open-holed sponge tubes at the outer edges. Preserve these specific shell arches and crown/trident statue, no generic mermaid city, industrial brass dome or live creatures.\nDISTINCT COMPOSITION AND MOOD: An elegant underwater panoramic terrace approaching the crowned trident-bearing sea-king stone sculpture just left of center, a broad pale shell-like arch behind it and two slim aqua-decorated pufferfish-topped columns receding to one side. Small pink coral planters and pale yellow paving, distant blue-green water with gentle watercolor haze. Bright readable ivory rather than cinematic darkness; quiet lower-left terrace paving.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Palacio de Dientinea",
+        "en": "Dantinea's Palace",
+        "fr": "Palais de Dantinéa",
+        "pt": "Palácio de Dentinea"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil inspeccionados. Terraza submarina marfil con arcos curvos, estatua coronada con tridente, columnas acuaticas rematadas en peces tallados y corales conservan identidad de Dientinea. Escultura y columnas legibles en movil; sin habitantes vivos ni artefactos."
+      }
+    },
+    {
+      "id": "solar-tower",
+      "location": "Torre de Solar",
+      "asset": "public/banners/locations/v1/solar-tower.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 381628,
+      "sha256": "b6e4c3e1b06984b1ea65e3bba304c6f906d31629eaee7a8ad5693a26f9111f67",
+      "localPngMaster": "temp/profile-banners/masters/v1/solar-tower.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "9e508232c7da37fe1995839220eba043664a179e7e70b6453956d04d282ea0a9",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual current 3.7 Solar tower interior: enormous angular charcoal iron support posts with round rivets, platforms of open rusty metal grating suspended over an orange smoky abyss, massive hanging iron chains, plain broken dark steps projecting into space, a high narrow pale doorway crossed by horizontal chains, small loose metal panels on the grates. Preserve this exposed precarious industrial tower structure, not Brakmar streets, a new flame castle, giant sun emblem or a living Solar creature. No people or monsters.",
+      "composition": "A dramatic panoramic view across an empty rust-orange iron grate platform toward the narrow high doorway barred with chains in the middle distance. One heavy chain drops near the side and a broken plain stair projects upward from the lower foreground, large black riveted supports enclosing the edges with a soft orange smoky void below. Matte charcoal, worn rust and pale amber paper-light; no neon glow, flaming characters or glossy CGI. Lower-left is a quiet dark metal shelf.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/solar-tower-187957512.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 187957512,
+          "mapBundle": "Map/Data/mapdata_assets_world_717.bundle",
+          "sourceMapBundleSha256": "88387817e66704a61ca542fc3aaa0a8f3e4f0e7b9b5edf94f3a86a1983352896",
+          "sha256": "22f73c33e82c6db5a79adccce67f2b9a1557c4496cee4cb307522daff067140d",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/solar-tower-187957514.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 187957514,
+          "mapBundle": "Map/Data/mapdata_assets_world_717.bundle",
+          "sourceMapBundleSha256": "88387817e66704a61ca542fc3aaa0a8f3e4f0e7b9b5edf94f3a86a1983352896",
+          "sha256": "ba715c277008f66c36ad0ceb25b3aed53f1a0350504931c3f8e308933c8f41e1",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Torre de Solar.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Solar tower interior: enormous angular charcoal iron support posts with round rivets, platforms of open rusty metal grating suspended over an orange smoky abyss, massive hanging iron chains, plain broken dark steps projecting into space, a high narrow pale doorway crossed by horizontal chains, small loose metal panels on the grates. Preserve this exposed precarious industrial tower structure, not Brakmar streets, a new flame castle, giant sun emblem or a living Solar creature. No people or monsters.\nDISTINCT COMPOSITION AND MOOD: A dramatic panoramic view across an empty rust-orange iron grate platform toward the narrow high doorway barred with chains in the middle distance. One heavy chain drops near the side and a broken plain stair projects upward from the lower foreground, large black riveted supports enclosing the edges with a soft orange smoky void below. Matte charcoal, worn rust and pale amber paper-light; no neon glow, flaming characters or glossy CGI. Lower-left is a quiet dark metal shelf.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Torre de Solar",
+        "en": "Solar's Tower",
+        "fr": "Tour de Solar",
+        "pt": "Torre de Solar"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil revisados. Plataforma de rejilla suspendida, cadenas enormes, pilares angulosos remachados y escalera rota mantienen el interior de la Torre de Solar. Puerta encadenada y plataforma legibles en movil; sin criaturas ni edificios ajenos al lugar."
+      }
+    },
+    {
+      "id": "tortured-cemetery",
+      "location": "Cementerio de los Torturados",
+      "asset": "public/banners/locations/v1/tortured-cemetery.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 437424,
+      "sha256": "9dd169df404f7513aafda29354a8946423b23da59c6c0551471115cf8f23023b",
+      "localPngMaster": "temp/profile-banners/masters/v1/tortured-cemetery.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "ea48a5e2fc8ddea2e7d7f762c49cc374d815b7f5c823bd059becdcf6ee1a09fa",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.25",
+      "identity": "Actual current 3.7 Cemetery of the Tortured near Brakmar: dark ochre stone cliff ledges and cracked lanes above orange lava falls, many modest upright coffin-shaped graves built from brown stone and worn wood with heavy black riveted iron caps, a few skull-and-bone funerary decorations, short black iron grave railings, dry burnt-orange shrubs, small warm yellow grave windows and sparse purple cloth. Preserve these very specific coffin-shaped grave roofs and rocky cemetery edge, not an enormous generic gothic city, Grobe bamboo or graphic horror. Bones are inanimate ornaments; no living undead or people.",
+      "composition": "A solemn warm dusk panoramic graveyard lane on a dark ochre rocky ledge, a small cluster of recognizable coffin-shaped riveted grave shrines near the center, short iron railings and scattered dry orange leaves beside the path. Broad distant lava falls illuminate the canyon off to one side, restrained yellow window lights give depth. Matte rust brown, dark iron and muted amber, no extreme horror or neon fire. Quiet lower-left cracked stone path.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/tortured-cemetery-178259970.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 178259970,
+          "mapBundle": "Map/Data/mapdata_assets_world_680.bundle",
+          "sourceMapBundleSha256": "93ff88ceab65f938f306dca6d75f0a755db260852513dbbc36637c0cceb01dd5",
+          "sha256": "11ad33357b0b8eabc2088fcaf5600efa7cbdde0cfafce41626b5452c6c875815",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-5/references/tortured-cemetery-171444740.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 171444740,
+          "mapBundle": "Map/Data/mapdata_assets_world_654.bundle",
+          "sourceMapBundleSha256": "5ca83d9df6afe65db62288acab62bfe5d8f43a9ee81626710a90a60d0dffb4b3",
+          "sha256": "856c6ce405fce4612a8556e74e1a4cc92894ef479c1f038aae97025d9c4d9997",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Cementerio de los Torturados.\nKEEP THE REAL LOCATION IDENTITY: Actual current 3.7 Cemetery of the Tortured near Brakmar: dark ochre stone cliff ledges and cracked lanes above orange lava falls, many modest upright coffin-shaped graves built from brown stone and worn wood with heavy black riveted iron caps, a few skull-and-bone funerary decorations, short black iron grave railings, dry burnt-orange shrubs, small warm yellow grave windows and sparse purple cloth. Preserve these very specific coffin-shaped grave roofs and rocky cemetery edge, not an enormous generic gothic city, Grobe bamboo or graphic horror. Bones are inanimate ornaments; no living undead or people.\nDISTINCT COMPOSITION AND MOOD: A solemn warm dusk panoramic graveyard lane on a dark ochre rocky ledge, a small cluster of recognizable coffin-shaped riveted grave shrines near the center, short iron railings and scattered dry orange leaves beside the path. Broad distant lava falls illuminate the canyon off to one side, restrained yellow window lights give depth. Matte rust brown, dark iron and muted amber, no extreme horror or neon fire. Quiet lower-left cracked stone path.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Cementerio de los Torturados",
+        "en": "Cemetery of the Tortured",
+        "fr": "Cimetière des Torturés",
+        "pt": "Cemitério dos Torturados"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil revisados. Sepulcros con tapas inclinadas de madera y hierro remachado, rejas cortas, hojas secas y acantilados de lava mantienen el cementerio del cliente actual. Motivos funerarios inanimados, sin muertos vivientes, gore ni artefactos del render."
+      }
     }
   ],
   "integration": {
@@ -2462,6 +2950,6 @@
     "databaseMigration": "supabase/migrations/20261123000000_profile_banner_catalog.sql"
   },
   "latestExpansionClientVersion": "3.7.14.18",
-  "latestExpansionNote": "Eight distinct scenes use identity references reconstructed from installed DOFUS 3.7.14.18 maps. Each native image and desktop/mobile crop was inspected individually. The earlier 44 artworks and records are preserved.",
-  "latestExpansionVersion": "0.4.24"
+  "latestExpansionNote": "Eight scenes use references reconstructed from installed DOFUS 3.7.14.18 maps. Each native illustration and desktop/mobile crop was inspected individually; the previous 52 artworks and records are preserved.",
+  "latestExpansionVersion": "0.4.25"
 }

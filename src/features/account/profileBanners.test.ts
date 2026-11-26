@@ -2,8 +2,20 @@ import { describe, expect, it } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { PROFILE_BANNERS, isProfileBannerUrl } from './profileBanners.ts'
+import { PROFILE_BANNER_GROUPS, PROFILE_BANNER_OPTIONS } from './profileAppearanceCatalog.ts'
 
 describe('approved profile banner catalog', () => {
+  it('gives every landscape one browsing category and localizes the appearance gallery', () => {
+    const mapped = PROFILE_BANNER_GROUPS.flatMap(group => [...group.locations])
+    expect(new Set(mapped).size).toBe(mapped.length)
+    expect([...mapped].sort()).toEqual(PROFILE_BANNERS.map(b => b.id).sort())
+    expect(PROFILE_BANNER_OPTIONS.map(b => b.url)).toEqual(PROFILE_BANNERS.map(b => b.url))
+    for (const b of PROFILE_BANNER_OPTIONS) expect(PROFILE_BANNER_GROUPS.some(g => g.id === b.category)).toBe(true)
+    for (const lang of ['es', 'en', 'fr', 'pt']) {
+      const strings = JSON.parse(readFileSync(`public/locales/${lang}/translation.json`, 'utf8'))
+      for (const key of ['appearance_title', 'appearance_apply', 'appearance_pending', 'appearance_new', 'appearance_preview', 'appearance_class', 'appearance_gender', 'appearance_face', 'appearance_empty_title', 'appearance_empty_hint', 'appearance_clear', 'appearance_save_hint', 'appearance_category_all', ...PROFILE_BANNER_GROUPS.map(g => `appearance_category_${g.id}`)]) expect(strings[key]?.length, `${lang}:${key}`).toBeGreaterThan(0)
+    }
+  })
   it('keeps shipped artwork, browser choices and the server allowlist identical', () => {
     const manifest = JSON.parse(readFileSync('docs/brand/profile-banners/manifest.json', 'utf8')) as { banners: { asset: string }[] }
     const schema = readFileSync('supabase/schema.sql', 'utf8')
@@ -38,7 +50,7 @@ describe('approved profile banner catalog', () => {
       expect([banner.width, banner.height]).toEqual([1920, 640])
     }
     const current = manifest.banners.filter(b => b.sourceClientVersion)
-    expect(current.map(b => b.id)).toEqual(['moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo', 'amakna-castle', 'trool-fair', 'dragoeuf', 'nimotopia', 'akwadala', 'feudala', 'terrdala', 'aerdala', 'evil-forest', 'cania-lake', 'gisgoul', 'bwork-village', 'zoth-village', 'mount-torrid', 'buried-village', 'castaway-island', 'kontatras-castle', 'grobe', 'kefriho', 'petrified-forest', 'kanig-village', 'merkator', 'dramak', 'obscure-dimension'])
+    expect(current.map(b => b.id)).toEqual(['moon', 'wabbits', 'otomai', 'vulkania', 'tainela', 'koalaks', 'abraknid', 'minotoror', 'osavora', 'saharach', 'sarakech', 'albuera', 'ereboria', 'nawidad', 'pazcuak', 'dragocerdo', 'amakna-castle', 'trool-fair', 'dragoeuf', 'nimotopia', 'akwadala', 'feudala', 'terrdala', 'aerdala', 'evil-forest', 'cania-lake', 'gisgoul', 'bwork-village', 'zoth-village', 'mount-torrid', 'buried-village', 'castaway-island', 'kontatras-castle', 'grobe', 'kefriho', 'petrified-forest', 'kanig-village', 'merkator', 'dramak', 'obscure-dimension', 'crocuzko', 'master-crow-library', 'giant-kralove', 'dopple-village', 'breeders-village', 'dantinea-palace', 'solar-tower', 'tortured-cemetery'])
     for (const banner of current) {
       expect(banner.sourceClientVersion).toBe('3.7.14.18')
       expect(banner.prompt).toContain('DOFUS 3.7')

@@ -1,6 +1,6 @@
 {
   "collection": "Forge class portraits",
-  "revision": 5,
+  "revision": 6,
   "generator": "Built-in image_gen",
   "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
   "exactPromptsForExistingImages": "docs/brand/profile-avatars/manifest.json",
@@ -71,6 +71,7 @@
     "Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits.",
     "Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds.",
     "Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy.",
-    "For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP."
+    "For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP.",
+    "When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; correct uncertain anatomy before approval."
   ]
 }

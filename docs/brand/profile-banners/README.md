@@ -2,6 +2,27 @@
 
 Original environment fan art for profile covers, paired with the approved Forge ink-and-watercolor class portraits. Target: **DOFUS 3.7 / Unity**. Artwork was introduced in Forge 0.4.10; Forge 0.4.11 adds the Account picker, saved choices and public profile covers.
 
+## Sixth collection — Forge 0.4.25
+
+**60 selectable landscapes**, with eight new illustrations from the installed DOFUS **3.7.14.18** client. All 52 earlier artworks and records are preserved. Full-size artwork and desktop/mobile crops were inspected individually; [review records](expansion-5-review.json) and [exact prompts with source hashes](manifest.json) are retained.
+
+![Eight new current-client landscapes](expansion-5-preview.webp)
+
+| Scene | Source map ids |
+|---|---|
+| Cocuzko | `198443014`, `198575110` |
+| Biblioteca del Maestro Cuerbok | `159122436`, `159122438` |
+| Antro del Kralamar Gigante | `26739712`, `26740740` |
+| Pueblo de los Dopeuls | `100140544`, `100140289` |
+| Pueblo de los Ganaderos | `73533441`, `73533185` |
+| Palacio de Dientinea | `169611264`, `169610240` |
+| Torre de Solar | `187957512`, `187957514` |
+| Cementerio de los Torturados | `178259970`, `171444740` |
+
+Native opaque PNGs: `temp/profile-banners/masters/v1/`. Production 1920 × 640 WebPs: `public/banners/locations/v1/`. Generated with built-in `image_gen`; references reconstructed from actual client map assets. The Kralove scene deliberately depicts the empty arena rather than a living monster.
+
+Apply `supabase/migrations/20261126020000_profile_art_sixth_heads_and_locations.sql` before deployment. It adds the exact 38 portrait and eight banner paths, preserving profiles and permissions. Hosted SQL was not executed.
+
 ## Fifth collection — Forge 0.4.24
 
 **52 selectable landscapes**, including eight new original ink-and-watercolor panoramas based on the installed DOFUS **3.7.14.18** client. The earlier 44 artworks and records are preserved. Each new native illustration and desktop/mobile crop was inspected individually; see [review records](expansion-4-review.json). Exact prompts, reconstructed-map reference hashes and localized source names are saved in [the manifest](manifest.json).

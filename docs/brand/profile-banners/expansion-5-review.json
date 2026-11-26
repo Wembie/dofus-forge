@@ -1,0 +1,128 @@
+{
+  "scope": "Eight new banners only",
+  "reviewedOn": "2026-11-26",
+  "sourceClientVersion": "3.7.14.18",
+  "banners": [
+    {
+      "id": "crocuzko",
+      "asset": "public/banners/locations/v1/crocuzko.webp",
+      "sha256": "25979475cba3d33b126cea6dfa082f43b2ddb1892c5623e6e2cb9c5ce5d2301f",
+      "master": "temp/profile-banners/masters/v1/crocuzko.png",
+      "masterSha256": "9cb124fa322458f93dbe458a47346c7b0d8a1a9a531f3d3e3addefde9b9874af",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes de escritorio y movil revisados. Piramide escalonada jade, bandas geometricas y fosil de cocodrilo reconocibles del cliente 3.7; craneo y templo legibles en recorte central, sin criaturas vivas ni artefactos de referencia."
+      }
+    },
+    {
+      "id": "master-crow-library",
+      "asset": "public/banners/locations/v1/master-crow-library.webp",
+      "sha256": "0acbdff9e58ae7123a2e1f46fba983b3b5ab5b4c6e89240877033a1b9256cdc1",
+      "master": "temp/profile-banners/masters/v1/master-crow-library.png",
+      "masterSha256": "6c87175258b96752389efcedff7ff7f8ddff730aa87f235129e74ab77bb55355",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil revisados. Puerta con formas de pico de cuervo, columnas de libros, barandilla curva y vitrinas conservan la biblioteca del cliente; composicion legible sin figuras vivas, letras reconocibles o artefactos de render."
+      }
+    },
+    {
+      "id": "giant-kralove",
+      "asset": "public/banners/locations/v1/giant-kralove.webp",
+      "sha256": "430451fd1985304bc26a85b4a88d45b33fad9ed6cdb824d541cd4a380cf6b6e4",
+      "master": "temp/profile-banners/masters/v1/giant-kralove.png",
+      "masterSha256": "e423f26d121b228ee044b9715dc8fa369c8b26ee69c1a841529d5fb1bdd427d6",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes de escritorio/movil inspeccionados. Arena de baldosas ocres incompletas, puentes viejos, agua estancada, raices y juncos conservan el entorno del antro actual. Se representa el lugar vacio sin copiar la criatura de la referencia ni convertirla en estatua."
+      }
+    },
+    {
+      "id": "dopple-village",
+      "asset": "public/banners/locations/v1/dopple-village.webp",
+      "sha256": "7a7533c7f81a99f8d6c879b0e6b6885be33d24712a2f5f2dea18415ae1373588",
+      "master": "temp/profile-banners/masters/v1/dopple-village.png",
+      "masterSha256": "70079f052887862f56efc080be44457c45c808770b32539ea041e63e8cd87230",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil revisados. Totems cuadrados con grandes espirales marrones, bloques caidos y lajas palidas con bandas reproducen los rasgos del lugar actual. Totems principales contenidos en recorte central, sin habitantes ni artefactos de referencia."
+      }
+    },
+    {
+      "id": "breeders-village",
+      "asset": "public/banners/locations/v1/breeders-village.webp",
+      "sha256": "2f0cbe2018f01ecb0ad6bc966e8a10128ac0cef15431d29324d4dbd7bc311a3d",
+      "master": "temp/profile-banners/masters/v1/breeders-village.png",
+      "masterSha256": "3b248673bee35a201cd4a6991e71ec126fd4cd8e11e58e117a9b4ba3ded4d331",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil inspeccionados. Cercado bajo, bebedero de barril elevado con escalones, kaliptus de hojas anchas y rocas miel coinciden con la zona del cliente. Elementos centrales legibles; sin monturas, granjeros, edificios inventados o artefactos del render."
+      }
+    },
+    {
+      "id": "dantinea-palace",
+      "asset": "public/banners/locations/v1/dantinea-palace.webp",
+      "sha256": "292d5271d556241c791ebaeb0e25291a7991a888f054e69a0e28ab97b2e44c47",
+      "master": "temp/profile-banners/masters/v1/dantinea-palace.png",
+      "masterSha256": "7174ab0a7f485cdc99a658d685f55fd931d6815e3cc932eecbf07e9a4d11609e",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil inspeccionados. Terraza submarina marfil con arcos curvos, estatua coronada con tridente, columnas acuaticas rematadas en peces tallados y corales conservan identidad de Dientinea. Escultura y columnas legibles en movil; sin habitantes vivos ni artefactos."
+      }
+    },
+    {
+      "id": "solar-tower",
+      "asset": "public/banners/locations/v1/solar-tower.webp",
+      "sha256": "b6e4c3e1b06984b1ea65e3bba304c6f906d31629eaee7a8ad5693a26f9111f67",
+      "master": "temp/profile-banners/masters/v1/solar-tower.png",
+      "masterSha256": "9e508232c7da37fe1995839220eba043664a179e7e70b6453956d04d282ea0a9",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil revisados. Plataforma de rejilla suspendida, cadenas enormes, pilares angulosos remachados y escalera rota mantienen el interior de la Torre de Solar. Puerta encadenada y plataforma legibles en movil; sin criaturas ni edificios ajenos al lugar."
+      }
+    },
+    {
+      "id": "tortured-cemetery",
+      "asset": "public/banners/locations/v1/tortured-cemetery.webp",
+      "sha256": "9dd169df404f7513aafda29354a8946423b23da59c6c0551471115cf8f23023b",
+      "master": "temp/profile-banners/masters/v1/tortured-cemetery.png",
+      "masterSha256": "ea48a5e2fc8ddea2e7d7f762c49cc374d815b7f5c823bd059becdcf6ee1a09fa",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "Original y recortes escritorio/movil revisados. Sepulcros con tapas inclinadas de madera y hierro remachado, rejas cortas, hojas secas y acantilados de lava mantienen el cementerio del cliente actual. Motivos funerarios inanimados, sin muertos vivientes, gore ni artefactos del render."
+      }
+    }
+  ],
+  "preservedPreviousBanners": 52
+}
