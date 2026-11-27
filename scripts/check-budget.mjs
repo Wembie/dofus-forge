@@ -13,12 +13,17 @@ const CLIENT = 'dist/client'
 // re-measured 2026-11-19 (0.4.0: the new design system ships its own CSS on
 // top of the legacy index.css still to be trimmed) plus ~10%. Raise them on
 // purpose, in the same commit as the change that needs it.
+//
+// /classes/iop and /sets re-measured 2026-11-27 (0.4.29: the streak/exclusive-
+// rewards profile features grew the shared header/account bundle every page
+// loads) at 172.2 / 170.2 kB actual, both already over their old budget by a
+// sliver — raised with the same ~5% headroom the other routes already carry.
 const BUDGETS = {
   '/':                 { js: 210, css: 16 },
   '/explore':          { js: 190, css: 17 },
   '/about':            { js: 180, css: 16 },
-  '/classes/iop':      { js: 172, css: 19 },
-  '/sets':             { js: 170, css: 16 },
+  '/classes/iop':      { js: 181, css: 19 },
+  '/sets':             { js: 179, css: 16 },
   '/sets/gobball-set': { js: 183, css: 16 },
 }
 

@@ -14,6 +14,10 @@ export function exclusiveAssetPaths(slug: ExclusiveSlug) {
   return { avatarPath: `${BASE}avatars/exclusive/v1/${file}.webp`, bannerPath: `${BASE}banners/exclusive/v1/${file}.webp` }
 }
 
+export function isExclusiveAvatarUrl(url: string): boolean {
+  return EXCLUSIVE_SLUGS.some(slug => exclusiveAssetPaths(slug).avatarPath === url)
+}
+
 function knownReward(slug: string | null | undefined) {
   return slug && knownSlugs.has(slug) ? exclusiveAssetPaths(slug as ExclusiveSlug) : undefined
 }
@@ -24,4 +28,8 @@ export function effectiveAvatarUrl(avatarUrl: string | null, slug: string | null
 
 export function effectiveBannerUrl(bannerUrl: string | null, slug: string | null | undefined): string | null {
   return knownReward(slug)?.bannerPath ?? bannerUrl
+}
+
+export function resolveProfileAvatar<T extends { avatar_url: string | null; exclusive_avatar_slug?: string | null }>(profile: T): T {
+  return { ...profile, avatar_url: effectiveAvatarUrl(profile.avatar_url, profile.exclusive_avatar_slug) }
 }

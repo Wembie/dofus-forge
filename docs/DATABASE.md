@@ -5,6 +5,29 @@
 > **Estado:** Esquema actual; las migraciones incrementales están indicadas por función
 > **Repo:** público — este archivo no contiene credenciales, URLs de conexión ni API keys
 
+### Racha activa, cupo de builds y administradores — 0.4.29
+
+Aplicar `supabase/migrations/20261127030000_streak_build_capacity_and_admin_art.sql`
+después del catálogo emblemático. El esquema acumulado incluye ambas migraciones.
+
+- `get_my_build_quota()` devuelve solo el cupo de la cuenta autenticada:
+  `used`, `active_streak`, `streak_bonus`, `base_limit` y `limit`.
+- La base es el mayor de 50 y el cupo de rango vigente. Se suman
+  `floor(active_streak / 5)` plazas. `null` representa un rango ilimitado.
+- `active_streak` vale cero si `last_active_date` no es hoy o ayer en UTC,
+  aunque el contador almacenado todavía no haya pasado por el siguiente login.
+  No se usa `login_streak_best` para este beneficio temporal.
+- El cálculo interno `build_quota_for(uuid)` no tiene permiso de ejecución
+  para clientes. El trigger bloquea la fila del perfil y cuenta builds reales:
+  el contador cacheado se actualiza en triggers AFTER y permitiría saltarse
+  el límite con un INSERT de varias filas si se usara como única validación.
+- Perder el bono o caducar un rango no borra builds ni impide editarlas.
+  Crear o copiar una build requiere estar por debajo del cupo actual.
+- `check_exclusive_reward_claim()` permite todas las imágenes del catálogo
+  cuando **OLD.role** es `admin`. La RPC de desbloqueos refleja esta excepción.
+  Moderadores y usuarios siguen usando su récord. Falsificar `NEW.role` no
+  concede derechos, los slugs siguen sujetos a FK y no se admiten URLs externas.
+
 ### Recompensas emblemáticas — 0.4.28 (2026-11-27)
 
 `exclusive_rewards` contiene 16 filas públicas de catálogo (`slug`, `threshold`,

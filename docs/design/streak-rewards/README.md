@@ -1,5 +1,30 @@
 # Racha, recompensas y marcos — 0.4.28
 
+## Extensión de la 0.4.29
+
+La cuenta muestra **builds usadas / cupo actual**, plazas por racha activa y
+días hasta la siguiente plaza, debajo del progreso y separado de las imágenes.
+Las reglas del desplegable explican que la racha activa concede +1 cada cinco
+días sobre el cupo base o de rango y que perder el bono conserva todas las
+builds y su edición. Las cuentas de rango ilimitado muestran su estado real.
+
+Los administradores ven «Acceso de administrador» y todas las imágenes
+disponibles, sin progreso ficticio ni récord fabricado. Los marcos siguen
+correspondiendo al récord real. La galería usa la elegibilidad de la RPC,
+incluida la excepción del administrador, y el servidor valida el guardado.
+
+![Cupo por racha activa](capacity-desktop.webp)
+
+![Acceso de administrador con récord cero](admin-access.webp)
+
+![Cupo en móvil](capacity-mobile.webp)
+
+Comprobaciones de 0.4.29: cuenta normal, rango finito e ilimitado, récord
+permanente después de reiniciar, administrador con racha cero y selección
+de Ogrest, cuatro idiomas y 320 px, ambos temas y Axe sin infracciones
+en los estados comprobados. La base local pasa 125 aserciones pgTAP; dos
+sesiones que compiten por la última plaza solo consiguen una inserción.
+
 Petición del usuario, 2026-11-27: conservar la **llama original** y revisar
 ubicación, ventanas y marcos siguiendo el diseño de la 0.4.0. Se mantienen
 las superficies verde oscuro y papel claro, acento melocotón, tipografía

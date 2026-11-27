@@ -2,6 +2,7 @@ import { getSupabase } from '@/lib/supabase.ts'
 import type { BuildSnapshot, Gender } from '@/store/buildStore.ts'
 import { sanitizeSnapshot } from '@/engine/snapshot.ts'
 import { isValidRating } from './rating.ts'
+import { resolveProfileAvatar } from '@/features/profile/exclusiveAppearance.ts'
 
 export type BuildVisibility = 'private' | 'unlisted' | 'public'
 export type ExploreSort = 'rating' | 'likes' | 'recent' | 'views'
@@ -10,6 +11,7 @@ export type BuildOwner = {
   username:     string
   display_name: string | null
   avatar_url:   string | null
+  exclusive_avatar_slug?: string | null
 }
 
 export type TagCategory = 'playstyle' | 'element' | 'general'
@@ -51,7 +53,7 @@ export type BuildDetailRow = BuildRow & { updated_at: string }
 // several relationships to profiles (fk_pinned_build, plus many-to-many via
 // build_likes/build_ratings/build_bookmarks as junction tables), so a bare
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
-const ROW_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, is_featured, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
+const ROW_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, is_featured, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, profiles!builds_user_id_fkey(username, display_name, avatar_url, exclusive_avatar_slug), build_tags(tags(id, name, category))'
 const DETAIL_COLUMNS = `${ROW_COLUMNS}, snapshot, updated_at`
 // Cards draw the equipment icons (snapshot.e) and the build's main stats, which
 // need the points, scrolls and magesmithy too (a, s, r). Names and passives are
@@ -77,14 +79,14 @@ function guard<A extends unknown[], R>(fn: (...args: A) => Promise<R>, fallback:
 // reads snap.a / snap.e (a malformed one would otherwise crash the page for
 // every viewer).
 const EMPTY_SNAPSHOT = sanitizeSnapshot({ v: 1 })!
-function safeRow<T extends { snapshot: BuildSnapshot }>(row: T): T {
-  return { ...row, snapshot: sanitizeSnapshot(row.snapshot) ?? EMPTY_SNAPSHOT }
+function safeRow<T extends { snapshot: BuildSnapshot; profiles?: BuildOwner | null }>(row: T): T {
+  return { ...row, snapshot: sanitizeSnapshot(row.snapshot) ?? EMPTY_SNAPSHOT, ...(row.profiles ? { profiles: resolveProfileAvatar(row.profiles) } : {}) }
 }
 const safeRows = <T extends { snapshot: BuildSnapshot }>(rows: T[]): T[] => rows.map(safeRow)
 type CardRow = Omit<BuildRow, 'snapshot'> & { e?: unknown; a?: unknown; s?: unknown; r?: unknown }
 function cardRow({ e, a, s, r, ...row }: CardRow): BuildRow {
   const snapshot = sanitizeSnapshot({ v: 1, c: row.class_slug, l: row.level, g: row.gender === 'female' ? 'f' : 'm', e, a, s, r }) ?? EMPTY_SNAPSHOT
-  return { ...row, snapshot }
+  return { ...row, snapshot, profiles: row.profiles ? resolveProfileAvatar(row.profiles) : row.profiles }
 }
 const cardRows = (rows: unknown[]): BuildRow[] => (rows as CardRow[]).map(cardRow)
 
@@ -421,7 +423,7 @@ export type NotificationRow = {
   type:       NotificationType
   read:       boolean
   created_at: string
-  actor:      { username: string; avatar_url: string | null } | null
+  actor:      { username: string; avatar_url: string | null; exclusive_avatar_slug?: string | null } | null
   build:      { id: string; name: string } | null
   /** Kept even when `build` is null (e.g. an unlisted remix not in the
    * reader's lists): opening it by id still works through its link. */
@@ -442,11 +444,11 @@ export const fetchNotifications = guard(async function fetchNotifications(userId
   const supabase = await getSupabase()
   const { data } = await supabase
     .from('notifications')
-    .select('id, type, read, created_at, build_id, actor:profiles!notifications_actor_id_fkey(username, avatar_url), build:builds(id, name)')
+    .select('id, type, read, created_at, build_id, actor:profiles!notifications_actor_id_fkey(username, avatar_url, exclusive_avatar_slug), build:builds(id, name)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(30)
-  return (data ?? []) as unknown as NotificationRow[]
+  return ((data ?? []) as unknown as NotificationRow[]).map(row => ({ ...row, actor: row.actor ? resolveProfileAvatar(row.actor) : null }))
 }, () => [] as NotificationRow[])
 
 /**
@@ -752,12 +754,12 @@ export const fetchComments = guard(async function fetchComments(buildId: string)
     .from('build_comments')
     // Explicit FK name — same PGRST201 ambiguity risk as LIST_COLUMNS above
     // (comment_likes joins build_comments to profiles as a second path).
-    .select('id, content, like_count, created_at, user_id, profiles!build_comments_user_id_fkey(username, display_name, avatar_url)')
+    .select('id, content, like_count, created_at, user_id, profiles!build_comments_user_id_fkey(username, display_name, avatar_url, exclusive_avatar_slug)')
     .eq('build_id', buildId)
     .is('deleted_at', null)
     .setHeader(BUILD_LINK_HEADER, buildId)
     .order('created_at', { ascending: true })
-  return { data: (data ?? []) as unknown as CommentRow[], error: error?.message ?? null }
+  return { data: ((data ?? []) as unknown as CommentRow[]).map(row => ({ ...row, profiles: row.profiles ? resolveProfileAvatar(row.profiles) : null })), error: error?.message ?? null }
 }, error => ({ data: [] as CommentRow[], error }))
 
 /** Ids of this build's comments the user has liked (comment_likes RLS
@@ -919,17 +921,17 @@ export const fetchIsFollowing = guard(async function fetchIsFollowing(followerId
   return { following: !!data, error: error?.message ?? null }
 }, error => ({ following: false, error }))
 
-export type FollowProfile = { id: string; username: string; display_name: string | null; avatar_url: string | null }
+export type FollowProfile = { id: string; username: string; display_name: string | null; avatar_url: string | null; exclusive_avatar_slug?: string | null }
 
 /** Accounts that follow `userId` — the "followers" list behind that count. */
 export const fetchFollowers = guard(async function fetchFollowers(userId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('follows')
-    .select('profiles!follows_follower_id_fkey(id, username, display_name, avatar_url)')
+    .select('profiles!follows_follower_id_fkey(id, username, display_name, avatar_url, exclusive_avatar_slug)')
     .eq('following_id', userId)
   const rows = ((data ?? []) as unknown as { profiles: FollowProfile | null }[])
-    .map(r => r.profiles).filter((p): p is FollowProfile => p != null)
+    .map(r => r.profiles ? resolveProfileAvatar(r.profiles) : null).filter((p): p is FollowProfile => p != null)
   return { data: rows, error: error?.message ?? null }
 }, error => ({ data: [] as FollowProfile[], error }))
 
@@ -938,10 +940,10 @@ export const fetchFollowing = guard(async function fetchFollowing(userId: string
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('follows')
-    .select('profiles!follows_following_id_fkey(id, username, display_name, avatar_url)')
+    .select('profiles!follows_following_id_fkey(id, username, display_name, avatar_url, exclusive_avatar_slug)')
     .eq('follower_id', userId)
   const rows = ((data ?? []) as unknown as { profiles: FollowProfile | null }[])
-    .map(r => r.profiles).filter((p): p is FollowProfile => p != null)
+    .map(r => r.profiles ? resolveProfileAvatar(r.profiles) : null).filter((p): p is FollowProfile => p != null)
   return { data: rows, error: error?.message ?? null }
 }, error => ({ data: [] as FollowProfile[], error }))
 
