@@ -1,0 +1,158 @@
+{
+  "createdOn": "2026-11-27",
+  "forgeVersion": "0.4.28",
+  "status": "Sixteen reward pairs registered; twelve new pairs generated and individually inspected. Three chapters and a Bakara collection integrated. Database migration pending deployment.",
+  "identityPolicy": "Prefer verified official animated designs where available, per user request. Preserve Forge ink-and-watercolor technique and normal bust scale. Distinguish cross-media sources from DOFUS 3.7.14.18 game models.",
+  "selectionPolicy": "Retain first generation under the chosen animated design for user review. Earlier game-based Joris/Otomai attempts are archived; user explicitly requested switching them to animation.",
+  "originalMilestonesPreserved": true,
+  "frameMilestones": [
+    7,
+    30,
+    100,
+    365
+  ],
+  "rewards": [
+    {
+      "slug": "kerubim",
+      "threshold": 7,
+      "chapter": "first_steps",
+      "new": false,
+      "portrait": "existing",
+      "banner": "existing"
+    },
+    {
+      "slug": "joris",
+      "threshold": 14,
+      "chapter": "first_steps",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "atcham",
+      "threshold": 21,
+      "chapter": "first_steps",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "julith",
+      "threshold": 30,
+      "chapter": "first_steps",
+      "new": false,
+      "portrait": "existing",
+      "banner": "existing"
+    },
+    {
+      "slug": "bakara",
+      "threshold": 45,
+      "chapter": "feats",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "jahash",
+      "threshold": 60,
+      "chapter": "feats",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "otomai",
+      "threshold": 90,
+      "chapter": "feats",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "bakara_tipsy",
+      "threshold": 90,
+      "chapter": "feats",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "goultard",
+      "threshold": 100,
+      "chapter": "feats",
+      "new": false,
+      "portrait": "existing",
+      "banner": "existing"
+    },
+    {
+      "slug": "bakara_drunk_book",
+      "threshold": 120,
+      "chapter": "legends",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained",
+      "bakaraOption": "B"
+    },
+    {
+      "slug": "dathura",
+      "threshold": 150,
+      "chapter": "legends",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "bakara_drunk_lecture",
+      "threshold": 180,
+      "chapter": "legends",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained",
+      "bakaraOption": "C"
+    },
+    {
+      "slug": "djaul",
+      "threshold": 200,
+      "chapter": "legends",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "bakara_drunk_toast",
+      "threshold": 240,
+      "chapter": "legends",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained",
+      "bakaraOption": "D"
+    },
+    {
+      "slug": "jiva",
+      "threshold": 270,
+      "chapter": "legends",
+      "new": true,
+      "portrait": "generated and inspected; first selected design retained",
+      "banner": "generated and inspected; first generation retained"
+    },
+    {
+      "slug": "ogrest",
+      "threshold": 365,
+      "chapter": "legends",
+      "new": false,
+      "portrait": "existing",
+      "banner": "existing"
+    }
+  ],
+  "bakaraVariants": {
+    "normalThreshold": 45,
+    "drunkOptions": {
+      "A": 90,
+      "B": 120,
+      "C": 180,
+      "D": 240
+    },
+    "shares90DayMilestoneWith": "otomai",
+    "userSelectedAll": true
+  }
+}

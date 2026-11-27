@@ -1,9 +1,9 @@
 {
   "collection": "Forge Emblematic Character Rewards",
-  "revision": 2,
+  "revision": 3,
   "createdOn": "2026-11-27",
   "generator": "Built-in image_gen",
-  "status": "Collection prepared with seven selected first generations and one explicitly user-requested Julith refinement; awaiting user visual review and unlock integration",
+  "status": "Sixteen exclusive portrait/scenery pairs integrated with server-owned eligibility; individual visual-review observations retained.",
   "selectionPolicy": "Keep the FIRST generation of every image. Record observations without automatic corrections. The user requests specific edits after reviewing the completed batch.",
   "referenceStyle": {
     "portrait": "public/avatars/classes/v1/iop-m.webp",
@@ -125,13 +125,20 @@
   "integration": {
     "publicCatalog": false,
     "publicPicker": false,
-    "unlockMilestonesAssigned": false,
-    "serverEntitlementValidation": "pending integration task",
-    "databaseAndReactWiring": "pending integration task",
+    "unlockMilestonesAssigned": true,
+    "serverEntitlementValidation": "check_exclusive_reward_claim() checks OLD.login_streak_best; server-owned profile record preserved",
+    "databaseAndReactWiring": "Sixteen pairs, three chapters and Bakara collection; additive migration must precede deployment",
     "normalClassPortraitCount": 266,
     "normalBannerCount": 68,
     "classHeadProgressUnaffected": "266/600",
-    "avatarFrames": "separate CSS/SVG layer; not baked into images"
+    "avatarFrames": "separate CSS/SVG layer; not baked into images",
+    "rewardCount": 16,
+    "frameMilestones": [
+      7,
+      30,
+      100,
+      365
+    ]
   },
   "preservation": {
     "normalImagesChecked": 334,
@@ -804,5 +811,13 @@
     }
   ],
   "preparedForForgeVersion": "0.4.27",
-  "updatedOn": "2026-11-27"
+  "updatedOn": "2026-11-27",
+  "latestExpansion": {
+    "forgeVersion": "0.4.28",
+    "manifest": "expansion-1-manifest.json",
+    "plan": "expansion-1-plan.json",
+    "newPairs": 12,
+    "totalPairs": 16,
+    "bakaraReview": "bakara-review/manifest.json"
+  }
 }

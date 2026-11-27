@@ -7,7 +7,7 @@ import { langPathPrefix } from '@/i18n/langPath.ts'
 import { AuthModal } from './AuthModal.tsx'
 import { ResetPasswordModal } from './ResetPasswordModal.tsx'
 import { SIGN_IN_EVENT } from './requestSignIn.ts'
-import { effectiveAvatarUrl } from '@/features/profile/exclusiveRewards.ts'
+import { effectiveAvatarUrl } from '@/features/profile/exclusiveAppearance.ts'
 
 /** Sign-in button, or the player's menu: public profile, account, sign out. */
 export function AuthButton() {

@@ -1,0 +1,524 @@
+{
+  "createdOn": "2026-11-27",
+  "generator": "Built-in image_gen",
+  "status": "User selected ALL four drunk candidates; unlocked progressively at 90, 120, 180 and 240 days",
+  "activeChoiceIsProvisional": false,
+  "normalThreshold": 45,
+  "drunkThreshold": 90,
+  "shares90DayMilestoneWith": "otomai",
+  "preservationPolicy": "All originals, requested corrections and alternatives retained, with native PNG masters locally and full-size WebP review copies in this directory. No new drunk candidate is automatically selected.",
+  "sources": [
+    {
+      "page": "https://xawpilore.fr/personnages/royaumes-et-cites/bakara-jurgen/",
+      "image": "https://xawpilore.fr/_assets/bakara-jurgen.DJREduhi_Zz6OjB.webp",
+      "type": "Official animated design reproduced by a lore archive; matches user-provided normal reference"
+    },
+    {
+      "name": "bakara-drunk-puffed",
+      "page": "https://knowyourmeme.com/photos/1139216-dofus-wakfu",
+      "image": "https://i.kym-cdn.com/photos/images/original/001/139/216/1de.jpg",
+      "work": "DOFUS, Book I: Julith (2016)",
+      "type": "Official animation frame hosted by a community archive; not fan art"
+    },
+    {
+      "name": "bakara-drunk-toast",
+      "page": "https://knowyourmeme.com/photos/1139226-dofus-wakfu",
+      "image": "https://i.kym-cdn.com/photos/images/original/001/139/226/e7c.jpg",
+      "work": "DOFUS, Book I: Julith (2016)",
+      "type": "Official animation frame hosted by a community archive; not fan art"
+    },
+    {
+      "name": "bakara-drunk-lecture",
+      "page": "https://knowyourmeme.com/photos/1139223-dofus-wakfu",
+      "image": "https://i.kym-cdn.com/photos/images/original/001/139/223/c6b.jpg",
+      "work": "DOFUS, Book I: Julith (2016)",
+      "type": "Official animation frame hosted by a community archive; not fan art"
+    }
+  ],
+  "candidates": [
+    {
+      "letter": "A",
+      "key": "bakara-animation-faithful-tipsy",
+      "label": "Brazos abiertos",
+      "fullPreview": "bakara-animation-faithful-tipsy-full.webp",
+      "selectedByUser": true,
+      "threshold": 90
+    },
+    {
+      "letter": "B",
+      "key": "bakara-drunk-b",
+      "label": "Con el libro",
+      "fullPreview": "bakara-drunk-b-full.webp",
+      "selectedByUser": true,
+      "threshold": 120
+    },
+    {
+      "letter": "C",
+      "key": "bakara-drunk-c",
+      "label": "El sermón",
+      "fullPreview": "bakara-drunk-c-full.webp",
+      "selectedByUser": true,
+      "threshold": 180
+    },
+    {
+      "letter": "D",
+      "key": "bakara-drunk-d",
+      "label": "El brindis",
+      "fullPreview": "bakara-drunk-d-full.webp",
+      "selectedByUser": true,
+      "threshold": 240
+    }
+  ],
+  "records": [
+    {
+      "id": "bakara",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original Dofus Forge exclusive USER PROFILE FAN-ART PORTRAIT. Transform the character's AUTHENTIC ANIMATED design into ONE finished SQUARE head-and-upper-torso fan illustration. User explicitly prefers animation character designs to game models. IMAGE 1 establishes our approved Forge ink-and-watercolor technique and NORMAL BUST SCALE ONLY; never copy its Iop identity, orange hair, costume, anatomy or sword pose. Remaining images establish the named character in DOFUS, Book I: Julith (2016), with any exceptional reference roles explained below.\nANIMATED IDENTITY: BAKARA JURGEN in the ANIMATED FILM: pale ivory skin, very large clear CYAN BLUE eyes with dark lashes, blonde hair with short straight blunt bangs, long blonde hair falling behind the shoulders and a simple TEAL headband. Long pointed pale ears/teal-white wing-like ornaments project sideways near the headband as shown. Her original IVORY WHITE cape with wide TEAL border/collar, a small teal two-lobed clasp and one golden feather/tassel at the chest, over the dark teal outfit. No game-class substitute, red hair, armor, blue skin or new revealing costume. The second still is ONLY for the authentic face/hair/clothing construction: do NOT copy its drunken puffed cheeks, tears, nosebleed, furious expression, background or book pose.\nINDIVIDUAL POSE AND EXPRESSION: An intelligent, shy but determined apprentice mage. Her shoulders face three-quarter to her own RIGHT, head turns back toward the viewer with bright thoughtful cyan eyes and a restrained lopsided smile. She holds ONE closed plain brown spellbook vertically against the center of the lower chest with her own LEFT forearm supporting the bottom; her RIGHT pale hand rests naturally over its front edge, four long fingers and one correctly opposed thumb clearly connected to one palm. Keep the modest book secondary, with no readable title or magic effects. The white cape opens just enough to show its teal collar and original gold tassel.\nILLUSTRATION: expressive French fantasy-comic brush-pen black ink, fine selective graphite hatching, confident varied-weight lines, charming asymmetry, loose matte watercolor with irregular hand-placed pigment edges and small warm off-white paper gaps. An original personal fan art retaining the animation's facial proportions, features, hair, headwear, species and habitual costume. Opaque warm off-white ground with one restrained soft teal and warm cream watercolor wash. No photorealism, 3D, plastic toy, airbrush, cinematic bloom, perfect vector shapes or artificial grunge.\nFRAMING: same normal head-and-UPPER-TORSO bust scale as the approved collection. Face large near center and readable at 48px; all identifying ears, hair and headwear contained with top breathing space for a centered circular avatar crop. Not a faraway whole figure or extreme face closeup. Shoulder edges may leave the bottom. Only this single character and the specified modest prop. No captions, text, logos, signatures, watermark, frame, collage, UI or badges.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Keep exactly two arms with traceable shoulders and wrists and one coherent clothed torso. Four fingers plus one thumb on a fully exposed human hand, correct handedness and thumb placement. Respect canonical feline or doll anatomy, no floating extra digits. Keep feathers, scarves, hair and clothing distinct from limbs. This is the first version using the requested animated design; retain it for user review with no automatic regeneration.",
+      "identity": "BAKARA JURGEN in the ANIMATED FILM: pale ivory skin, very large clear CYAN BLUE eyes with dark lashes, blonde hair with short straight blunt bangs, long blonde hair falling behind the shoulders and a simple TEAL headband. Long pointed pale ears/teal-white wing-like ornaments project sideways near the headband as shown. Her original IVORY WHITE cape with wide TEAL border/collar, a small teal two-lobed clasp and one golden feather/tassel at the chest, over the dark teal outfit. No game-class substitute, red hair, armor, blue skin or new revealing costume. The second still is ONLY for the authentic face/hair/clothing construction: do NOT copy its drunken puffed cheeks, tears, nosebleed, furious expression, background or book pose.",
+      "pose": "An intelligent, shy but determined apprentice mage. Her shoulders face three-quarter to her own RIGHT, head turns back toward the viewer with bright thoughtful cyan eyes and a restrained lopsided smile. She holds ONE closed plain brown spellbook vertically against the center of the lower chest with her own LEFT forearm supporting the bottom; her RIGHT pale hand rests naturally over its front edge, four long fingers and one correctly opposed thumb clearly connected to one palm. Keep the modest book secondary, with no readable title or magic effects. The white cape opens just enough to show its teal collar and original gold tassel.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/bakara-animation-design.webp",
+        "temp/emblematic-expansion/references/bakara-animation-still.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal bust scale only",
+        "Authentic animated character design, not final fan art",
+        "Authentic animated character design, not final fan art"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/bakara-animation-design.webp": "5279ecba411e4d02cd5645f4c1f96d1fe80096e20a384bb802a44386ed572eea",
+        "temp/emblematic-expansion/references/bakara-animation-still.png": "9e71b8cb911bf3aaff4173048ae0464e5f0619f613ab1fb450996d28418fb114"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "Official Ankama animation design; cross-media, not a DOFUS 3.7 game-client model",
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedAnimationDesign": true,
+      "supersedes": null,
+      "master": "temp/emblematic-expansion/masters/bakara-animation-portrait.png",
+      "asset": "public/avatars/exclusive/v1/bakara.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "b858f10a602697a497c7d079d767fb2e3522b33566aca148ea92f055fd887ba9",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "5185e2195cfd223e9f6cf0d38ccbf400199b7fcd51454e21b07fc08fe86b771b",
+      "bytes": 62414,
+      "userReviewPending": true,
+      "fullPreview": "bakara-animation-portrait-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": true,
+        "userSelectionPending": false,
+        "note": "Retained original or explicitly requested correction; see supersedes field and exact prompt. No earlier master overwritten."
+      },
+      "generatedImageFile": "exec-62c02a3c-9c36-4934-a629-57b395e3627d.png"
+    },
+    {
+      "id": "bakara",
+      "type": "portrait",
+      "variant": "normal adult",
+      "threshold": 45,
+      "prompt": "Use case: identity-preserve. Asset type: Dofus Forge exclusive USER PROFILE FAN-ART PORTRAIT. Image 1 is our existing Bakara portrait to refine. Image 2 establishes her authentic animated identity; image 3 is the approved Forge technique only. Create ONE SQUARE fully clothed mature adult Bakara portrait, refining the existing normal version unlocked at 45 days; user expressly requested this change.\nIDENTITY: BAKARA JURGEN: preserve the animated film's pale ivory skin, large CYAN BLUE eyes, blonde hair with short blunt bangs and long hair behind the shoulders, simple teal headband, characteristic teal-white wing-like ornaments beside the head, ivory cloak with wide TEAL collar/border, teal two-lobed chest clasp and small GOLD feather/tassel over her dark teal clothing. This is an explicitly mature ADULT fan-art interpretation aged 25+, not a child version. Her personality and features remain instantly recognizable.\nPOSE AND EXPRESSION: Refine the existing normal portrait at the user's explicit request into a more glamorous, flirtatious ADULT interpretation of Bakara, age 25 or older. Adult facial proportions, confident softly half-lidded cyan eyes, a subtle alluring closed-lip smile and slightly raised chin. Shoulders turn three-quarter to her own LEFT, head turns back toward the viewer. Her own RIGHT hand gently tucks one blonde lock behind her ear, with one anatomically coherent wrist and palm and natural fingers; the other forearm holds the same closed plain brown spellbook low at the bottom of the portrait, mostly cropped, instead of covering the entire costume. Keep her usual ivory cape and teal border/clasp/gold tassel, with the fitted opaque dark teal costume fully covering her chest. Make the appeal come from adult expression, graceful pose and restrained flattering cloth contours. No nudity, deep cleavage, enlarged breasts or childlike/chibi proportions.\nSTYLE AND FRAMING: same hand-drawn French fantasy-comic tapered black brush-pen ink, selective fine graphite hatching, matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Opaque warm off-white ground with a restrained dusty teal and warm cream wash. Normal head-and-upper-torso BUST scale, large readable face near center, full headwear/hair crown with breathing room, shoulders may crop at bottom; readable in 150px and 48px circular avatars. Do not turn into a faraway full figure, extreme face closeup, photorealistic glamour photo or glossy 3D fantasy. No text, labels, readable book titles, signature, watermark, badge, decorative frame, collage, extra character or romantic contact.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous shoulder-arm chains and one coherent covered torso, correctly placed thumbs and natural finger roots; four fingers plus one thumb when a whole human hand is exposed, respect natural object occlusion without floating digits. Keep this first requested variant for user review.",
+      "identity": "BAKARA JURGEN: preserve the animated film's pale ivory skin, large CYAN BLUE eyes, blonde hair with short blunt bangs and long hair behind the shoulders, simple teal headband, characteristic teal-white wing-like ornaments beside the head, ivory cloak with wide TEAL collar/border, teal two-lobed chest clasp and small GOLD feather/tassel over her dark teal clothing. This is an explicitly mature ADULT fan-art interpretation aged 25+, not a child version. Her personality and features remain instantly recognizable.",
+      "pose": "Refine the existing normal portrait at the user's explicit request into a more glamorous, flirtatious ADULT interpretation of Bakara, age 25 or older. Adult facial proportions, confident softly half-lidded cyan eyes, a subtle alluring closed-lip smile and slightly raised chin. Shoulders turn three-quarter to her own LEFT, head turns back toward the viewer. Her own RIGHT hand gently tucks one blonde lock behind her ear, with one anatomically coherent wrist and palm and natural fingers; the other forearm holds the same closed plain brown spellbook low at the bottom of the portrait, mostly cropped, instead of covering the entire costume. Keep her usual ivory cape and teal border/clasp/gold tassel, with the fitted opaque dark teal costume fully covering her chest. Make the appeal come from adult expression, graceful pose and restrained flattering cloth contours. No nudity, deep cleavage, enlarged breasts or childlike/chibi proportions.",
+      "references": [
+        "temp/emblematic-expansion/masters/bakara-animation-portrait.png",
+        "temp/emblematic-expansion/references/bakara-animation-design.webp",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Existing portrait: explicitly requested refinement",
+        "Animated identity or approved technique only",
+        "Animated identity or approved technique only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/masters/bakara-animation-portrait.png": "b858f10a602697a497c7d079d767fb2e3522b33566aca148ea92f055fd887ba9",
+        "temp/emblematic-expansion/references/bakara-animation-design.webp": "5279ecba411e4d02cd5645f4c1f96d1fe80096e20a384bb802a44386ed572eea",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "Adult interpretation of the official DOFUS Book I: Julith animated design",
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedRefinement": true,
+      "supersedes": "bakara-animation-portrait",
+      "master": "temp/emblematic-expansion/masters/bakara-normal-refinement.png",
+      "asset": "public/avatars/exclusive/v1/bakara.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "3b3d1d1e7a7bd76798906c00bf9f1576e82cb4681b254a9dd8015baed85a3b72",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "675f502102354387fa50cc44bde67c347c3489f3911b9e91b77445e5d9f22b88",
+      "bytes": 66400,
+      "userReviewPending": true,
+      "fullPreview": "bakara-normal-refinement-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": false,
+        "userSelectionPending": false,
+        "note": "Retained original or explicitly requested correction; see supersedes field and exact prompt. No earlier master overwritten."
+      },
+      "generatedImageFile": "exec-6a587790-4cb5-4d44-a179-291ddd6310f4.png"
+    },
+    {
+      "id": "bakara_tipsy",
+      "type": "portrait",
+      "variant": "tipsy adult",
+      "threshold": 90,
+      "prompt": "Use case: style-transfer. Asset type: Dofus Forge exclusive USER PROFILE FAN-ART PORTRAIT. Image 1 is the approved Forge ink-and-watercolor technique and normal bust scale only. Images 2 and 3 establish Bakara's authentic animated identity and collection continuity. Create ONE SQUARE fully clothed mature adult Bakara portrait, a distinct tipsy variation unlocked at 90 days; user expressly requested this change.\nIDENTITY: BAKARA JURGEN: preserve the animated film's pale ivory skin, large CYAN BLUE eyes, blonde hair with short blunt bangs and long hair behind the shoulders, simple teal headband, characteristic teal-white wing-like ornaments beside the head, ivory cloak with wide TEAL collar/border, teal two-lobed chest clasp and small GOLD feather/tassel over her dark teal clothing. This is an explicitly mature ADULT fan-art interpretation aged 25+, not a child version. Her personality and features remain instantly recognizable.\nPOSE AND EXPRESSION: A separate playful TIPSY variant, clearly an adult woman aged 25 or older: rosy cheeks, gently half-lidded clear cyan eyes meeting the viewer, a warm mischievous sideways smile, head tilted to her own RIGHT and slightly tousled long blonde hair with a few loose wisps. Her body remains upright, alert and steady. Her own LEFT hand holds ONE small plain rustic clay cup by its handle beside the lower shoulder, with a natural continuous wrist, four connected fingers and one opposable thumb; the other arm rests down outside the crop. Ivory cape sits casually over both shoulders with the original teal collar and gold tassel; fitted opaque teal clothing fully covers the chest. Expressive mature charm and subtle flirtation, no distress, tears, nosebleed, passed-out posture, exposure or other figure.\nSTYLE AND FRAMING: same hand-drawn French fantasy-comic tapered black brush-pen ink, selective fine graphite hatching, matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Opaque warm off-white ground with a restrained dusty teal and soft rose wash. Normal head-and-upper-torso BUST scale, large readable face near center, full headwear/hair crown with breathing room, shoulders may crop at bottom; readable in 150px and 48px circular avatars. Do not turn into a faraway full figure, extreme face closeup, photorealistic glamour photo or glossy 3D fantasy. No text, labels, readable book titles, signature, watermark, badge, decorative frame, collage, extra character or romantic contact.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous shoulder-arm chains and one coherent covered torso, correctly placed thumbs and natural finger roots; four fingers plus one thumb when a whole human hand is exposed, respect natural object occlusion without floating digits. Keep this first requested variant for user review.",
+      "identity": "BAKARA JURGEN: preserve the animated film's pale ivory skin, large CYAN BLUE eyes, blonde hair with short blunt bangs and long hair behind the shoulders, simple teal headband, characteristic teal-white wing-like ornaments beside the head, ivory cloak with wide TEAL collar/border, teal two-lobed chest clasp and small GOLD feather/tassel over her dark teal clothing. This is an explicitly mature ADULT fan-art interpretation aged 25+, not a child version. Her personality and features remain instantly recognizable.",
+      "pose": "A separate playful TIPSY variant, clearly an adult woman aged 25 or older: rosy cheeks, gently half-lidded clear cyan eyes meeting the viewer, a warm mischievous sideways smile, head tilted to her own RIGHT and slightly tousled long blonde hair with a few loose wisps. Her body remains upright, alert and steady. Her own LEFT hand holds ONE small plain rustic clay cup by its handle beside the lower shoulder, with a natural continuous wrist, four connected fingers and one opposable thumb; the other arm rests down outside the crop. Ivory cape sits casually over both shoulders with the original teal collar and gold tassel; fitted opaque teal clothing fully covers the chest. Expressive mature charm and subtle flirtation, no distress, tears, nosebleed, passed-out posture, exposure or other figure.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/bakara-animation-design.webp",
+        "temp/emblematic-expansion/masters/bakara-animation-portrait.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique only",
+        "Animated identity and collection continuity",
+        "Animated identity and collection continuity"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/bakara-animation-design.webp": "5279ecba411e4d02cd5645f4c1f96d1fe80096e20a384bb802a44386ed572eea",
+        "temp/emblematic-expansion/masters/bakara-animation-portrait.png": "b858f10a602697a497c7d079d767fb2e3522b33566aca148ea92f055fd887ba9"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "Adult interpretation of the official DOFUS Book I: Julith animated design",
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedRefinement": true,
+      "supersedes": null,
+      "master": "temp/emblematic-expansion/masters/bakara-tipsy-portrait.png",
+      "asset": "public/avatars/exclusive/v1/bakara-tipsy.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "5fc2f4724a5b0e0bca6ef4444021c240f60748d4b5fbf29948fee60fd90971c4",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "54936a58a93535a18447bbc22474dbdefa797931a56e0595fbbd7067c0298af0",
+      "bytes": 68018,
+      "userReviewPending": true,
+      "fullPreview": "bakara-tipsy-portrait-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": true,
+        "userSelectionPending": false,
+        "note": "Retained original or explicitly requested correction; see supersedes field and exact prompt. No earlier master overwritten."
+      },
+      "generatedImageFile": "exec-2860d638-460b-4ea3-ba76-5a6a2baec6ac.png"
+    },
+    {
+      "id": "bakara",
+      "type": "portrait",
+      "variant": "faithful animated normal",
+      "threshold": 45,
+      "prompt": "Use case: identity-preserve / style-transfer. Deliver ONE SQUARE ORIGINAL FAN-ART USER PROFILE PORTRAIT of NORMAL BAKARA from DOFUS Book I: Julith. User explicitly requested a corrective new version faithful to the animation for BOTH normal and drunk variants. Reference priority: USER-ATTACHED FILM FRAME defines identity, outfit and anatomy; previous fan portraits are technique references only.\nIDENTITY: Use the ACTUAL BAKARA from the USER-ATTACHED ANIMATED FILM FRAME with the yellow HOT MESS caption as the definitive identity reference. The caption is NOT part of the artwork. Bakara is an ADULT woman. Preserve her exact animated facial construction and proportions, small pointed pale ears close to the head, pale ivory skin, small angular nose, light thin brows, pale BLONDE/ivory hair with short uneven blunt bangs, little upright flyaway strands at the crown, two long straight face-framing locks and long hair down her back. Normal eye color is clear cyan blue. Her actual outfit in the frame is a fitted opaque PALE IVORY torso garment and long DARK TEAL sleeves with small ivory band motifs and shoulder openings. Keep this real outfit and its natural adult silhouette. No large teal animal ears, bow-like head ornaments, headband accessories, huge cape, book, cup, jewelry or costume embellishments. Do not retain the previous fan portraits' glamour face, huge cheek/eye redesign, enlarged pointed animal ears or added cape; those are rejected identity references. The other supplied fan-art images establish ONLY Forge's ink-and-watercolor medium and normal bust scale.\nEXPRESSION AND UNIQUE POSE: NORMAL VARIANT: The SAME exact animated Bakara, sober and composed, clear cyan eyes looking directly toward the viewer, a small natural confident smile, relaxed brows and clean face without tears or drunken flush. Mature adult charm comes from her authentic fitted outfit, graceful posture and lively eyes, without changing her anatomy. Her shoulders turn gently three-quarter to her own LEFT, head looks back toward the viewer, arms relaxed down alongside her body and hands outside the bust crop. Do not reproduce the drunk grimace or arms-out pose in this normal version.\nFORGE MEDIUM: expressive hand-drawn French fantasy comic brush-pen ink with confident varied-weight contours and restrained selective graphite hatching; loose matte watercolor fills with small warm off-white paper gaps and irregular pigment edges. Preserve the animation's simple character shapes; do not turn her into a generic polished fantasy elf or realistic pinup. Opaque warm off-white ground with restrained dusty teal and pale blue watercolor wash.\nAVATAR FRAMING: NORMAL HEAD AND UPPER TORSO bust portrait, face large near center, shoulders can crop along bottom, signature hair contained with breathing space. Readable in centered 150px and 48px circular crops. Not a distant whole figure or an extreme face crop. No yellow strip, HOT MESS text, caption, any lettering, background from the film, book, cup, extra character, logo, signature, watermark, frame, collage or UI. No 3D, glossy digital shading, airbrushed gradients, cinematic glow or artificial grunge.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. One coherent clothed torso and exactly two arms; keep hair and sleeve folds distinct from limbs. Hands are naturally outside the portrait crop in this pose. Keep this first corrective version for user review; original attempts stay archived.",
+      "identity": "Use the ACTUAL BAKARA from the USER-ATTACHED ANIMATED FILM FRAME with the yellow HOT MESS caption as the definitive identity reference. The caption is NOT part of the artwork. Bakara is an ADULT woman. Preserve her exact animated facial construction and proportions, small pointed pale ears close to the head, pale ivory skin, small angular nose, light thin brows, pale BLONDE/ivory hair with short uneven blunt bangs, little upright flyaway strands at the crown, two long straight face-framing locks and long hair down her back. Normal eye color is clear cyan blue. Her actual outfit in the frame is a fitted opaque PALE IVORY torso garment and long DARK TEAL sleeves with small ivory band motifs and shoulder openings. Keep this real outfit and its natural adult silhouette. No large teal animal ears, bow-like head ornaments, headband accessories, huge cape, book, cup, jewelry or costume embellishments. Do not retain the previous fan portraits' glamour face, huge cheek/eye redesign, enlarged pointed animal ears or added cape; those are rejected identity references. The other supplied fan-art images establish ONLY Forge's ink-and-watercolor medium and normal bust scale.",
+      "pose": "NORMAL VARIANT: The SAME exact animated Bakara, sober and composed, clear cyan eyes looking directly toward the viewer, a small natural confident smile, relaxed brows and clean face without tears or drunken flush. Mature adult charm comes from her authentic fitted outfit, graceful posture and lively eyes, without changing her anatomy. Her shoulders turn gently three-quarter to her own LEFT, head looks back toward the viewer, arms relaxed down alongside her body and hands outside the bust crop. Do not reproduce the drunk grimace or arms-out pose in this normal version.",
+      "references": [
+        "temp/emblematic-expansion/masters/bakara-tipsy-portrait.png"
+      ],
+      "referenceRoles": [
+        "Previous Forge fan portrait: medium and bust scale ONLY, identity rejected by user"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/masters/bakara-tipsy-portrait.png": "5fc2f4724a5b0e0bca6ef4444021c240f60748d4b5fbf29948fee60fd90971c4"
+      },
+      "num_last_images_to_include": 5,
+      "conversationReference": "User-attached official DOFUS Book I: Julith animated Bakara frame with yellow HOT MESS strip; identity only, caption removed",
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedRefinement": true,
+      "supersedes": "bakara-normal-refinement",
+      "master": "temp/emblematic-expansion/masters/bakara-animation-faithful-normal.png",
+      "asset": "public/avatars/exclusive/v1/bakara.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "ab8cb3d2e0daf69baa2589582349ecfc6c363eff21eae66cea378fe43812188f",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "5391313155d0951f4204ce9ca268e1bceb7042dd82a4fa71dd357bd26852a17c",
+      "bytes": 47954,
+      "userReviewPending": true,
+      "fullPreview": "bakara-animation-faithful-normal-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": false,
+        "userSelectionPending": false,
+        "note": "Retained original or explicitly requested correction; see supersedes field and exact prompt. No earlier master overwritten."
+      },
+      "generatedImageFile": "exec-13ceae2a-824f-436a-a16e-be5ed9aa8661.png"
+    },
+    {
+      "id": "bakara_tipsy",
+      "type": "portrait",
+      "variant": "faithful animated drunk",
+      "threshold": 90,
+      "prompt": "Use case: identity-preserve / style-transfer. Deliver ONE SQUARE ORIGINAL FAN-ART USER PROFILE PORTRAIT of DRUNK BAKARA from DOFUS Book I: Julith. User explicitly requested a corrective new version faithful to the animation for BOTH normal and drunk variants. Reference priority: USER-ATTACHED FILM FRAME defines identity, outfit and anatomy; previous fan portraits are technique references only.\nIDENTITY: Use the ACTUAL BAKARA from the USER-ATTACHED ANIMATED FILM FRAME with the yellow HOT MESS caption as the definitive identity reference. The caption is NOT part of the artwork. Bakara is an ADULT woman. Preserve her exact animated facial construction and proportions, small pointed pale ears close to the head, pale ivory skin, small angular nose, light thin brows, pale BLONDE/ivory hair with short uneven blunt bangs, little upright flyaway strands at the crown, two long straight face-framing locks and long hair down her back. Normal eye color is clear cyan blue. Her actual outfit in the frame is a fitted opaque PALE IVORY torso garment and long DARK TEAL sleeves with small ivory band motifs and shoulder openings. Keep this real outfit and its natural adult silhouette. No large teal animal ears, bow-like head ornaments, headband accessories, huge cape, book, cup, jewelry or costume embellishments. Do not retain the previous fan portraits' glamour face, huge cheek/eye redesign, enlarged pointed animal ears or added cape; those are rejected identity references. The other supplied fan-art images establish ONLY Forge's ink-and-watercolor medium and normal bust scale.\nEXPRESSION AND UNIQUE POSE: BORRACHA VARIANT: Match the user's actual animated drunk gag: tousled pale blonde hair with upward stray strands, pink flushed nose and cheeks, raised worried-comic brows, uneven half-closed eyes looking vaguely upward, dark mascara/tear streaks just beneath the eyes, and a wobbly wide comic grimacing mouth. It must look like the SAME Bakara having her exaggerated tipsy moment, not a generic seductive lady holding a mug. Head tilts slightly to her own RIGHT, shoulders mostly forward, both arms spread loosely outward as in the supplied frame; upper arms can leave the square side edges naturally, with hands outside the bust crop. Remain upright and conscious, fully clothed. Keep the face prominent and the expression readable at 48px.\nFORGE MEDIUM: expressive hand-drawn French fantasy comic brush-pen ink with confident varied-weight contours and restrained selective graphite hatching; loose matte watercolor fills with small warm off-white paper gaps and irregular pigment edges. Preserve the animation's simple character shapes; do not turn her into a generic polished fantasy elf or realistic pinup. Opaque warm off-white ground with restrained dusty teal and soft rose watercolor wash.\nAVATAR FRAMING: NORMAL HEAD AND UPPER TORSO bust portrait, face large near center, shoulders can crop along bottom, signature hair contained with breathing space. Readable in centered 150px and 48px circular crops. Not a distant whole figure or an extreme face crop. No yellow strip, HOT MESS text, caption, any lettering, background from the film, book, cup, extra character, logo, signature, watermark, frame, collage or UI. No 3D, glossy digital shading, airbrushed gradients, cinematic glow or artificial grunge.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. One coherent clothed torso and exactly two arms; keep hair and sleeve folds distinct from limbs. Hands are naturally outside the portrait crop in this pose. Keep this first corrective version for user review; original attempts stay archived.",
+      "identity": "Use the ACTUAL BAKARA from the USER-ATTACHED ANIMATED FILM FRAME with the yellow HOT MESS caption as the definitive identity reference. The caption is NOT part of the artwork. Bakara is an ADULT woman. Preserve her exact animated facial construction and proportions, small pointed pale ears close to the head, pale ivory skin, small angular nose, light thin brows, pale BLONDE/ivory hair with short uneven blunt bangs, little upright flyaway strands at the crown, two long straight face-framing locks and long hair down her back. Normal eye color is clear cyan blue. Her actual outfit in the frame is a fitted opaque PALE IVORY torso garment and long DARK TEAL sleeves with small ivory band motifs and shoulder openings. Keep this real outfit and its natural adult silhouette. No large teal animal ears, bow-like head ornaments, headband accessories, huge cape, book, cup, jewelry or costume embellishments. Do not retain the previous fan portraits' glamour face, huge cheek/eye redesign, enlarged pointed animal ears or added cape; those are rejected identity references. The other supplied fan-art images establish ONLY Forge's ink-and-watercolor medium and normal bust scale.",
+      "pose": "BORRACHA VARIANT: Match the user's actual animated drunk gag: tousled pale blonde hair with upward stray strands, pink flushed nose and cheeks, raised worried-comic brows, uneven half-closed eyes looking vaguely upward, dark mascara/tear streaks just beneath the eyes, and a wobbly wide comic grimacing mouth. It must look like the SAME Bakara having her exaggerated tipsy moment, not a generic seductive lady holding a mug. Head tilts slightly to her own RIGHT, shoulders mostly forward, both arms spread loosely outward as in the supplied frame; upper arms can leave the square side edges naturally, with hands outside the bust crop. Remain upright and conscious, fully clothed. Keep the face prominent and the expression readable at 48px.",
+      "references": [
+        "temp/emblematic-expansion/masters/bakara-tipsy-portrait.png"
+      ],
+      "referenceRoles": [
+        "Previous Forge fan portrait: medium and bust scale ONLY, identity rejected by user"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/masters/bakara-tipsy-portrait.png": "5fc2f4724a5b0e0bca6ef4444021c240f60748d4b5fbf29948fee60fd90971c4"
+      },
+      "num_last_images_to_include": 3,
+      "conversationReference": "User-attached official DOFUS Book I: Julith animated Bakara frame with yellow HOT MESS strip; identity only, caption removed",
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedRefinement": true,
+      "supersedes": "bakara-tipsy-portrait",
+      "master": "temp/emblematic-expansion/masters/bakara-animation-faithful-tipsy.png",
+      "asset": "public/avatars/exclusive/v1/bakara-tipsy.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "acff676d7c6243b7786b62576579f96ce2ed40d6331c019802cb7fdd995b4fde",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "4ac75db5fb2c516be8059c8438516f376740f846dffba136f7e0f76720d8e7fb",
+      "bytes": 59074,
+      "userReviewPending": true,
+      "fullPreview": "bakara-animation-faithful-tipsy-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": false,
+        "userSelectionPending": false,
+        "note": "Retained original or explicitly requested correction; see supersedes field and exact prompt. No earlier master overwritten."
+      },
+      "generatedImageFile": "exec-ad40833f-f301-466b-bb91-598402f245d4.png"
+    },
+    {
+      "key": "bakara-normal-animation-v2",
+      "id": "bakara",
+      "refs": [
+        "bakara-animation-design.webp"
+      ],
+      "identity": "The provided ANIMATION DESIGN image is the definitive NORMAL Bakara reference and matches the user's newest attachment. Keep this exact visible face, cyan eyes, pale blonde blunt fringe and long rear hair. She wears a simple TEAL HEADBAND with two sideways wing-shaped TEAL-AND-IVORY fabric ends as shown, NOT giant anatomical blue cat ears; her own small pointed pale ears sit close to the head. Her original IVORY WHITE cloak/cape has a broad TEAL collar/border with thin ivory piping, a teal two-lobed chest clasp and ONE golden feather/tassel. Preserve this exact normal outfit and cloak silhouette. Do not use the cloakless drunk costume for this normal variant.",
+      "pose": "A faithful NORMAL character portrait in a restrained three-quarter turn matching the animated design, head turned gently toward the viewer, clear open cyan eyes and a small tentative confident smile, clean cheeks and original fine brows. Preserve the film's natural eye shapes, narrow face and delicate nose; do not shrink the nose or turn the face into a generic pinup. The ivory cloak drapes over both shoulders and hides the relaxed arms; hands outside the bust crop. No book, drink or new prop.",
+      "asset": "public/avatars/exclusive/v1/bakara.webp",
+      "supersedes": "bakara-animation-faithful-normal",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer / identity-preserve. Asset type: ONE original SQUARE Forge USER PROFILE FAN-ART PORTRAIT of NORMAL BAKARA, researched against actual animated references at the user's explicit request. IMAGE 1 is the definitive ANIMATED IDENTITY AND OUTFIT reference; IMAGE 2 supplies ONLY the approved Forge ink-and-watercolor technique and normal bust scale. Do not copy the Iop's character, face, orange hair, clothing or pose.\nAUTHENTIC CHARACTER: Bakara is an ADULT woman from DOFUS Book I: Julith (2016). Preserve the exact film facial construction and proportions: slender oval/angular face with pointed chin, pale ivory skin, thin pale brows, small sharp nose, short uneven blunt pale-blonde bangs and long pale blonde hair. Her normal iris color is clear CYAN BLUE. Draw her own recognizable character rather than a generic glamorous fantasy elf, chibi doll or a realistic woman. The provided ANIMATION DESIGN image is the definitive NORMAL Bakara reference and matches the user's newest attachment. Keep this exact visible face, cyan eyes, pale blonde blunt fringe and long rear hair. She wears a simple TEAL HEADBAND with two sideways wing-shaped TEAL-AND-IVORY fabric ends as shown, NOT giant anatomical blue cat ears; her own small pointed pale ears sit close to the head. Her original IVORY WHITE cloak/cape has a broad TEAL collar/border with thin ivory piping, a teal two-lobed chest clasp and ONE golden feather/tassel. Preserve this exact normal outfit and cloak silhouette. Do not use the cloakless drunk costume for this normal variant.\nEXPRESSION AND POSE: A faithful NORMAL character portrait in a restrained three-quarter turn matching the animated design, head turned gently toward the viewer, clear open cyan eyes and a small tentative confident smile, clean cheeks and original fine brows. Preserve the film's natural eye shapes, narrow face and delicate nose; do not shrink the nose or turn the face into a generic pinup. The ivory cloak drapes over both shoulders and hides the relaxed arms; hands outside the bust crop. No book, drink or new prop.\nSTYLE: preserve the movie's recognizable facial and costume shapes while translating into Forge's lively varied-weight brush-pen black ink, selective fine graphite hatching and matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Economical hand-drawn French fantasy comic forms, not polished generic fantasy or an airbrushed glamour face. Opaque warm off-white ground with one restrained dusty teal and pale blue wash. No photorealism, 3D toy rendering, cinematic bloom, smooth digital gradients or artificial grunge.\nAVATAR COMPOSITION: same NORMAL HEAD AND UPPER TORSO bust framing as the established collection, face large near center and readable at 48px, all identifying head silhouette contained with top breathing space for a centered circular crop. Upper shoulders can crop at the bottom. Only this single adult character and the specified modest prop. No film background, text, meme caption, signature, logo, watermark, decorative frame, badge, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous arms and one coherent covered torso. Correct left/right hands and thumb roots, four fingers plus one thumb when a whole human hand is exposed; preserve coherent natural object occlusion. Keep this first explicitly requested candidate and all previous versions for the user to compare; do not select a new drunk candidate automatically.",
+      "references": [
+        "temp/emblematic-expansion/references/bakara-animation-design.webp",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Actual animated character frame/design: exact identity and outfit",
+        "Approved Forge medium and normal bust scale only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/references/bakara-animation-design.webp": "5279ecba411e4d02cd5645f4c1f96d1fe80096e20a384bb802a44386ed572eea",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedCandidates": true,
+      "master": "temp/emblematic-expansion/masters/bakara-normal-animation-v2.png",
+      "userSelectionPending": false,
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "2d3d38bfe6daf0d2122a29afe333e60689a5c7fca0c2bffeb33ae2849cd276f6",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "5ce1bf200a5353a7a9758bd2347700d610d74087d58f3419ca76924e11f3826f",
+      "bytes": 64414,
+      "userReviewPending": true,
+      "fullPreview": "bakara-normal-animation-v2-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": false,
+        "userSelectionPending": false,
+        "note": "Latest normal uses the researched animation reference and user-provided normal design: ivory cape, teal border/headband/clasp, golden tassel. Arms covered, hands outside crop."
+      },
+      "generatedImageFile": "exec-e33ace49-568d-4bad-9037-8783053f7aba.png"
+    },
+    {
+      "key": "bakara-drunk-b",
+      "id": "bakara_tipsy",
+      "letter": "B",
+      "refs": [
+        "bakara-drunk-puffed.png"
+      ],
+      "identity": "The first reference is an actual DRUNK Bakara film frame, leaning over her spellbook. Keep her very wide round eyes with tiny cyan pupils looking down, flushed nose, black running mascara/tear streaks and pale-blonde hair with loose crown wisps. NO headband, teal wing-shaped head accessories or cloak in this scene. Her fitted opaque ivory torso outfit and dark teal sleeves with ivory band details remain faithful to the movie.",
+      "pose": "Option B: startled drunken concentration over ONE open brown spellbook at the lower edge, shoulders slightly hunched forward, eyebrows uneven, huge eyes peering down toward its pages and a small surprised open mouth. Keep the book secondary to the face and crop its lower part. Two pale hands can be naturally obscured behind the lower book edges; do not add visible fingers to force the pose. One coherent torso and two sleeve-covered arms. No readable text on the pages.",
+      "asset": "docs/brand/emblematic-rewards/bakara-review/drunk-b.webp",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer / identity-preserve. Asset type: ONE original SQUARE Forge USER PROFILE FAN-ART PORTRAIT of DRUNK BAKARA, researched against actual animated references at the user's explicit request. IMAGE 1 is the definitive ANIMATED IDENTITY AND OUTFIT reference; IMAGE 2 supplies ONLY the approved Forge ink-and-watercolor technique and normal bust scale. Do not copy the Iop's character, face, orange hair, clothing or pose.\nAUTHENTIC CHARACTER: Bakara is an ADULT woman from DOFUS Book I: Julith (2016). Preserve the exact film facial construction and proportions: slender oval/angular face with pointed chin, pale ivory skin, thin pale brows, small sharp nose, short uneven blunt pale-blonde bangs and long pale blonde hair. Her normal iris color is clear CYAN BLUE. Draw her own recognizable character rather than a generic glamorous fantasy elf, chibi doll or a realistic woman. The first reference is an actual DRUNK Bakara film frame, leaning over her spellbook. Keep her very wide round eyes with tiny cyan pupils looking down, flushed nose, black running mascara/tear streaks and pale-blonde hair with loose crown wisps. NO headband, teal wing-shaped head accessories or cloak in this scene. Her fitted opaque ivory torso outfit and dark teal sleeves with ivory band details remain faithful to the movie.\nEXPRESSION AND POSE: Option B: startled drunken concentration over ONE open brown spellbook at the lower edge, shoulders slightly hunched forward, eyebrows uneven, huge eyes peering down toward its pages and a small surprised open mouth. Keep the book secondary to the face and crop its lower part. Two pale hands can be naturally obscured behind the lower book edges; do not add visible fingers to force the pose. One coherent torso and two sleeve-covered arms. No readable text on the pages.\nSTYLE: preserve the movie's recognizable facial and costume shapes while translating into Forge's lively varied-weight brush-pen black ink, selective fine graphite hatching and matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Economical hand-drawn French fantasy comic forms, not polished generic fantasy or an airbrushed glamour face. Opaque warm off-white ground with one restrained dusty teal and soft muted rose wash. No photorealism, 3D toy rendering, cinematic bloom, smooth digital gradients or artificial grunge.\nAVATAR COMPOSITION: same NORMAL HEAD AND UPPER TORSO bust framing as the established collection, face large near center and readable at 48px, all identifying head silhouette contained with top breathing space for a centered circular crop. Upper shoulders can crop at the bottom. Only this single adult character and the specified modest prop. No film background, text, meme caption, signature, logo, watermark, decorative frame, badge, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous arms and one coherent covered torso. Correct left/right hands and thumb roots, four fingers plus one thumb when a whole human hand is exposed; preserve coherent natural object occlusion. Keep this first explicitly requested candidate and all previous versions for the user to compare; do not select a new drunk candidate automatically.",
+      "references": [
+        "temp/emblematic-expansion/references/bakara-drunk-puffed.png",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Actual animated character frame/design: exact identity and outfit",
+        "Approved Forge medium and normal bust scale only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/references/bakara-drunk-puffed.png": "1de28b0232cc5c10ecf312ab07ec9c41f2cc614eb26aa0e6a4dc80926976c4a9",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedCandidates": true,
+      "master": "temp/emblematic-expansion/masters/bakara-drunk-b.png",
+      "userSelectionPending": true,
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "8cf3b83239b6e7d800b00201307030b5c9812c4c75160eb258ed318e44cb00d9",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "83be9d22ff7977f862c9c50487abefaf79174eb2f9d309c99cdf1a4d86d50a9a",
+      "bytes": 76706,
+      "userReviewPending": true,
+      "fullPreview": "bakara-drunk-b-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": false,
+        "userSelectionPending": false,
+        "note": "Book naturally occludes hands; face/expression match the researched film frame."
+      },
+      "generatedImageFile": "exec-99235bda-9545-4bf7-8cdc-43203b26e5b9.png"
+    },
+    {
+      "key": "bakara-drunk-c",
+      "id": "bakara_tipsy",
+      "letter": "C",
+      "refs": [
+        "bakara-drunk-lecture.png"
+      ],
+      "identity": "The first reference is the actual animated DRUNK Bakara lecturing with one index finger raised. Preserve her wide eyes with tiny cyan pupils, comically stern uneven brows, flushed nose, streaked dark mascara beneath the eyes, pale-blonde hair with the same blunt fringe and stray wisps. NO headband, teal wing-shaped head accessories or cloak. Keep the fitted opaque ivory torso clothing and dark teal detached sleeves with ivory band motifs, as in this frame.",
+      "pose": "Option C: comically serious drunken lecture, head slightly tilted, eyes unfocused but facing the viewer, mouth in a small determined uneven frown. Her own LEFT hand raises ONE index finger upright beside her lower cheek; the other three fingers curl naturally into her palm and a shorter opposable thumb rests on the correct side. Exactly five digits on that one coherent hand, attached continuously to a teal sleeve and shoulder. Her other arm extends loosely to the side and leaves the bust crop with its hand outside the image. Do not crop the raised index tip.",
+      "asset": "docs/brand/emblematic-rewards/bakara-review/drunk-c.webp",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer / identity-preserve. Asset type: ONE original SQUARE Forge USER PROFILE FAN-ART PORTRAIT of DRUNK BAKARA, researched against actual animated references at the user's explicit request. IMAGE 1 is the definitive ANIMATED IDENTITY AND OUTFIT reference; IMAGE 2 supplies ONLY the approved Forge ink-and-watercolor technique and normal bust scale. Do not copy the Iop's character, face, orange hair, clothing or pose.\nAUTHENTIC CHARACTER: Bakara is an ADULT woman from DOFUS Book I: Julith (2016). Preserve the exact film facial construction and proportions: slender oval/angular face with pointed chin, pale ivory skin, thin pale brows, small sharp nose, short uneven blunt pale-blonde bangs and long pale blonde hair. Her normal iris color is clear CYAN BLUE. Draw her own recognizable character rather than a generic glamorous fantasy elf, chibi doll or a realistic woman. The first reference is the actual animated DRUNK Bakara lecturing with one index finger raised. Preserve her wide eyes with tiny cyan pupils, comically stern uneven brows, flushed nose, streaked dark mascara beneath the eyes, pale-blonde hair with the same blunt fringe and stray wisps. NO headband, teal wing-shaped head accessories or cloak. Keep the fitted opaque ivory torso clothing and dark teal detached sleeves with ivory band motifs, as in this frame.\nEXPRESSION AND POSE: Option C: comically serious drunken lecture, head slightly tilted, eyes unfocused but facing the viewer, mouth in a small determined uneven frown. Her own LEFT hand raises ONE index finger upright beside her lower cheek; the other three fingers curl naturally into her palm and a shorter opposable thumb rests on the correct side. Exactly five digits on that one coherent hand, attached continuously to a teal sleeve and shoulder. Her other arm extends loosely to the side and leaves the bust crop with its hand outside the image. Do not crop the raised index tip.\nSTYLE: preserve the movie's recognizable facial and costume shapes while translating into Forge's lively varied-weight brush-pen black ink, selective fine graphite hatching and matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Economical hand-drawn French fantasy comic forms, not polished generic fantasy or an airbrushed glamour face. Opaque warm off-white ground with one restrained dusty teal and soft muted rose wash. No photorealism, 3D toy rendering, cinematic bloom, smooth digital gradients or artificial grunge.\nAVATAR COMPOSITION: same NORMAL HEAD AND UPPER TORSO bust framing as the established collection, face large near center and readable at 48px, all identifying head silhouette contained with top breathing space for a centered circular crop. Upper shoulders can crop at the bottom. Only this single adult character and the specified modest prop. No film background, text, meme caption, signature, logo, watermark, decorative frame, badge, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous arms and one coherent covered torso. Correct left/right hands and thumb roots, four fingers plus one thumb when a whole human hand is exposed; preserve coherent natural object occlusion. Keep this first explicitly requested candidate and all previous versions for the user to compare; do not select a new drunk candidate automatically.",
+      "references": [
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Actual animated character frame/design: exact identity and outfit",
+        "Approved Forge medium and normal bust scale only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png": "c6b1a762d47d772c9b2cba0cb66bf60cc05a9b9147182c5b43c159a8132c53d3",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedCandidates": true,
+      "master": "temp/emblematic-expansion/masters/bakara-drunk-c.png",
+      "userSelectionPending": true,
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "da0fd4dec9974aa961a5b012b29a8d3c9c557e62b221e2da002e83d82ffa1024",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "96cfd90d9e62b52c7ae76d7c338c413db73d6c5190a5430471180c853908edbb",
+      "bytes": 63878,
+      "userReviewPending": true,
+      "fullPreview": "bakara-drunk-c-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": true,
+        "userSelectionPending": false,
+        "note": "Raised hand inspected enlarged: index, three curled fingers and one thumb attached coherently. First candidate retained for user review."
+      },
+      "generatedImageFile": "exec-363d61e5-b534-4104-b87a-5d5226ee1947.png"
+    },
+    {
+      "key": "bakara-drunk-d",
+      "id": "bakara_tipsy",
+      "letter": "D",
+      "refs": [
+        "bakara-drunk-toast.png"
+      ],
+      "identity": "The first reference is the actual animated DRUNK Bakara laughing and raising a BOTTLE. Preserve the loose pale blonde hair and blunt fringe, little crown wisps, flushed nose and cheeks, black running mascara streaks below both eyes and her recognizable narrow face. NO headband, teal wing-shaped head accessories or cloak. Her original fitted opaque pale ivory torso garment and dark teal sleeves with ivory bands remain fully clothed. Use the large dark plum-brown round bottle with its reddish band from the film, with no label or readable emblem.",
+      "pose": "Option D: a happy tipsy toast, eyes gently closed in a broad warm laugh, eyebrows raised, one corner of her mouth higher. Her own RIGHT hand raises ONE modest dark plum-brown round bottle beside the lower shoulder, grasping its short neck with four connected curled fingers and one properly placed thumb; the bottle must stay below the chin and secondary to the large readable face. Other arm relaxed down outside the crop. Keep her upright, awake and animated, no drinking from the bottle or extra person.",
+      "asset": "docs/brand/emblematic-rewards/bakara-review/drunk-d.webp",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer / identity-preserve. Asset type: ONE original SQUARE Forge USER PROFILE FAN-ART PORTRAIT of DRUNK BAKARA, researched against actual animated references at the user's explicit request. IMAGE 1 is the definitive ANIMATED IDENTITY AND OUTFIT reference; IMAGE 2 supplies ONLY the approved Forge ink-and-watercolor technique and normal bust scale. Do not copy the Iop's character, face, orange hair, clothing or pose.\nAUTHENTIC CHARACTER: Bakara is an ADULT woman from DOFUS Book I: Julith (2016). Preserve the exact film facial construction and proportions: slender oval/angular face with pointed chin, pale ivory skin, thin pale brows, small sharp nose, short uneven blunt pale-blonde bangs and long pale blonde hair. Her normal iris color is clear CYAN BLUE. Draw her own recognizable character rather than a generic glamorous fantasy elf, chibi doll or a realistic woman. The first reference is the actual animated DRUNK Bakara laughing and raising a BOTTLE. Preserve the loose pale blonde hair and blunt fringe, little crown wisps, flushed nose and cheeks, black running mascara streaks below both eyes and her recognizable narrow face. NO headband, teal wing-shaped head accessories or cloak. Her original fitted opaque pale ivory torso garment and dark teal sleeves with ivory bands remain fully clothed. Use the large dark plum-brown round bottle with its reddish band from the film, with no label or readable emblem.\nEXPRESSION AND POSE: Option D: a happy tipsy toast, eyes gently closed in a broad warm laugh, eyebrows raised, one corner of her mouth higher. Her own RIGHT hand raises ONE modest dark plum-brown round bottle beside the lower shoulder, grasping its short neck with four connected curled fingers and one properly placed thumb; the bottle must stay below the chin and secondary to the large readable face. Other arm relaxed down outside the crop. Keep her upright, awake and animated, no drinking from the bottle or extra person.\nSTYLE: preserve the movie's recognizable facial and costume shapes while translating into Forge's lively varied-weight brush-pen black ink, selective fine graphite hatching and matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Economical hand-drawn French fantasy comic forms, not polished generic fantasy or an airbrushed glamour face. Opaque warm off-white ground with one restrained dusty teal and soft muted rose wash. No photorealism, 3D toy rendering, cinematic bloom, smooth digital gradients or artificial grunge.\nAVATAR COMPOSITION: same NORMAL HEAD AND UPPER TORSO bust framing as the established collection, face large near center and readable at 48px, all identifying head silhouette contained with top breathing space for a centered circular crop. Upper shoulders can crop at the bottom. Only this single adult character and the specified modest prop. No film background, text, meme caption, signature, logo, watermark, decorative frame, badge, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous arms and one coherent covered torso. Correct left/right hands and thumb roots, four fingers plus one thumb when a whole human hand is exposed; preserve coherent natural object occlusion. Keep this first explicitly requested candidate and all previous versions for the user to compare; do not select a new drunk candidate automatically.",
+      "references": [
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Actual animated character frame/design: exact identity and outfit",
+        "Approved Forge medium and normal bust scale only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png": "e7cc02d77636fd88f82ff351cf391ff97a9c34487074cb881bf370150be4afb3",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedCandidates": true,
+      "master": "temp/emblematic-expansion/masters/bakara-drunk-d.png",
+      "userSelectionPending": true,
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "7c2d1a4b78d54c71355779df0d32eb23c6ead1e34f75bda11273dfd4f0c320c5",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "89fdf3d9df6ba455a068b9e98e0290efdd9a3bc7a08c3299e6e72def70362845",
+      "bytes": 64172,
+      "userReviewPending": true,
+      "fullPreview": "bakara-drunk-d-full.webp",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularInspected": true,
+        "handCropInspected": true,
+        "userSelectionPending": false,
+        "note": "Bottle grip inspected enlarged: four curled fingers and one opposed thumb. First candidate retained for user review."
+      },
+      "generatedImageFile": "exec-83e8a16b-c87a-42e3-88f6-0b1211e5f069.png"
+    }
+  ],
+  "userSelectedAll": true,
+  "selectedDrunkCandidates": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ]
+}

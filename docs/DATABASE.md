@@ -5,6 +5,33 @@
 > **Estado:** Esquema actual; las migraciones incrementales están indicadas por función
 > **Repo:** público — este archivo no contiene credenciales, URLs de conexión ni API keys
 
+### Recompensas emblemáticas — 0.4.28 (2026-11-27)
+
+`exclusive_rewards` contiene 16 filas públicas de catálogo (`slug`, `threshold`,
+`sort_order`), con escritura reservada al servidor. Aplicar la migración aditiva
+`supabase/migrations/20261127020000_expand_emblematic_streak_rewards.sql` antes
+de desplegar el cliente ampliado; repetirla no reemplaza los cuatro registros
+previos ni elecciones guardadas. `supabase/schema.sql` incluye las 16 filas
+para bases nuevas. [Tabla completa de hitos](brand/emblematic-rewards/README.md).
+
+Hay dos filas distintas con umbral 90: `otomai` y `bakara_tipsy`. No debe existir
+una restricción única sobre `threshold`. `get_my_exclusive_unlocks()` devuelve
+ambas usando el récord histórico; `check_exclusive_reward_claim()` valida las
+elecciones contra `OLD.login_streak_best`, incluso ante un PATCH que intente
+elevar el récord y reclamar en el mismo request. La protección de columnas
+del sistema sigue activa; la migración no amplía permisos ni modifica RPC.
+
+Los slugs con `_` son identificadores de la DB. El cliente permite únicamente
+los slugs registrados y resuelve `_` a `-` para archivos locales, por ejemplo
+`bakara_drunk_book` → `/avatars/exclusive/v1/bakara-drunk-book.webp` y su banner
+equivalente. Las imágenes exclusivas no entran en los catálogos públicos
+de retratos de clases ni escenarios. Los marcos mantienen 7/30/100/365 días.
+
+`supabase/tests/database/exclusive_rewards.test.sql` comprueba las 16 filas,
+derechos anteriores, ambos premios del día 90, reinicio sin pérdida, elección
+independiente de retrato/escenario, aislamiento entre cuentas y rechazo de
+escrituras forjadas mediante los roles reales `anon` y `authenticated`.
+
 ### Cambios de la revisión 2026-09-30
 
 El diseño original (2026-09-01) no se validó contra el código real del builder. 5 desalineaciones encontradas y corregidas en este archivo:

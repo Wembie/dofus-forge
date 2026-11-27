@@ -5,6 +5,62 @@ un retrato para foto de perfil y un escenario relacionado por personaje.
 La primera tanda aprobada es **Gúltar, Kerubim Crepin, Julith y Ogrest pequeño**.
 La corrección del usuario sustituye Bolgrot por **Ogrest en su forma pequeña**.
 
+## Ampliación de la 0.4.28
+
+**16 pares en total:** los cuatro originales y doce nuevos. Se añaden los ocho
+personajes aprobados y cuatro momentos de Bakara borracha, elegidos todos por
+el usuario. La normal va en el día 45; las opciones A/B/C/D se reparten en
+90/120/180/240. Otomaï y la opción A se desbloquean juntos el día 90.
+
+| Etapa | Día | Personaje / variante | Escenario propio de Forge |
+|---|---:|---|---|
+| Primeros pasos | 7 | Kerubim Crepin, original | Los Tesoros de Kerubim |
+| Primeros pasos | 14 | Joris Jurgen | Los Tejados de Joris |
+| Primeros pasos | 21 | Atcham Crepin | Las Pasarelas de Atcham |
+| Primeros pasos | 30 | Julith, original | El Legado de Julith |
+| Hazañas | 45 | Bakara normal | Los Estudios de Bakara |
+| Hazañas | 60 | Jahash Jurgen | El Baluarte de Jahash |
+| Hazañas | 90 | Otomaï | El Laboratorio de Otomaï |
+| Hazañas | 90 | Bakara borracha A: brazos abiertos | La Noche de Bakara |
+| Hazañas | 100 | Gúltar, original | La Arena de Gúltar |
+| Leyendas | 120 | Bakara borracha B: el libro | Las Páginas de Bakara |
+| Leyendas | 150 | Dathura | El Jardín de Dathura |
+| Leyendas | 180 | Bakara borracha C: el sermón | La Terraza de Bakara |
+| Leyendas | 200 | Djaul | La Sombra de Djaul |
+| Leyendas | 240 | Bakara borracha D: el brindis | La Última Ronda |
+| Leyendas | 270 | Jiva | Los Jardines de Jiva |
+| Leyendas | 365 | Ogrest pequeño, original | El Refugio de Ogrest |
+
+![Doce retratos nuevos](expansion-1-portraits-preview.webp)
+
+![Doce escenarios nuevos](expansion-1-banners-preview.webp)
+
+Se priorizan las **versiones de la animación**: Joris, Atcham, Bakara y Jahash
+de *DOFUS, Book I: Julith* (2016); Otomaï y Dathura de *Ogrest, la légende*
+(2011). Dathura conserva su forma de muñeca de pelo blanco. Djaul y la cabeza
+de Jiva se verificaron en el cliente 3.7.14.18; el retrato de Jiva interpreta
+su vestuario con un cuello opaco. No se atribuyen estas escenas originales
+a mapas canónicos ni las formas animadas al cliente del juego.
+
+Cada pieza nueva se inspeccionó en tamaño original y en recorte circular o
+móvil. Esto registra la revisión técnica, no sustituye la aprobación visual
+del usuario. El agarre de Atcham deja tres dedos curvados y pulgar claramente
+legibles; no se establece un quinto. En Joris el pulgar no queda separado
+con claridad; en Otomaï el frasco lo oculta en gran parte. Se conserva la
+primera versión elegida para revisión, sin correcciones automáticas.
+
+- [Prompts exactos, fuentes, hashes y observaciones de las 24 piezas nuevas](expansion-1-manifest.json).
+- [Seguimiento de las 16 recompensas](expansion-1-plan.json).
+- [Todas las versiones de Bakara, incluidas las anteriores y la comparativa](bakara-review/README.md).
+- [Joris anterior basado en el juego](joris-portrait-archived-full.webp) y [Otomaï anterior](otomai-portrait-archived-full.webp), conservados.
+
+Los PNG originales permanecen en las rutas locales del manifiesto. Las
+versiones WebP de producción son 512 × 512 y 1920 × 640. Los marcos siguen
+siendo una capa separada, con sus cuatro hitos originales 7/30/100/365.
+La migración aditiva `20261127020000_expand_emblematic_streak_rewards.sql`
+debe aplicarse antes de desplegar la ampliación. No cambia derechos previos,
+RPC ni permisos; las 16 elecciones siguen validadas por el servidor.
+
 La técnica es la misma tinta y acuarela de los 266 retratos de clases y
 68 escenarios existentes. No se sustituye por pintura digital realista,
 otro estilo de recompensa ni un marco horneado dentro de la ilustración.
