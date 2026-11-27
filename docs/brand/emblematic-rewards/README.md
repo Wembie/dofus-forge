@@ -68,7 +68,9 @@ estáticos, con posibles máscaras de iluminación, no capturas exactas del jueg
 - PNG originales sin modificar: `temp/emblematic-rewards/masters/`.
 - Manifiesto de esta colección: `manifest.json`, con prompts exactos,
   hashes de PNG/WebP/referencias, identidad, procedencia y observaciones.
-- Se usa **image_gen integrado**; cada pieza conserva su **primera generación**.
+- Se usa **image_gen integrado**; todas las primeras generaciones se conservan.
+  Julith tiene una revisión más sensual y elegante, solicitada expresamente
+  por el usuario; el original y ambos prompts quedan en su historial.
 
 Inspeccionar cada retrato ampliado, en círculo a 150/48 px y con detalle de
 las manos cuando haga falta; cada banner ampliado y en recortes de
@@ -81,7 +83,7 @@ La inspección técnica no equivale a aprobación visual del usuario.
 
 - **Gúltar:** el pulgar no se separa por completo en la vista del puño cerrado.
 - **Kerubim:** la pata que sostiene la moneda tiene cuatro siluetas de dedos claramente visibles; revisar su anatomía y tratamiento de pelaje.
-- **Julith:** en la mano levantada se distinguen tres dedos largos y el pulgar; el cuarto dedo largo no se puede seguir con claridad entre los contornos superpuestos.
+- **Julith:** seleccionada la revisión más sensual y elegante solicitada por el usuario, con mirada/sonrisa y escote refinados. Se conserva la observación de la mano levantada: tres dedos largos y pulgar son inequívocos; el cuarto dedo largo sigue ambiguo entre los contornos. El original queda archivado.
 - **Ogrest:** forma pequeña verificada; no hay manos expuestas en esta pose.
 
 Se conservan todas las primeras generaciones para que el usuario indique

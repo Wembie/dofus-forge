@@ -1,9 +1,9 @@
 {
   "collection": "Forge Emblematic Character Rewards",
-  "revision": 1,
+  "revision": 2,
   "createdOn": "2026-11-27",
   "generator": "Built-in image_gen",
-  "status": "First generations prepared and individually inspected; awaiting user visual review and unlock integration",
+  "status": "Collection prepared with seven selected first generations and one explicitly user-requested Julith refinement; awaiting user visual review and unlock integration",
   "selectionPolicy": "Keep the FIRST generation of every image. Record observations without automatic corrections. The user requests specific edits after reviewing the completed batch.",
   "referenceStyle": {
     "portrait": "public/avatars/classes/v1/iop-m.webp",
@@ -267,64 +267,144 @@
     {
       "id": "julith",
       "type": "portrait",
-      "prompt": "Use case: illustration-story. Asset type: exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Create ONE finished SQUARE head-and-upper-torso portrait of Julith. IMAGE 1 is our APPROVED COLLECTION TECHNIQUE AND NORMAL BUST SCALE ONLY, never its character, hair, costume, sword or pose. Remaining images show this exact named character reconstructed from installed DOFUS client 3.7.14.18 and establish identity and outfit only, not the final composition.\nIDENTITY: The actual JULITH: mature pale ivory/gray-skinned woman, severe angular face with long sharply pointed ears, asymmetric short dark BLUE-BLACK bob, one longer side lock beside cheek and side-swept crown, narrow cool gray-green eyes framed by heavy dark smoky eyelids, thin dark eyebrows, black lipstick, thin vertical reddish scar crossing the same eye/cheek shown in the identity references. Her original DARK BURGUNDY fitted sleeveless bodice and high BURGUNDY cloak collar; the inside of her flowing cloak is DEEP NAVY with small restrained LIGHT BLUE star and dot motifs. Black angular neckline/belt details. Exactly the original outfit and single covered torso. No horns, long white hair, armor, giant bosom, revealing redesign or generic sorceress costume.\nINDIVIDUAL POSE: An aloof sorceress turning her shoulders away but looking back at the viewer with a slight cold closed-lip knowing smile. One pale hand, her own LEFT, raised beside the lower shoulder with palm angled upward and outward, four long relaxed fingers gently separated and ONE shorter thumb naturally on its correct side, all five digits attached to the same palm and wrist. Other arm lowered outside the bust crop. The raised hand has no magic orb or prop, an elegant restrained invitation. Burgundy collar and a small navy star-lined cloak fold frame the single torso.\nSTYLE: retain the approved lively tapered black ink and graphite-like selective hatching, expressive hand-drawn French fantasy-comic forms, rich but restrained matte loose watercolor, small warm off-white paper gaps and irregular intentional pigment edges. One coherent artist-made fan art. Opaque warm off-white paper with a soft irregular muted cool slate and dusty burgundy watercolor wash behind the figure. No photorealism, plastic 3D shading, smooth digital airbrush, cinematic bloom, neon, artificial distress/grunge, vector-perfect contours or invented ornamental reward border.\nFRAMING: Match the normal collection portrait scale: HEAD AND UPPER TORSO, not a distant full body and not an extreme face close-up. Full signature hair/head silhouette remains inside the square with top breathing space. Face centered and readable in centered 150px and 48px circular avatar crops, shoulders may crop along bottom. Keep the specified hand gesture secondary to face and identifying costume. No text, captions, lettering, logos, signature, watermark, collage, extra character, UI or badge.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two shoulder-arm chains connected to one coherent torso; correct left/right hands and thumb positions, four fingers plus one thumb for a fully exposed human hand; natural occlusion, never add digits to force a count. Respect this exact creature species and original anatomy. Render the whole portrait as a single first version for the user's review.",
+      "prompt": "Use case: identity-preserve. Asset type: user-requested refinement of an existing Dofus Forge exclusive PROFILE FAN-ART PORTRAIT of the ADULT woman JULITH. IMAGE 1 is the EDIT TARGET, our first Julith illustration; IMAGE 2 is her actual DOFUS 3.7.14.18 game model for identity and habitual outfit only.\nUSER REQUEST: make Julith visibly sexier, with an elegant alluring adult femme-fatale presence while preserving recognizable Julith and our approved ink-and-watercolor technique. Refine the EXISTING picture, not a new character.\nREQUESTED CHANGE: give her a more seductive confident expression: chin tipped slightly downward, cool half-lidded gray-green eyes looking back toward the viewer under subtly arched brows, a delicate teasing half-smile with softly and only slightly parted BLACK-painted lips. A graceful relaxed shoulder-and-neck pose, lightly drawn-back shoulders and a subtly curving natural waist make her confident and feminine. Her fitted opaque BURGUNDY bodice remains the same habitual costume, with a subtly lower elegant heart-shaped neckline and tasteful modest cleavage. Keep normal plausible adult proportions and one single coherent covered chest/torso. The sensuality comes from expression, posture and flattering tailoring.\nPRESERVE: her mature sharp face, pale ivory-gray skin, asymmetric short BLUE-BLACK bob and long cheek lock, pointed ears, vertical RED scar across the same visible eye, black lipstick, high BURGUNDY cloak collar, NAVY cape lining with restrained small LIGHT BLUE stars/dots, usual dark belt details, original burgundy/slate watercolor wash, complete hairstyle/head and NORMAL COLLECTION BUST FRAMING in the square. Preserve the raised LEFT palm gesture and lowered other arm, with continuous shoulders/elbows/wrists. Keep exactly the original matte loose watercolor, tapered graphite-black ink, selective fine hatching, irregular pigment edges and warm off-white paper. Face stays large/readable in 150px/48px circular avatars; no zoom change or different crop.\nCONSTRAINTS: fully clothed adult fantasy portrait, no nudity, no see-through fabric, no lingerie/bikini redesign, no sexual act, no exaggerated breast enlargement or duplicated anatomy. No extra arm/hand, no horns, long hair, new armor, different character, text, signature, logo, watermark, reward frame, glossy 3D, photorealism, airbrushed gradients, cinematic bloom or neon.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. For any fully exposed human hand, four fingers and one thumb with correct handedness and natural finger roots. Keep the intended raised-palm gesture. One user-requested edit version only, for review.",
       "identity": "The actual JULITH: mature pale ivory/gray-skinned woman, severe angular face with long sharply pointed ears, asymmetric short dark BLUE-BLACK bob, one longer side lock beside cheek and side-swept crown, narrow cool gray-green eyes framed by heavy dark smoky eyelids, thin dark eyebrows, black lipstick, thin vertical reddish scar crossing the same eye/cheek shown in the identity references. Her original DARK BURGUNDY fitted sleeveless bodice and high BURGUNDY cloak collar; the inside of her flowing cloak is DEEP NAVY with small restrained LIGHT BLUE star and dot motifs. Black angular neckline/belt details. Exactly the original outfit and single covered torso. No horns, long white hair, armor, giant bosom, revealing redesign or generic sorceress costume.",
-      "pose": "An aloof sorceress turning her shoulders away but looking back at the viewer with a slight cold closed-lip knowing smile. One pale hand, her own LEFT, raised beside the lower shoulder with palm angled upward and outward, four long relaxed fingers gently separated and ONE shorter thumb naturally on its correct side, all five digits attached to the same palm and wrist. Other arm lowered outside the bust crop. The raised hand has no magic orb or prop, an elegant restrained invitation. Burgundy collar and a small navy star-lined cloak fold frame the single torso.",
+      "pose": "Adult Julith with a more alluring confident half-smile, softly parted black lips and lowered chin; fitted burgundy bodice with a subtly lower heart-shaped neckline, natural waist/shoulder posture, original raised left palm and recognizable cloak/hair/scar retained.",
       "references": [
-        "public/avatars/classes/v1/iop-m.webp",
-        "temp/emblematic-rewards/references/julith-bust.png",
-        "temp/emblematic-rewards/references/julith-alt-bust.png",
+        "temp/emblematic-rewards/masters/julith-portrait.png",
         "temp/emblematic-rewards/references/julith-full.png"
       ],
       "referenceRoles": [
-        "approved Forge technique and normal portrait framing only",
-        "current-client primary head and outfit",
-        "current-client alternate identity view",
-        "current-client complete body and outfit"
+        "original selected Julith portrait: edit target",
+        "actual installed-client Julith: identity/outfit reference only"
       ],
       "referenceHashes": {
-        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
-        "temp/emblematic-rewards/references/julith-bust.png": "42b04b48d8a8a41df55c23d8f59cfd2bf42f4f340dd5f278f384e798467fc489",
-        "temp/emblematic-rewards/references/julith-alt-bust.png": "300ab25f38270ad89dd6147bfe203f3dc75173985147b8cfab28287bdde060eb",
+        "temp/emblematic-rewards/masters/julith-portrait.png": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
         "temp/emblematic-rewards/references/julith-full.png": "8b3096487bb47c5b17287e5afa917bae65440618469485d4569272188002a886"
       },
       "sourceClientVersion": "3.7.14.18",
-      "master": "temp/emblematic-rewards/masters/julith-portrait.png",
+      "master": "temp/emblematic-rewards/masters/julith-portrait-user-refinement.png",
       "asset": "public/avatars/exclusive/v1/julith.webp",
       "generator": "Built-in image_gen",
-      "generationNumber": 1,
-      "selectedFirstGeneration": true,
-      "masterSha256": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
+      "generationNumber": 2,
+      "selectedFirstGeneration": false,
+      "masterSha256": "8be19389f1b23e17c8de85ce378ff0b7657f838b7de9fe85aac24afbfcc9809c",
       "masterWidth": 1254,
       "masterHeight": 1254,
       "width": 512,
       "height": 512,
-      "sha256": "0e43add9aefd43ae80a789ebcf793f86df0ada6f69354ab9bd8c586cc59f2579",
-      "bytes": 53812,
+      "sha256": "c6446b52aed70a1956faa4862e8f072287efddc176580991525d0cd6810e471f",
+      "bytes": 50284,
       "userReviewPending": true,
       "review": {
         "reviewedOn": "2026-11-27",
         "fullSizeInspected": true,
         "circularCropInspected": true,
-        "desktopCropInspected": false,
-        "mobileCropInspected": false,
         "identityReferencesInspected": true,
         "gameReferencesInspected": true,
-        "officialCrossMediaReferencesInspected": false,
         "enlargedHandInspected": true,
-        "note": "FIRST generation retained. Inspected exact native result, centered 150/48px circles and enlarged raised hand against both client views and full original costume. Blue-black asymmetric bob, pointed ears, eye-crossing red scar, dark lipstick, burgundy collar/bodice and navy blue star-lined cloak are distinct. Exactly two arm chains and one coherent clothed torso. Her raised left palm and thumb are on the expected side, but only three long fingertips are clearly distinct; the fourth long finger cannot be confidently traced in the overlapping contour. This is recorded for user review, not automatically repaired. No claim that the hand has five fully readable digits.",
+        "note": "One user-requested sensual/elegant refinement of the first portrait. Inspected exact native image, 150/48px circles and enlarged hand. Mature Julith identity, blue-black bob, pointed ears, eye-crossing red scar, black lips and burgundy/navy star-lined cloak are retained. More alluring eyes/half-smile and a modestly lower opaque heart-shaped neckline fulfill the requested styling while keeping a coherent clothed adult torso, two continuous arms and the same profile framing. The original raised-palm gesture remains; only three long fingertips plus thumb are unambiguous in the overlapping contour, so the previous hand observation remains open. No automatic second edit was made. Original PNG, WebP, exact prompt and record are archived.",
         "observations": [
-          "Raised left hand: only three long fingertips plus thumb are unambiguous; fourth finger needs user review."
+          "Raised left hand: fourth long finger remains ambiguous in the overlapping contour; unchanged review observation."
         ]
       },
-      "generatedImageFile": "exec-9b465a49-dc62-4b6d-9bca-6431ec6ba7b7.png",
+      "generatedImageFile": "exec-3e149ddd-b026-4e75-9be9-b13b72e06119.png",
       "referenceProvenance": [],
       "names": {
         "es": "Julith",
         "en": "Julith",
         "fr": "Julith",
         "pt": "Julith"
-      }
+      },
+      "request": "More sensual and elegant Julith, explicitly requested by the user",
+      "generationHistory": [
+        {
+          "generationNumber": 1,
+          "selected": false,
+          "master": "temp/emblematic-rewards/masters/julith-portrait.png",
+          "masterSha256": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
+          "archivedWebP": "temp/emblematic-rewards/history/julith-portrait-first.webp",
+          "sha256": "0e43add9aefd43ae80a789ebcf793f86df0ada6f69354ab9bd8c586cc59f2579",
+          "record": {
+            "id": "julith",
+            "type": "portrait",
+            "prompt": "Use case: illustration-story. Asset type: exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Create ONE finished SQUARE head-and-upper-torso portrait of Julith. IMAGE 1 is our APPROVED COLLECTION TECHNIQUE AND NORMAL BUST SCALE ONLY, never its character, hair, costume, sword or pose. Remaining images show this exact named character reconstructed from installed DOFUS client 3.7.14.18 and establish identity and outfit only, not the final composition.\nIDENTITY: The actual JULITH: mature pale ivory/gray-skinned woman, severe angular face with long sharply pointed ears, asymmetric short dark BLUE-BLACK bob, one longer side lock beside cheek and side-swept crown, narrow cool gray-green eyes framed by heavy dark smoky eyelids, thin dark eyebrows, black lipstick, thin vertical reddish scar crossing the same eye/cheek shown in the identity references. Her original DARK BURGUNDY fitted sleeveless bodice and high BURGUNDY cloak collar; the inside of her flowing cloak is DEEP NAVY with small restrained LIGHT BLUE star and dot motifs. Black angular neckline/belt details. Exactly the original outfit and single covered torso. No horns, long white hair, armor, giant bosom, revealing redesign or generic sorceress costume.\nINDIVIDUAL POSE: An aloof sorceress turning her shoulders away but looking back at the viewer with a slight cold closed-lip knowing smile. One pale hand, her own LEFT, raised beside the lower shoulder with palm angled upward and outward, four long relaxed fingers gently separated and ONE shorter thumb naturally on its correct side, all five digits attached to the same palm and wrist. Other arm lowered outside the bust crop. The raised hand has no magic orb or prop, an elegant restrained invitation. Burgundy collar and a small navy star-lined cloak fold frame the single torso.\nSTYLE: retain the approved lively tapered black ink and graphite-like selective hatching, expressive hand-drawn French fantasy-comic forms, rich but restrained matte loose watercolor, small warm off-white paper gaps and irregular intentional pigment edges. One coherent artist-made fan art. Opaque warm off-white paper with a soft irregular muted cool slate and dusty burgundy watercolor wash behind the figure. No photorealism, plastic 3D shading, smooth digital airbrush, cinematic bloom, neon, artificial distress/grunge, vector-perfect contours or invented ornamental reward border.\nFRAMING: Match the normal collection portrait scale: HEAD AND UPPER TORSO, not a distant full body and not an extreme face close-up. Full signature hair/head silhouette remains inside the square with top breathing space. Face centered and readable in centered 150px and 48px circular avatar crops, shoulders may crop along bottom. Keep the specified hand gesture secondary to face and identifying costume. No text, captions, lettering, logos, signature, watermark, collage, extra character, UI or badge.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two shoulder-arm chains connected to one coherent torso; correct left/right hands and thumb positions, four fingers plus one thumb for a fully exposed human hand; natural occlusion, never add digits to force a count. Respect this exact creature species and original anatomy. Render the whole portrait as a single first version for the user's review.",
+            "identity": "The actual JULITH: mature pale ivory/gray-skinned woman, severe angular face with long sharply pointed ears, asymmetric short dark BLUE-BLACK bob, one longer side lock beside cheek and side-swept crown, narrow cool gray-green eyes framed by heavy dark smoky eyelids, thin dark eyebrows, black lipstick, thin vertical reddish scar crossing the same eye/cheek shown in the identity references. Her original DARK BURGUNDY fitted sleeveless bodice and high BURGUNDY cloak collar; the inside of her flowing cloak is DEEP NAVY with small restrained LIGHT BLUE star and dot motifs. Black angular neckline/belt details. Exactly the original outfit and single covered torso. No horns, long white hair, armor, giant bosom, revealing redesign or generic sorceress costume.",
+            "pose": "An aloof sorceress turning her shoulders away but looking back at the viewer with a slight cold closed-lip knowing smile. One pale hand, her own LEFT, raised beside the lower shoulder with palm angled upward and outward, four long relaxed fingers gently separated and ONE shorter thumb naturally on its correct side, all five digits attached to the same palm and wrist. Other arm lowered outside the bust crop. The raised hand has no magic orb or prop, an elegant restrained invitation. Burgundy collar and a small navy star-lined cloak fold frame the single torso.",
+            "references": [
+              "public/avatars/classes/v1/iop-m.webp",
+              "temp/emblematic-rewards/references/julith-bust.png",
+              "temp/emblematic-rewards/references/julith-alt-bust.png",
+              "temp/emblematic-rewards/references/julith-full.png"
+            ],
+            "referenceRoles": [
+              "approved Forge technique and normal portrait framing only",
+              "current-client primary head and outfit",
+              "current-client alternate identity view",
+              "current-client complete body and outfit"
+            ],
+            "referenceHashes": {
+              "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+              "temp/emblematic-rewards/references/julith-bust.png": "42b04b48d8a8a41df55c23d8f59cfd2bf42f4f340dd5f278f384e798467fc489",
+              "temp/emblematic-rewards/references/julith-alt-bust.png": "300ab25f38270ad89dd6147bfe203f3dc75173985147b8cfab28287bdde060eb",
+              "temp/emblematic-rewards/references/julith-full.png": "8b3096487bb47c5b17287e5afa917bae65440618469485d4569272188002a886"
+            },
+            "sourceClientVersion": "3.7.14.18",
+            "master": "temp/emblematic-rewards/masters/julith-portrait.png",
+            "asset": "public/avatars/exclusive/v1/julith.webp",
+            "generator": "Built-in image_gen",
+            "generationNumber": 1,
+            "selectedFirstGeneration": true,
+            "masterSha256": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
+            "masterWidth": 1254,
+            "masterHeight": 1254,
+            "width": 512,
+            "height": 512,
+            "sha256": "0e43add9aefd43ae80a789ebcf793f86df0ada6f69354ab9bd8c586cc59f2579",
+            "bytes": 53812,
+            "userReviewPending": true,
+            "review": {
+              "reviewedOn": "2026-11-27",
+              "fullSizeInspected": true,
+              "circularCropInspected": true,
+              "desktopCropInspected": false,
+              "mobileCropInspected": false,
+              "identityReferencesInspected": true,
+              "gameReferencesInspected": true,
+              "officialCrossMediaReferencesInspected": false,
+              "enlargedHandInspected": true,
+              "note": "FIRST generation retained. Inspected exact native result, centered 150/48px circles and enlarged raised hand against both client views and full original costume. Blue-black asymmetric bob, pointed ears, eye-crossing red scar, dark lipstick, burgundy collar/bodice and navy blue star-lined cloak are distinct. Exactly two arm chains and one coherent clothed torso. Her raised left palm and thumb are on the expected side, but only three long fingertips are clearly distinct; the fourth long finger cannot be confidently traced in the overlapping contour. This is recorded for user review, not automatically repaired. No claim that the hand has five fully readable digits.",
+              "observations": [
+                "Raised left hand: only three long fingertips plus thumb are unambiguous; fourth finger needs user review."
+              ]
+            },
+            "generatedImageFile": "exec-9b465a49-dc62-4b6d-9bca-6431ec6ba7b7.png",
+            "referenceProvenance": [],
+            "names": {
+              "es": "Julith",
+              "en": "Julith",
+              "fr": "Julith",
+              "pt": "Julith"
+            }
+          }
+        },
+        {
+          "generationNumber": 2,
+          "selected": true,
+          "reason": "Explicit user request: make adult Julith more sensual and elegant",
+          "master": "temp/emblematic-rewards/masters/julith-portrait-user-refinement.png",
+          "masterSha256": "8be19389f1b23e17c8de85ce378ff0b7657f838b7de9fe85aac24afbfcc9809c",
+          "prompt": "Use case: identity-preserve. Asset type: user-requested refinement of an existing Dofus Forge exclusive PROFILE FAN-ART PORTRAIT of the ADULT woman JULITH. IMAGE 1 is the EDIT TARGET, our first Julith illustration; IMAGE 2 is her actual DOFUS 3.7.14.18 game model for identity and habitual outfit only.\nUSER REQUEST: make Julith visibly sexier, with an elegant alluring adult femme-fatale presence while preserving recognizable Julith and our approved ink-and-watercolor technique. Refine the EXISTING picture, not a new character.\nREQUESTED CHANGE: give her a more seductive confident expression: chin tipped slightly downward, cool half-lidded gray-green eyes looking back toward the viewer under subtly arched brows, a delicate teasing half-smile with softly and only slightly parted BLACK-painted lips. A graceful relaxed shoulder-and-neck pose, lightly drawn-back shoulders and a subtly curving natural waist make her confident and feminine. Her fitted opaque BURGUNDY bodice remains the same habitual costume, with a subtly lower elegant heart-shaped neckline and tasteful modest cleavage. Keep normal plausible adult proportions and one single coherent covered chest/torso. The sensuality comes from expression, posture and flattering tailoring.\nPRESERVE: her mature sharp face, pale ivory-gray skin, asymmetric short BLUE-BLACK bob and long cheek lock, pointed ears, vertical RED scar across the same visible eye, black lipstick, high BURGUNDY cloak collar, NAVY cape lining with restrained small LIGHT BLUE stars/dots, usual dark belt details, original burgundy/slate watercolor wash, complete hairstyle/head and NORMAL COLLECTION BUST FRAMING in the square. Preserve the raised LEFT palm gesture and lowered other arm, with continuous shoulders/elbows/wrists. Keep exactly the original matte loose watercolor, tapered graphite-black ink, selective fine hatching, irregular pigment edges and warm off-white paper. Face stays large/readable in 150px/48px circular avatars; no zoom change or different crop.\nCONSTRAINTS: fully clothed adult fantasy portrait, no nudity, no see-through fabric, no lingerie/bikini redesign, no sexual act, no exaggerated breast enlargement or duplicated anatomy. No extra arm/hand, no horns, long hair, new armor, different character, text, signature, logo, watermark, reward frame, glossy 3D, photorealism, airbrushed gradients, cinematic bloom or neon.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. For any fully exposed human hand, four fingers and one thumb with correct handedness and natural finger roots. Keep the intended raised-palm gesture. One user-requested edit version only, for review.",
+          "references": [
+            "temp/emblematic-rewards/masters/julith-portrait.png",
+            "temp/emblematic-rewards/references/julith-full.png"
+          ],
+          "referenceHashes": {
+            "temp/emblematic-rewards/masters/julith-portrait.png": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
+            "temp/emblematic-rewards/references/julith-full.png": "8b3096487bb47c5b17287e5afa917bae65440618469485d4569272188002a886"
+          }
+        }
+      ]
     },
     {
       "id": "ogrest",
@@ -723,5 +803,6 @@
       "referenceProvenance": []
     }
   ],
-  "preparedForForgeVersion": "0.4.27"
+  "preparedForForgeVersion": "0.4.27",
+  "updatedOn": "2026-11-27"
 }
