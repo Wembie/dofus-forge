@@ -2659,10 +2659,8 @@
   "appearance_exclusive_progress": "{{progress}}/{{threshold}}",
   "appearance_exclusive_locked_hint": "Pas encore débloqué — {{progress}}/{{threshold}}",
   "appearance_exclusive_locked_error": "Vous n'avez pas encore débloqué cette récompense exclusive",
-  "account_streak_hint": "Série : {{current}} jours (record : {{best}})",
-  "streak_frame_bronze": "cadre bronze",
-  "streak_frame_silver": "cadre argent",
-  "streak_frame_gold": "cadre or",
-  "streak_frame_molten": "cadre en fusion",
-  "public_streak_best": "Meilleure série : {{best}} jours"
+  "streak_chip_current_one": "{{count}} jour de série",
+  "streak_chip_current_other": "{{count}} jours de série",
+  "streak_chip_best_one": "record : {{count}} jour",
+  "streak_chip_best_other": "record : {{count}} jours"
 }

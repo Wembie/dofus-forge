@@ -243,10 +243,19 @@ describe('round trips saved on the detail and profile pages', () => {
   })
 
   it('reads the profile summary in one RPC, or falls back', async () => {
-    mock.client.rpc.mockResolvedValueOnce({ data: { rank: { rank_name: 'x' }, build_count: 2, like_count: 5, comment_count: 1 }, error: null } as never)
-    await expect(fetchProfileSummary('u1')).resolves.toEqual({ stats: { buildCount: 2, likeCount: 5 }, commentCount: 1, rank: { rank_name: 'x' }, combined: true })
+    mock.client.rpc.mockResolvedValueOnce({
+      data: {
+        ranks: [{ rank_name: 'x' }], build_count: 2, like_count: 5, comment_count: 1,
+        login_streak_best: 45, exclusive_avatar_slug: 'kerubim', exclusive_banner_slug: null,
+      },
+      error: null,
+    } as never)
+    await expect(fetchProfileSummary('u1')).resolves.toEqual({
+      stats: { buildCount: 2, likeCount: 5 }, commentCount: 1, ranks: [{ rank_name: 'x' }],
+      loginStreakBest: 45, exclusiveAvatarSlug: 'kerubim', exclusiveBannerSlug: null, combined: true,
+    })
     mock.client.rpc.mockResolvedValueOnce({ data: null, error: { message: 'not found' } } as never)
-    await expect(fetchProfileSummary('u1')).resolves.toMatchObject({ combined: false })
+    await expect(fetchProfileSummary('u1')).resolves.toMatchObject({ combined: false, ranks: [], loginStreakBest: 0 })
   })
 
   it('reuses the community stats for 5 minutes', async () => {

@@ -13,8 +13,7 @@ import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { PASSWORD_MIN_LENGTH, USERNAME_PATTERN, USERNAME_RE } from '@/features/auth/authRules.ts'
 import { ProfileAppearancePicker } from '@/features/account/ProfileAppearancePicker.tsx'
 import { fetchMyExclusiveUnlocks, type ExclusiveUnlock } from '@/features/profile/exclusiveUnlocks.ts'
-import { streakFrameTier } from '@/features/profile/milestones.ts'
-import { Flame } from 'lucide-react'
+import { StreakChip } from '@/features/profile/StreakChip.tsx'
 import '@/features/account/account.css'
 
 type Tab = 'profile' | 'security' | 'session'
@@ -285,13 +284,7 @@ export function AccountPage() {
                           setAvatar(appearance.avatar); setBanner(appearance.banner)
                           setExclusiveAvatarSlug(appearance.exclusiveAvatarSlug); setExclusiveBannerSlug(appearance.exclusiveBannerSlug)
                         })} />
-                      {profile && (
-                        <p className="account-streak-hint">
-                          <Flame size={14} aria-hidden="true" />
-                          {t('account_streak_hint', { current: profile.login_streak_current, best: profile.login_streak_best })}
-                          {streakFrameTier(profile.login_streak_best) && ' · ' + t(`streak_frame_${streakFrameTier(profile.login_streak_best)}`)}
-                        </p>
-                      )}
+                      {profile && <StreakChip current={profile.login_streak_current} best={profile.login_streak_best} />}
                       <div className="account-field">
                         <label htmlFor={`${id}-username`}>{t('auth_username')}</label>
                         <input id={`${id}-username`} value={username} disabled={busy} onChange={e => edit(() => setUsername(e.target.value))}

@@ -38,6 +38,13 @@ describe('public profile portrait inspection', () => {
     expect(container.textContent).toBe('B')
   })
 
+  it('wears the streak frame tier when one is earned, and none otherwise', () => {
+    const { rerender } = render(<PublicProfileAvatar username="brasa" url="/avatars/classes/v1/iop-f.webp" streakTier="gold" />)
+    expect(screen.getByRole('button', { name: 'profile_avatar_view' }).getAttribute('data-tier')).toBe('gold')
+    rerender(<PublicProfileAvatar username="brasa" url="/avatars/classes/v1/iop-f.webp" />)
+    expect(screen.getByRole('button', { name: 'profile_avatar_view' }).hasAttribute('data-tier')).toBe(false)
+  })
+
   it('removes an open viewer if its URL is replaced by an unapproved one', async () => {
     const { rerender } = render(<PublicProfileAvatar username="brasa" url="/avatars/classes/v1/iop-m.webp" />)
     fireEvent.click(screen.getByRole('button', { name: 'profile_avatar_view' }))

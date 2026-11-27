@@ -1,0 +1,36 @@
+/* M188 — daily login streak badge. Same tier colors as streakFrame.css,
+   so the chip's accent always matches the avatar's own frame. */
+
+.streak-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  margin: 10px 0;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-panel, var(--surface));
+  color: var(--muted);
+  width: fit-content;
+}
+.streak-chip > svg { flex-shrink: 0; color: var(--muted); }
+.streak-chip strong { color: var(--text); font-weight: 600; font-size: 13px; }
+.streak-chip span { display: flex; flex-direction: column; line-height: 1.25; }
+.streak-chip small { font-size: 11px; color: var(--muted); }
+
+.streak-chip[data-tier='bronze'] { border-color: #B07A45; }
+.streak-chip[data-tier='bronze'] > svg { color: #B07A45; }
+
+.streak-chip[data-tier='silver'] { border-color: #A7AFBA; }
+.streak-chip[data-tier='silver'] > svg { color: #A7AFBA; }
+
+.streak-chip[data-tier='gold'] { border-color: var(--gold-bright); box-shadow: var(--glow-gold); }
+.streak-chip[data-tier='gold'] > svg { color: var(--gold-bright); }
+.streak-chip[data-tier='gold'] strong { color: var(--gold-bright); }
+
+.streak-chip[data-tier='molten'] {
+  border-color: var(--gold-bright);
+  background: linear-gradient(135deg, color-mix(in srgb, #d9731c 18%, transparent), color-mix(in srgb, #8f1e1e 12%, transparent));
+}
+.streak-chip[data-tier='molten'] > svg { color: #d9731c; }
+.streak-chip[data-tier='molten'] strong { color: var(--gold-bright); }

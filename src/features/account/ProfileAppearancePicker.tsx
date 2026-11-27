@@ -41,6 +41,7 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
   const [head, setHead] = useState('all')
   const [category, setCategory] = useState('all')
   const [onlyNew, setOnlyNew] = useState(false)
+  const [onlyExclusive, setOnlyExclusive] = useState(false)
   const [inspection, setInspection] = useState<Inspection | null>(null)
   const [mobilePreview, setMobilePreview] = useState(false)
   const galleryRef = useRef<HTMLDivElement>(null)
@@ -51,10 +52,10 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
   const avatarLabel = (a: Avatar) => t('account_avatar_option', { class: className(a.classId), gender: t('account_avatar_gender_look', { gender: t(`gender_${a.gender}`), number: a.headSlot }) })
   const bannerLabel = (b: Banner) => t(`profile_banner_location_${b.id}`)
   const query = normalizeSearch(queries[tab].trim())
-  const visibleAvatars = CLASS_AVATARS.filter(a => (classId === 'all' || a.classId === classId)
+  const visibleAvatars = onlyExclusive ? [] : CLASS_AVATARS.filter(a => (classId === 'all' || a.classId === classId)
     && (gender === 'all' || a.gender === gender) && (head === 'all' || String(a.headSlot) === head)
     && (!onlyNew || a.headSlot === newestHead) && normalizeSearch(className(a.classId)).includes(query))
-  const visibleBanners = PROFILE_BANNERS.filter(b => (category === 'all' || b.category === category)
+  const visibleBanners = onlyExclusive ? [] : PROFILE_BANNERS.filter(b => (category === 'all' || b.category === category)
     && (!onlyNew || b.isNew) && normalizeSearch(bannerLabel(b)).includes(query))
   const count = tab === 'avatars' ? visibleAvatars.length : visibleBanners.length
   const selectedAvatar = CLASS_AVATARS.find(a => a.url === draft.avatar)
@@ -67,7 +68,7 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
   const exclusiveLabel = (r: ExclusiveReward) => t(r.nameKey)
   const inspectionUrl = (i: Inspection) => i.kind === 'exclusive' ? (i.tab === 'avatars' ? i.art.avatarPath : i.art.bannerPath) : i.art.url
   const inspectionLabel = (i: Inspection) => i.kind === 'avatars' ? avatarLabel(i.art) : i.kind === 'banners' ? bannerLabel(i.art) : exclusiveLabel(i.art)
-  const hasFilters = !!queries[tab] || onlyNew || (tab === 'avatars' ? classId !== 'all' || gender !== 'all' || head !== 'all' : category !== 'all')
+  const hasFilters = !!queries[tab] || onlyNew || onlyExclusive || (tab === 'avatars' ? classId !== 'all' || gender !== 'all' || head !== 'all' : category !== 'all')
 
   useEffect(() => {
     if (inspection) backRef.current?.focus({ preventScroll: true })
@@ -111,6 +112,7 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
   function clearFilters() {
     setQueries(q => ({ ...q, [tab]: '' }))
     setOnlyNew(false)
+    setOnlyExclusive(false)
     if (tab === 'avatars') { setClassId('all'); setGender('all'); setHead('all') } else setCategory('all')
   }
 
@@ -197,7 +199,10 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
                 <>
                   <div className="appearance-toolbar">
                     <label className="appearance-search"><Search size={17} aria-hidden="true" /><span className="sr-only">{t(tab === 'avatars' ? 'account_avatar_search' : 'account_banner_search')}</span><input type="search" value={queries[tab]} onChange={e => setQueries(q => ({ ...q, [tab]: e.target.value }))} placeholder={t(tab === 'avatars' ? 'account_avatar_search' : 'account_banner_search')} /></label>
-                    <label className="appearance-new-filter"><input type="checkbox" checked={onlyNew} onChange={e => setOnlyNew(e.target.checked)} /><Sparkles size={14} aria-hidden="true" />{t('appearance_new')}</label>
+                    <div className="appearance-toggle-group">
+                      <label className="appearance-new-filter"><input type="checkbox" checked={onlyNew} onChange={e => setOnlyNew(e.target.checked)} /><Sparkles size={14} aria-hidden="true" />{t('appearance_new')}</label>
+                      <label className="appearance-new-filter appearance-exclusive-filter"><input type="checkbox" checked={onlyExclusive} onChange={e => setOnlyExclusive(e.target.checked)} /><Lock size={14} aria-hidden="true" />{t('appearance_exclusive_heading')}</label>
+                    </div>
                     {tab === 'avatars' ? (
                       <div className="appearance-filters">
                         <label><span>{t('appearance_class')}</span><select aria-label={t('appearance_class')} value={classId} onChange={e => setClassId(e.target.value)}><option value="all">{t('appearance_all_classes')}</option>{CLASS_DATA.map(c => <option key={c.id} value={c.id}>{className(c.id)}</option>)}</select></label>
@@ -234,8 +239,8 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
                         </article>
                       ))}
                     </div>
-                    {count === 0 && <div className="appearance-empty"><SlidersHorizontal size={25} aria-hidden="true" /><h3>{t('appearance_empty_title')}</h3><p>{t('appearance_empty_hint')}</p><button type="button" onClick={clearFilters}>{t('appearance_clear')}</button></div>}
-                    {!hasFilters && (
+                    {count === 0 && !onlyExclusive && <div className="appearance-empty"><SlidersHorizontal size={25} aria-hidden="true" /><h3>{t('appearance_empty_title')}</h3><p>{t('appearance_empty_hint')}</p><button type="button" onClick={clearFilters}>{t('appearance_clear')}</button></div>}
+                    {(onlyExclusive || !queries[tab]) && (
                       <div className="appearance-exclusive-section">
                         <h4><Lock size={14} aria-hidden="true" />{t('appearance_exclusive_heading')}</h4>
                         <div className={'appearance-art-grid ' + (tab === 'banners' ? 'is-banners' : '')}>
