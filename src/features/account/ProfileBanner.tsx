@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Modal } from '@/ui'
 import { isProfileBannerUrl } from './profileBanners.ts'
+import { isExclusiveBannerUrl } from '@/features/profile/exclusiveAppearance.ts'
 
 export function ProfileBanner({ username, url }: { username: string; url?: string | null }) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
-  if (!isProfileBannerUrl(url)) return null
+  if (!isProfileBannerUrl(url) && !isExclusiveBannerUrl(url ?? '')) return null
 
   return (
     <>

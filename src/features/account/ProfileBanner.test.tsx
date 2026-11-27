@@ -26,4 +26,10 @@ describe('public profile banners', () => {
     expect(container.childElementCount).toBe(0)
     expect(screen.queryByRole('dialog')).toBeNull()
   })
+
+  it('shows a registered exclusive banner on public profiles', () => {
+    const url = '/banners/exclusive/v1/ogrest.webp'
+    render(<ProfileBanner username="brasa" url={url} />)
+    expect(screen.getByRole('button', { name: 'profile_banner_view' }).querySelector('img')?.getAttribute('src')).toBe(url)
+  })
 })
