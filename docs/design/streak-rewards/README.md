@@ -1,4 +1,4 @@
-# Racha, recompensas y marcos — 0.4.29
+# Racha, recompensas y marcos — 0.4.28
 
 Petición del usuario, 2026-11-27: conservar la **llama original** y revisar
 ubicación, ventanas y marcos siguiendo el diseño de la 0.4.0. Se mantienen
