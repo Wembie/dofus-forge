@@ -9,6 +9,10 @@
 .streak-record > span, .streak-next span { color: var(--muted); font-size: 12px; }
 .streak-record strong, .streak-next strong { color: var(--text); font-size: 14px; font-weight: 600; }
 .streak-next { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.streak-next > div { min-width: 0; }
+.streak-next strong { overflow-wrap: anywhere; }
+.streak-next-art { display: flex; flex-shrink: 0; }
+.streak-next-art img + img { margin-left: -15px; border: 2px solid var(--surface); }
 .streak-next img { width: 44px; height: 44px; object-fit: cover; border-radius: 50%; }
 .streak-panel .streak-open { white-space: nowrap; min-height: 44px; font-size: 13px; }
 .streak-progress { display: flex; align-items: center; gap: 16px; margin-top: 19px; }
@@ -30,6 +34,12 @@
 .streak-dialog-next strong { font-weight: 600; color: var(--text); }
 .streak-dialog-next span, .streak-dialog-note { color: var(--muted); }
 .streak-dialog-note { font-size: 12px; line-height: 1.5; margin: 0 0 20px; }
+.streak-sections { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); gap: 8px; }
+.streak-sections button { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 5px; min-height: 48px; padding: 8px 4px; border-bottom: 2px solid transparent; color: var(--muted); font-size: 12px; cursor: pointer; }
+.streak-sections button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+.streak-sections button:hover { color: var(--text); }
+.streak-sections small { font: 10px 'IBM Plex Mono', monospace; color: var(--muted); }
+.streak-section-caption { margin: 14px 0 18px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .streak-reward-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .streak-reward { padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); text-align: left; color: var(--text); cursor: pointer; }
 .streak-reward:hover { border-color: var(--metal-edge-strong); }
@@ -68,6 +78,9 @@
   .streak-panel .streak-open { padding-inline: 10px; font-size: 12px; }
   .streak-next img { width: 34px; height: 34px; }
   .streak-next strong { font-size: 13px; }
+  .streak-next-art img + img { margin-left: -12px; }
+  .streak-sections { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .streak-dialog-next { flex-direction: column; gap: 5px; }
   .streak-progress { align-items: flex-start; flex-direction: column; gap: 9px; }
   .streak-dialog { padding: 18px; }
   .streak-dialog-summary { gap: 24px; }

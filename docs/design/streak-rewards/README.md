@@ -18,14 +18,19 @@ Alegreya/Source Sans e indicadores numéricos IBM Plex Mono.
 
 El progreso usa la racha **activa**, mientras que marcos y metas alcanzadas
 usan el **máximo histórico**. Si alguien reinicia en 4 con récord 45, conserva
-Kerubim y Julith; necesita otros 96 días consecutivos para llegar a Gúltar.
+Kerubim, Joris, Atcham, Julith y Bakara normal; necesita otros 56 días
+consecutivos para llegar a Jahash, el siguiente hito no ganado.
 No se inventan días de asistencia ni se afirma que la visita actual ya sumó:
 el cliente no dispone de ese historial. El cómputo diario UTC sigue en M188.
 
 ## Ventana y selección
 
-La ventana muestra racha actual, récord y cuatro pares de retrato/escenario
-con su marco, hito y estado. Cada tarjeta permite inspeccionar ambas piezas,
+La ventana muestra racha actual, récord y 16 pares de retrato/escenario,
+separados en tres etapas cronológicas (4/5/7 recompensas) y una colección
+de Bakara con sus cinco variantes. Las pestañas muestran ganadas/total,
+admiten flechas, Inicio y Fin y usan dos columnas en móvil. En el día 90
+se anuncian y resaltan **Otomaï y Bakara borracha**, sin ocultar uno de ellos.
+Cada tarjeta muestra su marco, hito y estado y permite inspeccionar ambas piezas,
 incluso bloqueadas. Volver recupera el foco de la tarjeta; Escape cierra y
 devuelve el foco al acceso inicial. El botón de cierre tiene 44 × 44 px.
 
@@ -33,7 +38,14 @@ Una recompensa elegible abre la galería existente en su retrato, sin apilar
 ventanas. Elegir, aplicar y guardar siguen siendo pasos distintos. Cancelar
 conserva la biografía y los demás cambios pendientes. La elegibilidad para
 seleccionar procede de `get_my_exclusive_unlocks`; el servidor continúa
-validando el guardado. No se modifican SQL, RPC, políticas ni hitos.
+validando el guardado. La ampliación solo añade doce filas al catálogo SQL;
+conserva las RPC, políticas, premios previos y cuatro hitos de marcos.
+
+![Etapas y premios del día 90](expansion-sections.webp)
+
+![Colección de Bakara](expansion-bakara.webp)
+
+![Etapas en móvil](expansion-mobile.webp)
 
 ## Marcos
 

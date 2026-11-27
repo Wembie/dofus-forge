@@ -1,0 +1,1419 @@
+{
+  "createdOn": "2026-11-27",
+  "forgeVersion": "0.4.28",
+  "generator": "Built-in image_gen",
+  "status": "Twelve new pairs exported, inspected and integrated; user chose all four drunk Bakara options. Other portraits retain first selected generation for user visual review.",
+  "sources": [
+    {
+      "subjects": [
+        "joris",
+        "bakara",
+        "jahash",
+        "atcham"
+      ],
+      "work": "DOFUS, Book I: Julith (2016)",
+      "official": "https://staticns.ankama.com/downloads/krosmaster/livret_arena_v2_en_web.pdf",
+      "note": "Official Ankama character palette reference; film proportions used rather than toy/chibi proportions."
+    },
+    {
+      "subjects": [
+        "joris"
+      ],
+      "page": "https://www.justwatch.com/ch/Film/Dofus-Book-I-Julith",
+      "image": "https://images.justwatch.com/backdrop/178462896/s1440/Dofus-Book-I-Julith",
+      "note": "Official movie still hosted by a film listing, not fan art."
+    },
+    {
+      "subjects": [
+        "jahash"
+      ],
+      "page": "https://xawpilore.fr/personnages/royaumes-et-cites/jahash-jurgen/",
+      "image": "https://xawpilore.fr/_assets/jahash-jurgen.ZA3d2Xpk_ZI5Y6t.webp",
+      "note": "Animated frame reproduced by a lore archive."
+    },
+    {
+      "subjects": [
+        "atcham"
+      ],
+      "page": "https://xawpilore.fr/pnj/royaumes-et-cites/atcham-crepin/",
+      "image": "https://xawpilore.fr/_assets/atcham-crepin.D9iadETA_2oV1eN.webp",
+      "note": "Hatless animated film frame, not manga tricorne design."
+    },
+    {
+      "subjects": [
+        "otomai",
+        "dathura"
+      ],
+      "work": "WAKFU: Ogrest, la légende (2011)",
+      "page": "https://www.otakia.com/61173/dicotakia/personnage/dathura-wakfu-dofus-biographie-analyse/",
+      "images": [
+        "https://www.otakia.com/wp-content/uploads/2011/04/Wakuf_Ogrest_la_Legende_21.jpg",
+        "https://www.otakia.com/wp-content/uploads/2011/04/Wakuf_Ogrest_la_Legende_35.jpg"
+      ],
+      "note": "Actual animated special frames hosted in analysis archive; white-haired doll form selected."
+    },
+    {
+      "subjects": [
+        "bakara",
+        "bakara_tipsy",
+        "bakara_drunk_book",
+        "bakara_drunk_lecture",
+        "bakara_drunk_toast"
+      ],
+      "page": "https://xawpilore.fr/personnages/royaumes-et-cites/bakara-jurgen/",
+      "image": "https://xawpilore.fr/_assets/bakara-jurgen.DJREduhi_Zz6OjB.webp",
+      "type": "Official animated design reproduced by a lore archive; matches user-provided normal reference"
+    },
+    {
+      "subjects": [
+        "bakara",
+        "bakara_tipsy",
+        "bakara_drunk_book",
+        "bakara_drunk_lecture",
+        "bakara_drunk_toast"
+      ],
+      "name": "bakara-drunk-puffed",
+      "page": "https://knowyourmeme.com/photos/1139216-dofus-wakfu",
+      "image": "https://i.kym-cdn.com/photos/images/original/001/139/216/1de.jpg",
+      "work": "DOFUS, Book I: Julith (2016)",
+      "type": "Official animation frame hosted by a community archive; not fan art"
+    },
+    {
+      "subjects": [
+        "bakara",
+        "bakara_tipsy",
+        "bakara_drunk_book",
+        "bakara_drunk_lecture",
+        "bakara_drunk_toast"
+      ],
+      "name": "bakara-drunk-toast",
+      "page": "https://knowyourmeme.com/photos/1139226-dofus-wakfu",
+      "image": "https://i.kym-cdn.com/photos/images/original/001/139/226/e7c.jpg",
+      "work": "DOFUS, Book I: Julith (2016)",
+      "type": "Official animation frame hosted by a community archive; not fan art"
+    },
+    {
+      "subjects": [
+        "bakara",
+        "bakara_tipsy",
+        "bakara_drunk_book",
+        "bakara_drunk_lecture",
+        "bakara_drunk_toast"
+      ],
+      "name": "bakara-drunk-lecture",
+      "page": "https://knowyourmeme.com/photos/1139223-dofus-wakfu",
+      "image": "https://i.kym-cdn.com/photos/images/original/001/139/223/c6b.jpg",
+      "work": "DOFUS, Book I: Julith (2016)",
+      "type": "Official animation frame hosted by a community archive; not fan art"
+    },
+    {
+      "subjects": [
+        "djaul",
+        "jiva"
+      ],
+      "work": "DOFUS client 3.7.14.18",
+      "records": {
+        "djaul": {
+          "npcIds": [
+            2052,
+            3229
+          ],
+          "bone": 6567
+        },
+        "jiva": {
+          "npcIds": [
+            2051,
+            4110
+          ],
+          "bone": 6627
+        }
+      },
+      "note": "Locally installed official client verified before drawing; head/model identity, not an invented animated version."
+    }
+  ],
+  "portraits": [
+    {
+      "id": "joris",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original Dofus Forge exclusive USER PROFILE FAN-ART PORTRAIT. Transform the character's AUTHENTIC ANIMATED design into ONE finished SQUARE head-and-upper-torso fan illustration. User explicitly prefers animation character designs to game models. IMAGE 1 establishes our approved Forge ink-and-watercolor technique and NORMAL BUST SCALE ONLY; never copy its Iop identity, orange hair, costume, anatomy or sword pose. Remaining images establish the named character in DOFUS, Book I: Julith (2016), with any exceptional reference roles explained below.\nANIMATED IDENTITY: JORIS as drawn in the ANIMATED FILM, not his game model: very large expressive cream-white eyes with tiny black pupils, shadow-black round face, small short BLUE-GRAY rounded nose and a wide friendly smiling mouth. Soft muted BLUE pointed hood, with TWO CREAM FEATHER-like sprigs growing from it, one long at the crown and one short at the side, NOT golden star-topped needles. Cream feathery shoulder collar with a simple dark round clasp, pale gray sleeves, blue sleeveless vest over black/dark gray chest, tan leather gloves and wrist cuffs. Small adventurous child proportions and generous expressive eyes; not golden game eyes or long yellow game nose.\nINDIVIDUAL POSE AND EXPRESSION: An eager friendly adventurer, leaning toward the viewer with shoulders turned slightly to his own LEFT, head tipped gently the other way and eyes looking directly toward the viewer with a broad delighted smile. His own LEFT gloved hand rests casually against the lower vest, fingers relaxed without holding the collar, while the other arm travels down beyond the bust crop. Show one continuous wrist and naturally connected digits; no additional prop. The two pale feather sprigs are fully visible above and beside the soft blue hood.\nILLUSTRATION: expressive French fantasy-comic brush-pen black ink, fine selective graphite hatching, confident varied-weight lines, charming asymmetry, loose matte watercolor with irregular hand-placed pigment edges and small warm off-white paper gaps. An original personal fan art retaining the animation's facial proportions, features, hair, headwear, species and habitual costume. Opaque warm off-white ground with one restrained dusty blue and warm pale ochre watercolor wash. No photorealism, 3D, plastic toy, airbrush, cinematic bloom, perfect vector shapes or artificial grunge.\nFRAMING: same normal head-and-UPPER-TORSO bust scale as the approved collection. Face large near center and readable at 48px; all identifying ears, hair and headwear contained with top breathing space for a centered circular avatar crop. Not a faraway whole figure or extreme face closeup. Shoulder edges may leave the bottom. Only this single character and the specified modest prop. No captions, text, logos, signatures, watermark, frame, collage, UI or badges.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Keep exactly two arms with traceable shoulders and wrists and one coherent clothed torso. Four fingers plus one thumb on a fully exposed human hand, correct handedness and thumb placement. Respect canonical feline or doll anatomy, no floating extra digits. Keep feathers, scarves, hair and clothing distinct from limbs. This is the first version using the requested animated design; retain it for user review with no automatic regeneration.",
+      "identity": "JORIS as drawn in the ANIMATED FILM, not his game model: very large expressive cream-white eyes with tiny black pupils, shadow-black round face, small short BLUE-GRAY rounded nose and a wide friendly smiling mouth. Soft muted BLUE pointed hood, with TWO CREAM FEATHER-like sprigs growing from it, one long at the crown and one short at the side, NOT golden star-topped needles. Cream feathery shoulder collar with a simple dark round clasp, pale gray sleeves, blue sleeveless vest over black/dark gray chest, tan leather gloves and wrist cuffs. Small adventurous child proportions and generous expressive eyes; not golden game eyes or long yellow game nose.",
+      "pose": "An eager friendly adventurer, leaning toward the viewer with shoulders turned slightly to his own LEFT, head tipped gently the other way and eyes looking directly toward the viewer with a broad delighted smile. His own LEFT gloved hand rests casually against the lower vest, fingers relaxed without holding the collar, while the other arm travels down beyond the bust crop. Show one continuous wrist and naturally connected digits; no additional prop. The two pale feather sprigs are fully visible above and beside the soft blue hood.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/joris-animation-identity.png",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal bust scale only",
+        "Authentic animated character design, not final fan art",
+        "Authentic animated character design, not final fan art"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/joris-animation-identity.png": "f0372479a64ef173f394f696c222260fbbfe84ae8754e374745792cc7dd390e3",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg": "76281c773d13a41022258d58080348fed2bb15ecb38d6a9a7f31c12b93fd4adf"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "Official Ankama animation design; cross-media, not a DOFUS 3.7 game-client model",
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedAnimationDesign": true,
+      "supersedes": "joris-portrait",
+      "master": "temp/emblematic-expansion/masters/joris-animation-portrait.png",
+      "asset": "public/avatars/exclusive/v1/joris.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "6dfd6bdde35d3a20b094e721d666048ea6aee1abe2f2d457f83d6af65863cab4",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "eb9b08eae29e10686ffcefac68ff47d9cecb7c9ab0b96d17c44cfc91366fa028",
+      "bytes": 42146,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-c20676d7-5be6-4262-b725-cb37f1e8607b.png",
+      "key": "joris-animation-portrait",
+      "threshold": 14,
+      "chapter": "first_steps",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Animated hood with two cream feathers and large cream-white eyes. Native, circular and enlarged hand inspected. Four long finger contours readable; thumb not separately clear. Preserve first animation version for user review."
+      }
+    },
+    {
+      "id": "atcham",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original Dofus Forge exclusive USER PROFILE FAN-ART PORTRAIT. Transform the character's AUTHENTIC ANIMATED design into ONE finished SQUARE head-and-upper-torso fan illustration. User explicitly prefers animation character designs to game models. IMAGE 1 establishes our approved Forge ink-and-watercolor technique and NORMAL BUST SCALE ONLY; never copy its Iop identity, orange hair, costume, anatomy or sword pose. Remaining images establish the named character in DOFUS, Book I: Julith (2016), with any exceptional reference roles explained below.\nANIMATED IDENTITY: ATCHAM CREPIN in the ANIMATED FILM, NOT his manga tricorne-hat version. Lean adult hairless anthropomorphic CAT swordsman: enormous long upright DARK BROWN pointed feline ears, dark charcoal-brown face/head, large taupe-brown bare muzzle and eye-patch areas, small black triangular cat nose, half-lidded GOLDEN YELLOW eyes with narrow vertical black pupils, a couple of little ivory fangs at the mouth corners, no human hair or beard and no fluffy white Kerubim fur. His original sleeveless muted OCHRE/tan-yellow garment/vest, dark brown arms, long cream forearm wraps, dark olive-brown trousers and red waist sash mostly below portrait. Two simple swords are his identifying equipment, but only ONE sword hilt is needed in the bust. No hat, giant mane, pink human hands or samurai armor redesign.\nINDIVIDUAL POSE AND EXPRESSION: A dryly amused veteran swordsman with shoulders in a three-quarter turn to his own LEFT, chin lifted a little and half-lidded yellow feline eyes looking toward the viewer. A small closed crooked smile and one tiny fang. His own RIGHT dark cat hand grips ONE simple sword hilt resting low across the far shoulder, with four natural curled fingers and one opposable thumb in a coherent grip; bare dark feline hand with small claws as in the animated identity, no human pink skin. Other arm down out of crop. Sword exits to one side without crossing the eyes or ears; both long ears stay legible with top breathing room.\nILLUSTRATION: expressive French fantasy-comic brush-pen black ink, fine selective graphite hatching, confident varied-weight lines, charming asymmetry, loose matte watercolor with irregular hand-placed pigment edges and small warm off-white paper gaps. An original personal fan art retaining the animation's facial proportions, features, hair, headwear, species and habitual costume. Opaque warm off-white ground with one restrained dusty olive and warm charcoal watercolor wash. No photorealism, 3D, plastic toy, airbrush, cinematic bloom, perfect vector shapes or artificial grunge.\nFRAMING: same normal head-and-UPPER-TORSO bust scale as the approved collection. Face large near center and readable at 48px; all identifying ears, hair and headwear contained with top breathing space for a centered circular avatar crop. Not a faraway whole figure or extreme face closeup. Shoulder edges may leave the bottom. Only this single character and the specified modest prop. No captions, text, logos, signatures, watermark, frame, collage, UI or badges.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Keep exactly two arms with traceable shoulders and wrists and one coherent clothed torso. Four fingers plus one thumb on a fully exposed human hand, correct handedness and thumb placement. Respect canonical feline or doll anatomy, no floating extra digits. Keep feathers, scarves, hair and clothing distinct from limbs. This is the first version using the requested animated design; retain it for user review with no automatic regeneration.",
+      "identity": "ATCHAM CREPIN in the ANIMATED FILM, NOT his manga tricorne-hat version. Lean adult hairless anthropomorphic CAT swordsman: enormous long upright DARK BROWN pointed feline ears, dark charcoal-brown face/head, large taupe-brown bare muzzle and eye-patch areas, small black triangular cat nose, half-lidded GOLDEN YELLOW eyes with narrow vertical black pupils, a couple of little ivory fangs at the mouth corners, no human hair or beard and no fluffy white Kerubim fur. His original sleeveless muted OCHRE/tan-yellow garment/vest, dark brown arms, long cream forearm wraps, dark olive-brown trousers and red waist sash mostly below portrait. Two simple swords are his identifying equipment, but only ONE sword hilt is needed in the bust. No hat, giant mane, pink human hands or samurai armor redesign.",
+      "pose": "A dryly amused veteran swordsman with shoulders in a three-quarter turn to his own LEFT, chin lifted a little and half-lidded yellow feline eyes looking toward the viewer. A small closed crooked smile and one tiny fang. His own RIGHT dark cat hand grips ONE simple sword hilt resting low across the far shoulder, with four natural curled fingers and one opposable thumb in a coherent grip; bare dark feline hand with small claws as in the animated identity, no human pink skin. Other arm down out of crop. Sword exits to one side without crossing the eyes or ears; both long ears stay legible with top breathing room.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/atcham-animation-design.webp"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal bust scale only",
+        "Authentic animated character design, not final fan art"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/atcham-animation-design.webp": "54c06e99e7a69fc5819644425e321947ee3da45bf3a0eab2cab8121924850063"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "Official Ankama animation design; cross-media, not a DOFUS 3.7 game-client model",
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedAnimationDesign": true,
+      "supersedes": null,
+      "master": "temp/emblematic-expansion/masters/atcham-animation-portrait.png",
+      "asset": "public/avatars/exclusive/v1/atcham.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "3bf2d943df9ae90ef61f89e723ec1dd351a34c2bfdaaf69a4160d58a3bc2f5bb",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "f5104386c4ad77b5f802414575b120d4ac397d8b6364e8a553ce25915c219d30",
+      "bytes": 48896,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-188348a3-313e-47b2-adec-48a1dcf486ae.png",
+      "key": "atcham-animation-portrait",
+      "threshold": 21,
+      "chapter": "first_steps",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Hatless hairless feline from the film, long upright ears, yellow eyes, ochre vest. Native/circular/grip inspected. Three curled digits plus thumb clearly readable; fifth digit not established. Record uncertainty rather than automatically changing canonical feline anatomy."
+      }
+    },
+    {
+      "key": "bakara-normal-animation-v2",
+      "id": "bakara",
+      "refs": [
+        "bakara-animation-design.webp"
+      ],
+      "identity": "The provided ANIMATION DESIGN image is the definitive NORMAL Bakara reference and matches the user's newest attachment. Keep this exact visible face, cyan eyes, pale blonde blunt fringe and long rear hair. She wears a simple TEAL HEADBAND with two sideways wing-shaped TEAL-AND-IVORY fabric ends as shown, NOT giant anatomical blue cat ears; her own small pointed pale ears sit close to the head. Her original IVORY WHITE cloak/cape has a broad TEAL collar/border with thin ivory piping, a teal two-lobed chest clasp and ONE golden feather/tassel. Preserve this exact normal outfit and cloak silhouette. Do not use the cloakless drunk costume for this normal variant.",
+      "pose": "A faithful NORMAL character portrait in a restrained three-quarter turn matching the animated design, head turned gently toward the viewer, clear open cyan eyes and a small tentative confident smile, clean cheeks and original fine brows. Preserve the film's natural eye shapes, narrow face and delicate nose; do not shrink the nose or turn the face into a generic pinup. The ivory cloak drapes over both shoulders and hides the relaxed arms; hands outside the bust crop. No book, drink or new prop.",
+      "asset": "public/avatars/exclusive/v1/bakara.webp",
+      "supersedes": "bakara-animation-faithful-normal",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer / identity-preserve. Asset type: ONE original SQUARE Forge USER PROFILE FAN-ART PORTRAIT of NORMAL BAKARA, researched against actual animated references at the user's explicit request. IMAGE 1 is the definitive ANIMATED IDENTITY AND OUTFIT reference; IMAGE 2 supplies ONLY the approved Forge ink-and-watercolor technique and normal bust scale. Do not copy the Iop's character, face, orange hair, clothing or pose.\nAUTHENTIC CHARACTER: Bakara is an ADULT woman from DOFUS Book I: Julith (2016). Preserve the exact film facial construction and proportions: slender oval/angular face with pointed chin, pale ivory skin, thin pale brows, small sharp nose, short uneven blunt pale-blonde bangs and long pale blonde hair. Her normal iris color is clear CYAN BLUE. Draw her own recognizable character rather than a generic glamorous fantasy elf, chibi doll or a realistic woman. The provided ANIMATION DESIGN image is the definitive NORMAL Bakara reference and matches the user's newest attachment. Keep this exact visible face, cyan eyes, pale blonde blunt fringe and long rear hair. She wears a simple TEAL HEADBAND with two sideways wing-shaped TEAL-AND-IVORY fabric ends as shown, NOT giant anatomical blue cat ears; her own small pointed pale ears sit close to the head. Her original IVORY WHITE cloak/cape has a broad TEAL collar/border with thin ivory piping, a teal two-lobed chest clasp and ONE golden feather/tassel. Preserve this exact normal outfit and cloak silhouette. Do not use the cloakless drunk costume for this normal variant.\nEXPRESSION AND POSE: A faithful NORMAL character portrait in a restrained three-quarter turn matching the animated design, head turned gently toward the viewer, clear open cyan eyes and a small tentative confident smile, clean cheeks and original fine brows. Preserve the film's natural eye shapes, narrow face and delicate nose; do not shrink the nose or turn the face into a generic pinup. The ivory cloak drapes over both shoulders and hides the relaxed arms; hands outside the bust crop. No book, drink or new prop.\nSTYLE: preserve the movie's recognizable facial and costume shapes while translating into Forge's lively varied-weight brush-pen black ink, selective fine graphite hatching and matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Economical hand-drawn French fantasy comic forms, not polished generic fantasy or an airbrushed glamour face. Opaque warm off-white ground with one restrained dusty teal and pale blue wash. No photorealism, 3D toy rendering, cinematic bloom, smooth digital gradients or artificial grunge.\nAVATAR COMPOSITION: same NORMAL HEAD AND UPPER TORSO bust framing as the established collection, face large near center and readable at 48px, all identifying head silhouette contained with top breathing space for a centered circular crop. Upper shoulders can crop at the bottom. Only this single adult character and the specified modest prop. No film background, text, meme caption, signature, logo, watermark, decorative frame, badge, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous arms and one coherent covered torso. Correct left/right hands and thumb roots, four fingers plus one thumb when a whole human hand is exposed; preserve coherent natural object occlusion. Keep this first explicitly requested candidate and all previous versions for the user to compare; do not select a new drunk candidate automatically.",
+      "references": [
+        "temp/emblematic-expansion/references/bakara-animation-design.webp",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Actual animated character frame/design: exact identity and outfit",
+        "Approved Forge medium and normal bust scale only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/references/bakara-animation-design.webp": "5279ecba411e4d02cd5645f4c1f96d1fe80096e20a384bb802a44386ed572eea",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedCandidates": true,
+      "master": "temp/emblematic-expansion/masters/bakara-normal-animation-v2.png",
+      "userSelectionPending": false,
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "2d3d38bfe6daf0d2122a29afe333e60689a5c7fca0c2bffeb33ae2849cd276f6",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "5ce1bf200a5353a7a9758bd2347700d610d74087d58f3419ca76924e11f3826f",
+      "bytes": 64414,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-e33ace49-568d-4bad-9037-8783053f7aba.png",
+      "threshold": 45,
+      "chapter": "feats",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Latest user-requested normal correction: ivory cape, teal headband/collar and side fabric ornaments, gold tassel. Matches researched animation normal reference. Arms covered, hands outside crop. Earlier normal attempts archived."
+      }
+    },
+    {
+      "id": "jahash",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original Dofus Forge exclusive USER PROFILE FAN-ART PORTRAIT. Transform the character's AUTHENTIC ANIMATED design into ONE finished SQUARE head-and-upper-torso fan illustration. User explicitly prefers animation character designs to game models. IMAGE 1 establishes our approved Forge ink-and-watercolor technique and NORMAL BUST SCALE ONLY; never copy its Iop identity, orange hair, costume, anatomy or sword pose. Remaining images establish the named character in DOFUS, Book I: Julith (2016), with any exceptional reference roles explained below.\nANIMATED IDENTITY: JAHASH JURGEN as in the ANIMATED FILM: mature adult male Huppermage, long angular face and pointed ears, thick WHITE/PALE BLOND hair parted around his brow, billowing white ponytail or swept-back hair, pointed pale chin beard, strong pale brows and long angular nose. TWO gold feather-like pins/ornaments above the hair. His original flowing WHITE cloak with dark lining and a broad paired GOLD wing/leaf-shaped chest clasp, gray/dark underclothes and plain brown straps. First reference is a power-lit scene: preserve its silhouette and identity but render his normal warm pale skin and blue-gray eyes, NOT a solid glowing gold body. The second official Krosmaster figure establishes normal palette/outfit ONLY, not chibi head/body ratios, toy material or its pose. No elf-king crown, armor redesign or giant muscular Iop body.\nINDIVIDUAL POSE AND EXPRESSION: A composed protective guardian, tall mature shoulders facing forward, head turned slightly toward his own LEFT and eyes glancing calmly back toward the viewer with a faint reassuring closed smile. His own RIGHT hand raises one index finger upright beside his lower chest as if offering a quiet piece of advice, the other three fingers curled naturally with one correctly placed thumb resting across them. Left arm rests beneath the white cloak and leaves the crop. Keep one continuous wrist and one connected shoulder pair. The gold clasp stays fully visible and the swept white hair has top breathing room.\nILLUSTRATION: expressive French fantasy-comic brush-pen black ink, fine selective graphite hatching, confident varied-weight lines, charming asymmetry, loose matte watercolor with irregular hand-placed pigment edges and small warm off-white paper gaps. An original personal fan art retaining the animation's facial proportions, features, hair, headwear, species and habitual costume. Opaque warm off-white ground with one restrained pale antique gold and muted slate watercolor wash. No photorealism, 3D, plastic toy, airbrush, cinematic bloom, perfect vector shapes or artificial grunge.\nFRAMING: same normal head-and-UPPER-TORSO bust scale as the approved collection. Face large near center and readable at 48px; all identifying ears, hair and headwear contained with top breathing space for a centered circular avatar crop. Not a faraway whole figure or extreme face closeup. Shoulder edges may leave the bottom. Only this single character and the specified modest prop. No captions, text, logos, signatures, watermark, frame, collage, UI or badges.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Keep exactly two arms with traceable shoulders and wrists and one coherent clothed torso. Four fingers plus one thumb on a fully exposed human hand, correct handedness and thumb placement. Respect canonical feline or doll anatomy, no floating extra digits. Keep feathers, scarves, hair and clothing distinct from limbs. This is the first version using the requested animated design; retain it for user review with no automatic regeneration.",
+      "identity": "JAHASH JURGEN as in the ANIMATED FILM: mature adult male Huppermage, long angular face and pointed ears, thick WHITE/PALE BLOND hair parted around his brow, billowing white ponytail or swept-back hair, pointed pale chin beard, strong pale brows and long angular nose. TWO gold feather-like pins/ornaments above the hair. His original flowing WHITE cloak with dark lining and a broad paired GOLD wing/leaf-shaped chest clasp, gray/dark underclothes and plain brown straps. First reference is a power-lit scene: preserve its silhouette and identity but render his normal warm pale skin and blue-gray eyes, NOT a solid glowing gold body. The second official Krosmaster figure establishes normal palette/outfit ONLY, not chibi head/body ratios, toy material or its pose. No elf-king crown, armor redesign or giant muscular Iop body.",
+      "pose": "A composed protective guardian, tall mature shoulders facing forward, head turned slightly toward his own LEFT and eyes glancing calmly back toward the viewer with a faint reassuring closed smile. His own RIGHT hand raises one index finger upright beside his lower chest as if offering a quiet piece of advice, the other three fingers curled naturally with one correctly placed thumb resting across them. Left arm rests beneath the white cloak and leaves the crop. Keep one continuous wrist and one connected shoulder pair. The gold clasp stays fully visible and the swept white hair has top breathing room.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/jahash-animation-design.webp",
+        "temp/emblematic-expansion/references/jahash-figure.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal bust scale only",
+        "Authentic animated character design, not final fan art",
+        "Authentic animated character design, not final fan art"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/jahash-animation-design.webp": "6e725e2dfd5f2d08d6fb64d98bf53692a1ff1225638e5833e60fa8e122e1625c",
+        "temp/emblematic-expansion/references/jahash-figure.png": "4f5b0753d8bd4ada4ecbace7e02dfe4c59736bfc2aeb5d0b64be6d5344cb89d6"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "Official Ankama animation design; cross-media, not a DOFUS 3.7 game-client model",
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedAnimationDesign": true,
+      "supersedes": null,
+      "master": "temp/emblematic-expansion/masters/jahash-animation-portrait.png",
+      "asset": "public/avatars/exclusive/v1/jahash.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "6b1b9ee68e6f2d6709316bdca864db9e6e88752a9ff6095ead29f9c4fcbddcee",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "8f745aa69137e2b6b76a897691c2bea859406f107707596b7f3c93af089812f9",
+      "bytes": 61880,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-ff236f95-0670-4bd1-a28b-9600f57bca07.png",
+      "key": "jahash-animation-portrait",
+      "threshold": 60,
+      "chapter": "feats",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Animated white hair, pointed beard, gold feather ornaments and white cloak. Enlarged grip inspected: index, three curled fingers and opposed thumb connected coherently."
+      }
+    },
+    {
+      "id": "otomai",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original Dofus Forge exclusive USER PROFILE FAN-ART PORTRAIT. Transform the character's AUTHENTIC ANIMATED design into ONE finished SQUARE head-and-upper-torso fan illustration. User explicitly prefers animation character designs to game models. IMAGE 1 establishes our approved Forge ink-and-watercolor technique and NORMAL BUST SCALE ONLY; never copy its Iop identity, orange hair, costume, anatomy or sword pose. Remaining images establish the named character in WAKFU: Ogrest, la légende (2011), with any exceptional reference roles explained below.\nANIMATED IDENTITY: OTOMAI in the ACTUAL ANIMATED OGREST SPECIAL, not the MMORPG scientist: friendly lean adult man with warm tan skin, long angular nose, ONE visible muted GREEN eye while a side-swept cobalt BLUE fringe covers the other eye, small sparse chin stubble, long pointed ears with pink interiors and little green bead earrings. His blue hair is CHOPPY around the cheeks with a thin blue braid ending in small green/red flower beads; NO huge looped ponytail. He wears the original LARGE PALE OLIVE/GREEN folded leaf-like cap with red irregular patch motifs, blue band and blue top tuft, and a PALE YELLOW scarf with light frayed edges over brown/cream sleeveless clothing and wrapped pale gray/cream forearms. Use only the man from the references, not the green Ogrest he is holding.\nINDIVIDUAL POSE AND EXPRESSION: A fond, slightly eccentric alchemist tilting his head down and toward his own RIGHT, smiling softly with his one visible green eye turned toward the viewer. He holds ONE small plain stoppered amber medicine bottle low beside his chest in his own RIGHT lightly wrapped hand, thumb correctly opposed to four fingers around its neck. The left arm is lowered and cropped. No Ogrest, other character, giant flask, beard redesign or game outfit. Keep the broad leaf cap and its blue tuft contained with breathing room.\nILLUSTRATION: expressive French fantasy-comic brush-pen black ink, fine selective graphite hatching, confident varied-weight lines, charming asymmetry, loose matte watercolor with irregular hand-placed pigment edges and small warm off-white paper gaps. An original personal fan art retaining the animation's facial proportions, features, hair, headwear, species and habitual costume. Opaque warm off-white ground with one restrained muted warm sage and dusty cobalt watercolor wash. No photorealism, 3D, plastic toy, airbrush, cinematic bloom, perfect vector shapes or artificial grunge.\nFRAMING: same normal head-and-UPPER-TORSO bust scale as the approved collection. Face large near center and readable at 48px; all identifying ears, hair and headwear contained with top breathing space for a centered circular avatar crop. Not a faraway whole figure or extreme face closeup. Shoulder edges may leave the bottom. Only this single character and the specified modest prop. No captions, text, logos, signatures, watermark, frame, collage, UI or badges.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Keep exactly two arms with traceable shoulders and wrists and one coherent clothed torso. Four fingers plus one thumb on a fully exposed human hand, correct handedness and thumb placement. Respect canonical feline or doll anatomy, no floating extra digits. Keep feathers, scarves, hair and clothing distinct from limbs. This is the first version using the requested animated design; retain it for user review with no automatic regeneration.",
+      "identity": "OTOMAI in the ACTUAL ANIMATED OGREST SPECIAL, not the MMORPG scientist: friendly lean adult man with warm tan skin, long angular nose, ONE visible muted GREEN eye while a side-swept cobalt BLUE fringe covers the other eye, small sparse chin stubble, long pointed ears with pink interiors and little green bead earrings. His blue hair is CHOPPY around the cheeks with a thin blue braid ending in small green/red flower beads; NO huge looped ponytail. He wears the original LARGE PALE OLIVE/GREEN folded leaf-like cap with red irregular patch motifs, blue band and blue top tuft, and a PALE YELLOW scarf with light frayed edges over brown/cream sleeveless clothing and wrapped pale gray/cream forearms. Use only the man from the references, not the green Ogrest he is holding.",
+      "pose": "A fond, slightly eccentric alchemist tilting his head down and toward his own RIGHT, smiling softly with his one visible green eye turned toward the viewer. He holds ONE small plain stoppered amber medicine bottle low beside his chest in his own RIGHT lightly wrapped hand, thumb correctly opposed to four fingers around its neck. The left arm is lowered and cropped. No Ogrest, other character, giant flask, beard redesign or game outfit. Keep the broad leaf cap and its blue tuft contained with breathing room.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/dathura-animation-scene-10.jpg",
+        "temp/emblematic-expansion/references/otomai-animation-still.jpg"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal bust scale only",
+        "Authentic animated character design, not final fan art",
+        "Authentic animated character design, not final fan art"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/dathura-animation-scene-10.jpg": "e60482d25e8f5c5a56baa3d4632f6ebf02a09b7638d19293015f30195b94ebd3",
+        "temp/emblematic-expansion/references/otomai-animation-still.jpg": "29447f77aa9b6d637e24d351c42f7e446c0faeccd18960190efb42a5a24810ce"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "Official Ankama animation design; cross-media, not a DOFUS 3.7 game-client model",
+      "sourceWork": "WAKFU: Ogrest, la légende (2011)",
+      "userRequestedAnimationDesign": true,
+      "supersedes": "otomai-portrait",
+      "master": "temp/emblematic-expansion/masters/otomai-animation-portrait.png",
+      "asset": "public/avatars/exclusive/v1/otomai.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "c247c605a61dfeb68094dc7110e9c8929bd5021e9b832c69fad9c69146a28ecf",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "2dc6faf5d0a63af8495f04f2c8bfe667bb6e83524d1e99c0f845ba6cfa90ad53",
+      "bytes": 69246,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-8d09b255-ad75-427e-abba-b4700ee59a32.png",
+      "key": "otomai-animation-portrait",
+      "threshold": 90,
+      "chapter": "feats",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Animated leaf cap with red patches, choppy cobalt hair and thin braid, yellow scarf. Grip enlarged: four fingers around amber bottle; thumb mostly occluded by bottle. Preserve first animation version."
+      }
+    },
+    {
+      "id": "bakara_tipsy",
+      "type": "portrait",
+      "variant": "faithful animated drunk",
+      "threshold": 90,
+      "prompt": "Use case: identity-preserve / style-transfer. Deliver ONE SQUARE ORIGINAL FAN-ART USER PROFILE PORTRAIT of DRUNK BAKARA from DOFUS Book I: Julith. User explicitly requested a corrective new version faithful to the animation for BOTH normal and drunk variants. Reference priority: USER-ATTACHED FILM FRAME defines identity, outfit and anatomy; previous fan portraits are technique references only.\nIDENTITY: Use the ACTUAL BAKARA from the USER-ATTACHED ANIMATED FILM FRAME with the yellow HOT MESS caption as the definitive identity reference. The caption is NOT part of the artwork. Bakara is an ADULT woman. Preserve her exact animated facial construction and proportions, small pointed pale ears close to the head, pale ivory skin, small angular nose, light thin brows, pale BLONDE/ivory hair with short uneven blunt bangs, little upright flyaway strands at the crown, two long straight face-framing locks and long hair down her back. Normal eye color is clear cyan blue. Her actual outfit in the frame is a fitted opaque PALE IVORY torso garment and long DARK TEAL sleeves with small ivory band motifs and shoulder openings. Keep this real outfit and its natural adult silhouette. No large teal animal ears, bow-like head ornaments, headband accessories, huge cape, book, cup, jewelry or costume embellishments. Do not retain the previous fan portraits' glamour face, huge cheek/eye redesign, enlarged pointed animal ears or added cape; those are rejected identity references. The other supplied fan-art images establish ONLY Forge's ink-and-watercolor medium and normal bust scale.\nEXPRESSION AND UNIQUE POSE: BORRACHA VARIANT: Match the user's actual animated drunk gag: tousled pale blonde hair with upward stray strands, pink flushed nose and cheeks, raised worried-comic brows, uneven half-closed eyes looking vaguely upward, dark mascara/tear streaks just beneath the eyes, and a wobbly wide comic grimacing mouth. It must look like the SAME Bakara having her exaggerated tipsy moment, not a generic seductive lady holding a mug. Head tilts slightly to her own RIGHT, shoulders mostly forward, both arms spread loosely outward as in the supplied frame; upper arms can leave the square side edges naturally, with hands outside the bust crop. Remain upright and conscious, fully clothed. Keep the face prominent and the expression readable at 48px.\nFORGE MEDIUM: expressive hand-drawn French fantasy comic brush-pen ink with confident varied-weight contours and restrained selective graphite hatching; loose matte watercolor fills with small warm off-white paper gaps and irregular pigment edges. Preserve the animation's simple character shapes; do not turn her into a generic polished fantasy elf or realistic pinup. Opaque warm off-white ground with restrained dusty teal and soft rose watercolor wash.\nAVATAR FRAMING: NORMAL HEAD AND UPPER TORSO bust portrait, face large near center, shoulders can crop along bottom, signature hair contained with breathing space. Readable in centered 150px and 48px circular crops. Not a distant whole figure or an extreme face crop. No yellow strip, HOT MESS text, caption, any lettering, background from the film, book, cup, extra character, logo, signature, watermark, frame, collage or UI. No 3D, glossy digital shading, airbrushed gradients, cinematic glow or artificial grunge.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. One coherent clothed torso and exactly two arms; keep hair and sleeve folds distinct from limbs. Hands are naturally outside the portrait crop in this pose. Keep this first corrective version for user review; original attempts stay archived.",
+      "identity": "Use the ACTUAL BAKARA from the USER-ATTACHED ANIMATED FILM FRAME with the yellow HOT MESS caption as the definitive identity reference. The caption is NOT part of the artwork. Bakara is an ADULT woman. Preserve her exact animated facial construction and proportions, small pointed pale ears close to the head, pale ivory skin, small angular nose, light thin brows, pale BLONDE/ivory hair with short uneven blunt bangs, little upright flyaway strands at the crown, two long straight face-framing locks and long hair down her back. Normal eye color is clear cyan blue. Her actual outfit in the frame is a fitted opaque PALE IVORY torso garment and long DARK TEAL sleeves with small ivory band motifs and shoulder openings. Keep this real outfit and its natural adult silhouette. No large teal animal ears, bow-like head ornaments, headband accessories, huge cape, book, cup, jewelry or costume embellishments. Do not retain the previous fan portraits' glamour face, huge cheek/eye redesign, enlarged pointed animal ears or added cape; those are rejected identity references. The other supplied fan-art images establish ONLY Forge's ink-and-watercolor medium and normal bust scale.",
+      "pose": "BORRACHA VARIANT: Match the user's actual animated drunk gag: tousled pale blonde hair with upward stray strands, pink flushed nose and cheeks, raised worried-comic brows, uneven half-closed eyes looking vaguely upward, dark mascara/tear streaks just beneath the eyes, and a wobbly wide comic grimacing mouth. It must look like the SAME Bakara having her exaggerated tipsy moment, not a generic seductive lady holding a mug. Head tilts slightly to her own RIGHT, shoulders mostly forward, both arms spread loosely outward as in the supplied frame; upper arms can leave the square side edges naturally, with hands outside the bust crop. Remain upright and conscious, fully clothed. Keep the face prominent and the expression readable at 48px.",
+      "references": [
+        "temp/emblematic-expansion/masters/bakara-tipsy-portrait.png"
+      ],
+      "referenceRoles": [
+        "Previous Forge fan portrait: medium and bust scale ONLY, identity rejected by user"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/masters/bakara-tipsy-portrait.png": "5fc2f4724a5b0e0bca6ef4444021c240f60748d4b5fbf29948fee60fd90971c4"
+      },
+      "num_last_images_to_include": 3,
+      "conversationReference": "User-attached official DOFUS Book I: Julith animated Bakara frame with yellow HOT MESS strip; identity only, caption removed",
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedRefinement": true,
+      "supersedes": "bakara-tipsy-portrait",
+      "master": "temp/emblematic-expansion/masters/bakara-animation-faithful-tipsy.png",
+      "asset": "public/avatars/exclusive/v1/bakara-tipsy.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "acff676d7c6243b7786b62576579f96ce2ed40d6331c019802cb7fdd995b4fde",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "4ac75db5fb2c516be8059c8438516f376740f846dffba136f7e0f76720d8e7fb",
+      "bytes": 59074,
+      "userReviewPending": false,
+      "generatedImageFile": "exec-ad40833f-f301-466b-bb91-598402f245d4.png",
+      "key": "bakara-animation-faithful-tipsy",
+      "chapter": "feats",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Selected A: faithful cloakless disheveled drunk film design, mascara streaks and comic grimace, two outstretched arms continuing out of crop. Hands outside crop. User chose all A–D options."
+      }
+    },
+    {
+      "key": "bakara-drunk-b",
+      "id": "bakara_drunk_book",
+      "letter": "B",
+      "refs": [
+        "bakara-drunk-puffed.png"
+      ],
+      "identity": "The first reference is an actual DRUNK Bakara film frame, leaning over her spellbook. Keep her very wide round eyes with tiny cyan pupils looking down, flushed nose, black running mascara/tear streaks and pale-blonde hair with loose crown wisps. NO headband, teal wing-shaped head accessories or cloak in this scene. Her fitted opaque ivory torso outfit and dark teal sleeves with ivory band details remain faithful to the movie.",
+      "pose": "Option B: startled drunken concentration over ONE open brown spellbook at the lower edge, shoulders slightly hunched forward, eyebrows uneven, huge eyes peering down toward its pages and a small surprised open mouth. Keep the book secondary to the face and crop its lower part. Two pale hands can be naturally obscured behind the lower book edges; do not add visible fingers to force the pose. One coherent torso and two sleeve-covered arms. No readable text on the pages.",
+      "asset": "public/avatars/exclusive/v1/bakara-drunk-book.webp",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer / identity-preserve. Asset type: ONE original SQUARE Forge USER PROFILE FAN-ART PORTRAIT of DRUNK BAKARA, researched against actual animated references at the user's explicit request. IMAGE 1 is the definitive ANIMATED IDENTITY AND OUTFIT reference; IMAGE 2 supplies ONLY the approved Forge ink-and-watercolor technique and normal bust scale. Do not copy the Iop's character, face, orange hair, clothing or pose.\nAUTHENTIC CHARACTER: Bakara is an ADULT woman from DOFUS Book I: Julith (2016). Preserve the exact film facial construction and proportions: slender oval/angular face with pointed chin, pale ivory skin, thin pale brows, small sharp nose, short uneven blunt pale-blonde bangs and long pale blonde hair. Her normal iris color is clear CYAN BLUE. Draw her own recognizable character rather than a generic glamorous fantasy elf, chibi doll or a realistic woman. The first reference is an actual DRUNK Bakara film frame, leaning over her spellbook. Keep her very wide round eyes with tiny cyan pupils looking down, flushed nose, black running mascara/tear streaks and pale-blonde hair with loose crown wisps. NO headband, teal wing-shaped head accessories or cloak in this scene. Her fitted opaque ivory torso outfit and dark teal sleeves with ivory band details remain faithful to the movie.\nEXPRESSION AND POSE: Option B: startled drunken concentration over ONE open brown spellbook at the lower edge, shoulders slightly hunched forward, eyebrows uneven, huge eyes peering down toward its pages and a small surprised open mouth. Keep the book secondary to the face and crop its lower part. Two pale hands can be naturally obscured behind the lower book edges; do not add visible fingers to force the pose. One coherent torso and two sleeve-covered arms. No readable text on the pages.\nSTYLE: preserve the movie's recognizable facial and costume shapes while translating into Forge's lively varied-weight brush-pen black ink, selective fine graphite hatching and matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Economical hand-drawn French fantasy comic forms, not polished generic fantasy or an airbrushed glamour face. Opaque warm off-white ground with one restrained dusty teal and soft muted rose wash. No photorealism, 3D toy rendering, cinematic bloom, smooth digital gradients or artificial grunge.\nAVATAR COMPOSITION: same NORMAL HEAD AND UPPER TORSO bust framing as the established collection, face large near center and readable at 48px, all identifying head silhouette contained with top breathing space for a centered circular crop. Upper shoulders can crop at the bottom. Only this single adult character and the specified modest prop. No film background, text, meme caption, signature, logo, watermark, decorative frame, badge, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous arms and one coherent covered torso. Correct left/right hands and thumb roots, four fingers plus one thumb when a whole human hand is exposed; preserve coherent natural object occlusion. Keep this first explicitly requested candidate and all previous versions for the user to compare; do not select a new drunk candidate automatically.",
+      "references": [
+        "temp/emblematic-expansion/references/bakara-drunk-puffed.png",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Actual animated character frame/design: exact identity and outfit",
+        "Approved Forge medium and normal bust scale only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/references/bakara-drunk-puffed.png": "1de28b0232cc5c10ecf312ab07ec9c41f2cc614eb26aa0e6a4dc80926976c4a9",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedCandidates": true,
+      "master": "temp/emblematic-expansion/masters/bakara-drunk-b.png",
+      "userSelectionPending": true,
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "8cf3b83239b6e7d800b00201307030b5c9812c4c75160eb258ed318e44cb00d9",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "83be9d22ff7977f862c9c50487abefaf79174eb2f9d309c99cdf1a4d86d50a9a",
+      "bytes": 76706,
+      "userReviewPending": false,
+      "generatedImageFile": "exec-99235bda-9545-4bf7-8cdc-43203b26e5b9.png",
+      "threshold": 120,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Selected B: enormous startled eyes over an open book; book naturally occludes hands. User chose all A–D options."
+      }
+    },
+    {
+      "id": "dathura",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original Dofus Forge exclusive USER PROFILE FAN-ART PORTRAIT. Transform the character's AUTHENTIC ANIMATED design into ONE finished SQUARE head-and-upper-torso fan illustration. User explicitly prefers animation character designs to game models. IMAGE 1 establishes our approved Forge ink-and-watercolor technique and NORMAL BUST SCALE ONLY; never copy its Iop identity, orange hair, costume, anatomy or sword pose. Remaining images establish the named character in WAKFU: Ogrest, la légende (2011), with any exceptional reference roles explained below.\nANIMATED IDENTITY: DATHURA in her ORIGINAL ANIMATED OGREST SPECIAL DOLL FORM, specifically the small figure on the RIGHT side of the first reference and the white-haired doll in the second. Do NOT use the dark-green-haired woman on the LEFT of the first comparison, and do NOT use her branch-haired MMORPG or green-haired card form. Pale ivory porcelain-doll skin, short spiky WHITE/icy-light-blue hair, soft VIOLET eyes, a muted mauve stitched seam/scar over her own LEFT forehead and down that side of the face. Several slender PINK FEATHER sprigs in her hair tipped with little red and yellow beads, and pink feather-like ear ornaments. Original short angular GREEN leaf cape/collar across shoulders and upper chest, a simple pale doll torso and pale blue skirt below the crop. Respect the animated doll proportions, modest unsexualized portrayal. No pointed tree hair, green skin, huge bosom, revealing redesign or seductive posing.\nINDIVIDUAL POSE AND EXPRESSION: A delicate friendly living doll, upper shoulders facing forward, head inclined slightly to her own LEFT, violet eyes meeting the viewer with a small gentle closed smile. Two pale slender arms hang naturally at her sides and exit the bottom of the bust crop, hands out of view. Green angular leaf collar and short white hair remain unobstructed; pink bead-tipped feather ornaments spread lightly behind her crown without becoming horns or arms. A single coherent clothed doll torso.\nILLUSTRATION: expressive French fantasy-comic brush-pen black ink, fine selective graphite hatching, confident varied-weight lines, charming asymmetry, loose matte watercolor with irregular hand-placed pigment edges and small warm off-white paper gaps. An original personal fan art retaining the animation's facial proportions, features, hair, headwear, species and habitual costume. Opaque warm off-white ground with one restrained pale cornflower and muted rose watercolor wash. No photorealism, 3D, plastic toy, airbrush, cinematic bloom, perfect vector shapes or artificial grunge.\nFRAMING: same normal head-and-UPPER-TORSO bust scale as the approved collection. Face large near center and readable at 48px; all identifying ears, hair and headwear contained with top breathing space for a centered circular avatar crop. Not a faraway whole figure or extreme face closeup. Shoulder edges may leave the bottom. Only this single character and the specified modest prop. No captions, text, logos, signatures, watermark, frame, collage, UI or badges.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Keep exactly two arms with traceable shoulders and wrists and one coherent clothed torso. Four fingers plus one thumb on a fully exposed human hand, correct handedness and thumb placement. Respect canonical feline or doll anatomy, no floating extra digits. Keep feathers, scarves, hair and clothing distinct from limbs. This is the first version using the requested animated design; retain it for user review with no automatic regeneration.",
+      "identity": "DATHURA in her ORIGINAL ANIMATED OGREST SPECIAL DOLL FORM, specifically the small figure on the RIGHT side of the first reference and the white-haired doll in the second. Do NOT use the dark-green-haired woman on the LEFT of the first comparison, and do NOT use her branch-haired MMORPG or green-haired card form. Pale ivory porcelain-doll skin, short spiky WHITE/icy-light-blue hair, soft VIOLET eyes, a muted mauve stitched seam/scar over her own LEFT forehead and down that side of the face. Several slender PINK FEATHER sprigs in her hair tipped with little red and yellow beads, and pink feather-like ear ornaments. Original short angular GREEN leaf cape/collar across shoulders and upper chest, a simple pale doll torso and pale blue skirt below the crop. Respect the animated doll proportions, modest unsexualized portrayal. No pointed tree hair, green skin, huge bosom, revealing redesign or seductive posing.",
+      "pose": "A delicate friendly living doll, upper shoulders facing forward, head inclined slightly to her own LEFT, violet eyes meeting the viewer with a small gentle closed smile. Two pale slender arms hang naturally at her sides and exit the bottom of the bust crop, hands out of view. Green angular leaf collar and short white hair remain unobstructed; pink bead-tipped feather ornaments spread lightly behind her crown without becoming horns or arms. A single coherent clothed doll torso.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/dathura-animation-scene-0.jpg",
+        "temp/emblematic-expansion/references/dathura-animation-scene-12.jpg"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal bust scale only",
+        "Authentic animated character design, not final fan art",
+        "Authentic animated character design, not final fan art"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/dathura-animation-scene-0.jpg": "5f4d4ae1dc3457705727366e9ed201da8908a5f7ab8d18187acfac1b3a60c133",
+        "temp/emblematic-expansion/references/dathura-animation-scene-12.jpg": "c8926a0866945e5b44343ba6179c961cf1a8937fd3abc47ad25a565bd8bf2eeb"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "Official Ankama animation design; cross-media, not a DOFUS 3.7 game-client model",
+      "sourceWork": "WAKFU: Ogrest, la légende (2011)",
+      "userRequestedAnimationDesign": true,
+      "supersedes": null,
+      "master": "temp/emblematic-expansion/masters/dathura-animation-portrait.png",
+      "asset": "public/avatars/exclusive/v1/dathura.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "60eac1b9f71f4e4122ea7e4de8dcb6c63e3afc094b53ef8ec8f010b17c0b420b",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "af702a2a6fcd24e81ac8dd5f31bb661cfbe4b5853143c2844b92e0e4584457a5",
+      "bytes": 52566,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-d71e8a9b-6f30-4729-acba-510e8826e608.png",
+      "key": "dathura-animation-portrait",
+      "threshold": 150,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "White-haired doll from Ogrest, la légende (2011), violet eyes, pink feather and beads, stitched cheek mark; distinct from green-haired MMORPG/TCG forms. Hands outside crop, one covered torso."
+      }
+    },
+    {
+      "key": "bakara-drunk-c",
+      "id": "bakara_drunk_lecture",
+      "letter": "C",
+      "refs": [
+        "bakara-drunk-lecture.png"
+      ],
+      "identity": "The first reference is the actual animated DRUNK Bakara lecturing with one index finger raised. Preserve her wide eyes with tiny cyan pupils, comically stern uneven brows, flushed nose, streaked dark mascara beneath the eyes, pale-blonde hair with the same blunt fringe and stray wisps. NO headband, teal wing-shaped head accessories or cloak. Keep the fitted opaque ivory torso clothing and dark teal detached sleeves with ivory band motifs, as in this frame.",
+      "pose": "Option C: comically serious drunken lecture, head slightly tilted, eyes unfocused but facing the viewer, mouth in a small determined uneven frown. Her own LEFT hand raises ONE index finger upright beside her lower cheek; the other three fingers curl naturally into her palm and a shorter opposable thumb rests on the correct side. Exactly five digits on that one coherent hand, attached continuously to a teal sleeve and shoulder. Her other arm extends loosely to the side and leaves the bust crop with its hand outside the image. Do not crop the raised index tip.",
+      "asset": "public/avatars/exclusive/v1/bakara-drunk-lecture.webp",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer / identity-preserve. Asset type: ONE original SQUARE Forge USER PROFILE FAN-ART PORTRAIT of DRUNK BAKARA, researched against actual animated references at the user's explicit request. IMAGE 1 is the definitive ANIMATED IDENTITY AND OUTFIT reference; IMAGE 2 supplies ONLY the approved Forge ink-and-watercolor technique and normal bust scale. Do not copy the Iop's character, face, orange hair, clothing or pose.\nAUTHENTIC CHARACTER: Bakara is an ADULT woman from DOFUS Book I: Julith (2016). Preserve the exact film facial construction and proportions: slender oval/angular face with pointed chin, pale ivory skin, thin pale brows, small sharp nose, short uneven blunt pale-blonde bangs and long pale blonde hair. Her normal iris color is clear CYAN BLUE. Draw her own recognizable character rather than a generic glamorous fantasy elf, chibi doll or a realistic woman. The first reference is the actual animated DRUNK Bakara lecturing with one index finger raised. Preserve her wide eyes with tiny cyan pupils, comically stern uneven brows, flushed nose, streaked dark mascara beneath the eyes, pale-blonde hair with the same blunt fringe and stray wisps. NO headband, teal wing-shaped head accessories or cloak. Keep the fitted opaque ivory torso clothing and dark teal detached sleeves with ivory band motifs, as in this frame.\nEXPRESSION AND POSE: Option C: comically serious drunken lecture, head slightly tilted, eyes unfocused but facing the viewer, mouth in a small determined uneven frown. Her own LEFT hand raises ONE index finger upright beside her lower cheek; the other three fingers curl naturally into her palm and a shorter opposable thumb rests on the correct side. Exactly five digits on that one coherent hand, attached continuously to a teal sleeve and shoulder. Her other arm extends loosely to the side and leaves the bust crop with its hand outside the image. Do not crop the raised index tip.\nSTYLE: preserve the movie's recognizable facial and costume shapes while translating into Forge's lively varied-weight brush-pen black ink, selective fine graphite hatching and matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Economical hand-drawn French fantasy comic forms, not polished generic fantasy or an airbrushed glamour face. Opaque warm off-white ground with one restrained dusty teal and soft muted rose wash. No photorealism, 3D toy rendering, cinematic bloom, smooth digital gradients or artificial grunge.\nAVATAR COMPOSITION: same NORMAL HEAD AND UPPER TORSO bust framing as the established collection, face large near center and readable at 48px, all identifying head silhouette contained with top breathing space for a centered circular crop. Upper shoulders can crop at the bottom. Only this single adult character and the specified modest prop. No film background, text, meme caption, signature, logo, watermark, decorative frame, badge, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous arms and one coherent covered torso. Correct left/right hands and thumb roots, four fingers plus one thumb when a whole human hand is exposed; preserve coherent natural object occlusion. Keep this first explicitly requested candidate and all previous versions for the user to compare; do not select a new drunk candidate automatically.",
+      "references": [
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Actual animated character frame/design: exact identity and outfit",
+        "Approved Forge medium and normal bust scale only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png": "c6b1a762d47d772c9b2cba0cb66bf60cc05a9b9147182c5b43c159a8132c53d3",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedCandidates": true,
+      "master": "temp/emblematic-expansion/masters/bakara-drunk-c.png",
+      "userSelectionPending": true,
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "da0fd4dec9974aa961a5b012b29a8d3c9c557e62b221e2da002e83d82ffa1024",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "96cfd90d9e62b52c7ae76d7c338c413db73d6c5190a5430471180c853908edbb",
+      "bytes": 63878,
+      "userReviewPending": false,
+      "generatedImageFile": "exec-363d61e5-b534-4104-b87a-5d5226ee1947.png",
+      "threshold": 180,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Selected C: raised index with three curled fingers and opposed thumb, roots traced in enlarged hand crop. User chose all A–D options."
+      }
+    },
+    {
+      "id": "djaul",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Transform the target game-model identity references into ONE finished SQUARE hand-illustrated portrait of Djaul. IMAGE 1 is the APPROVED FORGE COLLECTION TECHNIQUE AND NORMAL BUST SCALE ONLY; never borrow the Iop character, orange hair, sword, skin, costume or pose. Remaining images are the exact target's installed DOFUS 3.7.14.18 models, defining identity and usual outfit only, not the final pose.\nIDENTITY: The actual CURRENT-CLIENT DJAUL, a stocky powerful dark demon with warm brown shoulders and chest, a near-black dark brown angular BAT-LIKE head, TWO long erect pointed bat ears/horns, narrow WHITE eyes, a long sharp angular face and jagged dark mouth line. Three small IVORY skulls hang across the front of his chest on a cord; ivory horn-like spikes rise at the shoulders. Deep RED leathery bat wings with ivory pointed tips grow from ONE pair of wing roots behind his shoulders, distinct from the actual two arms. Original rust-orange wrist/waist accents. No red human face, ram horns, white hair, fiery crown, humanoid medieval armor or invented god costume.\nINDIVIDUAL EXPRESSION AND POSE: An imposing demon at normal bust portrait distance, broad shoulders turned a little to his own RIGHT while his angular bat face looks toward the viewer with an intimidating restrained crooked grin. Both muscular arms lower out of the bottom crop, no visible hand. Keep three little chest skulls legible and distinct from his anatomy. The upper curves of his red bat wings create a balanced secondary backdrop behind the shoulders; their full span may leave the square sides, never crowd out the large readable face. Exactly two arms plus the clearly separate canonical pair of wings.\nSTYLE: expressive French fantasy-comic brush-pen black ink, confident varied-width contours, selective fine graphite hatching, charming asymmetry and large economical readable forms; loose matte hand-painted watercolor fills with irregular pigment edges and small warm off-white paper gaps. Opaque warm off-white paper ground with one restrained restrained warm charcoal and dusty brick red watercolor wash. No artificial grunge, brown paper tint, perfect vector cutouts, photorealism, 3D render, glossy digital fantasy, smooth airbrush, cinematic light, bloom, sparks or neon.\nFRAMING: Same normal HEAD AND UPPER TORSO scale as the existing Forge avatar collection, face large near center and readable inside centered 150px and 48px circular profile crops. Keep all identifying headwear or hair with top breathing space, shoulders may crop at bottom. Not a distant full body or extreme face closeup. No extra character, readable text, watermark, signature, frame, badge, logo, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Respect this particular named character's actual species and canonical anatomy. Keep exactly one pair of arms attached to one coherent torso, correct left/right hands and thumbs. Human exposed hands have four fingers plus one thumb; no detached fingers or invented digits where naturally occluded. Keep hair, wings and clothing distinct from limbs. This is the FIRST generation retained for user review; do not create variants.",
+      "identity": "The actual CURRENT-CLIENT DJAUL, a stocky powerful dark demon with warm brown shoulders and chest, a near-black dark brown angular BAT-LIKE head, TWO long erect pointed bat ears/horns, narrow WHITE eyes, a long sharp angular face and jagged dark mouth line. Three small IVORY skulls hang across the front of his chest on a cord; ivory horn-like spikes rise at the shoulders. Deep RED leathery bat wings with ivory pointed tips grow from ONE pair of wing roots behind his shoulders, distinct from the actual two arms. Original rust-orange wrist/waist accents. No red human face, ram horns, white hair, fiery crown, humanoid medieval armor or invented god costume.",
+      "pose": "An imposing demon at normal bust portrait distance, broad shoulders turned a little to his own RIGHT while his angular bat face looks toward the viewer with an intimidating restrained crooked grin. Both muscular arms lower out of the bottom crop, no visible hand. Keep three little chest skulls legible and distinct from his anatomy. The upper curves of his red bat wings create a balanced secondary backdrop behind the shoulders; their full span may leave the square sides, never crowd out the large readable face. Exactly two arms plus the clearly separate canonical pair of wings.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/djaul-full.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal portrait scale only",
+        "Actual installed client target identity and usual outfit"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/djaul-full.png": "8032f4cfa68ffa0e1c902599a62a54304d47386e9fb524bc91d2e79f57c07777"
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "master": "temp/emblematic-expansion/masters/djaul-portrait.png",
+      "asset": "public/avatars/exclusive/v1/djaul.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "13d83df45a2cd9a3c0bb1c35d5de4ab254ab0d525fb7d70b05720439b84c7c32",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "dc50c4ed9ac2366dec3776acd42a43f2dc27949213cd800f6b41069e7cc171c9",
+      "bytes": 69080,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-bed6beff-eeef-4cfc-a673-14f1cd16164e.png",
+      "key": "djaul-portrait",
+      "threshold": 200,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Verified current-client bat head, red bat wings and three ivory chest skulls. Two arms distinct from two canonical wings, hands outside crop."
+      }
+    },
+    {
+      "key": "bakara-drunk-d",
+      "id": "bakara_drunk_toast",
+      "letter": "D",
+      "refs": [
+        "bakara-drunk-toast.png"
+      ],
+      "identity": "The first reference is the actual animated DRUNK Bakara laughing and raising a BOTTLE. Preserve the loose pale blonde hair and blunt fringe, little crown wisps, flushed nose and cheeks, black running mascara streaks below both eyes and her recognizable narrow face. NO headband, teal wing-shaped head accessories or cloak. Her original fitted opaque pale ivory torso garment and dark teal sleeves with ivory bands remain fully clothed. Use the large dark plum-brown round bottle with its reddish band from the film, with no label or readable emblem.",
+      "pose": "Option D: a happy tipsy toast, eyes gently closed in a broad warm laugh, eyebrows raised, one corner of her mouth higher. Her own RIGHT hand raises ONE modest dark plum-brown round bottle beside the lower shoulder, grasping its short neck with four connected curled fingers and one properly placed thumb; the bottle must stay below the chin and secondary to the large readable face. Other arm relaxed down outside the crop. Keep her upright, awake and animated, no drinking from the bottle or extra person.",
+      "asset": "public/avatars/exclusive/v1/bakara-drunk-toast.webp",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer / identity-preserve. Asset type: ONE original SQUARE Forge USER PROFILE FAN-ART PORTRAIT of DRUNK BAKARA, researched against actual animated references at the user's explicit request. IMAGE 1 is the definitive ANIMATED IDENTITY AND OUTFIT reference; IMAGE 2 supplies ONLY the approved Forge ink-and-watercolor technique and normal bust scale. Do not copy the Iop's character, face, orange hair, clothing or pose.\nAUTHENTIC CHARACTER: Bakara is an ADULT woman from DOFUS Book I: Julith (2016). Preserve the exact film facial construction and proportions: slender oval/angular face with pointed chin, pale ivory skin, thin pale brows, small sharp nose, short uneven blunt pale-blonde bangs and long pale blonde hair. Her normal iris color is clear CYAN BLUE. Draw her own recognizable character rather than a generic glamorous fantasy elf, chibi doll or a realistic woman. The first reference is the actual animated DRUNK Bakara laughing and raising a BOTTLE. Preserve the loose pale blonde hair and blunt fringe, little crown wisps, flushed nose and cheeks, black running mascara streaks below both eyes and her recognizable narrow face. NO headband, teal wing-shaped head accessories or cloak. Her original fitted opaque pale ivory torso garment and dark teal sleeves with ivory bands remain fully clothed. Use the large dark plum-brown round bottle with its reddish band from the film, with no label or readable emblem.\nEXPRESSION AND POSE: Option D: a happy tipsy toast, eyes gently closed in a broad warm laugh, eyebrows raised, one corner of her mouth higher. Her own RIGHT hand raises ONE modest dark plum-brown round bottle beside the lower shoulder, grasping its short neck with four connected curled fingers and one properly placed thumb; the bottle must stay below the chin and secondary to the large readable face. Other arm relaxed down outside the crop. Keep her upright, awake and animated, no drinking from the bottle or extra person.\nSTYLE: preserve the movie's recognizable facial and costume shapes while translating into Forge's lively varied-weight brush-pen black ink, selective fine graphite hatching and matte loose watercolor with irregular pigment edges and small warm off-white paper gaps. Economical hand-drawn French fantasy comic forms, not polished generic fantasy or an airbrushed glamour face. Opaque warm off-white ground with one restrained dusty teal and soft muted rose wash. No photorealism, 3D toy rendering, cinematic bloom, smooth digital gradients or artificial grunge.\nAVATAR COMPOSITION: same NORMAL HEAD AND UPPER TORSO bust framing as the established collection, face large near center and readable at 48px, all identifying head silhouette contained with top breathing space for a centered circular crop. Upper shoulders can crop at the bottom. Only this single adult character and the specified modest prop. No film background, text, meme caption, signature, logo, watermark, decorative frame, badge, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two continuous arms and one coherent covered torso. Correct left/right hands and thumb roots, four fingers plus one thumb when a whole human hand is exposed; preserve coherent natural object occlusion. Keep this first explicitly requested candidate and all previous versions for the user to compare; do not select a new drunk candidate automatically.",
+      "references": [
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png",
+        "public/avatars/classes/v1/iop-m.webp"
+      ],
+      "referenceRoles": [
+        "Actual animated character frame/design: exact identity and outfit",
+        "Approved Forge medium and normal bust scale only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png": "e7cc02d77636fd88f82ff351cf391ff97a9c34487074cb881bf370150be4afb3",
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81"
+      },
+      "sourceClientVersion": null,
+      "sourceWork": "DOFUS, Book I: Julith (2016)",
+      "userRequestedCandidates": true,
+      "master": "temp/emblematic-expansion/masters/bakara-drunk-d.png",
+      "userSelectionPending": true,
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "7c2d1a4b78d54c71355779df0d32eb23c6ead1e34f75bda11273dfd4f0c320c5",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "89fdf3d9df6ba455a068b9e98e0290efdd9a3bc7a08c3299e6e72def70362845",
+      "bytes": 64172,
+      "userReviewPending": false,
+      "generatedImageFile": "exec-83e8a16b-c87a-42e3-88f6-0b1211e5f069.png",
+      "threshold": 240,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "Selected D: bottle grip enlarged, four curled fingers plus opposed thumb traced. User chose all A–D options."
+      }
+    },
+    {
+      "id": "jiva",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Create one SQUARE, fully clothed, nonsexual adult fantasy character PROFILE PORTRAIT of JIVA for Dofus Forge. Image 1 is the approved ink-and-watercolor technique only, never its Iop character. Image 2 is the official current-client Jiva HEAD reference, defining her recognizable face, turquoise hair and gold spiral horns. Draw Jiva as a clearly ADULT woman, age 30 or older, with a dignified mature expression. Pale icy lavender-blue skin, pointed pale ears, large turquoise eyes and turquoise lips, bright aqua hair with a short fringe and two long rounded tied side locks secured by plain gold bands. Two golden spiral horns rise beside her crown with pointed tips. Head and upper shoulders only, with the top of a plain opaque WHITE high-neck garment covering the shoulders and chest completely. Calm composed three-quarter turn to her own LEFT, a subtle warm closed smile, looking toward the viewer. Both arms rest down outside this head-and-shoulders crop; no hands shown. Keep the full horns and hair crown within the square with breathing room. Match the usual collection bust scale and keep the face readable at 48px in a circular avatar. Original varied-weight black brush-pen ink, selective graphite hatching, expressive French fantasy-comic shapes, matte loose watercolor with natural pigment edges and small paper gaps. Opaque warm off-white ground with restrained pale glacier-blue and antique-gold watercolor wash. No 3D, photorealism, toy, airbrush, cinematic light, glow, text, captions, signature, watermark, frame, logo, collage or extra figure. Anatomy and garment construction must be coherent: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Retain this first delivered image for user review.",
+      "identity": "Adult Jiva, recognizable current-client head, turquoise hair, gold spiral horns; fully clothed head-and-shoulders portrait",
+      "pose": "Dignified three-quarter head turn, arms and hands outside crop",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/jiva-head-reference.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique only",
+        "Actual Jiva head identity only"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/jiva-head-reference.png": "74144102dbd3101a4f560b0b15d5dc66003cbc960b517461f0538d02fadeb2ca"
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "master": "temp/emblematic-expansion/masters/jiva-clothed-portrait.png",
+      "asset": "public/avatars/exclusive/v1/jiva.webp",
+      "previousAttempt": "No image delivered: output rejected by tool",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "0a94d62c2ec727e92d6eb2298153dab2d5c701d9b43f25519d716f334685401f",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "7f704b58400068b841550dc5c158829111b167ea9dfdde77677681559c261b32",
+      "bytes": 55584,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-3dff6ac5-cab0-4055-91ae-fccce75f2761.png",
+      "key": "jiva-clothed-portrait",
+      "threshold": 270,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "note": "First successfully delivered fully clothed adult portrait. Verified current-client head with aqua hair and gold spiral horns; opaque high-neck white clothing is a modest portrait interpretation. Arms outside crop. Prior unsuccessful generation delivered no image."
+      }
+    }
+  ],
+  "banners": [
+    {
+      "id": "joris",
+      "title": "Los Tejados de Joris",
+      "refs": [
+        "temp/emblematic-expansion/references/joris-animation-still.jpg"
+      ],
+      "concept": "An original empty panoramic ROOFTOP WALKWAY above animated Bonta, inspired by the architectural shapes of the film reference: pale ivory rounded stone towers, muted blue-green roofs and domes, tall slender spires, gold finials and quirky cat-like stone face carvings. A small weathered teal cloth satchel and a pair of little tan travel gloves rest on a low foreground parapet, a personal link to Joris. Main arched rooftop passage in the middle, distant city climbing into a pale blue dawn sky. A few cream feather-shaped pennants, quiet lower-left paving for avatar overlap. No marketplace crowd, no character statue, no copied movie composition.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: Los Tejados de Joris; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original empty panoramic ROOFTOP WALKWAY above animated Bonta, inspired by the architectural shapes of the film reference: pale ivory rounded stone towers, muted blue-green roofs and domes, tall slender spires, gold finials and quirky cat-like stone face carvings. A small weathered teal cloth satchel and a pair of little tan travel gloves rest on a low foreground parapet, a personal link to Joris. Main arched rooftop passage in the middle, distant city climbing into a pale blue dawn sky. A few cream feather-shaped pennants, quiet lower-left paving for avatar overlap. No marketplace crowd, no character statue, no copied movie composition.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg": "76281c773d13a41022258d58080348fed2bb15ecb38d6a9a7f31c12b93fd4adf"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/joris-banner.png",
+      "asset": "public/banners/exclusive/v1/joris.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "c4409df758d12d2f5b4b8e829dbc020f12dfc13d021f49c46795e61c78ad7887",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "a0050af5344d7e7ee9508a097e0ad2620cb91aa4f35c8755949e16ec69070e30",
+      "bytes": 393568,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-482d4cb8-11fb-4690-9a0b-091d2be9700e.png",
+      "key": "joris-banner",
+      "threshold": 14,
+      "chapter": "first_steps",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "atcham",
+      "title": "Las Pasarelas de Atcham",
+      "refs": [
+        "public/banners/locations/v1/zurcalia.webp",
+        "temp/emblematic-expansion/references/atcham-animation-design.webp"
+      ],
+      "concept": "An original EMPTY Ecaflipus-like floating temple route associated with the animated cat swordsman Atcham: weathered cream stone platforms hover over pale sage-green mist, their sides carry simple geometric cat-face carvings. A narrow central stair and little bridge lead to a quiet sheltered training terrace, with two simple sheathed swords resting in a modest wooden rack beside a red waist sash. Cream paving, soft moss, understated ochre and gray-green accents. Broad readable floating shapes, no giant cat idol copied from the reference, no live cats, demons, human figures or character statues. Personal, quiet and slightly mysterious.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: Las Pasarelas de Atcham; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY Ecaflipus-like floating temple route associated with the animated cat swordsman Atcham: weathered cream stone platforms hover over pale sage-green mist, their sides carry simple geometric cat-face carvings. A narrow central stair and little bridge lead to a quiet sheltered training terrace, with two simple sheathed swords resting in a modest wooden rack beside a red waist sash. Cream paving, soft moss, understated ochre and gray-green accents. Broad readable floating shapes, no giant cat idol copied from the reference, no live cats, demons, human figures or character statues. Personal, quiet and slightly mysterious.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "public/banners/locations/v1/zurcalia.webp",
+        "temp/emblematic-expansion/references/atcham-animation-design.webp"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "public/banners/locations/v1/zurcalia.webp": "7970652035ac810e974ef25574b197c5c0e7960cd4525da77353faaa62c3e889",
+        "temp/emblematic-expansion/references/atcham-animation-design.webp": "54c06e99e7a69fc5819644425e321947ee3da45bf3a0eab2cab8121924850063"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/atcham-banner.png",
+      "asset": "public/banners/exclusive/v1/atcham.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "6ad9311bb7de49e346056e2014089eca511960225c1466bfe9a1906625873495",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "13d2111ee356cf96eb993e78768976e4313ce919f2c1a671879d1fb646d83e48",
+      "bytes": 317338,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-bcd53201-809a-4a05-b933-9881e8958d55.png",
+      "key": "atcham-banner",
+      "threshold": 21,
+      "chapter": "first_steps",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "bakara",
+      "title": "Los Estudios de Bakara",
+      "refs": [
+        "temp/emblematic-expansion/references/bakara-animation-design.webp",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg"
+      ],
+      "concept": "An original EMPTY Bontarian Huppermage study associated with normal animated Bakara: an airy ivory-stone reading alcove, tall curved teal-trimmed windows, a modest central wooden desk with two closed plain brown spellbooks, a small brass armillary model and a single ivory feather quill. Teal curtain pulled to one side with a small gold feather-shaped tie echoes her cape clasp. Beyond the window, soft ivory/teal Bonta towers. Warm daylight, uncluttered foreground, low bookcase and readable large shapes. No readable writing, text, floating runes, people or giant magical effects.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: Los Estudios de Bakara; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY Bontarian Huppermage study associated with normal animated Bakara: an airy ivory-stone reading alcove, tall curved teal-trimmed windows, a modest central wooden desk with two closed plain brown spellbooks, a small brass armillary model and a single ivory feather quill. Teal curtain pulled to one side with a small gold feather-shaped tie echoes her cape clasp. Beyond the window, soft ivory/teal Bonta towers. Warm daylight, uncluttered foreground, low bookcase and readable large shapes. No readable writing, text, floating runes, people or giant magical effects.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/bakara-animation-design.webp",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/bakara-animation-design.webp": "5279ecba411e4d02cd5645f4c1f96d1fe80096e20a384bb802a44386ed572eea",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg": "76281c773d13a41022258d58080348fed2bb15ecb38d6a9a7f31c12b93fd4adf"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/bakara-banner.png",
+      "asset": "public/banners/exclusive/v1/bakara.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "9b61afe4b89a204738326d73ae801ba2678e6e24ec6540490878675454612cd7",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "7f1a628b496fb84855b28a65a3a9ab56c9393d1f3ee4bb721b7dda15ff7b46b0",
+      "bytes": 337758,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-03cc5b67-d775-4b44-9e7f-a793a01d5cc3.png",
+      "key": "bakara-banner",
+      "threshold": 45,
+      "chapter": "feats",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "jahash",
+      "title": "El Baluarte de Jahash",
+      "refs": [
+        "temp/emblematic-expansion/references/jahash-animation-design.webp",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg"
+      ],
+      "concept": "An original EMPTY luminous Bonta bastion associated with Jahash: a broad cream-white stone terrace with two tall elegant arches, one modest golden paired-feather emblem in the architecture matching his cloak clasp, an ivory cloth pennant folded over a low balustrade, blue-gray rooftops below and pale gold late-afternoon sky. A central round stone plinth holds a simple small ivory egg-shaped ceremonial stone, understated and matte with no magical glow. Quiet dignified protective atmosphere. Distinct from the normal public Bonta fountain banner; no statues, warriors, armies, literal character or readable text.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: El Baluarte de Jahash; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY luminous Bonta bastion associated with Jahash: a broad cream-white stone terrace with two tall elegant arches, one modest golden paired-feather emblem in the architecture matching his cloak clasp, an ivory cloth pennant folded over a low balustrade, blue-gray rooftops below and pale gold late-afternoon sky. A central round stone plinth holds a simple small ivory egg-shaped ceremonial stone, understated and matte with no magical glow. Quiet dignified protective atmosphere. Distinct from the normal public Bonta fountain banner; no statues, warriors, armies, literal character or readable text.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/jahash-animation-design.webp",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/jahash-animation-design.webp": "6e725e2dfd5f2d08d6fb64d98bf53692a1ff1225638e5833e60fa8e122e1625c",
+        "temp/emblematic-expansion/references/joris-animation-still.jpg": "76281c773d13a41022258d58080348fed2bb15ecb38d6a9a7f31c12b93fd4adf"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/jahash-banner.png",
+      "asset": "public/banners/exclusive/v1/jahash.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "31f8ccc23be915c7cb4c00241c2f19644898f62cfa22befbfd85aa06983cf3e3",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "526e96a99083f9d9786fb16170dc771b217e51006d8a6fe80dc2c134ed28ecbd",
+      "bytes": 347194,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-ec8b02d6-fba0-49d8-ab66-6cd62519ef81.png",
+      "key": "jahash-banner",
+      "threshold": 60,
+      "chapter": "feats",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "otomai",
+      "title": "El Laboratorio de Otomai",
+      "refs": [
+        "temp/emblematic-expansion/references/dathura-animation-scene-10.jpg",
+        "temp/emblematic-expansion/references/otomai-animation-still.jpg"
+      ],
+      "concept": "An original EMPTY cozy island laboratory associated with the ANIMATED Otomai of Ogrest, la legende: curved reddish-brown wooden tree-house walls, irregular broad window framing lush blue-green island plants, an old oak workbench centered under the window, a few large coherent glass flasks containing muted amber, crimson and blue liquids, little cork stoppers, rolled botanical paper without writing and a pale green leaf-shaped hanging shade with restrained red patches echoing his cap. A small simple stool and warm yellow scarf draped over its back. Bright friendly natural light, no bodies, Ogrest, figures, text or obvious digital magical glow.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: El Laboratorio de Otomai; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY cozy island laboratory associated with the ANIMATED Otomai of Ogrest, la legende: curved reddish-brown wooden tree-house walls, irregular broad window framing lush blue-green island plants, an old oak workbench centered under the window, a few large coherent glass flasks containing muted amber, crimson and blue liquids, little cork stoppers, rolled botanical paper without writing and a pale green leaf-shaped hanging shade with restrained red patches echoing his cap. A small simple stool and warm yellow scarf draped over its back. Bright friendly natural light, no bodies, Ogrest, figures, text or obvious digital magical glow.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/dathura-animation-scene-10.jpg",
+        "temp/emblematic-expansion/references/otomai-animation-still.jpg"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/dathura-animation-scene-10.jpg": "e60482d25e8f5c5a56baa3d4632f6ebf02a09b7638d19293015f30195b94ebd3",
+        "temp/emblematic-expansion/references/otomai-animation-still.jpg": "29447f77aa9b6d637e24d351c42f7e446c0faeccd18960190efb42a5a24810ce"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/otomai-banner.png",
+      "asset": "public/banners/exclusive/v1/otomai.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "f35d76722c7a04a8c1916d6b69226b5bd991c240d8fb680c2669fb8edbbb30ce",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "e83ba67bdcd00ac1a24c4e684d60cf01a8d0b8baa449a7c7261e8d092f604a7c",
+      "bytes": 465082,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-4977c751-9502-4527-9996-389d7292a518.png",
+      "key": "otomai-banner",
+      "threshold": 90,
+      "chapter": "feats",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "bakara_tipsy",
+      "title": "La Noche de Bakara",
+      "refs": [
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png",
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png"
+      ],
+      "concept": "An original EMPTY whimsical Bonta tavern corner associated with Bakara's animated drunken scene: curved honey-brown timber beams, a cozy round booth and a small central oak table with one dark plum-brown round bottle with a red band, two plain clay cups and a CLOSED brown spellbook pushed safely aside. A small teal cloth folded on a chair, warm amber window lanterns, a glimpse of ivory Bonta architecture through a round window. Lively crooked fantasy-comic architecture but coherent furniture and perspective. No broken glass, captions, writing, people, prone bodies, patrons or bar signs. Bottle/book/table remain visible in narrow center crop.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: La Noche de Bakara; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY whimsical Bonta tavern corner associated with Bakara's animated drunken scene: curved honey-brown timber beams, a cozy round booth and a small central oak table with one dark plum-brown round bottle with a red band, two plain clay cups and a CLOSED brown spellbook pushed safely aside. A small teal cloth folded on a chair, warm amber window lanterns, a glimpse of ivory Bonta architecture through a round window. Lively crooked fantasy-comic architecture but coherent furniture and perspective. No broken glass, captions, writing, people, prone bodies, patrons or bar signs. Bottle/book/table remain visible in narrow center crop.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png",
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png": "e7cc02d77636fd88f82ff351cf391ff97a9c34487074cb881bf370150be4afb3",
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png": "c6b1a762d47d772c9b2cba0cb66bf60cc05a9b9147182c5b43c159a8132c53d3"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/bakara_tipsy-banner.png",
+      "asset": "public/banners/exclusive/v1/bakara-tipsy.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "0461b784d4969490f79830da8569f626ade2b88b230dcac3b45bc42710aa9371",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "47a322cafedb68e5f46d5ce90cb1f791320007c8f5bdfdd2f4b35e2f7dc1023c",
+      "bytes": 384954,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-b2421f76-5982-4435-832c-3dc8472d3a4b.png",
+      "key": "bakara_tipsy-banner",
+      "threshold": 90,
+      "chapter": "feats",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "bakara_drunk_book",
+      "title": "Las Paginas de Bakara",
+      "refs": [
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png",
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png"
+      ],
+      "concept": "An original EMPTY Bonta reading nook at twilight associated with Bakara trying to read her spellbook: a curved honey-brown wooden balcony alcove opens through a tall ivory arch toward moonlit muted teal Bonta rooftops. One broad open plain brown book without readable lettering rests on a small central lectern beside a little brass lamp, a clay cup and a closed plum-colored bottle. An ivory chair cushion, loose teal cloth over its back and low orderly book shelves frame the scene. Main open book and lamp remain inside the central mobile crop; quiet lower-left paving. Coherent simple objects and architecture, soft lavender-blue evening and restrained amber lamplight, no living people, faces, dolls, characters, copied signs or writing.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: Las Paginas de Bakara; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY Bonta reading nook at twilight associated with Bakara trying to read her spellbook: a curved honey-brown wooden balcony alcove opens through a tall ivory arch toward moonlit muted teal Bonta rooftops. One broad open plain brown book without readable lettering rests on a small central lectern beside a little brass lamp, a clay cup and a closed plum-colored bottle. An ivory chair cushion, loose teal cloth over its back and low orderly book shelves frame the scene. Main open book and lamp remain inside the central mobile crop; quiet lower-left paving. Coherent simple objects and architecture, soft lavender-blue evening and restrained amber lamplight, no living people, faces, dolls, characters, copied signs or writing.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/bakara-drunk-puffed.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and panorama only",
+        "Actual animated Bakara scene motifs; no character drawn"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/bakara-drunk-puffed.png": "1de28b0232cc5c10ecf312ab07ec9c41f2cc614eb26aa0e6a4dc80926976c4a9"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/bakara_drunk_book-banner.png",
+      "asset": "public/banners/exclusive/v1/bakara-drunk-book.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "7bfbf4eb090516f58a77279b0a4586f648fa003ba03a09754b81785c1fe2eaec",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "e6b5a660dcfb30355bfa3dcc1d49e0460b0182e4a5b2af309bc24fc2890acb8d",
+      "bytes": 293202,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-d7d9ef99-c7a9-4acf-8d7d-05d3efefd5f1.png",
+      "key": "bakara_drunk_book-banner",
+      "threshold": 120,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "dathura",
+      "title": "El Jardin de Dathura",
+      "refs": [
+        "temp/emblematic-expansion/references/dathura-animation-scene-12.jpg",
+        "temp/emblematic-expansion/references/dathura-animation-scene-15.jpg"
+      ],
+      "concept": "An original EMPTY peaceful island garden associated with the WHITE-HAIRED animated Dathura doll from Ogrest, la legende: a sheltered weathered wooden veranda beneath a leafy tree, soft PINK hibiscus flowers with yellow stamens growing around its railing, pale blue-green cushions on an empty wooden bench, a small clear heart-shaped glass keepsake resting on the middle low table beside three little pink feathers with red and yellow beads, and lush foliage opening to a calm strip of island water. Bright gentle morning, no coffin, doll, body, character, faces, storm, unreadable symbols or giant glowing heart. Matte natural glass, quiet lower-left path, warm welcoming storybook scenery.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: El Jardin de Dathura; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY peaceful island garden associated with the WHITE-HAIRED animated Dathura doll from Ogrest, la legende: a sheltered weathered wooden veranda beneath a leafy tree, soft PINK hibiscus flowers with yellow stamens growing around its railing, pale blue-green cushions on an empty wooden bench, a small clear heart-shaped glass keepsake resting on the middle low table beside three little pink feathers with red and yellow beads, and lush foliage opening to a calm strip of island water. Bright gentle morning, no coffin, doll, body, character, faces, storm, unreadable symbols or giant glowing heart. Matte natural glass, quiet lower-left path, warm welcoming storybook scenery.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/dathura-animation-scene-12.jpg",
+        "temp/emblematic-expansion/references/dathura-animation-scene-15.jpg"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/dathura-animation-scene-12.jpg": "c8926a0866945e5b44343ba6179c961cf1a8937fd3abc47ad25a565bd8bf2eeb",
+        "temp/emblematic-expansion/references/dathura-animation-scene-15.jpg": "9fae94de8b51edd33e1ffe6014b4095669bf77932e6fa6881e12c690827d8500"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/dathura-banner.png",
+      "asset": "public/banners/exclusive/v1/dathura.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "f758a7940c5a1f3a5a51e16d2f6f9c29e4ba856afe3b884da9a4a1c184549025",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "4099605fa0dfc6af10720ff065894f4f8b6e537b4e0199c5bbc3c787905088ff",
+      "bytes": 434720,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-6236b2b5-78c3-4a6d-af2c-a0fe6fd5f909.png",
+      "key": "dathura-banner",
+      "threshold": 150,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "bakara_drunk_lecture",
+      "title": "La Terraza de Bakara",
+      "refs": [
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png",
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png"
+      ],
+      "concept": "An original EMPTY open-air Bonta tavern terrace associated with the animated Bakara drunken lecture: an intimate round wooden table under a restrained burgundy awning on an ivory-stone rooftop terrace, two plain stools facing each other, one small dark plum-brown bottle with a red band and two ordinary cups on the center table. A long teal ribbon is tied loosely around one chair back and a little closed brown spellbook lies on its seat. Warm peach dusk sky, Bonta's quirky cream towers and muted blue roofs, a little flowering vine along the curved parapet. Broad clear shapes, readable coherent chairs and tabletop, quiet lower-left stone floor, no people, statues, magical effects or readable text.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: La Terraza de Bakara; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY open-air Bonta tavern terrace associated with the animated Bakara drunken lecture: an intimate round wooden table under a restrained burgundy awning on an ivory-stone rooftop terrace, two plain stools facing each other, one small dark plum-brown bottle with a red band and two ordinary cups on the center table. A long teal ribbon is tied loosely around one chair back and a little closed brown spellbook lies on its seat. Warm peach dusk sky, Bonta's quirky cream towers and muted blue roofs, a little flowering vine along the curved parapet. Broad clear shapes, readable coherent chairs and tabletop, quiet lower-left stone floor, no people, statues, magical effects or readable text.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and panorama only",
+        "Actual animated Bakara scene motifs; no character drawn"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png": "c6b1a762d47d772c9b2cba0cb66bf60cc05a9b9147182c5b43c159a8132c53d3"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/bakara_drunk_lecture-banner.png",
+      "asset": "public/banners/exclusive/v1/bakara-drunk-lecture.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "966034cbe9dd2df34c78876c69c6713fe24f4a184f44c7e12ded8c5ac3487b5c",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "4c1443b56c6af813832ee6c2b913556122d8a03d15b5778b0f866477e1c14d5f",
+      "bytes": 342310,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-e992adeb-1b30-4257-8e99-2e708988026e.png",
+      "key": "bakara_drunk_lecture-banner",
+      "threshold": 180,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "djaul",
+      "title": "La Sombra de Djaul",
+      "refs": [
+        "temp/emblematic-rewards/references/julith-brakmar-coraza-212862209.png",
+        "temp/emblematic-expansion/references/djaul-full.png"
+      ],
+      "sourceClientVersion": "3.7.14.18",
+      "mapIds": [
+        212862209
+      ],
+      "concept": "An original EMPTY imposing Brakmar lookout associated with Djaul: angular dark gray stone and heavy riveted iron arches, muted rust-red cloth panels shaped like pointed bat wings, a few large ivory horn-like architectural caps echoing his wing tips, low parapet above layered dark curved metal roofs, narrow warm orange windows in the distance. One central plain wrought-iron seat with a low stone table and three small old ivory skull-shaped carvings, all clearly inanimate ornaments. Readable charcoal, brick red and bone palette, restrained dusk light, no lava spectacle, huge skull fortress, live demon, figures, black renderer masking planes or text.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: La Sombra de Djaul; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY imposing Brakmar lookout associated with Djaul: angular dark gray stone and heavy riveted iron arches, muted rust-red cloth panels shaped like pointed bat wings, a few large ivory horn-like architectural caps echoing his wing tips, low parapet above layered dark curved metal roofs, narrow warm orange windows in the distance. One central plain wrought-iron seat with a low stone table and three small old ivory skull-shaped carvings, all clearly inanimate ornaments. Readable charcoal, brick red and bone palette, restrained dusk light, no lava spectacle, huge skull fortress, live demon, figures, black renderer masking planes or text.\nPROVENANCE: original thematic composition based on verified official character motifs and DOFUS 3.7.14.18 references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-rewards/references/julith-brakmar-coraza-212862209.png",
+        "temp/emblematic-expansion/references/djaul-full.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-rewards/references/julith-brakmar-coraza-212862209.png": "b6747432e4cf83e249e99df3c7debfbd8a75b34a03e7fbdfb18ed73685c39bb8",
+        "temp/emblematic-expansion/references/djaul-full.png": "8032f4cfa68ffa0e1c902599a62a54304d47386e9fb524bc91d2e79f57c07777"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/djaul-banner.png",
+      "asset": "public/banners/exclusive/v1/djaul.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "d1d4087fc2d521242dce49d880d9bd19ef472a753288ab932c3cfe477e21d449",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "b64348d01378001aca73cb0a8edf582c69ed062073c5f60b810d87ff6c212eac",
+      "bytes": 317352,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-0034f7e3-beb9-4a5a-a714-f951009a3e70.png",
+      "key": "djaul-banner",
+      "threshold": 200,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "bakara_drunk_toast",
+      "title": "La Ultima Ronda",
+      "refs": [
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png",
+        "temp/emblematic-expansion/references/bakara-drunk-lecture.png"
+      ],
+      "concept": "An original EMPTY festive Bonta tavern bar associated with Bakara's animated toast: a curved honey-brown oak counter beneath old exposed beams, a single central dark plum-brown round bottle with a reddish band, two plain clay cups and a small tray; a few coherent larger barrels sit behind the counter. One soft ivory-and-teal folded cloth over a stool echoes Bakara's palette. A round window shows deep blue evening Bonta rooftops and a pale crescent moon; two ordinary amber lanterns provide restrained warm light. A modest unlit paper garland along the beam suggests a celebration that has just ended. Bottle and counter remain centered and readable in mobile crop, calm lower-left wooden boards. No crowd, bodies, drunken character, captions, labels, glowing magic, literal moon face or text.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: La Ultima Ronda; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY festive Bonta tavern bar associated with Bakara's animated toast: a curved honey-brown oak counter beneath old exposed beams, a single central dark plum-brown round bottle with a reddish band, two plain clay cups and a small tray; a few coherent larger barrels sit behind the counter. One soft ivory-and-teal folded cloth over a stool echoes Bakara's palette. A round window shows deep blue evening Bonta rooftops and a pale crescent moon; two ordinary amber lanterns provide restrained warm light. A modest unlit paper garland along the beam suggests a celebration that has just ended. Bottle and counter remain centered and readable in mobile crop, calm lower-left wooden boards. No crowd, bodies, drunken character, captions, labels, glowing magic, literal moon face or text.\nPROVENANCE: original thematic composition based on the official Ankama animated character design and story references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and panorama only",
+        "Actual animated Bakara scene motifs; no character drawn"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/bakara-drunk-toast.png": "e7cc02d77636fd88f82ff351cf391ff97a9c34487074cb881bf370150be4afb3"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/bakara_drunk_toast-banner.png",
+      "asset": "public/banners/exclusive/v1/bakara-drunk-toast.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "4c62e6f174a501c9e3544f9dc9a81883ae4315fd158482159cb56ea02e54d213",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "f2b6f285d2b30a46f61d90dff0b42850aeeb57459d529d1fad866e4cff285363",
+      "bytes": 357794,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-cdd0fb7c-46de-412e-8245-b8afaefc37d2.png",
+      "key": "bakara_drunk_toast-banner",
+      "threshold": 240,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    },
+    {
+      "id": "jiva",
+      "title": "Los Jardines de Jiva",
+      "refs": [
+        "temp/emblematic-expansion/references/jiva-head-reference.png",
+        "temp/emblematic-expansion/masters/jiva-clothed-portrait.png"
+      ],
+      "sourceClientVersion": "3.7.14.18",
+      "mapIds": [],
+      "concept": "An original EMPTY winter garden associated with Jiva's official turquoise, ivory and gold motifs: an elegant pale stone pavilion with a modest golden spiral ornament above its arch, thin frost along low railings, a quiet turquoise reflecting pool in the center, one small brass calendar/armillary instrument on a stone pedestal, pale evergreen leaves and delicate white winter flowers. Airy icy-blue morning sky, cream stone, turquoise cloth and restrained antique gold. A welcoming calm guardian's retreat with clear stone walkway at lower left, no live woman, creature, statue, glowing clock portal, readable dates or text. Do not claim this original garden is a named canonical map.",
+      "type": "banner",
+      "prompt": "Use case: style-transfer / illustration-story. Asset type: ONE original Dofus Forge EXCLUSIVE CHARACTER-RELATED PROFILE SCENERY BANNER, ultra-wide horizontal 3:1, approximately 2172 by 724 pixels. Metadata title only: Los Jardines de Jiva; DO NOT write it in the image. IMAGE 1 establishes the approved Forge ink-and-watercolor technique and panorama framing only; do not copy its Bonta fountain, statue or composition. Other references define authentic animated/game environment shapes and character motifs. Do NOT draw any of the referenced characters; this is empty scenery.\nORIGINAL SCENERY: An original EMPTY winter garden associated with Jiva's official turquoise, ivory and gold motifs: an elegant pale stone pavilion with a modest golden spiral ornament above its arch, thin frost along low railings, a quiet turquoise reflecting pool in the center, one small brass calendar/armillary instrument on a stone pedestal, pale evergreen leaves and delicate white winter flowers. Airy icy-blue morning sky, cream stone, turquoise cloth and restrained antique gold. A welcoming calm guardian's retreat with clear stone walkway at lower left, no live woman, creature, statue, glowing clock portal, readable dates or text. Do not claim this original garden is a named canonical map.\nPROVENANCE: original thematic composition based on verified official character motifs and DOFUS 3.7.14.18 references, not a literal canonical map with this invented Forge title.\nMEDIUM: expressive French fantasy-comic varied-weight black/graphite brush-pen ink, selective fine hatching, large economical readable shapes and charming natural asymmetry. Loose matte watercolor fills, organic restrained pigment edges, small warm off-white paper gaps. Believable coherent objects and perspective, not generic glossy fantasy, photorealism, 3D, plastic, vector-perfect cutouts, cinematic bloom, neon, artificial grunge or noisy microdetail. Fill the entire opaque 3:1 canvas, no border or sidebars.\nPROFILE CROPS: characteristic landmark and story objects inside middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and a centered 390x192 mobile crop. Leave the lower-left quiet for the circular avatar overlay. No baked-in avatar circle, UI, typography, labels, readable writing, book text, watermark, signature, collage, frames, badges, live characters, figures or character statues. Preserve this first generation for user review without automatic edits.",
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-expansion/references/jiva-head-reference.png",
+        "temp/emblematic-expansion/masters/jiva-clothed-portrait.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge banner medium and framing only",
+        "Verified environment or character motifs; NO character in the banner",
+        "Verified environment or character motifs; NO character in the banner"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-expansion/references/jiva-head-reference.png": "74144102dbd3101a4f560b0b15d5dc66003cbc960b517461f0538d02fadeb2ca",
+        "temp/emblematic-expansion/masters/jiva-clothed-portrait.png": "0a94d62c2ec727e92d6eb2298153dab2d5c701d9b43f25519d716f334685401f"
+      },
+      "sourceType": "Original thematic scenery; not a literal named official map",
+      "master": "temp/emblematic-expansion/masters/jiva-banner.png",
+      "asset": "public/banners/exclusive/v1/jiva.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "4c280b28b6087b4ccc3e1b062eb002b23d59df4b080f1c9e76780d25d9025807",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "a9a1e4a7d25b05781676d14ca6bfd245a662173aad91ca1b451fd3e30a2b52ba",
+      "bytes": 441254,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-253cd1ba-eb87-45fe-847e-12c06396009c.png",
+      "key": "jiva-banner",
+      "threshold": 270,
+      "chapter": "legends",
+      "visualReview": {
+        "nativeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "note": "First native panorama and centered 390×192 mobile crop individually inspected. Empty character-related scenery, coherent props/perspective, original Forge title rather than a claimed canonical map. User visual review retained."
+      }
+    }
+  ],
+  "archivedAttempts": [
+    {
+      "id": "joris",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Transform the target game-model identity references into ONE finished SQUARE hand-illustrated portrait of Joris Jurgen. IMAGE 1 is the APPROVED FORGE COLLECTION TECHNIQUE AND NORMAL BUST SCALE ONLY; never borrow the Iop character, orange hair, sword, skin, costume or pose. Remaining images are the exact target's installed DOFUS 3.7.14.18 models, defining identity and usual outfit only, not the final pose.\nIDENTITY: The actual current-client JORIS: small mysterious traveler with a fully shadow-black face, TWO warm yellow-ochre eyes and dark pupils, a small long pale yellow nose. A large petrol TEAL floppy pointed hood covers his whole head, with TWO thin beige hat pins topped with small irregular pale gold stars passing through the hood. Thick short ivory fur scarf/collar attached by a simple gray-green round clasp, a small white fur tuft hanging below it. Usual teal short coat and sleeves over a dark brown tunic, tan gloves and trousers. No visible human skin, human hair, white beard or invented race. Not a generic blue-robed Xelor; no bandages, clock or mask markings.\nINDIVIDUAL EXPRESSION AND POSE: A curious little seasoned traveler leaning a little toward the viewer, shoulders turned to his own LEFT, hood tip folding toward the opposite side. His two golden eyes glance upward toward the viewer with a quietly amused expression and a tiny asymmetric closed smile. His own RIGHT tan-gloved hand gently adjusts the ivory scarf clasp at lower chest level; one continuous wrist, four naturally curled fingers and one opposable thumb, no spread or floating fingers. Other arm down outside the bust crop.\nSTYLE: expressive French fantasy-comic brush-pen black ink, confident varied-width contours, selective fine graphite hatching, charming asymmetry and large economical readable forms; loose matte hand-painted watercolor fills with irregular pigment edges and small warm off-white paper gaps. Opaque warm off-white paper ground with one restrained dusty teal and pale ochre watercolor wash. No artificial grunge, brown paper tint, perfect vector cutouts, photorealism, 3D render, glossy digital fantasy, smooth airbrush, cinematic light, bloom, sparks or neon.\nFRAMING: Same normal HEAD AND UPPER TORSO scale as the existing Forge avatar collection, face large near center and readable inside centered 150px and 48px circular profile crops. Keep all identifying headwear or hair with top breathing space, shoulders may crop at bottom. Not a distant full body or extreme face closeup. No extra character, readable text, watermark, signature, frame, badge, logo, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Respect this particular named character's actual species and canonical anatomy. Keep exactly one pair of arms attached to one coherent torso, correct left/right hands and thumbs. Human exposed hands have four fingers plus one thumb; no detached fingers or invented digits where naturally occluded. Keep hair, wings and clothing distinct from limbs. This is the FIRST generation retained for user review; do not create variants.",
+      "identity": "The actual current-client JORIS: small mysterious traveler with a fully shadow-black face, TWO warm yellow-ochre eyes and dark pupils, a small long pale yellow nose. A large petrol TEAL floppy pointed hood covers his whole head, with TWO thin beige hat pins topped with small irregular pale gold stars passing through the hood. Thick short ivory fur scarf/collar attached by a simple gray-green round clasp, a small white fur tuft hanging below it. Usual teal short coat and sleeves over a dark brown tunic, tan gloves and trousers. No visible human skin, human hair, white beard or invented race. Not a generic blue-robed Xelor; no bandages, clock or mask markings.",
+      "pose": "A curious little seasoned traveler leaning a little toward the viewer, shoulders turned to his own LEFT, hood tip folding toward the opposite side. His two golden eyes glance upward toward the viewer with a quietly amused expression and a tiny asymmetric closed smile. His own RIGHT tan-gloved hand gently adjusts the ivory scarf clasp at lower chest level; one continuous wrist, four naturally curled fingers and one opposable thumb, no spread or floating fingers. Other arm down outside the bust crop.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/joris-bust.png",
+        "temp/emblematic-expansion/references/joris-alt-bust.png",
+        "temp/emblematic-expansion/references/joris-full.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal portrait scale only",
+        "Actual installed client target identity and usual outfit",
+        "Actual installed client target identity and usual outfit",
+        "Actual installed client target identity and usual outfit"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/joris-bust.png": "0315b32e8e37842da70e7e7b96c25d463e4f3eabb50da5dc025d0d0609d54062",
+        "temp/emblematic-expansion/references/joris-alt-bust.png": "e034c03b6aeb6273802f8ff50e9e6b19e142fa04c5f05ffcc3cb01a943326d07",
+        "temp/emblematic-expansion/references/joris-full.png": "f5c022d0fc62c84d8973b0b64af71efe7cddfcd3f40611c1c067d2a3b6e63c49"
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "master": "temp/emblematic-expansion/masters/joris-portrait.png",
+      "asset": "public/avatars/exclusive/v1/joris.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "8e3199323027206cadb6ea387685d73b12603064a0a4c24ca75bd9d91f681a45",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "7db1a89b951b387c37abb4d96d218ea5ab7a15b9957e5feaffb67dbe80827fbe",
+      "bytes": 52676,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-1722d06c-5831-41ec-baa5-f6538535418b.png",
+      "status": "Superseded by user request for official animated design",
+      "fullPreview": "joris-portrait-archived-full.webp"
+    },
+    {
+      "id": "otomai",
+      "type": "portrait",
+      "prompt": "Use case: style-transfer. Asset type: original exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Transform the target game-model identity references into ONE finished SQUARE hand-illustrated portrait of Otomai / Otomaï. IMAGE 1 is the APPROVED FORGE COLLECTION TECHNIQUE AND NORMAL BUST SCALE ONLY; never borrow the Iop character, orange hair, sword, skin, costume or pose. Remaining images are the exact target's installed DOFUS 3.7.14.18 models, defining identity and usual outfit only, not the final pose.\nIDENTITY: The ACTUAL installed-client OTOMAI: warm golden tan skin, very long deep navy BLUE hair covering both eyes completely, hair swept up into a huge rounded high looped ponytail with a broad lighter slate-blue highlight and a brown hair tie. A long broad angular golden nose protrudes below the hair; pointed ears. Sleeveless olive green waistcoat with cream frayed short shoulder fabric, brown leather/apron chest panel, long brown forearm gloves. His conical glass flask contains dark crimson-red liquid. Never expose or invent his eyes, change his blue hair to white, add goggles, white scientist coat or a beard.\nINDIVIDUAL EXPRESSION AND POSE: An absorbed eccentric alchemist looking down toward ONE modest conical transparent glass flask containing dark crimson liquid, held upright at lower chest height in his own LEFT brown-gloved hand. A natural grip around the narrow neck with one correctly placed thumb and four connected curled fingers, no pinched superimposed fingertips. His free arm rests out of the bottom crop. His very large looped blue ponytail is fully legible above and behind his head. Head turned three-quarter, a restrained thoughtful closed smile.\nSTYLE: expressive French fantasy-comic brush-pen black ink, confident varied-width contours, selective fine graphite hatching, charming asymmetry and large economical readable forms; loose matte hand-painted watercolor fills with irregular pigment edges and small warm off-white paper gaps. Opaque warm off-white paper ground with one restrained sage green and muted slate blue watercolor wash. No artificial grunge, brown paper tint, perfect vector cutouts, photorealism, 3D render, glossy digital fantasy, smooth airbrush, cinematic light, bloom, sparks or neon.\nFRAMING: Same normal HEAD AND UPPER TORSO scale as the existing Forge avatar collection, face large near center and readable inside centered 150px and 48px circular profile crops. Keep all identifying headwear or hair with top breathing space, shoulders may crop at bottom. Not a distant full body or extreme face closeup. No extra character, readable text, watermark, signature, frame, badge, logo, UI, collage or multiple views.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Respect this particular named character's actual species and canonical anatomy. Keep exactly one pair of arms attached to one coherent torso, correct left/right hands and thumbs. Human exposed hands have four fingers plus one thumb; no detached fingers or invented digits where naturally occluded. Keep hair, wings and clothing distinct from limbs. This is the FIRST generation retained for user review; do not create variants.",
+      "identity": "The ACTUAL installed-client OTOMAI: warm golden tan skin, very long deep navy BLUE hair covering both eyes completely, hair swept up into a huge rounded high looped ponytail with a broad lighter slate-blue highlight and a brown hair tie. A long broad angular golden nose protrudes below the hair; pointed ears. Sleeveless olive green waistcoat with cream frayed short shoulder fabric, brown leather/apron chest panel, long brown forearm gloves. His conical glass flask contains dark crimson-red liquid. Never expose or invent his eyes, change his blue hair to white, add goggles, white scientist coat or a beard.",
+      "pose": "An absorbed eccentric alchemist looking down toward ONE modest conical transparent glass flask containing dark crimson liquid, held upright at lower chest height in his own LEFT brown-gloved hand. A natural grip around the narrow neck with one correctly placed thumb and four connected curled fingers, no pinched superimposed fingertips. His free arm rests out of the bottom crop. His very large looped blue ponytail is fully legible above and behind his head. Head turned three-quarter, a restrained thoughtful closed smile.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-expansion/references/otomai-bust.png",
+        "temp/emblematic-expansion/references/otomai-full.png"
+      ],
+      "referenceRoles": [
+        "Approved Forge technique and normal portrait scale only",
+        "Actual installed client target identity and usual outfit",
+        "Actual installed client target identity and usual outfit"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-expansion/references/otomai-bust.png": "953c918b1a7493ce4f2d17474efb81c58077fafdfa84923115790580cb0f055f",
+        "temp/emblematic-expansion/references/otomai-full.png": "0c083656524ca841c1beaa26e95b7b9b3388032bd80f04e3e7988041cee2292e"
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "master": "temp/emblematic-expansion/masters/otomai-portrait.png",
+      "asset": "public/avatars/exclusive/v1/otomai.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "a747455edc5c27d03d7675b6129d0dd61eb6891ee6b8828aa2249d23fc38edde",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "069277a383e071315f8be67bd0b11390535f6665d1943e51562bedb98b80c914",
+      "bytes": 61684,
+      "userReviewPending": true,
+      "generatedImageFile": "exec-1e488eeb-f8aa-4015-a89c-bd0b56dd1460.png",
+      "status": "Superseded by user request for official animated design",
+      "fullPreview": "otomai-portrait-archived-full.webp"
+    }
+  ],
+  "preservationPolicy": "Immutable native PNG masters remain at recorded local temp paths. Exact prompts, reference roles/hashes and generated source file names are retained. No automatic anatomical regeneration. Bakara originals and requested refinements also have full-size review WebP copies."
+}

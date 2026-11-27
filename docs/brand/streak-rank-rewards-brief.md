@@ -8,9 +8,10 @@
 **Decisión final (2026-11-27): UN SOLO eje.** El rango por actividad
 (builds creadas) se descartó durante la integración — dos ejes separados
 complicaba sin necesidad (criterio del usuario). Todo — marco de avatar,
-insignia de rango y los 4 retratos/escenarios exclusivos — depende
+insignia de rango y los 16 pares de retrato/escenario exclusivos — depende
 únicamente de `profiles.login_streak_best` (racha de login, histórico
-máximo), en los mismos 4 cortes: 7 / 30 / 100 / 365 días.
+máximo). Los marcos mantienen 4 cortes: 7 / 30 / 100 / 365 días. El arte
+tiene hitos intermedios; varias recompensas pueden compartir un mismo día.
 
 | Hito | Marco | Personaje exclusivo |
 |---|---|---|
@@ -54,9 +55,20 @@ mapas. Los escenarios deben conservar señales concretas del personaje,
 con composición panorámica propia y espacio para la superposición del
 avatar. No se sustituye este criterio por una fragua o cueva genérica.
 
-Asociación final resuelta en la integración (ver arriba): un solo eje,
-racha de login, 7/30/100/365 días — kerubim/julith/gúltar/ogrest, en ese
-orden. El arte quedó preparado antes de que se activara el desbloqueo.
+La asignación original 7/30/100/365 de Kerubim/Julith/Gúltar/Ogrest se
+conserva. En **0.4.28** se amplía a **16 pares**, agrupados en Primeros pasos,
+Hazañas y Leyendas, con una vista adicional de la colección de Bakara.
+Joris 14, Atcham 21, Bakara normal 45, Jahash 60, Otomaï y Bakara borracha A
+90, Bakara B 120, Dathura 150, Bakara C 180, Djaul 200, Bakara D 240 y Jiva
+270. Las cuatro opciones borrachas fueron elegidas por el usuario; cada una
+incluye su escenario propio. [Tabla y seguimiento](emblematic-rewards/README.md).
+
+Para nuevas incorporaciones, el criterio sigue siendo **personajes
+emblemáticos y escenarios relacionados con ellos**. Se prioriza la forma de
+la animación oficial cuando exista, manteniendo tinta y acuarela y el
+encuadre de busto de Forge. No mezclar vestuario ni anatomía de otras obras:
+Bakara normal lleva capa marfil y diadema/collar verde azulado; la borracha
+lleva el atuendo sin capa y cabello revuelto de la escena de la película.
 
 Antes de pintar cada personaje, verificar sus referencias y nombres en
 los cuatro idiomas contra el cliente **3.7.14.18** y reconstruir sus

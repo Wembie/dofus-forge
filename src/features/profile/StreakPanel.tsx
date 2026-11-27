@@ -3,11 +3,15 @@ import { useLocation } from 'react-router'
 import { ArrowLeft, ArrowUpRight, Check, ChevronRight, Flame, Lock } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Modal } from '@/ui'
-import { EXCLUSIVE_REWARDS, type ExclusiveReward } from './exclusiveRewards.ts'
+import { EXCLUSIVE_CHAPTERS, EXCLUSIVE_REWARDS, nextExclusiveRewards, type ExclusiveChapter, type ExclusiveReward } from './exclusiveRewards.ts'
 import type { ExclusiveUnlock } from './exclusiveUnlocks.ts'
 import { streakFrameTier } from './milestones.ts'
 import { StreakFrame } from './StreakFrame.tsx'
 import './streakPanel.css'
+
+const SECTIONS = [...EXCLUSIVE_CHAPTERS, { id: 'bakara', nameKey: 'streak_collection_bakara' }] as const
+type RewardSection = ExclusiveChapter | 'bakara'
+const inSection = (reward: ExclusiveReward, section: RewardSection) => section === 'bakara' ? reward.family === 'bakara' : reward.chapter === section
 
 export function StreakPanel({ current, best, unlocks, onCustomize }: {
   current: number
@@ -20,12 +24,22 @@ export function StreakPanel({ current, best, unlocks, onCustomize }: {
   const id = useId()
   const [open, setOpen] = useState(false)
   const [inspected, setInspected] = useState<ExclusiveReward | null>(null)
+  const nextRewards = nextExclusiveRewards(best)
+  const next = nextRewards[0]
+  const [section, setSection] = useState<RewardSection>(next?.chapter ?? 'legends')
   const trigger = useRef<HTMLButtonElement>(null)
   const backButton = useRef<HTMLButtonElement>(null)
   const cards = useRef(new Map<string, HTMLButtonElement>())
   const panel = useRef<HTMLElement>(null)
-  const next = EXCLUSIVE_REWARDS.find(r => r.threshold > best)
   const remaining = next ? Math.max(0, next.threshold - current) : 0
+  const nextNames = nextRewards.map(r => t(r.nameKey)).join(t('streak_reward_separator'))
+  const visibleRewards = EXCLUSIVE_REWARDS.filter(r => inSection(r, section))
+
+  function changeSection(index: number) {
+    const selected = SECTIONS[(index + SECTIONS.length) % SECTIONS.length]
+    setSection(selected.id)
+    requestAnimationFrame(() => document.getElementById(`${id}-tab-${selected.id}`)?.focus())
+  }
 
   useEffect(() => {
     if (location.hash !== '#streak' && location.hash !== '#streak-rewards') return
@@ -66,10 +80,10 @@ export function StreakPanel({ current, best, unlocks, onCustomize }: {
         </div>
         <div className="streak-record"><span>{t('streak_record_label')}</span><strong>{t('streak_day_count', { count: best })}</strong></div>
         <div className="streak-next">
-          {next && <img src={next.avatarPath} alt="" width={44} height={44} />}
-          <div><span>{t(next ? 'streak_next' : 'streak_all_earned')}</span><strong>{next ? t(next.nameKey) : t('streak_all_earned_hint')}</strong></div>
+          {next && <span className="streak-next-art">{nextRewards.map(reward => <img key={reward.slug} src={reward.avatarPath} alt="" width={44} height={44} />)}</span>}
+          <div><span>{t(next ? nextRewards.length > 1 ? 'streak_next_rewards' : 'streak_next' : 'streak_all_earned')}</span><strong>{next ? nextNames : t('streak_all_earned_hint')}</strong></div>
         </div>
-        <button type="button" ref={trigger} className="account-button streak-open" aria-haspopup="dialog" onClick={() => { setInspected(null); setOpen(true) }}>{t('streak_view_rewards')}<ArrowUpRight size={16} aria-hidden="true" /></button>
+        <button type="button" ref={trigger} className="account-button streak-open" aria-haspopup="dialog" onClick={() => { setInspected(null); setSection(next?.chapter ?? 'legends'); setOpen(true) }}>{t('streak_view_rewards')}<ArrowUpRight size={16} aria-hidden="true" /></button>
       </div>
       {progress}
       <p className="streak-panel-note">{t(best > current ? 'streak_keep_rewards' : 'streak_start_hint')}</p>
@@ -93,12 +107,25 @@ export function StreakPanel({ current, best, unlocks, onCustomize }: {
                 <div><strong>{best}</strong><span>{t('streak_record_label')}</span></div>
               </div>
               <p className="streak-dialog-intro">{t('streak_popup_intro')}</p>
-              {next && <p className="streak-dialog-next"><strong>{t(next.nameKey)}</strong><span>{t('streak_remaining', { count: remaining })}</span></p>}
+              {next && <p className="streak-dialog-next"><strong>{nextNames}</strong><span>{t('streak_remaining', { count: remaining })}</span></p>}
               {best > current && <p className="streak-dialog-note">{t('streak_keep_rewards')}</p>}
-              <div className="streak-reward-grid">
-                {EXCLUSIVE_REWARDS.map(reward => {
+              <div className="streak-sections" role="tablist" aria-label={t('streak_sections')}>
+                {SECTIONS.map((item, index) => {
+                  const rewards = EXCLUSIVE_REWARDS.filter(r => inSection(r, item.id))
+                  const earned = rewards.filter(r => best >= r.threshold).length
+                  return <button key={item.id} id={`${id}-tab-${item.id}`} type="button" role="tab" aria-selected={section === item.id} aria-controls={`${id}-collection`} tabIndex={section === item.id ? 0 : -1} onClick={() => setSection(item.id)} onKeyDown={event => {
+                    const target = event.key === 'ArrowRight' ? index + 1 : event.key === 'ArrowLeft' ? index - 1 : event.key === 'Home' ? 0 : event.key === 'End' ? SECTIONS.length - 1 : null
+                    if (target === null) return
+                    event.preventDefault()
+                    changeSection(target)
+                  }}>{t(item.nameKey)}<small aria-label={t('streak_collection_count', { earned, total: rewards.length })}>{earned}/{rewards.length}</small></button>
+                })}
+              </div>
+              <p className="streak-section-caption">{t(section === 'bakara' ? 'streak_bakara_collection_hint' : 'streak_section_range', { from: visibleRewards[0].threshold, to: visibleRewards[visibleRewards.length - 1].threshold })}</p>
+              <div id={`${id}-collection`} role="tabpanel" aria-labelledby={`${id}-tab-${section}`} className="streak-reward-grid">
+                {visibleRewards.map(reward => {
                   const earned = best >= reward.threshold
-                  const isNext = next?.slug === reward.slug
+                  const isNext = next?.threshold === reward.threshold
                   const tier = streakFrameTier(reward.threshold)
                   return (
                     <button key={reward.slug} type="button" className={'streak-reward' + (isNext ? ' is-next' : '')} aria-label={t('streak_reward_view', { name: t(reward.nameKey) })} ref={node => { if (node) cards.current.set(reward.slug, node); else cards.current.delete(reward.slug) }} onClick={() => setInspected(reward)}>

@@ -6,6 +6,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 ---
 
 ## [0.4.28] — 2026-11-27
+- Expanded the exclusive collection to 16 portrait-and-scene pairs, adding Joris, Atcham, Bakara, Jahash, Otomai, Dathura, Djaul and Jiva with verified animated designs where available
+- All four tipsy Bakara alternatives are preserved and unlock at days 90/120/180/240, with normal Bakara at day 45; Otomai also unlocks at day 90, and both next rewards are shown together
+- Browse three chronological reward chapters or the five-piece Bakara collection, with keyboard tabs, mobile layouts and all four languages; existing rewards and frame milestones stay unchanged
 - Daily login streak: visiting on a new calendar day (UTC) with a session open updates your active streak and permanent best record automatically
 - Streaks have a dedicated Account section for the active streak, permanent record and next reward, while public profiles show their record beside builds, likes and comments; the original flame icon is preserved
 - Preview every milestone portrait, matching scene and frame in a dedicated rewards window, then open eligible artwork in the existing gallery; choosing, applying and saving remain explicit steps
