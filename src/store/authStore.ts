@@ -4,7 +4,6 @@ import { getSupabase } from '@/lib/supabase.ts'
 import { legalAcceptance, LEGAL_DOCS, type LegalDoc } from '@/features/auth/legal.ts'
 import { USERNAME_RE } from '@/features/auth/authRules.ts'
 import { isClassAvatarUrl } from '@/features/account/classAvatars.ts'
-import { isProfileBannerUrl } from '@/features/account/profileBanners.ts'
 
 export type Profile = {
   id:               string
@@ -224,7 +223,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const session = get().session
     if (!session) return { error: 'Not signed in' }
     if (edits.avatar_url != null && !isSafeImageUrl(edits.avatar_url)) return { error: 'invalid_avatar_url' }
-    if (edits.banner_url != null && !isProfileBannerUrl(edits.banner_url)) return { error: 'invalid_banner_url' }
+    if (edits.banner_url != null) {
+      const { isProfileBannerUrl } = await import('@/features/account/profileBannerValidation.ts')
+      if (!isProfileBannerUrl(edits.banner_url)) return { error: 'invalid_banner_url' }
+    }
 
     const supabase = await getSupabase()
     const { error } = await supabase.from('profiles').update(edits).eq('id', session.user.id)

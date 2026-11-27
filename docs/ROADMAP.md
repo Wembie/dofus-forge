@@ -7,6 +7,8 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **Séptimo rostro de las 19 clases y ocho escenarios más** (0.4.26) — 38 retratos con traje habitual; 266/600 rostros terminados y 68 banners. Cueva de Bworker, Canopea del Kimbo, Laboratorio del Tynril, Templo del Gran Ugah, Invernáculo de Jalamut Real, Hipogeo del Obsidiantre, Torre de Bethel y Santuario de Torkelonia. Referencias 3.7.14.18, prompts, primera xelor mujer restaurada y manos del aniripsa hombre corregidas a petición del usuario; versiones anteriores conservadas y migración aditiva. Las futuras tandas conservan la primera generación para revisión del usuario, sin cambios automáticos.
+
 - [x] **Sexto rostro de las 19 clases y ocho escenarios más** (0.4.25) — 38 retratos con traje habitual y poses propias; 228/600 rostros terminados y 60 banners. Cocuzko, Biblioteca del Maestro Cuerbok, Antro del Kralamar Gigante, Pueblo de los Dopeuls, Pueblo de los Ganaderos, Palacio de Dientinea, Torre de Solar y Cementerio de los Torturados. Prompts, referencias 3.7.14.18, revisiones y correcciones de la pandawa y el uginak guardados; migración aditiva y archivos previos conservados. Misma versión que la nueva galería.
 
 - [x] **Galería para personalizar avatar y banner juntos** (0.4.25) — vista previa del perfil, búsqueda, filtros de clase y rostro, botones de género todos/masculino/femenino con iconos, categorías de paisajes y novedades. Ampliar conserva selección, filtros, foco y posición; aplicar prepara la combinación y guardar la publica. Cancelación, descarte y reintento conservados. Galería móvil de dos columnas y vista previa desplegable, ambos temas y cuatro idiomas. [Diseño y capturas](design/profile-appearance/README.md).
@@ -252,6 +254,7 @@ Marcar con `[x]` cuando se complete.
 
 - [ ] **Ampliar la colección de banners de perfil** — generar más lugares y dimensiones de Dofus en futuras entregas, con referencias del cliente vigente, composiciones distintas y el mismo estilo de tinta y acuarela. Mantener los prompts exactos, las fuentes y la plantilla en `docs/brand/profile-banners/`; conservar los PNG originales y exportar WebP panorámicos. La colección queda abierta a nuevas zonas y propuestas del usuario.
 
+- [ ] **M188 — Racha de inicio de sesión diario** — pedido del usuario (2026-11-26): incentivar que la gente entre todos los días. Requiere sesión iniciada (no cuenta visitar sin login); cada día calendario distinto con sesión activa suma 1 a la racha. Si se pasa un día sin entrar, la racha se reinicia a 0 — sin recuperación ni "congelar racha", a propósito (pedido explícito del usuario). Mostrar la racha actual en el perfil. Hitos por días consecutivos (ej. 7/30/100) desbloquean una recompensa: algo cosmético (marco, paleta, portada exótica) y/o alguna compensación dentro de la herramienta, por definir. Preguntas abiertas: qué día calendario usar (UTC vs. huso del usuario), fuente de verdad en servidor (no se puede confiar en el reloj del cliente — columna en `profiles` o tabla aparte + función en Supabase que corra al autenticar), y catálogo concreto de hitos/recompensas.
 
 ### SEO — competir por el primer puesto en búsquedas relevantes
 
@@ -440,7 +443,7 @@ Las etapas ordenan el trabajo; no son plazos prometidos para llegar al puesto 1.
 ### Social / Supabase — usar el resto de las tablas ya existentes
 Orden recomendado (impacto/esfuerzo, de mayor a menor). M50-M52 ya hechos — ver Completados.
 
-- [ ] **Futuro — Membresía de apoyo voluntario** — modelo híbrido: Aportador (aporte único desde US$1, sin estado ni vencimiento) + escalera recurrente de 4 rangos desde US$3/mes (mensual, trimestral o anual; descuento trimestral y 2 meses gratis en el anual). Incluye Forja de perfil, insignia opcional, racha total y por rango, hitos cosméticos y más builds destacadas/guardadas. Las herramientas principales siguen gratis; rangos separados de roles, sin ventajas de juego ni boosts de Explore. Precios, cuotas y proveedor pendientes de validar. Diseño: [docs/MEMBERSHIP_DESIGN.md](MEMBERSHIP_DESIGN.md). **Fase 1 (schema) empezada**: tablas `memberships`/`membership_periods`/`supporter_contributions`, funciones de entitlements `build_limit_for_tier`/`featured_build_limit_for_tier` ya en `supabase/schema.sql`, y `check_build_limit()` ya las usa (sin fila en `memberships` = 'free' = 50, igual que hoy para toda cuenta existente) — todavía sin UI ni webhook: falta elegir proveedor y construir la página de apoyo.
+- [ ] **Futuro — Página de donaciones** — decisión del usuario (2026-11-26): se cancela la membresía de pago recurrente (nunca tuvo UI ni webhook — ver [docs/MEMBERSHIP_DESIGN.md](MEMBERSHIP_DESIGN.md), retirado y con el esquema de la Fase 1 revertido en `supabase/migrations/20261126030000_remove_membership_tiers.sql`). El sitio sigue 100% gratis, sin nada a la venta. A futuro, una página de donaciones de aporte único (cualquier monto, cualquier país, sin suscripción ni vencimiento) para quien quiera ayudar con los costos — sin diseño todavía: falta elegir proveedor de pago, monto mínimo y si da algún reconocimiento cosmético opcional. Los **rangos personalizados** (`/admin/ranks`, asignables a mano con beneficios como límite de builds) son un sistema aparte, ya construido y sin relación con esto — se mantienen.
 
 ### Perf & buenas prácticas (audit post-M65) — resuelto en M134 (0.3.104)
 Hallazgos concretos de una segunda pasada sobre el resto del código, mismo estilo del bug que arregló M65 (listas sin paginar, N+1 scans, subscripciones amplias). Cada uno con archivo:línea para arrancar directo cuando se decida hacerlo — no son prosa genérica.
@@ -498,6 +501,6 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 
  - [] agregar un atajo en la parte de cuando selecciona los items... algo para equipar todo el set de una, como shift + cllick iZQUIERDO O ALGO ASi, no se pensarle bien
 
-- [ ] **Continuar los rostros y peinados de los avatares** — 372 de los 600 rostros del cliente siguen pendientes, siempre con el traje habitual, conservando la técnica y creando poses propias. Avanzar por tandas desde el rostro 7 y tachar modelos verificados en [el seguimiento](brand/profile-avatars/PROGRESS.md).
+- [ ] **Continuar los rostros y peinados de los avatares** — 334 de los 600 rostros del cliente siguen pendientes, siempre con el traje habitual, conservando la técnica y creando poses propias. Avanzar por tandas desde el rostro 8 y tachar modelos verificados en [el seguimiento](brand/profile-avatars/PROGRESS.md).
 
 - [ ] **Trajes alternativos de los avatares, después de los rostros** — 38 trajes alternativos mapeados con sus ids y texturas; reservar su producción hasta terminar la prioridad de rostros/peinados.

@@ -2,6 +2,27 @@
 
 Original environment fan art for profile covers, paired with the approved Forge ink-and-watercolor class portraits. Target: **DOFUS 3.7 / Unity**. Artwork was introduced in Forge 0.4.10; Forge 0.4.11 adds the Account picker, saved choices and public profile covers.
 
+## Seventh collection — Forge 0.4.26
+
+**68 selectable landscapes**, including eight new first-generation panoramas from the installed **DOFUS 3.7.14.18** client. The previous 60 artwork files and records are preserved. Native, desktop and mobile crops were inspected; [observations](expansion-6-review.json), [exact prompts and source hashes](manifest.json) are saved for user review.
+
+![Eight seventh-collection landscapes](expansion-6-preview.webp)
+
+| Scene | Source map ids |
+|---|---|
+| Cueva de Bworker | `104336897`, `104335873` |
+| Canopea del Kimbo | `21498882`, `21495808` |
+| Laboratorio del Tynril | `89393154`, `89392128` |
+| Templo del Gran Ugah | `182322179`, `182326273` |
+| Invernáculo de Jalamut Real | `55050240`, `55054336` |
+| Hipogeo del Obsidiantre | `57155841`, `57152769` |
+| Torre de Bethel | `187433984`, `187436032` |
+| Santuario de Torkelonia | `198708224`, `198706176` |
+
+All eight use their first native image, with no automatic regeneration or editing. For future batches, finish the first versions and let the user choose specific corrections. Each scene keeps its own current-client architecture, palette and composition; maps are identity references rather than screenshots to copy.
+
+Native opaque PNGs: `temp/profile-banners/masters/v1/`. Production 1920 × 640 WebPs: `public/banners/locations/v1/`. Generated with built-in `image_gen`; references reconstructed from actual installed map assets. Apply [the additive catalog migration](../../../supabase/migrations/20261126040000_profile_art_seventh_heads_and_locations.sql) before deployment. It adds only 38 portraits and eight banners, preserving saved profiles and permissions. Hosted SQL was not executed.
+
 ## Sixth collection — Forge 0.4.25
 
 **60 selectable landscapes**, with eight new illustrations from the installed DOFUS **3.7.14.18** client. All 52 earlier artworks and records are preserved. Full-size artwork and desktop/mobile crops were inspected individually; [review records](expansion-5-review.json) and [exact prompts with source hashes](manifest.json) are retained.

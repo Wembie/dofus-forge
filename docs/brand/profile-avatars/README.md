@@ -1,11 +1,27 @@
 # Retratos de perfil de Forge
 
-Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros seis rostros/peinados tienen versiones masculinas y femeninas: **228 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
+Colección original de fan art de las 19 clases de Dofus, basada en los modelos reales del cliente. Los primeros siete rostros/peinados tienen versiones masculinas y femeninas: **266 retratos** con traje habitual, poses propias y el mismo acabado de tinta y acuarela.
 
 - [Progreso por clase, sexo y modelo](PROGRESS.md): lista completa con casillas de los rostros hechos y pendientes; los trajes alternativos van al final.
 - [Inventario del juego](game-looks.json): 600 rostros/peinados y 76 cuerpos de creación, incluidos los 38 trajes habituales y los 38 alternativos reservados para después.
 - [Prompts y procedencia de cada imagen](manifest.json): prompt exacto, pose, referencias, hash y `gameLook` con posición, id y textura de cabeza/cuerpo.
 - [Plantilla para continuar](prompt-template.json): conservar la técnica artística y los rasgos del modelo, inventando un gesto y expresión distintos para cada retrato.
+
+## Rostro 7 — Forge 0.4.26 — 2026-11-26
+
+38 retratos del séptimo rostro/peinado: hombre y mujer de las 19 clases, con traje habitual y referencias exactas del cliente **DOFUS 3.7.14.18**. La galería llega a **266 retratos: 266/600 rostros terminados, 334 pendientes**. Los 38 trajes alternativos siguen inventariados para después.
+
+![Séptimo rostro de las 19 clases](look-7-preview.webp)
+
+![Séptimo rostro en círculos de 150 y 48 px](look-7-circular-preview.webp)
+
+[Observaciones de esta tanda](look-7-review.json): cada imagen se inspeccionó ampliada y en círculos de 150/48 px; las manos visibles tienen ampliaciones locales. Esto no constituye una nueva auditoría de los 228 retratos anteriores. El aniripsa hombre conserva la pose con ambas manos corregidas a petición del usuario. La xelor mujer usa **exactamente su primera generación**, restaurada por elección expresa. Los zurcaráks se ajustaron al encuadre de busto de la colección, tras descartar los acercamientos excesivos.
+
+**Preferencia de producción desde el 26 de noviembre:** conservar la primera generación de cada imagen futura, terminar la tanda para revisión del usuario y editar solo las imágenes que solicite. La inspección registra observaciones; no autoriza regenerar automáticamente. No cambiar la distancia habitual de los retratos.
+
+PNG nativos opacos: `temp/profile-avatars/masters/v1/<clase>-look-7-<m|f>.png`. WebP de 512 × 512 px: `public/avatars/classes/v1/`. Herramienta integrada `image_gen`; prompts exactos, referencias, hashes e intentos descartados conservados en [manifest.json](manifest.json). El círculo se aplica al mostrar el avatar; el original sigue cuadrado.
+
+Aplicar [la migración aditiva de esta tanda](../../../supabase/migrations/20261126040000_profile_art_seventh_heads_and_locations.sql) antes de desplegar. Agrega 38 rutas de retratos y ocho de banners, sin cambiar perfiles ni permisos. Los 228 retratos y 60 banners anteriores conservan sus archivos y registros. No se ejecutó SQL alojado.
 
 ## Rostro 6 — Forge 0.4.25 — 2026-11-26
 

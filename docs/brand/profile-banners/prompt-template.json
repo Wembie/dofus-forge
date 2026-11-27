@@ -1,6 +1,6 @@
 {
   "collection": "Forge World of Twelve banners",
-  "revision": 2,
+  "revision": 3,
   "generator": "Built-in image_gen",
   "targetGame": "DOFUS 3.7 / Unity",
   "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
@@ -26,7 +26,8 @@
     "Save the exact final prompt and source URLs, retain PNG masters locally, then export WebP and record dimensions and hashes.",
     "Review full 3:1, narrow mobile and avatar-overlap crops before integration.",
     "Register each new path in PROFILE_BANNERS with its label in all four locales. Add an admin-authored profile_banner_catalog SQL migration and mirror the inserts in schema.sql. Apply the migration before releasing the new picker choices and run the catalog parity and database checks.",
-    "For the 3.7 expansion, use installed-client map assets from the verified 3.7 branch as the environment references. Earlier screenshots and other game branches do not establish current identity. Existing Forge artwork may be used for technique only. Record the exact client patch on each new banner and every map reference."
+    "For the 3.7 expansion, use installed-client map assets from the verified 3.7 branch as the environment references. Earlier screenshots and other game branches do not establish current identity. Existing Forge artwork may be used for technique only. Record the exact client patch on each new banner and every map reference.",
+    "User preference 2026-11-26: retain the first generated image and established collection framing. Inspect and record observations, finish the batch, then let the user choose specific edits; do not automatically regenerate or replace a first result."
   ],
   "approvedBannerTechniqueReference": "public/banners/locations/v1/bonta.webp",
   "referencePreparation": {
@@ -36,5 +37,6 @@
     "renderer": "scripts/render-banner-references.py",
     "example": "python scripts/render-banner-references.py 75497732 koalaks --require-version 3.7",
     "provenance": "Record the installed client version, source map ids, map bundle hashes and reference PNG hashes. Static map planes omit runtime effects and are not exact game screenshots. Use them for identity only; compose original fan art."
-  }
+  },
+  "selectionPolicy": "Keep the FIRST generation for each future image. Finish the batch for user review; edit only the specific images requested by the user. Preserve the established collection framing."
 }

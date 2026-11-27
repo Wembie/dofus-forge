@@ -5,7 +5,7 @@ const supabaseState = vi.hoisted(() => ({ get: (): Promise<unknown> => Promise.r
 vi.mock('@/lib/supabase.ts', () => ({ getSupabase: () => supabaseState.get() }))
 
 import {
-  fetchPublicBuilds, fetchMyLike, fetchMembershipTier, fetchBuildSummary, fetchUserCollections,
+  fetchPublicBuilds, fetchMyLike, fetchBuildSummary, fetchUserCollections,
   fetchCollection, updateBuild, setBuildTags, submitReport, MAX_BUILD_TAGS, subscribeToNotifications,
   fetchBuildById, fetchComments, fetchBuildHistory, fetchNotifications, setBuildFeatured, moderateContent,
   BUILD_LINK_HEADER, fetchVersionSnapshot, recordBuildView, fetchViewerState, fetchProfileSummary, fetchCommunityStats,
@@ -28,7 +28,6 @@ describe('guard: supabase-js failing to load', () => {
     supabaseState.get = () => Promise.reject(new Error('chunk failed'))
     await expect(fetchPublicBuilds({ sort: 'rating', page: 0 })).resolves.toEqual({ data: [], error: 'chunk failed', count: null })
     await expect(fetchMyLike('b', 'u')).resolves.toBe(false)
-    await expect(fetchMembershipTier('u')).resolves.toBe('free')
   })
 })
 
@@ -244,10 +243,10 @@ describe('round trips saved on the detail and profile pages', () => {
   })
 
   it('reads the profile summary in one RPC, or falls back', async () => {
-    mock.client.rpc.mockResolvedValueOnce({ data: { tier: 'artisan', rank: { rank_name: 'x' }, build_count: 2, like_count: 5, comment_count: 1 }, error: null } as never)
-    await expect(fetchProfileSummary('u1')).resolves.toEqual({ stats: { buildCount: 2, likeCount: 5 }, commentCount: 1, tier: 'artisan', rank: { rank_name: 'x' }, combined: true })
+    mock.client.rpc.mockResolvedValueOnce({ data: { rank: { rank_name: 'x' }, build_count: 2, like_count: 5, comment_count: 1 }, error: null } as never)
+    await expect(fetchProfileSummary('u1')).resolves.toEqual({ stats: { buildCount: 2, likeCount: 5 }, commentCount: 1, rank: { rank_name: 'x' }, combined: true })
     mock.client.rpc.mockResolvedValueOnce({ data: null, error: { message: 'not found' } } as never)
-    await expect(fetchProfileSummary('u1')).resolves.toMatchObject({ combined: false, tier: 'free' })
+    await expect(fetchProfileSummary('u1')).resolves.toMatchObject({ combined: false })
   })
 
   it('reuses the community stats for 5 minutes', async () => {

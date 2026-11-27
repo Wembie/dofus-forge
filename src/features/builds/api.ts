@@ -818,23 +818,6 @@ export const fetchProfileByUsername = guard(async function fetchProfileByUsernam
   return { data: data as PublicProfile, error: null }
 }, error => ({ data: null, error }))
 
-export type MembershipTier = 'free' | 'apprentice' | 'artisan' | 'forger' | 'master'
-
-/**
- * `memberships`' own RLS only lets a user read their own row (it holds
- * billing fields like provider_customer_id, and RLS is row-level, not
- * column-level) — so a public profile showing someone ELSE's tier goes
- * through this RPC instead, which exposes only the tier via a security
- * definer function (get_public_membership_tier). No row in `memberships`
- * means free tier (docs/MEMBERSHIP_DESIGN.md §7): the table only ever holds
- * accounts that actually subscribed, so that's the common case today.
- */
-export const fetchMembershipTier = guard(async function fetchMembershipTier(userId: string): Promise<MembershipTier> {
-  const supabase = await getSupabase()
-  const { data } = await supabase.rpc('get_public_membership_tier', { p_user_id: userId })
-  return (data as MembershipTier | null) ?? 'free'
-}, () => 'free' as const)
-
 /**
  * Lightweight aggregate stats for a profile's public builds — count + total
  * likes received, WITHOUT ever pulling the full build rows (snapshot JSON
@@ -864,32 +847,30 @@ export const fetchUserPublicStats = guard(async function fetchUserPublicStats(us
 export type ProfileSummary = {
   stats:        { buildCount: number; likeCount: number }
   commentCount: number
-  tier:         MembershipTier
   /** Raw get_public_custom_rank row; parse with parsePublicCustomRank. */
   rank:         unknown
   /** False when the combined RPC isn't deployed: the caller fetches the rank itself. */
   combined:     boolean
 }
 
-/** A public profile's header numbers, tier and custom rank in one round trip
+/** A public profile's header numbers and custom rank in one round trip
  * (get_public_profile_summary); falls back to the separate queries if that
  * function isn't deployed. */
 export const fetchProfileSummary = guard(async function fetchProfileSummary(userId: string): Promise<ProfileSummary> {
   const supabase = await getSupabase()
   const { data, error } = await supabase.rpc('get_public_profile_summary', { p_user_id: userId })
   if (!error && data) {
-    const s = data as { tier?: MembershipTier; rank?: unknown; build_count?: number; like_count?: number; comment_count?: number }
+    const s = data as { rank?: unknown; build_count?: number; like_count?: number; comment_count?: number }
     return {
       stats: { buildCount: Number(s.build_count ?? 0), likeCount: Number(s.like_count ?? 0) },
       commentCount: Number(s.comment_count ?? 0),
-      tier: s.tier ?? 'free',
       rank: s.rank ?? null,
       combined: true,
     }
   }
-  const [stats, comments, tier] = await Promise.all([fetchUserPublicStats(userId), fetchPublicCommentCount(userId), fetchMembershipTier(userId)])
-  return { stats: { buildCount: stats.buildCount, likeCount: stats.likeCount }, commentCount: comments.count, tier, rank: null, combined: false }
-}, () => ({ stats: { buildCount: 0, likeCount: 0 }, commentCount: 0, tier: 'free' as MembershipTier, rank: null, combined: false }))
+  const [stats, comments] = await Promise.all([fetchUserPublicStats(userId), fetchPublicCommentCount(userId)])
+  return { stats: { buildCount: stats.buildCount, likeCount: stats.likeCount }, commentCount: comments.count, rank: null, combined: false }
+}, () => ({ stats: { buildCount: 0, likeCount: 0 }, commentCount: 0, rank: null, combined: false }))
 
 /**
  * Comments this user has posted, scoped to comments on PUBLIC builds only

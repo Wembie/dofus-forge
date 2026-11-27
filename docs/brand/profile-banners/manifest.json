@@ -1,13 +1,13 @@
 {
   "collection": "Forge World of Twelve banners",
-  "revision": 6,
+  "revision": 7,
   "createdOn": "2026-11-22",
   "generator": "Built-in image_gen",
   "useCase": "illustration-story",
   "targetGame": "DOFUS 3.7 / Unity",
   "gameDataVersion": "3.7.12.12",
   "version": "0.4.10",
-  "status": "60 selectable landscapes; eight sixth-collection additions in Forge 0.4.25, preserving the earlier 52 artworks",
+  "status": "68 selectable landscapes; eight seventh-collection additions in Forge 0.4.26, preserving the previous 60 artworks",
   "referenceProvenance": "Published environment references include earlier city/Pandala redesign artwork and game screenshots. The target version does not assert that each reference was captured in 3.7. Source images remain local; these are original fan-art interpretations.",
   "banners": [
     {
@@ -2942,6 +2942,494 @@
         "gameReferencesInspected": true,
         "note": "Original y recortes escritorio/movil revisados. Sepulcros con tapas inclinadas de madera y hierro remachado, rejas cortas, hojas secas y acantilados de lava mantienen el cementerio del cliente actual. Motivos funerarios inanimados, sin muertos vivientes, gore ni artefactos del render."
       }
+    },
+    {
+      "id": "bworker-cave",
+      "location": "Cueva de Bworker",
+      "asset": "public/banners/locations/v1/bworker-cave.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 337752,
+      "sha256": "23fd0ce1ce9435e4439f4d10e8e0460546de8374d1f159d3a86610eeebd70eeb",
+      "localPngMaster": "temp/profile-banners/masters/v1/bworker-cave.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "815a1e18d062328e0285d50ac3652778b5212572636c7a1ccfc91e13930b8f9f",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.26",
+      "identity": "Actual installed 3.7 Bworker cave: dark brown rough cavern with tall black/ochre rock walls, enormous pale ivory tusk/rib arches planted in the floor, a low entrance framed by a bleached horned animal skull and curving tusks, hanging square rusty iron cages on heavy chains, broken pale paving slabs through ochre dirt and dry golden scrub, small crude wooden tables/crates and torch sconces. No living Bworker or captives. Ignore black opaque rectangles, hard voids and overlapping dark foreground silhouettes in reference preparation; those are renderer artifacts, not architecture. This is a bone-and-cage cave, not a modern factory or town.",
+      "composition": "A broad low-view cave panorama following a quiet cracked pale stone path through warm ochre dust toward the horned-skull tusk gateway just left of center. Two hanging rusty square cages recede across the upper middle, a cluster of large ivory ribs frames the right edge. Warm modest torchlight against readable matte charcoal-brown rock, dry golden grasses at bases, restrained shadows and clear paper-textured atmosphere. Keep central bone gateway readable in mobile crop and lower-left path quiet.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/bworker-cave-104336897.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 104336897,
+          "mapBundle": "Map/Data/mapdata_assets_world_398.bundle",
+          "sourceMapBundleSha256": "525f96c9d69f832bcd79ef32b71fdd6155ee810900ed9d37838814acd650f4ec",
+          "sha256": "f8274c3cc18e3a44097e623f1f9c047cb9e9bef3981887fd1c2fd8861a03b0c6",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/bworker-cave-104335873.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 104335873,
+          "mapBundle": "Map/Data/mapdata_assets_world_398.bundle",
+          "sourceMapBundleSha256": "525f96c9d69f832bcd79ef32b71fdd6155ee810900ed9d37838814acd650f4ec",
+          "sha256": "8c695b20659673296f3978e30d0b95dbf45186706423c8db8bf5465a33188de4",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Cueva de Bworker.\nKEEP THE REAL LOCATION IDENTITY: Actual installed 3.7 Bworker cave: dark brown rough cavern with tall black/ochre rock walls, enormous pale ivory tusk/rib arches planted in the floor, a low entrance framed by a bleached horned animal skull and curving tusks, hanging square rusty iron cages on heavy chains, broken pale paving slabs through ochre dirt and dry golden scrub, small crude wooden tables/crates and torch sconces. No living Bworker or captives. Ignore black opaque rectangles, hard voids and overlapping dark foreground silhouettes in reference preparation; those are renderer artifacts, not architecture. This is a bone-and-cage cave, not a modern factory or town.\nDISTINCT COMPOSITION AND MOOD: A broad low-view cave panorama following a quiet cracked pale stone path through warm ochre dust toward the horned-skull tusk gateway just left of center. Two hanging rusty square cages recede across the upper middle, a cluster of large ivory ribs frames the right edge. Warm modest torchlight against readable matte charcoal-brown rock, dry golden grasses at bases, restrained shadows and clear paper-textured atmosphere. Keep central bone gateway readable in mobile crop and lower-left path quiet.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Cueva de Bworker",
+        "en": "Bworker's Cave",
+        "fr": "Grotte du Bworker",
+        "pt": "Gruta do Bworker"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Inspected native panorama and desktop/mobile crops against both installed-client maps: pale tusk/skull gateway, hanging riveted cages, cracked paving and ochre cave floor recognizable; no renderer rectangles or live creatures. Mobile crop retains gateway/cages, lower-left quiet path, coherent ink/watercolor matching collection."
+      }
+    },
+    {
+      "id": "kimbo-canopy",
+      "location": "Canopea del Kimbo",
+      "asset": "public/banners/locations/v1/kimbo-canopy.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 425830,
+      "sha256": "d0a7475639b3528808d944317991d38fb923a3ed25cff1af160f866a78682adb",
+      "localPngMaster": "temp/profile-banners/masters/v1/kimbo-canopy.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "8aa5699ac1f87d792717e539fc20bb1304877d50940c18f840ec30851438e2d6",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.26",
+      "identity": "Actual installed 3.7 Kimbo canopy: wide weathered wooden walkways and square plank terraces suspended high ABOVE soft ivory clouds, distinctive thin golden-green living-vine railings with repeated loops, enormous segmented brown tree limbs wrapped in climbing green shoots, long hanging vine strings and clusters of very tall thin angular yellow/green leaves on spindly stalks. Several open rectangular gaps in platform expose cloud depth, small red mushrooms and little pale pots near railing. Preserve this airy cloud-level canopy architecture rather than a generic ground-level jungle village. No living Kimbo or companions; ignore blank borders and overlapping rectangular sky planes from reference reconstruction.",
+      "composition": "An airy panoramic view from a broad timber walkway toward a vine-railed platform just above soft white clouds, a massive curved vine-wrapped branch sweeps along the upper right toward the center and spindly yellow-green canopy plants frame the left. A square open gap in the decking reveals cloud beneath, simple looped vine rails lead the eye into distance. Light blue sky, warm old wood, subdued golden leaves and fresh muted greens. Central walkway/branch stay readable in mobile crop; lower-left quiet wood and mist. Fresh ink and matte watercolor, no neon, no floating city buildings.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/kimbo-canopy-21498882.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 21498882,
+          "mapBundle": "Map/Data/mapdata_assets_world_82.bundle",
+          "sourceMapBundleSha256": "0cf9b7be9682799f3df47c31d066f4bbd3bc60f7944d2ef542c8b49873cf478b",
+          "sha256": "14cf19d0f95a464a965ee865a565f2bcfd9a23609cab1aac73427ed4628e232d",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/kimbo-canopy-21495808.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 21495808,
+          "mapBundle": "Map/Data/mapdata_assets_world_82.bundle",
+          "sourceMapBundleSha256": "0cf9b7be9682799f3df47c31d066f4bbd3bc60f7944d2ef542c8b49873cf478b",
+          "sha256": "841d2e495bc1720b14dc5a601eea69d46352ed642df93179621b42e369ad9271",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Canopea del Kimbo.\nKEEP THE REAL LOCATION IDENTITY: Actual installed 3.7 Kimbo canopy: wide weathered wooden walkways and square plank terraces suspended high ABOVE soft ivory clouds, distinctive thin golden-green living-vine railings with repeated loops, enormous segmented brown tree limbs wrapped in climbing green shoots, long hanging vine strings and clusters of very tall thin angular yellow/green leaves on spindly stalks. Several open rectangular gaps in platform expose cloud depth, small red mushrooms and little pale pots near railing. Preserve this airy cloud-level canopy architecture rather than a generic ground-level jungle village. No living Kimbo or companions; ignore blank borders and overlapping rectangular sky planes from reference reconstruction.\nDISTINCT COMPOSITION AND MOOD: An airy panoramic view from a broad timber walkway toward a vine-railed platform just above soft white clouds, a massive curved vine-wrapped branch sweeps along the upper right toward the center and spindly yellow-green canopy plants frame the left. A square open gap in the decking reveals cloud beneath, simple looped vine rails lead the eye into distance. Light blue sky, warm old wood, subdued golden leaves and fresh muted greens. Central walkway/branch stay readable in mobile crop; lower-left quiet wood and mist. Fresh ink and matte watercolor, no neon, no floating city buildings.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Canopea del Kimbo",
+        "en": "Kimbo's Canopy",
+        "fr": "Canopée du Kimbo",
+        "pt": "Dossel do Kimbo"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Native and desktop/mobile crops inspected against installed maps: cloud-level wood terraces, rectangular gaps, looping golden-green vine rails, large vine-wrapped curved branch and angular canopy plants preserved. Central walkway/branch remain readable on mobile; no living Kimbo, renderer rectangles or borrowed Bonta architecture."
+      }
+    },
+    {
+      "id": "tynril-lab",
+      "location": "Laboratorio del Tynril",
+      "asset": "public/banners/locations/v1/tynril-lab.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 406592,
+      "sha256": "2aae78d91a2bb39e9a4e0d070c45485ee2c9118cb6b5e2b7b553da5daae3f64b",
+      "localPngMaster": "temp/profile-banners/masters/v1/tynril-lab.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "8374360d0e33b590f84972989d352b982d92f3b0271a55e55824e6a05dc27886",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.26",
+      "identity": "Actual installed 3.7 Tynril laboratory: a warm old botanical room with worn wooden plank floor, cream plaster/stone walls with small recesses and slim arched doorway, green rectangular planter/work benches, tall narrow gold-capped glass test cylinders filled in pink/red, blue and yellow-green, hanging round green glass lamp and little suspended colored flasks. Two squat brown plant-growth bell pods with oval red/blue-rimmed inspection windows and long drooping leaves spill among flowers. Thick curling overhead vines and modest herb planters, baskets and jars. Keep the whimsical botanical science equipment, not a modern metal sci-fi lab or ordinary forest. Pods/windows are static apparatus, not monster faces. No Tynril monsters or people; ignore opaque black rectangle/void preparation artifacts.",
+      "composition": "An inviting panoramic botanical workshop aisle: two squat brown growth pods and their trailing leaves just left of center, a green workbench with herbs and a pair of gold-capped colored glass columns across the middle, cream arched door a little right of center. Small green round hanging lamp above, a few loose vines and colored flasks frame the upper edge. Warm cream, old wood, muted leaf green with restrained ruby and teal glass accents, soft diffuse interior paper-light. Central apparatus and doorway read on mobile, lower-left open wooden floor.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/tynril-lab-89393154.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 89393154,
+          "mapBundle": "Map/Data/mapdata_assets_world_341.bundle",
+          "sourceMapBundleSha256": "f9036ab64f30d7f1d59542192ccee8730ca3454799f4c816eb6bf7a572bb24fc",
+          "sha256": "02f3acfdb077f50396f985613eba3e092a3b2675b54311149ffd4e025c3a3949",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/tynril-lab-89392128.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 89392128,
+          "mapBundle": "Map/Data/mapdata_assets_world_341.bundle",
+          "sourceMapBundleSha256": "f9036ab64f30d7f1d59542192ccee8730ca3454799f4c816eb6bf7a572bb24fc",
+          "sha256": "9853db3588550a20fa0243143a0279a4f5dce80b44e44b908a7623498420e1a7",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Laboratorio del Tynril.\nKEEP THE REAL LOCATION IDENTITY: Actual installed 3.7 Tynril laboratory: a warm old botanical room with worn wooden plank floor, cream plaster/stone walls with small recesses and slim arched doorway, green rectangular planter/work benches, tall narrow gold-capped glass test cylinders filled in pink/red, blue and yellow-green, hanging round green glass lamp and little suspended colored flasks. Two squat brown plant-growth bell pods with oval red/blue-rimmed inspection windows and long drooping leaves spill among flowers. Thick curling overhead vines and modest herb planters, baskets and jars. Keep the whimsical botanical science equipment, not a modern metal sci-fi lab or ordinary forest. Pods/windows are static apparatus, not monster faces. No Tynril monsters or people; ignore opaque black rectangle/void preparation artifacts.\nDISTINCT COMPOSITION AND MOOD: An inviting panoramic botanical workshop aisle: two squat brown growth pods and their trailing leaves just left of center, a green workbench with herbs and a pair of gold-capped colored glass columns across the middle, cream arched door a little right of center. Small green round hanging lamp above, a few loose vines and colored flasks frame the upper edge. Warm cream, old wood, muted leaf green with restrained ruby and teal glass accents, soft diffuse interior paper-light. Central apparatus and doorway read on mobile, lower-left open wooden floor.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Laboratorio del Tynril",
+        "en": "Tynril Lab",
+        "fr": "Laboratoire du Tynril",
+        "pt": "Laboratório do Tynril"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Native and desktop/mobile crops inspected: brown botanical growth pods with blue/red oval windows, green planter benches, colored glass cylinders with gold caps, green hanging glass lamp, cream arched door and wooden floor match actual maps. Center apparatus readable on mobile; no monster faces, live creatures, text or source reconstruction rectangles."
+      }
+    },
+    {
+      "id": "ougah-temple",
+      "location": "Templo del Gran Ugah",
+      "asset": "public/banners/locations/v1/ougah-temple.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 467906,
+      "sha256": "30351ddef9028b29eed7b6b4bd8e4e10787d9ac23410d8ba5910b9fffe846c62",
+      "localPngMaster": "temp/profile-banners/masters/v1/ougah-temple.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "4c6692504df20f5cc77a51dc1ac074ca64811735042f54d092f75348f3a5b215",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.26",
+      "identity": "Actual installed 3.7 Great Ougah temple: mossy green-gray square stone walls, columns and tiled paths inside a dark fungal sanctuary, distinctive DEEP BLUE mushroom-shaped barred doors/arches, ceremonial mushroom-cap shaped stone altar, small pools of turquoise water. Tall delicate SILVERY-WHITE narrow glowing mushroom clusters mixed with pale lavender, blue-speckled dark tree-like fungi, little round brown/red caps, and blue/white dotted semicircular fungal arch ornaments behind a doorway. Preserve the cool mushroom-temple identity, no generic purple fantasy forest or enormous invented monster statue. No living Ougah or people; ignore hard black rectangular overlays/voids in reconstructed maps.",
+      "composition": "A tranquil blue-green temple panorama looking along shallow stone steps across a small tiled court toward a distinctive blue mushroom-shaped barred doorway near middle-right, round ceremonial paving and a trumpet-cap mushroom altar slightly left of center. Slender pale white/lavender mushrooms gather around pools and column bases, dark blue-speckled fungi frame far edges. Restrained milky bioluminescence painted as soft watercolor light, NOT neon or bloom. Cool moss stone, desaturated navy, quiet aqua water and silver caps. Central doorway and pale fungi readable in narrow mobile crop, quiet lower-left stone.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/ougah-temple-182322179.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 182322179,
+          "mapBundle": "Map/Data/mapdata_assets_world_695.bundle",
+          "sourceMapBundleSha256": "5badd77a1b9d099d8edd05e0a886acef50cc9b4f90b935034dbdd903e5dbd9c6",
+          "sha256": "4d194d5de69f704c9a363a60787720d4189cb744dcc7b57b58e4d13659ca61ef",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/ougah-temple-182326273.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 182326273,
+          "mapBundle": "Map/Data/mapdata_assets_world_695.bundle",
+          "sourceMapBundleSha256": "5badd77a1b9d099d8edd05e0a886acef50cc9b4f90b935034dbdd903e5dbd9c6",
+          "sha256": "07d40f29a52bb1180ec69788541f7033607e58dd4fe83645c53ed2ab7e3a3872",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Templo del Gran Ugah.\nKEEP THE REAL LOCATION IDENTITY: Actual installed 3.7 Great Ougah temple: mossy green-gray square stone walls, columns and tiled paths inside a dark fungal sanctuary, distinctive DEEP BLUE mushroom-shaped barred doors/arches, ceremonial mushroom-cap shaped stone altar, small pools of turquoise water. Tall delicate SILVERY-WHITE narrow glowing mushroom clusters mixed with pale lavender, blue-speckled dark tree-like fungi, little round brown/red caps, and blue/white dotted semicircular fungal arch ornaments behind a doorway. Preserve the cool mushroom-temple identity, no generic purple fantasy forest or enormous invented monster statue. No living Ougah or people; ignore hard black rectangular overlays/voids in reconstructed maps.\nDISTINCT COMPOSITION AND MOOD: A tranquil blue-green temple panorama looking along shallow stone steps across a small tiled court toward a distinctive blue mushroom-shaped barred doorway near middle-right, round ceremonial paving and a trumpet-cap mushroom altar slightly left of center. Slender pale white/lavender mushrooms gather around pools and column bases, dark blue-speckled fungi frame far edges. Restrained milky bioluminescence painted as soft watercolor light, NOT neon or bloom. Cool moss stone, desaturated navy, quiet aqua water and silver caps. Central doorway and pale fungi readable in narrow mobile crop, quiet lower-left stone.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Templo del Gran Ugah",
+        "en": "Temple of the Great Ougaa",
+        "fr": "Temple du Grand Ougah",
+        "pt": "Templo do Grande Ugah"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Native panorama and desktop/mobile crops inspected against map references: green stone fungal sanctuary, blue mushroom-shaped barred gate, dotted cap arches, silver-white/lavender fungi, altar and aqua pools recognizable. Central gate and mushrooms survive mobile crop. Matte cool watercolor, no living Ougah, neon bloom or black renderer overlays."
+      }
+    },
+    {
+      "id": "royalmouth-greenhouse",
+      "location": "Invernáculo de Jalamut Real",
+      "asset": "public/banners/locations/v1/royalmouth-greenhouse.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 417068,
+      "sha256": "e5a3cf3ae0e9e70a1460efe762fec265ac04b30002ba8131c6a14d768c9ae623",
+      "localPngMaster": "temp/profile-banners/masters/v1/royalmouth-greenhouse.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "4f002e6109e4e64672062c9f7d7d252ba81afd0e1b5c911af452bcf635eb303c",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.26",
+      "identity": "Actual installed 3.7 Royalmouth/Royal Mastogob greenhouse: rounded high GLASS DOME with pale gray-green curved structural ribs and cold snowy outside visible through panes. Broad circular pale timber floor rings around a central heavy industrial PIPE/greenhouse control column with smaller metal plumbing, brass/yellow gauges, valves, cylindrical joints and instrument fittings. Warm diverse potted plants, tall sunflowers, red-fruit shrubs, squash/orange produce, green tropical leaves and small flowerpots line outer ring. A simple framed green chalkboard at side is unreadable/blank. Preserve circular glass conservatory and central brass/gray pipe machinery rather than a snowy village or generic ornate palace. No living Royalmouth, animals or people. Omit opaque black ceiling/rectangle renderer artifacts.",
+      "composition": "A bright panoramic view from the rounded timber floor toward the central greenhouse control pipe and its brass gauges just right of middle, with snowy daylight through the curved glass wall behind. Sunflowers and a potted red-fruit shrub on left, low orange produce crates and tropical leaves on right, small pots along circular base. Pale silver-blue winter outside contrasts with quiet honey wood and leaf green inside. Keep gauges, pipe base and dome ribs in central mobile-safe area; lower-left uncluttered curved wood floor. Matte airy ink/watercolor, no modern electronics or legible chalk text.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/royalmouth-greenhouse-55050240.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 55050240,
+          "mapBundle": "Map/Data/mapdata_assets_world_210.bundle",
+          "sourceMapBundleSha256": "7d39e93956adca45ec844e774d54e6e9a9851a40f9089a92ae7b14e01560dd57",
+          "sha256": "7fbb9a5fbbe170925f5d8bcd59aa2784e425128ada780e2466bdcd8f2013fed2",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/royalmouth-greenhouse-55054336.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 55054336,
+          "mapBundle": "Map/Data/mapdata_assets_world_210.bundle",
+          "sourceMapBundleSha256": "7d39e93956adca45ec844e774d54e6e9a9851a40f9089a92ae7b14e01560dd57",
+          "sha256": "61a9bdd22fe552bb693f648d7606ac0fb1df1b383ce7d184b9798150a713259f",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Invernáculo de Jalamut Real.\nKEEP THE REAL LOCATION IDENTITY: Actual installed 3.7 Royalmouth/Royal Mastogob greenhouse: rounded high GLASS DOME with pale gray-green curved structural ribs and cold snowy outside visible through panes. Broad circular pale timber floor rings around a central heavy industrial PIPE/greenhouse control column with smaller metal plumbing, brass/yellow gauges, valves, cylindrical joints and instrument fittings. Warm diverse potted plants, tall sunflowers, red-fruit shrubs, squash/orange produce, green tropical leaves and small flowerpots line outer ring. A simple framed green chalkboard at side is unreadable/blank. Preserve circular glass conservatory and central brass/gray pipe machinery rather than a snowy village or generic ornate palace. No living Royalmouth, animals or people. Omit opaque black ceiling/rectangle renderer artifacts.\nDISTINCT COMPOSITION AND MOOD: A bright panoramic view from the rounded timber floor toward the central greenhouse control pipe and its brass gauges just right of middle, with snowy daylight through the curved glass wall behind. Sunflowers and a potted red-fruit shrub on left, low orange produce crates and tropical leaves on right, small pots along circular base. Pale silver-blue winter outside contrasts with quiet honey wood and leaf green inside. Keep gauges, pipe base and dome ribs in central mobile-safe area; lower-left uncluttered curved wood floor. Matte airy ink/watercolor, no modern electronics or legible chalk text.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Invernáculo de Jalamut Real",
+        "en": "Royal Mastogob's Greenhouse",
+        "fr": "Serre du Royalmouth",
+        "pt": "Estufa do Papamute Real"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Inspected native and desktop/mobile crops: rounded ribbed glass dome, snowy outside, circular timber floor around central mechanical pipe and brass gauges, sunflowers/fruit/greenhouse plants match installed maps. Mobile retains pipe, glass ribs and plants. Blank chalkboard, no live Royalmouth or modern machinery, no reference void rectangles."
+      }
+    },
+    {
+      "id": "obsidemon-hypogeum",
+      "location": "Hipogeo del Obsidiantre",
+      "asset": "public/banners/locations/v1/obsidemon-hypogeum.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 337876,
+      "sha256": "5f5fe78aebc6bada51d516c88ed0e0401141e0f6aec57420f1429c4afe6dcb69",
+      "localPngMaster": "temp/profile-banners/masters/v1/obsidemon-hypogeum.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "dc03f8281c602989091dd312013cbf29b26ca178d684d640d8ba1551d6f6b875",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.26",
+      "identity": "Actual installed 3.7 Obsidemon hypogeum: broad fractured CHARCOAL BASALT platforms with small cracked stone paving, thin irregular rock passages above a vast molten ORANGE lava cavern, tall orange lava curtains/falls behind. Small rounded porous black volcanic vents have amber glowing holes and short smoking fissures, tall corkscrew-like smoke columns, sparse scorched black dead trees at edges. Preserve these broken basalt slabs, volcanic chimneys and lava falls, no Brakmar buildings, industrial metal platforms or invented fortress. No living Obsidemon or monsters. Ignore flat rectangular lava overlay planes and black preparation blocks in source maps.",
+      "composition": "A powerful panoramic view along a fractured basalt causeway toward two small porous volcanic vents in the middle distance, amber fissures in their dark surfaces releasing soft gray-brown smoke. Broad lava channels divide rough rock ledges; tall muted orange lava falls descend far behind through warm cavern haze. One small burnt tree silhouettes the outer right edge. Matte charcoal, burnt sienna and restrained molten gold, hand-painted watercolor light rather than neon or cinematic bloom. Central broken path and vents remain readable on mobile, lower-left broad quiet dark stone.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/obsidemon-hypogeum-57155841.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 57155841,
+          "mapBundle": "Map/Data/mapdata_assets_world_218.bundle",
+          "sourceMapBundleSha256": "eb286b2366b2c481c06c19518dbbeb6b23db4da7ea54bb0020df5c86b16acc6a",
+          "sha256": "e1bb6ce19e0080d79bd867994d510b95e247bd3f6e2b2d75ba3a396f2c477147",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/obsidemon-hypogeum-57152769.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 57152769,
+          "mapBundle": "Map/Data/mapdata_assets_world_218.bundle",
+          "sourceMapBundleSha256": "eb286b2366b2c481c06c19518dbbeb6b23db4da7ea54bb0020df5c86b16acc6a",
+          "sha256": "c822e41968fd0464f84018226d36272b185bcc982c693e2e66b3fd678b3fa27f",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Hipogeo del Obsidiantre.\nKEEP THE REAL LOCATION IDENTITY: Actual installed 3.7 Obsidemon hypogeum: broad fractured CHARCOAL BASALT platforms with small cracked stone paving, thin irregular rock passages above a vast molten ORANGE lava cavern, tall orange lava curtains/falls behind. Small rounded porous black volcanic vents have amber glowing holes and short smoking fissures, tall corkscrew-like smoke columns, sparse scorched black dead trees at edges. Preserve these broken basalt slabs, volcanic chimneys and lava falls, no Brakmar buildings, industrial metal platforms or invented fortress. No living Obsidemon or monsters. Ignore flat rectangular lava overlay planes and black preparation blocks in source maps.\nDISTINCT COMPOSITION AND MOOD: A powerful panoramic view along a fractured basalt causeway toward two small porous volcanic vents in the middle distance, amber fissures in their dark surfaces releasing soft gray-brown smoke. Broad lava channels divide rough rock ledges; tall muted orange lava falls descend far behind through warm cavern haze. One small burnt tree silhouettes the outer right edge. Matte charcoal, burnt sienna and restrained molten gold, hand-painted watercolor light rather than neon or cinematic bloom. Central broken path and vents remain readable on mobile, lower-left broad quiet dark stone.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Hipogeo del Obsidiantre",
+        "en": "The Obsidemon's Hypogeum",
+        "fr": "Hypogée de l'Obsidiantre",
+        "pt": "Hipogeu do Obsidemônio"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Inspected native plus desktop/mobile crops: fractured charcoal basalt causeways, porous amber-holed smoking vents, lava channels/falls and burnt tree correspond to installed maps. Mobile retains path, vents and falls. One coherent empty volcanic scene, no Obsidemon creature or industrial fortress, matte warm watercolor without source rectangle overlays."
+      }
+    },
+    {
+      "id": "bethel-tower",
+      "location": "Torre de Bethel",
+      "asset": "public/banners/locations/v1/bethel-tower.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 376172,
+      "sha256": "9b7bcdedd90610e3d70549e3cd16436cb23f28ce0095421da67adb675b12d770",
+      "localPngMaster": "temp/profile-banners/masters/v1/bethel-tower.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "d6db1a365adfcb906a48039d41610cd0468068c84d87dcd23058fb435d5381c0",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.26",
+      "identity": "Actual installed 3.7 Bethel tower interior: an ORGANIC blue-green undersea chamber, massive porous nautilus/ammonite SHELL walls with deep curled openings, giant lavender opalescent shell/fan plates attached to side walls, big purple spiral ammonite on right. Irregular pale teal stone paving inlaid with broad VIOLET SPIRAL shell patterns; low round lavender shell pods anchored on floor, slender ivory/white tube corals and curling white coral branches, restrained pale green sea growth and a few tiny pink coral tufts. This is an eerie organic shell sanctuary, not an exterior gothic tower, metal factory or modern aquarium. Use static shell architecture only, no living jellyfish, sea beasts, Bethel or people. Ignore transparent overlay discs, hard seams and rectangular reference planes.",
+      "composition": "A serene mysterious panoramic passage through pale teal shell-stone paving toward a tall sculptural AMMONITE spiral wall just right of center, with a large lavender fan-like shell plate on left and violet spiral floor inlays across middle. Low rounded pale shell pods and elegant thin ivory tube corals border the path, dark porous blue-green organic walls recede into soft watercolor haze. Muted amethyst, sage-teal and opalescent pale ivory with gentle painted lavender light, no neon bloom. Center spiral architecture and floor motifs must read in mobile crop; lower-left quiet pale paving.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/bethel-tower-187433984.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 187433984,
+          "mapBundle": "Map/Data/mapdata_assets_world_715.bundle",
+          "sourceMapBundleSha256": "cee6b469ae74f326f8662d99b7c25fb621076e71c1bb554948dccdaae9e40cbb",
+          "sha256": "42974f5466ef8d8a50808f3bd8930624640497ae6173b9d5a4e42b63769879c0",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/bethel-tower-187436032.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 187436032,
+          "mapBundle": "Map/Data/mapdata_assets_world_715.bundle",
+          "sourceMapBundleSha256": "cee6b469ae74f326f8662d99b7c25fb621076e71c1bb554948dccdaae9e40cbb",
+          "sha256": "cc8c465dcb3547cbb6caa52efb335fac20eacafe5c8e9e31c5287913f55edb31",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Torre de Bethel.\nKEEP THE REAL LOCATION IDENTITY: Actual installed 3.7 Bethel tower interior: an ORGANIC blue-green undersea chamber, massive porous nautilus/ammonite SHELL walls with deep curled openings, giant lavender opalescent shell/fan plates attached to side walls, big purple spiral ammonite on right. Irregular pale teal stone paving inlaid with broad VIOLET SPIRAL shell patterns; low round lavender shell pods anchored on floor, slender ivory/white tube corals and curling white coral branches, restrained pale green sea growth and a few tiny pink coral tufts. This is an eerie organic shell sanctuary, not an exterior gothic tower, metal factory or modern aquarium. Use static shell architecture only, no living jellyfish, sea beasts, Bethel or people. Ignore transparent overlay discs, hard seams and rectangular reference planes.\nDISTINCT COMPOSITION AND MOOD: A serene mysterious panoramic passage through pale teal shell-stone paving toward a tall sculptural AMMONITE spiral wall just right of center, with a large lavender fan-like shell plate on left and violet spiral floor inlays across middle. Low rounded pale shell pods and elegant thin ivory tube corals border the path, dark porous blue-green organic walls recede into soft watercolor haze. Muted amethyst, sage-teal and opalescent pale ivory with gentle painted lavender light, no neon bloom. Center spiral architecture and floor motifs must read in mobile crop; lower-left quiet pale paving.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Torre de Bethel",
+        "en": "Bethel's Tower",
+        "fr": "Tour de Bethel",
+        "pt": "Torre de Bethel"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Native and desktop/mobile crops inspected: porous blue-green organic shell walls, huge violet ammonite, lavender fan plates, spiral floor inlays, pale tube corals and fixed shell pods match actual Bethel interior. Center ammonite/floor remain readable in mobile. No invented gothic exterior, live jellyfish, monsters or renderer overlay planes."
+      }
+    },
+    {
+      "id": "torkelonia-sanctuary",
+      "location": "Santuario de Torkelonia",
+      "asset": "public/banners/locations/v1/torkelonia-sanctuary.webp",
+      "width": 1920,
+      "height": 640,
+      "bytes": 330078,
+      "sha256": "80e6253cb5f113dc83c45cfc56c0c5e6a4a71b54ae3e467ee09adcd14a2f8112",
+      "localPngMaster": "temp/profile-banners/masters/v1/torkelonia-sanctuary.png",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "masterSha256": "27a5e0e82c707f4c63b8c8155584e465e35d2d0feae3a9283c4cf18924fad596",
+      "sourceClientVersion": "3.7.14.18",
+      "addedOn": "2026-11-26",
+      "forgeVersion": "0.4.26",
+      "identity": "Actual installed 3.7 Turtelonia/Torkelonia sanctuary: submerged dark JADE-GREEN/blue-gray temple built of enormous rectangular stone blocks, broad stacked terraces and short straight stairs between heavy squared pillars. Worn rectangular spiral/geometric carvings on paving and raised borders. Long layered green sea plants climb pillar edges; small hanging aquatic fronds and clusters of round YELLOW pale-lit growths soften corners. A few gray pottery bowls, jars, shallow dishes, scattered small shells/old bones and a narrow old ladder occur in side rooms. Preserve massive block geometry and underwater jade ruins; no invented giant turtle statue, tropical village, palace or live Torkelonia/monsters. Ignore hard black rectangular foreground overlays and lighting-plane seams from map reconstruction.",
+      "composition": "An atmospheric panoramic empty submerged sanctuary court: a short broad straight staircase climbs through two levels of heavy jade block terraces at center, flanked by squared pillars draped in layered green aquatic leaves. Faint worn geometric paving in foreground, a few round yellow growths and delicate trailing fronds near the pillars, modest gray bowls/jars along a ledge. Soft filtered golden-green light from upper left through quiet deep water, readable matte blue-gray masonry with pale watercolor edges. Main terraces/stairs stay central for mobile, lower-left broad uncluttered paving. No neon, cinematic rays, floating debris or creatures.",
+      "references": [
+        {
+          "role": "approved Forge banner technique only",
+          "file": "public/banners/locations/v1/bonta.webp"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/torkelonia-sanctuary-198708224.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 198708224,
+          "mapBundle": "Map/Data/mapdata_assets_world_758.bundle",
+          "sourceMapBundleSha256": "e7430593a18285f7797231bb56f13dfbcae1f94c261073ebba6bff584037266e",
+          "sha256": "3d026193b4b51d6eca83a98221bd2293322be6a8e6a17db378237cb084739115",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        },
+        {
+          "role": "location identity from installed DOFUS 3.7 client",
+          "localReference": "temp/profile-banners/expansion-6/references/torkelonia-sanctuary-198706176.png",
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 198706176,
+          "mapBundle": "Map/Data/mapdata_assets_world_758.bundle",
+          "sourceMapBundleSha256": "e7430593a18285f7797231bb56f13dfbcae1f94c261073ebba6bff584037266e",
+          "sha256": "0238f4524570e9ce86e0b17cc9344a2e2f2befbbf971ee3beb6e22541916362e",
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner.",
+          "renderer": "scripts/render-banner-references.py"
+        }
+      ],
+      "prompt": "Use case: illustration-story. Asset type: original Dofus Forge USER PROFILE BACKGROUND BANNER. Create ONE ULTRAWIDE horizontal illustration, 1536 x 512, exactly 3:1. The target is DOFUS 3.7, specifically the installed 3.7.14.18 client. IMAGE 1 is the approved Forge Bonta banner, used ONLY for ink-and-watercolor ART TECHNIQUE. Do not transplant its buildings, fountain or composition; preserve each target own architecture, silhouette and palette. Remaining images are LOCATION IDENTITY references reconstructed from actual 3.7.14.18 map data and graphic assets. Rough edges, gray/white voids, overlay rectangles, missing shaders and isolated cut-off objects are preparation artifacts to ignore. Interpret the actual landmarks as a fresh coherent panoramic landscape, not an isometric screenshot, trace or collage.\n\n\nLOCATION: Santuario de Torkelonia.\nKEEP THE REAL LOCATION IDENTITY: Actual installed 3.7 Turtelonia/Torkelonia sanctuary: submerged dark JADE-GREEN/blue-gray temple built of enormous rectangular stone blocks, broad stacked terraces and short straight stairs between heavy squared pillars. Worn rectangular spiral/geometric carvings on paving and raised borders. Long layered green sea plants climb pillar edges; small hanging aquatic fronds and clusters of round YELLOW pale-lit growths soften corners. A few gray pottery bowls, jars, shallow dishes, scattered small shells/old bones and a narrow old ladder occur in side rooms. Preserve massive block geometry and underwater jade ruins; no invented giant turtle statue, tropical village, palace or live Torkelonia/monsters. Ignore hard black rectangular foreground overlays and lighting-plane seams from map reconstruction.\nDISTINCT COMPOSITION AND MOOD: An atmospheric panoramic empty submerged sanctuary court: a short broad straight staircase climbs through two levels of heavy jade block terraces at center, flanked by squared pillars draped in layered green aquatic leaves. Faint worn geometric paving in foreground, a few round yellow growths and delicate trailing fronds near the pillars, modest gray bowls/jars along a ledge. Soft filtered golden-green light from upper left through quiet deep water, readable matte blue-gray masonry with pale watercolor edges. Main terraces/stairs stay central for mobile, lower-left broad uncluttered paving. No neon, cinematic rays, floating debris or creatures.\nART: Match the approved collection's confident lively tapered graphite-black brush-pen outlines, irregular fine/heavy line weights, selective economical hatching, charming hand-drawn asymmetry and clear large shapes. Loose matte watercolor fills, occasional warm off-white paper gaps, natural varied pigment edges and slightly restrained game colors. A crafted original French fantasy comic travel illustration. Landscape fills the panoramic canvas; no border or white sidebars. No generic polished fantasy digital painting, photorealism, plastic 3D, perfect vector lines, artificial grunge, brown parchment, airbrushed gradients, cinematic bloom, neon glow or glossy surfaces.\nPROFILE CROP: Keep the recognizable landmark and strongest interest inside the middle 60 percent of the image width and middle 70 percent of its height. It must remain readable in desktop and narrow mobile cover crops; keep the lower-left quieter for the avatar overlay. ONE coherent scene. No people, adventurers, live creatures or monsters. Static architectural animal sculptures are allowed only when specified as actual landmarks. No UI, grids, coordinate labels, arrows, captions, readable writing, signature, watermark, logos or collaged panels. Opaque watercolor background, no transparency.",
+      "sourceLocationNames": {
+        "es": "Santuario de Torkelonia",
+        "en": "Turtelonia's Sanctuary",
+        "fr": "Sanctuaire de Torkélonia",
+        "pt": "Santuário de Torkelônia"
+      },
+      "visualReview": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Inspected native plus desktop/mobile crops: massive jade/blue-gray block terraces, broad straight stairs, worn geometric paving, layered aquatic plants, round yellow growths, bowls and narrow ladder correspond to installed maps. Central stairs remain readable on mobile; no invented turtle statue, living creatures, hard black overlays or modern architecture."
+      }
     }
   ],
   "integration": {
@@ -2950,6 +3438,7 @@
     "databaseMigration": "supabase/migrations/20261123000000_profile_banner_catalog.sql"
   },
   "latestExpansionClientVersion": "3.7.14.18",
-  "latestExpansionNote": "Eight scenes use references reconstructed from installed DOFUS 3.7.14.18 maps. Each native illustration and desktop/mobile crop was inspected individually; the previous 52 artworks and records are preserved.",
-  "latestExpansionVersion": "0.4.25"
+  "latestExpansionNote": "Eight first-generation landscapes from installed DOFUS 3.7.14.18 map references, with native and desktop/mobile crop observations saved for user review. No automatic image edits; previous 60 files and records preserved.",
+  "latestExpansionVersion": "0.4.26",
+  "selectionPolicy": "Keep the FIRST generation for each future image. Finish the batch for user review; edit only the specific images requested by the user. Preserve the established collection framing."
 }

@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.26] — 2026-11-27
+- 38 new profile portraits: the seventh in-game face and hairstyle for all 19 classes, male and female, with usual outfits and individual ink-and-watercolor poses. Choose from 266 avatars; 266 of 600 faces are complete, with alternate outfits reserved for later
+- Eight new DOFUS 3.7 landscapes: Bworker's Cave, Kimbo's Canopy, Tynril Lab, Temple of the Great Ougaa, Royal Mastogob's Greenhouse, The Obsidemon's Hypogeum, Bethel's Tower and Turtelonia's Sanctuary. Choose from 68 banners, with names in all four languages
+- Previous 228 portraits and 60 banners stay unchanged. Seventh-face male Eniripsa hands were corrected on request and the preferred first female Xelor image was restored. New choices keep exact-path validation and need the additive catalog migration before deployment
+
 ## [0.4.25] — 2026-11-26
 - Profile customization: browse avatars and banners together in one gallery, with a live profile preview, class and face filters, compact all/male/female gender buttons, landscape categories, accent-insensitive search and a latest-additions filter
 - Try combinations before committing: inspect full illustrations without selecting them, apply both choices together, or cancel the preview. Your changes publish only when you save the profile. Mobile has a two-column gallery and an expandable preview; keyboard focus and browsing position return after inspecting artwork
