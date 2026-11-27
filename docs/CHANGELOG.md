@@ -10,6 +10,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - Every five active streak days adds one saved-build slot to the base or finite rank allowance; unlimited ranks remain unlimited, and expired streaks never delete existing builds or stop edits
 - Account shows the current saved-build allowance, active-streak bonus and days until the next slot; the daily check refreshes the displayed streak immediately, and publishing no longer claims every account is limited to 50 builds
 - The server checks actual build rows under a profile lock so bulk requests cannot bypass capacity
+- Fixed exclusive portraits sometimes showing as an initial instead of the chosen artwork in the header, account page and public profile, plus on build cards, comments, notifications and follower lists
 
 ## [0.4.28] — 2026-11-27
 - Expanded the exclusive collection to 16 portrait-and-scene pairs, adding Joris, Atcham, Bakara, Jahash, Otomai, Dathura, Djaul and Jiva with verified animated designs where available

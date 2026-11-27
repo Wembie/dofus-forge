@@ -24,6 +24,15 @@ describe('public profile portrait inspection', () => {
     expect(document.body.style.overflow).not.toBe('hidden')
   })
 
+  it('renders and enlarges a registered exclusive portrait', async () => {
+    render(<PublicProfileAvatar username="wembie" url="/avatars/exclusive/v1/bakara-drunk-book.webp" />)
+    const image = document.querySelector('.account-avatar img') as HTMLImageElement
+    expect(image.getAttribute('src')).toBe('/avatars/exclusive/v1/bakara-drunk-book.webp')
+    fireEvent.click(screen.getByRole('button', { name: 'profile_avatar_view' }))
+    const dialog = await screen.findByRole('dialog')
+    expect(within(dialog).getByRole('img').getAttribute('src')).toBe('/avatars/exclusive/v1/bakara-drunk-book.webp')
+  })
+
   it('allows closing the illustration with the visible close button', async () => {
     render(<PublicProfileAvatar username="brasa" url="/avatars/classes/v1/cra-m.webp" />)
     fireEvent.click(screen.getByRole('button', { name: 'profile_avatar_view' }))

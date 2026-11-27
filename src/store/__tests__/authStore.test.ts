@@ -129,7 +129,7 @@ describe('authStore.updateProfile avatars', () => {
   })
   afterEach(() => useAuthStore.setState(original))
 
-  it.each(['https://tracker.example/a.png', '//tracker.example/a.png', '/avatars/classes/v1/unknown-m.webp', '/avatars/classes/v1/iop-m.webp?x=1', ''])('rejects a forged avatar before making a request: %s', async avatar_url => {
+  it.each(['https://tracker.example/a.png', '//tracker.example/a.png', '/avatars/classes/v1/unknown-m.webp', '/avatars/classes/v1/iop-m.webp?x=1', '/avatars/exclusive/v1/bakara-drunk-book.webp', ''])('rejects a forged avatar before making a request: %s', async avatar_url => {
     await expect(useAuthStore.getState().updateProfile({ avatar_url })).resolves.toEqual({ error: 'invalid_avatar_url' })
     expect(getSupabase).not.toHaveBeenCalled()
   })

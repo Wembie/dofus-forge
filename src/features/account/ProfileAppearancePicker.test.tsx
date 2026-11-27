@@ -15,6 +15,14 @@ const baseProps = {
 }
 
 describe('ProfileAppearancePicker — exclusives filter', () => {
+  it('renders the selected Bakara book portrait in the preview instead of the initial', () => {
+    render(<ProfileAppearancePicker {...baseProps} username="wembie" exclusiveAvatarSlug="bakara_drunk_book" />)
+    fireEvent.click(screen.getByRole('button', { name: /appearance_open/ }))
+    const avatar = document.querySelector('.appearance-profile-card .account-avatar img') as HTMLImageElement
+    expect(avatar).toBeTruthy()
+    expect(avatar.getAttribute('src')).toBe('/avatars/exclusive/v1/bakara-drunk-book.webp')
+    expect(document.querySelector('.appearance-profile-card .account-avatar')?.textContent).not.toBe('W')
+  })
   it('the Exclusive toggle hides the regular gallery and skips the "no matches" empty state', () => {
     render(<ProfileAppearancePicker {...baseProps} />)
     fireEvent.click(screen.getByRole('button', { name: /appearance_open/ }))

@@ -4,6 +4,7 @@ import { getSupabase } from '@/lib/supabase.ts'
 import { legalAcceptance, LEGAL_DOCS, type LegalDoc } from '@/features/auth/legal.ts'
 import { USERNAME_RE } from '@/features/auth/authRules.ts'
 import { isClassAvatarUrl } from '@/features/account/classAvatars.ts'
+import { isExclusiveAvatarUrl } from '@/features/profile/exclusiveAppearance.ts'
 
 export type Profile = {
   id:               string
@@ -94,7 +95,7 @@ export async function shrinkAvatar(file: File): Promise<Blob> {
 // Public profiles load avatars for every viewer. Only bundled portraits may
 // render, so a forged or legacy URL cannot send visitors to an external tracker.
 export function isSafeImageUrl(url: string | null | undefined): url is string {
-  return !!url && isClassAvatarUrl(url)
+  return !!url && (isClassAvatarUrl(url) || isExclusiveAvatarUrl(url))
 }
 
 async function fetchProfile(userId: string): Promise<Profile | null> {
@@ -276,7 +277,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   updateProfile: async (edits) => {
     const session = get().session
     if (!session) return { error: 'Not signed in' }
-    if (edits.avatar_url != null && !isSafeImageUrl(edits.avatar_url)) return { error: 'invalid_avatar_url' }
+    if (edits.avatar_url != null && !isClassAvatarUrl(edits.avatar_url)) return { error: 'invalid_avatar_url' }
     if (edits.banner_url != null) {
       const { isProfileBannerUrl } = await import('@/features/account/profileBannerValidation.ts')
       if (!isProfileBannerUrl(edits.banner_url)) return { error: 'invalid_banner_url' }
