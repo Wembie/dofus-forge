@@ -10,6 +10,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.27',
+    date: '2026-11-27',
+    notes: [
+      "Exclusive emblematic-character artwork prepared: Goultard, Kerub Crepin, Julith and small Ogrest, each with a distinct profile portrait and a related panoramic scene in Forge's established ink-and-watercolor style",
+      "The collection records exact prompts, verified client or official Ankama cross-media references, native PNG and web-export hashes, production progress and individual review observations. Every image keeps its first generation for user review; corrections require a specific user request",
+      "Artwork stays separate from the standard 266-avatar and 68-banner gallery. Unlock milestones, server entitlement checks and account integration remain with the rewards implementation; existing artwork, profile selections and catalogs are unchanged",
+    ],
+  },
+  {
     version: '0.4.26',
     date: '2026-11-27',
     notes: [

@@ -1,0 +1,34 @@
+{
+  "collection": "Forge Emblematic Character Rewards",
+  "revision": 1,
+  "generator": "Built-in image_gen",
+  "selectionPolicy": "Keep the FIRST generation of every image. Record observations without automatic corrections. The user requests specific edits after reviewing the completed batch.",
+  "approvedStyleReferences": {
+    "portrait": "public/avatars/classes/v1/iop-m.webp",
+    "banner": "public/banners/locations/v1/bonta.webp"
+  },
+  "exactPrompts": "manifest.json",
+  "eligibility": "User-approved emblematic narrative figures from the DOFUS/Krosmoz universe. Being a dungeon boss or playable class alone is not sufficient.",
+  "variables": [
+    "character name and canonical form/era",
+    "verified identity, species and usual outfit",
+    "official game-client or documented Ankama cross-media references",
+    "unique portrait pose and expression",
+    "original character-related scenery composition",
+    "localized names and honest provenance"
+  ],
+  "portrait": "One square head-and-upper-torso portrait at the established collection scale. Preserve recognizable identity, correct species anatomy and costume. Approved Forge linework and watercolor only; no copied class identity, labels, borders, logos or UI. Native PNG retained; 512x512 WebP export.",
+  "banner": "One opaque 3:1 character-related environment. Anchor the scenery in verified architecture, props, visual motifs or story. Document original thematic compositions honestly. Landmark in central 60 percent; quiet lower-left for avatar. No living figures, text, baked-in avatar or UI. Native PNG retained; 1920x640 WebP export.",
+  "anatomyReviewChecklist": [
+    "Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs.",
+    "Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture.",
+    "Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand.",
+    "Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits.",
+    "Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds.",
+    "Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy.",
+    "For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP.",
+    "When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction."
+  ],
+  "review": "Inspect each native image separately, portrait circles at 150/48px, ambiguous hands enlarged, banner desktop/mobile crops. Record issues and retain the first generation; no automatic rerender or reframing.",
+  "extensionWorkflow": "Add approved character/form and a related scenario to README tracking; verify identity; save exact prompt and reference hashes before generating once; inspect; preserve masters/WebP/history and update manifest; leave unlock assignment to integration."
+}

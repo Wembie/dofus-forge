@@ -1,0 +1,808 @@
+{
+  "collection": "Forge Emblematic Character Rewards",
+  "revision": 2,
+  "createdOn": "2026-11-27",
+  "generator": "Built-in image_gen",
+  "status": "Collection prepared with seven selected first generations and one explicitly user-requested Julith refinement; awaiting user visual review and unlock integration",
+  "selectionPolicy": "Keep the FIRST generation of every image. Record observations without automatic corrections. The user requests specific edits after reviewing the completed batch.",
+  "referenceStyle": {
+    "portrait": "public/avatars/classes/v1/iop-m.webp",
+    "banner": "public/banners/locations/v1/bonta.webp"
+  },
+  "identityProvenance": {
+    "goultard": {
+      "sourceClientVersion": "3.7.14.18",
+      "table": "npcs",
+      "records": [
+        {
+          "id": 1216,
+          "nameId": 8202,
+          "names": {
+            "es": "Gúltar",
+            "en": "Goultard",
+            "fr": "Goultard",
+            "pt": "Gultar"
+          },
+          "look": "{7551|||155}"
+        },
+        {
+          "id": 5336,
+          "nameId": 818810,
+          "names": {
+            "es": "Gúltar",
+            "en": "Goultard",
+            "fr": "Goultard",
+            "pt": "Gultar"
+          },
+          "look": "{7551|||155}"
+        }
+      ],
+      "bones": [
+        {
+          "id": "7551",
+          "bundle": "Characters/Bones/bones_assets_bone_7551.bundle",
+          "sha256": "a77f7d6708fea54d61625315827eca2f2995ba98bec2556831b432981167e850"
+        }
+      ]
+    },
+    "kerubim": {
+      "sourceClientVersion": "3.7.14.18",
+      "table": "npcs",
+      "records": [
+        {
+          "id": 1901,
+          "nameId": 361163,
+          "names": {
+            "es": "Kerubim Crepin",
+            "en": "Kerub Crepin",
+            "fr": "Kerubim Crépin",
+            "pt": "Kerubim Crepim"
+          },
+          "look": "{2017}"
+        },
+        {
+          "id": 3043,
+          "nameId": 565534,
+          "names": {
+            "es": "Kerubim Crepin",
+            "en": "Kerub Crepin",
+            "fr": "Kerubim Crépin",
+            "pt": "Kerubim Crepim"
+          },
+          "look": "{2841|||130}"
+        }
+      ],
+      "bones": [
+        {
+          "id": "2017",
+          "bundle": "Characters/Bones/bones_assets_bone_2017.bundle",
+          "sha256": "acd9539213cb40b18ac46e8aa9c57739e863f69074115c94b2689964ab33b777"
+        },
+        {
+          "id": "2841",
+          "bundle": "Characters/Bones/bones_assets_bone_2841.bundle",
+          "sha256": "4b80b1107359d372204ce93589e2bb9cc6070be9b3309e05b12cc8d04a437183"
+        }
+      ]
+    },
+    "julith": {
+      "sourceClientVersion": "3.7.14.18",
+      "table": "npcs",
+      "records": [
+        {
+          "id": 6455,
+          "nameId": 918010,
+          "names": {
+            "es": "Julith la Carnicera",
+            "en": "Julith the Butcher",
+            "fr": "Julith la Bouchère",
+            "pt": "Julith, a Açougueira"
+          },
+          "look": "{5273|||140}"
+        }
+      ],
+      "bones": [
+        {
+          "id": "5273",
+          "bundle": "Characters/Bones/bones_assets_bone_5273.bundle",
+          "sha256": "577effeee360b0beb955145f850cebef106a7ee26b16094401aa6b369a04c7aa"
+        }
+      ]
+    },
+    "ogrest": {
+      "sourceClientVersion": null,
+      "form": "small child",
+      "sourceType": "official Ankama cross-media",
+      "names": {
+        "es": "Ogrest",
+        "en": "Ogrest",
+        "fr": "Ogrest",
+        "pt": "Ogrest"
+      },
+      "noMatchingCurrentClientNpcOrMonsterFound": true
+    }
+  },
+  "integration": {
+    "publicCatalog": false,
+    "publicPicker": false,
+    "unlockMilestonesAssigned": false,
+    "serverEntitlementValidation": "pending integration task",
+    "databaseAndReactWiring": "pending integration task",
+    "normalClassPortraitCount": 266,
+    "normalBannerCount": 68,
+    "classHeadProgressUnaffected": "266/600",
+    "avatarFrames": "separate CSS/SVG layer; not baked into images"
+  },
+  "preservation": {
+    "normalImagesChecked": 334,
+    "normalImageFilesAndManifestRecordsUnchanged": true,
+    "avatarManifestSha256": "cdcb600b77ed5d022db1751cd5d82fc6e9cda273d53a890153009723476f59e9",
+    "bannerManifestSha256": "c202a4000604c6c9f7b9a6792f17b186b067408ff31cc1a638ce531dd5b4ff1e"
+  },
+  "portraits": [
+    {
+      "id": "goultard",
+      "type": "portrait",
+      "prompt": "Use case: illustration-story. Asset type: exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Create ONE finished SQUARE head-and-upper-torso portrait of Goultard / Gultar. IMAGE 1 is our APPROVED COLLECTION TECHNIQUE AND NORMAL BUST SCALE ONLY, never its character, hair, costume, sword or pose. Remaining images show this exact named character reconstructed from installed DOFUS client 3.7.14.18 and establish identity and outfit only, not the final composition.\nIDENTITY: The actual current-client GOUltard: adult male warrior with warm tan skin, very long thick ORANGE mane tied into a large low trailing ponytail by a broad MAROON headband, two long thick orange face-framing side locks, angular upward central orange forelock, pointed ears, short small orange beard tuft along chin. Fierce dark pupils in pale eyes, broad confident face, bare muscular shoulders and chest. His usual torn olive-green trousers and maroon waist sash sit below the bust crop. No white Iop tabard, metal armor, shoulder plates, cape, tattoos or new outfit. Preserve mature Goultard, not a generic playable Iop.\nINDIVIDUAL POSE: Head and upper torso turned three-quarter toward the viewer, chin raised slightly, a broad relaxed closed-mouth knowing grin, one eyebrow raised. His own RIGHT arm bends naturally, showing one relaxed closed fist near his upper chest, wrist straight and attached continuously to elbow and shoulder; four curled fingers with one thumb resting naturally across them. His other arm hangs relaxed and exits the bottom crop. Orange ponytail sweeps to one side as he turns. Single coherent chest. No weapon or extra prop.\nSTYLE: retain the approved lively tapered black ink and graphite-like selective hatching, expressive hand-drawn French fantasy-comic forms, rich but restrained matte loose watercolor, small warm off-white paper gaps and irregular intentional pigment edges. One coherent artist-made fan art. Opaque warm off-white paper with a soft irregular restrained dusty terracotta and muted sage watercolor wash behind the figure. No photorealism, plastic 3D shading, smooth digital airbrush, cinematic bloom, neon, artificial distress/grunge, vector-perfect contours or invented ornamental reward border.\nFRAMING: Match the normal collection portrait scale: HEAD AND UPPER TORSO, not a distant full body and not an extreme face close-up. Full signature hair/head silhouette remains inside the square with top breathing space. Face centered and readable in centered 150px and 48px circular avatar crops, shoulders may crop along bottom. Keep the specified hand gesture secondary to face and identifying costume. No text, captions, lettering, logos, signature, watermark, collage, extra character, UI or badge.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two shoulder-arm chains connected to one coherent torso; correct left/right hands and thumb positions, four fingers plus one thumb for a fully exposed human hand; natural occlusion, never add digits to force a count. Respect this exact creature species and original anatomy. Render the whole portrait as a single first version for the user's review.",
+      "identity": "The actual current-client GOUltard: adult male warrior with warm tan skin, very long thick ORANGE mane tied into a large low trailing ponytail by a broad MAROON headband, two long thick orange face-framing side locks, angular upward central orange forelock, pointed ears, short small orange beard tuft along chin. Fierce dark pupils in pale eyes, broad confident face, bare muscular shoulders and chest. His usual torn olive-green trousers and maroon waist sash sit below the bust crop. No white Iop tabard, metal armor, shoulder plates, cape, tattoos or new outfit. Preserve mature Goultard, not a generic playable Iop.",
+      "pose": "Head and upper torso turned three-quarter toward the viewer, chin raised slightly, a broad relaxed closed-mouth knowing grin, one eyebrow raised. His own RIGHT arm bends naturally, showing one relaxed closed fist near his upper chest, wrist straight and attached continuously to elbow and shoulder; four curled fingers with one thumb resting naturally across them. His other arm hangs relaxed and exits the bottom crop. Orange ponytail sweeps to one side as he turns. Single coherent chest. No weapon or extra prop.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-rewards/references/goultard-bust.png",
+        "temp/emblematic-rewards/references/goultard-alt-bust.png",
+        "temp/emblematic-rewards/references/goultard-full.png"
+      ],
+      "referenceRoles": [
+        "approved Forge technique and normal portrait framing only",
+        "current-client primary head and outfit",
+        "current-client alternate identity view",
+        "current-client complete body and outfit"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-rewards/references/goultard-bust.png": "18abd9e81ac67f00b0995d37c182ace2e812a0925732720a99dd730bc1f20ae6",
+        "temp/emblematic-rewards/references/goultard-alt-bust.png": "2d075b949251f086dcd692622bf720ae812d1d4051d5284a7d9baa18049c19b6",
+        "temp/emblematic-rewards/references/goultard-full.png": "41d5e82823e613ddb125a8a3a7f0fc7640422de0be7d99190bfeb1b4f5e41c17"
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "master": "temp/emblematic-rewards/masters/goultard-portrait.png",
+      "asset": "public/avatars/exclusive/v1/goultard.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "c43766a562dfb49d6c6c031f51eece42cab6f82d3281af535581b2d64abd587a",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "8d8ecf339cc59d8d4faba26d1ecf5329fd8888455f1922e72f3f7e7f49295339",
+      "bytes": 60296,
+      "userReviewPending": true,
+      "review": {
+        "reviewedOn": "2026-11-27",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "identityReferencesInspected": true,
+        "gameReferencesInspected": true,
+        "officialCrossMediaReferencesInspected": false,
+        "enlargedHandInspected": true,
+        "note": "FIRST generation retained. Inspected native artwork, 150/48px circular crops and enlarged closed right fist against current-client head/outfit renders. Orange tied mane, maroon headband, pointed ears, short chin beard and bare warrior torso remain recognizable; two connected arms and one coherent chest. Four folded knuckle shapes are visible; the thumb is not fully separable in this closed-fist view, so do not claim five exposed digits. Face and silhouette remain readable in the circle. User reviews the selected first version before requesting any edit.",
+        "observations": [
+          "Closed-fist thumb boundary is partly occluded/ambiguous; first generation retained for user review."
+        ]
+      },
+      "generatedImageFile": "exec-73d86484-4d07-4aab-ad36-2bc855edb338.png",
+      "referenceProvenance": [],
+      "names": {
+        "es": "Gúltar",
+        "en": "Goultard",
+        "fr": "Goultard",
+        "pt": "Gultar"
+      }
+    },
+    {
+      "id": "kerubim",
+      "type": "portrait",
+      "prompt": "Use case: illustration-story. Asset type: exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Create ONE finished SQUARE head-and-upper-torso portrait of Kerub Crepin / Kerubim Crepin. IMAGE 1 is our APPROVED COLLECTION TECHNIQUE AND NORMAL BUST SCALE ONLY, never its character, hair, costume, sword or pose. Remaining images show this exact named character reconstructed from installed DOFUS client 3.7.14.18 and establish identity and outfit only, not the final composition.\nIDENTITY: The actual KERUBIM CREPIN, recognizable elderly rotund anthropomorphic CAT antiquarian: huge broad round fluffy WHITE face and cheek ruff, tiny triangular beige ears, sparse short dark crown hairs and pale beige crown patches, bushy white eyebrows, half-lidded YELLOW eyes with narrow black vertical pupils and taupe-brown circular eye patches, tiny black triangular cat nose, white muzzle and small white chin tuft. His habitual LIME/OLIVE GREEN short-sleeved robe/tunic has a high folded collar closed with TWO small ivory dice, one with dark pips and one with a small reddish pip. Small round torso. Natural furry cream/beige cat paws, not bare pink human hands; no human hair/beard, leather gloves, giant pointed Ecaflip ears, armor or outfit changes.\nINDIVIDUAL POSE: A shrewd warm old treasure merchant, leaning forward a little with one eyebrow lifted and a small lopsided closed smile, looking directly toward the viewer. His own RIGHT furry paw gently holds ONE small plain weathered brass coin at chest height between thumb and index, with three other furry fingers relaxed and naturally separated. Each digit has one clear root, natural thumb placement, no detached little finger behind the coin. Other arm rests down outside lower crop. Keep the dice clasp and face fully visible. The coin is modest, without readable writing.\nSTYLE: retain the approved lively tapered black ink and graphite-like selective hatching, expressive hand-drawn French fantasy-comic forms, rich but restrained matte loose watercolor, small warm off-white paper gaps and irregular intentional pigment edges. One coherent artist-made fan art. Opaque warm off-white paper with a soft irregular muted warm olive and antique ochre watercolor wash behind the figure. No photorealism, plastic 3D shading, smooth digital airbrush, cinematic bloom, neon, artificial distress/grunge, vector-perfect contours or invented ornamental reward border.\nFRAMING: Match the normal collection portrait scale: HEAD AND UPPER TORSO, not a distant full body and not an extreme face close-up. Full signature hair/head silhouette remains inside the square with top breathing space. Face centered and readable in centered 150px and 48px circular avatar crops, shoulders may crop along bottom. Keep the specified hand gesture secondary to face and identifying costume. No text, captions, lettering, logos, signature, watermark, collage, extra character, UI or badge.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two shoulder-arm chains connected to one coherent torso; correct left/right hands and thumb positions, four fingers plus one thumb for a fully exposed human hand; natural occlusion, never add digits to force a count. Respect this exact creature species and original anatomy. Render the whole portrait as a single first version for the user's review.",
+      "identity": "The actual KERUBIM CREPIN, recognizable elderly rotund anthropomorphic CAT antiquarian: huge broad round fluffy WHITE face and cheek ruff, tiny triangular beige ears, sparse short dark crown hairs and pale beige crown patches, bushy white eyebrows, half-lidded YELLOW eyes with narrow black vertical pupils and taupe-brown circular eye patches, tiny black triangular cat nose, white muzzle and small white chin tuft. His habitual LIME/OLIVE GREEN short-sleeved robe/tunic has a high folded collar closed with TWO small ivory dice, one with dark pips and one with a small reddish pip. Small round torso. Natural furry cream/beige cat paws, not bare pink human hands; no human hair/beard, leather gloves, giant pointed Ecaflip ears, armor or outfit changes.",
+      "pose": "A shrewd warm old treasure merchant, leaning forward a little with one eyebrow lifted and a small lopsided closed smile, looking directly toward the viewer. His own RIGHT furry paw gently holds ONE small plain weathered brass coin at chest height between thumb and index, with three other furry fingers relaxed and naturally separated. Each digit has one clear root, natural thumb placement, no detached little finger behind the coin. Other arm rests down outside lower crop. Keep the dice clasp and face fully visible. The coin is modest, without readable writing.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-rewards/references/kerubim-adventure-bust.png",
+        "temp/emblematic-rewards/references/kerubim-bust.png",
+        "temp/emblematic-rewards/references/kerubim-adventure-full.png"
+      ],
+      "referenceRoles": [
+        "approved Forge technique and normal portrait framing only",
+        "current-client primary head and outfit",
+        "current-client alternate identity view",
+        "current-client complete body and outfit"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-rewards/references/kerubim-adventure-bust.png": "fe6662d27e9183db4118af265f0d72995883083137e97136499102a77064fc15",
+        "temp/emblematic-rewards/references/kerubim-bust.png": "cab2bdfd6a2767f44a53e2b2544f093cb1e20c9d4f7739888f4c261f0d7cd3e4",
+        "temp/emblematic-rewards/references/kerubim-adventure-full.png": "7b028ff8c502bf19e94f875bd321f544f84334492b7bb0fd819991ccebc67a25"
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "master": "temp/emblematic-rewards/masters/kerubim-portrait.png",
+      "asset": "public/avatars/exclusive/v1/kerubim.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "6adb2f73673b3dfe135ead898eda5eb60792935b3054c3e4346f0f8f17d053a9",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "cc499d8ade88400c77033dd47e678e601a15c15d1d1adaa9079742b9b8307679",
+      "bytes": 64226,
+      "userReviewPending": true,
+      "review": {
+        "reviewedOn": "2026-11-27",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "identityReferencesInspected": true,
+        "gameReferencesInspected": true,
+        "officialCrossMediaReferencesInspected": false,
+        "enlargedHandInspected": true,
+        "note": "FIRST generation retained. Inspected native, 150/48px circles and enlarged coin-holding paw against both current-client Kerubim versions. White cheek ruff, small beige ears/crown patches, sparse crown hairs, yellow slit eyes with taupe patches, green tunic and two dice are distinctive. One continuous raised arm and coherent round torso; coin contacts thumb and upper finger naturally. Four distinct visible digit silhouettes in the stylized paw; no claim of five fully visible digits. Paw has cream fur/hatching at the wrist/back but rounded fingers; record its readability for the user rather than automatically editing. Large round head proportions follow the actual elderly-cat model.",
+        "observations": [
+          "Coin-holding paw shows four distinct digit silhouettes; user should review desired paw anatomy and fur treatment."
+        ]
+      },
+      "generatedImageFile": "exec-e400d94a-0b57-4e3b-bb5a-1abfc0c5c501.png",
+      "referenceProvenance": [],
+      "names": {
+        "es": "Kerubim Crepin",
+        "en": "Kerub Crepin",
+        "fr": "Kerubim Crépin",
+        "pt": "Kerubim Crepim"
+      }
+    },
+    {
+      "id": "julith",
+      "type": "portrait",
+      "prompt": "Use case: identity-preserve. Asset type: user-requested refinement of an existing Dofus Forge exclusive PROFILE FAN-ART PORTRAIT of the ADULT woman JULITH. IMAGE 1 is the EDIT TARGET, our first Julith illustration; IMAGE 2 is her actual DOFUS 3.7.14.18 game model for identity and habitual outfit only.\nUSER REQUEST: make Julith visibly sexier, with an elegant alluring adult femme-fatale presence while preserving recognizable Julith and our approved ink-and-watercolor technique. Refine the EXISTING picture, not a new character.\nREQUESTED CHANGE: give her a more seductive confident expression: chin tipped slightly downward, cool half-lidded gray-green eyes looking back toward the viewer under subtly arched brows, a delicate teasing half-smile with softly and only slightly parted BLACK-painted lips. A graceful relaxed shoulder-and-neck pose, lightly drawn-back shoulders and a subtly curving natural waist make her confident and feminine. Her fitted opaque BURGUNDY bodice remains the same habitual costume, with a subtly lower elegant heart-shaped neckline and tasteful modest cleavage. Keep normal plausible adult proportions and one single coherent covered chest/torso. The sensuality comes from expression, posture and flattering tailoring.\nPRESERVE: her mature sharp face, pale ivory-gray skin, asymmetric short BLUE-BLACK bob and long cheek lock, pointed ears, vertical RED scar across the same visible eye, black lipstick, high BURGUNDY cloak collar, NAVY cape lining with restrained small LIGHT BLUE stars/dots, usual dark belt details, original burgundy/slate watercolor wash, complete hairstyle/head and NORMAL COLLECTION BUST FRAMING in the square. Preserve the raised LEFT palm gesture and lowered other arm, with continuous shoulders/elbows/wrists. Keep exactly the original matte loose watercolor, tapered graphite-black ink, selective fine hatching, irregular pigment edges and warm off-white paper. Face stays large/readable in 150px/48px circular avatars; no zoom change or different crop.\nCONSTRAINTS: fully clothed adult fantasy portrait, no nudity, no see-through fabric, no lingerie/bikini redesign, no sexual act, no exaggerated breast enlargement or duplicated anatomy. No extra arm/hand, no horns, long hair, new armor, different character, text, signature, logo, watermark, reward frame, glossy 3D, photorealism, airbrushed gradients, cinematic bloom or neon.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. For any fully exposed human hand, four fingers and one thumb with correct handedness and natural finger roots. Keep the intended raised-palm gesture. One user-requested edit version only, for review.",
+      "identity": "The actual JULITH: mature pale ivory/gray-skinned woman, severe angular face with long sharply pointed ears, asymmetric short dark BLUE-BLACK bob, one longer side lock beside cheek and side-swept crown, narrow cool gray-green eyes framed by heavy dark smoky eyelids, thin dark eyebrows, black lipstick, thin vertical reddish scar crossing the same eye/cheek shown in the identity references. Her original DARK BURGUNDY fitted sleeveless bodice and high BURGUNDY cloak collar; the inside of her flowing cloak is DEEP NAVY with small restrained LIGHT BLUE star and dot motifs. Black angular neckline/belt details. Exactly the original outfit and single covered torso. No horns, long white hair, armor, giant bosom, revealing redesign or generic sorceress costume.",
+      "pose": "Adult Julith with a more alluring confident half-smile, softly parted black lips and lowered chin; fitted burgundy bodice with a subtly lower heart-shaped neckline, natural waist/shoulder posture, original raised left palm and recognizable cloak/hair/scar retained.",
+      "references": [
+        "temp/emblematic-rewards/masters/julith-portrait.png",
+        "temp/emblematic-rewards/references/julith-full.png"
+      ],
+      "referenceRoles": [
+        "original selected Julith portrait: edit target",
+        "actual installed-client Julith: identity/outfit reference only"
+      ],
+      "referenceHashes": {
+        "temp/emblematic-rewards/masters/julith-portrait.png": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
+        "temp/emblematic-rewards/references/julith-full.png": "8b3096487bb47c5b17287e5afa917bae65440618469485d4569272188002a886"
+      },
+      "sourceClientVersion": "3.7.14.18",
+      "master": "temp/emblematic-rewards/masters/julith-portrait-user-refinement.png",
+      "asset": "public/avatars/exclusive/v1/julith.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 2,
+      "selectedFirstGeneration": false,
+      "masterSha256": "8be19389f1b23e17c8de85ce378ff0b7657f838b7de9fe85aac24afbfcc9809c",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "c6446b52aed70a1956faa4862e8f072287efddc176580991525d0cd6810e471f",
+      "bytes": 50284,
+      "userReviewPending": true,
+      "review": {
+        "reviewedOn": "2026-11-27",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "identityReferencesInspected": true,
+        "gameReferencesInspected": true,
+        "enlargedHandInspected": true,
+        "note": "One user-requested sensual/elegant refinement of the first portrait. Inspected exact native image, 150/48px circles and enlarged hand. Mature Julith identity, blue-black bob, pointed ears, eye-crossing red scar, black lips and burgundy/navy star-lined cloak are retained. More alluring eyes/half-smile and a modestly lower opaque heart-shaped neckline fulfill the requested styling while keeping a coherent clothed adult torso, two continuous arms and the same profile framing. The original raised-palm gesture remains; only three long fingertips plus thumb are unambiguous in the overlapping contour, so the previous hand observation remains open. No automatic second edit was made. Original PNG, WebP, exact prompt and record are archived.",
+        "observations": [
+          "Raised left hand: fourth long finger remains ambiguous in the overlapping contour; unchanged review observation."
+        ]
+      },
+      "generatedImageFile": "exec-3e149ddd-b026-4e75-9be9-b13b72e06119.png",
+      "referenceProvenance": [],
+      "names": {
+        "es": "Julith",
+        "en": "Julith",
+        "fr": "Julith",
+        "pt": "Julith"
+      },
+      "request": "More sensual and elegant Julith, explicitly requested by the user",
+      "generationHistory": [
+        {
+          "generationNumber": 1,
+          "selected": false,
+          "master": "temp/emblematic-rewards/masters/julith-portrait.png",
+          "masterSha256": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
+          "archivedWebP": "temp/emblematic-rewards/history/julith-portrait-first.webp",
+          "sha256": "0e43add9aefd43ae80a789ebcf793f86df0ada6f69354ab9bd8c586cc59f2579",
+          "record": {
+            "id": "julith",
+            "type": "portrait",
+            "prompt": "Use case: illustration-story. Asset type: exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Create ONE finished SQUARE head-and-upper-torso portrait of Julith. IMAGE 1 is our APPROVED COLLECTION TECHNIQUE AND NORMAL BUST SCALE ONLY, never its character, hair, costume, sword or pose. Remaining images show this exact named character reconstructed from installed DOFUS client 3.7.14.18 and establish identity and outfit only, not the final composition.\nIDENTITY: The actual JULITH: mature pale ivory/gray-skinned woman, severe angular face with long sharply pointed ears, asymmetric short dark BLUE-BLACK bob, one longer side lock beside cheek and side-swept crown, narrow cool gray-green eyes framed by heavy dark smoky eyelids, thin dark eyebrows, black lipstick, thin vertical reddish scar crossing the same eye/cheek shown in the identity references. Her original DARK BURGUNDY fitted sleeveless bodice and high BURGUNDY cloak collar; the inside of her flowing cloak is DEEP NAVY with small restrained LIGHT BLUE star and dot motifs. Black angular neckline/belt details. Exactly the original outfit and single covered torso. No horns, long white hair, armor, giant bosom, revealing redesign or generic sorceress costume.\nINDIVIDUAL POSE: An aloof sorceress turning her shoulders away but looking back at the viewer with a slight cold closed-lip knowing smile. One pale hand, her own LEFT, raised beside the lower shoulder with palm angled upward and outward, four long relaxed fingers gently separated and ONE shorter thumb naturally on its correct side, all five digits attached to the same palm and wrist. Other arm lowered outside the bust crop. The raised hand has no magic orb or prop, an elegant restrained invitation. Burgundy collar and a small navy star-lined cloak fold frame the single torso.\nSTYLE: retain the approved lively tapered black ink and graphite-like selective hatching, expressive hand-drawn French fantasy-comic forms, rich but restrained matte loose watercolor, small warm off-white paper gaps and irregular intentional pigment edges. One coherent artist-made fan art. Opaque warm off-white paper with a soft irregular muted cool slate and dusty burgundy watercolor wash behind the figure. No photorealism, plastic 3D shading, smooth digital airbrush, cinematic bloom, neon, artificial distress/grunge, vector-perfect contours or invented ornamental reward border.\nFRAMING: Match the normal collection portrait scale: HEAD AND UPPER TORSO, not a distant full body and not an extreme face close-up. Full signature hair/head silhouette remains inside the square with top breathing space. Face centered and readable in centered 150px and 48px circular avatar crops, shoulders may crop along bottom. Keep the specified hand gesture secondary to face and identifying costume. No text, captions, lettering, logos, signature, watermark, collage, extra character, UI or badge.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Exactly two shoulder-arm chains connected to one coherent torso; correct left/right hands and thumb positions, four fingers plus one thumb for a fully exposed human hand; natural occlusion, never add digits to force a count. Respect this exact creature species and original anatomy. Render the whole portrait as a single first version for the user's review.",
+            "identity": "The actual JULITH: mature pale ivory/gray-skinned woman, severe angular face with long sharply pointed ears, asymmetric short dark BLUE-BLACK bob, one longer side lock beside cheek and side-swept crown, narrow cool gray-green eyes framed by heavy dark smoky eyelids, thin dark eyebrows, black lipstick, thin vertical reddish scar crossing the same eye/cheek shown in the identity references. Her original DARK BURGUNDY fitted sleeveless bodice and high BURGUNDY cloak collar; the inside of her flowing cloak is DEEP NAVY with small restrained LIGHT BLUE star and dot motifs. Black angular neckline/belt details. Exactly the original outfit and single covered torso. No horns, long white hair, armor, giant bosom, revealing redesign or generic sorceress costume.",
+            "pose": "An aloof sorceress turning her shoulders away but looking back at the viewer with a slight cold closed-lip knowing smile. One pale hand, her own LEFT, raised beside the lower shoulder with palm angled upward and outward, four long relaxed fingers gently separated and ONE shorter thumb naturally on its correct side, all five digits attached to the same palm and wrist. Other arm lowered outside the bust crop. The raised hand has no magic orb or prop, an elegant restrained invitation. Burgundy collar and a small navy star-lined cloak fold frame the single torso.",
+            "references": [
+              "public/avatars/classes/v1/iop-m.webp",
+              "temp/emblematic-rewards/references/julith-bust.png",
+              "temp/emblematic-rewards/references/julith-alt-bust.png",
+              "temp/emblematic-rewards/references/julith-full.png"
+            ],
+            "referenceRoles": [
+              "approved Forge technique and normal portrait framing only",
+              "current-client primary head and outfit",
+              "current-client alternate identity view",
+              "current-client complete body and outfit"
+            ],
+            "referenceHashes": {
+              "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+              "temp/emblematic-rewards/references/julith-bust.png": "42b04b48d8a8a41df55c23d8f59cfd2bf42f4f340dd5f278f384e798467fc489",
+              "temp/emblematic-rewards/references/julith-alt-bust.png": "300ab25f38270ad89dd6147bfe203f3dc75173985147b8cfab28287bdde060eb",
+              "temp/emblematic-rewards/references/julith-full.png": "8b3096487bb47c5b17287e5afa917bae65440618469485d4569272188002a886"
+            },
+            "sourceClientVersion": "3.7.14.18",
+            "master": "temp/emblematic-rewards/masters/julith-portrait.png",
+            "asset": "public/avatars/exclusive/v1/julith.webp",
+            "generator": "Built-in image_gen",
+            "generationNumber": 1,
+            "selectedFirstGeneration": true,
+            "masterSha256": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
+            "masterWidth": 1254,
+            "masterHeight": 1254,
+            "width": 512,
+            "height": 512,
+            "sha256": "0e43add9aefd43ae80a789ebcf793f86df0ada6f69354ab9bd8c586cc59f2579",
+            "bytes": 53812,
+            "userReviewPending": true,
+            "review": {
+              "reviewedOn": "2026-11-27",
+              "fullSizeInspected": true,
+              "circularCropInspected": true,
+              "desktopCropInspected": false,
+              "mobileCropInspected": false,
+              "identityReferencesInspected": true,
+              "gameReferencesInspected": true,
+              "officialCrossMediaReferencesInspected": false,
+              "enlargedHandInspected": true,
+              "note": "FIRST generation retained. Inspected exact native result, centered 150/48px circles and enlarged raised hand against both client views and full original costume. Blue-black asymmetric bob, pointed ears, eye-crossing red scar, dark lipstick, burgundy collar/bodice and navy blue star-lined cloak are distinct. Exactly two arm chains and one coherent clothed torso. Her raised left palm and thumb are on the expected side, but only three long fingertips are clearly distinct; the fourth long finger cannot be confidently traced in the overlapping contour. This is recorded for user review, not automatically repaired. No claim that the hand has five fully readable digits.",
+              "observations": [
+                "Raised left hand: only three long fingertips plus thumb are unambiguous; fourth finger needs user review."
+              ]
+            },
+            "generatedImageFile": "exec-9b465a49-dc62-4b6d-9bca-6431ec6ba7b7.png",
+            "referenceProvenance": [],
+            "names": {
+              "es": "Julith",
+              "en": "Julith",
+              "fr": "Julith",
+              "pt": "Julith"
+            }
+          }
+        },
+        {
+          "generationNumber": 2,
+          "selected": true,
+          "reason": "Explicit user request: make adult Julith more sensual and elegant",
+          "master": "temp/emblematic-rewards/masters/julith-portrait-user-refinement.png",
+          "masterSha256": "8be19389f1b23e17c8de85ce378ff0b7657f838b7de9fe85aac24afbfcc9809c",
+          "prompt": "Use case: identity-preserve. Asset type: user-requested refinement of an existing Dofus Forge exclusive PROFILE FAN-ART PORTRAIT of the ADULT woman JULITH. IMAGE 1 is the EDIT TARGET, our first Julith illustration; IMAGE 2 is her actual DOFUS 3.7.14.18 game model for identity and habitual outfit only.\nUSER REQUEST: make Julith visibly sexier, with an elegant alluring adult femme-fatale presence while preserving recognizable Julith and our approved ink-and-watercolor technique. Refine the EXISTING picture, not a new character.\nREQUESTED CHANGE: give her a more seductive confident expression: chin tipped slightly downward, cool half-lidded gray-green eyes looking back toward the viewer under subtly arched brows, a delicate teasing half-smile with softly and only slightly parted BLACK-painted lips. A graceful relaxed shoulder-and-neck pose, lightly drawn-back shoulders and a subtly curving natural waist make her confident and feminine. Her fitted opaque BURGUNDY bodice remains the same habitual costume, with a subtly lower elegant heart-shaped neckline and tasteful modest cleavage. Keep normal plausible adult proportions and one single coherent covered chest/torso. The sensuality comes from expression, posture and flattering tailoring.\nPRESERVE: her mature sharp face, pale ivory-gray skin, asymmetric short BLUE-BLACK bob and long cheek lock, pointed ears, vertical RED scar across the same visible eye, black lipstick, high BURGUNDY cloak collar, NAVY cape lining with restrained small LIGHT BLUE stars/dots, usual dark belt details, original burgundy/slate watercolor wash, complete hairstyle/head and NORMAL COLLECTION BUST FRAMING in the square. Preserve the raised LEFT palm gesture and lowered other arm, with continuous shoulders/elbows/wrists. Keep exactly the original matte loose watercolor, tapered graphite-black ink, selective fine hatching, irregular pigment edges and warm off-white paper. Face stays large/readable in 150px/48px circular avatars; no zoom change or different crop.\nCONSTRAINTS: fully clothed adult fantasy portrait, no nudity, no see-through fabric, no lingerie/bikini redesign, no sexual act, no exaggerated breast enlargement or duplicated anatomy. No extra arm/hand, no horns, long hair, new armor, different character, text, signature, logo, watermark, reward frame, glossy 3D, photorealism, airbrushed gradients, cinematic bloom or neon.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. For any fully exposed human hand, four fingers and one thumb with correct handedness and natural finger roots. Keep the intended raised-palm gesture. One user-requested edit version only, for review.",
+          "references": [
+            "temp/emblematic-rewards/masters/julith-portrait.png",
+            "temp/emblematic-rewards/references/julith-full.png"
+          ],
+          "referenceHashes": {
+            "temp/emblematic-rewards/masters/julith-portrait.png": "8d8b014d4ef4d7b741c15d8326af0b946665ab5b938d2ae243b4a2c9112722d4",
+            "temp/emblematic-rewards/references/julith-full.png": "8b3096487bb47c5b17287e5afa917bae65440618469485d4569272188002a886"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ogrest",
+      "type": "portrait",
+      "form": "small child",
+      "prompt": "Use case: illustration-story. Asset type: exclusive Dofus Forge USER PROFILE FAN-ART PORTRAIT. Create ONE SQUARE head-and-upper-torso portrait of SMALL CHILD OGREST. The user expressly chose the SMALL form. IMAGE 1 is our APPROVED COLLECTION INK-AND-WATERCOLOR TECHNIQUE and normal portrait framing only, never its Iop character or costume. IMAGE 2 is the official Ankama Animations thumbnail for Ogrest: The Legend; IMAGE 3 is the official Ogrest Volume 1 cover; IMAGE 4 is the official Ankama collector set with the SMALL green Ogrest beside Dathura at its lower edge. Use only SMALL Ogrest for identity, no other character or cover design. These are OFFICIAL CROSS-MEDIA identity references, not a DOFUS 3.7 game-client model.\nIDENTITY: SMALL CHILD OGREST, exactly the user-selected little green form from the official Ankama references: bright apple/lime GREEN smooth skin, large round head on a small soft round childlike body, TWO very long drooping green ears with PINK inner faces, large clear BLUE eyes with white sclera, thick dark expressive eyebrows, tiny two-dot nostrils and TWO small white LOWER fangs at the corners of the mouth. Sparse upright bright green leaf-like topknot bound at its base with a thin beige tie. Bare green shoulders and chest; his simple dark green leafy waist garment is mostly below the bust crop. No adult giant anatomy, brown/gray skin, beard, braids, back tusks, loincloth emblems, horns, armor or muscular torso. No tofu/bird interpretation, plush stitching, toy material, mascot redesign or human ears.\nINDIVIDUAL POSE: A shy but courageous little Ogrest greeting a new friend: upper body facing mostly forward, shoulders tucked up slightly, head tilted gently to his own RIGHT, big blue eyes looking warmly at the viewer, a small sweet closed-mouth hopeful smile with the two little lower fangs visible. Both arms naturally travel down beside his single small torso, hands held gently behind his back below the portrait crop. No exposed hand, no prop, no other character. Both long pink-lined ears originate correctly at the sides of his head and hang loosely down beside his shoulders; the topknot stays complete and clear.\nSTYLE: use exactly the approved expressive French fantasy-comic tapered black ink contours, fine selective graphite hatching, matte loose hand-painted watercolor and small unpainted warm off-white paper gaps. Keep charming asymmetry, economical readable forms and restrained natural pigment edges. Soft irregular muted blue and sage watercolor wash supports the bright green skin without replacing it. Opaque warm off-white paper. Do not copy the flat animation rendering or the product photo. No plastic 3D, photorealism, smooth digital airbrushing, cinematic bloom, neon, artificial grunge or vector-perfect linework.\nFRAMING: the same NORMAL BUST SCALE as the approved avatar collection, with a large readable face near the center and upper shoulders below. Preserve child proportions while filling the avatar; no distant full body or extreme face close-up. Full topknot with breathing space, both identifying ears readable inside centered 150px and 48px circular avatar crops. No adult-sized hands, no text, title, product packaging, printed book, toy, logo, signature, watermark, badge, decorative frame, interface, extra person or collage.\nANATOMY CHECKLIST: Trace exactly two continuous arms from one pair of shoulders to two wrists and hands; overlapping forearms must not imply extra limbs. Inspect shoulder/back skin strips and every sleeve cuff: a narrow extra limb behind a shoulder or a second cuff can suggest a third arm even when the hands are correct. For a user-marked defect, inspect and correct that exact region while retaining their selected reference and gesture. Check handedness and thumb position. Human hands have four fingers plus one thumb; make all five digits readable when the pose exposes the whole hand. Inspect each finger root and natural gripping contact, especially behind props: never add a detached, superimposed or excessively hooked thumb to force a five-digit count. Keep animal hands furry with their real claws and game species. Respect naturally occluded digits. Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds. Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy. For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP. When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction. Respect the specific little ogre anatomy of the official references. Exactly two arms, one coherent small torso, two correctly rooted long ears. No hands visible in this natural arms-behind-back pose. A single first generation for the user's review.",
+      "identity": "SMALL CHILD OGREST, exactly the user-selected little green form from the official Ankama references: bright apple/lime GREEN smooth skin, large round head on a small soft round childlike body, TWO very long drooping green ears with PINK inner faces, large clear BLUE eyes with white sclera, thick dark expressive eyebrows, tiny two-dot nostrils and TWO small white LOWER fangs at the corners of the mouth. Sparse upright bright green leaf-like topknot bound at its base with a thin beige tie. Bare green shoulders and chest; his simple dark green leafy waist garment is mostly below the bust crop. No adult giant anatomy, brown/gray skin, beard, braids, back tusks, loincloth emblems, horns, armor or muscular torso. No tofu/bird interpretation, plush stitching, toy material, mascot redesign or human ears.",
+      "pose": "A shy but courageous little Ogrest greeting a new friend: upper body facing mostly forward, shoulders tucked up slightly, head tilted gently to his own RIGHT, big blue eyes looking warmly at the viewer, a small sweet closed-mouth hopeful smile with the two little lower fangs visible. Both arms naturally travel down beside his single small torso, hands held gently behind his back below the portrait crop. No exposed hand, no prop, no other character. Both long pink-lined ears originate correctly at the sides of his head and hang loosely down beside his shoulders; the topknot stays complete and clear.",
+      "references": [
+        "public/avatars/classes/v1/iop-m.webp",
+        "temp/emblematic-rewards/references/ogrest-small-animation.jpg",
+        "temp/emblematic-rewards/references/ogrest-small-cover.jpg",
+        "temp/emblematic-rewards/references/ogrest-small-collector.jpg"
+      ],
+      "referenceRoles": [
+        "approved Forge technique and normal framing only",
+        "official Ankama animation: small Ogrest identity",
+        "official Ankama manga cover: face and ears",
+        "official Ankama collector: small Ogrest body/outfit only"
+      ],
+      "referenceHashes": {
+        "public/avatars/classes/v1/iop-m.webp": "16a39b75b306c1933bdde94e9b76b2bd291dd41e7f699300df65889e01e56e81",
+        "temp/emblematic-rewards/references/ogrest-small-animation.jpg": "f47437b16e4908c5589b09214d06d22f9f8a9dc5e8376ec83ec94157fd38047e",
+        "temp/emblematic-rewards/references/ogrest-small-cover.jpg": "73f5d6aed55286dd24798397ca3df1f5fb81b04451c873d5f7487bc4eb65188e",
+        "temp/emblematic-rewards/references/ogrest-small-collector.jpg": "0ca61f7c8113eb6d554ca2afde38203f812e981f817994f4ea77f1874805a335"
+      },
+      "sourceClientVersion": null,
+      "sourceType": "official Ankama cross-media; not an installed DOFUS 3.7 model",
+      "sources": [
+        {
+          "url": "https://www.youtube.com/watch?v=DqUaJ8SXwRY",
+          "title": "Ankama Animations: Ogrest The Legend",
+          "image": "https://i.ytimg.com/vi/DqUaJ8SXwRY/maxresdefault.jpg"
+        },
+        {
+          "url": "https://www.ankama-shop.com/en/dofus/300-ogrest-volume-1.html",
+          "title": "Ankama Editions: Ogrest Volume 1",
+          "image": "https://cdn1.ankama-shop.com/344-thickbox_default/ogrest-tome-1.jpg"
+        },
+        {
+          "url": "https://www.ankama-shop.com/fr/livres/4462-ogrest-integrale-collector-5-tomes-mig-dofus.html",
+          "title": "Ankama Editions: Ogrest collector",
+          "image": "https://cdn1.ankama-shop.com/5718-thickbox_default/ogrest-integrale-collector-5-tomes-mig-dofus.jpg"
+        }
+      ],
+      "master": "temp/emblematic-rewards/masters/ogrest-portrait.png",
+      "asset": "public/avatars/exclusive/v1/ogrest.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "282a5024289adfdef6825d5db2cd1f71b587db27a62de0afd8e9750ca10af2dc",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "width": 512,
+      "height": 512,
+      "sha256": "46e256e0b8e31eed8cb3b6d85c1dec9a49dafa72fc5d4ad2ac0a7205e06457b9",
+      "bytes": 48254,
+      "userReviewPending": true,
+      "review": {
+        "reviewedOn": "2026-11-27",
+        "fullSizeInspected": true,
+        "circularCropInspected": true,
+        "desktopCropInspected": false,
+        "mobileCropInspected": false,
+        "identityReferencesInspected": true,
+        "gameReferencesInspected": false,
+        "officialCrossMediaReferencesInspected": true,
+        "enlargedHandInspected": false,
+        "note": "FIRST generation retained. Inspected exact native image and 150/48px circles against official Ankama small-Ogrest animation, manga cover and collector art. Correct child form only: apple-green skin, large blue eyes, thick eyebrows, two little lower fangs, two correctly rooted long pink-lined drooping ears and beige-tied green topknot. One small coherent torso and two arms naturally down/behind the back; no exposed fingers to invent or count. Leaf waist garment is consistent with the official small form. No adult giant anatomy, beard, brown skin, tofu reinterpretation or Bolgrot identity. Face stays readable in the circle; ear ends naturally extend beyond the circular crop. Cross-media source is documented honestly and never attributed to the installed DOFUS 3.7 model.",
+        "observations": []
+      },
+      "generatedImageFile": "exec-8ad6eab4-3c78-45bf-8dba-183dc62a0d2f.png",
+      "referenceProvenance": [],
+      "names": {
+        "es": "Ogrest pequeño",
+        "en": "Little Ogrest",
+        "fr": "Petit Ogrest",
+        "pt": "Ogrest pequeno"
+      }
+    }
+  ],
+  "banners": [
+    {
+      "id": "goultard",
+      "names": {
+        "es": "La Arena de Gúltar",
+        "en": "Goultard's Arena",
+        "fr": "L'Arène de Goultard",
+        "pt": "A Arena de Gultar"
+      },
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-rewards/references/goultard-temple-183762956.png",
+        "temp/emblematic-rewards/references/goultard-full.png"
+      ],
+      "sourceClientVersion": "3.7.14.18",
+      "mapIds": [
+        183762956
+      ],
+      "sourceType": "Original thematic training hall, based on current-client Iop Temple architecture/props and Goultard identity; not a literal named Goultard map",
+      "identity": "Goultard is the orange-maned, maroon-headband warrior in the final identity reference, whose actual client dialogue offers his training place. Paint an EMPTY original training hall inspired by the installed Iop Temple: chunky warm ochre sandstone pointed arches and pillars, deep MAROON/RED lower wall trim and practice equipment, chipped flagstone floor, a red leather punching bag on a short iron chain, a worn round target and sword racks/one red shield in side niches. No gold throne, forge or generic lava cave. The warrior is NOT drawn; his palette and training story link this scenery to him.",
+      "composition": "A grounded panoramic eye-level view inside a sun-warmed sandstone training hall. A battered practice blade rests planted into a broad scarred training stone near center, simple pointed arches make a strong central rhythm, red punching bag hangs beside one pillar, round target and practice swords sit in right-side niches. Quiet broad flagstones across lower left for avatar overlap. Muted terracotta, maroon and ochre, dusty sage glimpsed beyond a small arch, calm late afternoon watercolor lighting. Keep the equipment modest and coherent, no live figures or statues.",
+      "type": "banner",
+      "prompt": "Use case: illustration-story. Asset type: original exclusive Dofus Forge CHARACTER-RELATED PROFILE SCENERY BANNER. Create ONE ultrawide horizontal 3:1 illustration, approximately 2172 x 724. Title for metadata only: Goultard's Arena; do NOT write it in the image. IMAGE 1 establishes our APPROVED INK-AND-WATERCOLOR BANNER TECHNIQUE and panorama framing only; do not copy Bonta, its statue, fountain or blue banners. Remaining references establish this character's actual environment, visual motifs or identity; do not trace their exact isometric composition. Character references supply identity motifs ONLY: NO CHARACTER is drawn in this scenery.\nPROVENANCE: Original thematic training hall, based on current-client Iop Temple architecture/props and Goultard identity; not a literal named Goultard map. Installed client DOFUS 3.7.14.18.\nIDENTITY: Goultard is the orange-maned, maroon-headband warrior in the final identity reference, whose actual client dialogue offers his training place. Paint an EMPTY original training hall inspired by the installed Iop Temple: chunky warm ochre sandstone pointed arches and pillars, deep MAROON/RED lower wall trim and practice equipment, chipped flagstone floor, a red leather punching bag on a short iron chain, a worn round target and sword racks/one red shield in side niches. No gold throne, forge or generic lava cave. The warrior is NOT drawn; his palette and training story link this scenery to him.\nORIGINAL COMPOSITION: A grounded panoramic eye-level view inside a sun-warmed sandstone training hall. A battered practice blade rests planted into a broad scarred training stone near center, simple pointed arches make a strong central rhythm, red punching bag hangs beside one pillar, round target and practice swords sit in right-side niches. Quiet broad flagstones across lower left for avatar overlap. Muted terracotta, maroon and ochre, dusty sage glimpsed beyond a small arch, calm late afternoon watercolor lighting. Keep the equipment modest and coherent, no live figures or statues.\nSTYLE: match the existing Forge collection exactly: lively varied-weight tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor, occasional warm off-white paper gaps and restrained natural pigment edges. An artist-made fantasy-comic travel illustration with large readable forms and believable perspective, not polished digital fantasy art. Fill the whole opaque panoramic canvas; no white frame or sidebars.\nPROFILE CROPS: place the characteristic landmark/objects inside the middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and mobile 390x192 centered crops. Keep the lower-left quiet for the circular avatar overlay, with no baked-in circle or interface. No text, captions, labels, lettering, signatures, logos, watermarks, badges, product packaging, books with readable titles, armies, living characters, giant monsters or character statues. No photorealism, plastic 3D, airbrushed gradients, cinematic bloom, neon glow, artificial grunge, noisy microdetail, copied photographic textures, vector-perfect shapes or black map-renderer masking planes. A single first generation for user review.",
+      "referenceRoles": [
+        "approved Forge banner technique only",
+        "identity/environment reference; not final composition",
+        "identity/environment reference; not final composition"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-rewards/references/goultard-temple-183762956.png": "166341f31fd6953ea55e0c4b78b66a97ce882eca2b51f569a53efccc5b474b74",
+        "temp/emblematic-rewards/references/goultard-full.png": "41d5e82823e613ddb125a8a3a7f0fc7640422de0be7d99190bfeb1b4f5e41c17"
+      },
+      "master": "temp/emblematic-rewards/masters/goultard-banner.png",
+      "asset": "public/banners/exclusive/v1/goultard.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "3ad1c88cb69fc45552666c90b35c5d1cab2cdd1f3674462b22f4cf5101a554f9",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "1b7b640fb707c8718320f3f557d7985262716653f1eeddc13367ce374d040eba",
+      "bytes": 347148,
+      "userReviewPending": true,
+      "review": {
+        "reviewedOn": "2026-11-27",
+        "fullSizeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "identityReferencesInspected": true,
+        "gameReferencesInspected": true,
+        "officialCrossMediaReferencesInspected": false,
+        "enlargedHandInspected": false,
+        "note": "FIRST generation retained. Inspected full native panorama and desktop/mobile centered crops against installed-client Iop Temple props and Goultard identity. Warm sandstone pointed arches, red lower trim, short-chain red punching bag, round target, red shield and sword rack make the training setting clear. Original composition, not a claim to reproduce a named Goultard map. Practice blade/training block and bag remain inside mobile crop, floor quiet at lower left, perspective coherent and no living figures, black reconstruction masks, text or UI.",
+        "observations": []
+      },
+      "generatedImageFile": "exec-ed96960e-020a-4a44-9550-a2e2c3e23fc2.png",
+      "referenceProvenance": [
+        {
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 183762956,
+          "sourceMapBundle": "Map/Data/mapdata_assets_world_701.bundle",
+          "sourceMapBundleSha256": "c7f2d10808e028895c979a3d022c1beec3001753d97377b3f0238eb414be397e",
+          "sha256": "166341f31fd6953ea55e0c4b78b66a97ce882eca2b51f569a53efccc5b474b74",
+          "renderedElements": 175,
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner."
+        }
+      ]
+    },
+    {
+      "id": "kerubim",
+      "names": {
+        "es": "Los Tesoros de Kerubim",
+        "en": "Kerub's Treasures",
+        "fr": "Les Trésors de Kerubim",
+        "pt": "Os Tesouros de Kerubim"
+      },
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-rewards/references/kerubim-shop-103547392.png",
+        "temp/emblematic-rewards/references/kerubim-shop-upstairs-103548416.png",
+        "temp/emblematic-rewards/references/kerubim-adventure-full.png"
+      ],
+      "sourceClientVersion": "3.7.14.18",
+      "mapIds": [
+        103547392,
+        103548416
+      ],
+      "sourceType": "Original panoramic interpretation of the current-client Kerubim shop and upstairs treasure rooms",
+      "identity": "The actual KERUBIM SHOP interior in current DOFUS 3.7: OLIVE/LIME GREEN timber panel walls and floor, warm wooden stairs with RED treads, rounded RED/PINK cabinets, tall packed bookshelves and short ladders, colorful potion bottles and eccentric antiques, small gold cat-shaped statuette, a modest treasure chest, old globe, a rolled bright magenta/ochre rug, cozy odd objects. Borrow the warm green/gold/red palette and recognizably crowded antiquarian character without making a generic tidy medieval shop. Ignore black renderer overlays and lighting-plane seams. No Kerubim or other living character is drawn; the shop itself is the subject.",
+      "composition": "An inviting panoramic eye-level view through Kerubim's cluttered treasure shop: two tall red curved-top bookcases and an open timber staircase toward upper left flank a central low antique display table with an old globe, a few glass bottles and a small gold cat figurine. Green boards, red steps, thick old wooden beams and glimpses of a purple/magenta rug. A closed small curved-lid chest near right foreground; warm amber window light and the suggestion of more stories on the shelves. Leave a quiet floor patch at lower left. Central table/bookshelves survive a narrow mobile crop. Render coherent objects with selective detail, no labels or writing.",
+      "type": "banner",
+      "prompt": "Use case: illustration-story. Asset type: original exclusive Dofus Forge CHARACTER-RELATED PROFILE SCENERY BANNER. Create ONE ultrawide horizontal 3:1 illustration, approximately 2172 x 724. Title for metadata only: Kerub's Treasures; do NOT write it in the image. IMAGE 1 establishes our APPROVED INK-AND-WATERCOLOR BANNER TECHNIQUE and panorama framing only; do not copy Bonta, its statue, fountain or blue banners. Remaining references establish this character's actual environment, visual motifs or identity; do not trace their exact isometric composition. Character references supply identity motifs ONLY: NO CHARACTER is drawn in this scenery.\nPROVENANCE: Original panoramic interpretation of the current-client Kerubim shop and upstairs treasure rooms. Installed client DOFUS 3.7.14.18.\nIDENTITY: The actual KERUBIM SHOP interior in current DOFUS 3.7: OLIVE/LIME GREEN timber panel walls and floor, warm wooden stairs with RED treads, rounded RED/PINK cabinets, tall packed bookshelves and short ladders, colorful potion bottles and eccentric antiques, small gold cat-shaped statuette, a modest treasure chest, old globe, a rolled bright magenta/ochre rug, cozy odd objects. Borrow the warm green/gold/red palette and recognizably crowded antiquarian character without making a generic tidy medieval shop. Ignore black renderer overlays and lighting-plane seams. No Kerubim or other living character is drawn; the shop itself is the subject.\nORIGINAL COMPOSITION: An inviting panoramic eye-level view through Kerubim's cluttered treasure shop: two tall red curved-top bookcases and an open timber staircase toward upper left flank a central low antique display table with an old globe, a few glass bottles and a small gold cat figurine. Green boards, red steps, thick old wooden beams and glimpses of a purple/magenta rug. A closed small curved-lid chest near right foreground; warm amber window light and the suggestion of more stories on the shelves. Leave a quiet floor patch at lower left. Central table/bookshelves survive a narrow mobile crop. Render coherent objects with selective detail, no labels or writing.\nSTYLE: match the existing Forge collection exactly: lively varied-weight tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor, occasional warm off-white paper gaps and restrained natural pigment edges. An artist-made fantasy-comic travel illustration with large readable forms and believable perspective, not polished digital fantasy art. Fill the whole opaque panoramic canvas; no white frame or sidebars.\nPROFILE CROPS: place the characteristic landmark/objects inside the middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and mobile 390x192 centered crops. Keep the lower-left quiet for the circular avatar overlay, with no baked-in circle or interface. No text, captions, labels, lettering, signatures, logos, watermarks, badges, product packaging, books with readable titles, armies, living characters, giant monsters or character statues. No photorealism, plastic 3D, airbrushed gradients, cinematic bloom, neon glow, artificial grunge, noisy microdetail, copied photographic textures, vector-perfect shapes or black map-renderer masking planes. A single first generation for user review.",
+      "referenceRoles": [
+        "approved Forge banner technique only",
+        "identity/environment reference; not final composition",
+        "identity/environment reference; not final composition",
+        "identity/environment reference; not final composition"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-rewards/references/kerubim-shop-103547392.png": "3acd4bf2013e108a06a7a56fa15d616f80911755f679844ecfac6b54156c7bd1",
+        "temp/emblematic-rewards/references/kerubim-shop-upstairs-103548416.png": "e1b7bc2377265e5c6bf6c9d64867d6b78da195ddca766d4507a020795084e363",
+        "temp/emblematic-rewards/references/kerubim-adventure-full.png": "7b028ff8c502bf19e94f875bd321f544f84334492b7bb0fd819991ccebc67a25"
+      },
+      "master": "temp/emblematic-rewards/masters/kerubim-banner.png",
+      "asset": "public/banners/exclusive/v1/kerubim.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "1dd7b1d5b80d8d1cc86bcbbec4e63d313972aecd43a2a0c9817c18c30444f8af",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "6da4fd313f186d9b88b51fbde8be5a09a6372b8be2be2903e972652809e143cc",
+      "bytes": 367104,
+      "userReviewPending": true,
+      "review": {
+        "reviewedOn": "2026-11-27",
+        "fullSizeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "identityReferencesInspected": true,
+        "gameReferencesInspected": true,
+        "officialCrossMediaReferencesInspected": false,
+        "enlargedHandInspected": false,
+        "note": "FIRST generation retained. Inspected native panorama and desktop/mobile crops against both real current-client shop rooms. Green wood walls, rounded red/pink bookcases, purple ladders, red staircase, purple/gold rug, globe, bottles, chest and small gold cat statuette preserve the shop identity. New eye-level composition with coherent large furniture shapes, bright but matte watercolor, no black renderer masks or readable book text. Central antique table, globe and gold cat stay visible on mobile; the left foreground has quiet floor for the avatar. The cat is a small gold object, not a living extra character.",
+        "observations": []
+      },
+      "generatedImageFile": "exec-c2539a0e-25e1-4cd9-b713-dd1dada1d1bc.png",
+      "referenceProvenance": [
+        {
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 103547392,
+          "sourceMapBundle": "Map/Data/mapdata_assets_world_395.bundle",
+          "sourceMapBundleSha256": "5ed5482fa2b3e46fdd7c5b047c41a5ac91e839d4e3217c7c7cb7fba9978c2b94",
+          "sha256": "3acd4bf2013e108a06a7a56fa15d616f80911755f679844ecfac6b54156c7bd1",
+          "renderedElements": 268,
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner."
+        },
+        {
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 103548416,
+          "sourceMapBundle": "Map/Data/mapdata_assets_world_395.bundle",
+          "sourceMapBundleSha256": "5ed5482fa2b3e46fdd7c5b047c41a5ac91e839d4e3217c7c7cb7fba9978c2b94",
+          "sha256": "e1b7bc2377265e5c6bf6c9d64867d6b78da195ddca766d4507a020795084e363",
+          "renderedElements": 195,
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner."
+        }
+      ]
+    },
+    {
+      "id": "julith",
+      "names": {
+        "es": "El Legado de Julith",
+        "en": "Julith's Legacy",
+        "fr": "L'Héritage de Julith",
+        "pt": "O Legado de Julith"
+      },
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-rewards/references/julith-brakmar-coraza-212862209.png",
+        "temp/emblematic-rewards/references/julith-brakmar-yunque-212860930.png",
+        "temp/emblematic-rewards/references/julith-full.png"
+      ],
+      "sourceClientVersion": "3.7.14.18",
+      "mapIds": [
+        212862209,
+        212860930
+      ],
+      "sourceType": "Original thematic Brakmar terrace linked to Julith through her exact burgundy/navy star-lined cloak motifs; not a canonical named Julith map",
+      "identity": "Actual installed 3.7 BRAKMAR architecture: dark charcoal/blue-gray overlapping curved metal roofs, broad riveted iron eaves with upturned tips and rings, heavy stone/iron walls, narrow orange-lit barred windows, walkway rails above distant ember-orange volcanic haze. Julith's distinctive palette is BURGUNDY outside / NAVY lining with small LIGHT BLUE stars and dots. Her empty folded cloak, not a living woman, is the visual narrative link: a heavy burgundy cloth draped over a low stone/iron balustrade with a small tasteful navy star-lined fold visible. Do not paint Julith, other characters, city armies, a forge interior or a giant lava river.",
+      "composition": "An atmospheric panoramic EMPTY terrace overlooking the angular rooftops of Brakmar at subdued dusk. Mid-frame dark riveted arch and a low worn charcoal-stone balustrade hold a single deep burgundy cloak whose turned corner reveals quiet navy lining with a few pale blue star motifs. Beyond it, layered curved iron roofs and narrow warm orange windows sit in muted ember haze, with a sliver of cool slate sky above. Keep dark surfaces readable through watercolor paper gaps and restrained warm/cool contrast. Cloak/arch inside the central crop; lower-left stone paving calm for avatar overlap. No neon, cinematic spectacle, live character, statue or text.",
+      "type": "banner",
+      "prompt": "Use case: illustration-story. Asset type: original exclusive Dofus Forge CHARACTER-RELATED PROFILE SCENERY BANNER. Create ONE ultrawide horizontal 3:1 illustration, approximately 2172 x 724. Title for metadata only: Julith's Legacy; do NOT write it in the image. IMAGE 1 establishes our APPROVED INK-AND-WATERCOLOR BANNER TECHNIQUE and panorama framing only; do not copy Bonta, its statue, fountain or blue banners. Remaining references establish this character's actual environment, visual motifs or identity; do not trace their exact isometric composition. Character references supply identity motifs ONLY: NO CHARACTER is drawn in this scenery.\nPROVENANCE: Original thematic Brakmar terrace linked to Julith through her exact burgundy/navy star-lined cloak motifs; not a canonical named Julith map. Installed client DOFUS 3.7.14.18.\nIDENTITY: Actual installed 3.7 BRAKMAR architecture: dark charcoal/blue-gray overlapping curved metal roofs, broad riveted iron eaves with upturned tips and rings, heavy stone/iron walls, narrow orange-lit barred windows, walkway rails above distant ember-orange volcanic haze. Julith's distinctive palette is BURGUNDY outside / NAVY lining with small LIGHT BLUE stars and dots. Her empty folded cloak, not a living woman, is the visual narrative link: a heavy burgundy cloth draped over a low stone/iron balustrade with a small tasteful navy star-lined fold visible. Do not paint Julith, other characters, city armies, a forge interior or a giant lava river.\nORIGINAL COMPOSITION: An atmospheric panoramic EMPTY terrace overlooking the angular rooftops of Brakmar at subdued dusk. Mid-frame dark riveted arch and a low worn charcoal-stone balustrade hold a single deep burgundy cloak whose turned corner reveals quiet navy lining with a few pale blue star motifs. Beyond it, layered curved iron roofs and narrow warm orange windows sit in muted ember haze, with a sliver of cool slate sky above. Keep dark surfaces readable through watercolor paper gaps and restrained warm/cool contrast. Cloak/arch inside the central crop; lower-left stone paving calm for avatar overlap. No neon, cinematic spectacle, live character, statue or text.\nSTYLE: match the existing Forge collection exactly: lively varied-weight tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor, occasional warm off-white paper gaps and restrained natural pigment edges. An artist-made fantasy-comic travel illustration with large readable forms and believable perspective, not polished digital fantasy art. Fill the whole opaque panoramic canvas; no white frame or sidebars.\nPROFILE CROPS: place the characteristic landmark/objects inside the middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and mobile 390x192 centered crops. Keep the lower-left quiet for the circular avatar overlay, with no baked-in circle or interface. No text, captions, labels, lettering, signatures, logos, watermarks, badges, product packaging, books with readable titles, armies, living characters, giant monsters or character statues. No photorealism, plastic 3D, airbrushed gradients, cinematic bloom, neon glow, artificial grunge, noisy microdetail, copied photographic textures, vector-perfect shapes or black map-renderer masking planes. A single first generation for user review.",
+      "referenceRoles": [
+        "approved Forge banner technique only",
+        "identity/environment reference; not final composition",
+        "identity/environment reference; not final composition",
+        "identity/environment reference; not final composition"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-rewards/references/julith-brakmar-coraza-212862209.png": "b6747432e4cf83e249e99df3c7debfbd8a75b34a03e7fbdfb18ed73685c39bb8",
+        "temp/emblematic-rewards/references/julith-brakmar-yunque-212860930.png": "c223395b46c89571ab2da162a5f099c162f4fdc788f4a0b0a929e6efa965965c",
+        "temp/emblematic-rewards/references/julith-full.png": "8b3096487bb47c5b17287e5afa917bae65440618469485d4569272188002a886"
+      },
+      "master": "temp/emblematic-rewards/masters/julith-banner.png",
+      "asset": "public/banners/exclusive/v1/julith.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "a203bdf314d555e2140a8fc91a0e2e748bb18eabfc7422a46c7625598edd1c45",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "41d5fdf7f3c28139bdeb7479a2d042c6d2a695ff4371aeb62685727f5c769c25",
+      "bytes": 327798,
+      "userReviewPending": true,
+      "review": {
+        "reviewedOn": "2026-11-27",
+        "fullSizeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "identityReferencesInspected": true,
+        "gameReferencesInspected": true,
+        "officialCrossMediaReferencesInspected": false,
+        "enlargedHandInspected": false,
+        "note": "FIRST generation retained. Inspected native panorama and desktop/mobile crops against current-client Brakmar roofs/ironwork and Julith cloak colors. Curved dark riveted roofs, warm barred windows, iron arch/balustrade and distant ember haze retain Brakmar character. The empty burgundy cloak with navy pale-blue-star lining is the specific link to Julith; no woman or hidden body is drawn. This is an original thematic terrace, not a canonical named Julith map. Central cloak/arch and roof silhouettes survive mobile crop, lower-left paving remains quiet, no text/UI or black reconstruction planes.",
+        "observations": []
+      },
+      "generatedImageFile": "exec-4b213eb6-baf2-4423-aa3d-4a8d32545c66.png",
+      "referenceProvenance": [
+        {
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 212862209,
+          "sourceMapBundle": "Map/Data/mapdata_assets_world_812.bundle",
+          "sourceMapBundleSha256": "eb257dcf1f95e4713b557df1d69a940e58c07fcdeec5356de1d1c9030a7c3522",
+          "sha256": "b6747432e4cf83e249e99df3c7debfbd8a75b34a03e7fbdfb18ed73685c39bb8",
+          "renderedElements": 566,
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner."
+        },
+        {
+          "sourceClientVersion": "3.7.14.18",
+          "mapId": 212860930,
+          "sourceMapBundle": "Map/Data/mapdata_assets_world_812.bundle",
+          "sourceMapBundleSha256": "eb257dcf1f95e4713b557df1d69a940e58c07fcdeec5356de1d1c9030a7c3522",
+          "sha256": "c223395b46c89571ab2da162a5f099c162f4fdc788f4a0b0a929e6efa965965c",
+          "renderedElements": 586,
+          "preparation": "Static installed-client map planes and 1x graphic assets; runtime lighting, particles and special blend shaders omitted. Source neutral vertex tint normalized. Not a game screenshot or finished banner."
+        }
+      ]
+    },
+    {
+      "id": "ogrest",
+      "names": {
+        "es": "El Refugio de Ogrest",
+        "en": "Ogrest's Refuge",
+        "fr": "Le Refuge d'Ogrest",
+        "pt": "O Refúgio de Ogrest"
+      },
+      "references": [
+        "public/banners/locations/v1/bonta.webp",
+        "temp/emblematic-rewards/references/ogrest-small-animation.jpg",
+        "temp/emblematic-rewards/references/ogrest-small-collector.jpg",
+        "temp/emblematic-rewards/references/ogrest-small-cover.jpg"
+      ],
+      "sourceClientVersion": null,
+      "mapIds": [],
+      "sourceType": "Original childhood-island refuge inspired by official Ankama Ogrest: The Legend and Ogrest Volume 1 references; not a DOFUS 3.7 client map",
+      "sources": [
+        {
+          "url": "https://www.youtube.com/watch?v=DqUaJ8SXwRY",
+          "title": "Ankama Animations: Ogrest The Legend"
+        },
+        {
+          "url": "https://www.ankama-shop.com/en/dofus/300-ogrest-volume-1.html",
+          "title": "Ankama Editions: Ogrest Volume 1"
+        },
+        {
+          "url": "https://www.ankama-shop.com/fr/livres/4462-ogrest-integrale-collector-5-tomes-mig-dofus.html",
+          "title": "Ankama Editions: Ogrest collector"
+        }
+      ],
+      "identity": "A scenery piece for SMALL CHILD OGREST only. The official animation shows him at a rough wooden window set between reddish twisting tree-bark walls. The official Volume 1/collector illustration links his childhood to a peaceful lush island and the massive warm reddish-brown spiral-textured tree behind the small green ogre. Use the old living tree, simple wooden window and doorway, green/blue fern foliage, warm pale yellow ground and a calm hint of island water. No adult giant, dark mountain summit, tears, destruction, storm, adult monster anatomy or tofu-plush reinterpretation. Do not reproduce the book/packaging, its text or any of its characters.",
+      "composition": "A gentle panoramic EMPTY childhood refuge on a quiet island: an enormous old reddish-brown tree curves across the frame, its trunk has a natural broad spiral grain and a little sheltered wooden window above low roots, beside a modest arched wooden doorway. Soft apple-green leaves and dusty blue-green ferns surround a small sunlit sandy path, a narrow calm creek or distant sea glimpsed through foliage at the right. Warm morning light, simple child-height wooden stool below the window, one tiny ordinary clay pot beside the door. Trunk/window/path remain in central crop; lower-left has quiet warm sandy ground for the avatar. A personal welcoming storybook place, no live figures or creatures.",
+      "type": "banner",
+      "prompt": "Use case: illustration-story. Asset type: original exclusive Dofus Forge CHARACTER-RELATED PROFILE SCENERY BANNER. Create ONE ultrawide horizontal 3:1 illustration, approximately 2172 x 724. Title for metadata only: Ogrest's Refuge; do NOT write it in the image. IMAGE 1 establishes our APPROVED INK-AND-WATERCOLOR BANNER TECHNIQUE and panorama framing only; do not copy Bonta, its statue, fountain or blue banners. Remaining references establish this character's actual environment, visual motifs or identity; do not trace their exact isometric composition. Character references supply identity motifs ONLY: NO CHARACTER is drawn in this scenery.\nPROVENANCE: Original childhood-island refuge inspired by official Ankama Ogrest: The Legend and Ogrest Volume 1 references; not a DOFUS 3.7 client map. Official Ankama cross-media sources, correctly distinguished from installed-client maps.\nIDENTITY: A scenery piece for SMALL CHILD OGREST only. The official animation shows him at a rough wooden window set between reddish twisting tree-bark walls. The official Volume 1/collector illustration links his childhood to a peaceful lush island and the massive warm reddish-brown spiral-textured tree behind the small green ogre. Use the old living tree, simple wooden window and doorway, green/blue fern foliage, warm pale yellow ground and a calm hint of island water. No adult giant, dark mountain summit, tears, destruction, storm, adult monster anatomy or tofu-plush reinterpretation. Do not reproduce the book/packaging, its text or any of its characters.\nORIGINAL COMPOSITION: A gentle panoramic EMPTY childhood refuge on a quiet island: an enormous old reddish-brown tree curves across the frame, its trunk has a natural broad spiral grain and a little sheltered wooden window above low roots, beside a modest arched wooden doorway. Soft apple-green leaves and dusty blue-green ferns surround a small sunlit sandy path, a narrow calm creek or distant sea glimpsed through foliage at the right. Warm morning light, simple child-height wooden stool below the window, one tiny ordinary clay pot beside the door. Trunk/window/path remain in central crop; lower-left has quiet warm sandy ground for the avatar. A personal welcoming storybook place, no live figures or creatures.\nSTYLE: match the existing Forge collection exactly: lively varied-weight tapered graphite-black brush-pen contours, selective fine hatching, economical irregular hand-drawn lines, charming asymmetry, loose matte watercolor, occasional warm off-white paper gaps and restrained natural pigment edges. An artist-made fantasy-comic travel illustration with large readable forms and believable perspective, not polished digital fantasy art. Fill the whole opaque panoramic canvas; no white frame or sidebars.\nPROFILE CROPS: place the characteristic landmark/objects inside the middle 60 percent of the width and middle 70 percent of height, readable in desktop 3:1 and mobile 390x192 centered crops. Keep the lower-left quiet for the circular avatar overlay, with no baked-in circle or interface. No text, captions, labels, lettering, signatures, logos, watermarks, badges, product packaging, books with readable titles, armies, living characters, giant monsters or character statues. No photorealism, plastic 3D, airbrushed gradients, cinematic bloom, neon glow, artificial grunge, noisy microdetail, copied photographic textures, vector-perfect shapes or black map-renderer masking planes. A single first generation for user review.",
+      "referenceRoles": [
+        "approved Forge banner technique only",
+        "identity/environment reference; not final composition",
+        "identity/environment reference; not final composition",
+        "identity/environment reference; not final composition"
+      ],
+      "referenceHashes": {
+        "public/banners/locations/v1/bonta.webp": "9325bef79219f95aefa43203b4ceb14180b36ee424d5ad18782e039c4bfb0352",
+        "temp/emblematic-rewards/references/ogrest-small-animation.jpg": "f47437b16e4908c5589b09214d06d22f9f8a9dc5e8376ec83ec94157fd38047e",
+        "temp/emblematic-rewards/references/ogrest-small-collector.jpg": "0ca61f7c8113eb6d554ca2afde38203f812e981f817994f4ea77f1874805a335",
+        "temp/emblematic-rewards/references/ogrest-small-cover.jpg": "73f5d6aed55286dd24798397ca3df1f5fb81b04451c873d5f7487bc4eb65188e"
+      },
+      "master": "temp/emblematic-rewards/masters/ogrest-banner.png",
+      "asset": "public/banners/exclusive/v1/ogrest.webp",
+      "generator": "Built-in image_gen",
+      "generationNumber": 1,
+      "selectedFirstGeneration": true,
+      "masterSha256": "a618fa6553ec98de357360d347c77f510f267fa2e11742b81d0403690f15d6d5",
+      "masterWidth": 2172,
+      "masterHeight": 724,
+      "width": 1920,
+      "height": 640,
+      "sha256": "47f08977be3308999f90e6b0882fd1c8391dfb5ed8ef544ddf1d6a3c4db36a89",
+      "bytes": 419726,
+      "userReviewPending": true,
+      "review": {
+        "reviewedOn": "2026-11-27",
+        "fullSizeInspected": true,
+        "circularCropInspected": false,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "identityReferencesInspected": true,
+        "gameReferencesInspected": false,
+        "officialCrossMediaReferencesInspected": true,
+        "enlargedHandInspected": false,
+        "note": "FIRST generation retained. Inspected native panorama and desktop/mobile crops against official small-Ogrest animation window and the Volume 1/collector childhood island/tree motifs. Giant reddish spiral-grained tree, little plain wooden window and sheltered door, small stool, leafy blue-green plants, pale sandy path and calm island water form an original childhood refuge. No adult giant, dark storm summit, disaster, live character, toy or copied packaging. Trunk/window and child-scale details remain readable in mobile crop, lower-left path is calm, coherent ink/watercolor matches Forge. Documented as official-Ankama-inspired cross-media thematic scenery, not a current-client map.",
+        "observations": []
+      },
+      "generatedImageFile": "exec-816f6f31-00bd-485c-b0e5-02ce6e4eb2fe.png",
+      "referenceProvenance": []
+    }
+  ],
+  "preparedForForgeVersion": "0.4.27",
+  "updatedOn": "2026-11-27"
+}
