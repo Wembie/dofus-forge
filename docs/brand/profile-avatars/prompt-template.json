@@ -1,6 +1,6 @@
 {
   "collection": "Forge class portraits",
-  "revision": 6,
+  "revision": 7,
   "generator": "Built-in image_gen",
   "approvedStyleReference": "public/avatars/classes/v1/iop-m.webp",
   "exactPromptsForExistingImages": "docs/brand/profile-avatars/manifest.json",
@@ -36,7 +36,8 @@
     "Keep one cohesive ink-and-watercolor collection while allowing individual shapes, expressions, props and quiet wash colors.",
     "Inspect the final drawing both as a square and in a small circular profile crop.",
     "Append each exact final prompt, references and output identity to the collection manifest. Retain older approved entries when creating a new revision.",
-    "Record the exact installed-client patch and hashes of identity renders for new head collections. Inspect both angles of the requested head: masks, hats, eyewear and hairstyles can change completely between slots."
+    "Record the exact installed-client patch and hashes of identity renders for new head collections. Inspect both angles of the requested head: masks, hats, eyewear and hairstyles can change completely between slots.",
+    "User preference 2026-11-26: retain the first generated image and established collection framing. Inspect and record observations, finish the batch, then let the user choose specific edits; do not automatically regenerate or replace a first result."
   ],
   "exports": {
     "master": "Original PNG, kept locally under temp/profile-avatars/masters/v1/<class>-<m|f>.png",
@@ -72,6 +73,7 @@
     "Check one coherent clothed ribcage and torso, with no duplicate shoulder, torso or chest-shaped folds.",
     "Inspect the large artwork and the small circular crop separately. Preserve the real selected game head and usual outfit while correcting anatomy.",
     "For edits, keep the original generation prompt and immutable source PNG, save the exact edit prompt and reference roles/hashes, then update both native PNG and WebP.",
-    "When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; correct uncertain anatomy before approval."
-  ]
+    "When digit count is ambiguous, inspect an enlarged hand crop and trace each finger root. Do not infer a missing finger from a crease. In a fully exposed grip, distinguish four fingers and one thumb; record uncertainty for user review. Keep the first generation unless the user requests a specific correction."
+  ],
+  "selectionPolicy": "Keep the FIRST generation for each future image. Finish the batch for user review; edit only the specific images requested by the user. Preserve the established collection framing."
 }

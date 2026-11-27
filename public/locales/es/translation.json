@@ -2641,5 +2641,13 @@
   "profile_banner_location_dantinea-palace": "Palacio de Dientinea",
   "profile_banner_location_solar-tower": "Torre de Solar",
   "profile_banner_location_tortured-cemetery": "Cementerio de los Torturados",
-  "admin_ranks_build_limit_quota_hint": "La cuenta conserva el límite más alto si tiene varios rangos asignados. Máximo: 100.000."
+  "admin_ranks_build_limit_quota_hint": "La cuenta conserva el límite más alto si tiene varios rangos asignados. Máximo: 100.000.",
+  "profile_banner_location_bworker-cave": "Cueva de Bworker",
+  "profile_banner_location_kimbo-canopy": "Canopea del Kimbo",
+  "profile_banner_location_tynril-lab": "Laboratorio del Tynril",
+  "profile_banner_location_ougah-temple": "Templo del Gran Ugah",
+  "profile_banner_location_royalmouth-greenhouse": "Invernáculo de Jalamut Real",
+  "profile_banner_location_obsidemon-hypogeum": "Hipogeo del Obsidiantre",
+  "profile_banner_location_bethel-tower": "Torre de Bethel",
+  "profile_banner_location_torkelonia-sanctuary": "Santuario de Torkelonia"
 }

@@ -5,10 +5,10 @@ export const PROFILE_BANNER_GROUPS = [
   { id: 'nature', locations: ['otomai', 'tainela', 'koalaks', 'abraknid', 'nimotopia', 'evil-forest', 'cania-lake', 'mount-torrid', 'petrified-forest'] },
   { id: 'dimensions', locations: ['anutropia', 'sramvil', 'zurcalia', 'xelorium', 'obscure-dimension'] },
   { id: 'islands', locations: ['moon', 'wabbits', 'vulkania', 'osavora', 'nawidad', 'pazcuak', 'castaway-island', 'grobe', 'kefriho'] },
-  { id: 'adventures', locations: ['minotoror', 'saharach', 'ereboria', 'dragocerdo', 'trool-fair', 'dragoeuf', 'gisgoul', 'kontatras-castle', 'merkator', 'dramak', 'master-crow-library', 'giant-kralove', 'dantinea-palace', 'solar-tower', 'tortured-cemetery'] },
+  { id: 'adventures', locations: ['minotoror', 'saharach', 'ereboria', 'dragocerdo', 'trool-fair', 'dragoeuf', 'gisgoul', 'kontatras-castle', 'merkator', 'dramak', 'master-crow-library', 'giant-kralove', 'dantinea-palace', 'solar-tower', 'tortured-cemetery', 'bworker-cave', 'kimbo-canopy', 'tynril-lab', 'ougah-temple', 'royalmouth-greenhouse', 'obsidemon-hypogeum', 'bethel-tower', 'torkelonia-sanctuary'] },
 ] as const
 
-const latestLocations = new Set<string>(['crocuzko', 'master-crow-library', 'giant-kralove', 'dopple-village', 'breeders-village', 'dantinea-palace', 'solar-tower', 'tortured-cemetery'])
+const latestLocations = new Set<string>(['bworker-cave', 'kimbo-canopy', 'tynril-lab', 'ougah-temple', 'royalmouth-greenhouse', 'obsidemon-hypogeum', 'bethel-tower', 'torkelonia-sanctuary'])
 
 export const PROFILE_BANNER_OPTIONS = PROFILE_BANNERS.map(b => ({
   ...b,

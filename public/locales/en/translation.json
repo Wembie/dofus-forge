@@ -2641,5 +2641,13 @@
   "profile_banner_location_dantinea-palace": "Dantinea's Palace",
   "profile_banner_location_solar-tower": "Solar's Tower",
   "profile_banner_location_tortured-cemetery": "Cemetery of the Tortured",
-  "admin_ranks_build_limit_quota_hint": "The account keeps whichever build limit is higher if it has more than one rank assigned. Maximum: 100,000."
+  "admin_ranks_build_limit_quota_hint": "The account keeps whichever build limit is higher if it has more than one rank assigned. Maximum: 100,000.",
+  "profile_banner_location_bworker-cave": "Bworker's Cave",
+  "profile_banner_location_kimbo-canopy": "Kimbo's Canopy",
+  "profile_banner_location_tynril-lab": "Tynril Lab",
+  "profile_banner_location_ougah-temple": "Temple of the Great Ougaa",
+  "profile_banner_location_royalmouth-greenhouse": "Royal Mastogob's Greenhouse",
+  "profile_banner_location_obsidemon-hypogeum": "The Obsidemon's Hypogeum",
+  "profile_banner_location_bethel-tower": "Bethel's Tower",
+  "profile_banner_location_torkelonia-sanctuary": "Turtelonia's Sanctuary"
 }

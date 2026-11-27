@@ -17,7 +17,7 @@ function functionHeaders(sql: string) {
 }
 
 describe('supabase schema guards', () => {
-  it.each(['20261123040000_profile_art_third_heads_and_locations.sql', '20261123050000_profile_art_fourth_heads_and_locations.sql', '20261126010000_profile_art_fifth_heads_and_locations.sql', '20261126020000_profile_art_sixth_heads_and_locations.sql'])('adds art without rewriting profiles or permissions: %s', file => {
+  it.each(['20261123040000_profile_art_third_heads_and_locations.sql', '20261123050000_profile_art_fourth_heads_and_locations.sql', '20261126010000_profile_art_fifth_heads_and_locations.sql', '20261126020000_profile_art_sixth_heads_and_locations.sql', '20261126040000_profile_art_seventh_heads_and_locations.sql'])('adds art without rewriting profiles or permissions: %s', file => {
     const migration = readFileSync(join(ROOT, 'supabase', 'migrations', file), 'utf8').replace(/\r\n/g, '\n')
     expect(schema).toContain(migration.trim())
     expect([...migration.matchAll(/\('(\/avatars\/classes\/[^']+\.webp)'\)/g)]).toHaveLength(38)

@@ -10,6 +10,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.26',
+    date: '2026-11-27',
+    notes: [
+      "38 new profile portraits: the seventh in-game face and hairstyle for all 19 classes, male and female, with usual outfits and individual ink-and-watercolor poses. Choose from 266 avatars; 266 of 600 faces are complete, with alternate outfits reserved for later",
+      "Eight new DOFUS 3.7 landscapes: Bworker's Cave, Kimbo's Canopy, Tynril Lab, Temple of the Great Ougaa, Royal Mastogob's Greenhouse, The Obsidemon's Hypogeum, Bethel's Tower and Turtelonia's Sanctuary. Choose from 68 banners, with names in all four languages",
+      "Previous 228 portraits and 60 banners stay unchanged. Seventh-face male Eniripsa hands were corrected on request and the preferred first female Xelor image was restored. New choices keep exact-path validation and need the additive catalog migration before deployment",
+    ],
+  },
+  {
     version: '0.4.25',
     date: '2026-11-26',
     notes: [

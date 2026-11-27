@@ -2641,5 +2641,13 @@
   "profile_banner_location_dantinea-palace": "Palácio de Dentinea",
   "profile_banner_location_solar-tower": "Torre de Solar",
   "profile_banner_location_tortured-cemetery": "Cemitério dos Torturados",
-  "admin_ranks_build_limit_quota_hint": "A conta mantém o maior limite se tiver mais de um rank atribuído. Máximo: 100.000."
+  "admin_ranks_build_limit_quota_hint": "A conta mantém o maior limite se tiver mais de um rank atribuído. Máximo: 100.000.",
+  "profile_banner_location_bworker-cave": "Gruta do Bworker",
+  "profile_banner_location_kimbo-canopy": "Dossel do Kimbo",
+  "profile_banner_location_tynril-lab": "Laboratório do Tynril",
+  "profile_banner_location_ougah-temple": "Templo do Grande Ugah",
+  "profile_banner_location_royalmouth-greenhouse": "Estufa do Papamute Real",
+  "profile_banner_location_obsidemon-hypogeum": "Hipogeu do Obsidemônio",
+  "profile_banner_location_bethel-tower": "Torre de Bethel",
+  "profile_banner_location_torkelonia-sanctuary": "Santuário de Torkelônia"
 }

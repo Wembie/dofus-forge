@@ -1,0 +1,130 @@
+{
+  "scope": "Only the eight seventh-collection banners, not a new audit of the previous 60",
+  "reviewedOn": "2026-11-26",
+  "sourceClientVersion": "3.7.14.18",
+  "selectionPolicy": "Keep the FIRST generation for each future image. Finish the batch for user review; edit only the specific images requested by the user. Preserve the established collection framing.",
+  "userReviewPending": true,
+  "banners": [
+    {
+      "id": "bworker-cave",
+      "asset": "public/banners/locations/v1/bworker-cave.webp",
+      "sha256": "23fd0ce1ce9435e4439f4d10e8e0460546de8374d1f159d3a86610eeebd70eeb",
+      "master": "temp/profile-banners/masters/v1/bworker-cave.png",
+      "masterSha256": "815a1e18d062328e0285d50ac3652778b5212572636c7a1ccfc91e13930b8f9f",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Inspected native panorama and desktop/mobile crops against both installed-client maps: pale tusk/skull gateway, hanging riveted cages, cracked paving and ochre cave floor recognizable; no renderer rectangles or live creatures. Mobile crop retains gateway/cages, lower-left quiet path, coherent ink/watercolor matching collection."
+      }
+    },
+    {
+      "id": "kimbo-canopy",
+      "asset": "public/banners/locations/v1/kimbo-canopy.webp",
+      "sha256": "d0a7475639b3528808d944317991d38fb923a3ed25cff1af160f866a78682adb",
+      "master": "temp/profile-banners/masters/v1/kimbo-canopy.png",
+      "masterSha256": "8aa5699ac1f87d792717e539fc20bb1304877d50940c18f840ec30851438e2d6",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Native and desktop/mobile crops inspected against installed maps: cloud-level wood terraces, rectangular gaps, looping golden-green vine rails, large vine-wrapped curved branch and angular canopy plants preserved. Central walkway/branch remain readable on mobile; no living Kimbo, renderer rectangles or borrowed Bonta architecture."
+      }
+    },
+    {
+      "id": "tynril-lab",
+      "asset": "public/banners/locations/v1/tynril-lab.webp",
+      "sha256": "2aae78d91a2bb39e9a4e0d070c45485ee2c9118cb6b5e2b7b553da5daae3f64b",
+      "master": "temp/profile-banners/masters/v1/tynril-lab.png",
+      "masterSha256": "8374360d0e33b590f84972989d352b982d92f3b0271a55e55824e6a05dc27886",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Native and desktop/mobile crops inspected: brown botanical growth pods with blue/red oval windows, green planter benches, colored glass cylinders with gold caps, green hanging glass lamp, cream arched door and wooden floor match actual maps. Center apparatus readable on mobile; no monster faces, live creatures, text or source reconstruction rectangles."
+      }
+    },
+    {
+      "id": "ougah-temple",
+      "asset": "public/banners/locations/v1/ougah-temple.webp",
+      "sha256": "30351ddef9028b29eed7b6b4bd8e4e10787d9ac23410d8ba5910b9fffe846c62",
+      "master": "temp/profile-banners/masters/v1/ougah-temple.png",
+      "masterSha256": "4c6692504df20f5cc77a51dc1ac074ca64811735042f54d092f75348f3a5b215",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Native panorama and desktop/mobile crops inspected against map references: green stone fungal sanctuary, blue mushroom-shaped barred gate, dotted cap arches, silver-white/lavender fungi, altar and aqua pools recognizable. Central gate and mushrooms survive mobile crop. Matte cool watercolor, no living Ougah, neon bloom or black renderer overlays."
+      }
+    },
+    {
+      "id": "royalmouth-greenhouse",
+      "asset": "public/banners/locations/v1/royalmouth-greenhouse.webp",
+      "sha256": "e5a3cf3ae0e9e70a1460efe762fec265ac04b30002ba8131c6a14d768c9ae623",
+      "master": "temp/profile-banners/masters/v1/royalmouth-greenhouse.png",
+      "masterSha256": "4f002e6109e4e64672062c9f7d7d252ba81afd0e1b5c911af452bcf635eb303c",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Inspected native and desktop/mobile crops: rounded ribbed glass dome, snowy outside, circular timber floor around central mechanical pipe and brass gauges, sunflowers/fruit/greenhouse plants match installed maps. Mobile retains pipe, glass ribs and plants. Blank chalkboard, no live Royalmouth or modern machinery, no reference void rectangles."
+      }
+    },
+    {
+      "id": "obsidemon-hypogeum",
+      "asset": "public/banners/locations/v1/obsidemon-hypogeum.webp",
+      "sha256": "5f5fe78aebc6bada51d516c88ed0e0401141e0f6aec57420f1429c4afe6dcb69",
+      "master": "temp/profile-banners/masters/v1/obsidemon-hypogeum.png",
+      "masterSha256": "dc03f8281c602989091dd312013cbf29b26ca178d684d640d8ba1551d6f6b875",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Inspected native plus desktop/mobile crops: fractured charcoal basalt causeways, porous amber-holed smoking vents, lava channels/falls and burnt tree correspond to installed maps. Mobile retains path, vents and falls. One coherent empty volcanic scene, no Obsidemon creature or industrial fortress, matte warm watercolor without source rectangle overlays."
+      }
+    },
+    {
+      "id": "bethel-tower",
+      "asset": "public/banners/locations/v1/bethel-tower.webp",
+      "sha256": "9b7bcdedd90610e3d70549e3cd16436cb23f28ce0095421da67adb675b12d770",
+      "master": "temp/profile-banners/masters/v1/bethel-tower.png",
+      "masterSha256": "d6db1a365adfcb906a48039d41610cd0468068c84d87dcd23058fb435d5381c0",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Native and desktop/mobile crops inspected: porous blue-green organic shell walls, huge violet ammonite, lavender fan plates, spiral floor inlays, pale tube corals and fixed shell pods match actual Bethel interior. Center ammonite/floor remain readable in mobile. No invented gothic exterior, live jellyfish, monsters or renderer overlay planes."
+      }
+    },
+    {
+      "id": "torkelonia-sanctuary",
+      "asset": "public/banners/locations/v1/torkelonia-sanctuary.webp",
+      "sha256": "80e6253cb5f113dc83c45cfc56c0c5e6a4a71b54ae3e467ee09adcd14a2f8112",
+      "master": "temp/profile-banners/masters/v1/torkelonia-sanctuary.png",
+      "masterSha256": "27a5e0e82c707f4c63b8c8155584e465e35d2d0feae3a9283c4cf18924fad596",
+      "review": {
+        "reviewedOn": "2026-11-26",
+        "fullSizeInspected": true,
+        "desktopCropInspected": true,
+        "mobileCropInspected": true,
+        "gameReferencesInspected": true,
+        "note": "FIRST generation retained for user review. Inspected native plus desktop/mobile crops: massive jade/blue-gray block terraces, broad straight stairs, worn geometric paving, layered aquatic plants, round yellow growths, bowls and narrow ladder correspond to installed maps. Central stairs remain readable on mobile; no invented turtle statue, living creatures, hard black overlays or modern architecture."
+      }
+    }
+  ],
+  "preservedPreviousBanners": 60
+}

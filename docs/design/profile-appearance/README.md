@@ -1,6 +1,6 @@
-# Personalización del perfil — 0.4.25
+# Personalización del perfil — 0.4.26
 
-Galería real de Cuenta para combinar los 228 avatares y 60 banners. La interfaz usa las ilustraciones existentes, los colores de Forge y las traducciones de español, inglés, francés y portugués.
+Galería real de Cuenta para combinar los 266 avatares y 68 banners. La interfaz usa las ilustraciones existentes, los colores de Forge y las traducciones de español, inglés, francés y portugués.
 
 ![Galería de avatares en escritorio](desktop-avatars.webp)
 
@@ -23,7 +23,8 @@ En móvil, los retratos y banners tienen dos columnas y la vista previa se despl
 ## Implementación y revisión
 
 - [Componente de la galería](../../../src/features/account/ProfileAppearancePicker.tsx), con estilos propios y el catálogo de categorías cargado con Cuenta.
-- El guardado mantiene las rutas exactas permitidas por el servidor. La ampliación de la misma 0.4.25 a seis rostros y 60 paisajes necesita la [migración aditiva del catálogo](../../../supabase/migrations/20261126020000_profile_art_sixth_heads_and_locations.sql) antes del despliegue; los perfiles, permisos e imágenes anteriores se conservan.
+- El catálogo de banners se carga al editar el banner para mantener las demás páginas dentro de su presupuesto de JavaScript.
+- El guardado mantiene las rutas exactas permitidas por el servidor. La ampliación 0.4.26 a siete rostros y 68 paisajes necesita la [migración aditiva del catálogo](../../../supabase/migrations/20261126040000_profile_art_seventh_heads_and_locations.sql) antes del despliegue; los perfiles, permisos e imágenes anteriores se conservan.
 - Pruebas de Cuenta para combinación, cancelación, aplicación, guardado, fallo y reintento, filtros combinados y navegación por teclado; comprobación del mapeo de categorías e idiomas.
 - Flujo de navegador sobre Cuenta y perfil público con persistencia local simulada, ampliación, retorno de foco y diseños de 320 y 390 px. Revisión axe de ambos temas y de móvil, limitada a la nueva galería.
 

@@ -8,7 +8,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-4000-8000-0000000000c2', 'avatar-b@test.invalid', '{"username":"avatar_b"}');
 
 set local role anon;
-select is((select count(*) from public.profile_avatar_catalog), 228::bigint,
+select is((select count(*) from public.profile_avatar_catalog), 266::bigint,
   'anonymous readers see all shipped portraits');
 select throws_ok($$ insert into public.profile_avatar_catalog (path) values ('/avatars/classes/v1/fake-m.webp') $$,
   '42501', null, 'anonymous clients cannot expand the catalog');
@@ -37,7 +37,7 @@ select throws_ok($$ update public.profiles set avatar_url = '//tracker.example/a
   '23503', null, 'a scheme-relative avatar is rejected');
 select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/fake-m.webp' where id = auth.uid() $$,
   '23503', null, 'an unregistered local image is rejected');
-select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/iop-look-7-m.webp' where id = auth.uid() $$,
+select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/iop-look-8-m.webp' where id = auth.uid() $$,
   '23503', null, 'an unfinished face is not selectable through the API');
 select throws_ok($$ update public.profiles set avatar_url = '/avatars/classes/v1/iop-look-2-m.webp?redirect=1' where id = auth.uid() $$,
   '23503', null, 'a second-face URL cannot be modified through a query string');

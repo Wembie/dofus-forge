@@ -4,52 +4,52 @@ Archivo generado con `node scripts/sync-avatar-progress.mjs` a partir de `game-l
 
 **Orden acordado:** rostros y peinados primero, con el traje habitual. Después los trajes alternativos. El estilo artístico sigue siendo tinta y acuarela.
 
-**Rostros:** 228/600 terminados; 372 pendientes. **Trajes alternativos:** 0/38 terminados, reservados para después.
+**Rostros:** 266/600 terminados; 334 pendientes. **Trajes alternativos:** 0/38 terminados, reservados para después.
 
 La posición del rostro empieza en 1 y sigue el orden del cliente. Cada entrada conserva el id y la textura del juego; no confundir la etiqueta interna con la posición de la galería. Un retrato solo se tacha cuando existe su archivo, coincide su hash y están guardados su prompt y su pose.
 
 ## Resumen de los rostros producidos
 
-| Clase | Sexo | Rostro 1 | Rostro 2 | Rostro 3 | Rostro 4 | Rostro 5 | Rostro 6 | Otros rostros pendientes |
-|---|---|---|---|---|---|---|---|---|
-| Ocra | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Ocra | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Zurcarák | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Zurcarák | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Aniripsa | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Aniripsa | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Anutrof | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Anutrof | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Selotrop | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Selotrop | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Feca | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Feca | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Steamer | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Steamer | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Forjalanza | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Forjalanza | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Hipermago | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Hipermago | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Yopuka | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Yopuka | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Zobal | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Zobal | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Osamodas | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Osamodas | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Uginak | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Uginak | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Pandawa | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Pandawa | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Tymador | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Tymador | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Sacrógrito | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Sacrógrito | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Sadida | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Sadida | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Sram | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Sram | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
-| Xelor | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
-| Xelor | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 7, 8, 9, 10, 11, 12, 13, 14, 15 |
+| Clase | Sexo | Rostro 1 | Rostro 2 | Rostro 3 | Rostro 4 | Rostro 5 | Rostro 6 | Rostro 7 | Otros rostros pendientes |
+|---|---|---|---|---|---|---|---|---|---|
+| Ocra | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Ocra | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Zurcarák | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Zurcarák | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Aniripsa | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Aniripsa | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Anutrof | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Anutrof | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Selotrop | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Selotrop | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Feca | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Feca | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Steamer | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Steamer | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Forjalanza | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Forjalanza | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Hipermago | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Hipermago | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Yopuka | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Yopuka | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Zobal | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Zobal | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Osamodas | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Osamodas | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Uginak | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Uginak | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Pandawa | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Pandawa | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Tymador | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Tymador | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Sacrógrito | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Sacrógrito | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Sadida | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Sadida | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Sram | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Sram | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 |
+| Xelor | Masculino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
+| Xelor | Femenino | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | Hecho | 8, 9, 10, 11, 12, 13, 14, 15 |
 
 ## Rostros y peinados: lista completa
 
@@ -63,7 +63,7 @@ Traje habitual: id 21, textura 90.
 - [x] Rostro 4 · id 132 · textura 2143 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/cra-look-4-m.webp)
 - [x] Rostro 5 · id 133 · textura 2144 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/cra-look-5-m.webp)
 - [x] Rostro 6 · id 134 · textura 2145 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/cra-look-6-m.webp)
-- [ ] Rostro 7 · id 135 · textura 2146 · etiqueta 3.2
+- [x] Rostro 7 · id 135 · textura 2146 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/cra-look-7-m.webp)
 - [ ] Rostro 8 · id 136 · textura 2147 · etiqueta 4.2
 - [ ] Rostro 9 · id 334 · textura 5189 · etiqueta 1.3
 - [ ] Rostro 10 · id 335 · textura 5194 · etiqueta 2.3
@@ -85,7 +85,7 @@ Traje habitual: id 22, textura 91.
 - [x] Rostro 4 · id 140 · textura 2151 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/cra-look-4-f.webp)
 - [x] Rostro 5 · id 141 · textura 2152 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/cra-look-5-f.webp)
 - [x] Rostro 6 · id 142 · textura 2153 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/cra-look-6-f.webp)
-- [ ] Rostro 7 · id 143 · textura 2154 · etiqueta 3.2
+- [x] Rostro 7 · id 143 · textura 2154 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/cra-look-7-f.webp)
 - [ ] Rostro 8 · id 144 · textura 2155 · etiqueta 4.2
 - [ ] Rostro 9 · id 338 · textura 5197 · etiqueta 1.3
 - [ ] Rostro 10 · id 339 · textura 5198 · etiqueta 2.3
@@ -107,7 +107,7 @@ Traje habitual: id 14, textura 60.
 - [x] Rostro 4 · id 84 · textura 2095 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/ecaflip-look-4-m.webp)
 - [x] Rostro 5 · id 85 · textura 2096 · etiqueta 1.1 · [Ver retrato](../../../public/avatars/classes/v1/ecaflip-look-5-m.webp)
 - [x] Rostro 6 · id 86 · textura 2097 · etiqueta 2.1 · [Ver retrato](../../../public/avatars/classes/v1/ecaflip-look-6-m.webp)
-- [ ] Rostro 7 · id 87 · textura 2098 · etiqueta 3.1
+- [x] Rostro 7 · id 87 · textura 2098 · etiqueta 3.1 · [Ver retrato](../../../public/avatars/classes/v1/ecaflip-look-7-m.webp)
 - [ ] Rostro 8 · id 88 · textura 2099 · etiqueta 4.1
 - [ ] Rostro 9 · id 449 · textura 5377 · etiqueta 1.2
 - [ ] Rostro 10 · id 451 · textura 5382 · etiqueta 2.2
@@ -129,7 +129,7 @@ Traje habitual: id 16, textura 61.
 - [x] Rostro 4 · id 92 · textura 2103 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/ecaflip-look-4-f.webp)
 - [x] Rostro 5 · id 93 · textura 2104 · etiqueta 1.1 · [Ver retrato](../../../public/avatars/classes/v1/ecaflip-look-5-f.webp)
 - [x] Rostro 6 · id 94 · textura 2105 · etiqueta 2.1 · [Ver retrato](../../../public/avatars/classes/v1/ecaflip-look-6-f.webp)
-- [ ] Rostro 7 · id 95 · textura 2106 · etiqueta 3.1
+- [x] Rostro 7 · id 95 · textura 2106 · etiqueta 3.1 · [Ver retrato](../../../public/avatars/classes/v1/ecaflip-look-7-f.webp)
 - [ ] Rostro 8 · id 96 · textura 2107 · etiqueta 4.1
 - [ ] Rostro 9 · id 441 · textura 5385 · etiqueta 1.2
 - [ ] Rostro 10 · id 443 · textura 5390 · etiqueta 2.2
@@ -151,7 +151,7 @@ Traje habitual: id 17, textura 70.
 - [x] Rostro 4 · id 100 · textura 2111 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/eniripsa-look-4-m.webp)
 - [x] Rostro 5 · id 101 · textura 2112 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/eniripsa-look-5-m.webp)
 - [x] Rostro 6 · id 102 · textura 2113 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/eniripsa-look-6-m.webp)
-- [ ] Rostro 7 · id 103 · textura 2114 · etiqueta 3.2
+- [x] Rostro 7 · id 103 · textura 2114 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/eniripsa-look-7-m.webp)
 - [ ] Rostro 8 · id 104 · textura 2115 · etiqueta 4.2
 - [ ] Rostro 9 · id 413 · textura 5343 · etiqueta 1.3
 - [ ] Rostro 10 · id 415 · textura 5340 · etiqueta 2.3
@@ -173,7 +173,7 @@ Traje habitual: id 18, textura 71.
 - [x] Rostro 4 · id 108 · textura 2119 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/eniripsa-look-4-f.webp)
 - [x] Rostro 5 · id 109 · textura 2120 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/eniripsa-look-5-f.webp)
 - [x] Rostro 6 · id 110 · textura 2121 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/eniripsa-look-6-f.webp)
-- [ ] Rostro 7 · id 111 · textura 2122 · etiqueta 3.2
+- [x] Rostro 7 · id 111 · textura 2122 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/eniripsa-look-7-f.webp)
 - [ ] Rostro 8 · id 112 · textura 2123 · etiqueta 4.2
 - [ ] Rostro 9 · id 404 · textura 5351 · etiqueta 1.3
 - [ ] Rostro 10 · id 406 · textura 5352 · etiqueta 2.3
@@ -195,7 +195,7 @@ Traje habitual: id 8, textura 30.
 - [x] Rostro 4 · id 36 · textura 2047 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/enutrof-look-4-m.webp)
 - [x] Rostro 5 · id 37 · textura 2048 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/enutrof-look-5-m.webp)
 - [x] Rostro 6 · id 38 · textura 2049 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/enutrof-look-6-m.webp)
-- [ ] Rostro 7 · id 39 · textura 2050 · etiqueta 3.2
+- [x] Rostro 7 · id 39 · textura 2050 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/enutrof-look-7-m.webp)
 - [ ] Rostro 8 · id 40 · textura 2051 · etiqueta 4.2
 - [ ] Rostro 9 · id 497 · textura 5439 · etiqueta 1.3
 - [ ] Rostro 10 · id 498 · textura 5442 · etiqueta 2.3
@@ -215,7 +215,7 @@ Traje habitual: id 9, textura 31.
 - [x] Rostro 4 · id 44 · textura 2055 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/enutrof-look-4-f.webp)
 - [x] Rostro 5 · id 45 · textura 2056 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/enutrof-look-5-f.webp)
 - [x] Rostro 6 · id 46 · textura 2057 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/enutrof-look-6-f.webp)
-- [ ] Rostro 7 · id 47 · textura 2058 · etiqueta 3.2
+- [x] Rostro 7 · id 47 · textura 2058 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/enutrof-look-7-f.webp)
 - [ ] Rostro 8 · id 48 · textura 2059 · etiqueta 4.2
 - [ ] Rostro 9 · id 506 · textura 5445 · etiqueta 1.3
 - [ ] Rostro 10 · id 507 · textura 5446 · etiqueta 2.3
@@ -235,7 +235,7 @@ Traje habitual: id 36, textura 3179.
 - [x] Rostro 4 · id 244 · textura 3186 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/eliotrope-look-4-m.webp)
 - [x] Rostro 5 · id 245 · textura 3187 · etiqueta 5 · [Ver retrato](../../../public/avatars/classes/v1/eliotrope-look-5-m.webp)
 - [x] Rostro 6 · id 246 · textura 3188 · etiqueta 2.1 · [Ver retrato](../../../public/avatars/classes/v1/eliotrope-look-6-m.webp)
-- [ ] Rostro 7 · id 247 · textura 3189 · etiqueta 3.1
+- [x] Rostro 7 · id 247 · textura 3189 · etiqueta 3.1 · [Ver retrato](../../../public/avatars/classes/v1/eliotrope-look-7-m.webp)
 - [ ] Rostro 8 · id 248 · textura 3190 · etiqueta 4.1
 - [ ] Rostro 9 · id 342 · textura 5171 · etiqueta 1.3
 - [ ] Rostro 10 · id 345 · textura 5172 · etiqueta 2.2
@@ -257,7 +257,7 @@ Traje habitual: id 37, textura 3180.
 - [x] Rostro 4 · id 252 · textura 3194 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/eliotrope-look-4-f.webp)
 - [x] Rostro 5 · id 253 · textura 3195 · etiqueta 5 · [Ver retrato](../../../public/avatars/classes/v1/eliotrope-look-5-f.webp)
 - [x] Rostro 6 · id 254 · textura 3196 · etiqueta 2.1 · [Ver retrato](../../../public/avatars/classes/v1/eliotrope-look-6-f.webp)
-- [ ] Rostro 7 · id 255 · textura 3197 · etiqueta 3.1
+- [x] Rostro 7 · id 255 · textura 3197 · etiqueta 3.1 · [Ver retrato](../../../public/avatars/classes/v1/eliotrope-look-7-f.webp)
 - [ ] Rostro 8 · id 256 · textura 3198 · etiqueta 4.1
 - [ ] Rostro 9 · id 348 · textura 5180 · etiqueta 1.3
 - [ ] Rostro 10 · id 350 · textura 5181 · etiqueta 2.2
@@ -279,7 +279,7 @@ Traje habitual: id 2, textura 10.
 - [x] Rostro 4 · id 4 · textura 2015 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/feca-look-4-m.webp)
 - [x] Rostro 5 · id 5 · textura 2016 · etiqueta 1.1 · [Ver retrato](../../../public/avatars/classes/v1/feca-look-5-m.webp)
 - [x] Rostro 6 · id 6 · textura 2017 · etiqueta 2.1 · [Ver retrato](../../../public/avatars/classes/v1/feca-look-6-m.webp)
-- [ ] Rostro 7 · id 7 · textura 2018 · etiqueta 3.1
+- [x] Rostro 7 · id 7 · textura 2018 · etiqueta 3.1 · [Ver retrato](../../../public/avatars/classes/v1/feca-look-7-m.webp)
 - [ ] Rostro 8 · id 8 · textura 2019 · etiqueta 4.1
 - [ ] Rostro 9 · id 358 · textura 5242 · etiqueta 1.2
 - [ ] Rostro 10 · id 359 · textura 5247 · etiqueta 2.2
@@ -301,7 +301,7 @@ Traje habitual: id 3, textura 11.
 - [x] Rostro 4 · id 12 · textura 2023 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/feca-look-4-f.webp)
 - [x] Rostro 5 · id 13 · textura 2024 · etiqueta 1.1 · [Ver retrato](../../../public/avatars/classes/v1/feca-look-5-f.webp)
 - [x] Rostro 6 · id 14 · textura 2025 · etiqueta 2.1 · [Ver retrato](../../../public/avatars/classes/v1/feca-look-6-f.webp)
-- [ ] Rostro 7 · id 15 · textura 2026 · etiqueta 3.1
+- [x] Rostro 7 · id 15 · textura 2026 · etiqueta 3.1 · [Ver retrato](../../../public/avatars/classes/v1/feca-look-7-f.webp)
 - [ ] Rostro 8 · id 16 · textura 2027 · etiqueta 4.1
 - [ ] Rostro 9 · id 353 · textura 5254 · etiqueta 1.2
 - [ ] Rostro 10 · id 354 · textura 5251 · etiqueta 2.2
@@ -323,7 +323,7 @@ Traje habitual: id 34, textura 1663.
 - [x] Rostro 4 · id 228 · textura 2239 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/foggernaut-look-4-m.webp)
 - [x] Rostro 5 · id 229 · textura 2240 · etiqueta 1.1 · [Ver retrato](../../../public/avatars/classes/v1/foggernaut-look-5-m.webp)
 - [x] Rostro 6 · id 230 · textura 2241 · etiqueta 2.1 · [Ver retrato](../../../public/avatars/classes/v1/foggernaut-look-6-m.webp)
-- [ ] Rostro 7 · id 231 · textura 2242 · etiqueta 3.1
+- [x] Rostro 7 · id 231 · textura 2242 · etiqueta 3.1 · [Ver retrato](../../../public/avatars/classes/v1/foggernaut-look-7-m.webp)
 - [ ] Rostro 8 · id 232 · textura 2243 · etiqueta 4.1
 - [ ] Rostro 9 · id 464 · textura 5396 · etiqueta 1.2
 - [ ] Rostro 10 · id 466 · textura 5397 · etiqueta 2.2
@@ -343,7 +343,7 @@ Traje habitual: id 35, textura 1664.
 - [x] Rostro 4 · id 236 · textura 2247 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/foggernaut-look-4-f.webp)
 - [x] Rostro 5 · id 237 · textura 2248 · etiqueta 1.1 · [Ver retrato](../../../public/avatars/classes/v1/foggernaut-look-5-f.webp)
 - [x] Rostro 6 · id 238 · textura 2249 · etiqueta 2.1 · [Ver retrato](../../../public/avatars/classes/v1/foggernaut-look-6-f.webp)
-- [ ] Rostro 7 · id 239 · textura 2250 · etiqueta 3.1
+- [x] Rostro 7 · id 239 · textura 2250 · etiqueta 3.1 · [Ver retrato](../../../public/avatars/classes/v1/foggernaut-look-7-f.webp)
 - [ ] Rostro 8 · id 240 · textura 2251 · etiqueta 4.1
 - [ ] Rostro 9 · id 457 · textura 5402 · etiqueta 1.2
 - [ ] Rostro 10 · id 459 · textura 5403 · etiqueta 2.2
@@ -363,7 +363,7 @@ Traje habitual: id 5, textura 3221.
 - [x] Rostro 4 · id 297 · textura 3098 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/forgelance-look-4-m.webp)
 - [x] Rostro 5 · id 298 · textura 3103 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/forgelance-look-5-m.webp)
 - [x] Rostro 6 · id 299 · textura 3104 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/forgelance-look-6-m.webp)
-- [ ] Rostro 7 · id 300 · textura 3105 · etiqueta 3.2
+- [x] Rostro 7 · id 300 · textura 3105 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/forgelance-look-7-m.webp)
 - [ ] Rostro 8 · id 301 · textura 3124 · etiqueta 4.2
 - [ ] Rostro 9 · id 550 · textura 5505 · etiqueta 1.3
 - [ ] Rostro 10 · id 551 · textura 5506 · etiqueta 2.3
@@ -383,7 +383,7 @@ Traje habitual: id 4, textura 3633.
 - [x] Rostro 4 · id 305 · textura 3115 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/forgelance-look-4-f.webp)
 - [x] Rostro 5 · id 306 · textura 3143 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/forgelance-look-5-f.webp)
 - [x] Rostro 6 · id 307 · textura 3121 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/forgelance-look-6-f.webp)
-- [ ] Rostro 7 · id 308 · textura 3122 · etiqueta 3.2
+- [x] Rostro 7 · id 308 · textura 3122 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/forgelance-look-7-f.webp)
 - [ ] Rostro 8 · id 309 · textura 3123 · etiqueta 4.1
 - [ ] Rostro 9 · id 556 · textura 5510 · etiqueta 1.3
 - [ ] Rostro 10 · id 558 · textura 5516 · etiqueta 2.3
@@ -403,7 +403,7 @@ Traje habitual: id 38, textura 3285.
 - [x] Rostro 4 · id 260 · textura 3292 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/huppermage-look-4-m.webp)
 - [x] Rostro 5 · id 261 · textura 3293 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/huppermage-look-5-m.webp)
 - [x] Rostro 6 · id 262 · textura 3294 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/huppermage-look-6-m.webp)
-- [ ] Rostro 7 · id 263 · textura 3295 · etiqueta 3.2
+- [x] Rostro 7 · id 263 · textura 3295 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/huppermage-look-7-m.webp)
 - [ ] Rostro 8 · id 264 · textura 3296 · etiqueta 4.2
 - [ ] Rostro 9 · id 431 · textura 5359 · etiqueta 1.3
 - [ ] Rostro 10 · id 434 · textura 5360 · etiqueta 2.3
@@ -425,7 +425,7 @@ Traje habitual: id 39, textura 3286.
 - [x] Rostro 4 · id 268 · textura 3300 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/huppermage-look-4-f.webp)
 - [x] Rostro 5 · id 269 · textura 3301 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/huppermage-look-5-f.webp)
 - [x] Rostro 6 · id 270 · textura 3302 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/huppermage-look-6-f.webp)
-- [ ] Rostro 7 · id 271 · textura 3303 · etiqueta 3.2
+- [x] Rostro 7 · id 271 · textura 3303 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/huppermage-look-7-f.webp)
 - [ ] Rostro 8 · id 272 · textura 3304 · etiqueta 4.2
 - [ ] Rostro 9 · id 421 · textura 5363 · etiqueta 1.3
 - [ ] Rostro 10 · id 423 · textura 5368 · etiqueta 2.3
@@ -447,7 +447,7 @@ Traje habitual: id 19, textura 80.
 - [x] Rostro 4 · id 116 · textura 2127 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/iop-look-4-m.webp)
 - [x] Rostro 5 · id 117 · textura 2128 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/iop-look-5-m.webp)
 - [x] Rostro 6 · id 118 · textura 2129 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/iop-look-6-m.webp)
-- [ ] Rostro 7 · id 119 · textura 2130 · etiqueta 3.2
+- [x] Rostro 7 · id 119 · textura 2130 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/iop-look-7-m.webp)
 - [ ] Rostro 8 · id 120 · textura 2131 · etiqueta 4.2
 - [ ] Rostro 9 · id 310 · textura 5228 · etiqueta 1.3
 - [ ] Rostro 10 · id 317 · textura 5229 · etiqueta 2.3
@@ -467,7 +467,7 @@ Traje habitual: id 20, textura 81.
 - [x] Rostro 4 · id 124 · textura 2135 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/iop-look-4-f.webp)
 - [x] Rostro 5 · id 125 · textura 2136 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/iop-look-5-f.webp)
 - [x] Rostro 6 · id 126 · textura 2137 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/iop-look-6-f.webp)
-- [ ] Rostro 7 · id 127 · textura 2138 · etiqueta 3.2
+- [x] Rostro 7 · id 127 · textura 2138 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/iop-look-7-f.webp)
 - [ ] Rostro 8 · id 128 · textura 2139 · etiqueta 4.2
 - [ ] Rostro 9 · id 333 · textura 5232 · etiqueta 1.3
 - [ ] Rostro 10 · id 319 · textura 5233 · etiqueta 2.3
@@ -487,7 +487,7 @@ Traje habitual: id 32, textura 1437.
 - [x] Rostro 4 · id 212 · textura 2223 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/masqueraider-look-4-m.webp)
 - [x] Rostro 5 · id 213 · textura 2224 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/masqueraider-look-5-m.webp)
 - [x] Rostro 6 · id 214 · textura 2225 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/masqueraider-look-6-m.webp)
-- [ ] Rostro 7 · id 215 · textura 2226 · etiqueta 3.2
+- [x] Rostro 7 · id 215 · textura 2226 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/masqueraider-look-7-m.webp)
 - [ ] Rostro 8 · id 216 · textura 2227 · etiqueta 4.2
 - [ ] Rostro 9 · id 518 · textura 5454 · etiqueta 1.3
 - [ ] Rostro 10 · id 519 · textura 5455 · etiqueta 2.3
@@ -507,7 +507,7 @@ Traje habitual: id 33, textura 1438.
 - [x] Rostro 4 · id 220 · textura 2231 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/masqueraider-look-4-f.webp)
 - [x] Rostro 5 · id 221 · textura 2232 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/masqueraider-look-5-f.webp)
 - [x] Rostro 6 · id 222 · textura 2233 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/masqueraider-look-6-f.webp)
-- [ ] Rostro 7 · id 223 · textura 2234 · etiqueta 3.2
+- [x] Rostro 7 · id 223 · textura 2234 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/masqueraider-look-7-f.webp)
 - [ ] Rostro 8 · id 224 · textura 2235 · etiqueta 4.2
 - [ ] Rostro 9 · id 512 · textura 5460 · etiqueta 1.3
 - [ ] Rostro 10 · id 514 · textura 5461 · etiqueta 2.3
@@ -527,7 +527,7 @@ Traje habitual: id 6, textura 20.
 - [x] Rostro 4 · id 20 · textura 2031 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/osamodas-look-4-m.webp)
 - [x] Rostro 5 · id 21 · textura 2032 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/osamodas-look-5-m.webp)
 - [x] Rostro 6 · id 22 · textura 2033 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/osamodas-look-6-m.webp)
-- [ ] Rostro 7 · id 23 · textura 2034 · etiqueta 3.2
+- [x] Rostro 7 · id 23 · textura 2034 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/osamodas-look-7-m.webp)
 - [ ] Rostro 8 · id 24 · textura 2035 · etiqueta 4.2
 - [ ] Rostro 9 · id 582 · textura 5543 · etiqueta 1.3
 - [ ] Rostro 10 · id 584 · textura 5544 · etiqueta 2.3
@@ -547,7 +547,7 @@ Traje habitual: id 7, textura 21.
 - [x] Rostro 4 · id 28 · textura 2039 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/osamodas-look-4-f.webp)
 - [x] Rostro 5 · id 29 · textura 2040 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/osamodas-look-5-f.webp)
 - [x] Rostro 6 · id 30 · textura 2041 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/osamodas-look-6-f.webp)
-- [ ] Rostro 7 · id 31 · textura 2042 · etiqueta 3.2
+- [x] Rostro 7 · id 31 · textura 2042 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/osamodas-look-7-f.webp)
 - [ ] Rostro 8 · id 32 · textura 2043 · etiqueta 4.2
 - [ ] Rostro 9 · id 576 · textura 5549 · etiqueta 1.3
 - [ ] Rostro 10 · id 578 · textura 5550 · etiqueta 2.3
@@ -567,7 +567,7 @@ Traje habitual: id 40, textura 3498.
 - [x] Rostro 4 · id 287 · textura 3505 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/ouginak-look-4-m.webp)
 - [x] Rostro 5 · id 288 · textura 3506 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/ouginak-look-5-m.webp)
 - [x] Rostro 6 · id 289 · textura 3507 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/ouginak-look-6-m.webp)
-- [ ] Rostro 7 · id 290 · textura 3508 · etiqueta 3.2
+- [x] Rostro 7 · id 290 · textura 3508 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/ouginak-look-7-m.webp)
 - [ ] Rostro 8 · id 291 · textura 3509 · etiqueta 4.2
 - [ ] Rostro 9 · id 599 · textura 5536 · etiqueta 1.3
 - [ ] Rostro 10 · id 594 · textura 5531 · etiqueta 2.3
@@ -587,7 +587,7 @@ Traje habitual: id 42, textura 3499.
 - [x] Rostro 4 · id 280 · textura 3513 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/ouginak-look-4-f.webp)
 - [x] Rostro 5 · id 281 · textura 3514 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/ouginak-look-5-f.webp)
 - [x] Rostro 6 · id 282 · textura 3515 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/ouginak-look-6-f.webp)
-- [ ] Rostro 7 · id 283 · textura 3516 · etiqueta 3.2
+- [x] Rostro 7 · id 283 · textura 3516 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/ouginak-look-7-f.webp)
 - [ ] Rostro 8 · id 284 · textura 3517 · etiqueta 4.2
 - [ ] Rostro 9 · id 588 · textura 5540 · etiqueta 1.3
 - [ ] Rostro 10 · id 589 · textura 5537 · etiqueta 2.3
@@ -607,7 +607,7 @@ Traje habitual: id 28, textura 120.
 - [x] Rostro 4 · id 180 · textura 2191 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/pandawa-look-4-m.webp)
 - [x] Rostro 5 · id 181 · textura 2192 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/pandawa-look-5-m.webp)
 - [x] Rostro 6 · id 182 · textura 2193 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/pandawa-look-6-m.webp)
-- [ ] Rostro 7 · id 183 · textura 2194 · etiqueta 3.2
+- [x] Rostro 7 · id 183 · textura 2194 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/pandawa-look-7-m.webp)
 - [ ] Rostro 8 · id 184 · textura 2195 · etiqueta 4.2
 - [ ] Rostro 9 · id 534 · textura 5467 · etiqueta 1.3
 - [ ] Rostro 10 · id 531 · textura 5466 · etiqueta 2.3
@@ -627,7 +627,7 @@ Traje habitual: id 29, textura 121.
 - [x] Rostro 4 · id 188 · textura 2199 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/pandawa-look-4-f.webp)
 - [x] Rostro 5 · id 189 · textura 2200 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/pandawa-look-5-f.webp)
 - [x] Rostro 6 · id 190 · textura 2201 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/pandawa-look-6-f.webp)
-- [ ] Rostro 7 · id 191 · textura 2202 · etiqueta 3.2
+- [x] Rostro 7 · id 191 · textura 2202 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/pandawa-look-7-f.webp)
 - [ ] Rostro 8 · id 192 · textura 2203 · etiqueta 4.2
 - [ ] Rostro 9 · id 524 · textura 5472 · etiqueta 1.3
 - [ ] Rostro 10 · id 526 · textura 5476 · etiqueta 2.3
@@ -647,7 +647,7 @@ Traje habitual: id 30, textura 1405.
 - [x] Rostro 4 · id 196 · textura 2207 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/rogue-look-4-m.webp)
 - [x] Rostro 5 · id 197 · textura 2208 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/rogue-look-5-m.webp)
 - [x] Rostro 6 · id 198 · textura 2209 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/rogue-look-6-m.webp)
-- [ ] Rostro 7 · id 199 · textura 2210 · etiqueta 3.2
+- [x] Rostro 7 · id 199 · textura 2210 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/rogue-look-7-m.webp)
 - [ ] Rostro 8 · id 200 · textura 2211 · etiqueta 4.2
 - [ ] Rostro 9 · id 538 · textura 5481 · etiqueta 1.3
 - [ ] Rostro 10 · id 539 · textura 5478 · etiqueta 2.3
@@ -667,7 +667,7 @@ Traje habitual: id 31, textura 1407.
 - [x] Rostro 4 · id 204 · textura 2215 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/rogue-look-4-f.webp)
 - [x] Rostro 5 · id 205 · textura 2216 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/rogue-look-5-f.webp)
 - [x] Rostro 6 · id 206 · textura 2217 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/rogue-look-6-f.webp)
-- [ ] Rostro 7 · id 207 · textura 2218 · etiqueta 3.2
+- [x] Rostro 7 · id 207 · textura 2218 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/rogue-look-7-f.webp)
 - [ ] Rostro 8 · id 208 · textura 2219 · etiqueta 4.2
 - [ ] Rostro 9 · id 544 · textura 5484 · etiqueta 1.3
 - [ ] Rostro 10 · id 545 · textura 5487 · etiqueta 2.3
@@ -687,7 +687,7 @@ Traje habitual: id 26, textura 110.
 - [x] Rostro 4 · id 164 · textura 2175 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/sacrier-look-4-m.webp)
 - [x] Rostro 5 · id 165 · textura 2176 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/sacrier-look-5-m.webp)
 - [x] Rostro 6 · id 166 · textura 2177 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/sacrier-look-6-m.webp)
-- [ ] Rostro 7 · id 167 · textura 2178 · etiqueta 3.2
+- [x] Rostro 7 · id 167 · textura 2178 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/sacrier-look-7-m.webp)
 - [ ] Rostro 8 · id 168 · textura 2179 · etiqueta 4.2
 - [ ] Rostro 9 · id 396 · textura 5312 · etiqueta 1.3
 - [ ] Rostro 10 · id 397 · textura 5313 · etiqueta 2.3
@@ -709,7 +709,7 @@ Traje habitual: id 27, textura 111.
 - [x] Rostro 4 · id 172 · textura 2183 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/sacrier-look-4-f.webp)
 - [x] Rostro 5 · id 173 · textura 2184 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/sacrier-look-5-f.webp)
 - [x] Rostro 6 · id 174 · textura 2185 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/sacrier-look-6-f.webp)
-- [ ] Rostro 7 · id 175 · textura 2186 · etiqueta 3.2
+- [x] Rostro 7 · id 175 · textura 2186 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/sacrier-look-7-f.webp)
 - [ ] Rostro 8 · id 176 · textura 2187 · etiqueta 4.2
 - [ ] Rostro 9 · id 387 · textura 5320 · etiqueta 1.3
 - [ ] Rostro 10 · id 388 · textura 5325 · etiqueta 2.3
@@ -731,7 +731,7 @@ Traje habitual: id 23, textura 100.
 - [x] Rostro 4 · id 148 · textura 2159 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/sadida-look-4-m.webp)
 - [x] Rostro 5 · id 149 · textura 2160 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/sadida-look-5-m.webp)
 - [x] Rostro 6 · id 150 · textura 2161 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/sadida-look-6-m.webp)
-- [ ] Rostro 7 · id 151 · textura 2162 · etiqueta 3.2
+- [x] Rostro 7 · id 151 · textura 2162 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/sadida-look-7-m.webp)
 - [ ] Rostro 8 · id 152 · textura 2163 · etiqueta 4.2
 - [ ] Rostro 9 · id 477 · textura 5413 · etiqueta 1.3
 - [ ] Rostro 10 · id 478 · textura 5414 · etiqueta 2.3
@@ -751,7 +751,7 @@ Traje habitual: id 25, textura 101.
 - [x] Rostro 4 · id 156 · textura 2167 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/sadida-look-4-f.webp)
 - [x] Rostro 5 · id 157 · textura 2168 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/sadida-look-5-f.webp)
 - [x] Rostro 6 · id 158 · textura 2169 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/sadida-look-6-f.webp)
-- [ ] Rostro 7 · id 159 · textura 2170 · etiqueta 3.2
+- [x] Rostro 7 · id 159 · textura 2170 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/sadida-look-7-f.webp)
 - [ ] Rostro 8 · id 160 · textura 2171 · etiqueta 4.2
 - [ ] Rostro 9 · id 470 · textura 5419 · etiqueta 1.3
 - [ ] Rostro 10 · id 471 · textura 5420 · etiqueta 2.3
@@ -771,7 +771,7 @@ Traje habitual: id 10, textura 40.
 - [x] Rostro 4 · id 52 · textura 2063 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/sram-look-4-m.webp)
 - [x] Rostro 5 · id 53 · textura 2064 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/sram-look-5-m.webp)
 - [x] Rostro 6 · id 54 · textura 2065 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/sram-look-6-m.webp)
-- [ ] Rostro 7 · id 55 · textura 2066 · etiqueta 3.2
+- [x] Rostro 7 · id 55 · textura 2066 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/sram-look-7-m.webp)
 - [ ] Rostro 8 · id 56 · textura 2067 · etiqueta 4.2
 - [ ] Rostro 9 · id 562 · textura 5517 · etiqueta 1.3
 - [ ] Rostro 10 · id 564 · textura 5518 · etiqueta 2.3
@@ -791,7 +791,7 @@ Traje habitual: id 11, textura 41.
 - [x] Rostro 4 · id 60 · textura 2071 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/sram-look-4-f.webp)
 - [x] Rostro 5 · id 61 · textura 2072 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/sram-look-5-f.webp)
 - [x] Rostro 6 · id 62 · textura 2073 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/sram-look-6-f.webp)
-- [ ] Rostro 7 · id 63 · textura 2074 · etiqueta 3.2
+- [x] Rostro 7 · id 63 · textura 2074 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/sram-look-7-f.webp)
 - [ ] Rostro 8 · id 64 · textura 2075 · etiqueta 4.2
 - [ ] Rostro 9 · id 568 · textura 5523 · etiqueta 1.3
 - [ ] Rostro 10 · id 570 · textura 5524 · etiqueta 2.3
@@ -813,7 +813,7 @@ Traje habitual: id 12, textura 50.
 - [x] Rostro 4 · id 68 · textura 2079 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/xelor-look-4-m.webp)
 - [x] Rostro 5 · id 69 · textura 2080 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/xelor-look-5-m.webp)
 - [x] Rostro 6 · id 70 · textura 2081 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/xelor-look-6-m.webp)
-- [ ] Rostro 7 · id 71 · textura 2082 · etiqueta 3.2
+- [x] Rostro 7 · id 71 · textura 2082 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/xelor-look-7-m.webp)
 - [ ] Rostro 8 · id 72 · textura 2083 · etiqueta 4.2
 - [ ] Rostro 9 · id 491 · textura 5427 · etiqueta 1.3
 - [ ] Rostro 10 · id 493 · textura 5428 · etiqueta 2.3
@@ -833,7 +833,7 @@ Traje habitual: id 13, textura 51.
 - [x] Rostro 4 · id 76 · textura 2087 · etiqueta 4 · [Ver retrato](../../../public/avatars/classes/v1/xelor-look-4-f.webp)
 - [x] Rostro 5 · id 77 · textura 2088 · etiqueta 1.2 · [Ver retrato](../../../public/avatars/classes/v1/xelor-look-5-f.webp)
 - [x] Rostro 6 · id 78 · textura 2089 · etiqueta 2.2 · [Ver retrato](../../../public/avatars/classes/v1/xelor-look-6-f.webp)
-- [ ] Rostro 7 · id 79 · textura 2090 · etiqueta 3.2
+- [x] Rostro 7 · id 79 · textura 2090 · etiqueta 3.2 · [Ver retrato](../../../public/avatars/classes/v1/xelor-look-7-f.webp)
 - [ ] Rostro 8 · id 80 · textura 2091 · etiqueta 4.2
 - [ ] Rostro 9 · id 483 · textura 5433 · etiqueta 1.3
 - [ ] Rostro 10 · id 484 · textura 5437 · etiqueta 2.3
