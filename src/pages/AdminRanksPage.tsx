@@ -650,7 +650,7 @@ export function AdminRanksPage() {
                   <ToggleRow icon={ShieldCheck} title={t('admin_ranks_build_limit_enabled')} description={t('admin_ranks_build_limit_hint')} checked={draft.build_limit_enabled} onChange={value => setDraft(current => ({ ...current, build_limit_enabled: value, build_limit: value ? current.build_limit || '100' : current.build_limit }))} />
                   {draft.build_limit_enabled && <div className="ranks-nested">
                     <ToggleRow icon={InfinityIcon} title={t('admin_ranks_build_limit_unlimited')} description={t('admin_ranks_build_limit_unlimited_hint')} checked={draft.build_limit_unlimited} onChange={value => setDraft(current => ({ ...current, build_limit_unlimited: value }))} />
-                    {!draft.build_limit_unlimited && <Field label={t('admin_ranks_build_limit')} hint={t('admin_ranks_build_limit_membership_hint')}>
+                    {!draft.build_limit_unlimited && <Field label={t('admin_ranks_build_limit')} hint={t('admin_ranks_build_limit_quota_hint')}>
                       <input type="number" min={1} max={MAX_RANK_BUILD_LIMIT} step={1} required className="ranks-input" value={draft.build_limit} onChange={event => setDraft(current => ({ ...current, build_limit: event.target.value }))} />
                     </Field>}
                   </div>}

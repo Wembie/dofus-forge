@@ -22,7 +22,7 @@ import type { PublicCustomRank } from '@/features/ranks/catalog.tsx'
 import {
   fetchProfileByUsername, fetchPublicBuilds, fetchProfileSummary, fetchUserCollections, type CollectionRow,
   followUser, unfollowUser,
-  type PublicProfile, type BuildRow, type MembershipTier,
+  type PublicProfile, type BuildRow,
 } from '@/features/builds/api.ts'
 import { SENTINEL_USERNAME } from '@/data/prerenderSentinels.ts'
 import { useDateFormatter } from '@/ui/useDateFormatter.ts'
@@ -77,7 +77,6 @@ export function UserProfilePage() {
   const [profile, setProfile]   = useState<PublicProfile | null>(seed?.profile ?? null)
   const [loading, setLoading]   = useState(!seed)
   const [notFound, setNotFound] = useState(!!seed && !seed.profile)
-  const [tier, setTier]         = useState<MembershipTier>(summary?.tier ?? 'free')
   const [customRank, setCustomRank] = useState<PublicCustomRank | null>(summary?.combined ? parsePublicCustomRank(summary.rank) : null)
 
   const [stats, setStats] = useState(summary?.stats ?? { buildCount: 0, likeCount: 0 })
@@ -117,7 +116,6 @@ export function UserProfilePage() {
         if (cancelled) return
         setStats(s.stats)
         setCommentCount(s.commentCount)
-        setTier(s.tier)
         if (s.combined) setCustomRank(parsePublicCustomRank(s.rank))
         else fetchPublicCustomRank(data.id).then(rank => { if (!cancelled) setCustomRank(rank) })
       })
@@ -215,10 +213,9 @@ export function UserProfilePage() {
             <div>
               <p className="account-eyebrow">{t('account_public_identity')}</p>
               <h1>{name}</h1>
-              {(tier !== 'free' || customRank) && (
+              {customRank && (
                 <div className="public-ranks">
-                  {tier !== 'free' && <span>{t(`membership_tier_${tier}`)}</span>}
-                  {customRank && <CustomRankBadge rank={customRank} />}
+                  <CustomRankBadge rank={customRank} />
                 </div>
               )}
               {profile.display_name && <p className="public-display-name">{profile.display_name}</p>}
