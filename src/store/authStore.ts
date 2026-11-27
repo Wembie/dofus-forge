@@ -138,18 +138,21 @@ export function rememberBumpedToday(userId: string, today: string): void {
   }
 }
 
-async function bumpLoginStreak(userId: string): Promise<void> {
+async function bumpLoginStreak(userId: string): Promise<{ current: number; best: number } | null> {
   const today = new Date().toISOString().slice(0, 10)
-  if (alreadyBumpedToday(userId, today)) return
+  if (alreadyBumpedToday(userId, today)) return null
   try {
     const supabase = await getSupabase()
-    await supabase.rpc('bump_login_streak')
+    const { data, error } = await supabase.rpc('bump_login_streak')
+    if (error || !data || typeof data.current !== 'number' || typeof data.best !== 'number') return null
     rememberBumpedToday(userId, today)
+    return data
   } catch {
     // Best-effort — a missed day never recovers anyway (M188), so a failed
     // bump here just means this particular session didn't count; the next
     // successful app load still catches up correctly from the server's
     // own last_active_date. Not caching on failure means it retries next load.
+    return null
   }
 }
 
@@ -189,7 +192,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (mine !== seq) return
         if (session && !profile) profileUser = null
         set({ session: latest, profile, loading: false })
-        if (session && profile) void bumpLoginStreak(profile.id)
+        if (session && profile) void bumpLoginStreak(profile.id).then(streak => {
+          const active = get().profile
+          if (!streak || mine !== seq || active?.id !== profile.id) return
+          set({ profile: { ...active, login_streak_current: streak.current, login_streak_best: streak.best } })
+        })
       }
       // Subscribe before anything async: auth-js emits PASSWORD_RECOVERY
       // right after it detects the reset link, so listening only after the

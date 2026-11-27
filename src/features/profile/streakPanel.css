@@ -22,6 +22,10 @@
 .streak-progress progress::-moz-progress-bar { background: var(--accent); }
 .streak-progress > span { color: var(--muted); font-size: 12px; white-space: nowrap; }
 .streak-panel-note { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+.streak-build-quota { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; margin-top: 18px; padding-top: 15px; border-top: 1px solid var(--line); }
+.streak-build-quota > div { display: flex; flex-direction: column; gap: 4px; }
+.streak-build-quota span, .streak-build-quota small { color: var(--muted); font-size: 12px; }
+.streak-build-quota strong { color: var(--text); font: 500 16px 'IBM Plex Mono', monospace; }
 .streak-dialog { padding: 24px; }
 .streak-rewards-modal > div:first-child > button { min-width: 44px; min-height: 44px; }
 .streak-dialog-summary { display: flex; align-items: center; gap: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }

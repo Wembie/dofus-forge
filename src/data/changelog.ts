@@ -10,6 +10,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.29',
+    date: '2026-11-27',
+    notes: [
+      "Administrators can select every exclusive portrait and scene immediately, with eligibility enforced by the server and no invented streak record",
+      "Every five active streak days adds one saved-build slot to the base or finite rank allowance; unlimited ranks remain unlimited, and expired streaks never delete existing builds or stop edits",
+      "Account shows the current saved-build allowance, active-streak bonus and days until the next slot; the daily check refreshes the displayed streak immediately, and publishing no longer claims every account is limited to 50 builds",
+      "The server checks actual build rows under a profile lock so bulk requests cannot bypass capacity",
+    ],
+  },
+  {
     version: '0.4.28',
     date: '2026-11-27',
     notes: [

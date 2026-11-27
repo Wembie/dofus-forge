@@ -34,6 +34,17 @@ posterior del usuario descarta las auras y los resplandores.
 
 ## Decisión del usuario — personajes emblemáticos (2026-11-27)
 
+**Ampliación funcional 0.4.29:** los administradores pueden elegir todos
+los retratos y escenarios exclusivos sin esperar días. La excepción se
+valida mediante su rol persistido, sin aumentar el récord ni conceder
+marcos históricos. Usuarios y moderadores mantienen los hitos originales.
+
+La racha **activa** añade además una plaza de build por cada cinco días,
+sobre el cupo base de 50 o el cupo superior de un rango vigente. Los rangos
+ilimitados siguen sin límite. Este bono temporal se pierde al romper la
+racha; todas las builds existentes permanecen guardadas y editables. Los
+retratos, escenarios y marcos ganados por récord siguen siendo permanentes.
+
 La colección exclusiva se dedica a **figuras emblemáticas de DOFUS y su
 historia**. La selección depende de la identidad narrativa del personaje.
 Ser un jefe de mazmorra o una clase jugable no basta para entrar.

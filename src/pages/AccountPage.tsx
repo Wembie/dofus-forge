@@ -14,6 +14,7 @@ import { PASSWORD_MIN_LENGTH, USERNAME_PATTERN, USERNAME_RE } from '@/features/a
 import { ProfileAppearancePicker, type ProfileAppearancePickerHandle } from '@/features/account/ProfileAppearancePicker.tsx'
 import { fetchMyExclusiveUnlocks, type ExclusiveUnlock } from '@/features/profile/exclusiveUnlocks.ts'
 import { StreakPanel } from '@/features/profile/StreakPanel.tsx'
+import { fetchMyBuildQuota, type BuildQuota } from '@/features/profile/buildQuota.ts'
 import { StreakFrame } from '@/features/profile/StreakFrame.tsx'
 import { streakFrameTier } from '@/features/profile/milestones.ts'
 import { effectiveAvatarUrl } from '@/features/profile/exclusiveRewards.ts'
@@ -74,6 +75,7 @@ export function AccountPage() {
   const [exclusiveAvatarSlug, setExclusiveAvatarSlug] = useState(profile?.exclusive_avatar_slug ?? null)
   const [exclusiveBannerSlug, setExclusiveBannerSlug] = useState(profile?.exclusive_banner_slug ?? null)
   const [unlocks, setUnlocks] = useState<ExclusiveUnlock[]>([])
+  const [buildQuota, setBuildQuota] = useState<BuildQuota | null>(null)
   const [busy, setBusy]       = useState(false)
   const [error, setError]     = useState<string | null>(null)
   const [saved, setSaved]     = useState(false)
@@ -90,7 +92,7 @@ export function AccountPage() {
     setUsername(profile?.username ?? '')
     setDisplayName(profile?.display_name ?? '')
     setBio(profile?.bio ?? '')
-  }, [profile])
+  }, [profile?.id, profile?.username, profile?.display_name, profile?.bio])
 
   useEffect(() => {
     setAvatar(profile?.avatar_url ?? null)
@@ -111,9 +113,13 @@ export function AccountPage() {
   useEffect(() => {
     if (!profile?.id) return
     let cancelled = false
-    fetchMyExclusiveUnlocks().then(list => { if (!cancelled) setUnlocks(list) })
+    setUnlocks([])
+    setBuildQuota(null)
+    Promise.all([fetchMyExclusiveUnlocks(), fetchMyBuildQuota()]).then(([list, quota]) => {
+      if (!cancelled) { setUnlocks(list); setBuildQuota(quota) }
+    })
     return () => { cancelled = true }
-  }, [profile?.id])
+  }, [profile?.id, profile?.role, profile?.login_streak_current, profile?.login_streak_best])
 
   const profileDirty = !!profile && (
     username.trim().toLowerCase() !== profile.username ||
@@ -254,7 +260,7 @@ export function AccountPage() {
                 </div>
                 <nav aria-label={t('account_counts')}>
                   <Link className="account-count" to={`/${prefix}my-builds`}>
-                    <b>{profile?.builds_count ?? 0}</b>
+                    <b>{buildQuota?.used ?? profile?.builds_count ?? 0}</b>
                     {t('auth_stat_builds')}
                   </Link>
                   <button type="button" onClick={() => setPeople('followers')}>
@@ -268,7 +274,7 @@ export function AccountPage() {
                 </nav>
               </div>
 
-              {profile && <StreakPanel current={profile.login_streak_current ?? 0} best={profile.login_streak_best ?? 0} unlocks={unlocks} onCustomize={slug => {
+              {profile && <StreakPanel current={buildQuota?.active_streak ?? profile.login_streak_current ?? 0} best={profile.login_streak_best ?? 0} unlocks={unlocks} unrestricted={profile.role === 'admin'} buildQuota={buildQuota} onCustomize={slug => {
                 setTab('profile')
                 requestAnimationFrame(() => appearancePicker.current?.openRewards(slug))
               }} />}

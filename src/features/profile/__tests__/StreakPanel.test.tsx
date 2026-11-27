@@ -4,6 +4,7 @@ import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-li
 import { MemoryRouter } from 'react-router'
 import '@/test/i18n.ts'
 import { StreakPanel } from '../StreakPanel.tsx'
+import { EXCLUSIVE_REWARDS } from '../exclusiveRewards.ts'
 
 afterEach(cleanup)
 const setup = (current = 4, best = 45, initialEntry = '/account') => {
@@ -13,6 +14,25 @@ const setup = (current = 4, best = 45, initialEntry = '/account') => {
 }
 
 describe('streak progress and reward browsing', () => {
+  it('lets administrators browse and select all artwork without inventing a streak record', async () => {
+    const customize = vi.fn()
+    render(<MemoryRouter><StreakPanel current={0} best={0} unrestricted unlocks={EXCLUSIVE_REWARDS.map(r => ({ slug: r.slug, threshold: r.threshold, eligible: true, progress: 0 }))} onCustomize={customize} /></MemoryRouter>)
+    expect(screen.queryByRole('progressbar')).toBeNull()
+    expect(screen.getByText('streak_admin_access')).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'streak_view_rewards' }))
+    expect(screen.getAllByText('streak_admin_available')).toHaveLength(7)
+    fireEvent.click(screen.getByText('exclusive_ogrest_name').closest('button')!)
+    fireEvent.click(screen.getByRole('button', { name: 'streak_customize' }))
+    await waitFor(() => expect(customize).toHaveBeenCalledWith('ogrest'))
+  })
+
+  it('shows the server allowance and active-streak bonus independently from the permanent record', () => {
+    render(<MemoryRouter><StreakPanel current={10} best={365} unlocks={[]} buildQuota={{ used: 51, limit: 52, base_limit: 50, streak_bonus: 2, active_streak: 10 }} onCustomize={vi.fn()} /></MemoryRouter>)
+    expect(screen.getByText('streak_build_capacity')).toBeTruthy()
+    expect(screen.getByText('streak_build_bonus')).toBeTruthy()
+    expect(screen.getByText('streak_build_next')).toBeTruthy()
+    expect(screen.getByText('streak_keep_rewards')).toBeTruthy()
+  })
   it('uses the active streak toward the next unearned milestone, preserving record rewards', () => {
     setup(4, 45)
     const progress = screen.getByRole('progressbar') as HTMLProgressElement
