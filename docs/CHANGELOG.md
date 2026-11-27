@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.27] — 2026-11-27
+- Exclusive emblematic-character artwork prepared: Goultard, Kerub Crepin, Julith and small Ogrest, each with a distinct profile portrait and a related panoramic scene in Forge's established ink-and-watercolor style
+- The collection records exact prompts, verified client or official Ankama cross-media references, native PNG and web-export hashes, production progress and individual review observations. Every image keeps its first generation for user review; corrections require a specific user request
+- Artwork stays separate from the standard 266-avatar and 68-banner gallery. Unlock milestones, server entitlement checks and account integration remain with the rewards implementation; existing artwork, profile selections and catalogs are unchanged
+
 ## [0.4.26] — 2026-11-27
 - 38 new profile portraits: the seventh in-game face and hairstyle for all 19 classes, male and female, with usual outfits and individual ink-and-watercolor poses. Choose from 266 avatars; 266 of 600 faces are complete, with alternate outfits reserved for later
 - Eight new DOFUS 3.7 landscapes: Bworker's Cave, Kimbo's Canopy, Tynril Lab, Temple of the Great Ougaa, Royal Mastogob's Greenhouse, The Obsidemon's Hypogeum, Bethel's Tower and Turtelonia's Sanctuary. Choose from 68 banners, with names in all four languages

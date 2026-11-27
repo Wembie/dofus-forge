@@ -73,6 +73,10 @@ Los retratos exclusivos usan `public/avatars/exclusive/v1/` y los banners
 `public/banners/exclusive/v1/`. El manifiesto, prompts, fuentes, hashes,
 progreso y revisiones vivirán en `docs/brand/emblematic-rewards/`;
 los másteres PNG se conservarán localmente en `temp/emblematic-rewards/`.
+La primera tanda de **cuatro retratos y cuatro escenarios** ya está
+generada e inspeccionada para revisión del usuario. Ver
+[seguimiento, previews y observaciones](emblematic-rewards/README.md) y
+[manifiesto con prompts y fuentes](emblematic-rewards/manifest.json).
 Estos archivos **no se añaden al selector ni al catálogo público normal**.
 La integración debe comprobar el derecho de la cuenta a guardar cada
 exclusivo en el servidor, además de filtrar las opciones en la interfaz.
