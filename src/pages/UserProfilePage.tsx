@@ -146,7 +146,7 @@ export function UserProfilePage() {
       ? await followUser(session.user.id, profile.id)
       : await unfollowUser(session.user.id, profile.id)
     if (error) { setIsFollowing(!next); setFollowerCount(c => c + (next ? -1 : 1)) }
-  }, [session, profile, isFollowing])
+  }, [session, profile, isFollowing, setIsFollowing])
 
   const loadBuilds = useCallback(async (userId: string, nextPage: number, reset: boolean) => {
     setBuildsLoading(true)
@@ -238,7 +238,6 @@ export function UserProfilePage() {
               {profile.display_name && <p className="public-display-name">{profile.display_name}</p>}
               <p className="public-biography">{profile.bio?.trim() || t('account_no_bio')}</p>
               <small>{t('profile_joined', { date: joinedDate })}</small>
-              <StreakChip best={loginStreakBest} />
             </div>
             <div className="public-profile-actions">
               {isOwnProfile ? (
@@ -272,13 +271,14 @@ export function UserProfilePage() {
               {t('auth_stat_following')}
             </button>
           </nav>
-          <section className="public-profile-metrics" aria-label={t('account_counts')}>
+          <section className={'public-profile-metrics' + (loginStreakBest > 0 ? ' has-streak' : '')} aria-label={t('account_counts')}>
             {([[stats.buildCount, 'profile_public_builds'], [stats.likeCount, 'profile_likes_received'], [commentCount, 'profile_comments_posted']] as const).map(([value, key]) => (
               <div key={key}>
                 <strong>{value}</strong>
                 <span>{t(key)}</span>
               </div>
             ))}
+            <StreakChip best={loginStreakBest} metric />
           </section>
 
           <nav className="account-tabs" aria-label={t('account_public_identity')}>

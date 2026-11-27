@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type ReactNode } from 'react'
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { AlertCircle, ArrowRight, ArrowUpRight, Check, Eye, EyeOff, Lock, LogOut } from 'lucide-react'
@@ -11,9 +11,12 @@ import { useAuthStore } from '@/store/authStore.ts'
 import { AccountAvatar, FollowListModal } from '@/features/builds/FollowListModal.tsx'
 import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { PASSWORD_MIN_LENGTH, USERNAME_PATTERN, USERNAME_RE } from '@/features/auth/authRules.ts'
-import { ProfileAppearancePicker } from '@/features/account/ProfileAppearancePicker.tsx'
+import { ProfileAppearancePicker, type ProfileAppearancePickerHandle } from '@/features/account/ProfileAppearancePicker.tsx'
 import { fetchMyExclusiveUnlocks, type ExclusiveUnlock } from '@/features/profile/exclusiveUnlocks.ts'
-import { StreakChip } from '@/features/profile/StreakChip.tsx'
+import { StreakPanel } from '@/features/profile/StreakPanel.tsx'
+import { StreakFrame } from '@/features/profile/StreakFrame.tsx'
+import { streakFrameTier } from '@/features/profile/milestones.ts'
+import { effectiveAvatarUrl } from '@/features/profile/exclusiveRewards.ts'
 import '@/features/account/account.css'
 
 type Tab = 'profile' | 'security' | 'session'
@@ -51,6 +54,7 @@ export function AccountPage() {
   const prefix = langPathPrefix(i18n.language)
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'account', { noindex: true })
   const id = useId()
+  const appearancePicker = useRef<ProfileAppearancePickerHandle>(null)
 
   const session        = useAuthStore(s => s.session)
   const authLoading    = useAuthStore(s => s.loading)
@@ -204,6 +208,8 @@ export function AccountPage() {
   const email = session?.user.email ?? ''
   const joined = session ? new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium' }).format(new Date(session.user.created_at)) : ''
   const publicPath = profile ? `/${prefix}u/${profile.username}` : `/${prefix}`
+  const frameTier = streakFrameTier(profile?.login_streak_best ?? 0)
+  const savedAvatar = effectiveAvatarUrl(profile?.avatar_url ?? null, profile?.exclusive_avatar_slug)
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
@@ -240,7 +246,7 @@ export function AccountPage() {
           ) : (
             <>
               <div className="account-identity">
-                <AccountAvatar username={profile?.username ?? email} url={profile?.avatar_url} />
+                <StreakFrame tier={frameTier}><AccountAvatar username={profile?.username ?? email} url={savedAvatar} /></StreakFrame>
                 <div>
                   <h2>{profile?.username}</h2>
                   {profile?.display_name && <p>{profile.display_name}</p>}
@@ -262,6 +268,11 @@ export function AccountPage() {
                 </nav>
               </div>
 
+              {profile && <StreakPanel current={profile.login_streak_current ?? 0} best={profile.login_streak_best ?? 0} unlocks={unlocks} onCustomize={slug => {
+                setTab('profile')
+                requestAnimationFrame(() => appearancePicker.current?.openRewards(slug))
+              }} />}
+
               <nav className="account-tabs" aria-label={t('auth_profile_title')}>
                 {TABS.map(v => (
                   <button key={v} type="button" aria-current={tab === v ? 'page' : undefined} onClick={() => setTab(v)}>
@@ -277,14 +288,13 @@ export function AccountPage() {
                     <h2 id={`${id}-profile`}>{t('account_public_identity')}</h2>
                     <p>{t('account_profile_hint')}</p>
                     <form onSubmit={save} aria-busy={busy} className="account-form">
-                      <ProfileAppearancePicker username={username || profile?.username || email} displayName={displayName} bio={bio}
+                      <ProfileAppearancePicker ref={appearancePicker} streakTier={frameTier} username={username || profile?.username || email} displayName={displayName} bio={bio}
                         avatar={avatar} banner={banner} exclusiveAvatarSlug={exclusiveAvatarSlug} exclusiveBannerSlug={exclusiveBannerSlug}
                         unlocks={unlocks} disabled={busy || !profile}
                         onChange={appearance => edit(() => {
                           setAvatar(appearance.avatar); setBanner(appearance.banner)
                           setExclusiveAvatarSlug(appearance.exclusiveAvatarSlug); setExclusiveBannerSlug(appearance.exclusiveBannerSlug)
                         })} />
-                      {profile && <StreakChip current={profile.login_streak_current} best={profile.login_streak_best} />}
                       <div className="account-field">
                         <label htmlFor={`${id}-username`}>{t('auth_username')}</label>
                         <input id={`${id}-username`} value={username} disabled={busy} onChange={e => edit(() => setUsername(e.target.value))}
@@ -360,7 +370,7 @@ export function AccountPage() {
 
                 <aside className="account-side-note" aria-label={t('account_public_identity')}>
                   <span className="account-eyebrow">{t('account_public_identity')}</span>
-                  <AccountAvatar username={profile?.username ?? email} url={profile?.avatar_url} />
+                  <StreakFrame tier={frameTier}><AccountAvatar username={profile?.username ?? email} url={savedAvatar} /></StreakFrame>
                   <h3>{profile?.username}</h3>
                   {profile?.display_name && <p>{profile.display_name}</p>}
                   <p>{profile?.bio || t('account_no_bio')}</p>

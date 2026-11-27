@@ -10,6 +10,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.29',
+    date: '2026-11-27',
+    notes: [
+      "Streaks now have a dedicated Account section for the active streak, permanent record and next reward, while public profiles show their record beside builds, likes and comments; the original flame icon is preserved",
+      "Preview every milestone portrait, matching scene and frame in a dedicated rewards window, then open eligible artwork in the existing gallery; choosing, applying and saving remain explicit steps",
+      "Avatar frames now use matte metal, engraved SVG details and a forge stamp instead of glowing rings, with responsive layouts, keyboard navigation and all four languages matching the 0.4.0 design",
+    ],
+  },
+  {
     version: '0.4.28',
     date: '2026-11-27',
     notes: [

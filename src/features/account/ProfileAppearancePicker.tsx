@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useId, useImperativeHandle, useRef, useState, type KeyboardEvent, type Ref } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, Check, Image, Lock, Mars, Palette, Search, SlidersHorizontal, Sparkles, User, Users, Venus, X } from 'lucide-react'
 import { Modal, normalizeSearch } from '@/ui'
@@ -10,6 +10,8 @@ import { isProfileBannerUrl } from './profileBanners.ts'
 import { PROFILE_BANNER_OPTIONS as PROFILE_BANNERS, PROFILE_BANNER_GROUPS } from './profileAppearanceCatalog.ts'
 import { EXCLUSIVE_REWARDS, exclusiveRewardOf, type ExclusiveReward } from '@/features/profile/exclusiveRewards.ts'
 import type { ExclusiveUnlock } from '@/features/profile/exclusiveUnlocks.ts'
+import { StreakFrame } from '@/features/profile/StreakFrame.tsx'
+import type { StreakFrameTier } from '@/features/profile/milestones.ts'
 import './profileAppearance.css'
 
 type Tab = 'avatars' | 'banners'
@@ -17,7 +19,11 @@ type Avatar = (typeof CLASS_AVATARS)[number]
 type Banner = (typeof PROFILE_BANNERS)[number]
 type Inspection = { kind: 'avatars'; art: Avatar } | { kind: 'banners'; art: Banner } | { kind: 'exclusive'; tab: Tab; art: ExclusiveReward }
 type Appearance = { avatar: string | null; banner: string | null; exclusiveAvatarSlug: string | null; exclusiveBannerSlug: string | null }
+
+export type ProfileAppearancePickerHandle = { openRewards: (slug?: string) => void }
 type Props = Appearance & {
+  ref?: Ref<ProfileAppearancePickerHandle>
+  streakTier?: StreakFrameTier | null
   username: string
   displayName: string
   bio: string
@@ -29,7 +35,7 @@ type Props = Appearance & {
 
 const newestHead = Math.max(...AVATAR_HEAD_SLOTS)
 
-export function ProfileAppearancePicker({ username, displayName, bio, avatar, banner, exclusiveAvatarSlug, exclusiveBannerSlug, unlocks, disabled, onChange }: Props) {
+export function ProfileAppearancePicker({ ref, streakTier = null, username, displayName, bio, avatar, banner, exclusiveAvatarSlug, exclusiveBannerSlug, unlocks, disabled, onChange }: Props) {
   const { t, i18n } = useTranslation()
   const id = useId()
   const [open, setOpen] = useState(false)
@@ -69,6 +75,19 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
   const inspectionUrl = (i: Inspection) => i.kind === 'exclusive' ? (i.tab === 'avatars' ? i.art.avatarPath : i.art.bannerPath) : i.art.url
   const inspectionLabel = (i: Inspection) => i.kind === 'avatars' ? avatarLabel(i.art) : i.kind === 'banners' ? bannerLabel(i.art) : exclusiveLabel(i.art)
   const hasFilters = !!queries[tab] || onlyNew || onlyExclusive || (tab === 'avatars' ? classId !== 'all' || gender !== 'all' || head !== 'all' : category !== 'all')
+
+  useImperativeHandle(ref, () => ({ openRewards(slug) {
+    if (disabled) return
+    setOnlyExclusive(true)
+    setOnlyNew(false)
+    setQueries({ avatars: '', banners: '' })
+    openGallery('avatars')
+    const reward = EXCLUSIVE_REWARDS.find(r => r.slug === slug)
+    if (reward) {
+      returnTo.current = { url: reward.avatarPath, scrollTop: 0 }
+      setInspection({ kind: 'exclusive', tab: 'avatars', art: reward })
+    }
+  } }))
 
   useEffect(() => {
     if (inspection) backRef.current?.focus({ preventScroll: true })
@@ -137,7 +156,7 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
         {(isProfileBannerUrl(draft.banner) || draft.exclusiveBannerSlug) && <img src={draftBannerUrl!} alt="" width={1920} height={640} />}
       </div>
       <div className="appearance-profile-body">
-        <AccountAvatar username={username} url={draftAvatarUrl} />
+        <StreakFrame tier={streakTier}><AccountAvatar username={username} url={draftAvatarUrl} /></StreakFrame>
         <h3>{displayName || username}</h3>
         <p className="appearance-handle">@{username}</p>
         <p className="appearance-bio">{bio || t('appearance_preview_bio')}</p>
@@ -153,7 +172,7 @@ export function ProfileAppearancePicker({ username, displayName, bio, avatar, ba
       </div>
       <div className="appearance-summary-body">
         <button type="button" className="appearance-avatar-trigger" disabled={disabled} aria-label={t('auth_avatar_change')} onClick={() => openGallery('avatars')}>
-          <AccountAvatar username={username} url={exclusiveRewardOf(exclusiveAvatarSlug)?.avatarPath ?? avatar} />
+          <StreakFrame tier={streakTier}><AccountAvatar username={username} url={exclusiveRewardOf(exclusiveAvatarSlug)?.avatarPath ?? avatar} /></StreakFrame>
         </button>
         <div><h3>{t('appearance_title')}</h3><p>{t('appearance_intro')}</p></div>
         <button type="button" className="site-primary" disabled={disabled} onClick={() => openGallery('avatars')}><Palette size={17} aria-hidden="true" />{t('appearance_open')}</button>

@@ -1423,3 +1423,6 @@ button.workshop-level:hover {
   color: var(--text);
   border-color: var(--muted);
 }
+
+.site-account-menu .site-menu-streak strong { margin-left: auto; font: 11px 'IBM Plex Mono', monospace; color: var(--muted); }
+.site-account-menu .site-menu-streak > svg { color: var(--accent); }

@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect, useId } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
-import { LogIn, LogOut, Settings, User } from 'lucide-react'
+import { Flame, LogIn, LogOut, Settings, User } from 'lucide-react'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { AuthModal } from './AuthModal.tsx'
 import { ResetPasswordModal } from './ResetPasswordModal.tsx'
 import { SIGN_IN_EVENT } from './requestSignIn.ts'
+import { effectiveAvatarUrl } from '@/features/profile/exclusiveRewards.ts'
 
 /** Sign-in button, or the player's menu: public profile, account, sign out. */
 export function AuthButton() {
@@ -59,7 +60,8 @@ export function AuthButton() {
   // everywhere, display_name is just optional flavor text, never primary.
   const label    = profile?.username || session.user.email || ''
   const realName = profile?.display_name
-  const avatar   = isSafeImageUrl(profile?.avatar_url) ? profile.avatar_url : null
+  const resolvedAvatar = effectiveAvatarUrl(profile?.avatar_url ?? null, profile?.exclusive_avatar_slug)
+  const avatar = isSafeImageUrl(resolvedAvatar) ? resolvedAvatar : null
 
   return (
     <div className="site-account" ref={menuRef}>
@@ -92,6 +94,7 @@ export function AuthButton() {
             <Settings size={16} aria-hidden="true" />
             {t('auth_profile_title')}
           </button>
+          {profile && <Link className="site-menu-streak" to={`/${prefix}account#streak-rewards`} onClick={() => setShowMenu(false)}><Flame size={16} aria-hidden="true" /><span>{t('streak_title')}</span><strong>{t('streak_day_count', { count: profile.login_streak_current ?? 0 })}</strong></Link>}
           <button type="button" className="is-quiet" onClick={() => { setShowMenu(false); signOut() }}>
             <LogOut size={16} aria-hidden="true" />
             {t('auth_signout')}

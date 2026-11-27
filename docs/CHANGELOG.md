@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.29] — 2026-11-27
+- Streaks now have a dedicated Account section for the active streak, permanent record and next reward, while public profiles show their record beside builds, likes and comments; the original flame icon is preserved
+- Preview every milestone portrait, matching scene and frame in a dedicated rewards window, then open eligible artwork in the existing gallery; choosing, applying and saving remain explicit steps
+- Avatar frames now use matte metal, engraved SVG details and a forge stamp instead of glowing rings, with responsive layouts, keyboard navigation and all four languages matching the 0.4.0 design
+
 ## [0.4.28] — 2026-11-27
 - Daily login streak: showing up on a new calendar day (UTC) with a session open raises a permanent best streak, shown as a colored badge (icon + number) and a matching frame around your avatar at 7/30/100/365 days (bronze/silver/gold/molten) — no action needed, and shown on both your own account (current + best) and your public profile (best only, so streaks are comparable between accounts)
 - The same 4 milestones unlock an exclusive profile portrait and matching scene (Kerubim Crepin, Julith, Goultard, young Ogrest) — pick one from Account → Customize profile → its own compact "Exclusive" filter, once you've earned it; the server checks eligibility itself, not just the picker
