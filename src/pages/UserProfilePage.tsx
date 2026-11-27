@@ -17,8 +17,11 @@ import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { useIsFollowing } from '@/features/builds/useIsFollowing.ts'
 import { CollectionRowLink } from '@/features/library/LibraryParts.tsx'
 import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
-import { fetchPublicCustomRank, parsePublicCustomRank } from '@/features/ranks/api.ts'
+import { fetchPublicCustomRanks, parsePublicCustomRanks } from '@/features/ranks/api.ts'
 import type { PublicCustomRank } from '@/features/ranks/catalog.tsx'
+import { streakFrameTier } from '@/features/profile/milestones.ts'
+import { StreakChip } from '@/features/profile/StreakChip.tsx'
+import { effectiveAvatarUrl, effectiveBannerUrl } from '@/features/profile/exclusiveRewards.ts'
 import {
   fetchProfileByUsername, fetchPublicBuilds, fetchProfileSummary, fetchUserCollections, type CollectionRow,
   followUser, unfollowUser,
@@ -77,7 +80,10 @@ export function UserProfilePage() {
   const [profile, setProfile]   = useState<PublicProfile | null>(seed?.profile ?? null)
   const [loading, setLoading]   = useState(!seed)
   const [notFound, setNotFound] = useState(!!seed && !seed.profile)
-  const [customRank, setCustomRank] = useState<PublicCustomRank | null>(summary?.combined ? parsePublicCustomRank(summary.rank) : null)
+  const [customRanks, setCustomRanks] = useState<PublicCustomRank[]>(summary?.combined ? parsePublicCustomRanks(summary.ranks) : [])
+  const [loginStreakBest, setLoginStreakBest] = useState(summary?.loginStreakBest ?? 0)
+  const [exclusiveAvatarSlug, setExclusiveAvatarSlug] = useState(summary?.exclusiveAvatarSlug ?? null)
+  const [exclusiveBannerSlug, setExclusiveBannerSlug] = useState(summary?.exclusiveBannerSlug ?? null)
 
   const [stats, setStats] = useState(summary?.stats ?? { buildCount: 0, likeCount: 0 })
   const [commentCount, setCommentCount] = useState(summary?.commentCount ?? 0)
@@ -104,7 +110,10 @@ export function UserProfilePage() {
     if (!fromSeed) {
       setLoading(true)
       setNotFound(false)
-      setCustomRank(null)
+      setCustomRanks([])
+      setLoginStreakBest(0)
+      setExclusiveAvatarSlug(null)
+      setExclusiveBannerSlug(null)
     }
     fetchProfileByUsername(username).then(({ data }) => {
       if (cancelled) return
@@ -116,8 +125,11 @@ export function UserProfilePage() {
         if (cancelled) return
         setStats(s.stats)
         setCommentCount(s.commentCount)
-        if (s.combined) setCustomRank(parsePublicCustomRank(s.rank))
-        else fetchPublicCustomRank(data.id).then(rank => { if (!cancelled) setCustomRank(rank) })
+        setLoginStreakBest(s.loginStreakBest)
+        setExclusiveAvatarSlug(s.exclusiveAvatarSlug)
+        setExclusiveBannerSlug(s.exclusiveBannerSlug)
+        if (s.combined) setCustomRanks(parsePublicCustomRanks(s.ranks))
+        else fetchPublicCustomRanks(data.id).then(ranks => { if (!cancelled) setCustomRanks(ranks) })
       })
       fetchUserCollections(data.id, true, session?.user.id ?? null).then(({ data: list }) => { if (!cancelled) setCollections(list) })
     })
@@ -134,7 +146,7 @@ export function UserProfilePage() {
       ? await followUser(session.user.id, profile.id)
       : await unfollowUser(session.user.id, profile.id)
     if (error) { setIsFollowing(!next); setFollowerCount(c => c + (next ? -1 : 1)) }
-  }, [session, profile, isFollowing])
+  }, [session, profile, isFollowing, setIsFollowing])
 
   const loadBuilds = useCallback(async (userId: string, nextPage: number, reset: boolean) => {
     setBuildsLoading(true)
@@ -191,6 +203,11 @@ export function UserProfilePage() {
   // everywhere, display_name is just optional flavor text underneath it.
   const name = profile.username
   const joinedDate = formatDate(profile.created_at)
+  const avatarUrl = effectiveAvatarUrl(profile.avatar_url, exclusiveAvatarSlug)
+  const bannerUrl = effectiveBannerUrl(profile.banner_url, exclusiveBannerSlug)
+  const hasBanner = isProfileBannerUrl(profile.banner_url) || !!exclusiveBannerSlug
+  const frameTier = streakFrameTier(loginStreakBest)
+
 
   async function copyLink() {
     try {
@@ -207,15 +224,15 @@ export function UserProfilePage() {
 
       <main id="main-content" className="account-page">
         <div className="account-study">
-          <ProfileBanner key={`${profile.id}:${profile.banner_url}`} username={name} url={profile.banner_url} />
-          <div className={'public-profile-heading' + (isProfileBannerUrl(profile.banner_url) ? ' has-banner' : '')}>
-            <PublicProfileAvatar key={`${profile.id}:${profile.avatar_url}`} username={name} url={profile.avatar_url} />
+          <ProfileBanner key={`${profile.id}:${bannerUrl}`} username={name} url={bannerUrl} />
+          <div className={'public-profile-heading' + (hasBanner ? ' has-banner' : '')}>
+            <PublicProfileAvatar key={`${profile.id}:${avatarUrl}`} username={name} url={avatarUrl} streakTier={frameTier} />
             <div>
               <p className="account-eyebrow">{t('account_public_identity')}</p>
               <h1>{name}</h1>
-              {customRank && (
+              {customRanks.length > 0 && (
                 <div className="public-ranks">
-                  <CustomRankBadge rank={customRank} />
+                  {customRanks.map(rank => <CustomRankBadge key={rank.name} rank={rank} />)}
                 </div>
               )}
               {profile.display_name && <p className="public-display-name">{profile.display_name}</p>}
@@ -254,13 +271,14 @@ export function UserProfilePage() {
               {t('auth_stat_following')}
             </button>
           </nav>
-          <section className="public-profile-metrics" aria-label={t('account_counts')}>
+          <section className={'public-profile-metrics' + (loginStreakBest > 0 ? ' has-streak' : '')} aria-label={t('account_counts')}>
             {([[stats.buildCount, 'profile_public_builds'], [stats.likeCount, 'profile_likes_received'], [commentCount, 'profile_comments_posted']] as const).map(([value, key]) => (
               <div key={key}>
                 <strong>{value}</strong>
                 <span>{t(key)}</span>
               </div>
             ))}
+            <StreakChip best={loginStreakBest} metric />
           </section>
 
           <nav className="account-tabs" aria-label={t('account_public_identity')}>

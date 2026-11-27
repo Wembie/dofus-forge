@@ -468,6 +468,14 @@ create table profiles (
   following_count  int not null default 0,
   builds_count     int not null default 0,
   settings         jsonb not null default '{}',
+  -- M188 — daily login streak (docs/brand/streak-rank-rewards-brief.md).
+  -- `login_streak_best` is a permanent high-water mark: a broken streak
+  -- never takes back an earned frame/exclusive.
+  login_streak_current int not null default 0,
+  login_streak_best    int not null default 0,
+  last_active_date     date,
+  exclusive_avatar_slug text,
+  exclusive_banner_slug text,
   created_at       timestamptz default now(),
   updated_at       timestamptz default now(),
   constraint username_format check (username ~ '^[a-z0-9_-]{3,30}$')
@@ -1095,7 +1103,7 @@ create trigger on_follow after insert or delete on follows for each row execute 
 
 
 -- ── Builds count en profile ───────────────────────────────────────────
-create function sync_builds_count() returns trigger language plpgsql as $$
+create function sync_builds_count() returns trigger language plpgsql as $
 begin
   if TG_OP = 'INSERT' then
     update profiles set builds_count = builds_count + 1 where id = NEW.user_id;
@@ -1103,7 +1111,7 @@ begin
     update profiles set builds_count = builds_count - 1 where id = OLD.user_id;
   end if;
   return null;
-end; $$;
+end; $;
 create trigger on_build after insert or delete on builds for each row execute procedure sync_builds_count();
 
 
@@ -1734,7 +1742,11 @@ grant select, insert, update, delete on public.custom_rank_benefits to authentic
 grant select on public.custom_rank_assignments to authenticated;
 revoke all on public.custom_rank_definitions, public.custom_rank_benefits, public.custom_rank_assignments from anon;
 
-create or replace function public.get_public_custom_rank(p_user_id uuid)
+-- All of the account's active admin-assigned custom ranks, not just one —
+-- several can and should show together (Owner + Youtuber + ... at once).
+-- sort_order is the display order, not a winner-takes-all priority:
+-- nothing competes for a single slot (M188).
+create or replace function public.get_public_custom_ranks(p_user_id uuid)
 returns table (
   rank_name text,
   rank_description text,
@@ -1746,7 +1758,7 @@ language sql
 security definer
 stable
 set search_path = public
-as $$
+as $
   select d.name, d.description, d.icon, d.color, coalesce(b.benefit_value, 'standard')
   from public.custom_rank_assignments a
   join public.custom_rank_definitions d on d.id = a.rank_id
@@ -1758,11 +1770,10 @@ as $$
     and (a.revoked_at is null or a.revoked_at > now())
     and d.is_active
     and d.is_public
-  order by a.starts_at desc, d.sort_order, d.created_at
-  limit 1;
-$$;
-revoke all on function public.get_public_custom_rank(uuid) from public;
-grant execute on function public.get_public_custom_rank(uuid) to anon, authenticated;
+  order by d.sort_order, a.starts_at desc, d.created_at;
+$;
+revoke all on function public.get_public_custom_ranks(uuid) from public;
+grant execute on function public.get_public_custom_ranks(uuid) to anon, authenticated;
 
 create or replace function public.admin_assign_custom_rank(
   p_user_id uuid,
@@ -2402,7 +2413,10 @@ grant execute on function public.get_build_viewer_state(uuid) to authenticated;
 create or replace function public.get_public_profile_summary(p_user_id uuid)
 returns jsonb language sql stable set search_path = public as $
   select jsonb_build_object(
-    'rank',          (select to_jsonb(r) from get_public_custom_rank(p_user_id) r limit 1),
+    'ranks',                coalesce((select jsonb_agg(to_jsonb(r)) from get_public_custom_ranks(p_user_id) r), '[]'::jsonb),
+    'login_streak_best',     (select login_streak_best from profiles where id = p_user_id),
+    'exclusive_avatar_slug', (select exclusive_avatar_slug from profiles where id = p_user_id),
+    'exclusive_banner_slug', (select exclusive_banner_slug from profiles where id = p_user_id),
     'build_count',   (select count(*) from builds where user_id = p_user_id and visibility = 'public'),
     'like_count',    (select coalesce(sum(like_count), 0) from builds where user_id = p_user_id and visibility = 'public'),
     'comment_count', (select count(*) from build_comments c join builds b on b.id = c.build_id
@@ -2442,14 +2456,20 @@ begin;
 --    authenticated, not from another trigger); the counter triggers, the
 --    service role and the SQL editor (the resync below) pass. Security
 --    invoker on purpose, so current_user is the caller's role.
+-- Extended (M188) to also freeze the streak columns: only bump_login_streak()
+-- (security definer, so current_user here is its owner, not anon/authenticated)
+-- may move them — a direct client PATCH is reverted to OLD like the counters.
 create or replace function protect_profile_system_fields()
 returns trigger language plpgsql set search_path = public as $$
 begin
   if pg_trigger_depth() <= 1 and current_user in ('anon', 'authenticated') then
-    NEW.role            := OLD.role;
-    NEW.followers_count := OLD.followers_count;
-    NEW.following_count := OLD.following_count;
-    NEW.builds_count    := OLD.builds_count;
+    NEW.role                  := OLD.role;
+    NEW.followers_count       := OLD.followers_count;
+    NEW.following_count       := OLD.following_count;
+    NEW.builds_count          := OLD.builds_count;
+    NEW.login_streak_current  := OLD.login_streak_current;
+    NEW.login_streak_best     := OLD.login_streak_best;
+    NEW.last_active_date      := OLD.last_active_date;
   end if;
   return NEW;
 end;

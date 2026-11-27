@@ -16,6 +16,11 @@ export type Profile = {
   followers_count:  number
   following_count:  number
   builds_count:     number
+  // M188 — daily login streak + lifetime activity rank; `_best` never decreases.
+  login_streak_current: number
+  login_streak_best:    number
+  exclusive_avatar_slug: string | null
+  exclusive_banner_slug: string | null
 }
 
 export type ProfileEdits = {
@@ -23,6 +28,8 @@ export type ProfileEdits = {
   bio?:          string | null
   avatar_url?:   string | null
   banner_url?:   string | null
+  exclusive_avatar_slug?: string | null
+  exclusive_banner_slug?: string | null
 }
 
 type AuthState = {
@@ -94,7 +101,7 @@ async function fetchProfile(userId: string): Promise<Profile | null> {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, username, role, display_name, bio, avatar_url, banner_url, followers_count, following_count, builds_count')
+    .select('id, username, role, display_name, bio, avatar_url, banner_url, followers_count, following_count, builds_count, login_streak_current, login_streak_best, exclusive_avatar_slug, exclusive_banner_slug')
     .eq('id', userId)
     .single()
   if (error) {
@@ -105,6 +112,45 @@ async function fetchProfile(userId: string): Promise<Profile | null> {
     return null
   }
   return data
+}
+
+function streakBumpCacheKey(userId: string): string {
+  return `df:streak-bumped:${userId}`
+}
+
+// bump_login_streak() is idempotent server-side (same UTC day = no-op), but
+// every reload and every new tab still re-fires it — this skips that RPC
+// round trip entirely once a tab has already confirmed today's bump.
+export function alreadyBumpedToday(userId: string, today: string): boolean {
+  try {
+    return localStorage.getItem(streakBumpCacheKey(userId)) === today
+  } catch {
+    return false
+  }
+}
+
+export function rememberBumpedToday(userId: string, today: string): void {
+  try {
+    localStorage.setItem(streakBumpCacheKey(userId), today)
+  } catch {
+    // Storage unavailable (private mode, quota) — next load just re-attempts
+    // the RPC, which is itself a safe no-op if the day was already bumped.
+  }
+}
+
+async function bumpLoginStreak(userId: string): Promise<void> {
+  const today = new Date().toISOString().slice(0, 10)
+  if (alreadyBumpedToday(userId, today)) return
+  try {
+    const supabase = await getSupabase()
+    await supabase.rpc('bump_login_streak')
+    rememberBumpedToday(userId, today)
+  } catch {
+    // Best-effort — a missed day never recovers anyway (M188), so a failed
+    // bump here just means this particular session didn't count; the next
+    // successful app load still catches up correctly from the server's
+    // own last_active_date. Not caching on failure means it retries next load.
+  }
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -143,6 +189,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (mine !== seq) return
         if (session && !profile) profileUser = null
         set({ session: latest, profile, loading: false })
+        if (session && profile) void bumpLoginStreak(profile.id)
       }
       // Subscribe before anything async: auth-js emits PASSWORD_RECOVERY
       // right after it detects the reset link, so listening only after the

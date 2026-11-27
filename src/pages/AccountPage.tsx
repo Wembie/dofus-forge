@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type ReactNode } from 'react'
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { AlertCircle, ArrowRight, ArrowUpRight, Check, Eye, EyeOff, Lock, LogOut } from 'lucide-react'
@@ -11,7 +11,12 @@ import { useAuthStore } from '@/store/authStore.ts'
 import { AccountAvatar, FollowListModal } from '@/features/builds/FollowListModal.tsx'
 import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { PASSWORD_MIN_LENGTH, USERNAME_PATTERN, USERNAME_RE } from '@/features/auth/authRules.ts'
-import { ProfileAppearancePicker } from '@/features/account/ProfileAppearancePicker.tsx'
+import { ProfileAppearancePicker, type ProfileAppearancePickerHandle } from '@/features/account/ProfileAppearancePicker.tsx'
+import { fetchMyExclusiveUnlocks, type ExclusiveUnlock } from '@/features/profile/exclusiveUnlocks.ts'
+import { StreakPanel } from '@/features/profile/StreakPanel.tsx'
+import { StreakFrame } from '@/features/profile/StreakFrame.tsx'
+import { streakFrameTier } from '@/features/profile/milestones.ts'
+import { effectiveAvatarUrl } from '@/features/profile/exclusiveRewards.ts'
 import '@/features/account/account.css'
 
 type Tab = 'profile' | 'security' | 'session'
@@ -49,6 +54,7 @@ export function AccountPage() {
   const prefix = langPathPrefix(i18n.language)
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'account', { noindex: true })
   const id = useId()
+  const appearancePicker = useRef<ProfileAppearancePickerHandle>(null)
 
   const session        = useAuthStore(s => s.session)
   const authLoading    = useAuthStore(s => s.loading)
@@ -65,6 +71,9 @@ export function AccountPage() {
   const [bio, setBio]                 = useState(profile?.bio ?? '')
   const [avatar, setAvatar]           = useState(profile?.avatar_url ?? null)
   const [banner, setBanner]           = useState(profile?.banner_url ?? null)
+  const [exclusiveAvatarSlug, setExclusiveAvatarSlug] = useState(profile?.exclusive_avatar_slug ?? null)
+  const [exclusiveBannerSlug, setExclusiveBannerSlug] = useState(profile?.exclusive_banner_slug ?? null)
+  const [unlocks, setUnlocks] = useState<ExclusiveUnlock[]>([])
   const [busy, setBusy]       = useState(false)
   const [error, setError]     = useState<string | null>(null)
   const [saved, setSaved]     = useState(false)
@@ -91,12 +100,29 @@ export function AccountPage() {
     setBanner(profile?.banner_url ?? null)
   }, [profile?.id, profile?.banner_url])
 
+  useEffect(() => {
+    setExclusiveAvatarSlug(profile?.exclusive_avatar_slug ?? null)
+  }, [profile?.id, profile?.exclusive_avatar_slug])
+
+  useEffect(() => {
+    setExclusiveBannerSlug(profile?.exclusive_banner_slug ?? null)
+  }, [profile?.id, profile?.exclusive_banner_slug])
+
+  useEffect(() => {
+    if (!profile?.id) return
+    let cancelled = false
+    fetchMyExclusiveUnlocks().then(list => { if (!cancelled) setUnlocks(list) })
+    return () => { cancelled = true }
+  }, [profile?.id])
+
   const profileDirty = !!profile && (
     username.trim().toLowerCase() !== profile.username ||
     (displayName.trim() || null) !== (profile.display_name ?? null) ||
     (bio.trim() || null) !== (profile.bio ?? null) ||
     avatar !== (profile.avatar_url ?? null) ||
-    banner !== (profile.banner_url ?? null))
+    banner !== (profile.banner_url ?? null) ||
+    exclusiveAvatarSlug !== (profile.exclusive_avatar_slug ?? null) ||
+    exclusiveBannerSlug !== (profile.exclusive_banner_slug ?? null))
   const dirty = profileDirty || !!password || !!confirm
 
   // Leaving with unsaved changes asks first.
@@ -119,6 +145,8 @@ export function AccountPage() {
     setAvatar(profile?.avatar_url ?? null)
     setError(null)
     setBanner(profile?.banner_url ?? null)
+    setExclusiveAvatarSlug(profile?.exclusive_avatar_slug ?? null)
+    setExclusiveBannerSlug(profile?.exclusive_banner_slug ?? null)
     setPartial(false)
     setSaved(false)
   }
@@ -146,7 +174,9 @@ export function AccountPage() {
     try {
       const result = await updateProfile({ display_name: displayName.trim() || null, bio: bio.trim() || null,
         ...(avatar !== (profile.avatar_url ?? null) ? { avatar_url: avatar } : {}),
-        ...(banner !== (profile.banner_url ?? null) ? { banner_url: banner } : {}) })
+        ...(banner !== (profile.banner_url ?? null) ? { banner_url: banner } : {}),
+        ...(exclusiveAvatarSlug !== (profile.exclusive_avatar_slug ?? null) ? { exclusive_avatar_slug: exclusiveAvatarSlug } : {}),
+        ...(exclusiveBannerSlug !== (profile.exclusive_banner_slug ?? null) ? { exclusive_banner_slug: exclusiveBannerSlug } : {}) })
       err = result.error
     } catch {
       err = 'network_error'
@@ -154,7 +184,7 @@ export function AccountPage() {
     setBusy(false)
     if (err) {
       setPartial(renamed)
-      setError(t(renamed ? 'account_partial' : 'account_save_error'))
+      setError(t(err.includes('EXCLUSIVE_REWARD_LOCKED') ? 'appearance_exclusive_locked_error' : renamed ? 'account_partial' : 'account_save_error'))
       return
     }
     setSaved(true)
@@ -178,6 +208,8 @@ export function AccountPage() {
   const email = session?.user.email ?? ''
   const joined = session ? new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium' }).format(new Date(session.user.created_at)) : ''
   const publicPath = profile ? `/${prefix}u/${profile.username}` : `/${prefix}`
+  const frameTier = streakFrameTier(profile?.login_streak_best ?? 0)
+  const savedAvatar = effectiveAvatarUrl(profile?.avatar_url ?? null, profile?.exclusive_avatar_slug)
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
@@ -214,7 +246,7 @@ export function AccountPage() {
           ) : (
             <>
               <div className="account-identity">
-                <AccountAvatar username={profile?.username ?? email} url={profile?.avatar_url} />
+                <StreakFrame tier={frameTier}><AccountAvatar username={profile?.username ?? email} url={savedAvatar} /></StreakFrame>
                 <div>
                   <h2>{profile?.username}</h2>
                   {profile?.display_name && <p>{profile.display_name}</p>}
@@ -236,6 +268,11 @@ export function AccountPage() {
                 </nav>
               </div>
 
+              {profile && <StreakPanel current={profile.login_streak_current ?? 0} best={profile.login_streak_best ?? 0} unlocks={unlocks} onCustomize={slug => {
+                setTab('profile')
+                requestAnimationFrame(() => appearancePicker.current?.openRewards(slug))
+              }} />}
+
               <nav className="account-tabs" aria-label={t('auth_profile_title')}>
                 {TABS.map(v => (
                   <button key={v} type="button" aria-current={tab === v ? 'page' : undefined} onClick={() => setTab(v)}>
@@ -251,9 +288,13 @@ export function AccountPage() {
                     <h2 id={`${id}-profile`}>{t('account_public_identity')}</h2>
                     <p>{t('account_profile_hint')}</p>
                     <form onSubmit={save} aria-busy={busy} className="account-form">
-                      <ProfileAppearancePicker username={username || profile?.username || email} displayName={displayName} bio={bio}
-                        avatar={avatar} banner={banner} disabled={busy || !profile}
-                        onChange={appearance => edit(() => { setAvatar(appearance.avatar); setBanner(appearance.banner) })} />
+                      <ProfileAppearancePicker ref={appearancePicker} streakTier={frameTier} username={username || profile?.username || email} displayName={displayName} bio={bio}
+                        avatar={avatar} banner={banner} exclusiveAvatarSlug={exclusiveAvatarSlug} exclusiveBannerSlug={exclusiveBannerSlug}
+                        unlocks={unlocks} disabled={busy || !profile}
+                        onChange={appearance => edit(() => {
+                          setAvatar(appearance.avatar); setBanner(appearance.banner)
+                          setExclusiveAvatarSlug(appearance.exclusiveAvatarSlug); setExclusiveBannerSlug(appearance.exclusiveBannerSlug)
+                        })} />
                       <div className="account-field">
                         <label htmlFor={`${id}-username`}>{t('auth_username')}</label>
                         <input id={`${id}-username`} value={username} disabled={busy} onChange={e => edit(() => setUsername(e.target.value))}
@@ -329,7 +370,7 @@ export function AccountPage() {
 
                 <aside className="account-side-note" aria-label={t('account_public_identity')}>
                   <span className="account-eyebrow">{t('account_public_identity')}</span>
-                  <AccountAvatar username={profile?.username ?? email} url={profile?.avatar_url} />
+                  <StreakFrame tier={frameTier}><AccountAvatar username={profile?.username ?? email} url={savedAvatar} /></StreakFrame>
                   <h3>{profile?.username}</h3>
                   {profile?.display_name && <p>{profile.display_name}</p>}
                   <p>{profile?.bio || t('account_no_bio')}</p>

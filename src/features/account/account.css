@@ -1024,3 +1024,23 @@ a.people-open {
   text-decoration: none;
   color: inherit;
 }
+
+.account-identity > .streak-frame { margin-right: 4px; }
+.public-profile-heading > .streak-frame > .account-avatar { width: 96px; height: 96px; font-size: 48px; margin-top: 4px; }
+.public-profile-heading.has-banner > .streak-frame { margin-top: -48px; }
+.public-profile-metrics.has-streak { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.public-profile-metrics .streak-chip.is-metric { align-items: flex-start; }
+.public-profile-metrics .streak-chip.is-metric strong { display: flex; align-items: center; gap: 8px; color: var(--text); }
+.public-profile-metrics .streak-chip.is-metric strong svg { color: var(--accent); }
+@media (max-width: 700px) {
+  .account-identity > .streak-frame > .account-avatar { width: 60px; height: 60px; font-size: 32px; }
+  .public-profile-heading > .streak-frame > .account-avatar { width: 68px; height: 68px; font-size: 36px; }
+  .public-profile-heading.has-banner > .streak-frame { margin-top: -32px; }
+  .public-profile-metrics.has-streak { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .public-profile-metrics.has-streak > div { padding: 18px 14px; border-bottom: 1px solid var(--line); }
+  .public-profile-metrics.has-streak > div:nth-child(odd) { padding-left: 0; }
+  .public-profile-metrics.has-streak > div:nth-child(even) { border-right: 0; }
+  .public-profile-metrics.has-streak > div:nth-last-child(-n+2) { border-bottom: 0; }
+}
+
+.account-side-note > .streak-frame { display: flex; width: fit-content; margin: 20px 0; }

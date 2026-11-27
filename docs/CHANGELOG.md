@@ -5,6 +5,16 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.28] — 2026-11-27
+- Daily login streak: visiting on a new calendar day (UTC) with a session open updates your active streak and permanent best record automatically
+- Streaks have a dedicated Account section for the active streak, permanent record and next reward, while public profiles show their record beside builds, likes and comments; the original flame icon is preserved
+- Preview every milestone portrait, matching scene and frame in a dedicated rewards window, then open eligible artwork in the existing gallery; choosing, applying and saving remain explicit steps
+- Avatar frames use matte metal, engraved SVG details and a forge stamp, with responsive layouts, keyboard navigation and all four languages matching the 0.4.0 design
+- The same 7/30/100/365-day milestones unlock an exclusive profile portrait and matching scene (Kerubim Crepin, Julith, Goultard, young Ogrest); the server checks eligibility itself, not just the picker
+- A public profile now shows every admin-assigned rank it has, not just one
+- Missing a day resets the active streak to zero on purpose, with no streak freeze or recovery, but every frame and exclusive already earned stays unlocked forever
+- Closed a server-side gap where your permanent streak record and exclusive-reward eligibility could have been set directly instead of earned; reloading the app no longer repeats the daily check once it has already run that day
+
 ## [0.4.27] — 2026-11-27
 - Exclusive emblematic-character artwork prepared: Goultard, Kerub Crepin, Julith and small Ogrest, each with a distinct profile portrait and a related panoramic scene in Forge's established ink-and-watercolor style
 - The collection records exact prompts, verified client or official Ankama cross-media references, native PNG and web-export hashes, production progress and individual review observations. Every image keeps its first generation for user review; corrections require a specific user request

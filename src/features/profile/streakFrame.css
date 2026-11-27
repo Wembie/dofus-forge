@@ -1,0 +1,33 @@
+.streak-frame {
+  position: relative;
+  display: inline-flex;
+  border-radius: 50%;
+  flex-shrink: 0;
+  isolation: isolate;
+  vertical-align: middle;
+}
+.streak-frame[data-tier='bronze'] { --frame-metal: #b07a45; }
+.streak-frame[data-tier='silver'] { --frame-metal: #a7afba; }
+.streak-frame[data-tier='gold'] { --frame-metal: var(--gold-bright); }
+.streak-frame[data-tier='molten'] { --frame-metal: var(--gold); }
+.streak-frame-ornament {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 2;
+}
+.frame-rim { fill: none; stroke: var(--frame-metal); stroke-width: 1.8; }
+.frame-etch { fill: none; stroke: var(--frame-metal); stroke-width: .65; opacity: .65; }
+.frame-clasp { fill: var(--canvas); stroke: var(--frame-metal); stroke-width: 1.25; stroke-linejoin: round; }
+.frame-rivet, .frame-stamp { fill: var(--frame-metal); }
+.frame-inlay { fill: #ad5034; }
+.streak-frame[data-tier='molten'] .frame-clasp { fill: #252b27; }
+.streak-frame[data-tier] > .account-avatar { border-color: var(--canvas); }
+@media (forced-colors: active) {
+  .frame-rim, .frame-etch, .frame-clasp { stroke: CanvasText; }
+  .frame-clasp { fill: Canvas; }
+  .frame-rivet, .frame-stamp, .frame-inlay { fill: CanvasText; }
+}

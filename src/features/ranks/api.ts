@@ -4,16 +4,24 @@ import {
   type PublicCustomRank,
 } from './catalog.tsx'
 
-/** Public profile data is returned by a narrow RPC; internal assignment data never reaches this query. */
-export async function fetchPublicCustomRank(userId: string): Promise<PublicCustomRank | null> {
+/** Public profile data is returned by a narrow RPC; internal assignment data
+ * never reaches this query. Every active admin-assigned rank, not just one —
+ * several show together on a profile (M188). */
+export async function fetchPublicCustomRanks(userId: string): Promise<PublicCustomRank[]> {
   const supabase = await getSupabase().catch(() => null)
-  if (!supabase) return null
-  const { data, error } = await supabase.rpc('get_public_custom_rank', { p_user_id: userId })
-  if (error || !Array.isArray(data)) return null
-  return parsePublicCustomRank(data[0])
+  if (!supabase) return []
+  const { data, error } = await supabase.rpc('get_public_custom_ranks', { p_user_id: userId })
+  if (error || !Array.isArray(data)) return []
+  return parsePublicCustomRanks(data)
 }
 
-/** Validates one get_public_custom_rank row (also embedded in get_public_profile_summary). */
+/** Validates every get_public_custom_ranks row (also embedded in get_public_profile_summary). */
+export function parsePublicCustomRanks(raw: unknown): PublicCustomRank[] {
+  if (!Array.isArray(raw)) return []
+  return raw.map(parsePublicCustomRank).filter((r): r is PublicCustomRank => r != null)
+}
+
+/** Validates one get_public_custom_ranks row. */
 export function parsePublicCustomRank(raw: unknown): PublicCustomRank | null {
   if (!raw || typeof raw !== 'object') return null
   const row = raw as {

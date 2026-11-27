@@ -1,0 +1,82 @@
+.streak-panel { padding: 24px 0 20px; border-bottom: 1px solid var(--line); scroll-margin-top: 88px; }
+.streak-panel-heading { display: grid; grid-template-columns: 1.1fr .75fr 1fr auto; align-items: center; gap: 24px; }
+.streak-active { display: flex; align-items: center; gap: 13px; }
+.streak-active > svg { color: var(--accent); flex-shrink: 0; }
+.streak-active h2 { margin: 0 0 3px; font-size: 12px; font-weight: 500; color: var(--muted); }
+.streak-active p { margin: 0; font-size: 13px; color: var(--muted); }
+.streak-active strong { font: 400 30px/1.1 'IBM Plex Mono', monospace; color: var(--text); margin-right: 3px; }
+.streak-record, .streak-next > div { display: flex; flex-direction: column; gap: 4px; }
+.streak-record > span, .streak-next span { color: var(--muted); font-size: 12px; }
+.streak-record strong, .streak-next strong { color: var(--text); font-size: 14px; font-weight: 600; }
+.streak-next { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.streak-next img { width: 44px; height: 44px; object-fit: cover; border-radius: 50%; }
+.streak-panel .streak-open { white-space: nowrap; min-height: 44px; font-size: 13px; }
+.streak-progress { display: flex; align-items: center; gap: 16px; margin-top: 19px; }
+.streak-progress progress { appearance: none; width: 100%; height: 3px; border: 0; background: var(--line); color: var(--accent); }
+.streak-progress progress::-webkit-progress-bar { background: var(--line); }
+.streak-progress progress::-webkit-progress-value { background: var(--accent); }
+.streak-progress progress::-moz-progress-bar { background: var(--accent); }
+.streak-progress > span { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.streak-panel-note { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+.streak-dialog { padding: 24px; }
+.streak-rewards-modal > div:first-child > button { min-width: 44px; min-height: 44px; }
+.streak-dialog-summary { display: flex; align-items: center; gap: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.streak-dialog-summary > div { display: flex; align-items: baseline; gap: 9px; }
+.streak-dialog-summary svg { align-self: center; color: var(--accent); }
+.streak-dialog-summary strong { color: var(--text); font: 400 30px/1.1 'IBM Plex Mono', monospace; }
+.streak-dialog-summary span { color: var(--muted); font-size: 12px; }
+.streak-dialog-intro { color: var(--muted); font-size: 14px; line-height: 1.55; margin: 18px 0 22px; }
+.streak-dialog-next { display: flex; justify-content: space-between; gap: 14px; font-size: 12px; margin: -6px 0 10px; }
+.streak-dialog-next strong { font-weight: 600; color: var(--text); }
+.streak-dialog-next span, .streak-dialog-note { color: var(--muted); }
+.streak-dialog-note { font-size: 12px; line-height: 1.5; margin: 0 0 20px; }
+.streak-reward-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.streak-reward { padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); text-align: left; color: var(--text); cursor: pointer; }
+.streak-reward:hover { border-color: var(--metal-edge-strong); }
+.streak-reward.is-next { border-color: var(--accent); }
+.streak-reward-banner { display: block; width: 100%; height: 78px; object-fit: cover; }
+.streak-reward-body { display: flex; align-items: center; gap: 15px; padding: 0 18px 16px; min-width: 0; }
+.streak-reward-body > .streak-frame { margin-top: -13px; }
+.streak-reward .streak-frame > img { display: block; width: 62px; height: 62px; border-radius: 50%; object-fit: cover; border: 3px solid var(--surface); }
+.streak-reward-body > div { min-width: 0; padding-top: 12px; }
+.streak-reward-days { font: 10px/1.4 'IBM Plex Mono', monospace; color: var(--muted); }
+.streak-reward h3 { margin: 3px 0 2px; font: 600 19px/1.2 Alegreya, Georgia, serif; }
+.streak-reward-body small { color: var(--muted); font-size: 12px; }
+.streak-reward-state { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+.streak-reward-state > svg:last-child { margin-left: auto; }
+.streak-reward.is-next .streak-reward-state { color: var(--accent); }
+.streak-how { margin: 22px 0; padding-block: 15px; border-block: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.streak-how summary { color: var(--text); cursor: pointer; min-height: 44px; align-content: center; }
+.streak-how p { line-height: 1.6; margin: 10px 0 0; }
+.streak-customize { display: flex; align-items: center; gap: 8px; width: fit-content; margin-left: auto; min-height: 44px; font-size: 13px; }
+.streak-back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+.streak-reward-detail { display: flex; align-items: center; gap: 32px; padding: 8px 12px 28px; }
+.streak-reward-detail .streak-frame > img { width: 160px; height: 160px; display: block; border-radius: 50%; }
+.streak-reward-detail h3 { margin: 6px 0 8px; color: var(--text); font: 600 30px/1.1 Alegreya, Georgia, serif; }
+.streak-reward-detail p:not(.account-eyebrow), .streak-reward-detail span { color: var(--muted); font-size: 13px; }
+.streak-detail-banner { display: block; width: 100%; height: auto; border-radius: 3px; margin: 0 0 20px; }
+@media (max-width: 850px) {
+  .streak-panel-heading { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .streak-open { justify-self: end; }
+}
+@media (max-width: 480px) {
+  .streak-panel { padding-top: 20px; }
+  .streak-panel-heading { gap: 18px 14px; }
+  .streak-active { gap: 8px; }
+  .streak-active strong { font-size: 26px; }
+  .streak-record { align-items: end; }
+  .streak-panel .streak-open { padding-inline: 10px; font-size: 12px; }
+  .streak-next img { width: 34px; height: 34px; }
+  .streak-next strong { font-size: 13px; }
+  .streak-progress { align-items: flex-start; flex-direction: column; gap: 9px; }
+  .streak-dialog { padding: 18px; }
+  .streak-dialog-summary { gap: 24px; }
+  .streak-dialog-summary > div { flex-wrap: wrap; gap: 7px; }
+  .streak-dialog-summary span { flex-basis: 100%; }
+  .streak-dialog-summary strong { font-size: 27px; }
+  .streak-reward-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .streak-reward-banner { height: 83px; }
+  .streak-reward-detail { gap: 20px; padding-inline: 8px; }
+  .streak-reward-detail .streak-frame > img { width: 100px; height: 100px; }
+  .streak-reward-detail h3 { font-size: 25px; }
+}

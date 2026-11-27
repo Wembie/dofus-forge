@@ -1,0 +1,5 @@
+.streak-chip { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.streak-chip > svg { flex-shrink: 0; color: var(--gold-muted); }
+.streak-chip strong { font-weight: 500; color: var(--muted); }
+.streak-chip span { display: flex; gap: 8px; }
+.streak-chip small { font-size: inherit; }

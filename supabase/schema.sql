@@ -43,6 +43,14 @@ create table profiles (
   following_count  int not null default 0,
   builds_count     int not null default 0,
   settings         jsonb not null default '{}',
+  -- M188 — daily login streak (docs/brand/streak-rank-rewards-brief.md).
+  -- `login_streak_best` is a permanent high-water mark: a broken streak
+  -- never takes back an earned frame/exclusive.
+  login_streak_current int not null default 0,
+  login_streak_best    int not null default 0,
+  last_active_date     date,
+  exclusive_avatar_slug text,
+  exclusive_banner_slug text,
   created_at       timestamptz default now(),
   updated_at       timestamptz default now(),
   constraint username_format check (username ~ '^[a-z0-9_-]{3,30}$')
@@ -1046,7 +1054,11 @@ grant select, insert, update, delete on public.custom_rank_benefits to authentic
 grant select on public.custom_rank_assignments to authenticated;
 revoke all on public.custom_rank_definitions, public.custom_rank_benefits, public.custom_rank_assignments from anon;
 
-create or replace function public.get_public_custom_rank(p_user_id uuid)
+-- All of the account's active admin-assigned custom ranks, not just one —
+-- several can and should show together (Owner + Youtuber + ... at once).
+-- sort_order is the display order, not a winner-takes-all priority:
+-- nothing competes for a single slot (M188).
+create or replace function public.get_public_custom_ranks(p_user_id uuid)
 returns table (
   rank_name text,
   rank_description text,
@@ -1070,11 +1082,10 @@ as $$
     and (a.revoked_at is null or a.revoked_at > now())
     and d.is_active
     and d.is_public
-  order by a.starts_at desc, d.sort_order, d.created_at
-  limit 1;
+  order by d.sort_order, a.starts_at desc, d.created_at;
 $$;
-revoke all on function public.get_public_custom_rank(uuid) from public;
-grant execute on function public.get_public_custom_rank(uuid) to anon, authenticated;
+revoke all on function public.get_public_custom_ranks(uuid) from public;
+grant execute on function public.get_public_custom_ranks(uuid) to anon, authenticated;
 
 create or replace function public.admin_assign_custom_rank(
   p_user_id uuid,
@@ -1296,14 +1307,20 @@ create policy "notif own topic" on realtime.messages
 --    authenticated, not from another trigger); the counter triggers, the
 --    service role and the SQL editor (the resync below) pass. Security
 --    invoker on purpose, so current_user is the caller's role.
+-- Extended (M188) to also freeze the streak columns: only bump_login_streak()
+-- (security definer, so current_user here is its owner, not anon/authenticated)
+-- may move them — a direct client PATCH is reverted to OLD like the counters.
 create or replace function protect_profile_system_fields()
 returns trigger language plpgsql set search_path = public as $$
 begin
   if pg_trigger_depth() <= 1 and current_user in ('anon', 'authenticated') then
-    NEW.role            := OLD.role;
-    NEW.followers_count := OLD.followers_count;
-    NEW.following_count := OLD.following_count;
-    NEW.builds_count    := OLD.builds_count;
+    NEW.role                  := OLD.role;
+    NEW.followers_count       := OLD.followers_count;
+    NEW.following_count       := OLD.following_count;
+    NEW.builds_count          := OLD.builds_count;
+    NEW.login_streak_current  := OLD.login_streak_current;
+    NEW.login_streak_best     := OLD.login_streak_best;
+    NEW.last_active_date      := OLD.last_active_date;
   end if;
   return NEW;
 end;
@@ -1853,12 +1870,18 @@ revoke all on function public.get_build_viewer_state(uuid) from public, anon;
 grant execute on function public.get_build_viewer_state(uuid) to authenticated;
 
 -- 5. Public profile: builds count + likes received, public comment count,
---    and custom rank in one round trip instead of four. Security invoker:
---    the same RLS as the separate queries applies.
+--    admin-assigned ranks (plural, M188), streak/activity high-water marks
+--    and exclusive picks in one round trip instead of several. Security
+--    invoker: the same RLS as the separate queries applies. Frame/badge
+--    tier is a pure function of the two `_best` values on the client — no
+--    tier lookup needed here, so a new tier never needs a migration.
 create or replace function public.get_public_profile_summary(p_user_id uuid)
 returns jsonb language sql stable set search_path = public as $$
   select jsonb_build_object(
-    'rank',          (select to_jsonb(r) from get_public_custom_rank(p_user_id) r limit 1),
+    'ranks',                coalesce((select jsonb_agg(to_jsonb(r)) from get_public_custom_ranks(p_user_id) r), '[]'::jsonb),
+    'login_streak_best',     (select login_streak_best from profiles where id = p_user_id),
+    'exclusive_avatar_slug', (select exclusive_avatar_slug from profiles where id = p_user_id),
+    'exclusive_banner_slug', (select exclusive_banner_slug from profiles where id = p_user_id),
     'build_count',   (select count(*) from builds where user_id = p_user_id and visibility = 'public'),
     'like_count',    (select coalesce(sum(like_count), 0) from builds where user_id = p_user_id and visibility = 'public'),
     'comment_count', (select count(*) from build_comments c join builds b on b.id = c.build_id
@@ -2101,6 +2124,138 @@ revoke all on function public.purge_visitor_identifiers() from public, anon, aut
 select cron.schedule('purge-visitor-identifiers', '17 * * * *', 'select public.purge_visitor_identifiers()');
 
 select public.purge_visitor_identifiers();
+
+-- M188 — exclusive reward catalog (daily login streak).
+-- Not merged into profile_avatar_catalog/profile_banner_catalog below:
+-- their path CHECK constraints are deliberately narrow
+-- (/avatars/classes/v{n}/<slug>-(m|f).webp, /banners/locations/v{n}/<slug>.webp)
+-- and exclusive assets (/avatars|banners/exclusive/v1/<slug>.webp,
+-- docs/brand/emblematic-rewards/) don't match that shape. Real asset paths
+-- live only in the TS mirror (src/features/profile/exclusiveRewards.ts) —
+-- the DB only needs the threshold to judge entitlement.
+begin;
+
+create table if not exists public.exclusive_rewards (
+  slug        text primary key check (slug ~ '^[a-z][a-z0-9_]*$'),
+  threshold   int not null check (threshold > 0),
+  sort_order  smallint not null default 100,
+  created_at  timestamptz not null default now()
+);
+grant all on public.exclusive_rewards to service_role;
+alter table public.exclusive_rewards enable row level security;
+revoke all on table public.exclusive_rewards from public, anon, authenticated;
+grant select on table public.exclusive_rewards to anon, authenticated;
+drop policy if exists "exclusive rewards public read" on public.exclusive_rewards;
+create policy "exclusive rewards public read" on public.exclusive_rewards for select using (true);
+
+insert into public.exclusive_rewards (slug, threshold, sort_order) values
+  ('kerubim',  7,   10),
+  ('julith',   30,  20),
+  ('goultard', 100, 30),
+  ('ogrest',   365, 40)
+on conflict (slug) do nothing;
+
+alter table public.profiles add constraint profiles_exclusive_avatar_fkey
+  foreign key (exclusive_avatar_slug) references public.exclusive_rewards(slug)
+  on update restrict on delete restrict;
+alter table public.profiles add constraint profiles_exclusive_banner_fkey
+  foreign key (exclusive_banner_slug) references public.exclusive_rewards(slug)
+  on update restrict on delete restrict;
+
+-- Entitlement check, enforced regardless of which client code path writes
+-- the column (same reasoning as check_build_limit() below). Only runs when
+-- a slug actually changes to a non-null value — clearing it back to null
+-- (switching back to a regular avatar/banner) is always free.
+--
+-- Checked against OLD.login_streak_best, never NEW: "profiles own write" is
+-- row-level RLS only, so a client could PATCH login_streak_best and
+-- exclusive_avatar_slug in the same request — reading NEW would let that
+-- request grant its own eligibility. OLD is the row before this statement,
+-- so it can't be inflated by the write that's trying to spend it.
+-- (login_streak_best is also frozen against direct writes in
+-- protect_profile_system_fields — this check doesn't depend on that freeze
+-- either, but keeps working alongside it.)
+create or replace function public.check_exclusive_reward_claim()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  r public.exclusive_rewards;
+begin
+  if NEW.exclusive_avatar_slug is not null and NEW.exclusive_avatar_slug is distinct from OLD.exclusive_avatar_slug then
+    select * into r from public.exclusive_rewards where slug = NEW.exclusive_avatar_slug;
+    if r is null or OLD.login_streak_best < r.threshold then
+      raise exception 'EXCLUSIVE_REWARD_LOCKED';
+    end if;
+  end if;
+
+  if NEW.exclusive_banner_slug is not null and NEW.exclusive_banner_slug is distinct from OLD.exclusive_banner_slug then
+    select * into r from public.exclusive_rewards where slug = NEW.exclusive_banner_slug;
+    if r is null or OLD.login_streak_best < r.threshold then
+      raise exception 'EXCLUSIVE_REWARD_LOCKED';
+    end if;
+  end if;
+
+  return NEW;
+end; $$;
+drop trigger if exists before_profile_exclusive_claim on public.profiles;
+create trigger before_profile_exclusive_claim before update on public.profiles
+  for each row execute procedure public.check_exclusive_reward_claim();
+
+-- Bumps the caller's own daily streak — idempotent per UTC calendar day
+-- (safe to call on every app load, not just once). `for update` serializes
+-- concurrent calls for the same account (e.g. two open tabs) instead of a
+-- lost update.
+create or replace function public.bump_login_streak() returns jsonb
+language plpgsql security definer set search_path = public as $$
+declare
+  v_uid     uuid := auth.uid();
+  v_last    date;
+  v_current int;
+  v_best    int;
+  v_today   date := (now() at time zone 'utc')::date;
+begin
+  if v_uid is null then
+    raise exception 'NOT_AUTHENTICATED';
+  end if;
+
+  select last_active_date, login_streak_current, login_streak_best
+    into v_last, v_current, v_best
+    from public.profiles where id = v_uid for update;
+
+  if v_last is null or v_last < v_today - 1 then
+    v_current := 1;
+  elsif v_last = v_today - 1 then
+    v_current := v_current + 1;
+  end if; -- v_last = v_today: already bumped, v_current unchanged
+
+  v_best := greatest(v_best, v_current);
+
+  update public.profiles set
+    last_active_date = v_today,
+    login_streak_current = v_current,
+    login_streak_best = v_best
+  where id = v_uid;
+
+  return jsonb_build_object('current', v_current, 'best', v_best);
+end; $$;
+revoke all on function public.bump_login_streak() from public, anon;
+grant execute on function public.bump_login_streak() to authenticated;
+
+-- Per-account unlock progress for the account page's rewards panel.
+create or replace function public.get_my_exclusive_unlocks() returns jsonb
+language sql security definer stable set search_path = public as $$
+  select coalesce(jsonb_agg(jsonb_build_object(
+    'slug',      r.slug,
+    'threshold', r.threshold,
+    'progress',  p.login_streak_best,
+    'eligible',  p.login_streak_best >= r.threshold
+  ) order by r.sort_order), '[]'::jsonb)
+  from public.exclusive_rewards r, public.profiles p
+  where p.id = auth.uid();
+$$;
+revoke all on function public.get_my_exclusive_unlocks() from public, anon;
+grant execute on function public.get_my_exclusive_unlocks() to authenticated;
+
+commit;
 
 -- Public avatars must be bundled Forge portraits, even through direct REST
 -- requests. Clients may read the catalog but cannot expand the allowlist.
