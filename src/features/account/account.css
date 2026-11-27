@@ -637,6 +637,12 @@
   gap: 8px;
   margin: 14px 0;
 }
+.public-streak-best {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+}
 .public-ranks > span {
   display: inline-flex;
   align-items: center;

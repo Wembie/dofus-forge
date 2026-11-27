@@ -2663,5 +2663,6 @@
   "streak_frame_bronze": "cadre bronze",
   "streak_frame_silver": "cadre argent",
   "streak_frame_gold": "cadre or",
-  "streak_frame_molten": "cadre en fusion"
+  "streak_frame_molten": "cadre en fusion",
+  "public_streak_best": "Meilleure série : {{best}} jours"
 }

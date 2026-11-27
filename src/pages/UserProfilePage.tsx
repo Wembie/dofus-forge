@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
-import { ArrowRight, User, UserPlus, UserCheck } from 'lucide-react'
+import { ArrowRight, Flame, User, UserPlus, UserCheck } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { langPathPrefix } from '@/i18n/langPath.ts'
@@ -237,6 +237,7 @@ export function UserProfilePage() {
               {profile.display_name && <p className="public-display-name">{profile.display_name}</p>}
               <p className="public-biography">{profile.bio?.trim() || t('account_no_bio')}</p>
               <small>{t('profile_joined', { date: joinedDate })}</small>
+              {loginStreakBest > 0 && <small className="public-streak-best"><Flame size={13} aria-hidden="true" />{t('public_streak_best', { best: loginStreakBest })}</small>}
             </div>
             <div className="public-profile-actions">
               {isOwnProfile ? (

@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.29',
+    date: '2026-11-27',
+    notes: [
+      "A public profile now also shows its best login streak as a number (\"Best streak: N days\"), next to the avatar frame — so streaks are comparable between accounts, not just a color",
+    ],
+  },
+  {
     version: '0.4.28',
     date: '2026-11-27',
     notes: [

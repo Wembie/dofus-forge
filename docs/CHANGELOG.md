@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.29] — 2026-11-27
+- A public profile now also shows its best login streak as a number ("Best streak: N days"), next to the avatar frame — so streaks are comparable between accounts, not just a color
+
 ## [0.4.28] — 2026-11-27
 - Daily login streak: showing up on a new calendar day (UTC) with a session open raises a permanent best streak, shown automatically as a colored frame around your avatar at 7/30/100/365 days (bronze/silver/gold/molten) — no action needed
 - The same 4 milestones unlock an exclusive profile portrait and matching scene (Kerubim Crepin, Julith, Goultard, young Ogrest) — pick one from Account → Customize profile → Exclusive once you've earned it; the server checks eligibility itself, not just the picker
