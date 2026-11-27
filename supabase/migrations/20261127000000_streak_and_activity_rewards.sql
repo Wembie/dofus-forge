@@ -74,6 +74,15 @@ $$;
 -- the column (same reasoning as check_build_limit()). Only runs when a slug
 -- actually changes to a non-null value — clearing it back to null
 -- (switching back to a regular avatar/banner) is always free.
+--
+-- Checked against OLD.login_streak_best, never NEW: the "profiles own write"
+-- RLS policy is row-level only, so a client can PATCH login_streak_best and
+-- exclusive_avatar_slug in the SAME request — if this read NEW, that request
+-- would set its own eligibility and always pass. OLD is the row as it stood
+-- before this statement, so it can't be inflated by the same write that's
+-- trying to use it. (login_streak_best is also frozen against direct writes
+-- below, in protect_profile_system_fields — this check doesn't depend on
+-- that freeze, but keeps working either way.)
 create or replace function public.check_exclusive_reward_claim()
 returns trigger language plpgsql security definer set search_path = public as $$
 declare
@@ -81,14 +90,14 @@ declare
 begin
   if NEW.exclusive_avatar_slug is not null and NEW.exclusive_avatar_slug is distinct from OLD.exclusive_avatar_slug then
     select * into r from public.exclusive_rewards where slug = NEW.exclusive_avatar_slug;
-    if r is null or NEW.login_streak_best < r.threshold then
+    if r is null or OLD.login_streak_best < r.threshold then
       raise exception 'EXCLUSIVE_REWARD_LOCKED';
     end if;
   end if;
 
   if NEW.exclusive_banner_slug is not null and NEW.exclusive_banner_slug is distinct from OLD.exclusive_banner_slug then
     select * into r from public.exclusive_rewards where slug = NEW.exclusive_banner_slug;
-    if r is null or NEW.login_streak_best < r.threshold then
+    if r is null or OLD.login_streak_best < r.threshold then
       raise exception 'EXCLUSIVE_REWARD_LOCKED';
     end if;
   end if;
@@ -98,6 +107,30 @@ end; $$;
 drop trigger if exists before_profile_exclusive_claim on public.profiles;
 create trigger before_profile_exclusive_claim before update on public.profiles
   for each row execute procedure public.check_exclusive_reward_claim();
+
+-- Extend the existing system-fields freeze (0.3.113, protect_profile_system_fields)
+-- to the streak columns: a direct client PATCH to login_streak_current/_best or
+-- last_active_date is silently reverted to OLD, same as it already is for
+-- role/followers_count/following_count/builds_count. Only bump_login_streak()
+-- below can move these — it's security definer, so current_user inside it is
+-- the function owner, not 'anon'/'authenticated', and this guard passes it
+-- through untouched (same mechanism that already lets the follows/builds
+-- counter triggers write through this guard).
+create or replace function public.protect_profile_system_fields()
+returns trigger language plpgsql set search_path = public as $$
+begin
+  if pg_trigger_depth() <= 1 and current_user in ('anon', 'authenticated') then
+    NEW.role                  := OLD.role;
+    NEW.followers_count       := OLD.followers_count;
+    NEW.following_count       := OLD.following_count;
+    NEW.builds_count          := OLD.builds_count;
+    NEW.login_streak_current  := OLD.login_streak_current;
+    NEW.login_streak_best     := OLD.login_streak_best;
+    NEW.last_active_date      := OLD.last_active_date;
+  end if;
+  return NEW;
+end;
+$$;
 
 -- Bumps the caller's own daily streak — idempotent per UTC calendar day
 -- (safe to call on every app load, not just once). `for update` serializes

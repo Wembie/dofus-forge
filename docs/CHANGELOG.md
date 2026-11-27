@@ -13,6 +13,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - The same 7/30/100/365-day milestones unlock an exclusive profile portrait and matching scene (Kerubim Crepin, Julith, Goultard, young Ogrest); the server checks eligibility itself, not just the picker
 - A public profile now shows every admin-assigned rank it has, not just one
 - Missing a day resets the active streak to zero on purpose, with no streak freeze or recovery, but every frame and exclusive already earned stays unlocked forever
+- Closed a server-side gap where your permanent streak record and exclusive-reward eligibility could have been set directly instead of earned; reloading the app no longer repeats the daily check once it has already run that day
 
 ## [0.4.27] — 2026-11-27
 - Exclusive emblematic-character artwork prepared: Goultard, Kerub Crepin, Julith and small Ogrest, each with a distinct profile portrait and a related panoramic scene in Forge's established ink-and-watercolor style

@@ -20,6 +20,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       "The same 7/30/100/365-day milestones unlock an exclusive profile portrait and matching scene (Kerubim Crepin, Julith, Goultard, young Ogrest); the server checks eligibility itself, not just the picker",
       "A public profile now shows every admin-assigned rank it has, not just one",
       "Missing a day resets the active streak to zero on purpose, with no streak freeze or recovery, but every frame and exclusive already earned stays unlocked forever",
+      "Closed a server-side gap where your permanent streak record and exclusive-reward eligibility could have been set directly instead of earned; reloading the app no longer repeats the daily check once it has already run that day",
     ],
   },
 

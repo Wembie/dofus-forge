@@ -1307,14 +1307,20 @@ create policy "notif own topic" on realtime.messages
 --    authenticated, not from another trigger); the counter triggers, the
 --    service role and the SQL editor (the resync below) pass. Security
 --    invoker on purpose, so current_user is the caller's role.
+-- Extended (M188) to also freeze the streak columns: only bump_login_streak()
+-- (security definer, so current_user here is its owner, not anon/authenticated)
+-- may move them — a direct client PATCH is reverted to OLD like the counters.
 create or replace function protect_profile_system_fields()
 returns trigger language plpgsql set search_path = public as $$
 begin
   if pg_trigger_depth() <= 1 and current_user in ('anon', 'authenticated') then
-    NEW.role            := OLD.role;
-    NEW.followers_count := OLD.followers_count;
-    NEW.following_count := OLD.following_count;
-    NEW.builds_count    := OLD.builds_count;
+    NEW.role                  := OLD.role;
+    NEW.followers_count       := OLD.followers_count;
+    NEW.following_count       := OLD.following_count;
+    NEW.builds_count          := OLD.builds_count;
+    NEW.login_streak_current  := OLD.login_streak_current;
+    NEW.login_streak_best     := OLD.login_streak_best;
+    NEW.last_active_date      := OLD.last_active_date;
   end if;
   return NEW;
 end;
@@ -2160,6 +2166,15 @@ alter table public.profiles add constraint profiles_exclusive_banner_fkey
 -- the column (same reasoning as check_build_limit() below). Only runs when
 -- a slug actually changes to a non-null value — clearing it back to null
 -- (switching back to a regular avatar/banner) is always free.
+--
+-- Checked against OLD.login_streak_best, never NEW: "profiles own write" is
+-- row-level RLS only, so a client could PATCH login_streak_best and
+-- exclusive_avatar_slug in the same request — reading NEW would let that
+-- request grant its own eligibility. OLD is the row before this statement,
+-- so it can't be inflated by the write that's trying to spend it.
+-- (login_streak_best is also frozen against direct writes in
+-- protect_profile_system_fields — this check doesn't depend on that freeze
+-- either, but keeps working alongside it.)
 create or replace function public.check_exclusive_reward_claim()
 returns trigger language plpgsql security definer set search_path = public as $$
 declare
@@ -2167,14 +2182,14 @@ declare
 begin
   if NEW.exclusive_avatar_slug is not null and NEW.exclusive_avatar_slug is distinct from OLD.exclusive_avatar_slug then
     select * into r from public.exclusive_rewards where slug = NEW.exclusive_avatar_slug;
-    if r is null or NEW.login_streak_best < r.threshold then
+    if r is null or OLD.login_streak_best < r.threshold then
       raise exception 'EXCLUSIVE_REWARD_LOCKED';
     end if;
   end if;
 
   if NEW.exclusive_banner_slug is not null and NEW.exclusive_banner_slug is distinct from OLD.exclusive_banner_slug then
     select * into r from public.exclusive_rewards where slug = NEW.exclusive_banner_slug;
-    if r is null or NEW.login_streak_best < r.threshold then
+    if r is null or OLD.login_streak_best < r.threshold then
       raise exception 'EXCLUSIVE_REWARD_LOCKED';
     end if;
   end if;

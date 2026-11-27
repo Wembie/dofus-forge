@@ -114,15 +114,42 @@ async function fetchProfile(userId: string): Promise<Profile | null> {
   return data
 }
 
-async function bumpLoginStreak(): Promise<void> {
+function streakBumpCacheKey(userId: string): string {
+  return `df:streak-bumped:${userId}`
+}
+
+// bump_login_streak() is idempotent server-side (same UTC day = no-op), but
+// every reload and every new tab still re-fires it — this skips that RPC
+// round trip entirely once a tab has already confirmed today's bump.
+export function alreadyBumpedToday(userId: string, today: string): boolean {
+  try {
+    return localStorage.getItem(streakBumpCacheKey(userId)) === today
+  } catch {
+    return false
+  }
+}
+
+export function rememberBumpedToday(userId: string, today: string): void {
+  try {
+    localStorage.setItem(streakBumpCacheKey(userId), today)
+  } catch {
+    // Storage unavailable (private mode, quota) — next load just re-attempts
+    // the RPC, which is itself a safe no-op if the day was already bumped.
+  }
+}
+
+async function bumpLoginStreak(userId: string): Promise<void> {
+  const today = new Date().toISOString().slice(0, 10)
+  if (alreadyBumpedToday(userId, today)) return
   try {
     const supabase = await getSupabase()
     await supabase.rpc('bump_login_streak')
+    rememberBumpedToday(userId, today)
   } catch {
     // Best-effort — a missed day never recovers anyway (M188), so a failed
     // bump here just means this particular session didn't count; the next
     // successful app load still catches up correctly from the server's
-    // own last_active_date.
+    // own last_active_date. Not caching on failure means it retries next load.
   }
 }
 
@@ -162,7 +189,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (mine !== seq) return
         if (session && !profile) profileUser = null
         set({ session: latest, profile, loading: false })
-        if (session && profile) void bumpLoginStreak()
+        if (session && profile) void bumpLoginStreak(profile.id)
       }
       // Subscribe before anything async: auth-js emits PASSWORD_RECOVERY
       // right after it detects the reset link, so listening only after the

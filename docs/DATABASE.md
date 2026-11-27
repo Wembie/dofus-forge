@@ -2456,14 +2456,20 @@ begin;
 --    authenticated, not from another trigger); the counter triggers, the
 --    service role and the SQL editor (the resync below) pass. Security
 --    invoker on purpose, so current_user is the caller's role.
+-- Extended (M188) to also freeze the streak columns: only bump_login_streak()
+-- (security definer, so current_user here is its owner, not anon/authenticated)
+-- may move them — a direct client PATCH is reverted to OLD like the counters.
 create or replace function protect_profile_system_fields()
 returns trigger language plpgsql set search_path = public as $$
 begin
   if pg_trigger_depth() <= 1 and current_user in ('anon', 'authenticated') then
-    NEW.role            := OLD.role;
-    NEW.followers_count := OLD.followers_count;
-    NEW.following_count := OLD.following_count;
-    NEW.builds_count    := OLD.builds_count;
+    NEW.role                  := OLD.role;
+    NEW.followers_count       := OLD.followers_count;
+    NEW.following_count       := OLD.following_count;
+    NEW.builds_count          := OLD.builds_count;
+    NEW.login_streak_current  := OLD.login_streak_current;
+    NEW.login_streak_best     := OLD.login_streak_best;
+    NEW.last_active_date      := OLD.last_active_date;
   end if;
   return NEW;
 end;
