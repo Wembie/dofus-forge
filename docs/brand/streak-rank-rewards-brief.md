@@ -35,7 +35,7 @@ retratos sin nombre y dos paisajes genéricos de forja:
 | **Gúltar** | Su identidad, vestuario y expresión reconocibles | Un escenario vinculado a su historia, sus referencias o sus símbolos |
 | **Kerubim Crepin** | Su versión característica de mercader veterano | Su tienda de antigüedades y recuerdos de aventuras |
 | **Julith** | Su diseño y presencia originales | Un escenario ligado a su identidad e historia de Brakmar |
-| **Bolgrot** | Su anatomía de dragón y forma verificada | Un escenario ligado al dragón y a su presencia espiritual |
+| **Ogrest** | Su forma emblemática verificada en referencias oficiales | Un escenario vinculado a Ogrest y su historia |
 
 Los nombres de los banners serán títulos propios de Forge cuando la
 composición sea original; no se presentarán como nombres oficiales de
@@ -53,8 +53,10 @@ Antes de pintar cada personaje, verificar sus referencias y nombres en
 los cuatro idiomas contra el cliente **3.7.14.18** y reconstruir sus
 modelos con `scripts/extract-characters.py`. Si la representación elegida
 solo existe en una obra oficial de Ankama, documentar esa fuente y la
-versión exacta sin presentarla como un modelo del cliente. Para Bolgrot,
-distinguir su forma espiritual del cliente de una forma corpórea histórica.
+versión exacta sin presentarla como un modelo del cliente. El usuario
+corrigió expresamente **Bolgrot por Ogrest**: Bolgrot queda fuera de esta
+tanda. Distinguir las formas y épocas de Ogrest; documentar si la referencia
+pertenece a una obra oficial de WAKFU, sin atribuirla al cliente DOFUS 3.7.
 
 La colección mantiene exactamente la técnica **tinta y acuarela** y la
 escala de busto de los avatares existentes. Cada personaje tiene pose y
@@ -148,7 +150,7 @@ Los 4 íconos y 3 acabados ya existen en `RANK_ICONS`/`RANK_BADGE_STYLES` — ve
 ## 3. Banners exclusivos — para codex (lo que de verdad hay que pintar)
 
 La tanda visual aprobada tiene **cuatro escenarios relacionados con
-Gúltar, Kerubim, Julith y Bolgrot**. Los umbrales 150/500 builds son la
+Gúltar, Kerubim, Julith y Ogrest**. Los umbrales 150/500 builds son la
 propuesta previa de integración, no una asignación definitiva de estas
 cuatro piezas. Estos **NO entran al selector público de 68 banners**;
 se ofrecerán únicamente a las cuentas que los desbloqueen.
