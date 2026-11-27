@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.28] — 2026-11-27
+- Daily login streak: showing up on a new calendar day (UTC) with a session open raises a permanent best streak, shown automatically as a colored frame around your avatar at 7/30/100/365 days (bronze/silver/gold/molten) — no action needed
+- The same 4 milestones unlock an exclusive profile portrait and matching scene (Kerubim Crepin, Julith, Goultard, young Ogrest) — pick one from Account → Customize profile → Exclusive once you've earned it; the server checks eligibility itself, not just the picker
+- A public profile now shows every admin-assigned rank it has, not just one
+- Missing a day resets the active streak to zero on purpose — no streak freeze, no recovery — but every frame and exclusive already earned stays unlocked forever
+
 ## [0.4.27] — 2026-11-27
 - Exclusive emblematic-character artwork prepared: Goultard, Kerub Crepin, Julith and small Ogrest, each with a distinct profile portrait and a related panoramic scene in Forge's established ink-and-watercolor style
 - The collection records exact prompts, verified client or official Ankama cross-media references, native PNG and web-export hashes, production progress and individual review observations. Every image keeps its first generation for user review; corrections require a specific user request

@@ -2649,5 +2649,19 @@
   "profile_banner_location_royalmouth-greenhouse": "Estufa do Papamute Real",
   "profile_banner_location_obsidemon-hypogeum": "Hipogeu do Obsidemônio",
   "profile_banner_location_bethel-tower": "Torre de Bethel",
-  "profile_banner_location_torkelonia-sanctuary": "Santuário de Torkelônia"
+  "profile_banner_location_torkelonia-sanctuary": "Santuário de Torkelônia",
+  "exclusive_kerubim_name": "Kerubim Crepin",
+  "exclusive_goultard_name": "Goultard",
+  "exclusive_julith_name": "Julith",
+  "exclusive_ogrest_name": "Ogrest pequeno",
+  "appearance_exclusive_heading": "Exclusivos",
+  "appearance_exclusive_unlocked": "Desbloqueado",
+  "appearance_exclusive_progress": "{{progress}}/{{threshold}}",
+  "appearance_exclusive_locked_hint": "Ainda não desbloqueado — {{progress}}/{{threshold}}",
+  "appearance_exclusive_locked_error": "Você ainda não desbloqueou essa recompensa exclusiva",
+  "account_streak_hint": "Sequência: {{current}} dias (melhor: {{best}})",
+  "streak_frame_bronze": "moldura de bronze",
+  "streak_frame_silver": "moldura de prata",
+  "streak_frame_gold": "moldura de ouro",
+  "streak_frame_molten": "moldura fundida"
 }

@@ -166,3 +166,13 @@
 @media (prefers-reduced-motion: reduce) {
   .appearance-art-inspect > img, .appearance-art-card { transition: none; }
 }
+
+/* M188 — exclusive avatars/banners, separate from the regular gallery. */
+.appearance-exclusive-section { margin: 18px 24px 24px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.appearance-exclusive-section h4 { display: flex; align-items: center; gap: 6px; margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
+.appearance-art-card.is-locked { opacity: .55; }
+.appearance-art-card.is-locked .appearance-art-choice input { cursor: not-allowed; }
+.appearance-lock-badge { position: absolute; top: 6px; right: 6px; display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: rgba(0, 0, 0, .65); color: #fff; }
+.appearance-art-inspect { position: relative; }
+.appearance-art-inspect > img.is-locked { filter: grayscale(.6) brightness(.7); }
+.appearance-exclusive-progress { display: flex; align-items: center; gap: 6px; margin: 10px 0 0; font-size: 12px; color: var(--muted); }

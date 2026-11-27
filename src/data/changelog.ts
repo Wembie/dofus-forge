@@ -10,6 +10,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.28',
+    date: '2026-11-27',
+    notes: [
+      "Daily login streak: showing up on a new calendar day (UTC) with a session open raises a permanent best streak, shown automatically as a colored frame around your avatar at 7/30/100/365 days (bronze/silver/gold/molten) — no action needed",
+      "The same 4 milestones unlock an exclusive profile portrait and matching scene (Kerubim Crepin, Julith, Goultard, young Ogrest) — pick one from Account → Customize profile → Exclusive once you've earned it; the server checks eligibility itself, not just the picker",
+      "A public profile now shows every admin-assigned rank it has, not just one",
+      "Missing a day resets the active streak to zero on purpose — no streak freeze, no recovery — but every frame and exclusive already earned stays unlocked forever",
+    ],
+  },
+  {
     version: '0.4.27',
     date: '2026-11-27',
     notes: [

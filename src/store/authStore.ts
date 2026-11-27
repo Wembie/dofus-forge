@@ -16,6 +16,11 @@ export type Profile = {
   followers_count:  number
   following_count:  number
   builds_count:     number
+  // M188 — daily login streak + lifetime activity rank; `_best` never decreases.
+  login_streak_current: number
+  login_streak_best:    number
+  exclusive_avatar_slug: string | null
+  exclusive_banner_slug: string | null
 }
 
 export type ProfileEdits = {
@@ -23,6 +28,8 @@ export type ProfileEdits = {
   bio?:          string | null
   avatar_url?:   string | null
   banner_url?:   string | null
+  exclusive_avatar_slug?: string | null
+  exclusive_banner_slug?: string | null
 }
 
 type AuthState = {
@@ -94,7 +101,7 @@ async function fetchProfile(userId: string): Promise<Profile | null> {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, username, role, display_name, bio, avatar_url, banner_url, followers_count, following_count, builds_count')
+    .select('id, username, role, display_name, bio, avatar_url, banner_url, followers_count, following_count, builds_count, login_streak_current, login_streak_best, exclusive_avatar_slug, exclusive_banner_slug')
     .eq('id', userId)
     .single()
   if (error) {
@@ -105,6 +112,18 @@ async function fetchProfile(userId: string): Promise<Profile | null> {
     return null
   }
   return data
+}
+
+async function bumpLoginStreak(): Promise<void> {
+  try {
+    const supabase = await getSupabase()
+    await supabase.rpc('bump_login_streak')
+  } catch {
+    // Best-effort — a missed day never recovers anyway (M188), so a failed
+    // bump here just means this particular session didn't count; the next
+    // successful app load still catches up correctly from the server's
+    // own last_active_date.
+  }
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -143,6 +162,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (mine !== seq) return
         if (session && !profile) profileUser = null
         set({ session: latest, profile, loading: false })
+        if (session && profile) void bumpLoginStreak()
       }
       // Subscribe before anything async: auth-js emits PASSWORD_RECOVERY
       // right after it detects the reset link, so listening only after the

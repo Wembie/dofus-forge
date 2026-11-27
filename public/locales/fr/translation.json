@@ -2649,5 +2649,19 @@
   "profile_banner_location_royalmouth-greenhouse": "Serre du Royalmouth",
   "profile_banner_location_obsidemon-hypogeum": "Hypogée de l'Obsidiantre",
   "profile_banner_location_bethel-tower": "Tour de Bethel",
-  "profile_banner_location_torkelonia-sanctuary": "Sanctuaire de Torkélonia"
+  "profile_banner_location_torkelonia-sanctuary": "Sanctuaire de Torkélonia",
+  "exclusive_kerubim_name": "Kerubim Crepin",
+  "exclusive_goultard_name": "Goultard",
+  "exclusive_julith_name": "Julith",
+  "exclusive_ogrest_name": "Petit Ogrest",
+  "appearance_exclusive_heading": "Exclusifs",
+  "appearance_exclusive_unlocked": "Débloqué",
+  "appearance_exclusive_progress": "{{progress}}/{{threshold}}",
+  "appearance_exclusive_locked_hint": "Pas encore débloqué — {{progress}}/{{threshold}}",
+  "appearance_exclusive_locked_error": "Vous n'avez pas encore débloqué cette récompense exclusive",
+  "account_streak_hint": "Série : {{current}} jours (record : {{best}})",
+  "streak_frame_bronze": "cadre bronze",
+  "streak_frame_silver": "cadre argent",
+  "streak_frame_gold": "cadre or",
+  "streak_frame_molten": "cadre en fusion"
 }

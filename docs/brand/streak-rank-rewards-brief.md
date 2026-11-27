@@ -4,13 +4,24 @@
 > exclusivos, retratos emblemáticos + marco de avatar). El código (DB, RPC, wiring en React) lo
 > hace Claude, en otra tarea. Este documento es solo el brief visual.
 
-Dos sistemas de recompensa independientes, cada uno con su propia pieza
-visual — no se mezclan:
+**Decisión final (2026-11-27): UN SOLO eje.** El rango por actividad
+(builds creadas) se descartó durante la integración — dos ejes separados
+complicaba sin necesidad (criterio del usuario). Todo — marco de avatar,
+insignia de rango y los 4 retratos/escenarios exclusivos — depende
+únicamente de `profiles.login_streak_best` (racha de login, histórico
+máximo), en los mismos 4 cortes: 7 / 30 / 100 / 365 días.
 
-| Sistema | Qué mide | Pieza visual | Dónde vive hoy |
-|---|---|---|---|
-| Racha de login diario (M188, `docs/ROADMAP.md`) | Días consecutivos con sesión iniciada | **Marco de avatar** y catálogo de **retratos emblemáticos exclusivos**; el marco acompaña cualquier retrato elegido | Nuevo — desbloqueos y enganche del marco pendientes de integración |
-| Rango por actividad (builds creadas de por vida) | `profiles.builds_count` (ya existe, cuenta TODAS las builds, públicas o no) | **Insignia/chip** (reusa `CustomRankBadge` tal cual) + **banner exclusivo** en los 2-3 umbrales más altos | Chip: `src/features/ranks/` (ya construido, 76 acabados / 140 íconos). Banner: nuevo, ver abajo |
+| Hito | Marco | Personaje exclusivo |
+|---|---|---|
+| 7 días | bronce | Kerubim Crepin |
+| 30 días | plata | Julith |
+| 100 días | oro | Gúltar |
+| 365 días | fundido | Ogrest pequeño |
+
+La insignia/chip de `CustomRankBadge` queda reservada para rangos
+asignados a mano por un admin (Owner, Youtuber, etc.) — esas SÍ se
+muestran todas juntas (M188), pero ya no hay una insignia automática de
+"actividad": esa parte se quitó por completo.
 
 **Decisión explícita (descartada):** NO retratos ilustrados nuevos por
 clase para la racha. Multiplicaría 19 clases × 2 géneros × cada tramo —
@@ -43,11 +54,9 @@ mapas. Los escenarios deben conservar señales concretas del personaje,
 con composición panorámica propia y espacio para la superposición del
 avatar. No se sustituye este criterio por una fragua o cueva genérica.
 
-Las asociaciones concretas a hitos de racha y actividad se resolverán
-en la integración de recompensas. **No inventar nuevos umbrales ni
-asignar automáticamente estos cuatro pares a 100/365 días o 150/500
-builds.** Los dos sistemas siguen siendo independientes. El arte puede
-quedar preparado antes de que se active el desbloqueo.
+Asociación final resuelta en la integración (ver arriba): un solo eje,
+racha de login, 7/30/100/365 días — kerubim/julith/gúltar/ogrest, en ese
+orden. El arte quedó preparado antes de que se activara el desbloqueo.
 
 Antes de pintar cada personaje, verificar sus referencias y nombres en
 los cuatro idiomas contra el cliente **3.7.14.18** y reconstruir sus
@@ -133,33 +142,22 @@ Sin recompensa intermedia tipo "día 50" de Duolingo por ahora — mantener los 
 
 ---
 
-## 2. Insignia por rango de actividad (builds de por vida)
+## 2. Insignia de rango por actividad — DESCARTADA
 
-Reusa el sistema de `custom_rank` **tal cual existe** — mismo componente
-`CustomRankBadge`, mismos 76 acabados (`RANK_BADGE_STYLES`), mismos 140
-íconos (`RANK_ICONS`), mismos tonos (`solid`/`outline`/`inverse`/`tint`).
-**No hace falta que codex diseñe nada nuevo acá** — solo yo elijo
-ícono+acabado+color de lo ya existente al escribir el código. Lo dejo
-documentado para que quede registrado junto con los banners:
-
-| Umbral | Nombre propuesto (ES) | Ícono (`RANK_ICONS`) | Acabado (`RANK_BADGE_STYLES`) |
-|---|---|---|---|
-| 10 builds | Aprendiz de la Forja | `anvil` | `standard` |
-| 50 builds | Herrero | `hammer` | `bronze` |
-| 150 builds | Maestro Forjador | `swords` | `silver` |
-| 500 builds | Gran Maestro de la Forja | `crown` | `gold_foil` |
-
-Los 4 íconos y 3 acabados ya existen en `RANK_ICONS`/`RANK_BADGE_STYLES` — verificado, nada que agregar.
+Se había propuesto reusar `custom_rank`/`CustomRankBadge` para un rango
+automático por cantidad de builds creadas (10/50/150/500). Se quitó por
+completo (2026-11-27, criterio del usuario: complicaba sin necesidad).
+`CustomRankBadge` sigue existiendo, pero solo para rangos que un admin
+asigna a mano (Owner, Youtuber, etc.) — nunca uno automático.
 
 ---
 
 ## 3. Banners exclusivos — para codex (lo que de verdad hay que pintar)
 
 La tanda visual aprobada tiene **cuatro escenarios relacionados con
-Gúltar, Kerubim, Julith y Ogrest**. Los umbrales 150/500 builds son la
-propuesta previa de integración, no una asignación definitiva de estas
-cuatro piezas. Estos **NO entran al selector público de 68 banners**;
-se ofrecerán únicamente a las cuentas que los desbloqueen.
+Gúltar, Kerubim, Julith y Ogrest**, uno por cada corte de racha (7/30/100/365
+días — ver tabla arriba). Estos **NO entran al selector público de 68
+banners**; se ofrecerán únicamente a las cuentas que los desbloqueen.
 
 Usar referencias del cliente instalado para los lugares que existan como
 mapa, siguiendo `docs/brand/profile-banners/README.md`. Documentar como

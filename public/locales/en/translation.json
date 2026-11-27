@@ -2649,5 +2649,19 @@
   "profile_banner_location_royalmouth-greenhouse": "Royal Mastogob's Greenhouse",
   "profile_banner_location_obsidemon-hypogeum": "The Obsidemon's Hypogeum",
   "profile_banner_location_bethel-tower": "Bethel's Tower",
-  "profile_banner_location_torkelonia-sanctuary": "Turtelonia's Sanctuary"
+  "profile_banner_location_torkelonia-sanctuary": "Turtelonia's Sanctuary",
+  "exclusive_kerubim_name": "Kerubim Crepin",
+  "exclusive_goultard_name": "Goultard",
+  "exclusive_julith_name": "Julith",
+  "exclusive_ogrest_name": "Young Ogrest",
+  "appearance_exclusive_heading": "Exclusive",
+  "appearance_exclusive_unlocked": "Unlocked",
+  "appearance_exclusive_progress": "{{progress}}/{{threshold}}",
+  "appearance_exclusive_locked_hint": "Not unlocked yet — {{progress}}/{{threshold}}",
+  "appearance_exclusive_locked_error": "You haven't unlocked that exclusive reward yet",
+  "account_streak_hint": "Streak: {{current}} days (best: {{best}})",
+  "streak_frame_bronze": "bronze frame",
+  "streak_frame_silver": "silver frame",
+  "streak_frame_gold": "gold frame",
+  "streak_frame_molten": "molten frame"
 }

@@ -2649,5 +2649,19 @@
   "profile_banner_location_royalmouth-greenhouse": "Invernáculo de Jalamut Real",
   "profile_banner_location_obsidemon-hypogeum": "Hipogeo del Obsidiantre",
   "profile_banner_location_bethel-tower": "Torre de Bethel",
-  "profile_banner_location_torkelonia-sanctuary": "Santuario de Torkelonia"
+  "profile_banner_location_torkelonia-sanctuary": "Santuario de Torkelonia",
+  "exclusive_kerubim_name": "Kerubim Crepin",
+  "exclusive_goultard_name": "Gúltar",
+  "exclusive_julith_name": "Julith",
+  "exclusive_ogrest_name": "Ogrest pequeño",
+  "appearance_exclusive_heading": "Exclusivas",
+  "appearance_exclusive_unlocked": "Desbloqueada",
+  "appearance_exclusive_progress": "{{progress}}/{{threshold}}",
+  "appearance_exclusive_locked_hint": "Aún no desbloqueada — {{progress}}/{{threshold}}",
+  "appearance_exclusive_locked_error": "Todavía no desbloqueaste esa recompensa exclusiva",
+  "account_streak_hint": "Racha: {{current}} días (mejor: {{best}})",
+  "streak_frame_bronze": "marco bronce",
+  "streak_frame_silver": "marco plata",
+  "streak_frame_gold": "marco oro",
+  "streak_frame_molten": "marco fundido"
 }

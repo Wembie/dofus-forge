@@ -847,30 +847,44 @@ export const fetchUserPublicStats = guard(async function fetchUserPublicStats(us
 export type ProfileSummary = {
   stats:        { buildCount: number; likeCount: number }
   commentCount: number
-  /** Raw get_public_custom_rank row; parse with parsePublicCustomRank. */
-  rank:         unknown
-  /** False when the combined RPC isn't deployed: the caller fetches the rank itself. */
+  /** Raw get_public_custom_ranks rows; parse each with parsePublicCustomRank. All active admin ranks, shown together. */
+  ranks:        unknown[]
+  /** Permanent high-water marks (M188) — frame/badge tier is a pure function of these, see milestones.ts. */
+  loginStreakBest:    number
+  /** Slugs into EXCLUSIVE_REWARDS (exclusiveRewards.ts) when the account picked one, else null. */
+  exclusiveAvatarSlug: string | null
+  exclusiveBannerSlug: string | null
+  /** False when the combined RPC isn't deployed: the caller fetches ranks itself. */
   combined:     boolean
 }
 
-/** A public profile's header numbers and custom rank in one round trip
- * (get_public_profile_summary); falls back to the separate queries if that
- * function isn't deployed. */
+const EMPTY_SUMMARY_PICKS = { loginStreakBest: 0, exclusiveAvatarSlug: null, exclusiveBannerSlug: null }
+
+/** A public profile's header numbers, custom ranks and streak/activity
+ * picks in one round trip (get_public_profile_summary); falls back to the
+ * separate queries if that function isn't deployed. */
 export const fetchProfileSummary = guard(async function fetchProfileSummary(userId: string): Promise<ProfileSummary> {
   const supabase = await getSupabase()
   const { data, error } = await supabase.rpc('get_public_profile_summary', { p_user_id: userId })
   if (!error && data) {
-    const s = data as { rank?: unknown; build_count?: number; like_count?: number; comment_count?: number }
+    const s = data as {
+      ranks?: unknown[]; build_count?: number; like_count?: number; comment_count?: number
+      login_streak_best?: number
+      exclusive_avatar_slug?: string | null; exclusive_banner_slug?: string | null
+    }
     return {
       stats: { buildCount: Number(s.build_count ?? 0), likeCount: Number(s.like_count ?? 0) },
       commentCount: Number(s.comment_count ?? 0),
-      rank: s.rank ?? null,
+      ranks: s.ranks ?? [],
+      loginStreakBest: Number(s.login_streak_best ?? 0),
+      exclusiveAvatarSlug: s.exclusive_avatar_slug ?? null,
+      exclusiveBannerSlug: s.exclusive_banner_slug ?? null,
       combined: true,
     }
   }
   const [stats, comments] = await Promise.all([fetchUserPublicStats(userId), fetchPublicCommentCount(userId)])
-  return { stats: { buildCount: stats.buildCount, likeCount: stats.likeCount }, commentCount: comments.count, rank: null, combined: false }
-}, () => ({ stats: { buildCount: 0, likeCount: 0 }, commentCount: 0, rank: null, combined: false }))
+  return { stats: { buildCount: stats.buildCount, likeCount: stats.likeCount }, commentCount: comments.count, ranks: [], ...EMPTY_SUMMARY_PICKS, combined: false }
+}, () => ({ stats: { buildCount: 0, likeCount: 0 }, commentCount: 0, ranks: [], ...EMPTY_SUMMARY_PICKS, combined: false }))
 
 /**
  * Comments this user has posted, scoped to comments on PUBLIC builds only
