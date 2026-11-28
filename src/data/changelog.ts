@@ -9,6 +9,7 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  { version: '0.4.31', date: '2026-11-27', notes: ["Removed empty-banner gradients from the account card and gallery preview, and restored the gallery search field to its normal height when the two side filters are stacked. The existing profile card, copy, buttons and gallery are preserved"] },
   {
     version: '0.4.30',
     date: '2026-11-27',
