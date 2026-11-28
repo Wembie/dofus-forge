@@ -5,8 +5,8 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.4.32] — 2026-11-27
-- Removed the decorative gradient from the empty account banner while preserving the existing profile appearance card, text, buttons and gallery
+## [0.4.31] — 2026-11-27
+- Removed empty-banner gradients from the account card and gallery preview, and restored the gallery search field to its normal height when the two side filters are stacked. The existing profile card, copy, buttons and gallery are preserved
 
 ## [0.4.30] — 2026-11-27
 - Fixed exclusive profile banners not rendering on public profile pages because the banner component rejected registered exclusive artwork URLs
