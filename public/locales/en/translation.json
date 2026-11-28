@@ -2594,13 +2594,13 @@
   "profile_banner_location_merkator": "Merkator's Aquadome",
   "profile_banner_location_dramak": "Dramak's Theatre",
   "profile_banner_location_obscure-dimension": "Lost Dimension",
-  "appearance_title": "Portrait and banner",
-  "appearance_intro": "Choose artwork and apply your selection. Save your profile to confirm the changes.",
-  "appearance_open": "Choose portrait",
+  "appearance_title": "Your Forge style",
+  "appearance_intro": "Pair a portrait and a landscape to bring your profile to life.",
+  "appearance_open": "Customize profile",
   "appearance_collection": "The Forge collection",
-  "appearance_heading": "Artwork gallery",
+  "appearance_heading": "Make it yours",
   "appearance_preview": "Profile preview",
-  "appearance_preview_bio": "Your bio will appear here.",
+  "appearance_preview_bio": "Your adventures in the World of Twelve start here.",
   "appearance_tab_avatars": "Avatars",
   "appearance_tab_banners": "Banners",
   "appearance_new": "Latest additions",
@@ -2731,6 +2731,5 @@
   "streak_build_next": "Next slot in {{count}} active days",
   "streak_build_rules": "Every 5 active streak days adds one slot to your base or rank allowance. Breaking the streak removes those extra slots; your existing builds stay saved and editable. Creating another requires being below your current allowance.",
   "streak_build_next_one": "Next slot in 1 active day",
-  "streak_build_next_other": "Next slot in {{count}} active days",
-  "appearance_no_portrait": "No portrait selected"
+  "streak_build_next_other": "Next slot in {{count}} active days"
 }

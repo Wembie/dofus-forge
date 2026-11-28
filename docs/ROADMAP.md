@@ -7,7 +7,7 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
-- [x] **Controles compactos de retrato y portada** (0.4.31) — dos accesos directos con miniaturas y nombre de la selección actual, sin la portada vacía, el degradado ni los textos promocionales del resumen anterior. Diseño apilado en móvil, acceso por teclado y galería con el mismo flujo de aplicar, guardar y descartar. Textos funcionales en los cuatro idiomas.
+- [x] **Fondo simple del banner vacío de Cuenta** (0.4.32) — se quita únicamente el degradado del resumen cuando no hay una portada elegida. Se conservan la tarjeta, los textos, los botones y la galería existentes.
 
 - [x] **Cupo de builds por racha activa y arte para administradores** (0.4.29) — una plaza adicional cada 5 días activos sobre el cupo base o por rango; rangos ilimitados conservados. Si la racha se rompe se pierde el bono, sin borrar builds ni impedir ediciones. Cuenta muestra cupo y próxima plaza, y el servidor controla fechas UTC, concurrencia y requests de varias filas. Los administradores usan todos los retratos y banners exclusivos sin esperar hitos ni inflar su récord. [Reglas y migración](DATABASE.md).
 

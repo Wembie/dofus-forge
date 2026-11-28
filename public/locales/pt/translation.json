@@ -2594,13 +2594,13 @@
   "profile_banner_location_merkator": "Aquódromo do Merkator",
   "profile_banner_location_dramak": "Teatro de Dramak",
   "profile_banner_location_obscure-dimension": "Dimensão Obscura",
-  "appearance_title": "Retrato e capa",
-  "appearance_intro": "Escolha uma ilustração e aplique a seleção. Salve o perfil para confirmar as alterações.",
-  "appearance_open": "Escolher retrato",
+  "appearance_title": "Seu estilo no Forge",
+  "appearance_intro": "Combine um retrato e uma paisagem para dar vida ao seu perfil.",
+  "appearance_open": "Personalizar perfil",
   "appearance_collection": "A coleção Forge",
-  "appearance_heading": "Galeria de ilustrações",
+  "appearance_heading": "Do seu jeito",
   "appearance_preview": "Prévia do perfil",
-  "appearance_preview_bio": "Sua biografia aparecerá aqui.",
+  "appearance_preview_bio": "Suas aventuras no Mundo dos Doze começam aqui.",
   "appearance_tab_avatars": "Avatares",
   "appearance_tab_banners": "Banners",
   "appearance_new": "Novidades",
@@ -2731,6 +2731,5 @@
   "streak_build_next": "Próxima vaga em {{count}} dias ativos",
   "streak_build_rules": "A cada 5 dias de sequência ativa você ganha uma vaga além da cota base ou de cargo. Se a sequência for interrompida, essas vagas extras deixam de valer; suas builds continuam salvas e editáveis. Para criar outra, é preciso estar abaixo da cota atual.",
   "streak_build_next_one": "Próxima vaga em 1 dia ativo",
-  "streak_build_next_other": "Próxima vaga em {{count}} dias ativos",
-  "appearance_no_portrait": "Nenhum retrato selecionado"
+  "streak_build_next_other": "Próxima vaga em {{count}} dias ativos"
 }

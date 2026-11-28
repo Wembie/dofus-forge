@@ -1,23 +1,26 @@
 .profile-appearance-summary {
-  margin: 4px 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--stage);
+  margin-bottom: 8px;
 }
-.profile-appearance-summary > h3 { font: inherit; font-size: 13px; font-weight: 600; line-height: 1.5; margin: 0 0 10px; }
-.appearance-summary-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.profile-appearance-summary .appearance-summary-choice { display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 76px; padding: 12px; text-align: left; font: inherit; color: var(--text); background: var(--stage); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
-.profile-appearance-summary .appearance-summary-choice:hover:not(:disabled) { border-color: var(--muted); }
-.profile-appearance-summary .appearance-summary-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.profile-appearance-summary .appearance-summary-choice:disabled { cursor: default; opacity: .5; }
-.appearance-summary-choice > .streak-frame, .appearance-summary-choice > .account-avatar { flex-shrink: 0; }
-.appearance-summary-choice .account-avatar { width: 48px; height: 48px; font-size: 23px; }
-.appearance-summary-label { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.appearance-summary-label > strong { font-size: 12px; font-weight: 600; }
-.appearance-summary-label > small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: 11px; }
-.appearance-summary-choice > svg { flex-shrink: 0; color: var(--muted); }
-.appearance-summary-cover { display: grid; place-items: center; flex-shrink: 0; width: 72px; height: 44px; border-radius: 3px; color: var(--muted); background: var(--surface); overflow: hidden; }
-.appearance-summary-cover.is-empty { border: 1px dashed var(--line); }
-.appearance-cover { position: relative; background: var(--surface); overflow: hidden; }
+.appearance-summary-cover, .appearance-cover { position: relative; background: var(--surface); overflow: hidden; }
+.appearance-summary-cover { height: 130px; }
+.appearance-cover.is-empty {
+  background: radial-gradient(ellipse at 80% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 65%), var(--surface);
+}
 .appearance-summary-cover > img, .appearance-cover > img { display: block; width: 100%; height: 100%; object-fit: cover; }
-@media (max-width: 600px) { .appearance-summary-options { grid-template-columns: 1fr; } }
+.appearance-summary-cover > button {
+  position: absolute; right: 12px; bottom: 12px; background: var(--surface-panel); font-size: 12px;
+}
+.appearance-summary-body { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 0 16px 16px; }
+.appearance-summary-body .appearance-avatar-trigger { margin-top: -28px; z-index: 1; padding: 0; border: 4px solid var(--stage); border-radius: 50%; }
+.appearance-avatar-trigger .account-avatar { width: 70px; height: 70px; }
+.appearance-summary-body > div { flex: 1; min-width: 150px; padding-top: 14px; }
+.appearance-summary-body h3 { font: 600 22px Alegreya, serif; margin: 0 0 4px; }
+.appearance-summary-body p { font-size: 12px; line-height: 1.6; color: var(--muted); margin: 0; }
+.appearance-summary-body > .site-primary { margin-top: 12px; font-size: 12px; }
 .profile-customizer-modal[role="dialog"] { max-width: 1180px; max-height: 94dvh; }
 .profile-customizer-modal > .flex-1 { display: flex; overflow: hidden; }
 .appearance-workspace { display: flex; flex-direction: column; width: 100%; min-width: 0; height: min(790px, calc(94dvh - 50px)); color: var(--text); }
@@ -144,6 +147,10 @@
   .appearance-inspection img { max-height: 40dvh; }
 }
 @media (max-width: 480px) {
+  .appearance-summary-cover { height: 110px; }
+  .appearance-summary-body { gap: 10px; padding: 0 12px 14px; }
+  .appearance-summary-body > div { min-width: 130px; }
+  .appearance-summary-body > .site-primary { width: 100%; margin-top: 0; }
   .appearance-art-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .appearance-art-grid.is-banners { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
   .appearance-art-choice strong { font-size: 11px; }

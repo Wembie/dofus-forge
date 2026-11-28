@@ -5,8 +5,8 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.4.31] — 2026-11-27
-- Simplified profile appearance settings into two compact portrait and banner controls with current artwork previews, replacing the empty hero, decorative gradient and generic promotional copy
+## [0.4.32] — 2026-11-27
+- Removed the decorative gradient from the empty account banner while preserving the existing profile appearance card, text, buttons and gallery
 
 ## [0.4.30] — 2026-11-27
 - Fixed exclusive profile banners not rendering on public profile pages because the banner component rejected registered exclusive artwork URLs

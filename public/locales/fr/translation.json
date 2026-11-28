@@ -2594,13 +2594,13 @@
   "profile_banner_location_merkator": "Aquadôme de Merkator",
   "profile_banner_location_dramak": "Théâtre de Dramak",
   "profile_banner_location_obscure-dimension": "Dimension Obscure",
-  "appearance_title": "Portrait et bannière",
-  "appearance_intro": "Choisissez une illustration et appliquez votre sélection. Enregistrez le profil pour confirmer les modifications.",
-  "appearance_open": "Choisir un portrait",
+  "appearance_title": "Ton style sur Forge",
+  "appearance_intro": "Associe un portrait et un paysage pour donner vie à ton profil.",
+  "appearance_open": "Personnaliser le profil",
   "appearance_collection": "La collection Forge",
-  "appearance_heading": "Galerie d’illustrations",
+  "appearance_heading": "À ton image",
   "appearance_preview": "Aperçu du profil",
-  "appearance_preview_bio": "Votre biographie apparaîtra ici.",
+  "appearance_preview_bio": "Tes aventures dans le Monde des Douze commencent ici.",
   "appearance_tab_avatars": "Avatars",
   "appearance_tab_banners": "Bannières",
   "appearance_new": "Nouveautés",
@@ -2731,6 +2731,5 @@
   "streak_build_next": "Prochaine place dans {{count}} jours actifs",
   "streak_build_rules": "Chaque tranche de 5 jours de série active ajoute une place au quota de base ou de rang. Si la série est rompue, ces places supplémentaires disparaissent ; vos builds restent sauvegardées et modifiables. Il faut être sous le quota actuel pour en créer une autre.",
   "streak_build_next_one": "Prochaine place dans 1 jour actif",
-  "streak_build_next_other": "Prochaine place dans {{count}} jours actifs",
-  "appearance_no_portrait": "Aucun portrait sélectionné"
+  "streak_build_next_other": "Prochaine place dans {{count}} jours actifs"
 }
