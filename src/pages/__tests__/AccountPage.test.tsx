@@ -108,7 +108,7 @@ describe('AccountPage', () => {
     page()
     const url = '/avatars/classes/v1/iop-f.webp'
     const choose = () => {
-      fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+      fireEvent.click(screen.getByRole('button', { name: 'appearance_open' }))
       fireEvent.click(screen.getByDisplayValue(url))
       fireEvent.click(screen.getByRole('button', { name: 'appearance_apply' }))
     }
@@ -127,7 +127,7 @@ describe('AccountPage', () => {
     updateProfile.mockRejectedValueOnce(new Error('offline'))
     page()
     const url = '/avatars/classes/v1/xelor-m.webp'
-    fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+    fireEvent.click(screen.getByRole('button', { name: 'appearance_open' }))
     fireEvent.click(screen.getByDisplayValue(url))
     fireEvent.click(screen.getByRole('button', { name: 'appearance_apply' }))
     const save = screen.getByRole('button', { name: /account_save/ }) as HTMLButtonElement
@@ -142,7 +142,7 @@ describe('AccountPage', () => {
   it('can replace a saved class portrait with the initial avatar', async () => {
     useAuthStore.setState({ profile: { ...profile, avatar_url: '/avatars/classes/v1/cra-m.webp' } } as never)
     page()
-    fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+    fireEvent.click(screen.getByRole('button', { name: 'appearance_open' }))
     fireEvent.click(screen.getByRole('button', { name: 'account_avatar_default' }))
     fireEvent.click(screen.getByRole('button', { name: 'appearance_apply' }))
     fireEvent.click(screen.getByRole('button', { name: /account_save/ }))
@@ -151,7 +151,7 @@ describe('AccountPage', () => {
 
   it('opens the full illustration without choosing it and restores focus when returning', async () => {
     page()
-    fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+    fireEvent.click(screen.getByRole('button', { name: 'appearance_open' }))
     const card = screen.getByDisplayValue('/avatars/classes/v1/iop-f.webp').closest('article')!
     fireEvent.click(within(card).getByRole('button'))
     expect(screen.getByRole('img', { name: 'account_avatar_option' }).getAttribute('src')).toBe('/avatars/classes/v1/iop-f.webp')
@@ -169,7 +169,7 @@ describe('AccountPage', () => {
 
   it('applies a portrait from its large preview only after the explicit action', async () => {
     page()
-    fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+    fireEvent.click(screen.getByRole('button', { name: 'appearance_open' }))
     fireEvent.click(within(screen.getByDisplayValue('/avatars/classes/v1/iop-f.webp').closest('article')!).getByRole('button'))
     fireEvent.click(screen.getByRole('button', { name: 'account_avatar_use' }))
     fireEvent.click(screen.getByRole('button', { name: 'appearance_apply' }))
@@ -184,7 +184,7 @@ describe('AccountPage', () => {
   it.each([2, 3, 4, 5, 6, 7])('inspects and saves face %s without changing the old avatar on preview', async headSlot => {
     useAuthStore.setState({ profile: { ...profile, avatar_url: '/avatars/classes/v1/iop-f.webp' } } as never)
     page()
-    fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+    fireEvent.click(screen.getByRole('button', { name: 'appearance_open' }))
     const card = screen.getByDisplayValue(`/avatars/classes/v1/iop-look-${headSlot}-f.webp`).closest('article')!
     fireEvent.click(within(card).getByRole('button'))
     expect(screen.getByRole('img', { name: 'account_avatar_option' }).getAttribute('src')).toBe(`/avatars/classes/v1/iop-look-${headSlot}-f.webp`)
@@ -199,7 +199,7 @@ describe('AccountPage', () => {
 
   it('finds localized class names without accents and explains an empty search', () => {
     page()
-    fireEvent.click(screen.getByRole('button', { name: 'auth_avatar_change' }))
+    fireEvent.click(screen.getByRole('button', { name: 'appearance_open' }))
     const search = screen.getByRole('searchbox', { name: 'account_avatar_search' })
     fireEvent.change(search, { target: { value: 'zurcarak' } })
     expect(screen.getByDisplayValue('/avatars/classes/v1/ecaflip-m.webp')).toBeTruthy()

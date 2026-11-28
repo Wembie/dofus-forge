@@ -9,6 +9,7 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  { version: '0.4.31', date: '2026-11-27', notes: ["Simplified profile appearance settings into two compact portrait and banner controls with current artwork previews, replacing the empty hero, decorative gradient and generic promotional copy"] },
   {
     version: '0.4.30',
     date: '2026-11-27',

@@ -1,6 +1,6 @@
 import { useEffect, useId, useImperativeHandle, useRef, useState, type KeyboardEvent, type Ref } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Check, Image, Lock, Mars, Palette, Search, SlidersHorizontal, Sparkles, User, Users, Venus, X } from 'lucide-react'
+import { ArrowLeft, Check, ChevronRight, Image, Lock, Mars, Search, SlidersHorizontal, Sparkles, User, Users, Venus, X } from 'lucide-react'
 import { Modal, normalizeSearch } from '@/ui'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { resolveClassName } from '@/features/class-picker/useClassName.ts'
@@ -150,6 +150,11 @@ export function ProfileAppearancePicker({ ref, streakTier = null, username, disp
 
   const draftAvatarUrl = selectedExclusiveAvatar?.avatarPath ?? draft.avatar
   const draftBannerUrl = selectedExclusiveBanner?.bannerPath ?? draft.banner
+  const currentAvatar = CLASS_AVATARS.find(a => a.url === avatar)
+  const currentBanner = PROFILE_BANNERS.find(b => b.url === banner)
+  const currentExclusiveAvatar = exclusiveRewardOf(exclusiveAvatarSlug)
+  const currentExclusiveBanner = exclusiveRewardOf(exclusiveBannerSlug)
+  const currentBannerUrl = currentExclusiveBanner?.bannerPath ?? (isProfileBannerUrl(banner) ? banner : null)
   const profilePreview = (
     <div className="appearance-profile-card">
       <div className={'appearance-cover' + (!isProfileBannerUrl(draft.banner) && !draft.exclusiveBannerSlug ? ' is-empty' : '')}>
@@ -166,16 +171,20 @@ export function ProfileAppearancePicker({ ref, streakTier = null, username, disp
 
   return (
     <section className="profile-appearance-summary" aria-label={t('appearance_title')}>
-      <div className={'appearance-summary-cover' + (!isProfileBannerUrl(banner) && !exclusiveBannerSlug ? ' is-empty' : '')}>
-        {(isProfileBannerUrl(banner) || exclusiveBannerSlug) && <img src={exclusiveRewardOf(exclusiveBannerSlug)?.bannerPath ?? banner!} alt="" width={1920} height={640} />}
-        <button type="button" disabled={disabled} onClick={() => openGallery('banners')}><Image size={16} aria-hidden="true" />{t('account_banner_change')}</button>
-      </div>
-      <div className="appearance-summary-body">
-        <button type="button" className="appearance-avatar-trigger" disabled={disabled} aria-label={t('auth_avatar_change')} onClick={() => openGallery('avatars')}>
-          <StreakFrame tier={streakTier}><AccountAvatar username={username} url={exclusiveRewardOf(exclusiveAvatarSlug)?.avatarPath ?? avatar} /></StreakFrame>
+      <h3>{t('appearance_title')}</h3>
+      <div className="appearance-summary-options">
+        <button type="button" className="appearance-summary-choice appearance-avatar-trigger" disabled={disabled} aria-label={t('appearance_open')} onClick={() => openGallery('avatars')}>
+          <StreakFrame tier={streakTier}><AccountAvatar username={username} url={currentExclusiveAvatar?.avatarPath ?? avatar} /></StreakFrame>
+          <span className="appearance-summary-label"><strong>{t('appearance_open')}</strong><small>{currentExclusiveAvatar ? exclusiveLabel(currentExclusiveAvatar) : currentAvatar ? avatarLabel(currentAvatar) : t(avatar ? 'account_avatar_current' : 'appearance_no_portrait')}</small></span>
+          <ChevronRight size={16} aria-hidden="true" />
         </button>
-        <div><h3>{t('appearance_title')}</h3><p>{t('appearance_intro')}</p></div>
-        <button type="button" className="site-primary" disabled={disabled} onClick={() => openGallery('avatars')}><Palette size={17} aria-hidden="true" />{t('appearance_open')}</button>
+        <button type="button" className="appearance-summary-choice" disabled={disabled} aria-label={t('account_banner_change')} onClick={() => openGallery('banners')}>
+          <span className={'appearance-summary-cover' + (currentBannerUrl ? '' : ' is-empty')}>
+            {currentBannerUrl ? <img src={currentBannerUrl} alt="" width={1920} height={640} /> : <Image size={20} aria-hidden="true" />}
+          </span>
+          <span className="appearance-summary-label"><strong>{t('account_banner_change')}</strong><small>{currentExclusiveBanner ? exclusiveLabel(currentExclusiveBanner) : currentBanner ? bannerLabel(currentBanner) : t('account_banner_none')}</small></span>
+          <ChevronRight size={16} aria-hidden="true" />
+        </button>
       </div>
       <Modal open={open} onClose={() => setOpen(false)} title={t('appearance_title')} size="full" className="profile-customizer-modal">
         <div className="appearance-workspace">
