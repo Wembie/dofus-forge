@@ -18,6 +18,10 @@ export function isExclusiveAvatarUrl(url: string): boolean {
   return EXCLUSIVE_SLUGS.some(slug => exclusiveAssetPaths(slug).avatarPath === url)
 }
 
+export function isExclusiveBannerUrl(url: string): boolean {
+  return EXCLUSIVE_SLUGS.some(slug => exclusiveAssetPaths(slug).bannerPath === url)
+}
+
 function knownReward(slug: string | null | undefined) {
   return slug && knownSlugs.has(slug) ? exclusiveAssetPaths(slug as ExclusiveSlug) : undefined
 }

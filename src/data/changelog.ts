@@ -10,6 +10,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.30',
+    date: '2026-11-27',
+    notes: [
+      "Fixed exclusive profile banners not rendering on public profile pages because the banner component rejected registered exclusive artwork URLs",
+    ],
+  },
+  {
     version: '0.4.29',
     date: '2026-11-27',
     notes: [

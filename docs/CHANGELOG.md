@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.4.30] — 2026-11-27
+- Fixed exclusive profile banners not rendering on public profile pages because the banner component rejected registered exclusive artwork URLs
+
 ## [0.4.29] — 2026-11-27
 - Administrators can select every exclusive portrait and scene immediately, with eligibility enforced by the server and no invented streak record
 - Every five active streak days adds one saved-build slot to the base or finite rank allowance; unlimited ranks remain unlimited, and expired streaks never delete existing builds or stop edits
